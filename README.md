@@ -8,18 +8,31 @@ Resilient AI automation and scalable operations architecture. Rooted in reliabil
 
 ## 🚀 Deploy Now
 
-**Ready to go live?** See [DEPLOYMENT.md](DEPLOYMENT.md) for:
-- Railway deployment (5 minutes)
-- Modal webhooks setup (10 minutes)
-- Environment variables guide
-- Custom domain setup
+**Ready to go live?** Choose your deployment platform:
 
-**Quick deploy:**
+### **Option 1: Cloudflare Pages (Recommended)**
+- ✅ **FREE tier** (100K req/day)
+- ✅ **Global CDN** (300+ cities)
+- ✅ **60-second deploys**
+- ✅ **Auto SSL + DDoS protection**
+
+See [CLOUDFLARE_DEPLOY.md](CLOUDFLARE_DEPLOY.md) for complete setup.
+
+**Quick start:**
 ```bash
-# Railway (Node.js + site hosting)
-# → Sign up at railway.app, connect GitHub, deploy
+# 1. Go to dash.cloudflare.com
+# 2. Workers & Pages → Create → Connect Git
+# 3. Select: simplysmartai/5cypressautomation
+# 4. Build command: npm install
+# 5. Output directory: public
+# 6. Deploy! ✅
+```
 
-# Modal (automation workflows)
+### **Option 2: Railway (Full Stack)**
+See [DEPLOYMENT.md](DEPLOYMENT.md) for Railway + Modal setup.
+
+**Modal Webhooks (Automation Backend):**
+```bash
 pip install modal
 modal token new
 modal deploy execution/modal_webhook.py
