@@ -2,6 +2,29 @@
 
 Resilient AI automation and scalable operations architecture. Rooted in reliability, built for limitless growth.
 
+**Live on GitHub:** [github.com/simplysmartai/5cypressautomation](https://github.com/simplysmartai/5cypressautomation)
+
+---
+
+## 🚀 Deploy Now
+
+**Ready to go live?** See [DEPLOYMENT.md](DEPLOYMENT.md) for:
+- Railway deployment (5 minutes)
+- Modal webhooks setup (10 minutes)
+- Environment variables guide
+- Custom domain setup
+
+**Quick deploy:**
+```bash
+# Railway (Node.js + site hosting)
+# → Sign up at railway.app, connect GitHub, deploy
+
+# Modal (automation workflows)
+pip install modal
+modal token new
+modal deploy execution/modal_webhook.py
+```
+
 ---
 
 ## 🚀 Quick Start (New? Start Here)
