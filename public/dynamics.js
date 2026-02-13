@@ -137,3 +137,33 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 });
+
+// Global Mobile Menu Toggle
+function toggleMobileMenu() {
+    const mobileMenu = document.getElementById('mobileMenu');
+    const toggleIcon = document.querySelector('.mobile-toggle i');
+    
+    if (mobileMenu) {
+        mobileMenu.classList.toggle('active');
+        const isActive = mobileMenu.classList.contains('active');
+        document.body.style.overflow = isActive ? 'hidden' : '';
+        
+        // Update icon if it exists (using Remix Icon as in index.html)
+        if (toggleIcon) {
+            toggleIcon.className = isActive ? 'ri-close-line' : 'ri-menu-line';
+        }
+    }
+}
+
+function closeMobileMenu() {
+    const mobileMenu = document.getElementById('mobileMenu');
+    const toggleIcon = document.querySelector('.mobile-toggle i');
+    
+    if (mobileMenu) {
+        mobileMenu.classList.remove('active');
+        document.body.style.overflow = '';
+        if (toggleIcon) {
+            toggleIcon.className = 'ri-menu-line';
+        }
+    }
+}

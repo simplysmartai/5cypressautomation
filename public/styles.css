@@ -1097,6 +1097,22 @@ section, .hero-section, .services-section, .approach-section {
   .mobile-toggle { display: block; }
   .navbar .nav-menu, .navbar .nav-actions { display: none; }
 
+  /* Logo Sizing for Mobile */
+  .logo-icon { width: 50px; height: 50px; border-width: 2px; }
+  .logo-title { font-size: 1.4rem; margin-bottom: 2px; }
+  .logo-subtitle { font-size: 0.5rem; }
+  .logo { gap: 12px; }
+  .navbar { padding: 12px 0; background: rgba(3, 3, 4, 0.9); }
+
+  /* Extra Small Devices */
+  @media (max-width: 480px) {
+    .logo-icon { width: 40px; height: 40px; }
+    .logo-title { font-size: 1.1rem; }
+    .logo-subtitle { font-size: 0.4rem; }
+    .logo { gap: 8px; }
+    .nav-container { padding: 0 16px; }
+  }
+
   /* Hide heavy visuals on mobile for clarity */
   .hero-visual, .logic-map, .backbone-line { opacity: 0.1 !important; pointer-events: none; }
   .logic-map svg { opacity: 0.05 !important; }
