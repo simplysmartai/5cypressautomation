@@ -8,30 +8,31 @@ Resilient AI automation and scalable operations architecture. Rooted in reliabil
 
 ## 🚀 Deploy Now
 
-**Ready to go live?** Choose your deployment platform:
+**Ready to go live?** Choose your deployment method:
 
-### **Option 1: Cloudflare Pages (Recommended)**
-- ✅ **FREE tier** (100K req/day)
-- ✅ **Global CDN** (300+ cities)
-- ✅ **60-second deploys**
-- ✅ **Auto SSL + DDoS protection**
-
-See [CLOUDFLARE_DEPLOY.md](CLOUDFLARE_DEPLOY.md) for complete setup.
-
-**Quick start:**
+### **Option 1: Wrangler CLI (Fastest)**
 ```bash
-# 1. Go to dash.cloudflare.com
-# 2. Workers & Pages → Create → Connect Git
-# 3. Select: simplysmartai/5cypressautomation
-# 4. Build command: npm install
-# 5. Output directory: public
-# 6. Deploy! ✅
+npm install -g @cloudflare/wrangler
+wrangler login
+npm run deploy
 ```
 
-### **Option 2: Railway (Full Stack)**
+**Site live in 60-90 seconds** at `https://5cypress.pages.dev`
+
+Full guide: [WRANGLER_SETUP.md](WRANGLER_SETUP.md)
+
+### **Option 2: Cloudflare Dashboard**
+1. Go to [dash.cloudflare.com](https://dash.cloudflare.com)
+2. Workers & Pages → Create → Connect Git
+3. Select: `simplysmartai/5cypressautomation`
+4. Deploy!
+
+Full guide: [CLOUDFLARE_DEPLOY.md](CLOUDFLARE_DEPLOY.md)
+
+### **Option 3: Railway (Full Stack)**
 See [DEPLOYMENT.md](DEPLOYMENT.md) for Railway + Modal setup.
 
-**Modal Webhooks (Automation Backend):**
+**Then deploy Modal webhooks:**
 ```bash
 pip install modal
 modal token new
