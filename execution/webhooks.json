@@ -1,0 +1,27 @@
+{
+  "amazon_product_scraper": {
+    "directive": "directives/amazon_product_scraper.md",
+    "script": "execution/amazon_product_scraper.py",
+    "description": "Scrape Amazon product data including prices, reviews, and ratings"
+  },
+  "google_serp_scraper": {
+    "directive": "directives/google_serp_scraper.md",
+    "script": "execution/google_serp_scraper.py",
+    "description": "Scrape Google search results for SEO and keyword research"
+  },
+  "seo-audit": {
+    "directive": "directives/seo_optimization_service.md",
+    "script": "execution/generate_seo_insights.py",
+    "description": "Comprehensive SEO site audit with actionable recommendations"
+  },
+  "email-sequence": {
+    "directive": "directives/email_sequence_builder.md",
+    "script": "execution/email_sequence_builder.py",
+    "description": "Create automated email sequences for onboarding, nurture, or sales"
+  },
+  "page-cro": {
+    "directive": "directives/page_cro_analyzer.md",
+    "script": "execution/page_cro_analyzer.py",
+    "description": "Analyze landing pages for conversion rate optimization"
+  }
+}

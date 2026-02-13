@@ -6,26 +6,38 @@ export async function onRequestPost(context) {
   const skillId = params.id;
   
   try {
-    // Parse request body
-    const body = await request.json();
+    // Parse request body (contains form inputs)
+    const formInputs = await request.json();
+    
+    // Format payload for Modal webhook
+    const payload = {
+      slug: skillId,
+      inputs: formInputs
+    };
     
     // Call Modal webhook to execute the skill
     const modalUrl = env.MODAL_WEBHOOK_URL || 'https://nick-90891--claude-orchestrator-directive.modal.run';
-    const response = await fetch(`${modalUrl}?slug=${skillId}`, {
+    const response = await fetch(modalUrl, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${env.MODAL_API_TOKEN || ''}`
       },
-      body: JSON.stringify(body)
+      body: JSON.stringify(payload)
     });
+    
+    if (!response.ok) {
+      const errorText = await response.text();
+      throw new Error(`Modal webhook returned ${response.status}: ${errorText}`);
+    }
     
     const result = await response.json();
     
+    // Return formatted response
     return new Response(JSON.stringify({
-      success: true,
+      success: result.success !== false,
       skillId,
-      result,
+      data: result,
       timestamp: new Date().toISOString()
     }), {
       status: 200,
@@ -39,10 +51,15 @@ export async function onRequestPost(context) {
     return new Response(JSON.stringify({
       success: false,
       error: error.message,
-      tip: 'Make sure Modal webhook is deployed and MODAL_API_TOKEN is set'
+      skillId,
+      tip: 'Check Modal webhook deployment and environment variables',
+      timestamp: new Date().toISOString()
     }), {
       status: 500,
-      headers: { 'Content-Type': 'application/json' }
+      headers: { 
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*'
+      }
     });
   }
 }

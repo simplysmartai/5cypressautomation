@@ -543,6 +543,129 @@
             overflow-y: auto;
         }
 
+        /* Enhanced Result Display */
+        .result-formatted {
+            background: var(--bg-primary);
+            border-radius: 8px;
+            padding: 1.5rem;
+            max-height: 500px;
+            overflow-y: auto;
+        }
+
+        .result-section {
+            margin-bottom: 1.5rem;
+        }
+
+        .result-section:last-child {
+            margin-bottom: 0;
+        }
+
+        .result-section-title {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--accent);
+            margin-bottom: 0.75rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .result-metric {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+        }
+
+        .result-metric:last-child {
+            border-bottom: none;
+        }
+
+        .result-metric-label {
+            color: var(--text-muted);
+            font-size: 0.875rem;
+        }
+
+        .result-metric-value {
+            color: var(--text-primary);
+            font-weight: 600;
+            font-size: 0.875rem;
+        }
+
+        .result-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .result-list li {
+            padding: 0.5rem 0;
+            padding-left: 1.5rem;
+            position: relative;
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+            line-height: 1.5;
+        }
+
+        .result-list li:before {
+            content: '→';
+            position: absolute;
+            left: 0;
+            color: var(--accent);
+        }
+
+        .result-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 1rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .result-card-title {
+            font-weight: 600;
+            color: var(--accent);
+            margin-bottom: 0.5rem;
+        }
+
+        .result-badge {
+            display: inline-block;
+            padding: 4px 10px;
+            background: var(--accent-dim);
+            color: var(--accent);
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+        }
+
+        .result-badge.critical { background: rgba(239, 68, 68, 0.15); color: var(--error); }
+        .result-badge.warning { background: rgba(245, 158, 11, 0.15); color: var(--warning); }
+        .result-badge.success { background: var(--accent-dim); color: var(--accent); }
+
+        .result-actions {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--border);
+        }
+
+        .result-actions button {
+            padding: 8px 16px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            color: var(--text-secondary);
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .result-actions button:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+
         .spinner {
             display: inline-block;
             width: 16px;
@@ -1014,7 +1137,7 @@
             runBtn.innerHTML = '<span class="spinner"></span> Running...';
             resultPanel.classList.add('active');
             resultStatus.innerHTML = '<span class="spinner"></span> Executing skill...';
-            resultOutput.textContent = '';
+            resultOutput.innerHTML = '<div style="text-align: center; padding: 2rem; color: var(--text-muted);">Processing your request...</div>';
 
             try {
                 const res = await fetch(`/api/skills/${skillId}/run`, {
@@ -1023,23 +1146,213 @@
                     body: JSON.stringify(formData)
                 });
 
-                const data = await res.json();
+                const responseData = await res.json();
 
-                if (res.ok) {
+                if (res.ok && responseData.success) {
                     resultStatus.innerHTML = '✅ <span style="color: var(--success)">Completed Successfully</span>';
-                    resultOutput.textContent = data.output || JSON.stringify(data, null, 2);
+                    
+                    // Format result based on skill type
+                    const formattedResult = formatResult(skillId, responseData.data);
+                    resultOutput.innerHTML = formattedResult;
+                    
                     runCount++;
                     updateStats();
                 } else {
                     resultStatus.innerHTML = '❌ <span style="color: var(--error)">Error</span>';
-                    resultOutput.textContent = data.error || 'Unknown error occurred.';
+                    resultOutput.innerHTML = `
+                        <div class="result-formatted">
+                            <div class="result-section">
+                                <div class="result-section-title">Error Details</div>
+                                <div style="color: var(--error); padding: 1rem 0;">
+                                    ${responseData.error || 'Unknown error occurred'}
+                                </div>
+                                ${responseData.tip ? `<div style="color: var(--text-muted); padding: 1rem 0; border-top: 1px solid var(--border); margin-top: 1rem;">💡 Tip: ${responseData.tip}</div>` : ''}
+                            </div>
+                            <div class="result-actions">
+                                <button onclick="runSkill()">🔄 Retry</button>
+                                <button onclick="copyToClipboard('${JSON.stringify(responseData).replace(/'/g, "\\'")}')">📋 Copy Error</button>
+                            </div>
+                        </div>
+                    `;
                 }
             } catch (err) {
                 resultStatus.innerHTML = '❌ <span style="color: var(--error)">Connection Error</span>';
-                resultOutput.textContent = err.message;
+                resultOutput.innerHTML = `
+                    <div class="result-formatted">
+                        <div class="result-section">
+                            <div class="result-section-title">Connection Error</div>
+                            <div style="color: var(--error); padding: 1rem 0;">
+                                Failed to connect to the server: ${err.message}
+                            </div>
+                            <div style="color: var(--text-muted); padding: 1rem 0; border-top: 1px solid var(--border); margin-top: 1rem;">
+                                💡 Tip: Check your internet connection or try again in a moment.
+                            </div>
+                        </div>
+                        <div class="result-actions">
+                            <button onclick="runSkill()">🔄 Retry</button>
+                        </div>
+                    </div>
+                `;
             }
 
             runBtn.textContent = 'Run Again';
+        }
+
+        function formatResult(skillId, data) {
+            """Format result based on skill type"""
+            
+            // Handle different result structures
+            if (!data || !data.result) {
+                return `<pre>${JSON.stringify(data, null, 2)}</pre>`;
+            }
+
+            const result = data.result;
+
+            // Email Sequence Builder
+            if (skillId === 'email-sequence' && result.sequence) {
+                const seq = result.sequence;
+                let html = '<div class="result-formatted">';
+                
+                html += `
+                    <div class="result-section">
+                        <div class="result-section-title">${seq.sequence_type} Sequence</div>
+                        <div class="result-metric">
+                            <span class="result-metric-label">Goal</span>
+                            <span class="result-metric-value">${seq.goal}</span>
+                        </div>
+                        <div class="result-metric">
+                            <span class="result-metric-label">Total Emails</span>
+                            <span class="result-metric-value">${seq.total_emails}</span>
+                        </div>
+                        <div class="result-metric">
+                            <span class="result-metric-label">Duration</span>
+                            <span class="result-metric-value">${seq.duration_days} days</span>
+                        </div>
+                    </div>
+                `;
+
+                html += '<div class="result-section"><div class="result-section-title">Email Sequence</div>';
+                seq.emails.forEach((email, idx) => {
+                    html += `
+                        <div class="result-card">
+                            <div class="result-card-title">Email ${idx + 1}: ${email.subject || email.theme}</div>
+                            <div style="color: var(--text-muted); font-size: 0.8rem; margin-bottom: 0.5rem;">
+                                Day ${email.day} • ${email.theme}
+                            </div>
+                            ${email.key_points ? `<ul class="result-list">${email.key_points.map(p => `<li>${p}</li>`).join('')}</ul>` : ''}
+                        </div>
+                    `;
+                });
+                html += '</div>';
+
+                if (seq.implementation_tips) {
+                    html += `
+                        <div class="result-section">
+                            <div class="result-section-title">Implementation Tips</div>
+                            <ul class="result-list">${seq.implementation_tips.map(tip => `<li>${tip}</li>`).join('')}</ul>
+                        </div>
+                    `;
+                }
+
+                html += `
+                    <div class="result-actions">
+                        <button onclick="copyToClipboard(JSON.stringify(${JSON.stringify(seq)}, null, 2))">📋 Copy JSON</button>
+                        <button onclick="downloadResult('email-sequence', ${JSON.stringify(seq)})">⬇️ Download</button>
+                    </div>
+                `;
+                
+                html += '</div>';
+                return html;
+            }
+
+            // Page CRO Analyzer
+            if (skillId === 'page-cro' && result.analysis) {
+                let html = '<div class="result-formatted">';
+                
+                html += `
+                    <div class="result-section">
+                        <div class="result-section-title">CRO Score</div>
+                        <div style="font-size: 3rem; font-weight: 800; color: var(--accent); text-align: center; padding: 1rem 0;">
+                            ${result.overall_score}/100
+                        </div>
+                    </div>
+                `;
+
+                if (result.top_recommendations && result.top_recommendations.length > 0) {
+                    html += '<div class="result-section"><div class="result-section-title">Top Recommendations</div>';
+                    result.top_recommendations.forEach(rec => {
+                        const badgeClass = rec.priority.includes('P0') ? 'critical' : rec.priority.includes('P1') ? 'warning' : 'success';
+                        html += `
+                            <div class="result-card">
+                                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+                                    <div class="result-card-title">${rec.category}</div>
+                                    <span class="result-badge ${badgeClass}">${rec.priority}</span>
+                                </div>
+                                <div style="color: var(--text-muted); font-size: 0.875rem; margin-bottom: 0.5rem;">
+                                    <strong>Issue:</strong> ${rec.issue}
+                                </div>
+                                <div style="color: var(--text-secondary); font-size: 0.875rem; margin-bottom: 0.5rem;">
+                                    <strong>Impact:</strong> ${rec.impact}
+                                </div>
+                                <div style="color: var(--accent); font-size: 0.875rem;">
+                                    <strong>Fix:</strong> ${rec.fix}
+                                </div>
+                            </div>
+                        `;
+                    });
+                    html += '</div>';
+                }
+
+                html += `
+                    <div class="result-actions">
+                        <button onclick="copyToClipboard(JSON.stringify(${JSON.stringify(result)}, null, 2))">📋 Copy Report</button>
+                        <button onclick="downloadResult('cro-analysis', ${JSON.stringify(result)})">⬇️ Download</button>
+                    </div>
+                `;
+                
+                html += '</div>';
+                return html;
+            }
+
+            // SEO Audit
+            if (skillId === 'seo-audit' && result.audit) {
+                // Similar formatting for SEO audit results
+                return `<div class="result-formatted"><pre>${JSON.stringify(result, null, 2)}</pre></div>`;
+            }
+
+            // Default: JSON view
+            return `
+                <div class="result-formatted">
+                    <div class="result-section">
+                        <div class="result-section-title">Result</div>
+                        <pre>${JSON.stringify(result, null, 2)}</pre>
+                    </div>
+                    <div class="result-actions">
+                        <button onclick="copyToClipboard(JSON.stringify(${JSON.stringify(result)}, null, 2))">📋 Copy JSON</button>
+                    </div>
+                </div>
+            `;
+        }
+
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                alert('✅ Copied to clipboard!');
+            }).catch(err => {
+                console.error('Failed to copy:', err);
+                alert('❌ Failed to copy to clipboard');
+            });
+        }
+
+        function downloadResult(filename, data) {
+            const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `${filename}-${Date.now()}.json`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
         }
 
         // ── Event Listeners ──
