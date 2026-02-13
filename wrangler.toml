@@ -1,9 +1,4 @@
 name = "5cypressautomation"
-type = "javascript"
 
 # Cloudflare Pages configuration
 pages_build_output_dir = "public"
-
-[build]
-command = "npm install"
-cwd = "./"
