@@ -1,0 +1,14 @@
+[
+  {
+    "id": 1,
+    "topic": "The Future of AI in Small Business",
+    "status": "approved",
+    "suggested_by": "System"
+  },
+  {
+    "id": 2,
+    "topic": "How to Automate Invoice Processing",
+    "status": "pending",
+    "suggested_by": "User"
+  }
+]

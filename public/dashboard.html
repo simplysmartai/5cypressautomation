@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Global Control - 5 Cypress Labs</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="icon" type="image/svg+xml" href="assets/brand/favicon.svg">
+  <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono&display=swap" rel="stylesheet">
+  <style>
+    body { background: #020617; color: white; margin: 0; font-family: 'Inter', sans-serif; overflow: hidden; }
+    .app-container { display: grid; grid-template-columns: 280px 1fr; height: 100vh; background: #020617; }
+    .sidebar { background: #0f172a; border-right: 1px solid rgba(255, 255, 255, 0.05); padding: 40px 32px; display: flex; flex-direction: column; gap: 2rem; }
+    .logo { display: flex; align-items: center; gap: 12px; text-decoration: none; margin-bottom: 24px; }
+    .logo-icon { width: 42px; height: 42px; background: linear-gradient(135deg, var(--primary), var(--accent)); border-radius: 12px; display: flex; align-items: center; justify-content: center; color: white; font-size: 1.25rem; }
+    .logo-text { font-family: 'Inter', sans-serif; font-weight: 800; color: white; font-size: 1.25rem; }
+    .nav-item { display: flex; align-items: center; gap: 12px; padding: 12px 16px; border-radius: 12px; color: #94a3b8; font-weight: 600; cursor: pointer; transition: all 0.3s; }
+    .nav-item:hover { background: rgba(255, 255, 255, 0.05); color: white; }
+    .nav-item.active { background: rgba(45, 90, 58, 0.1); color: var(--primary); }
+    .main-content { padding: 60px; overflow-y: auto; background: radial-gradient(circle at 50% 0%, rgba(45, 90, 58, 0.05) 0%, transparent 70%); }
+    .header-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 48px; }
+    .client-badge { padding: 8px 16px; background: rgba(45, 90, 58, 0.1); border: 1px solid rgba(45, 90, 58, 0.2); border-radius: 100px; color: var(--primary); font-weight: 700; font-size: 0.8rem; text-transform: uppercase; }
+    h1 { font-family: 'Outfit', sans-serif; font-size: 2.5rem; margin-top: 12px; }
+    .stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; margin-bottom: 48px; }
+    .stat-card { background: rgba(30, 41, 59, 0.5); border: 1px solid rgba(255, 255, 255, 0.05); padding: 32px; border-radius: 24px; backdrop-filter: blur(20px); }
+    .stat-label { color: #94a3b8; font-weight: 700; font-size: 0.85rem; text-transform: uppercase; margin-bottom: 12px; }
+    .stat-value { font-size: 3rem; font-weight: 800; font-family: 'Outfit', sans-serif; }
+    .stat-trend { color: #10b981; font-size: 0.9rem; margin-top: 8px; font-weight: 700; }
+    .section-title { font-family: 'Outfit', sans-serif; font-size: 1.5rem; margin-bottom: 24px; display: flex; align-items: center; gap: 12px; }
+    .table-container { background: rgba(30, 41, 59, 0.3); border: 1px solid rgba(255, 255, 255, 0.05); border-radius: 24px; padding: 32px; }
+    table { width: 100%; border-collapse: collapse; }
+    th { text-align: left; padding: 16px; color: #64748b; font-size: 0.75rem; text-transform: uppercase; border-bottom: 1px solid rgba(255,255,255,0.05); }
+    td { padding: 20px 16px; border-bottom: 1px solid rgba(255,255,255,0.02); }
+    .status-pill { padding: 4px 12px; border-radius: 100px; font-size: 0.75rem; font-weight: 800; text-transform: uppercase; }
+    .status-pill.active { background: rgba(16, 185, 129, 0.1); color: #10b981; }
+    .log-feed { margin-top: 48px; background: #020617; border: 1px solid rgba(255, 255, 255, 0.05); border-radius: 16px; padding: 24px; font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; height: 180px; overflow-y: auto; }
+    .log-line { color: #94a3b8; margin-bottom: 8px; }
+    .log-line span { color: #3b82f6; }
+  </style>
+</head>
+<body>
+  <div class="app-container">
+    <div class="sidebar">
+      <a href="/" class="logo">
+        <div class="logo-icon"><img src="assets/brand/logo-icon.svg" alt="Logo" style="width: 28px; height: 28px;"></div>
+        <div class="logo-text">5 Cypress</div>
+      </a>
+      <div class="nav-item active"><i class="ri-dashboard-line"></i> Overview</div>
+      <div class="nav-item"><i class="ri-bubble-chart-line"></i> Workflows</div>
+      <div class="nav-item"><i class="ri-user-search-line"></i> Pillar Monitoring</div>
+      <div class="nav-item"><i class="ri-database-2-line"></i> CRM Sync</div>
+      <div class="nav-item" style="margin-top: auto;"><i class="ri-logout-box-r-line"></i> Logout</div>
+    </div>
+    <div class="main-content">
+      <div class="header-top">
+        <div>
+          <div class="client-badge">Live Environment: 5 Cypress Labs</div>
+          <h1>Operations Control</h1>
+        </div>
+        <button class="btn btn-primary" onclick="window.location.href='/'">Return to Site</button>
+      </div>
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-label">Active Automations</div>
+          <div class="stat-value">24</div>
+          <div class="stat-trend">All Healthy</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Hours Saved / Week</div>
+          <div class="stat-value">128h</div>
+          <div class="stat-trend"><i class="ri-arrow-up-line"></i> 14%</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">System Uptime</div>
+          <div class="stat-value">99.9%</div>
+          <div class="stat-trend">Last 30 Days</div>
+        </div>
+      </div>
+      <div class="section-title">Workflow Health</div>
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr><th>Infrastructure Component</th><th>Status</th><th>Health</th><th>Load</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Root Data Sync Engine</td><td><span class="status-pill active">Resilient</span></td><td>100%</td><td>Low</td></tr>
+            <tr><td>Branching Lead Router</td><td><span class="status-pill active">Active</span></td><td>98%</td><td>Moderate</td></tr>
+            <tr><td>Endurance Signal Monitor</td><td><span class="status-pill active">Running</span></td><td>100%</td><td>High</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="log-feed" id="logFeed">
+        <div class="log-line"><span>[SYSTEM]</span> Initializing 5 Cypress Control Center...</div>
+        <div class="log-line"><span>[LOG]</span> Root Audit complete for 12 nodes.</div>
+        <div class="log-line"><span>[SIGNAL]</span> High-intent lead detected in Signal Layer.</div>
+        <div class="log-line"><span>[BRANCH]</span> Routing request to Architecture Engine.</div>
+      </div>
+    </div>
+  </div>
+  <script>
+    const logs = [
+      "Root System: Synchronizing CRM truth nodes...", 
+      "Signal Layer: Intelligence batch parsed successfully.", 
+      "Branching Logic: Failover redundancy check passed.", 
+      "Endurance Engine: Stress test completed (99.9%).", 
+      "Architecture: New proposal blueprint generated."
+    ];
+    const feed = document.getElementById('logFeed');
+    setInterval(() => {
+      const line = document.createElement('div');
+      line.className = 'log-line';
+      line.innerHTML = `<span>[${new Date().toLocaleTimeString()}]</span> ${logs[Math.floor(Math.random()*logs.length)]}`;
+      feed.appendChild(line);
+      feed.scrollTop = feed.scrollHeight;
+    }, 4000);
+  </script>
+</body>
+</html>

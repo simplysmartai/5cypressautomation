@@ -1,0 +1,242 @@
+{
+  "currency": "USD",
+  "last_updated": "2026-02-03",
+  
+  "hourly_rates": {
+    "architecture": 350,
+    "strategy": 250,
+    "implementation": 200,
+    "hardening": 175
+  },
+
+  "workflow_packages": {
+    "tier1_quick_wins": {
+      "invoice_automation": {
+        "name": "Invoice Automation Suite",
+        "implementation": 2500,
+        "ongoing": 300,
+        "timeline": "3-5 days",
+        "roi": "8-12 hours/month saved",
+        "target": "Service businesses sending 20+ invoices/month"
+      },
+      "sales_followup": {
+        "name": "Sales Lead Follow-Up Machine",
+        "implementation": 3500,
+        "ongoing": 400,
+        "timeline": "3-5 days",
+        "roi": "15-25% conversion increase",
+        "target": "Sales teams with 50+ leads/month"
+      },
+      "proposal_generation": {
+        "name": "Proposal Generation System",
+        "implementation": 2000,
+        "ongoing": 250,
+        "timeline": "3-5 days",
+        "roi": "10-15 hours/month saved",
+        "target": "Agencies creating 10+ proposals/month"
+      },
+      "contract_nda": {
+        "name": "Contract & NDA Generator",
+        "implementation": 1500,
+        "ongoing": 200,
+        "timeline": "3-5 days",
+        "roi": "5-8 hours/month saved + reduced legal risk",
+        "target": "Agencies needing legal docs for every client"
+      },
+      "client_onboarding": {
+        "name": "New Client Onboarding Workflow",
+        "implementation": 3000,
+        "ongoing": 350,
+        "timeline": "3-5 days",
+        "roi": "6-10 hours/month per client",
+        "target": "Service businesses onboarding 5+ clients/month"
+      }
+    },
+    "tier2_high_value": {
+      "full_sales_pipeline": {
+        "name": "Full Sales Pipeline System",
+        "implementation": 7500,
+        "ongoing": 800,
+        "timeline": "1-2 weeks",
+        "roi": "20-30% close rate increase",
+        "target": "$500K+ annual revenue companies"
+      },
+      "document_engine": {
+        "name": "Complete Document Engine",
+        "implementation": 5000,
+        "ongoing": 600,
+        "timeline": "1-2 weeks",
+        "roi": "20-30 hours/month saved",
+        "target": "Professional services creating 50+ docs/month"
+      },
+      "lead_research_outreach": {
+        "name": "Lead Research + Outreach System",
+        "implementation": 6000,
+        "ongoing": 1500,
+        "timeline": "1-2 weeks",
+        "roi": "100+ qualified leads/month",
+        "target": "B2B companies with $1M+ ARR"
+      }
+    },
+    "tier3_enterprise": {
+      "revenue_operations": {
+        "name": "Revenue Operations Suite",
+        "implementation": 15000,
+        "ongoing": 2500,
+        "timeline": "2-3 weeks",
+        "roi": "30-40% pipeline efficiency improvement",
+        "target": "$5M+ ARR companies"
+      },
+      "complete_automation": {
+        "name": "Complete Business Automation",
+        "implementation": 25000,
+        "ongoing": 3500,
+        "timeline": "3-4 weeks",
+        "roi": "100+ hours saved monthly across teams",
+        "target": "Established businesses seeking comprehensive automation"
+      }
+    }
+  },
+
+  "packages": {
+    "starter": {
+      "name": "Root Build",
+      "description": "Foundational automation for critical operations",
+      "price": 5000,
+      "includes": [
+        "1 redundant automation architecture",
+        "Deep integration with 2 core systems",
+        "Architecture Blueprint documentation",
+        "60-day Intelligence support",
+        "Failover logic inclusion"
+      ],
+      "timeline": "2 weeks",
+      "ideal_for": "Businesses needing a resilient foundation for one core process"
+    },
+    "growth": {
+      "name": "Branching Flow",
+      "description": "Multi-system architecture for scaling operations",
+      "price": 12500,
+      "includes": [
+        "Up to 4 interconnected Flow Engines",
+        "Full Signal Layer monitoring",
+        "Resilient Logic Hardening",
+        "6 months of Intelligence support",
+        "Quarterly Architecture Review",
+        "Strategic Scaling Roadmap"
+      ],
+      "timeline": "4-6 weeks",
+      "ideal_for": "High-growth businesses systematizing for expansion"
+    },
+    "scale": {
+      "name": "Cypress Enterprise",
+      "description": "Full-scale operational transformation",
+      "price": 25000,
+      "price_note": "Starting at",
+      "includes": [
+        "Complete Root Audit + Master Blueprint",
+        "Unlimited custom Flow Engines",
+        "Predictive Intelligence Dashboard",
+        "Dedicated Slack channel",
+        "6-month strategic partnership",
+        "Unlimited revisions",
+        "Weekly optimization calls",
+        "Priority response time"
+      ],
+      "timeline": "6-8 weeks",
+      "ideal_for": "Established businesses seeking comprehensive automation"
+    }
+  },
+
+  "ongoing_partnerships": {
+    "intelligence_tier": {
+      "name": "Intelligence Partnership",
+      "price": 1000,
+      "price_range": "800-1500",
+      "frequency": "monthly",
+      "includes": [
+        "Real-time performance dashboard",
+        "Monthly insights report (3-5 optimization opportunities)",
+        "Proactive Slack alerts",
+        "Quarterly strategy review",
+        "Priority support",
+        "System health monitoring"
+      ],
+      "ideal_for": "Businesses wanting ongoing visibility and strategic recommendations"
+    },
+    "optimization_tier": {
+      "name": "Optimization Partnership",
+      "price": 2500,
+      "price_range": "2000-4000",
+      "frequency": "monthly",
+      "includes": [
+        "Everything in Intelligence Partnership",
+        "8 hours/month implementation (for new opportunities)",
+        "Bi-weekly optimization sprints",
+        "Advanced predictive analytics",
+        "ROI guarantee: Find $10K+ annual savings or you don't pay",
+        "Dedicated account manager"
+      ],
+      "ideal_for": "Businesses wanting continuous optimization and new feature development"
+    }
+  },
+
+  "retainers": {
+    "maintenance": {
+      "name": "Maintenance Retainer",
+      "price": 500,
+      "frequency": "monthly",
+      "includes": [
+        "Monitoring & uptime checks",
+        "Bug fixes",
+        "Minor adjustments",
+        "Email support"
+      ],
+      "note": "Legacy option - recommend Intelligence Partnership instead"
+    },
+    "growth_partner": {
+      "name": "Growth Partner",
+      "price": 2000,
+      "frequency": "monthly",
+      "includes": [
+        "Everything in Maintenance",
+        "4 hours of new development",
+        "Monthly strategy call",
+        "Priority support",
+        "Quarterly roadmap review"
+      ],
+      "note": "Legacy option - recommend Optimization Partnership instead"
+    }
+  },
+
+  "common_addons": {
+    "additional_integration": {
+      "name": "Additional System Integration",
+      "price": 500,
+      "per": "system"
+    },
+    "custom_dashboard": {
+      "name": "Custom Reporting Dashboard",
+      "price": 1500,
+      "per": "dashboard"
+    },
+    "training_session": {
+      "name": "Team Training Session",
+      "price": 300,
+      "per": "hour"
+    },
+    "rush_delivery": {
+      "name": "Rush Delivery",
+      "price_modifier": 1.5,
+      "note": "50% premium for expedited timeline"
+    }
+  },
+
+  "payment_terms": {
+    "deposit": 0.50,
+    "deposit_note": "50% deposit to begin work",
+    "final_payment": "Due upon completion, before handoff",
+    "retainer_billing": "Monthly, billed on the 1st",
+    "accepted_methods": ["Stripe", "PayPal", "Wire Transfer", "Check"]
+  }
+}

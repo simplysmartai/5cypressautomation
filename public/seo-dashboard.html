@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SEO Optimization Dashboard | Simply Smart Automation</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js"></script>
+    <style>
+        :root {
+            --bg-color: #020617;
+            --card-bg: #1e293b;
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --accent-green: #10b981;
+            --accent-blue: #3b82f6;
+            --border-color: #334155;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+        }
+
+        .glass-panel {
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 1rem;
+        }
+
+        .nav-link {
+            color: var(--text-secondary);
+            transition: all 0.2s;
+            border-left: 3px solid transparent;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            color: var(--accent-green);
+            background: rgba(16, 185, 129, 0.1);
+            border-left-color: var(--accent-green);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+        }
+
+        /* Gauge Styles */
+        .gauge-container {
+            position: relative;
+            width: 150px;
+            height: 150px;
+            margin: 0 auto;
+        }
+
+        .gauge-bg {
+            fill: none;
+            stroke: #334155;
+            stroke-width: 10;
+        }
+
+        .gauge-value {
+            fill: none;
+            stroke: #10b981;
+            stroke-width: 10;
+            stroke-linecap: round;
+            transform: rotate(-90deg);
+            transform-origin: 50% 50%;
+            transition: stroke-dasharray 1s ease;
+        }
+
+        .gauge-text {
+            fill: #f8fafc;
+            font-size: 2rem;
+            font-weight: bold;
+            text-anchor: middle;
+            dominant-baseline: middle;
+        }
+
+        /* Table Syles */
+        .table-row {
+            border-bottom: 1px solid var(--border-color);
+            transition: background-color 0.2s;
+        }
+        
+        .table-row:hover {
+            background-color: rgba(255, 255, 255, 0.02);
+        }
+
+        /* Loading Animation */
+        .loading-pulse {
+            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: .5; }
+        }
+
+        .hidden { display: none; }
+    </style>
+</head>
+<body class="min-h-screen flex">
+    
+    <!-- Sidebar -->
+    <aside class="w-64 glass-panel border-r border-gray-800 fixed h-full z-10 flex flex-col">
+        <div class="p-6 border-b border-gray-800">
+            <div class="flex items-center gap-3">
+                <div class="w-8 h-8 rounded bg-green-500 flex items-center justify-center">
+                    <i class="fas fa-bolt text-white text-sm"></i>
+                </div>
+                <span class="font-bold text-lg tracking-tight">SimplySmart</span>
+            </div>
+        </div>
+        
+        <nav class="flex-1 overflow-y-auto py-4">
+            <div class="px-4 mb-2 text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                Services
+            </div>
+            <a href="dashboard.html" class="nav-link flex items-center gap-3 px-6 py-3">
+                <i class="fas fa-home w-5"></i>
+                <span>Main Dashboard</span>
+            </a>
+            <a href="#" class="nav-link active flex items-center gap-3 px-6 py-3">
+                <i class="fas fa-search w-5"></i>
+                <span>SEO Optimization</span>
+            </a>
+            <a href="#" class="nav-link flex items-center gap-3 px-6 py-3">
+                <i class="fas fa-chart-line w-5"></i>
+                <span>Analytics</span>
+            </a>
+        </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="flex-1 ml-64 p-8">
+        <!-- Header -->
+        <header class="flex justify-between items-center mb-8">
+            <div>
+                <h1 class="text-3xl font-bold text-white mb-2">SEO Optimization Console</h1>
+                <p class="text-gray-400">Deep dive analysis, competitor tracking, and optimization insights.</p>
+            </div>
+            <div class="flex gap-4">
+                <button onclick="requestMonthlyReport()" class="px-4 py-2 rounded-lg bg-gray-800 hover:bg-gray-700 text-gray-300 transition border border-gray-700">
+                    <i class="fas fa-file-download mr-2"></i>Generate Report
+                </button>
+            </div>
+        </header>
+
+        <!-- Analysis Input -->
+        <div class="glass-panel p-6 mb-8">
+            <div class="flex flex-col md:flex-row gap-4 items-end">
+                <div class="flex-1 w-full">
+                    <label class="block text-sm font-medium text-gray-300 mb-2">Target URL</label>
+                    <div class="relative">
+                        <i class="fas fa-globe absolute left-3 top-3 text-gray-500"></i>
+                        <input type="url" id="targetUrl" placeholder="https://example.com" 
+                            class="w-full bg-gray-800 border border-gray-700 rounded-lg py-2.5 pl-10 pr-4 text-white focus:ring-2 focus:ring-green-500 focus:border-transparent outline-none transition">
+                    </div>
+                </div>
+                <div class="flex-1 w-full">
+                    <label class="block text-sm font-medium text-gray-300 mb-2">Target Keywords (comma separated)</label>
+                    <div class="relative">
+                        <i class="fas fa-key absolute left-3 top-3 text-gray-500"></i>
+                        <input type="text" id="keywords" placeholder="automation, consulting, ai agents" 
+                            class="w-full bg-gray-800 border border-gray-700 rounded-lg py-2.5 pl-10 pr-4 text-white focus:ring-2 focus:ring-green-500 focus:border-transparent outline-none transition">
+                    </div>
+                </div>
+                <button onclick="runAnalysis()" class="btn-primary px-6 py-2.5 rounded-lg font-medium shadow-lg flex items-center gap-2">
+                    <span id="btnText">Run Audit</span>
+                    <i class="fas fa-rocket" id="btnIcon"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Loading State -->
+        <div id="loadingState" class="hidden text-center py-20">
+            <div class="inline-block relative">
+                <div class="w-16 h-16 border-4 border-green-500/30 border-t-green-500 rounded-full animate-spin"></div>
+            </div>
+            <h3 class="mt-4 text-xl font-semibold text-white">Analyzing Website...</h3>
+            <p class="text-gray-400 mt-2">Crawling pages, checking performance, and analyzing keywords.</p>
+        </div>
+
+        <!-- Results Dashboard -->
+        <div id="resultsArea" class="hidden space-y-6">
+            
+            <!-- Overall Health Scores -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- SEO Score -->
+                <div class="glass-panel p-6 text-center">
+                    <h3 class="text-gray-400 font-medium mb-4">Overall SEO Score</h3>
+                    <div class="gauge-container">
+                        <svg viewBox="0 0 100 100" class="w-full h-full">
+                            <path class="gauge-bg" d="M 20 80 A 40 40 0 0 1 80 80" />
+                            <path id="seoScoreGauge" class="gauge-value" d="M 20 80 A 40 40 0 0 1 80 80" stroke-dasharray="0 126" />
+                            <text id="seoScoreText" x="50" y="65" class="gauge-text">0</text>
+                        </svg>
+                    </div>
+                    <p class="text-sm text-gray-500 mt-2">Based on on-page factors</p>
+                </div>
+
+                <!-- Performance -->
+                <div class="glass-panel p-6 text-center">
+                    <h3 class="text-gray-400 font-medium mb-4">Performance</h3>
+                    <div class="gauge-container">
+                        <svg viewBox="0 0 100 100" class="w-full h-full">
+                            <path class="gauge-bg" d="M 20 80 A 40 40 0 0 1 80 80" />
+                            <path id="perfScoreGauge" class="gauge-value" d="M 20 80 A 40 40 0 0 1 80 80" stroke-dasharray="0 126" />
+                            <text id="perfScoreText" x="50" y="65" class="gauge-text">0</text>
+                        </svg>
+                    </div>
+                    <p class="text-sm text-gray-500 mt-2">Core Web Vitals</p>
+                </div>
+
+                <!-- Keyword Health -->
+                <div class="glass-panel p-6 text-center">
+                    <h3 class="text-gray-400 font-medium mb-4">Keyword Visibility</h3>
+                    <div class="gauge-container">
+                        <svg viewBox="0 0 100 100" class="w-full h-full">
+                            <path class="gauge-bg" d="M 20 80 A 40 40 0 0 1 80 80" />
+                            <path id="kwScoreGauge" class="gauge-value" d="M 20 80 A 40 40 0 0 1 80 80" stroke-dasharray="0 126" />
+                            <text id="kwScoreText" x="50" y="65" class="gauge-text">0</text>
+                        </svg>
+                    </div>
+                    <p class="text-sm text-gray-500 mt-2">Target keyword density</p>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <!-- Keyword Analysis -->
+                <div class="glass-panel p-6">
+                    <h3 class="text-lg font-bold text-white mb-4 border-b border-gray-800 pb-2">Keyword Analysis</h3>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left text-sm">
+                            <thead>
+                                <tr class="text-gray-400">
+                                    <th class="pb-3 text-center">Keyword</th>
+                                    <th class="pb-3 text-center">Count</th>
+                                    <th class="pb-3 text-center">Density</th>
+                                    <th class="pb-3 text-center">Status</th>
+                                </tr>
+                            </thead>
+                            <tbody id="keywordTableBody">
+                                <!-- Populated dynamically -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Missing Content -->
+                <div class="glass-panel p-6">
+                    <h3 class="text-lg font-bold text-white mb-4 border-b border-gray-800 pb-2">Technical Issues</h3>
+                    <div class="space-y-3" id="issuesList">
+                        <!-- Populated dynamically -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Page Speed Metrics -->
+            <div class="glass-panel p-6">
+                <h3 class="text-lg font-bold text-white mb-4">Core Web Vitals</h3>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4" id="webVitalsGrid">
+                    <!-- Populated dynamically -->
+                </div>
+            </div>
+
+            <!-- Recommendations -->
+            <div class="glass-panel p-6 border-l-4 border-green-500">
+                <h3 class="text-lg font-bold text-white mb-4">Action Plan</h3>
+                <ul class="space-y-2 text-gray-300" id="recommendationsList">
+                    <!-- Populated dynamically -->
+                </ul>
+            </div>
+            
+        </div>
+
+        <footer class="mt-12 pt-6 border-t border-gray-800 text-center text-gray-500 text-sm">
+            <p>&copy; 2024 Simply Smart Automation. All rights reserved.</p>
+        </footer>
+
+    </main>
+
+    <script>
+        async function runAnalysis() {
+            const url = document.getElementById('targetUrl').value;
+            const keywords = document.getElementById('keywords').value;
+
+            if (!url) {
+                alert("Please enter a URL");
+                return;
+            }
+
+            // UI State
+            document.getElementById('loadingState').classList.remove('hidden');
+            document.getElementById('resultsArea').classList.add('hidden');
+            document.getElementById('btnText').innerText = "Analyzing...";
+            document.getElementById('btnIcon').classList.add('fa-spin');
+
+            try {
+                const response = await fetch('/api/seo/analyze', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        url: url,
+                        campaign_type: 'on_demand',
+                        keywords: keywords.split(',').map(k => k.trim()).filter(k => k)
+                    })
+                });
+
+                const data = await response.json();
+                
+                if (data.status === 'success') {
+                    renderResults(data.data);
+                } else {
+                    alert('Analysis failed: ' + (data.error || 'Unknown error'));
+                }
+
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Connection error. Please try again.');
+            } finally {
+                // Restore UI
+                document.getElementById('loadingState').classList.add('hidden');
+                document.getElementById('btnText').innerText = "Run Audit";
+                document.getElementById('btnIcon').classList.remove('fa-spin');
+            }
+        }
+
+        function renderResults(data) {
+            document.getElementById('resultsArea').classList.remove('hidden');
+            
+            // 1. Update Gauges
+            setGauge('seoScoreGauge', 'seoScoreText', data.score);
+            
+            // Mocking performance/keyword score for now if not in data, or calculating
+            // Assuming data.mobile_friendliness implies some performance metric
+            const perfScore = data.page_speed ? data.page_speed.score * 100 : 75; // specific parsing depends on python output
+            setGauge('perfScoreGauge', 'perfScoreText', Math.round(perfScore));
+
+            const kwScore = calculateKeywordScore(data.keyword_analysis);
+            setGauge('kwScoreGauge', 'kwScoreText', kwScore);
+
+            // 2. Keyword Table
+            const kwBody = document.getElementById('keywordTableBody');
+            kwBody.innerHTML = '';
+            
+            if (data.keyword_analysis) {
+                // Primary keywords
+                Object.entries(data.keyword_analysis.primary_keywords || {}).forEach(([kw, count]) => {
+                    addRow(kwBody, kw, count, 'Primary', 'text-green-400');
+                });
+                
+                // Missing
+                (data.keyword_analysis.missing_keywords || []).forEach(kw => {
+                    addRow(kwBody, kw, 0, 'Missing', 'text-red-400');
+                });
+            }
+
+            // 3. Issues List
+            const issuesList = document.getElementById('issuesList');
+            issuesList.innerHTML = '';
+            
+            if (data.technical_health) {
+                const health = data.technical_health;
+                if (!health.ssl_secure) addIssue(issuesList, 'SSL Certificate Missing or Invalid', 'critical');
+                if (!health.mobile_friendly) addIssue(issuesList, 'Page not optimized for mobile', 'critical');
+                if (health.broken_links && health.broken_links.length > 0) {
+                    addIssue(issuesList, `${health.broken_links.length} Broken Links Detected`, 'warning');
+                }
+            }
+            // Add a generic success if empty
+            if (issuesList.children.length === 0) {
+                issuesList.innerHTML = '<div class="p-3 bg-green-500/10 border border-green-500/20 rounded text-green-400"><i class="fas fa-check-circle mr-2"></i>No critical technical issues found.</div>';
+            }
+
+
+            // 4. Web Vitals
+            const vitalsGrid = document.getElementById('webVitalsGrid');
+            vitalsGrid.innerHTML = '';
+            if (data.page_speed && data.page_speed.metrics) {
+                const metrics = data.page_speed.metrics;
+                addVitalCard(vitalsGrid, 'LCP', metrics.LCP || '2.5s', 'Largest Contentful Paint');
+                addVitalCard(vitalsGrid, 'FID', metrics.FID || '100ms', 'First Input Delay');
+                addVitalCard(vitalsGrid, 'CLS', metrics.CLS || '0.1', 'Cumulative Layout Shift');
+                addVitalCard(vitalsGrid, 'TTFB', metrics.TTFB || '0.8s', 'Time to First Byte');
+            } else {
+                 vitalsGrid.innerHTML = '<p class="text-gray-500 col-span-4 text-center">PageSpeed API data unavailable (Make sure API key is set)</p>';
+            }
+
+            // 5. Recommendations
+            const recList = document.getElementById('recommendationsList');
+            const improvements = data.improvements || [];
+            recList.innerHTML = improvements.map(imp => 
+                `<li class="flex items-start gap-2"><i class="fas fa-arrow-right text-green-500 mt-1"></i><span>${imp}</span></li>`
+            ).join('');
+        }
+
+        function setGauge(gaugeId, textId, value) {
+            const maxDash = 126; // approx circumference for radius 20
+            const dash = (value / 100) * maxDash;
+            document.getElementById(gaugeId).style.strokeDasharray = `${dash} ${maxDash}`;
+            
+            // Color logic
+            let color = '#ef4444'; // red
+            if (value > 50) color = '#eab308'; // yellow
+            if (value > 80) color = '#10b981'; // green
+            
+            document.getElementById(gaugeId).style.stroke = color;
+            document.getElementById(textId).textContent = value;
+            document.getElementById(textId).style.fill = color;
+        }
+
+        function addRow(tbody, kw, count, type, colorClass) {
+            const tr = document.createElement('tr');
+            tr.className = 'table-row text-center';
+            tr.innerHTML = `
+                <td class="py-3 font-medium text-white text-left pl-4">${kw}</td>
+                <td class="py-3 text-gray-400">${count}</td>
+                <td class="py-3 text-gray-400">-</td>
+                <td class="py-3 ${colorClass} text-xs font-bold uppercase tracking-wide">${type}</td>
+            `;
+            tbody.appendChild(tr);
+        }
+
+        function addIssue(container, text, severity) {
+            const color = severity === 'critical' ? 'red' : 'yellow';
+            const icon = severity === 'critical' ? 'fa-times-circle' : 'fa-exclamation-triangle';
+            
+            const div = document.createElement('div');
+            div.className = `p-3 bg-${color}-500/10 border border-${color}-500/20 rounded flex items-center gap-3`;
+            div.innerHTML = `
+                <i class="fas ${icon} text-${color}-500"></i>
+                <span class="text-${color}-200 text-sm font-medium">${text}</span>
+            `;
+            container.appendChild(div);
+        }
+
+        function addVitalCard(container, title, value, label) {
+            const div = document.createElement('div');
+            div.className = 'bg-gray-800/50 rounded p-3 text-center border border-gray-700';
+            div.innerHTML = `
+                <div class="text-xs text-gray-500 uppercase tracking-widest mb-1">${title}</div>
+                <div class="text-xl font-bold text-white mb-1">${value}</div>
+                <div class="text-[10px] text-gray-400">${label}</div>
+            `;
+            container.appendChild(div);
+        }
+
+        function calculateKeywordScore(kwData) {
+            if (!kwData) return 0;
+            const primary = Object.keys(kwData.primary_keywords || {}).length;
+            const missing = (kwData.missing_keywords || []).length;
+            const total = primary + missing;
+            if (total === 0) return 100;
+            return Math.round((primary / total) * 100);
+        }
+
+        async function requestMonthlyReport() {
+            if (!confirm("Generate monthly insights report? This may take a minute.")) return;
+            
+            try {
+                // Placeholder endpoint - in real app would trigger generate_seo_insights.py
+                alert("Report generation queued. Check your email shortly.");
+            } catch (e) {
+                console.error(e);
+            }
+        }
+    </script>
+</body>
+</html>

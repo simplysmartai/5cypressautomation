@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python execution/onboard_client.py:*)",
+      "Bash(python execution/create_client.py:*)",
+      "Bash(python execution/list_clients.py:*)",
+      "Bash(python execution/log_activity.py:*)"
+    ]
+  }
+}

@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="mobile-web-app-capable" content="yes">
+  <title>Simply Smart Automation | Done-For-You Business Automation</title>
+  
+  <!-- Typography -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+  
+  <!-- Calendly -->
+  <link href="https://assets.calendly.com/assets/external/calendar-widget.css" rel="stylesheet">
+  
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="animations.css">
+</head>
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar glass">
+    <div class="container nav-container">
+      <div class="logo">
+        <div class="logo-icon">
+          <i class="ri-instance-line"></i>
+        </div>
+        <span>Simply Smart</span>
+      </div>
+      
+      <div class="nav-menu">
+        <a href="#services" class="nav-link">Services</a>
+        <a href="#pricing" class="nav-link">Pricing</a>
+        <a href="#results" class="nav-link">Results</a>
+      </div>
+
+      <div class="nav-actions">
+        <button onclick="openCalendly()" class="btn btn-primary pulse-hover">Book a Call <i class="ri-arrow-right-line"></i></button>
+      </div>
+
+      <button class="mobile-toggle">
+        <i class="ri-menu-4-line"></i>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="container">
+      <div class="hero-content reveal-up">
+        <h1>Stop Wasting Time on Operational Chaos</h1>
+        <p class="hero-subtitle">We handle the workflows. You focus on growth. Done-for-you automation that actually works.</p>
+        
+        <div class="hero-stats">
+          <div class="stat">
+            <div class="stat-number">500+</div>
+            <div class="stat-label">Qualified Leads</div>
+          </div>
+          <div class="stat">
+            <div class="stat-number">3-5 days</div>
+            <div class="stat-label">Fast Delivery</div>
+          </div>
+          <div class="stat">
+            <div class="stat-number">95%+</div>
+            <div class="stat-label">Accuracy</div>
+          </div>
+        </div>
+
+        <div class="hero-actions">
+          <button onclick="openCalendly()" class="btn btn-primary btn-large">Book Your Discovery Call</button>
+          <a href="#services" class="btn btn-ghost btn-large">See Services <i class="ri-arrow-down-line"></i></a>
+        </div>
+      </div>
+
+      <div class="hero-visual">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Services Section -->
+  <section id="services" class="services-section">
+    <div class="container">
+      <div class="section-header reveal-up">
+        <h2>Our Services</h2>
+        <p>Three focused solutions to eliminate your business chaos</p>
+      </div>
+
+      <div class="services-grid">
+        <!-- Lead Generation -->
+        <div class="service-card reveal-up delay-100">
+          <div class="service-icon">
+            <i class="ri-search-line"></i>
+          </div>
+          <h3>Lead Generation</h3>
+          <p class="service-desc">We find, qualify, and deliver ready-to-sell leads directly to your inbox.</p>
+          
+          <ul class="service-features">
+            <li><i class="ri-check-line"></i> Targeted prospecting</li>
+            <li><i class="ri-check-line"></i> Custom qualification</li>
+            <li><i class="ri-check-line"></i> Delivery in 3-5 days</li>
+          </ul>
+          
+          <div class="service-details">
+            <div class="price">$1,500</div>
+            <div class="timeline">3-5 days</div>
+          </div>
+          
+          <button onclick="openCalendly()" class="btn btn-secondary btn-block">Learn More</button>
+        </div>
+
+        <!-- Proposal & Contract Automation -->
+        <div class="service-card featured reveal-up delay-200">
+          <div class="service-badge">Most Popular</div>
+          <div class="service-icon">
+            <i class="ri-file-text-line"></i>
+          </div>
+          <h3>Proposal & Contract Automation</h3>
+          <p class="service-desc">Automate your entire sales workflow from proposal to signed contract.</p>
+          
+          <ul class="service-features">
+            <li><i class="ri-check-line"></i> Custom proposal templates</li>
+            <li><i class="ri-check-line"></i> e-signature integration</li>
+            <li><i class="ri-check-line"></i> Delivery in 1-2 days</li>
+          </ul>
+          
+          <div class="service-details">
+            <div class="price">$2,500</div>
+            <div class="timeline">1-2 days</div>
+          </div>
+          
+          <button onclick="openCalendly()" class="btn btn-primary btn-block">Learn More</button>
+        </div>
+
+        <!-- Custom Operations -->
+        <div class="service-card reveal-up delay-300">
+          <div class="service-icon">
+            <i class="ri-settings-line"></i>
+          </div>
+          <h3>Custom Operations</h3>
+          <p class="service-desc">Build complete custom workflows tailored to your unique business needs.</p>
+          
+          <ul class="service-features">
+            <li><i class="ri-check-line"></i> Full integration setup</li>
+            <li><i class="ri-check-line"></i> Custom automation</li>
+            <li><i class="ri-check-line"></i> 1-4 week timeline</li>
+          </ul>
+          
+          <div class="service-details">
+            <div class="price">$5,000+</div>
+            <div class="timeline">1-4 weeks</div>
+          </div>
+          
+          <button onclick="openCalendly()" class="btn btn-secondary btn-block">Discuss Project</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Process Section -->
+  <section id="pricing" class="process-section">
+    <div class="container">
+      <div class="section-header reveal-up">
+        <h2>How We Work</h2>
+        <p>Simple. Fast. Results-driven.</p>
+      </div>
+
+      <div class="process-steps">
+        <div class="process-step reveal-up delay-100">
+          <div class="step-number">01</div>
+          <h3>Discovery</h3>
+          <p>We understand your business, challenges, and goals in a focused conversation.</p>
+        </div>
+
+        <div class="process-arrow">
+          <i class="ri-arrow-right-line"></i>
+        </div>
+
+        <div class="process-step reveal-up delay-200">
+          <div class="step-number">02</div>
+          <h3>Build</h3>
+          <p>We design and implement your solution with speed and attention to detail.</p>
+        </div>
+
+        <div class="process-arrow">
+          <i class="ri-arrow-right-line"></i>
+        </div>
+
+        <div class="process-step reveal-up delay-300">
+          <div class="step-number">03</div>
+          <h3>Deliver</h3>
+          <p>You receive a complete, tested solution ready to use immediately.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Why Us Section -->
+  <section class="why-us-section">
+    <div class="container">
+      <div class="section-header reveal-up">
+        <h2>Why Choose Simply Smart?</h2>
+        <p>We're not a platform. We're your automation team.</p>
+      </div>
+
+      <div class="why-grid">
+        <div class="why-card reveal-up delay-100">
+          <div class="why-icon">
+            <i class="ri-flashlight-line"></i>
+          </div>
+          <h3>Lightning Fast</h3>
+          <p>Most projects delivered in days, not months. We eliminate the bloat.</p>
+        </div>
+
+        <div class="why-card reveal-up delay-200">
+          <div class="why-icon">
+            <i class="ri-shield-check-line"></i>
+          </div>
+          <h3>Proven Track Record</h3>
+          <p>Dozens of successful implementations. We know what works in the real world.</p>
+        </div>
+
+        <div class="why-card reveal-up delay-300">
+          <div class="why-icon">
+            <i class="ri-customer-service-2-line"></i>
+          </div>
+          <h3>Dedicated Support</h3>
+          <p>Your success is our success. We're here to help every step of the way.</p>
+        </div>
+
+        <div class="why-card reveal-up delay-100">
+          <div class="why-icon">
+            <i class="ri-function-line"></i>
+          </div>
+          <h3>Custom Built</h3>
+          <p>No cookie-cutter solutions. We build exactly what your business needs.</p>
+        </div>
+
+        <div class="why-card reveal-up delay-200">
+          <div class="why-icon">
+            <i class="ri-bar-chart-line"></i>
+          </div>
+          <h3>Measurable Results</h3>
+          <p>We focus on outcomes. Every automation drives specific business results.</p>
+        </div>
+
+        <div class="why-card reveal-up delay-300">
+          <div class="why-icon">
+            <i class="ri-focus-2-line"></i>
+          </div>
+          <h3>Focused Scope</h3>
+          <p>We take on 2-3 clients per month. You get our best work, not our overflow.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonials Section -->
+  <section id="results" class="testimonials-section">
+    <div class="container">
+      <div class="section-header reveal-up">
+        <h2>Client Results</h2>
+        <p>Real businesses, real automation, real ROI</p>
+      </div>
+
+      <div class="testimonials-grid">
+        <div class="testimonial-card reveal-up delay-100">
+          <div class="stars">
+            <i class="ri-star-fill"></i>
+            <i class="ri-star-fill"></i>
+            <i class="ri-star-fill"></i>
+            <i class="ri-star-fill"></i>
+            <i class="ri-star-fill"></i>
+          </div>
+          <p class="testimonial-text">"They took our chaos and turned it into a system. 50 hours saved every month. Worth every penny."</p>
+          <div class="testimonial-author">
+            <div class="author-info">
+              <div class="author-name">Sarah Chen</div>
+              <div class="author-role">CEO, Tech Consulting Firm</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="testimonial-card reveal-up delay-200">
+          <div class="stars">
+            <i class="ri-star-fill"></i>
+            <i class="ri-star-fill"></i>
+            <i class="ri-star-fill"></i>
+            <i class="ri-star-fill"></i>
+            <i class="ri-star-fill"></i>
+          </div>
+          <p class="testimonial-text">"We went from manual lead entry to fully automated in 5 days. Our sales team loves it."</p>
+          <div class="testimonial-author">
+            <div class="author-info">
+              <div class="author-name">Marcus Reid</div>
+              <div class="author-role">Founder, B2B Sales Agency</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="testimonial-card reveal-up delay-300">
+          <div class="stars">
+            <i class="ri-star-fill"></i>
+            <i class="ri-star-fill"></i>
+            <i class="ri-star-fill"></i>
+            <i class="ri-star-fill"></i>
+            <i class="ri-star-fill"></i>
+          </div>
+          <p class="testimonial-text">"No fluff, no promises they can't keep. Just smart automation that actually works."</p>
+          <div class="testimonial-author">
+            <div class="author-info">
+              <div class="author-name">Jennifer Martinez</div>
+              <div class="author-role">Operations Director, E-Commerce</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section class="cta-section">
+    <div class="container">
+      <div class="cta-content reveal-up">
+        <h2>Ready to Stop the Chaos?</h2>
+        <p>Let's talk about your specific needs and how we can help.</p>
+        <button onclick="openCalendly()" class="btn btn-primary btn-large">Schedule Your Free Discovery Call</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Calendly Modal -->
+  <div id="calendly-modal" class="calendly-modal">
+    <div class="calendly-modal-content">
+      <button class="calendly-close" onclick="closeCalendly()">
+        <i class="ri-close-line"></i>
+      </button>
+      <div id="calendly-container" class="calendly-container">
+        <div class="calendly-spinner"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-section">
+          <h4>Simply Smart Automation</h4>
+          <p>Done-for-you business automation for growing companies.</p>
+        </div>
+        
+        <div class="footer-section">
+          <h4>Services</h4>
+          <ul>
+            <li><a href="#services">Lead Generation</a></li>
+            <li><a href="#services">Proposals & Contracts</a></li>
+            <li><a href="#services">Custom Operations</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-section">
+          <h4>Quick Links</h4>
+          <ul>
+            <li><a href="#results">Client Results</a></li>
+            <li><a href="#" onclick="openCalendly()">Book a Call</a></li>
+            <li><a href="/dashboard">Client Portal</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p>&copy; 2024 Simply Smart Automation. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Calendly Widget Script -->
+  <script src="https://assets.calendly.com/assets/external/calendar-widget.js"></script>
+  
+  <script>
+    function openCalendly() {
+      const modal = document.getElementById('calendly-modal');
+      modal.style.display = 'flex';
+      
+      // Load Calendly widget
+      const container = document.getElementById('calendly-container');
+      container.innerHTML = '';
+      
+      Calendly.initInlineWidget({
+        url: 'https://calendly.com/simply-smart',
+        parentElement: container,
+        prefill: {},
+        utm: {}
+      });
+    }
+
+    function closeCalendly() {
+      document.getElementById('calendly-modal').style.display = 'none';
+    }
+
+    // Close modal when clicking outside
+    document.getElementById('calendly-modal').addEventListener('click', function(e) {
+      if (e.target === this) {
+        closeCalendly();
+      }
+    });
+
+    // Form submission for lead capture
+    document.addEventListener('submit', async function(e) {
+      const formData = new FormData(e.target);
+      const data = {
+        email: formData.get('email'),
+        name: formData.get('name'),
+        source: 'calendly',
+        service: formData.get('service') || 'general'
+      };
+
+      try {
+        await fetch('/api/lead-capture', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data)
+        });
+      } catch (err) {
+        console.error('Lead capture error:', err);
+      }
+    });
+  </script>
+</body>
+</html>

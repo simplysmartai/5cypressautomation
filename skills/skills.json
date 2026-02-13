@@ -1,0 +1,318 @@
+[
+  {
+    "id": "amazon_product_scraper",
+    "name": "Amazon Product Scraper",
+    "plugin": "data-scraping",
+    "category": "scraper",
+    "description": "Scrape product data from Amazon including prices, reviews, ratings, and descriptions. Perfect for competitive analysis and market research.",
+    "inputs": [
+      { "name": "keyword", "type": "text", "label": "Search Keyword", "placeholder": "e.g. wireless headphones" },
+      { "name": "max_results", "type": "number", "label": "Max Results", "placeholder": "10", "required": false }
+    ]
+  },
+  {
+    "id": "twitter_scraper",
+    "name": "Twitter/X Scraper",
+    "plugin": "data-scraping",
+    "category": "scraper",
+    "description": "Scrape tweets by hashtag or keyword for brand monitoring, sentiment analysis, and competitive intelligence.",
+    "inputs": [
+      { "name": "hashtag", "type": "text", "label": "Hashtag or Keyword", "placeholder": "e.g. #automation" },
+      { "name": "max_tweets", "type": "number", "label": "Max Tweets", "placeholder": "50", "required": false }
+    ]
+  },
+  {
+    "id": "google_serp_scraper",
+    "name": "Google SERP Scraper",
+    "plugin": "data-scraping",
+    "category": "seo",
+    "description": "Scrape Google search results for keyword research, rank tracking, and SEO competitive analysis.",
+    "inputs": [
+      { "name": "query", "type": "text", "label": "Search Query", "placeholder": "e.g. best CRM for small business" },
+      { "name": "num_results", "type": "number", "label": "Number of Results", "placeholder": "10", "required": false }
+    ]
+  },
+  {
+    "id": "page-cro",
+    "name": "Page CRO Analyzer",
+    "plugin": "marketing-skills",
+    "category": "conversion",
+    "description": "Analyze any landing page for conversion rate optimization. Identifies friction points, CTA effectiveness, trust signals, and provides actionable recommendations.",
+    "inputs": [
+      { "name": "url", "type": "text", "label": "Page URL", "placeholder": "https://example.com/landing-page" },
+      { "name": "goal", "type": "text", "label": "Conversion Goal", "placeholder": "e.g. newsletter signup, demo request" }
+    ]
+  },
+  {
+    "id": "copywriting",
+    "name": "Copywriting Analyzer",
+    "plugin": "marketing-skills",
+    "category": "content",
+    "description": "Analyze and improve marketing copy using proven frameworks (PAS, AIDA, BAB). Scores headlines, CTAs, emotional triggers, and readability.",
+    "inputs": [
+      { "name": "copy_text", "type": "textarea", "label": "Copy to Analyze", "placeholder": "Paste your marketing copy here..." },
+      { "name": "framework", "type": "select", "label": "Framework", "options": ["PAS", "AIDA", "BAB", "4Ps", "Auto-detect"] }
+    ]
+  },
+  {
+    "id": "ab-test-setup",
+    "name": "A/B Test Designer",
+    "plugin": "marketing-skills",
+    "category": "conversion",
+    "description": "Design statistically valid A/B tests for landing pages, emails, or ads. Calculates sample size, duration, and significance thresholds.",
+    "inputs": [
+      { "name": "test_element", "type": "text", "label": "What to Test", "placeholder": "e.g. headline, CTA button color, pricing layout" },
+      { "name": "current_conversion_rate", "type": "text", "label": "Current Conversion Rate (%)", "placeholder": "e.g. 2.5" },
+      { "name": "monthly_traffic", "type": "number", "label": "Monthly Traffic", "placeholder": "e.g. 5000" }
+    ]
+  },
+  {
+    "id": "email-sequence",
+    "name": "Email Sequence Builder",
+    "plugin": "marketing-skills",
+    "category": "marketing",
+    "description": "Build automated email sequences for onboarding, nurture, re-engagement, or sales. Includes subject lines, timing, and segmentation rules.",
+    "inputs": [
+      { "name": "sequence_type", "type": "select", "label": "Sequence Type", "options": ["Welcome/Onboarding", "Nurture", "Sales", "Re-engagement", "Post-Purchase"] },
+      { "name": "num_emails", "type": "number", "label": "Number of Emails", "placeholder": "5" },
+      { "name": "product_description", "type": "textarea", "label": "Product/Service Description", "placeholder": "Briefly describe what you're selling..." }
+    ]
+  },
+  {
+    "id": "seo-audit",
+    "name": "SEO Audit Tool",
+    "plugin": "marketing-skills",
+    "category": "seo",
+    "description": "Comprehensive SEO audit covering technical issues, on-page optimization, content gaps, and backlink analysis. Generates prioritized action plan.",
+    "inputs": [
+      { "name": "website_url", "type": "text", "label": "Website URL", "placeholder": "https://example.com" }
+    ]
+  },
+  {
+    "id": "content-strategy",
+    "name": "Content Strategy Planner",
+    "plugin": "marketing-skills",
+    "category": "content",
+    "description": "Generate a 90-day content calendar with topics, formats, channels, and publishing schedule aligned to business goals.",
+    "inputs": [
+      { "name": "business_type", "type": "text", "label": "Business Type", "placeholder": "e.g. B2B SaaS, local restaurant" },
+      { "name": "content_goals", "type": "text", "label": "Content Goals", "placeholder": "e.g. brand awareness, lead generation" },
+      { "name": "channels", "type": "text", "label": "Channels", "placeholder": "e.g. blog, LinkedIn, Twitter, email" }
+    ]
+  },
+  {
+    "id": "analytics-tracking",
+    "name": "Analytics Setup Guide",
+    "plugin": "marketing-skills",
+    "category": "analytics",
+    "description": "Plan and implement GA4, GTM, and event tracking. Creates tracking plan, data layer specs, and QA checklist.",
+    "inputs": [
+      { "name": "platform", "type": "select", "label": "Platform", "options": ["Google Analytics 4", "Mixpanel", "Amplitude", "Custom"] },
+      { "name": "tracking_goals", "type": "textarea", "label": "What to Track", "placeholder": "e.g. signups, purchases, feature usage..." }
+    ]
+  },
+  {
+    "id": "competitor-alternatives",
+    "name": "Competitor Analysis",
+    "plugin": "marketing-skills",
+    "category": "research",
+    "description": "Deep-dive competitor analysis covering positioning, pricing, messaging, SEO strategy, and market gaps you can exploit.",
+    "inputs": [
+      { "name": "your_company", "type": "text", "label": "Your Company", "placeholder": "5 Cypress Automation" },
+      { "name": "competitors", "type": "textarea", "label": "Competitor URLs (one per line)", "placeholder": "https://competitor1.com\nhttps://competitor2.com" }
+    ]
+  },
+  {
+    "id": "pricing-strategy",
+    "name": "Pricing Strategy Advisor",
+    "plugin": "marketing-skills",
+    "category": "pricing",
+    "description": "Analyze and optimize pricing strategy using value-based pricing frameworks. Includes tier design, anchoring, and A/B test recommendations.",
+    "inputs": [
+      { "name": "product_description", "type": "textarea", "label": "Product/Service Description", "placeholder": "Describe your offering..." },
+      { "name": "current_price", "type": "text", "label": "Current Price Point", "placeholder": "e.g. $99/mo" },
+      { "name": "target_market", "type": "text", "label": "Target Market", "placeholder": "e.g. SMBs with $1M-10M revenue" }
+    ]
+  },
+  {
+    "id": "onboarding-cro",
+    "name": "User Onboarding Designer",
+    "plugin": "marketing-skills",
+    "category": "onboarding",
+    "description": "Design user onboarding flows that maximize activation and reduce churn. Covers welcome sequences, feature discovery, and success milestones.",
+    "inputs": [
+      { "name": "product_type", "type": "select", "label": "Product Type", "options": ["SaaS", "Mobile App", "Service", "Marketplace", "Physical Product"] },
+      { "name": "key_action", "type": "text", "label": "Key Activation Action", "placeholder": "e.g. complete first automation" },
+      { "name": "onboarding_length", "type": "select", "label": "Onboarding Duration", "options": ["1 day", "3 days", "7 days", "14 days", "30 days"] }
+    ]
+  },
+  {
+    "id": "paid-ads",
+    "name": "Ad Campaign Builder",
+    "plugin": "marketing-skills",
+    "category": "marketing",
+    "description": "Generate high-performing ad copy for Google Ads, Facebook, LinkedIn, and Twitter. Includes headlines, descriptions, and CTA variations.",
+    "inputs": [
+      { "name": "platform", "type": "select", "label": "Ad Platform", "options": ["Google Search", "Google Display", "Facebook/Instagram", "LinkedIn", "Twitter/X"] },
+      { "name": "offer", "type": "text", "label": "Offer/Product", "placeholder": "e.g. Free automation audit for SMBs" },
+      { "name": "target_audience", "type": "text", "label": "Target Audience", "placeholder": "e.g. business owners aged 30-55" }
+    ]
+  },
+  {
+    "id": "referral-program",
+    "name": "Referral Program Designer",
+    "plugin": "marketing-skills",
+    "category": "growth",
+    "description": "Design viral referral programs with incentive structures, tracking mechanics, and launch strategies that drive organic growth.",
+    "inputs": [
+      { "name": "product_type", "type": "text", "label": "Product/Service", "placeholder": "e.g. automation consulting" },
+      { "name": "avg_customer_value", "type": "text", "label": "Avg Customer Value", "placeholder": "e.g. $2,000/year" },
+      { "name": "incentive_budget", "type": "text", "label": "Incentive Budget per Referral", "placeholder": "e.g. $100-500" }
+    ]
+  },
+  {
+    "id": "social-content",
+    "name": "Social Media Planner",
+    "plugin": "marketing-skills",
+    "category": "marketing",
+    "description": "Generate 30 days of social media content with post templates, hashtags, scheduling, and engagement strategies across all platforms.",
+    "inputs": [
+      { "name": "platforms", "type": "text", "label": "Platforms", "placeholder": "e.g. LinkedIn, Twitter, Instagram" },
+      { "name": "content_themes", "type": "textarea", "label": "Content Themes", "placeholder": "e.g. automation tips, case studies, behind-the-scenes..." }
+    ]
+  },
+  {
+    "id": "launch-strategy",
+    "name": "Product Launch Planner",
+    "plugin": "marketing-skills",
+    "category": "growth",
+    "description": "Plan product launches or feature announcements with timelines, channel strategy, PR outreach, and momentum campaigns.",
+    "inputs": [
+      { "name": "launch_type", "type": "select", "label": "Launch Type", "options": ["New Product", "Feature Update", "Public Beta", "Rebranding", "Market Expansion"] },
+      { "name": "launch_date", "type": "text", "label": "Target Launch Date", "placeholder": "e.g. March 15, 2026" },
+      { "name": "budget", "type": "text", "label": "Marketing Budget", "placeholder": "e.g. $5,000" }
+    ]
+  },
+  {
+    "id": "form-cro",
+    "name": "Form Optimization",
+    "plugin": "marketing-skills",
+    "category": "conversion",
+    "description": "Optimize form completion rates by analyzing fields, layout, copy, trust signals, and error handling. Includes A/B test ideas.",
+    "inputs": [
+      { "name": "form_url", "type": "text", "label": "Form URL", "placeholder": "https://example.com/contact" },
+      { "name": "form_type", "type": "select", "label": "Form Type", "options": ["Lead Capture", "Contact Form", "Demo Request", "Application", "Checkout"] }
+    ]
+  },
+  {
+    "id": "popup-cro",
+    "name": "Popup Optimizer",
+    "plugin": "marketing-skills",
+    "category": "conversion",
+    "description": "Design and optimize popups, modals, and overlays for lead capture. Covers timing, triggers, copy, and exit-intent strategies.",
+    "inputs": [
+      { "name": "popup_goal", "type": "select", "label": "Popup Goal", "options": ["Email Capture", "Lead Magnet", "Discount Offer", "Announcement", "Exit Intent"] },
+      { "name": "current_rate", "type": "text", "label": "Current Conversion Rate (%)", "placeholder": "e.g. 3.2", "required": false }
+    ]
+  },
+  {
+    "id": "signup-flow-cro",
+    "name": "Signup Flow Optimizer",
+    "plugin": "marketing-skills",
+    "category": "conversion",
+    "description": "Optimize registration and trial signup flows to maximize conversions. Analyzes friction, social proof, and progressive disclosure.",
+    "inputs": [
+      { "name": "signup_url", "type": "text", "label": "Signup Page URL", "placeholder": "https://example.com/signup" },
+      { "name": "signup_type", "type": "select", "label": "Signup Type", "options": ["Free Trial", "Freemium", "Paid Signup", "Beta Access", "Waitlist"] }
+    ]
+  },
+  {
+    "id": "paywall-upgrade-cro",
+    "name": "Paywall Designer",
+    "plugin": "marketing-skills",
+    "category": "conversion",
+    "description": "Create in-app paywalls and upgrade prompts that convert free users to paid. Covers copy, feature gates, and pricing presentation.",
+    "inputs": [
+      { "name": "trigger_event", "type": "text", "label": "Trigger Event", "placeholder": "e.g. 5 automations created, 100 records, trial day 7" },
+      { "name": "pricing_model", "type": "select", "label": "Pricing Model", "options": ["Tiered", "Usage-based", "Flat Rate", "Per Seat"] }
+    ]
+  },
+  {
+    "id": "programmatic-seo",
+    "name": "Programmatic SEO Builder",
+    "plugin": "marketing-skills",
+    "category": "seo",
+    "description": "Build SEO pages at scale using templates and data. Covers location pages, comparison pages, and integration directories.",
+    "inputs": [
+      { "name": "page_type", "type": "select", "label": "Page Type", "options": ["Location Pages", "Comparison Pages", "Integration Directory", "Use Case Pages", "Alternative Pages"] },
+      { "name": "data_source", "type": "textarea", "label": "Data Source", "placeholder": "Describe your data (CSV, API, database, etc.)" }
+    ]
+  },
+  {
+    "id": "schema-markup",
+    "name": "Schema Markup Generator",
+    "plugin": "marketing-skills",
+    "category": "seo",
+    "description": "Generate JSON-LD schema markup for rich snippets. Covers articles, products, FAQs, reviews, events, and local business.",
+    "inputs": [
+      { "name": "schema_type", "type": "select", "label": "Schema Type", "options": ["Article", "Product", "FAQ", "Review", "Event", "Local Business", "Organization"] },
+      { "name": "page_url", "type": "text", "label": "Page URL", "placeholder": "https://example.com/page" }
+    ]
+  },
+  {
+    "id": "copy-editing",
+    "name": "Copy Editor",
+    "plugin": "marketing-skills",
+    "category": "content",
+    "description": "Edit and polish existing marketing copy. Checks clarity, conciseness, tone, grammar, and conversion psychology.",
+    "inputs": [
+      { "name": "original_copy", "type": "textarea", "label": "Original Copy", "placeholder": "Paste your copy here..." },
+      { "name": "editing_focus", "type": "select", "label": "Editing Focus", "options": ["Clarity", "Brevity", "Persuasion", "Tone", "Grammar", "All"] }
+    ]
+  },
+  {
+    "id": "marketing-ideas",
+    "name": "Marketing Ideas Generator",
+    "plugin": "marketing-skills",
+    "category": "growth",
+    "description": "Generate 139 proven marketing tactics across 12 categories. Customized for your business model, budget, and growth stage.",
+    "inputs": [
+      { "name": "business_model", "type": "select", "label": "Business Model", "options": ["SaaS", "Service/Agency", "E-commerce", "Marketplace", "Consulting", "Other"] },
+      { "name": "growth_stage", "type": "select", "label": "Growth Stage", "options": ["Pre-launch", "0-10 customers", "10-100 customers", "100-1000 customers", "1000+ customers"] }
+    ]
+  },
+  {
+    "id": "marketing-psychology",
+    "name": "Psychology Framework",
+    "plugin": "marketing-skills",
+    "category": "research",
+    "description": "Apply 70+ psychological principles and mental models to marketing campaigns. Covers scarcity, social proof, anchoring, and more.",
+    "inputs": [
+      { "name": "campaign_type", "type": "select", "label": "Campaign Type", "options": ["Landing Page", "Email", "Ad", "Pricing Page", "Sales Page", "Product Launch"] },
+      { "name": "current_approach", "type": "textarea", "label": "Current Approach", "placeholder": "Describe your current strategy..." }
+    ]
+  },
+  {
+    "id": "free-tool-strategy",
+    "name": "Free Tool Strategy",
+    "plugin": "marketing-skills",
+    "category": "growth",
+    "description": "Design free tools/calculators for lead generation and SEO value. Covers ideation, MVP specs, and distribution strategy.",
+    "inputs": [
+      { "name": "target_audience", "type": "text", "label": "Target Audience", "placeholder": "e.g. SMB operations managers" },
+      { "name": "problem_to_solve", "type": "textarea", "label": "Problem to Solve", "placeholder": "What pain point does the tool address?" }
+    ]
+  },
+  {
+    "id": "product-marketing-context",
+    "name": "Product Context Setup",
+    "plugin": "marketing-skills",
+    "category": "automation",
+    "description": "Create a reusable product marketing context document. Saves time by avoiding repetition across marketing tasks.",
+    "inputs": [
+      { "name": "company_name", "type": "text", "label": "Company Name", "placeholder": "5 Cypress Automation" },
+      { "name": "product_description", "type": "textarea", "label": "Product/Service", "placeholder": "What do you offer?" },
+      { "name": "target_customer", "type": "textarea", "label": "Ideal Customer", "placeholder": "Who do you serve?" }
+    ]
+  }
+]

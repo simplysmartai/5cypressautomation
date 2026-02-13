@@ -1,0 +1,683 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Remy Lasers - Client Dashboard | Simply Smart Automation</title>
+  <link href="https://cdn.jsdelivr.net/npm/remixicon@4.0.0/fonts/remixicon.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #00d4ff;
+      --accent: #ff006e;
+      --dark: #0a0e27;
+      --card-bg: #111827;
+      --border: #1f2937;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--dark);
+      color: #fff;
+      line-height: 1.6;
+    }
+
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 2rem;
+    }
+
+    /* Header */
+    .client-header {
+      background: linear-gradient(135deg, var(--card-bg) 0%, #1a1f3a 100%);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 2rem;
+      margin-bottom: 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .client-info h1 {
+      font-size: 2rem;
+      margin-bottom: 0.5rem;
+      background: linear-gradient(135deg, var(--primary), var(--accent));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .client-meta {
+      display: flex;
+      gap: 2rem;
+      font-size: 0.9rem;
+      color: #9ca3af;
+    }
+
+    .client-meta span {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .status-badge {
+      display: inline-block;
+      padding: 0.5rem 1rem;
+      background: rgba(0, 212, 255, 0.1);
+      border: 1px solid var(--primary);
+      border-radius: 20px;
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    /* Grid Layout */
+    .dashboard-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 2rem;
+      margin-bottom: 2rem;
+    }
+
+    @media (max-width: 1024px) {
+      .dashboard-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* Cards */
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.5rem;
+    }
+
+    .card h2 {
+      font-size: 1.25rem;
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .card h2 i {
+      color: var(--primary);
+      font-size: 1.5rem;
+    }
+
+    /* Documents List */
+    .doc-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .doc-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      transition: all 0.3s ease;
+    }
+
+    .doc-item:hover {
+      background: rgba(0, 212, 255, 0.05);
+      border-color: var(--primary);
+      transform: translateX(4px);
+    }
+
+    .doc-info {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .doc-icon {
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(0, 212, 255, 0.1);
+      border-radius: 8px;
+      font-size: 1.25rem;
+      color: var(--primary);
+    }
+
+    .doc-details h3 {
+      font-size: 1rem;
+      font-weight: 600;
+      margin-bottom: 0.25rem;
+    }
+
+    .doc-details p {
+      font-size: 0.85rem;
+      color: #9ca3af;
+    }
+
+    .doc-actions {
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    .btn {
+      padding: 0.5rem 1rem;
+      border: 1px solid var(--border);
+      background: transparent;
+      color: #fff;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 0.85rem;
+      transition: all 0.3s ease;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .btn:hover {
+      background: var(--primary);
+      border-color: var(--primary);
+      color: #000;
+    }
+
+    .btn-primary {
+      background: var(--primary);
+      border-color: var(--primary);
+      color: #000;
+    }
+
+    .btn-primary:hover {
+      background: #00b8e6;
+    }
+
+    /* ROI Widget */
+    .roi-summary {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .roi-metric {
+      padding: 1rem;
+      background: rgba(0, 212, 255, 0.05);
+      border: 1px solid rgba(0, 212, 255, 0.2);
+      border-radius: 8px;
+      text-align: center;
+    }
+
+    .roi-value {
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--primary);
+      display: block;
+      margin-bottom: 0.25rem;
+    }
+
+    .roi-label {
+      font-size: 0.85rem;
+      color: #9ca3af;
+    }
+
+    /* Timeline */
+    .timeline {
+      position: relative;
+      padding-left: 2rem;
+    }
+
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 2px;
+      background: var(--border);
+    }
+
+    .timeline-item {
+      position: relative;
+      margin-bottom: 1.5rem;
+      padding-left: 1rem;
+    }
+
+    .timeline-item::before {
+      content: '';
+      position: absolute;
+      left: -2.5rem;
+      top: 0.25rem;
+      width: 12px;
+      height: 12px;
+      background: var(--primary);
+      border-radius: 50%;
+      box-shadow: 0 0 0 4px var(--card-bg);
+    }
+
+    .timeline-item.pending::before {
+      background: #6b7280;
+    }
+
+    .timeline-item.completed::before {
+      background: #10b981;
+    }
+
+    .timeline-content h3 {
+      font-size: 0.95rem;
+      margin-bottom: 0.25rem;
+    }
+
+    .timeline-content p {
+      font-size: 0.85rem;
+      color: #9ca3af;
+    }
+
+    .timeline-date {
+      font-size: 0.75rem;
+      color: var(--primary);
+      margin-top: 0.25rem;
+    }
+
+    /* Business Info */
+    .info-grid {
+      display: grid;
+      gap: 1rem;
+    }
+
+    .info-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 0.75rem;
+      background: rgba(255, 255, 255, 0.03);
+      border-radius: 6px;
+    }
+
+    .info-label {
+      color: #9ca3af;
+      font-size: 0.9rem;
+    }
+
+    .info-value {
+      font-weight: 600;
+      text-align: right;
+    }
+
+    /* Instructions Panel */
+    .instructions {
+      background: rgba(255, 0, 110, 0.05);
+      border: 1px solid rgba(255, 0, 110, 0.2);
+      border-radius: 8px;
+      padding: 1.5rem;
+      margin-top: 2rem;
+    }
+
+    .instructions h3 {
+      color: var(--accent);
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .instructions ol {
+      padding-left: 1.5rem;
+    }
+
+    .instructions li {
+      margin-bottom: 0.75rem;
+      line-height: 1.6;
+    }
+
+    /* Quick Actions */
+    .quick-actions {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+      margin-top: 2rem;
+    }
+
+    .action-card {
+      padding: 1.5rem;
+      background: linear-gradient(135deg, rgba(0, 212, 255, 0.1) 0%, rgba(255, 0, 110, 0.1) 100%);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .action-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 10px 30px rgba(0, 212, 255, 0.3);
+    }
+
+    .action-card i {
+      font-size: 2rem;
+      color: var(--primary);
+      margin-bottom: 0.5rem;
+    }
+
+    .action-card h4 {
+      font-size: 1rem;
+      margin-bottom: 0.25rem;
+    }
+
+    .action-card p {
+      font-size: 0.85rem;
+      color: #9ca3af;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Client Header -->
+    <div class="client-header">
+      <div class="client-info">
+        <h1>Remy Lasers</h1>
+        <div class="client-meta">
+          <span><i class="ri-building-line"></i> Laser Manufacturing</span>
+          <span><i class="ri-calendar-line"></i> Created: Feb 3, 2026</span>
+          <span><i class="ri-money-dollar-circle-line"></i> Trial: $2,500</span>
+        </div>
+      </div>
+      <div>
+        <span class="status-badge"><i class="ri-time-line"></i> Prospecting</span>
+      </div>
+    </div>
+
+    <!-- Main Grid -->
+    <div class="dashboard-grid">
+      <!-- Left Column: Documents & Tools -->
+      <div>
+        <!-- Documents -->
+        <div class="card">
+          <h2><i class="ri-file-list-3-line"></i> Client Documents</h2>
+          <div class="doc-list">
+            <div class="doc-item">
+              <div class="doc-info">
+                <div class="doc-icon"><i class="ri-presentation-line"></i></div>
+                <div class="doc-details">
+                  <h3>CFO Presentation</h3>
+                  <p>30-Day Trial Program pitch deck (20 slides)</p>
+                </div>
+              </div>
+              <div class="doc-actions">
+                <a href="/clients/remy-lasers/documents/presentation" class="btn btn-primary">
+                  <i class="ri-eye-line"></i> Preview
+                </a>
+                <a href="#" class="btn">
+                  <i class="ri-download-line"></i> Export
+                </a>
+              </div>
+            </div>
+
+            <div class="doc-item">
+              <div class="doc-info">
+                <div class="doc-icon"><i class="ri-file-text-line"></i></div>
+                <div class="doc-details">
+                  <h3>Trial Program Proposal</h3>
+                  <p>Detailed scope, timeline, and deliverables</p>
+                </div>
+              </div>
+              <div class="doc-actions">
+                <a href="/clients/remy-lasers/documents/proposal" class="btn btn-primary">
+                  <i class="ri-eye-line"></i> View
+                </a>
+                <a href="#" class="btn">
+                  <i class="ri-edit-line"></i> Edit
+                </a>
+              </div>
+            </div>
+
+            <div class="doc-item">
+              <div class="doc-info">
+                <div class="doc-icon"><i class="ri-settings-3-line"></i></div>
+                <div class="doc-details">
+                  <h3>Technical Implementation Plan</h3>
+                  <p>Form → QuickBooks → Shipping → Inventory workflow</p>
+                </div>
+              </div>
+              <div class="doc-actions">
+                <a href="/clients/remy-lasers/documents/technical-plan" class="btn btn-primary">
+                  <i class="ri-eye-line"></i> View
+                </a>
+              </div>
+            </div>
+
+            <div class="doc-item">
+              <div class="doc-info">
+                <div class="doc-icon"><i class="ri-calculator-line"></i></div>
+                <div class="doc-details">
+                  <h3>ROI Calculator (Interactive)</h3>
+                  <p>Customize order volume and see real-time ROI</p>
+                </div>
+              </div>
+              <div class="doc-actions">
+                <a href="/clients/remy-lasers/prototypes/roi-calculator" class="btn btn-primary">
+                  <i class="ri-play-circle-line"></i> Launch
+                </a>
+              </div>
+            </div>
+
+            <div class="doc-item">
+              <div class="doc-info">
+                <div class="doc-icon"><i class="ri-file-list-3-line"></i></div>
+                <div class="doc-details">
+                  <h3>QuickBooks Invoice Preview</h3>
+                  <p>See how automated invoices will look</p>
+                </div>
+              </div>
+              <div class="doc-actions">
+                <a href="/clients/remy-lasers/prototypes/qbo-invoice" class="btn btn-primary">
+                  <i class="ri-eye-line"></i> View
+                </a>
+              </div>
+            </div>
+
+            <div class="doc-item">
+              <div class="doc-info">
+                <div class="doc-icon"><i class="ri-truck-line"></i></div>
+                <div class="doc-details">
+                  <h3>Shipping Label Preview</h3>
+                  <p>See how automated labels will look</p>
+                </div>
+              </div>
+              <div class="doc-actions">
+                <a href="/clients/remy-lasers/prototypes/shipping-label" class="btn btn-primary">
+                  <i class="ri-eye-line"></i> View
+                </a>
+              </div>
+            </div>
+
+            <div class="doc-item">
+              <div class="doc-info">
+                <div class="doc-icon"><i class="ri-calendar-line"></i></div>
+                <div class="doc-details">
+                  <h3>Calendar Dashboard Preview</h3>
+                  <p>Team scheduling with AI-powered coordination</p>
+                </div>
+              </div>
+              <div class="doc-actions">
+                <a href="/clients/remy-lasers/prototypes/calendar-dashboard" class="btn btn-primary">
+                  <i class="ri-eye-line"></i> View
+                </a>
+              </div>
+            </div>
+
+            <div class="doc-item">
+              <div class="doc-info">
+                <div class="doc-icon"><i class="ri-file-pdf-line"></i></div>
+                <div class="doc-details">
+                  <h3>One-Page Leave-Behind</h3>
+                  <p>PDF summary for CFO to share with team</p>
+                </div>
+              </div>
+              <div class="doc-actions">
+                <a href="#" class="btn btn-primary">
+                  <i class="ri-download-line"></i> Download PDF
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Instructions -->
+        <div class="instructions">
+          <h3><i class="ri-lightbulb-flash-line"></i> Presentation Instructions</h3>
+          <ol>
+            <li><strong>Review all materials</strong> - Spend 30 minutes going through presentation and proposal</li>
+            <li><strong>Customize ROI calculator</strong> - Get their actual order volume and show live calculation</li>
+            <li><strong>Practice the pitch</strong> - Focus on timing advantage: "build right now vs. fix later"</li>
+            <li><strong>Prepare for objections</strong> - "Too expensive" → Show ROI. "Too risky" → 30-day trial</li>
+            <li><strong>Have credentials ready</strong> - They'll need QuickBooks + Shipping provider access</li>
+            <li><strong>Follow up same day</strong> - Send one-pager PDF and schedule kickoff within 48 hours</li>
+          </ol>
+        </div>
+      </div>
+
+      <!-- Right Column: ROI & Timeline -->
+      <div>
+        <!-- ROI Summary -->
+        <div class="card">
+          <h2><i class="ri-line-chart-line"></i> ROI Estimate</h2>
+          <div class="roi-summary">
+            <div class="roi-metric">
+              <span class="roi-value">$407</span>
+              <span class="roi-label">Monthly Savings</span>
+            </div>
+            <div class="roi-metric">
+              <span class="roi-value">$4,884</span>
+              <span class="roi-label">Annual Savings</span>
+            </div>
+            <div class="roi-metric">
+              <span class="roi-value">6 mo</span>
+              <span class="roi-label">Break-Even</span>
+            </div>
+            <div class="roi-metric">
+              <span class="roi-value">90%</span>
+              <span class="roi-label">Time Saved</span>
+            </div>
+          </div>
+          <p style="font-size: 0.85rem; color: #9ca3af; text-align: center;">
+            Based on 50 orders/month @ $25/hr labor cost
+          </p>
+          <button class="btn btn-primary" style="width: 100%; margin-top: 1rem; justify-content: center;">
+            <i class="ri-calculator-line"></i> Adjust for Actual Volume
+          </button>
+        </div>
+
+        <!-- Business Info -->
+        <div class="card">
+          <h2><i class="ri-information-line"></i> Business Information</h2>
+          <div class="info-grid">
+            <div class="info-row">
+              <span class="info-label">Industry</span>
+              <span class="info-value">Laser Manufacturing</span>
+            </div>
+            <div class="info-row">
+              <span class="info-label">Order Volume</span>
+              <span class="info-value">~50/month (est.)</span>
+            </div>
+            <div class="info-row">
+              <span class="info-label">Form System</span>
+              <span class="info-value">Microsoft Forms</span>
+            </div>
+            <div class="info-row">
+              <span class="info-label">Accounting</span>
+              <span class="info-value">QuickBooks (setting up)</span>
+            </div>
+            <div class="info-row">
+              <span class="info-label">Shipping</span>
+              <span class="info-value">TBD</span>
+            </div>
+            <div class="info-row">
+              <span class="info-label">Inventory</span>
+              <span class="info-value">TBD</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Next Steps Timeline -->
+        <div class="card">
+          <h2><i class="ri-roadmap-line"></i> Next Steps</h2>
+          <div class="timeline">
+            <div class="timeline-item pending">
+              <div class="timeline-content">
+                <h3>Review Client Dashboard</h3>
+                <p>Familiarize yourself with all materials</p>
+                <div class="timeline-date">Due: Feb 4, 2026</div>
+              </div>
+            </div>
+            <div class="timeline-item pending">
+              <div class="timeline-content">
+                <h3>Customize Presentation</h3>
+                <p>Adjust ROI for their actual order volume</p>
+                <div class="timeline-date">Due: Feb 5, 2026</div>
+              </div>
+            </div>
+            <div class="timeline-item pending">
+              <div class="timeline-content">
+                <h3>Schedule CFO Meeting</h3>
+                <p>Book 30-minute call to present trial</p>
+                <div class="timeline-date">Due: Feb 6, 2026</div>
+              </div>
+            </div>
+            <div class="timeline-item pending">
+              <div class="timeline-content">
+                <h3>Present Trial Program</h3>
+                <p>Deliver pitch, handle objections, close</p>
+                <div class="timeline-date">Due: TBD</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Quick Actions -->
+    <div class="quick-actions">
+      <div class="action-card" onclick="window.location.href='/clients/remy-lasers/documents/presentation'">
+        <i class="ri-slideshow-line"></i>
+        <h4>Launch Presentation</h4>
+        <p>Full-screen CFO pitch</p>
+      </div>
+      <div class="action-card" onclick="window.location.href='/clients/remy-lasers/prototypes/roi-calculator'">
+        <i class="ri-calculator-line"></i>
+        <h4>ROI Calculator</h4>
+        <p>Interactive demo</p>
+      </div>
+      <div class="action-card" onclick="alert('Coming soon: Email draft generator')">
+        <i class="ri-mail-send-line"></i>
+        <h4>Email Templates</h4>
+        <p>Follow-up sequences</p>
+      </div>
+      <div class="action-card" onclick="window.open('https://forms.office.com/Pages/ResponsePage.aspx?id=m3SbZU4BikWNO9-RlfldVD5w_3mU9sJDjgExX8VQaM1UOVdIV0JWTU8yRFZDRVo1SFk3WE9UWEdQMC4u')">
+        <i class="ri-file-list-line"></i>
+        <h4>Client Form</h4>
+        <p>Microsoft Forms link</p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Update status badges dynamically
+    document.addEventListener('DOMContentLoaded', function() {
+      console.log('Remy Lasers Client Dashboard Loaded');
+      
+      // You can add interactive functionality here
+      // e.g., Update status, track time, etc.
+    });
+  </script>
+</body>
+</html>

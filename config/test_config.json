@@ -1,0 +1,15 @@
+{
+  "icp": {
+    "industries": ["SaaS", "Digital Agencies", "eCommerce"],
+    "company_size": [10, 500],
+    "revenue_range": "$1M-$50M",
+    "geography": ["US", "Canada"],
+    "target_titles": ["VP Sales", "VP Operations", "Founder"]
+  },
+  "buying_signals": [
+    "recent_hiring_sales",
+    "recent_funding",
+    "product_launch"
+  ],
+  "exclude_list": []
+}

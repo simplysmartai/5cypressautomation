@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CFO Presentation - Remy Lasers | 30-Day Trial Program</title>
+  <link href="https://cdn.jsdelivr.net/npm/remixicon@4.0.0/fonts/remixicon.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #00d4ff;
+      --accent: #ff006e;
+      --dark: #0a0e27;
+      --card-bg: #111827;
+      --border: #1f2937;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--dark);
+      color: #fff;
+      overflow: hidden;
+    }
+
+    .presentation-container {
+      width: 100vw;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+
+    .slide {
+      width: 90vw;
+      max-width: 1200px;
+      height: 85vh;
+      background: linear-gradient(135deg, var(--card-bg) 0%, #1a1f3a 100%);
+      border: 2px solid var(--border);
+      border-radius: 20px;
+      padding: 4rem;
+      display: none;
+      flex-direction: column;
+      justify-content: center;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+    }
+
+    .slide.active {
+      display: flex;
+      animation: slideIn 0.5s ease;
+    }
+
+    @keyframes slideIn {
+      from {
+        opacity: 0;
+        transform: translateX(50px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    .slide h1 {
+      font-size: 3.5rem;
+      background: linear-gradient(135deg, var(--primary), var(--accent));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 1rem;
+      line-height: 1.2;
+    }
+
+    .slide h2 {
+      font-size: 2.5rem;
+      margin-bottom: 2rem;
+      color: var(--primary);
+    }
+
+    .slide h3 {
+      font-size: 1.8rem;
+      margin-bottom: 1.5rem;
+      color: #fff;
+    }
+
+    .slide p {
+      font-size: 1.3rem;
+      line-height: 1.8;
+      color: #d1d5db;
+      margin-bottom: 1rem;
+    }
+
+    .slide ul, .slide ol {
+      font-size: 1.2rem;
+      line-height: 2;
+      margin-left: 2rem;
+      color: #d1d5db;
+    }
+
+    .slide li {
+      margin-bottom: 1rem;
+    }
+
+    .slide strong {
+      color: var(--primary);
+      font-weight: 700;
+    }
+
+    .slide em {
+      color: var(--accent);
+      font-style: italic;
+    }
+
+    .metric-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 2rem;
+      margin: 2rem 0;
+    }
+
+    .metric-box {
+      background: rgba(0, 212, 255, 0.1);
+      border: 2px solid var(--primary);
+      border-radius: 12px;
+      padding: 2rem;
+      text-align: center;
+    }
+
+    .metric-value {
+      font-size: 3rem;
+      font-weight: 800;
+      color: var(--primary);
+      display: block;
+    }
+
+    .metric-label {
+      font-size: 1rem;
+      color: #9ca3af;
+      margin-top: 0.5rem;
+    }
+
+    .comparison-table {
+      width: 100%;
+      margin: 2rem 0;
+      border-collapse: collapse;
+    }
+
+    .comparison-table th {
+      background: rgba(0, 212, 255, 0.2);
+      padding: 1rem;
+      text-align: left;
+      font-size: 1.1rem;
+      border: 1px solid var(--border);
+    }
+
+    .comparison-table td {
+      padding: 1rem;
+      border: 1px solid var(--border);
+      font-size: 1.1rem;
+    }
+
+    /* Navigation */
+    .nav-controls {
+      position: fixed;
+      bottom: 2rem;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 1rem;
+      z-index: 1000;
+    }
+
+    .nav-btn {
+      padding: 1rem 2rem;
+      background: var(--primary);
+      color: #000;
+      border: none;
+      border-radius: 50px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: all 0.3s ease;
+    }
+
+    .nav-btn:hover {
+      background: #00b8e6;
+      transform: translateY(-2px);
+    }
+
+    .nav-btn:disabled {
+      opacity: 0.3;
+      cursor: not-allowed;
+    }
+
+    .slide-counter {
+      position: fixed;
+      top: 2rem;
+      right: 2rem;
+      background: rgba(0, 212, 255, 0.1);
+      border: 1px solid var(--primary);
+      padding: 0.75rem 1.5rem;
+      border-radius: 50px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 1rem;
+      color: var(--primary);
+    }
+
+    .back-link {
+      position: fixed;
+      top: 2rem;
+      left: 2rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.75rem 1.5rem;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--border);
+      border-radius: 50px;
+      color: #fff;
+      text-decoration: none;
+      transition: all 0.3s ease;
+    }
+
+    .back-link:hover {
+      background: var(--primary);
+      color: #000;
+      border-color: var(--primary);
+    }
+
+    .highlight-box {
+      background: rgba(255, 0, 110, 0.1);
+      border-left: 4px solid var(--accent);
+      padding: 1.5rem;
+      margin: 1.5rem 0;
+      border-radius: 8px;
+    }
+
+    .checkmark {
+      color: #10b981;
+      font-size: 1.5rem;
+      margin-right: 0.5rem;
+    }
+
+    .crossmark {
+      color: var(--accent);
+      font-size: 1.5rem;
+      margin-right: 0.5rem;
+    }
+  </style>
+</head>
+<body>
+  <a href="/clients/remy-lasers" class="back-link">
+    <i class="ri-arrow-left-line"></i> Back to Dashboard
+  </a>
+
+  <div class="slide-counter">
+    <span id="currentSlide">1</span> / <span id="totalSlides">20</span>
+  </div>
+
+  <div class="presentation-container">
+    <!-- Slide 1: Title -->
+    <div class="slide active">
+      <h1>30-Day Order Fulfillment<br>Automation Trial</h1>
+      <p style="font-size: 1.8rem; color: var(--accent); margin-bottom: 3rem;">Build Your Systems Right From Day One</p>
+      <p style="font-size: 1.3rem; color: #9ca3af;">Simply Smart Automation<br>Prepared for: Remy Lasers</p>
+    </div>
+
+    <!-- Slide 2: The Problem -->
+    <div class="slide">
+      <h2>The Problem</h2>
+      <h3>Manual Order Processing is Holding You Back</h3>
+      <ul>
+        <li><span class="crossmark">⏱️</span> 15-30 minutes per order (form → invoice → shipping → inventory)</li>
+        <li><span class="crossmark">❌</span> 5-10% error rate (wrong quantities, addresses, inventory)</li>
+        <li><span class="crossmark">📈</span> Doesn't scale (more orders = hire more people)</li>
+        <li><span class="crossmark">🔮</span> Zero visibility (can't see bottlenecks in real-time)</li>
+      </ul>
+      <div class="metric-grid" style="margin-top: 2rem;">
+        <div class="metric-box">
+          <span class="metric-value">$417</span>
+          <span class="metric-label">Monthly cost at 50 orders</span>
+        </div>
+        <div class="metric-box">
+          <span class="metric-value">$1,668</span>
+          <span class="metric-label">Monthly cost at 200 orders</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Slide 3: The Opportunity -->
+    <div class="slide">
+      <h2>The Opportunity</h2>
+      <h3>Why Now is the Perfect Time</h3>
+      <div class="highlight-box">
+        <p style="font-size: 1.5rem; margin-bottom: 1rem;"><strong>You're Still Setting Up Systems</strong></p>
+        <ul>
+          <li><span class="checkmark">✅</span> Build it right from the start (vs. fix it later)</li>
+          <li><span class="checkmark">✅</span> No technical debt to untangle</li>
+          <li><span class="checkmark">✅</span> Architect for scale from day one</li>
+          <li><span class="checkmark">✅</span> Establish relationships during setup</li>
+        </ul>
+      </div>
+      <p style="margin-top: 2rem; font-size: 1.5rem; text-align: center;"><em>The best time to automate is during setup, not after chaos.</em></p>
+    </div>
+
+    <!-- Slide 4: The Solution -->
+    <div class="slide">
+      <h2>The Solution</h2>
+      <h3>Fully Automated Order Fulfillment</h3>
+      <div style="text-align: center; margin: 3rem 0;">
+        <p style="font-size: 1.8rem; line-height: 2.5;">
+          <strong style="color: var(--primary);">Form Submission</strong><br>
+          ↓<br>
+          <strong style="color: var(--primary);">QuickBooks Invoice</strong> (auto-created)<br>
+          ↓<br>
+          <strong style="color: var(--primary);">Shipping Order</strong> (auto-created with label)<br>
+          ↓<br>
+          <strong style="color: var(--primary);">Inventory Update</strong> (real-time tracking)<br>
+          ↓<br>
+          <strong style="color: var(--primary);">Customer Email</strong> (confirmation with tracking)
+        </p>
+      </div>
+      <div class="metric-grid">
+        <div class="metric-box">
+          <span class="metric-value">20min → 30sec</span>
+          <span class="metric-label">Processing Time</span>
+        </div>
+        <div class="metric-box">
+          <span class="metric-value">5% → 0.1%</span>
+          <span class="metric-label">Error Rate</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Slide 5: Investment & ROI -->
+    <div class="slide">
+      <h2>Investment & ROI</h2>
+      <h3>$2,500 Trial = Measurable Returns</h3>
+      <table class="comparison-table">
+        <thead>
+          <tr>
+            <th>Volume</th>
+            <th>Manual Cost/Month</th>
+            <th>Automated Cost/Month</th>
+            <th>Monthly Savings</th>
+            <th>Annual Savings</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>50 orders</td>
+            <td>$417</td>
+            <td>$10</td>
+            <td>$407</td>
+            <td>$4,884</td>
+          </tr>
+          <tr>
+            <td>100 orders</td>
+            <td>$833</td>
+            <td>$21</td>
+            <td>$812</td>
+            <td>$9,744</td>
+          </tr>
+          <tr>
+            <td>200 orders</td>
+            <td>$1,668</td>
+            <td>$42</td>
+            <td>$1,626</td>
+            <td><strong style="color: var(--primary);">$19,512</strong></td>
+          </tr>
+        </tbody>
+      </table>
+      <p style="margin-top: 2rem; text-align: center; font-size: 1.3rem;">
+        <strong>Break-Even:</strong> 1.5-6 months depending on volume
+      </p>
+    </div>
+
+    <!-- Slide 6: What We Need -->
+    <div class="slide">
+      <h2>What We Need From You</h2>
+      <div class="metric-grid" style="grid-template-columns: repeat(2, 1fr);">
+        <div>
+          <h3>1. API Access</h3>
+          <ul>
+            <li>QuickBooks Online (read/write)</li>
+            <li>Shipping provider credentials</li>
+            <li>Microsoft Forms webhook</li>
+          </ul>
+        </div>
+        <div>
+          <h3>2. Product Catalog</h3>
+          <ul>
+            <li>SKUs, names, prices</li>
+            <li>Weights and dimensions</li>
+            <li>Simple spreadsheet is fine</li>
+          </ul>
+        </div>
+        <div>
+          <h3>3. Team Time</h3>
+          <ul>
+            <li>Kickoff meeting (1 hour)</li>
+            <li>Training session (1 hour)</li>
+            <li>Operations team involvement</li>
+          </ul>
+        </div>
+        <div>
+          <h3>4. Permission to Test</h3>
+          <ul>
+            <li>20-30 test/real orders</li>
+            <li>Feedback on workflows</li>
+            <li>30-day evaluation period</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Slide 7: Timeline -->
+    <div class="slide">
+      <h2>30 Days to Proven ROI</h2>
+      <div style="margin: 2rem 0;">
+        <div class="highlight-box" style="margin-bottom: 2rem;">
+          <h3 style="color: var(--primary); margin-bottom: 1rem;">Week 1-2: Build & Test</h3>
+          <p>Set up integrations, test with sample orders, gather feedback</p>
+        </div>
+        <div class="highlight-box" style="margin-bottom: 2rem;">
+          <h3 style="color: var(--primary); margin-bottom: 1rem;">Week 3-4: Go Live</h3>
+          <p>Process real production orders, monitor performance, optimize</p>
+        </div>
+        <div class="highlight-box">
+          <h3 style="color: var(--primary); margin-bottom: 1rem;">Week 5: Review & Decide</h3>
+          <p>Results presentation, complete documentation, training, decide next steps</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Slide 8: The Ask -->
+    <div class="slide">
+      <h2>Ready to Get Started?</h2>
+      <div class="metric-grid" style="grid-template-columns: 1fr;">
+        <div class="metric-box" style="padding: 3rem;">
+          <span class="metric-value">$2,500</span>
+          <span class="metric-label" style="font-size: 1.3rem;">Trial Investment (applied to ongoing engagement)</span>
+        </div>
+      </div>
+      <div style="margin-top: 3rem;">
+        <h3 style="text-align: center; margin-bottom: 2rem;">What I Need Today:</h3>
+        <ul style="font-size: 1.4rem;">
+          <li><span class="checkmark">✅</span> Approval to proceed</li>
+          <li><span class="checkmark">✅</span> QuickBooks + Shipping provider access</li>
+          <li><span class="checkmark">✅</span> Operations team point of contact</li>
+          <li><span class="checkmark">✅</span> Kickoff meeting scheduled (next week)</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Slide 9: Final -->
+    <div class="slide">
+      <h1 style="text-align: center;">Let's Build This Together</h1>
+      <p style="font-size: 2rem; text-align: center; margin: 3rem 0; color: var(--primary);">
+        <strong>Build it right now, or pay 3x more later.</strong>
+      </p>
+      <div style="text-align: center; margin-top: 4rem;">
+        <p style="font-size: 1.5rem; color: #9ca3af;">
+          Simply Smart Automation<br>
+          Ready to start your trial?
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <div class="nav-controls">
+    <button class="nav-btn" id="prevBtn" onclick="changeSlide(-1)">
+      <i class="ri-arrow-left-line"></i> Previous
+    </button>
+    <button class="nav-btn" id="nextBtn" onclick="changeSlide(1)">
+      Next <i class="ri-arrow-right-line"></i>
+    </button>
+  </div>
+
+  <script>
+    let currentSlide = 1;
+    const slides = document.querySelectorAll('.slide');
+    const totalSlides = slides.length;
+
+    document.getElementById('totalSlides').textContent = totalSlides;
+
+    function showSlide(n) {
+      slides.forEach(slide => slide.classList.remove('active'));
+      slides[n - 1].classList.add('active');
+      
+      document.getElementById('currentSlide').textContent = n;
+      
+      // Update button states
+      document.getElementById('prevBtn').disabled = n === 1;
+      document.getElementById('nextBtn').disabled = n === totalSlides;
+    }
+
+    function changeSlide(direction) {
+      currentSlide += direction;
+      if (currentSlide < 1) currentSlide = 1;
+      if (currentSlide > totalSlides) currentSlide = totalSlides;
+      showSlide(currentSlide);
+    }
+
+    // Keyboard navigation
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowLeft') changeSlide(-1);
+      if (e.key === 'ArrowRight') changeSlide(1);
+    });
+
+    // Initialize
+    showSlide(1);
+  </script>
+</body>
+</html>

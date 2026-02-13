@@ -1,0 +1,941 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Skills Dashboard | 5 Cypress Automation</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #0a0f1a;
+            --bg-secondary: #111827;
+            --bg-card: #1a2332;
+            --bg-card-hover: #1f2b3d;
+            --bg-modal: rgba(10, 15, 26, 0.95);
+            --border: #2a3a4e;
+            --border-glow: #00e5a0;
+            --text-primary: #e8ecf1;
+            --text-secondary: #8899aa;
+            --text-muted: #5a6a7a;
+            --accent: #00e5a0;
+            --accent-dim: rgba(0, 229, 160, 0.15);
+            --accent-blue: #3b82f6;
+            --accent-purple: #8b5cf6;
+            --accent-orange: #f59e0b;
+            --accent-red: #ef4444;
+            --accent-pink: #ec4899;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --error: #ef4444;
+            --radius: 12px;
+            --radius-lg: 16px;
+            --shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
+            --shadow-glow: 0 0 30px rgba(0, 229, 160, 0.1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Background Effects */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background:
+                radial-gradient(ellipse at 20% 20%, rgba(0, 229, 160, 0.05) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 80%, rgba(59, 130, 246, 0.05) 0%, transparent 50%),
+                radial-gradient(ellipse at 50% 50%, rgba(139, 92, 246, 0.03) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* Navigation */
+        .nav {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            background: rgba(10, 15, 26, 0.85);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+            padding: 0 2rem;
+            height: 64px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 1000;
+        }
+
+        .nav-brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            color: var(--text-primary);
+        }
+
+        .nav-brand svg { width: 32px; height: 32px; }
+
+        .nav-brand span {
+            font-size: 1.1rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+        }
+
+        .nav-brand .accent { color: var(--accent); }
+
+        .nav-links {
+            display: flex;
+            gap: 8px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: 0.875rem;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: var(--accent);
+            background: var(--accent-dim);
+        }
+
+        /* Main Layout */
+        .main {
+            position: relative;
+            z-index: 1;
+            padding: 96px 2rem 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        /* Header */
+        .header {
+            margin-bottom: 2rem;
+        }
+
+        .header h1 {
+            font-size: 2rem;
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            margin-bottom: 0.5rem;
+        }
+
+        .header h1 .accent { color: var(--accent); }
+
+        .header p {
+            color: var(--text-secondary);
+            font-size: 1rem;
+            max-width: 600px;
+        }
+
+        /* Stats Bar */
+        .stats-bar {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .stat-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 1rem 1.5rem;
+            flex: 1;
+            min-width: 150px;
+        }
+
+        .stat-card .stat-value {
+            font-size: 1.75rem;
+            font-weight: 800;
+            color: var(--accent);
+        }
+
+        .stat-card .stat-label {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-top: 2px;
+        }
+
+        /* Controls */
+        .controls {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .search-box {
+            flex: 1;
+            min-width: 250px;
+            position: relative;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 12px 16px 12px 44px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            color: var(--text-primary);
+            font-size: 0.9rem;
+            font-family: inherit;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .search-box input:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px var(--accent-dim);
+        }
+
+        .search-box input::placeholder { color: var(--text-muted); }
+
+        .search-box svg {
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+            width: 18px;
+            height: 18px;
+        }
+
+        .filter-pills {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+        }
+
+        .pill {
+            padding: 8px 16px;
+            border-radius: 20px;
+            border: 1px solid var(--border);
+            background: transparent;
+            color: var(--text-secondary);
+            font-size: 0.8rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: inherit;
+        }
+
+        .pill:hover { border-color: var(--accent); color: var(--text-primary); }
+
+        .pill.active {
+            background: var(--accent);
+            border-color: var(--accent);
+            color: var(--bg-primary);
+        }
+
+        /* Skills Grid */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+            gap: 1rem;
+        }
+
+        .skill-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .skill-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--card-accent, var(--accent)), transparent);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .skill-card:hover {
+            border-color: var(--border-glow);
+            background: var(--bg-card-hover);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-glow);
+        }
+
+        .skill-card:hover::before { opacity: 1; }
+
+        .skill-card-header {
+            display: flex;
+            align-items: start;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+
+        .skill-icon {
+            width: 42px;
+            height: 42px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+            flex-shrink: 0;
+        }
+
+        .skill-card-info { flex: 1; }
+
+        .skill-card-info h3 {
+            font-size: 0.95rem;
+            font-weight: 700;
+            margin-bottom: 2px;
+            letter-spacing: -0.01em;
+        }
+
+        .skill-card-info .skill-plugin {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .skill-card-desc {
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            line-height: 1.5;
+            margin-bottom: 1rem;
+        }
+
+        .skill-card-footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .skill-tags {
+            display: flex;
+            gap: 4px;
+            flex-wrap: wrap;
+        }
+
+        .skill-tag {
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 0.65rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+        }
+
+        .tag-scraper { background: rgba(59, 130, 246, 0.15); color: #60a5fa; }
+        .tag-marketing { background: rgba(236, 72, 153, 0.15); color: #f472b6; }
+        .tag-analytics { background: rgba(139, 92, 246, 0.15); color: #a78bfa; }
+        .tag-content { background: rgba(245, 158, 11, 0.15); color: #fbbf24; }
+        .tag-seo { background: rgba(16, 185, 129, 0.15); color: #34d399; }
+        .tag-automation { background: rgba(0, 229, 160, 0.15); color: #00e5a0; }
+        .tag-growth { background: rgba(239, 68, 68, 0.15); color: #f87171; }
+        .tag-conversion { background: rgba(251, 146, 60, 0.15); color: #fb923c; }
+
+        .activate-btn {
+            padding: 8px 18px;
+            border-radius: 8px;
+            border: none;
+            background: var(--accent);
+            color: var(--bg-primary);
+            font-size: 0.8rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: inherit;
+        }
+
+        .activate-btn:hover {
+            background: #00cc8e;
+            box-shadow: 0 0 20px rgba(0, 229, 160, 0.3);
+        }
+
+        /* Modal */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: var(--bg-modal);
+            backdrop-filter: blur(8px);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+
+        .modal-overlay.active { display: flex; }
+
+        .modal {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            width: 100%;
+            max-width: 560px;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 24px 80px rgba(0, 0, 0, 0.6);
+            animation: modalIn 0.3s ease;
+        }
+
+        @keyframes modalIn {
+            from { opacity: 0; transform: scale(0.95) translateY(10px); }
+            to { opacity: 1; transform: scale(1) translateY(0); }
+        }
+
+        .modal-header {
+            padding: 1.5rem 1.5rem 0;
+            display: flex;
+            align-items: start;
+            justify-content: space-between;
+        }
+
+        .modal-header h2 {
+            font-size: 1.25rem;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+        }
+
+        .modal-header .modal-close {
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            cursor: pointer;
+            font-size: 1.5rem;
+            line-height: 1;
+            padding: 4px;
+            transition: color 0.2s;
+        }
+
+        .modal-header .modal-close:hover { color: var(--text-primary); }
+
+        .modal-body {
+            padding: 1.5rem;
+        }
+
+        .modal-desc {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-bottom: 1.5rem;
+            line-height: 1.5;
+        }
+
+        .form-group {
+            margin-bottom: 1.25rem;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            margin-bottom: 6px;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 12px 14px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            color: var(--text-primary);
+            font-size: 0.9rem;
+            font-family: inherit;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px var(--accent-dim);
+        }
+
+        .form-group textarea { resize: vertical; min-height: 80px; }
+
+        .modal-footer {
+            padding: 0 1.5rem 1.5rem;
+            display: flex;
+            gap: 0.75rem;
+            justify-content: flex-end;
+        }
+
+        .btn {
+            padding: 10px 24px;
+            border-radius: 8px;
+            border: none;
+            font-size: 0.875rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: inherit;
+        }
+
+        .btn-primary {
+            background: var(--accent);
+            color: var(--bg-primary);
+        }
+
+        .btn-primary:hover { background: #00cc8e; box-shadow: 0 0 20px rgba(0, 229, 160, 0.3); }
+
+        .btn-secondary {
+            background: var(--bg-card);
+            color: var(--text-secondary);
+            border: 1px solid var(--border);
+        }
+
+        .btn-secondary:hover { border-color: var(--text-muted); color: var(--text-primary); }
+
+        /* Result Panel */
+        .result-panel {
+            display: none;
+            margin-top: 1rem;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1rem;
+        }
+
+        .result-panel.active { display: block; }
+
+        .result-panel .result-status {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 0.75rem;
+            font-weight: 600;
+        }
+
+        .result-panel pre {
+            background: var(--bg-primary);
+            border-radius: 6px;
+            padding: 1rem;
+            font-size: 0.8rem;
+            overflow-x: auto;
+            color: var(--text-secondary);
+            white-space: pre-wrap;
+            word-break: break-word;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .spinner {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            border: 2px solid var(--border);
+            border-top-color: var(--accent);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 4rem 2rem;
+            color: var(--text-muted);
+        }
+
+        .empty-state svg { width: 48px; height: 48px; margin-bottom: 1rem; opacity: 0.5; }
+        .empty-state h3 { font-size: 1.1rem; color: var(--text-secondary); margin-bottom: 0.5rem; }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .main { padding: 80px 1rem 1rem; }
+            .skills-grid { grid-template-columns: 1fr; }
+            .stats-bar { flex-direction: column; }
+            .controls { flex-direction: column; }
+            .nav-links { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navigation -->
+    <nav class="nav">
+        <a href="/" class="nav-brand">
+            <svg viewBox="0 0 32 32" fill="none">
+                <rect width="32" height="32" rx="8" fill="#00e5a0" fill-opacity="0.15"/>
+                <path d="M16 6L10 12L16 18L22 12L16 6Z" fill="#00e5a0"/>
+                <path d="M16 14L10 20L16 26L22 20L16 14Z" fill="#00e5a0" fill-opacity="0.5"/>
+            </svg>
+            <span>5 Cypress <span class="accent">Automation</span></span>
+        </a>
+        <ul class="nav-links">
+            <li><a href="/">Home</a></li>
+            <li><a href="/skills-dashboard.html" class="active">Skills</a></li>
+            <li><a href="/form">Order</a></li>
+        </ul>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main">
+
+        <!-- Header -->
+        <div class="header">
+            <h1>Skills <span class="accent">Dashboard</span></h1>
+            <p>Your command center for marketing automation, data scraping, analytics, and growth tools. Activate any skill with one click.</p>
+        </div>
+
+        <!-- Stats -->
+        <div class="stats-bar" id="statsBar">
+            <div class="stat-card">
+                <div class="stat-value" id="totalSkills">0</div>
+                <div class="stat-label">Total Skills</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="totalCategories">0</div>
+                <div class="stat-label">Categories</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="activeSkills">0</div>
+                <div class="stat-label">Ready to Run</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="totalRuns">0</div>
+                <div class="stat-label">Runs Today</div>
+            </div>
+        </div>
+
+        <!-- Controls -->
+        <div class="controls">
+            <div class="search-box">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+                <input type="text" id="searchInput" placeholder="Search skills by name, category, or description...">
+            </div>
+            <div class="filter-pills" id="filterPills">
+                <button class="pill active" data-filter="all">All</button>
+            </div>
+        </div>
+
+        <!-- Skills Grid -->
+        <div class="skills-grid" id="skillsGrid"></div>
+
+        <!-- Empty State -->
+        <div class="empty-state" id="emptyState" style="display:none;">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9.879 7.519c1.171-1.025 3.071-1.025 4.242 0 1.172 1.025 1.172 2.687 0 3.712-.203.179-.43.326-.67.442-.745.361-1.45.999-1.45 1.827v.75M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9 5.25h.008v.008H12v-.008z"/></svg>
+            <h3>No skills found</h3>
+            <p>Try a different search term or filter.</p>
+        </div>
+
+    </main>
+
+    <!-- Activation Modal -->
+    <div class="modal-overlay" id="modalOverlay">
+        <div class="modal">
+            <div class="modal-header">
+                <h2 id="modalTitle">Skill Name</h2>
+                <button class="modal-close" id="modalClose">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p class="modal-desc" id="modalDesc"></p>
+                <form id="modalForm"></form>
+                <div class="result-panel" id="resultPanel">
+                    <div class="result-status" id="resultStatus"></div>
+                    <pre id="resultOutput"></pre>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" id="modalCancel">Cancel</button>
+                <button class="btn btn-primary" id="modalRun">
+                    <span id="runBtnText">Run Skill</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ── State ──
+        let allSkills = [];
+        let categories = new Set();
+        let activeFilter = 'all';
+        let runCount = 0;
+
+        // ── Category Config ──
+        const categoryConfig = {
+            'scraper':     { icon: '🕷️', color: '#3b82f6', tag: 'tag-scraper' },
+            'marketing':   { icon: '📢', color: '#ec4899', tag: 'tag-marketing' },
+            'analytics':   { icon: '📊', color: '#8b5cf6', tag: 'tag-analytics' },
+            'content':     { icon: '✍️', color: '#f59e0b', tag: 'tag-content' },
+            'seo':         { icon: '🔍', color: '#10b981', tag: 'tag-seo' },
+            'automation':  { icon: '⚡', color: '#00e5a0', tag: 'tag-automation' },
+            'growth':      { icon: '🚀', color: '#ef4444', tag: 'tag-growth' },
+            'conversion':  { icon: '🎯', color: '#fb923c', tag: 'tag-conversion' },
+            'research':    { icon: '🔬', color: '#06b6d4', tag: 'tag-seo' },
+            'pricing':     { icon: '💰', color: '#eab308', tag: 'tag-content' },
+            'onboarding':  { icon: '👋', color: '#a78bfa', tag: 'tag-analytics' },
+            'default':     { icon: '🔧', color: '#00e5a0', tag: 'tag-automation' }
+        };
+
+        function getCategoryConfig(cat) {
+            const key = (cat || 'default').toLowerCase();
+            return categoryConfig[key] || categoryConfig['default'];
+        }
+
+        // ── Load Skills ──
+        async function loadSkills() {
+            try {
+                const res = await fetch('/api/skills');
+                allSkills = await res.json();
+
+                allSkills.forEach(s => {
+                    if (s.category) categories.add(s.category);
+                });
+
+                updateStats();
+                renderFilters();
+                renderSkills(allSkills);
+            } catch (err) {
+                console.error('Failed to load skills:', err);
+                document.getElementById('skillsGrid').innerHTML =
+                    '<div class="empty-state"><h3>Failed to load skills</h3><p>Make sure the server is running.</p></div>';
+            }
+        }
+
+        // ── Stats ──
+        function updateStats() {
+            document.getElementById('totalSkills').textContent = allSkills.length;
+            document.getElementById('totalCategories').textContent = categories.size;
+            document.getElementById('activeSkills').textContent = allSkills.filter(s => s.inputs && s.inputs.length > 0).length;
+            document.getElementById('totalRuns').textContent = runCount;
+        }
+
+        // ── Filters ──
+        function renderFilters() {
+            const container = document.getElementById('filterPills');
+            container.innerHTML = '<button class="pill active" data-filter="all">All</button>';
+
+            const sorted = [...categories].sort();
+            sorted.forEach(cat => {
+                const cfg = getCategoryConfig(cat);
+                const btn = document.createElement('button');
+                btn.className = 'pill';
+                btn.dataset.filter = cat;
+                btn.textContent = cfg.icon + ' ' + cat.charAt(0).toUpperCase() + cat.slice(1);
+                container.appendChild(btn);
+            });
+
+            container.querySelectorAll('.pill').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    container.querySelectorAll('.pill').forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    activeFilter = btn.dataset.filter;
+                    filterAndRender();
+                });
+            });
+        }
+
+        // ── Filter + Search ──
+        function filterAndRender() {
+            const query = document.getElementById('searchInput').value.toLowerCase();
+            let filtered = allSkills;
+
+            if (activeFilter !== 'all') {
+                filtered = filtered.filter(s => s.category === activeFilter);
+            }
+
+            if (query) {
+                filtered = filtered.filter(s =>
+                    s.name.toLowerCase().includes(query) ||
+                    (s.description || '').toLowerCase().includes(query) ||
+                    (s.category || '').toLowerCase().includes(query) ||
+                    (s.plugin || '').toLowerCase().includes(query)
+                );
+            }
+
+            renderSkills(filtered);
+        }
+
+        // ── Render Skills Grid ──
+        function renderSkills(skills) {
+            const grid = document.getElementById('skillsGrid');
+            const empty = document.getElementById('emptyState');
+
+            if (skills.length === 0) {
+                grid.innerHTML = '';
+                empty.style.display = 'block';
+                return;
+            }
+
+            empty.style.display = 'none';
+
+            grid.innerHTML = skills.map(skill => {
+                const cfg = getCategoryConfig(skill.category);
+                const inputCount = (skill.inputs || []).length;
+
+                return `
+                    <div class="skill-card" style="--card-accent: ${cfg.color}" data-id="${skill.id}">
+                        <div class="skill-card-header">
+                            <div class="skill-icon" style="background: ${cfg.color}22; color: ${cfg.color}; border: 1px solid ${cfg.color}33;">
+                                ${cfg.icon}
+                            </div>
+                            <div class="skill-card-info">
+                                <h3>${skill.name}</h3>
+                                <div class="skill-plugin">${skill.plugin || skill.category || 'general'}</div>
+                            </div>
+                        </div>
+                        <div class="skill-card-desc">${skill.description || 'No description available.'}</div>
+                        <div class="skill-card-footer">
+                            <div class="skill-tags">
+                                <span class="skill-tag ${cfg.tag}">${skill.category || 'tool'}</span>
+                                ${inputCount > 0 ? `<span class="skill-tag tag-automation">${inputCount} input${inputCount > 1 ? 's' : ''}</span>` : ''}
+                            </div>
+                            <button class="activate-btn" onclick="openModal('${skill.id}')">Activate</button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // ── Modal ──
+        function openModal(skillId) {
+            const skill = allSkills.find(s => s.id === skillId);
+            if (!skill) return;
+
+            const cfg = getCategoryConfig(skill.category);
+
+            document.getElementById('modalTitle').innerHTML = cfg.icon + ' ' + skill.name;
+            document.getElementById('modalDesc').textContent = skill.description || '';
+
+            const form = document.getElementById('modalForm');
+            form.innerHTML = '';
+            form.dataset.skillId = skillId;
+
+            if (skill.inputs && skill.inputs.length > 0) {
+                skill.inputs.forEach(input => {
+                    const group = document.createElement('div');
+                    group.className = 'form-group';
+
+                    const label = document.createElement('label');
+                    label.textContent = input.label || input.name;
+                    label.setAttribute('for', 'input-' + input.name);
+
+                    let field;
+                    if (input.type === 'textarea') {
+                        field = document.createElement('textarea');
+                        field.rows = 3;
+                    } else if (input.type === 'select' && input.options) {
+                        field = document.createElement('select');
+                        input.options.forEach(opt => {
+                            const option = document.createElement('option');
+                            option.value = opt;
+                            option.textContent = opt;
+                            field.appendChild(option);
+                        });
+                    } else {
+                        field = document.createElement('input');
+                        field.type = input.type || 'text';
+                    }
+
+                    field.id = 'input-' + input.name;
+                    field.name = input.name;
+                    field.placeholder = input.placeholder || '';
+                    if (input.required !== false) field.required = true;
+
+                    group.appendChild(label);
+                    group.appendChild(field);
+                    form.appendChild(group);
+                });
+            } else {
+                form.innerHTML = '<p style="color: var(--text-secondary); font-size: 0.9rem;">This skill requires no additional input. Click <strong>Run Skill</strong> to execute.</p>';
+            }
+
+            document.getElementById('resultPanel').classList.remove('active');
+            document.getElementById('runBtnText').textContent = 'Run Skill';
+            document.getElementById('modalOverlay').classList.add('active');
+        }
+
+        function closeModal() {
+            document.getElementById('modalOverlay').classList.remove('active');
+        }
+
+        async function runSkill() {
+            const form = document.getElementById('modalForm');
+            const skillId = form.dataset.skillId;
+            const resultPanel = document.getElementById('resultPanel');
+            const resultStatus = document.getElementById('resultStatus');
+            const resultOutput = document.getElementById('resultOutput');
+            const runBtn = document.getElementById('runBtnText');
+
+            // Collect form data
+            const formData = {};
+            const inputs = form.querySelectorAll('input, textarea, select');
+            inputs.forEach(input => {
+                if (input.name) formData[input.name] = input.value;
+            });
+
+            // Show loading
+            runBtn.innerHTML = '<span class="spinner"></span> Running...';
+            resultPanel.classList.add('active');
+            resultStatus.innerHTML = '<span class="spinner"></span> Executing skill...';
+            resultOutput.textContent = '';
+
+            try {
+                const res = await fetch(`/api/skills/${skillId}/run`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(formData)
+                });
+
+                const data = await res.json();
+
+                if (res.ok) {
+                    resultStatus.innerHTML = '✅ <span style="color: var(--success)">Completed Successfully</span>';
+                    resultOutput.textContent = data.output || JSON.stringify(data, null, 2);
+                    runCount++;
+                    updateStats();
+                } else {
+                    resultStatus.innerHTML = '❌ <span style="color: var(--error)">Error</span>';
+                    resultOutput.textContent = data.error || 'Unknown error occurred.';
+                }
+            } catch (err) {
+                resultStatus.innerHTML = '❌ <span style="color: var(--error)">Connection Error</span>';
+                resultOutput.textContent = err.message;
+            }
+
+            runBtn.textContent = 'Run Again';
+        }
+
+        // ── Event Listeners ──
+        document.getElementById('searchInput').addEventListener('input', filterAndRender);
+        document.getElementById('modalClose').addEventListener('click', closeModal);
+        document.getElementById('modalCancel').addEventListener('click', closeModal);
+        document.getElementById('modalRun').addEventListener('click', runSkill);
+        document.getElementById('modalOverlay').addEventListener('click', (e) => {
+            if (e.target === e.currentTarget) closeModal();
+        });
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') closeModal();
+        });
+
+        // ── Init ──
+        loadSkills();
+    </script>
+</body>
+</html>

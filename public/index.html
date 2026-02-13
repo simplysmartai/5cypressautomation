@@ -1,0 +1,955 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="mobile-web-app-capable" content="yes">
+  <title>5 Cypress Automation | Strategic Automation Intelligence Platform | Predictive Operations Partner</title>
+  <meta name="description" content="Strategic automation partner with predictive insights. We identify bottlenecks before you do, deliver real-time ROI dashboards, and continuously optimize your operations. $50K+ annual savings guaranteed.">
+  <meta name="keywords" content="enterprise AI automation, business process automation, workflow optimization, operations architecture, scalable automation systems, B2B automation consulting, enterprise workflow solutions, process automation consulting">
+  
+  <!-- Enhanced SEO Meta Tags -->
+  <meta name="robots" content="index, follow">
+  <meta name="author" content="5 Cypress Automation">
+  <meta name="rating" content="general">
+  <meta name="distribution" content="global">
+  <meta name="language" content="en-US">
+  
+  <!-- Open Graph Tags -->
+  <meta property="og:title" content="5 Cypress Automation | AI Automation Systems for High-Growth Companies">
+  <meta property="og:description" content="Strategic automation partner that predicts bottlenecks before they happen. Real-time insights, continuous optimization, measurable ROI.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://5cypressautomation.com">
+  <meta property="og:image" content="https://5cypressautomation.com/assets/brand/logo-full.svg">
+  <meta property="og:site_name" content="5 Cypress Automation">
+  <meta property="og:locale" content="en_US">
+  
+  <!-- Twitter Card Tags -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="5 Cypress Automation | AI Automation Systems for High-Growth Companies">
+  <meta name="twitter:description" content="Strategic automation partner with predictive insights. Continuous optimization. $50K+ annual savings.">
+  <meta name="twitter:image" content="https://5cypressautomation.com/assets/brand/logo-full.svg">
+  
+  <!-- JSON-LD Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "5 Cypress Automation",
+    "description": "Enterprise AI automation systems for high-growth companies",
+    "url": "https://5cypressautomation.com",
+    "logo": "https://5cypressautomation.com/assets/brand/logo-full.svg",
+    "sameAs": [
+      "https://linkedin.com/company/5cypressautomation",
+      "https://twitter.com/5cypressautomation"
+    ],
+    "contactPoint": {
+      "@type": "ContactPoint",
+      "contactType": "sales",
+      "email": "hello@5cypressautomation.com"
+    },
+    "founder": {
+      "@type": "Person",
+      "name": "5 Cypress Automation Team"
+    },
+    "foundingDate": "2025",
+    "areaServed": "Worldwide",
+    "serviceType": "Enterprise AI Automation"
+  }
+  </script>
+  
+  <!-- Typography -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/remixicon@4.0.0/fonts/remixicon.css" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500&family=Syne:wght@400;700;800&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500;600;800&family=Outfit:wght@700;900&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/svg+xml" href="assets/brand/favicon.svg">
+  
+  <!-- Calendly -->
+  <link href="https://assets.calendly.com/assets/external/calendar-widget.css" rel="stylesheet">
+  
+  <link rel="stylesheet" href="styles.css">
+  <script src="dynamics.js" defer></script>
+</head>
+<body>
+
+  <!-- Decorative Background -->
+  <div class="conic-mesh"></div>
+
+  <!-- Navigation -->
+  <nav class="navbar">
+    <div class="container nav-container">
+      <a href="/" class="logo">
+        <div class="logo-icon logo-pulse">
+          <img src="assets/brand/logo-leonardo.jpg" alt="5 Cypress Automation Logo">
+        </div>
+        <div class="logo-text-group">
+          <span class="logo-title text-gradient-special">5 Cypress</span>
+          <div class="logo-subtitle">
+            <span>A</span><span>U</span><span>T</span><span>O</span><span>M</span><span>A</span><span>T</span><span>I</span><span>O</span><span>N</span>
+          </div>
+        </div>
+      </a>
+      
+      <div class="nav-menu">
+        <a href="#services" class="nav-link">Pillars</a>
+        <a href="#approach" class="nav-link">Architecture</a>
+        <a href="#difference" class="nav-link">Why Us</a>
+        <a href="#testimonials" class="nav-link">Endurance</a>
+      </div>
+
+      <div class="nav-actions">
+        <button onclick="openCalendly()" class="btn btn-primary">
+          Start Your Audit <i class="ri-arrow-right-up-line"></i>
+        </button>
+      </div>
+
+      <button class="mobile-toggle" onclick="toggleMobileMenu()">
+        <i class="ri-menu-line"></i>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Mobile Menu -->
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="#services" class="mobile-link" onclick="closeMobileMenu()">Pillars</a>
+    <a href="#approach" class="mobile-link" onclick="closeMobileMenu()">Architecture</a>
+    <a href="#difference" class="mobile-link" onclick="closeMobileMenu()">Why Us</a>
+    <a href="#testimonials" class="mobile-link" onclick="closeMobileMenu()">Endurance</a>
+    <button onclick="openCalendly(); closeMobileMenu();" class="btn btn-primary btn-block">Start Your Audit</button>
+  </div>
+
+  <!-- Hero Section -->
+  <section class="hero-section">
+    <div class="logic-map">
+        <svg viewBox="0 0 1000 1000" preserveAspectRatio="none" style="width:100%; height:100%; top:0; left:0; position:absolute;">
+            <!-- Intricate Organic Root-Branch Structure (Reference inspired) -->
+            <path d="M 500 1000 Q 500 800 550 700 T 450 500 T 520 200 T 500 0" stroke="var(--primary)" stroke-width="0.5" fill="none" opacity="0.4" />
+            
+            <!-- Sprawling Horizontal Branches -->
+            <path d="M 520 200 Q 700 150 900 250" stroke="var(--primary)" stroke-width="0.3" fill="none" opacity="0.2" />
+            <path d="M 480 350 Q 300 300 100 400" stroke="var(--primary)" stroke-width="0.3" fill="none" opacity="0.2" />
+            <path d="M 530 550 Q 750 500 950 650" stroke="var(--primary)" stroke-width="0.3" fill="none" opacity="0.2" />
+            <path d="M 470 750 Q 250 700 50 850" stroke="var(--primary)" stroke-width="0.3" fill="none" opacity="0.2" />
+            
+            <!-- Moving Data Packets (Pulsing along organic paths) -->
+            <circle r="2" fill="var(--primary)" filter="url(#glow)">
+                <animateMotion dur="15s" repeatCount="indefinite" path="M 520 200 Q 700 150 900 250" />
+            </circle>
+            <circle r="2" fill="var(--accent)" filter="url(#glow)">
+                <animateMotion dur="18s" repeatCount="indefinite" path="M 480 350 Q 300 300 100 400" />
+            </circle>
+            <circle r="2" fill="var(--primary)" filter="url(#glow)">
+                <animateMotion dur="20s" repeatCount="indefinite" path="M 530 550 Q 750 500 950 650" />
+            </circle>
+            
+            <defs>
+                <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+                    <feGaussianBlur stdDeviation="3" result="blur" />
+                    <feComposite in="SourceGraphic" in2="blur" operator="over" />
+                </filter>
+            </defs>
+        </svg>
+    </div>
+    <div class="container">
+      <div class="hero-content">
+        <div class="hero-badge animate-in">
+          <span class="badge-dot"></span> System Operational v2.4
+        </div>
+        
+        <h1 class="animate-in">
+          <span class="hero-line">Your Business Tools Should</span>
+          <span class="hero-subline text-gradient-special">Talk to Each Other</span>
+        </h1>
+        
+        <p class="hero-description animate-in" style="animation-delay: 0.2s;">
+          Stop being the middleman. We connect your calendar, invoicing, CRM, and shipping systems so they update automatically. One customer action triggers everything else—no manual data entry, no copy-paste errors, no forgotten steps.
+        </p>
+
+        <div class="hero-cta animate-in" style="animation-delay: 0.4s;">
+          <button onclick="openCalendly()" class="btn btn-primary btn-high-end">
+            <span>Start Your Audit</span> <i class="ri-arrow-right-line"></i>
+          </button>
+          <a href="#services" class="btn btn-ghost btn-high-end">
+            <span>See What We Connect</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Enhanced Hero Visual -->
+      <div class="hero-visual reveal revealed">
+        <div class="visual-container">
+          <div class="dashboard-frame">
+            <div class="dash-sidebar">
+              <div class="logo-icon" style="width: 32px; height: 32px; margin-bottom: 24px; border-radius: 8px; background: rgba(255,255,255,0.1);">
+                <img src="assets/brand/logo-icon.svg" alt="5 Cypress" style="width: 20px; height: 20px;">
+              </div>
+              <div class="sidebar-item active"><i class="ri-dashboard-line"></i> Overview</div>
+              <div class="sidebar-item"><i class="ri-bubble-chart-line"></i> Workflows</div>
+              <div class="sidebar-item"><i class="ri-user-search-line"></i> Leads</div>
+              <div class="sidebar-item"><i class="ri-database-2-line"></i> CRM</div>
+              <div class="sidebar-item" style="margin-top: auto;"><i class="ri-settings-line"></i> Settings</div>
+            </div>
+            
+            <div class="dash-content">
+              <div class="dash-header">
+                <div class="dash-title">Global Operations Control</div>
+                <div class="dash-status">Core Engine Active</div>
+              </div>
+              
+              <div class="dash-grid">
+                <div class="data-card">
+                  <div class="data-label">Live Lead Flow</div>
+                  <div class="data-value">
+                    842 <span class="data-trend"><i class="ri-arrow-right-up-line"></i> 12%</span>
+                  </div>
+                  <div class="mini-chart">
+                    <div class="m-bar" style="height: 40%"></div>
+                    <div class="m-bar" style="height: 60%"></div>
+                    <div class="m-bar" style="height: 45%"></div>
+                    <div class="m-bar" style="height: 80%; background: var(--primary); opacity: 0.8;"></div>
+                    <div class="m-bar" style="height: 50%"></div>
+                    <div class="m-bar" style="height: 70%"></div>
+                  </div>
+                </div>
+                
+                <div class="data-card">
+                  <div class="data-label">System Efficiency</div>
+                  <div class="data-value">
+                    99.4% <span class="data-trend" style="color: #64748b;">Stable</span>
+                  </div>
+                  <div class="mini-chart">
+                    <div class="m-bar" style="height: 85%; background: var(--accent); opacity: 0.8;"></div>
+                    <div class="m-bar" style="height: 82%"></div>
+                    <div class="m-bar" style="height: 88%"></div>
+                    <div class="m-bar" style="height: 84%"></div>
+                    <div class="m-bar" style="height: 90%; background: var(--accent); opacity: 0.8;"></div>
+                    <div class="m-bar" style="height: 86%"></div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="log-feed">
+                <div class="log-inner">
+                  <div class="log-entry">> Initializing neural lead sequence... [OK]</div>
+                  <div class="log-entry">> Scraper connected to LinkedIn Sales Nav. [SESSION_ID: 9482]</div>
+                  <div class="log-entry">> Parsing metadata for 124 prospective targets...</div>
+                  <div class="log-entry">> Webhook triggered: Delivery to HubSpot CRM...</div>
+                  <div class="log-entry">> Executing follow-up logic: AI sentiment scan active.</div>
+                  <div class="log-entry">> System: Proposal generated for Acme Corp. [UUID: 5C_99]</div>
+                  <div class="log-entry">> Branching: Scaling compute for batch processing...</div>
+                  <div class="log-entry">> Signal: Lead validated for resilient sync.</div>
+                  <div class="log-entry">> Core: Redundancy check 100% complete.</div>
+                  <div class="log-entry">> Heartbeat: All systems online and enduring.</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Notification Overlays -->
+          <div class="dash-notification notif-1">
+            <div class="logo-icon" style="width: 24px; height: 24px; background: rgba(251, 191, 36, 0.2); border-radius: 6px; display: flex; align-items: center; justify-content: center;">
+              <img src="assets/brand/logo-icon.svg" alt="Icon" style="width: 14px; height: 14px;">
+            </div>
+            <span>Lead Qualified: Fortune 500 VC</span>
+          </div>
+          
+          <div class="dash-notification notif-2">
+            <div class="logo-icon" style="width: 24px; height: 24px; background: rgba(16, 185, 129, 0.2); border-radius: 6px; display: flex; align-items: center; justify-content: center;">
+              <img src="assets/brand/logo-icon.svg" alt="Icon" style="width: 14px; height: 14px;">
+            </div>
+            <span>Invoice Paid: $5,000.00</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- What We Do Section -->
+  <section class="positioning-section" style="padding: 80px 0; background: linear-gradient(135deg, rgba(102, 126, 234, 0.05) 0%, rgba(118, 75, 162, 0.05) 100%);">
+    <div class="container">
+      <div class="section-header text-center">
+        <span class="section-tag">Our Approach</span>
+        <h2>Tired of Copying Data Between Your Tools?</h2>
+        <p style="max-width: 700px; margin: 0 auto;">You already pay for Calendly, QuickBooks, and your CRM. We make them talk to each other automatically—so you can stop being the middleman.</p>
+      </div>
+      
+      <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 40px; max-width: 900px; margin: 60px auto 0;">
+        <div style="background: rgba(239, 68, 68, 0.05); border: 2px solid rgba(239, 68, 68, 0.2); border-radius: 16px; padding: 32px;">
+          <h3 style="font-size: 24px; margin-bottom: 20px; color: #ef4444;">❌ We DON'T</h3>
+          <ul style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 12px;">
+            <li style="color: #ffffff; font-size: 15px; line-height: 1.6;">Build calendar apps to compete with Calendly</li>
+            <li style="color: #ffffff; font-size: 15px; line-height: 1.6;">Build CRM to compete with HubSpot</li>
+            <li style="color: #ffffff; font-size: 15px; line-height: 1.6;">Build accounting software to compete with QuickBooks</li>
+            <li style="color: #ffffff; font-size: 15px; line-height: 1.6;">Replace tools you already use and love</li>
+          </ul>
+        </div>
+        
+        <div style="background: rgba(16, 185, 129, 0.05); border: 2px solid rgba(16, 185, 129, 0.2); border-radius: 16px; padding: 32px;">
+          <h3 style="font-size: 24px; margin-bottom: 20px; color: #10b981;">✅ We DO</h3>
+          <ul style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 12px;">
+            <li style="color: #ffffff; font-size: 15px; line-height: 1.6; font-weight: 500;">Set up your tools properly (most companies configure them wrong)</li>
+            <li style="color: #ffffff; font-size: 15px; line-height: 1.6; font-weight: 500;">Connect Calendly → QuickBooks → CRM → Slack automatically</li>
+            <li style="color: #ffffff; font-size: 15px; line-height: 1.6; font-weight: 500;">Build custom dashboards showing ALL your tools in one place</li>
+            <li style="color: #ffffff; font-size: 15px; line-height: 1.6; font-weight: 500;">Create workflows between systems you already pay for</li>
+          </ul>
+        </div>
+      </div>
+      
+      <div style="text-align: center; margin-top: 48px;">
+        <p style="font-size: 18px; color: #ffffff; max-width: 600px; margin: 0 auto;">
+          <strong style="color: #ffffff;">The Result:</strong> Cut manual data entry from 15 hours per week to zero. 
+          Never email an invoice manually again. See orders, calendar, and inventory in one dashboard.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Trusted By Section -->
+  <section class="trusted-section">
+    <div class="container">
+      <p class="trusted-label">Trusted by growing businesses worldwide</p>
+      <div class="marquee-container">
+        <div class="marquee-content">
+          <div class="logo-item"><i class="ri-store-2-line"></i><span>Local Retail</span></div>
+          <div class="logo-item"><i class="ri-service-line"></i><span>Service Pros</span></div>
+          <div class="logo-item"><i class="ri-home-8-line"></i><span>Real Estate</span></div>
+          <div class="logo-item"><i class="ri-briefcase-line"></i><span>Consultants</span></div>
+          <div class="logo-item"><i class="ri-hospital-line"></i><span>Healthcare</span></div>
+          <div class="logo-item"><i class="ri-rocket-line"></i><span>SaaS Startups</span></div>
+          <!-- Duplicate for seamless loop -->
+          <div class="logo-item"><i class="ri-store-2-line"></i><span>Local Retail</span></div>
+          <div class="logo-item"><i class="ri-service-line"></i><span>Service Pros</span></div>
+          <div class="logo-item"><i class="ri-home-8-line"></i><span>Real Estate</span></div>
+          <div class="logo-item"><i class="ri-briefcase-line"></i><span>Consultants</span></div>
+          <div class="logo-item"><i class="ri-hospital-line"></i><span>Healthcare</span></div>
+          <div class="logo-item"><i class="ri-rocket-line"></i><span>SaaS Startups</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Services Section -->
+  <section id="services" class="services-section">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">What We Connect</span>
+        <h2>The Tools You Already Use, Working Together</h2>
+        <p>You're already paying for these tools. We make them talk to each other so when one thing happens, everything else updates automatically. No more copying data between systems. No more forgetting steps.</p>
+      </div>
+
+      <div class="services-grid" data-reveal="stagger">
+        <!-- Pillar 1 -->
+        <div class="service-card">
+          <div class="card-visual">
+            <i class="ri-links-line"></i>
+          </div>
+          <h3>Calendar Integration</h3>
+          <p class="service-tagline">Calendly • Google Calendar • Zoho • Outlook • Microsoft 365</p>
+          <ul class="service-features">
+            <li><i class="ri-check-line"></i> See all team calendars in one dashboard</li>
+            <li><i class="ri-check-line"></i> Smart scheduling finds available times automatically</li>
+            <li><i class="ri-check-line"></i> Meeting booked → QB quote created instantly</li>
+            <li><i class="ri-check-line"></i> Auto-reserve conference rooms + create Zoom links</li>
+          </ul>
+        </div>
+
+        <!-- Pillar 2 - Featured -->
+        <div class="service-card featured">
+          <div class="featured-badge">Most Popular</div>
+          <div class="card-visual">
+            <i class="ri-flow-chart"></i>
+          </div>
+          <h3>Order Automation</h3>
+          <p class="service-tagline">QuickBooks • ShipStation • Shopify • WooCommerce • Email</p>
+          <ul class="service-features">
+            <li><i class="ri-check-line"></i> Customer orders → QB invoice + payment processing</li>
+            <li><i class="ri-check-line"></i> Invoice paid → ShipStation label auto-generated</li>
+            <li><i class="ri-check-line"></i> Shipped → tracking email sent instantly</li>
+            <li><i class="ri-check-line"></i> Inventory synced across all platforms in real-time</li>
+          </ul>
+        </div>
+
+        <!-- Pillar 3 -->
+        <div class="service-card">
+          <div class="card-visual">
+            <i class="ri-dashboard-line"></i>
+          </div>
+          <h3>Unified Dashboards</h3>
+          <p class="service-tagline">Custom Built for Your Business</p>
+          <ul class="service-features">
+            <li><i class="ri-check-line"></i> Orders + Calendar + CRM + Inventory in one screen</li>
+            <li><i class="ri-check-line"></i> Real-time data pulled from QuickBooks, Calendly, etc.</li>
+            <li><i class="ri-check-line"></i> Click to take action: create invoice, book meeting, send email</li>
+            <li><i class="ri-check-line"></i> Mobile-friendly for managing business on the go</li>
+          </ul>
+        </div>
+
+        <!-- Pillar 4 -->
+        <div class="service-card">
+          <div class="card-visual">
+            <i class="ri-contacts-line"></i>
+          </div>
+          <h3>CRM Integration</h3>
+          <p class="service-tagline">HubSpot • Salesforce • Pipedrive • Zoho CRM • Copper</p>
+          <ul class="service-features">
+            <li><i class="ri-check-line"></i> Website form → new CRM contact + welcome email</li>
+            <li><i class="ri-check-line"></i> Calendly booking → deal created + sales rep notified</li>
+            <li><i class="ri-check-line"></i> Invoice paid → deal status updated automatically</li>
+            <li><i class="ri-check-line"></i> Email campaigns trigger follow-up tasks</li>
+          </ul>
+        </div>
+
+        <!-- Pillar 5 -->
+        <div class="service-card">
+          <div class="card-visual">
+            <i class="ri-notification-line"></i>
+          </div>
+          <h3>Communication Sync</h3>
+          <p class="service-tagline">Slack • Microsoft Teams • Email • SMS • Discord</p>
+          <ul class="service-features">
+            <li><i class="ri-check-line"></i> Order placed → team gets Slack alert with details</li>
+            <li><i class="ri-check-line"></i> Meeting booked → customer gets SMS confirmation</li>
+            <li><i class="ri-check-line"></i> Invoice paid → accounting team notified via email</li>
+            <li><i class="ri-check-line"></i> Support ticket created → team paged on Teams</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-separator"></div>
+
+  <!-- Integration Grid (Visual Focus) -->
+  <section class="integrations-section">
+    <div class="container">
+      <div class="section-header text-center">
+        <span class="section-tag">Ecosystem</span>
+        <h2>Deeply Integrated</h2>
+        <p>We connect the tools you already use to create a seamless, automated business.</p>
+      </div>
+      
+      <div class="integration-display" data-reveal="stagger">
+        <div class="int-item">
+          <div class="int-halo"></div>
+          <i class="ri-slack-line int-icon"></i>
+          <span class="int-label">Slack</span>
+        </div>
+        <div class="int-item">
+          <div class="int-halo" style="animation-delay: 1s;"></div>
+          <i class="ri-salesforce-line int-icon"></i>
+          <span class="int-label">Salesforce</span>
+        </div>
+        <div class="int-item">
+          <div class="int-halo" style="animation-delay: 2s;"></div>
+          <i class="ri-google-line int-icon"></i>
+          <span class="int-label">Google Work</span>
+        </div>
+        <div class="int-item">
+          <div class="int-halo" style="animation-delay: 1.5s;"></div>
+          <i class="ri-database-2-line int-icon"></i>
+          <span class="int-label">Airtable</span>
+        </div>
+        <div class="int-item">
+          <div class="int-halo" style="animation-delay: 0.5s;"></div>
+          <i class="ri-mail-send-line int-icon"></i>
+          <span class="int-label">Mailchimp</span>
+        </div>
+        <div class="int-item">
+          <div class="int-halo" style="animation-delay: 1.2s;"></div>
+          <i class="ri-bank-card-line int-icon"></i>
+          <span class="int-label">Stripe</span>
+        </div>
+        <div class="int-item">
+          <div class="int-halo" style="animation-delay: 2.5s;"></div>
+          <i class="ri-calendar-event-line int-icon"></i>
+          <span class="int-label">Calendly</span>
+        </div>
+        <div class="int-item">
+          <div class="int-halo" style="animation-delay: 1.8s;"></div>
+          <i class="ri-robot-line int-icon"></i>
+          <span class="int-label">OpenAI</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-separator"></div>
+
+  <!-- Our Approach Section -->
+  <section id="approach" class="approach-section">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">How It Works</span>
+        <h2>From Manual Chaos to Automated System in 2 Weeks</h2>
+        <p>Here's exactly how we take your disconnected tools and turn them into one automated system that saves you 15+ hours every week.</p>
+      </div>
+
+      <div class="approach-grid" data-reveal="stagger">
+        <!-- Automation Backbone Line (Visual) -->
+        <div class="backbone-line">
+          <div class="backbone-pulse"></div>
+        </div>
+
+        <div class="approach-step">
+          <div class="step-number">01</div>
+          <div class="step-icon">
+            <i class="ri-search-line"></i>
+          </div>
+          <div class="step-content">
+            <span class="step-label">Week 1</span>
+            <h3>We Map Your Current Workflow</h3>
+            <p>We watch how you currently handle orders, bookings, and customer data. Then we show you exactly where you're wasting time—usually copying info between Calendly, QuickBooks, and email.</p>
+          </div>
+        </div>
+
+        <div class="approach-step">
+          <div class="step-number">02</div>
+          <div class="step-icon">
+            <i class="ri-node-tree"></i>
+          </div>
+          <div class="step-content">
+            <span class="step-label">Week 1</span>
+            <h3>You See the Automation Plan</h3>
+            <p>We show you exactly what will happen automatically. Example: "Customer books demo → QuickBooks quote created → confirmation email sent → team notified on Slack." You approve before we build anything.</p>
+          </div>
+        </div>
+
+        <div class="approach-step">
+          <div class="step-number">03</div>
+          <div class="step-icon">
+            <i class="ri-code-box-line"></i>
+          </div>
+          <div class="step-content">
+            <span class="step-label">Week 2</span>
+            <h3>We Connect Your Tools</h3>
+            <p>We link Calendly to QuickBooks, QuickBooks to ShipStation, everything to your CRM. You'll see test orders flow through automatically. We fix any issues before going live.</p>
+          </div>
+        </div>
+
+        <div class="approach-step">
+          <div class="step-number">04</div>
+          <div class="step-icon">
+            <i class="ri-shield-star-line"></i>
+          </div>
+          <div class="step-content">
+            <span class="step-label">Week 2</span>
+            <h3>You Go Live</h3>
+            <p>Your team starts using the new system. Orders process automatically. Invoices create themselves. Customers get instant confirmations. You get 15 hours per week back.</p>
+          </div>
+        </div>
+
+        <div class="approach-step">
+          <div class="step-number">05</div>
+          <div class="step-icon">
+            <i class="ri-brain-line"></i>
+          </div>
+          <div class="step-content">
+            <span class="step-label">Ongoing</span>
+            <h3>We Monitor & Improve</h3>
+            <p>We watch for errors and fix them before you notice. Every month, we show you new workflows we can automate. Your system gets better as your business grows.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Difference Section (Stats) -->
+  <section id="difference" class="difference-section">
+    <div class="container">
+      <div class="section-header light">
+        <span class="section-tag">Real Results</span>
+        <h2>What You Actually Get</h2>
+        <p>Here's what happens when you stop manually copying data and let your tools talk to each other automatically.</p>
+      </div>
+
+      <div class="stats-grid" data-reveal="stagger">
+        <div class="stat-card large">
+          <div class="stat-graphic">
+            <svg viewBox="0 0 200 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M10 110 L190 110" stroke="var(--primary)" stroke-width="2" stroke-dasharray="4 4" opacity="0.3"/>
+              <path d="M10 110 Q100 0 190 110" stroke="var(--primary)" stroke-width="4" fill="none"/>
+              <circle cx="100" cy="55" r="8" fill="var(--primary)">
+                <animate attributeName="r" values="8;12;8" dur="2s" repeatCount="indefinite" />
+              </circle>
+            </svg>
+          </div>
+          <div>
+            <div class="stat-value">15+ Hours</div>
+            <div class="stat-label">Saved Per Week</div>
+          </div>
+          <p class="stat-desc">No more copying customer info into QuickBooks. No more manually sending confirmation emails. No more updating three systems with the same data. Your team gets 15+ hours back every week.</p>
+        </div>
+        
+        <div class="stat-card">
+          <div class="stat-icon-large">
+            <i class="ri-funds-box-line"></i>
+          </div>
+          <div>
+            <div class="stat-value">$0</div>
+            <div class="stat-label">Copy-Paste Errors</div>
+            <p class="stat-desc">When data flows automatically between systems, you can't type the wrong email address or forget to create the invoice. Mistakes go to zero.</p>
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-icon-large">
+            <i class="ri-pulse-line"></i>
+          </div>
+          <div>
+            <div class="stat-value">2 Weeks</div>
+            <div class="stat-label">To Go Live</div>
+            <p class="stat-desc">Most integrations take 1-2 weeks to build and test. You approve the plan on Day 3. You go live on Day 14. Then you never manually copy data again.</p>
+          </div>
+        </div>
+
+        <div class="stat-card wide">
+          <div class="stat-graphic-mini">
+            <div class="leads-dots">
+              <span class="dot active"></span>
+              <span class="dot active"></span>
+              <span class="dot"></span>
+              <span class="dot active"></span>
+              <span class="dot active"></span>
+            </div>
+          </div>
+          <div style="flex: 1;">
+            <div class="stat-value">1 Dashboard</div>
+            <div class="stat-label">For Everything</div>
+            <p class="stat-desc">See your upcoming appointments, pending orders, inventory levels, and customer history in one place. No more switching between 5 tabs.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonials Section -->
+  <section id="testimonials" class="testimonials-section">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">Client Results</span>
+        <h2>Proven Enterprise Success</h2>
+        <p>Real outcomes from companies that scaled without operational chaos.</p>
+      </div>
+
+      <div class="testimonials-grid">
+        <div class="testimonial-card">
+          <div class="testimonial-stars">
+            <i class="ri-star-fill"></i>
+            <i class="ri-star-fill"></i>
+            <i class="ri-star-fill"></i>
+            <i class="ri-star-fill"></i>
+            <i class="ri-star-fill"></i>
+          </div>
+          <blockquote class="testimonial-text">
+            "We were drowning in manual processes before 5 Cypress Automation. Their automation infrastructure dramatically reduced our operational overhead and freed up our team to focus on growth instead of repetitive tasks."
+          </blockquote>
+          <div class="testimonial-author">
+            <div class="author-avatar">
+              <i class="ri-building-line"></i>
+            </div>
+            <div class="author-info">
+              <div class="author-name">Sarah Chen</div>
+              <div class="author-title">COO, TechScale Dynamics</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="testimonial-card">
+          <div class="testimonial-stars">
+            <i class="ri-star-fill"></i>
+            <i class="ri-star-fill"></i>
+            <i class="ri-star-fill"></i>
+            <i class="ri-star-fill"></i>
+            <i class="ri-star-fill"></i>
+          </div>
+          <blockquote class="testimonial-text">
+            "We needed automation that could grow with us through multiple funding rounds. 5 Cypress Automation built workflows that handle increasing complexity without breaking under pressure."
+          </blockquote>
+          <div class="testimonial-author">
+            <div class="author-avatar">
+              <i class="ri-seedling-line"></i>
+            </div>
+            <div class="author-info">
+              <div class="author-name">Michael Park</div>
+              <div class="author-title">VP Operations, InnovateTech Solutions</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="testimonial-card">
+          <div class="testimonial-stars">
+            <i class="ri-star-fill"></i>
+            <i class="ri-star-fill"></i>
+            <i class="ri-star-fill"></i>
+            <i class="ri-star-fill"></i>
+            <i class="ri-star-fill"></i>
+          </div>
+          <blockquote class="testimonial-text">
+            "Finally, automation that grows with us. 5 Cypress Automation built systems that handled our significant growth without breaking. Their architecture scales seamlessly as we expand."
+          </blockquote>
+          <div class="testimonial-author">
+            <div class="author-avatar">
+              <i class="ri-scales-line"></i>
+            </div>
+            <div class="author-info">
+              <div class="author-name">David Rodriguez</div>
+              <div class="author-title">Founder, GrowthTech Ventures ($8M ARR)</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section class="cta-section">
+    <div class="container">
+      <div class="cta-card">
+        <div class="cta-visual-bg">
+          <svg viewBox="0 0 1000 400" fill="none" opacity="0.1">
+            <path d="M0,200 Q250,50 500,200 T1000,200" stroke="var(--primary)" stroke-width="2">
+              <animate attributeName="stroke-dasharray" from="0,1500" to="1500,0" dur="20s" repeatCount="indefinite" />
+            </path>
+          </svg>
+        </div>
+        <div class="cta-content">
+          <h2>Ready to Save 15 Hours Per Week?</h2>
+          <p>Book a free audit call. We'll show you exactly how much time you're wasting on manual data entry and how we can automate it away.</p>
+          <div class="cta-buttons">
+            <button onclick="openCalendly()" class="btn btn-white btn-lg">
+              Start Your Audit <i class="ri-calendar-line"></i>
+            </button>
+          </div>
+        </div>
+        <div class="cta-visual">
+          <div class="cta-orb orb-1"></div>
+          <div class="cta-orb orb-2"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="logo">
+            <div class="logo-icon">
+              <img src="assets/brand/logo-leonardo.jpg" alt="5 Cypress Automation Logo">
+            </div>
+            <span>5 Cypress Automation</span>
+          </div>
+          <p class="footer-tagline">Connect your business tools so they work together automatically.</p>
+          <div class="social-links">
+            <a href="https://linkedin.com" target="_blank" rel="noopener" class="social-link" aria-label="LinkedIn">
+              <i class="ri-linkedin-fill"></i>
+            </a>
+            <a href="https://twitter.com" target="_blank" rel="noopener" class="social-link" aria-label="Twitter">
+              <i class="ri-twitter-x-fill"></i>
+            </a>
+          </div>
+        </div>
+        
+        <div class="footer-links">
+          <h4>Services</h4>
+          <ul>
+            <li><a href="#services">Calendar Integration</a></li>
+            <li><a href="#services">Order Automation</a></li>
+            <li><a href="#services">Unified Dashboards</a></li>
+            <li><a href="#services">CRM Integration</a></li>
+            <li><a href="#services">Communication Sync</a></li>
+          </ul>
+        </div>
+        
+        <div class="footer-links">
+          <h4>Company</h4>
+          <ul>
+            <li><a href="#approach">How It Works</a></li>
+            <li><a href="#difference">Results</a></li>
+            <li><a href="#testimonials">Testimonials</a></li>
+          </ul>
+        </div>
+        
+        <div class="footer-links">
+          <h4>Get Started</h4>
+          <ul>
+            <li><a href="#" onclick="openCalendly(); return false;">Start Your Audit</a></li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="footer-bottom">
+        <p>&copy; 2026 5 Cypress Automation. All rights reserved.</p>
+        <div class="footer-legal">
+          <a href="#">Privacy Policy</a>
+          <span class="footer-divider">•</span>
+          <a href="#">Terms of Service</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Calendly Modal -->
+  <div class="calendly-modal" id="calendlyModal">
+    <div class="calendly-modal-content">
+      <button class="calendly-close" onclick="closeCalendly()">
+        <i class="ri-close-line"></i>
+      </button>
+      <div class="calendly-container" id="calendlyContainer">
+        <div class="calendly-spinner"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Calendly Widget -->
+  <script src="https://assets.calendly.com/assets/external/widget.js" async></script>
+
+  <script>
+    // Navbar scroll effect
+    const navbar = document.querySelector('.navbar');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 50) {
+        navbar.classList.add('scrolled');
+      } else {
+        navbar.classList.remove('scrolled');
+      }
+    });
+
+    // Mobile menu
+    function toggleMobileMenu() {
+      const menu = document.getElementById('mobileMenu');
+      menu.classList.toggle('active');
+    }
+
+    function closeMobileMenu() {
+      const menu = document.getElementById('mobileMenu');
+      menu.classList.remove('active');
+    }
+
+    // Calendly Modal
+    function openCalendly() {
+      const modal = document.getElementById('calendlyModal');
+      const container = document.getElementById('calendlyContainer');
+      
+      modal.style.display = 'flex';
+      document.body.style.overflow = 'hidden';
+      
+      // Load Calendly widget
+      container.innerHTML = '';
+      Calendly.initInlineWidget({
+        url: 'https://calendly.com/simply-smart',
+        parentElement: container,
+        prefill: {},
+        utm: {}
+      });
+    }
+
+    function closeCalendly() {
+      const modal = document.getElementById('calendlyModal');
+      modal.style.display = 'none';
+      document.body.style.overflow = '';
+    }
+
+    // Close modal on outside click
+    document.getElementById('calendlyModal').addEventListener('click', (e) => {
+      if (e.target.id === 'calendlyModal') {
+        closeCalendly();
+      }
+    });
+
+    // Smooth scroll for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          target.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start'
+          });
+        }
+      });
+    });
+
+    // Reveal animations on scroll
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('revealed');
+        }
+      });
+    }, observerOptions);
+
+    document.querySelectorAll('.service-card, .approach-step, .stat-card, .testimonial-card, .reveal').forEach(el => {
+      if (!el.classList.contains('reveal')) el.classList.add('reveal');
+      observer.observe(el);
+    });
+
+    // Dynamics: Magnetic Buttons & Dashboard Parallax
+    
+    // Magnetic Effect for Buttons
+    document.querySelectorAll('.btn-primary, .btn-ghost').forEach(btn => {
+      btn.addEventListener('mousemove', (e) => {
+        const rect = btn.getBoundingClientRect();
+        const x = e.clientX - rect.left - rect.width / 2;
+        const y = e.clientY - rect.top - rect.height / 2;
+        btn.style.transform = `translate(${x * 0.15}px, ${y * 0.15}px)`;
+      });
+      btn.addEventListener('mouseleave', () => {
+        btn.style.transform = `translate(0, 0)`;
+      });
+    });
+
+    // Integrated Hero Dynamics with Smooth Lerp
+    const heroVisual = document.querySelector('.visual-container');
+    let targetX = 0, targetY = 0, targetScroll = 0;
+    let currentX = 0, currentY = 0, currentScroll = 0;
+
+    function updateHeroVisual() {
+      if (!heroVisual) return;
+      
+      // Smooth lerp (Linear Interpolation) for silky motion
+      currentX += (targetX - currentX) * 0.08;
+      currentY += (targetY - currentY) * 0.08;
+      currentScroll += (targetScroll - currentScroll) * 0.08;
+
+      // Extremely subtle rotation (Range: 6deg to 10deg)
+      const rotX = 8 + (currentY * 3); 
+      const rotY = -4 + (currentX * -3);
+      const shiftY = currentScroll * 0.12;
+      
+      // Opacity stays high (Fade only 20% max)
+      const opacity = Math.max(0.8, 1 - currentScroll / 2000);
+      
+      heroVisual.style.transform = `rotateX(${rotX}deg) rotateY(${rotY}deg) translateY(${shiftY}px)`;
+      heroVisual.style.opacity = opacity;
+      
+      requestAnimationFrame(updateHeroVisual);
+    }
+
+    window.addEventListener('mousemove', (e) => {
+      targetX = (e.clientX / window.innerWidth) - 0.5;
+      targetY = (e.clientY / window.innerHeight) - 0.5;
+    });
+
+    window.addEventListener('scroll', () => {
+      targetScroll = window.pageYOffset;
+    });
+
+    updateHeroVisual();
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,1035 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Operations Dashboard - 5 Cypress Labs</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    .operations-container {
+      display: flex;
+      height: 100vh;
+      background-color: #f0f4f8;
+    }
+
+    .sidebar {
+      width: 260px;
+      background-color: #ffffff;
+      border-right: 1px solid #e5e7eb;
+      padding: 20px;
+      overflow-y: auto;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+      position: sticky;
+      top: 0;
+      height: 100vh;
+    }
+
+    .sidebar-header {
+      margin-bottom: 30px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid #e5e7eb;
+    }
+
+    .sidebar-title {
+      font-size: 12px;
+      font-weight: 700;
+      color: #6b7280;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 5px;
+    }
+
+    .sidebar-brand {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--primary);
+    }
+
+    .sidebar-nav {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-bottom: 40px;
+    }
+
+    .sidebar-link {
+      padding: 12px 14px;
+      border-radius: 6px;
+      font-size: 14px;
+      color: #374151;
+      text-decoration: none;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .sidebar-link:hover {
+      background-color: #f3f4f6;
+      color: #0066cc;
+    }
+
+    .sidebar-link.active {
+      background-color: #dbeafe;
+      color: #0066cc;
+      font-weight: 600;
+    }
+
+    .sidebar-link-icon {
+      font-size: 16px;
+      width: 20px;
+      text-align: center;
+    }
+
+    .sidebar-button {
+      background-color: #0066cc;
+      color: white;
+      border: none;
+      padding: 12px 14px;
+      border-radius: 6px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      width: 100%;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      margin-top: auto;
+    }
+
+    .sidebar-button:hover {
+      background-color: #0052a3;
+    }
+
+    .main-content {
+      flex: 1;
+      overflow-y: auto;
+      padding: 30px;
+    }
+
+    .main-header {
+      margin-bottom: 30px;
+    }
+
+    .main-title {
+      font-size: 28px;
+      font-weight: 700;
+      color: #111827;
+      margin-bottom: 5px;
+    }
+
+    .main-subtitle {
+      font-size: 14px;
+      color: #6b7280;
+    }
+
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 16px;
+      margin-bottom: 30px;
+    }
+
+    .kpi-card {
+      background-color: white;
+      border-radius: 8px;
+      padding: 20px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+      transition: all 0.2s;
+    }
+
+    .kpi-card:hover {
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    .kpi-label {
+      font-size: 12px;
+      color: #6b7280;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+
+    .kpi-value {
+      font-size: 32px;
+      font-weight: 700;
+      color: #111827;
+    }
+
+    .kpi-subtitle {
+      font-size: 12px;
+      color: #9ca3af;
+      margin-top: 8px;
+    }
+
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .section-title {
+      font-size: 18px;
+      font-weight: 700;
+      color: #111827;
+    }
+
+    .filter-group {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .filter-button {
+      background-color: white;
+      border: 1px solid #d1d5db;
+      padding: 8px 14px;
+      border-radius: 6px;
+      font-size: 13px;
+      color: #374151;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .filter-button:hover,
+    .filter-button.active {
+      background-color: #0066cc;
+      color: white;
+      border-color: #0066cc;
+    }
+
+    .work-queue-container {
+      background-color: white;
+      border-radius: 8px;
+      padding: 20px;
+      margin-bottom: 30px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    }
+
+    .work-queue-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 14px;
+    }
+
+    .work-queue-table thead th {
+      text-align: left;
+      padding: 12px;
+      font-weight: 600;
+      color: #6b7280;
+      border-bottom: 2px solid #e5e7eb;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .work-queue-table tbody tr {
+      border-bottom: 1px solid #e5e7eb;
+      transition: all 0.2s;
+    }
+
+    .work-queue-table tbody tr:hover {
+      background-color: #f9fafb;
+    }
+
+    .work-queue-table tbody td {
+      padding: 14px 12px;
+    }
+
+    .work-item-id {
+      font-family: monospace;
+      font-weight: 600;
+      color: #0066cc;
+      cursor: pointer;
+    }
+
+    .work-item-id:hover {
+      text-decoration: underline;
+    }
+
+    .work-item-type {
+      background-color: #dbeafe;
+      color: #0066cc;
+      padding: 4px 10px;
+      border-radius: 12px;
+      font-size: 12px;
+      font-weight: 600;
+      display: inline-block;
+    }
+
+    .work-item-client {
+      color: #374151;
+    }
+
+    .work-item-description {
+      color: #6b7280;
+      max-width: 300px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .work-item-due-date {
+      color: #6b7280;
+    }
+
+    .work-item-priority {
+      font-weight: 600;
+    }
+
+    .priority-high {
+      color: #ef4444;
+    }
+
+    .priority-medium {
+      color: #f59e0b;
+    }
+
+    .priority-low {
+      color: #10b981;
+    }
+
+    .work-item-status {
+      padding: 4px 10px;
+      border-radius: 4px;
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .status-pending {
+      background-color: #fef3c7;
+      color: #92400e;
+    }
+
+    .status-executing {
+      background-color: #dbeafe;
+      color: #0c4a6e;
+    }
+
+    .status-completed {
+      background-color: #d1fae5;
+      color: #065f46;
+    }
+
+    .work-item-actions {
+      display: flex;
+      gap: 8px;
+    }
+
+    .action-button {
+      background-color: #f0f4f8;
+      border: 1px solid #d1d5db;
+      padding: 6px 12px;
+      border-radius: 4px;
+      font-size: 12px;
+      color: #374151;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .action-button:hover {
+      background-color: #0066cc;
+      color: white;
+      border-color: #0066cc;
+    }
+
+    .activity-feed-container {
+      background-color: white;
+      border-radius: 8px;
+      padding: 20px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    }
+
+    .activity-item {
+      padding: 14px 0;
+      border-bottom: 1px solid #e5e7eb;
+      display: flex;
+      justify-content: space-between;
+      align-items: start;
+    }
+
+    .activity-item:last-child {
+      border-bottom: none;
+    }
+
+    .activity-text {
+      color: #374151;
+      font-size: 14px;
+    }
+
+    .activity-timestamp {
+      color: #9ca3af;
+      font-size: 12px;
+      white-space: nowrap;
+      margin-left: 20px;
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 40px 20px;
+      color: #9ca3af;
+    }
+
+    .empty-state-icon {
+      font-size: 32px;
+      margin-bottom: 12px;
+    }
+
+    .empty-state-text {
+      font-size: 14px;
+    }
+
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      animation: fadeIn 0.2s;
+    }
+
+    .modal.active {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    .modal-content {
+      background-color: white;
+      border-radius: 8px;
+      padding: 30px;
+      width: 90%;
+      max-width: 600px;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+      animation: slideIn 0.3s;
+    }
+
+    @keyframes slideIn {
+      from {
+        transform: translateY(-20px);
+        opacity: 0;
+      }
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      padding-bottom: 15px;
+      border-bottom: 1px solid #e5e7eb;
+    }
+
+    .modal-title {
+      font-size: 20px;
+      font-weight: 700;
+      color: #111827;
+    }
+
+    .modal-close {
+      background: none;
+      border: none;
+      font-size: 24px;
+      color: #6b7280;
+      cursor: pointer;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-label {
+      display: block;
+      font-size: 13px;
+      font-weight: 600;
+      color: #374151;
+      margin-bottom: 8px;
+    }
+
+    .form-input,
+    .form-select,
+    .form-textarea {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1px solid #d1d5db;
+      border-radius: 6px;
+      font-size: 14px;
+      font-family: inherit;
+      transition: all 0.2s;
+    }
+
+    .form-input:focus,
+    .form-select:focus,
+    .form-textarea:focus {
+      outline: none;
+      border-color: #0066cc;
+      box-shadow: 0 0 0 3px rgba(0, 102, 204, 0.1);
+    }
+
+    .form-textarea {
+      resize: vertical;
+      min-height: 100px;
+    }
+
+    .form-hint {
+      font-size: 12px;
+      color: #9ca3af;
+      margin-top: 4px;
+    }
+
+    .warning-message {
+      background-color: #fef3c7;
+      border: 1px solid #fcd34d;
+      color: #92400e;
+      padding: 12px;
+      border-radius: 6px;
+      font-size: 13px;
+      margin-bottom: 15px;
+      display: none;
+    }
+
+    .warning-message.show {
+      display: block;
+    }
+
+    .modal-footer {
+      display: flex;
+      justify-content: flex-end;
+      gap: 12px;
+      margin-top: 25px;
+      padding-top: 20px;
+      border-top: 1px solid #e5e7eb;
+    }
+
+    .button {
+      padding: 10px 20px;
+      border-radius: 6px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+      transition: all 0.2s;
+    }
+
+    .button-secondary {
+      background-color: #f3f4f6;
+      color: #374151;
+    }
+
+    .button-secondary:hover {
+      background-color: #e5e7eb;
+    }
+
+    .button-primary {
+      background-color: #0066cc;
+      color: white;
+    }
+
+    .button-primary:hover {
+      background-color: #0052a3;
+    }
+
+    .button-primary:disabled {
+      background-color: #9ca3af;
+      cursor: not-allowed;
+    }
+  </style>
+</head>
+<body>
+  <div class="operations-container">
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <div class="sidebar-header">
+        <div class="sidebar-title">Navigation</div>
+        <div class="sidebar-brand">5 Cypress Labs</div>
+      </div>
+
+      <nav class="sidebar-nav">
+        <a href="/operations" class="sidebar-link active">
+          <span class="sidebar-link-icon">📊</span>
+          <span>Dashboard</span>
+        </a>
+        <a href="#" class="sidebar-link">
+          <span class="sidebar-link-icon">📈</span>
+          <span>Pipeline</span>
+        </a>
+        <a href="#" class="sidebar-link">
+          <span class="sidebar-link-icon">👥</span>
+          <span>Clients</span>
+        </a>
+        <a href="#" class="sidebar-link">
+          <span class="sidebar-link-icon">📄</span>
+          <span>Documents</span>
+        </a>
+        <a href="#" class="sidebar-link">
+          <span class="sidebar-link-icon">⚙️</span>
+          <span>Settings</span>
+        </a>
+      </nav>
+
+      <button class="sidebar-button" id="newWorkItemBtn">
+        <span>+</span>
+        <span>New Work Item</span>
+      </button>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+      <div class="main-header">
+        <h1 class="main-title">Operations Dashboard</h1>
+        <p class="main-subtitle">Manage your work queue and track all tasks</p>
+      </div>
+
+      <!-- KPI Cards -->
+      <div class="kpi-grid">
+        <div class="kpi-card">
+          <div class="kpi-label">Active Clients</div>
+          <div class="kpi-value" id="activeClientsKpi">0</div>
+          <div class="kpi-subtitle">In active contracts</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">Pipeline Value</div>
+          <div class="kpi-value" id="pipelineValueKpi">$0</div>
+          <div class="kpi-subtitle">Total deal value</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">This Month Revenue</div>
+          <div class="kpi-value" id="monthRevenueKpi">$0</div>
+          <div class="kpi-subtitle">Confirmed invoices</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">Pending Items</div>
+          <div class="kpi-value" id="pendingItemsKpi">0</div>
+          <div class="kpi-subtitle">Work items waiting</div>
+        </div>
+      </div>
+
+      <!-- Work Queue Section -->
+      <div class="section-header">
+        <h2 class="section-title">Work Queue</h2>
+        <div class="filter-group">
+          <button class="filter-button active" data-filter="all">All</button>
+          <button class="filter-button" data-filter="pending">Pending</button>
+          <button class="filter-button" data-filter="executing">Running</button>
+          <button class="filter-button" data-filter="completed">Completed</button>
+        </div>
+      </div>
+
+      <div class="work-queue-container">
+        <table class="work-queue-table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Type</th>
+              <th>Client</th>
+              <th>Description</th>
+              <th>Due Date</th>
+              <th>Priority</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="workQueueBody">
+            <tr>
+              <td colspan="8">
+                <div class="empty-state">
+                  <div class="empty-state-icon">📭</div>
+                  <div class="empty-state-text">No work items yet. Create your first task to get started.</div>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Activity Feed Section -->
+      <div class="section-header">
+        <h2 class="section-title">Recent Activity</h2>
+      </div>
+
+      <div class="activity-feed-container">
+        <div id="activityFeed">
+          <div class="empty-state">
+            <div class="empty-state-icon">📋</div>
+            <div class="empty-state-text">No activity yet. Start by creating a new work item.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- New Work Item Modal -->
+  <div class="modal" id="newWorkItemModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title">Create New Work Item</h2>
+        <button class="modal-close" id="modalCloseBtn">×</button>
+      </div>
+
+      <form id="newWorkItemForm">
+        <div class="form-group">
+          <label class="form-label">What type of work? *</label>
+          <select class="form-select" id="workType" required>
+            <option value="">Select a work type...</option>
+            <optgroup label="Sales & Pipeline">
+              <option value="new_lead">New Lead - Capture prospect</option>
+              <option value="schedule_discovery_call">Schedule Discovery Call</option>
+              <option value="create_proposal">Create Proposal</option>
+              <option value="send_contract">Send Contract (MSA/SOW/NDA)</option>
+            </optgroup>
+            <optgroup label="Client Operations">
+              <option value="onboard_client">Onboard Client - Send kickoff</option>
+              <option value="modify_workflow">Modify Workflow - Client request</option>
+            </optgroup>
+            <optgroup label="Financial">
+              <option value="create_invoice">Create Invoice</option>
+              <option value="send_payment_reminder">Send Payment Reminder</option>
+              <option value="log_payment_received">Log Payment Received</option>
+            </optgroup>
+            <optgroup label="Documents & Communication">
+              <option value="send_email">Send Email</option>
+              <option value="generate_sow">Generate Statement of Work</option>
+            </optgroup>
+            <optgroup label="Integrations & Automation">
+              <option value="add_workflow">Add Workflow</option>
+              <option value="resolve_integration_issue">Resolve Integration Issue</option>
+            </optgroup>
+            <optgroup label="Monitoring & Alerts">
+              <option value="handle_alert">Handle Monitoring Alert</option>
+            </optgroup>
+          </select>
+          <div class="form-hint">Choose what work needs to be done</div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Who is this for? *</label>
+          <select class="form-select" id="clientSelect" required>
+            <option value="">Select a client...</option>
+          </select>
+          <div class="form-hint">Select existing client or create new</div>
+        </div>
+
+        <div class="warning-message" id="warningMessage"></div>
+
+        <div class="form-group">
+          <label class="form-label">Why? *</label>
+          <textarea class="form-textarea" id="workDescription" placeholder="Describe what needs to be done..." required></textarea>
+          <div class="form-hint">Provide context for the work item</div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Due Date</label>
+          <input type="text" class="form-input" id="dueDate" readonly disabled>
+          <div class="form-hint" id="dueDateHint">Auto-calculated based on work type</div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="button button-secondary" id="modalCancelBtn">Cancel</button>
+          <button type="submit" class="button button-primary">Create Work Item</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    let allClients = [];
+    let allWorkItems = [];
+
+    // Load clients and work items
+    async function loadData() {
+      try {
+        const dashboardRes = await fetch('/api/dashboard');
+        const dashboardData = await dashboardRes.json();
+        allClients = dashboardData.clients;
+        updateClientSelect();
+        updateKpis();
+
+        // Load work items
+        const workItemsRes = await fetch('/api/work-items');
+        allWorkItems = await workItemsRes.json();
+        renderWorkQueue();
+        updateActivityFeed();
+      } catch (error) {
+        console.error('Error loading data:', error);
+      }
+    }
+
+    function updateClientSelect() {
+      const select = document.getElementById('clientSelect');
+      const currentValue = select.value;
+      select.innerHTML = '<option value="">Select a client...</option>';
+      allClients.forEach(client => {
+        const option = document.createElement('option');
+        option.value = client.slug;
+        option.textContent = `${client.name}`;
+        select.appendChild(option);
+      });
+      select.value = currentValue;
+    }
+
+    function updateKpis() {
+      const activeClients = allClients.filter(c => c.status === 'active').length;
+      const pipelineValue = allClients.reduce((sum, c) => sum + c.dealValue, 0);
+      const pendingItems = allWorkItems.filter(w => w.status === 'pending').length;
+
+      document.getElementById('activeClientsKpi').textContent = activeClients;
+      document.getElementById('pipelineValueKpi').textContent = `$${pipelineValue.toLocaleString()}`;
+      document.getElementById('monthRevenueKpi').textContent = '$0'; // Would calculate from invoices
+      document.getElementById('pendingItemsKpi').textContent = pendingItems;
+    }
+
+    function renderWorkQueue(filter = 'all') {
+      const tbody = document.getElementById('workQueueBody');
+      let filtered = allWorkItems;
+
+      if (filter !== 'all') {
+        filtered = allWorkItems.filter(w => w.status === filter);
+      }
+
+      if (filtered.length === 0) {
+        tbody.innerHTML = `
+          <tr>
+            <td colspan="8">
+              <div class="empty-state">
+                <div class="empty-state-icon">📭</div>
+                <div class="empty-state-text">No work items in this view.</div>
+              </div>
+            </td>
+          </tr>
+        `;
+        return;
+      }
+
+      tbody.innerHTML = filtered.map(item => {
+        const dueDate = new Date(item.due_date);
+        const today = new Date();
+        const isOverdue = dueDate < today && item.status !== 'completed';
+
+        if (isOverdue && item.priority === 'medium') {
+          item.priority = 'high';
+        }
+
+        const client = allClients.find(c => c.slug === item.client_slug);
+        const typeLabel = item.type.split('_').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+
+        return `
+          <tr>
+            <td><span class="work-item-id" onclick="goToPreview('${item.id}')">${item.id}</span></td>
+            <td><span class="work-item-type">${typeLabel}</span></td>
+            <td class="work-item-client">${client?.name || 'Unknown'}</td>
+            <td class="work-item-description">${item.description}</td>
+            <td class="work-item-due-date">${dueDate.toLocaleDateString()}</td>
+            <td class="work-item-priority priority-${item.priority}">${item.priority.charAt(0).toUpperCase() + item.priority.slice(1)}</td>
+            <td><span class="work-item-status status-${item.status}">${item.status.charAt(0).toUpperCase() + item.status.slice(1)}</span></td>
+            <td class="work-item-actions">
+              ${item.status === 'pending' ? `<button class="action-button" onclick="goToPreview('${item.id}')">Preview</button>` : ''}
+              ${item.status === 'completed' ? `<button class="action-button" onclick="viewArtifacts('${item.id}')">View</button>` : ''}
+            </td>
+          </tr>
+        `;
+      }).join('');
+    }
+
+    function updateActivityFeed() {
+      const feed = document.getElementById('activityFeed');
+      const completed = allWorkItems.filter(w => w.status === 'completed').reverse().slice(0, 10);
+
+      if (completed.length === 0) {
+        feed.innerHTML = `
+          <div class="empty-state">
+            <div class="empty-state-icon">📋</div>
+            <div class="empty-state-text">No completed work items yet.</div>
+          </div>
+        `;
+        return;
+      }
+
+      feed.innerHTML = completed.map(item => {
+        const client = allClients.find(c => c.slug === item.client_slug);
+        const completedTime = new Date(item.execution.result?.completed_at || item.created_at);
+        const timeAgo = getTimeAgo(completedTime);
+        const typeLabel = item.type.split('_').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+
+        return `
+          <div class="activity-item">
+            <span class="activity-text"><strong>${typeLabel}</strong> for ${client?.name || 'Unknown'}</span>
+            <span class="activity-timestamp">${timeAgo}</span>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function getTimeAgo(date) {
+      const now = new Date();
+      const seconds = Math.floor((now - date) / 1000);
+      let interval = seconds / 31536000;
+      if (interval > 1) return Math.floor(interval) + 'd ago';
+      interval = seconds / 2592000;
+      if (interval > 1) return Math.floor(interval) + 'mo ago';
+      interval = seconds / 86400;
+      if (interval > 1) return Math.floor(interval) + 'd ago';
+      interval = seconds / 3600;
+      if (interval > 1) return Math.floor(interval) + 'h ago';
+      interval = seconds / 60;
+      if (interval > 1) return Math.floor(interval) + 'm ago';
+      return Math.floor(seconds) + 's ago';
+    }
+
+    function goToPreview(id) {
+      window.location.href = `/preview-work-item?id=${id}`;
+    }
+
+    function viewArtifacts(id) {
+      const item = allWorkItems.find(w => w.id === id);
+      if (item?.execution.result?.artifacts) {
+        console.log('Artifacts:', item.execution.result.artifacts);
+        alert('Work Item Completed:\n' + JSON.stringify(item.execution.result.artifacts, null, 2));
+      }
+    }
+
+    // Modal handlers
+    const newWorkItemBtn = document.getElementById('newWorkItemBtn');
+    const modal = document.getElementById('newWorkItemModal');
+    const modalCloseBtn = document.getElementById('modalCloseBtn');
+    const modalCancelBtn = document.getElementById('modalCancelBtn');
+    const form = document.getElementById('newWorkItemForm');
+
+    newWorkItemBtn.addEventListener('click', () => {
+      modal.classList.add('active');
+    });
+
+    [modalCloseBtn, modalCancelBtn].forEach(btn => {
+      btn.addEventListener('click', () => {
+        modal.classList.remove('active');
+        form.reset();
+      });
+    });
+
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) {
+        modal.classList.remove('active');
+        form.reset();
+      }
+    });
+
+    // Work type change handler
+    document.getElementById('workType').addEventListener('change', (e) => {
+      const type = e.target.value;
+      const warningDiv = document.getElementById('warningMessage');
+      warningDiv.classList.remove('show');
+
+      const typeDependencies = {
+        create_proposal: { status: 'discovery_completed', message: 'Client must have completed discovery' },
+        send_contract: { status: 'proposal_accepted', message: 'Client must have accepted proposal' },
+        onboard_client: { status: 'contract_signed', message: 'Client must have signed contract' },
+        create_invoice: { status: 'active', message: 'Client must be in active status' },
+      };
+
+      // Reset warning if type doesn't have dependencies
+      if (!typeDependencies[type]) {
+        return;
+      }
+
+      // Check if selected client meets requirements
+      const clientSelect = document.getElementById('clientSelect');
+      if (clientSelect.value) {
+        const client = allClients.find(c => c.slug === clientSelect.value);
+        const requirement = typeDependencies[type];
+        if (client && client.status !== requirement.status) {
+          warningDiv.textContent = `⚠️ ${requirement.message} (current: ${client.status})`;
+          warningDiv.classList.add('show');
+        }
+      }
+    });
+
+    // Client select change handler
+    document.getElementById('clientSelect').addEventListener('change', (e) => {
+      const type = document.getElementById('workType').value;
+      if (!type) return;
+
+      const typeDependencies = {
+        create_proposal: { status: 'discovery_completed', message: 'Client must have completed discovery' },
+        send_contract: { status: 'proposal_accepted', message: 'Client must have accepted proposal' },
+        onboard_client: { status: 'contract_signed', message: 'Client must have signed contract' },
+        create_invoice: { status: 'active', message: 'Client must be in active status' },
+      };
+
+      const warningDiv = document.getElementById('warningMessage');
+      warningDiv.classList.remove('show');
+
+      if (typeDependencies[type]) {
+        const client = allClients.find(c => c.slug === e.target.value);
+        const requirement = typeDependencies[type];
+        if (client && client.status !== requirement.status) {
+          warningDiv.textContent = `⚠️ ${requirement.message} (current: ${client.status})`;
+          warningDiv.classList.add('show');
+        }
+      }
+    });
+
+    // Form submission
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const type = document.getElementById('workType').value;
+      const clientSlug = document.getElementById('clientSelect').value;
+      const description = document.getElementById('workDescription').value;
+
+      try {
+        const res = await fetch('/api/work-items', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            type,
+            client_slug: clientSlug,
+            description
+          })
+        });
+
+        if (!res.ok) throw new Error('Failed to create work item');
+
+        const data = await res.json();
+        allWorkItems.push(data.workItem);
+
+        modal.classList.remove('active');
+        form.reset();
+        renderWorkQueue();
+        updateActivityFeed();
+        updateKpis();
+      } catch (error) {
+        console.error('Error creating work item:', error);
+        alert('Failed to create work item');
+      }
+    });
+
+    // Filter buttons
+    document.querySelectorAll('.filter-button').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        document.querySelectorAll('.filter-button').forEach(b => b.classList.remove('active'));
+        e.target.classList.add('active');
+        renderWorkQueue(e.target.dataset.filter);
+      });
+    });
+
+    // Load data on page load
+    loadData();
+  </script>
+</body>
+</html>
