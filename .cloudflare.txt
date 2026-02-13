@@ -1,0 +1,16 @@
+# Cloudflare Pages Build Configuration
+
+# Build command
+npm install
+
+# Build output directory (not needed for Node.js app, but Cloudflare requires it)
+# We'll use a functions approach instead
+
+# Node.js version
+NODE_VERSION=18
+
+# Environment variables needed (set in Cloudflare dashboard)
+# APIFY_API_TOKEN=your_token
+# GOOGLE_SHEETS_API_KEY=your_key
+# MODAL_API_TOKEN=your_token
+# NODE_ENV=production

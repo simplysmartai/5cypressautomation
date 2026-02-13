@@ -1,0 +1,23 @@
+{
+  "name": "5-cypress-automation",
+  "version": "1.0.0",
+  "description": "5 Cypress Automation - Skills Dashboard & Automation Platform",
+  "main": "server.js",
+  "type": "module",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js",
+    "build": "echo 'No build step required for Express server'",
+    "pages:build": "npm install && echo 'Cloudflare Pages build complete'",
+    "pages:deploy": "npx wrangler pages deploy public --project-name=5cypress"
+  },
+  "keywords": ["automation", "ai", "skills", "dashboard"],
+  "author": "Simply Smart AI",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.18.2"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
