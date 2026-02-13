@@ -4,9 +4,63 @@ Your site is ready to deploy on **Cloudflare Pages** - the fastest, most reliabl
 
 ---
 
-## 🚀 Quick Deploy (5 Minutes)
+## 🚀 Quick Deploy Option A: Wrangler CLI (Recommended for Developers)
 
-### **Step 1: Connect GitHub to Cloudflare**
+**Install & Deploy in 3 minutes:**
+
+```bash
+# 1. Install Wrangler CLI
+npm install -g @cloudflare/wrangler
+
+# 2. Authenticate with Cloudflare
+wrangler login
+
+# 3. Deploy
+npm run deploy
+# or directly:
+npx wrangler deploy
+
+# 4. Done! Check your site at:
+# https://5cypress.pages.dev
+```
+
+**What this does:**
+- Builds: `npm install`
+- Deploys to Cloudflare Pages
+- Sets up auto-deployments on `git push main`
+- Manages versions at `npx wrangler versions upload`
+
+**Configuration:**
+All settings are in `wrangler.toml` (already configured for you).
+
+**Add Environment Variables Locally:**
+Create `.env` file:
+```
+MODAL_API_TOKEN=your_token_here
+MODAL_WEBHOOK_URL=https://nick-90891--claude-orchestrator-directive.modal.run
+NODE_VERSION=18
+```
+
+Then deploy (wrangler reads these automatically):
+```bash
+npm run deploy
+```
+
+**View Logs:**
+```bash
+wrangler tail  # Real-time logs
+```
+
+**Roll Back to Previous Version:**
+```bash
+wrangler rollback
+```
+
+---
+
+## 🚀 Quick Deploy Option B: Cloudflare Dashboard (5 Minutes)
+
+### **Step 1: Connect GitHub to Cloudflare Dashboard**
 
 1. Go to [dash.cloudflare.com](https://dash.cloudflare.com)
 2. Sign up or log in
@@ -15,21 +69,16 @@ Your site is ready to deploy on **Cloudflare Pages** - the fastest, most reliabl
 5. Authorize GitHub access
 6. Select repository: `simplysmartai/5cypressautomation`
 
-### **Step 2: Configure Build Settings**
+### **Step 2: Cloudflare Will Auto-Detect Configuration**
 
-**Framework preset:** None (Static HTML)
+Cloudflare reads `wrangler.toml` automatically:
+- **Build command:** `npm install`
+- **Deploy command:** `npx wrangler deploy`
+- **Production branch:** `main`
 
-**Build command:**
-```bash
-npm install
-```
+The dashboard will display these settings for you to confirm.
 
-**Build output directory:**
-```
-public
-```
-
-**Root directory:** `/` (leave blank)
+### **Step 3: Add Environment Variables (Dashboard)**
 
 **Environment variables:** (Click "Add variable")
 ```
@@ -38,13 +87,13 @@ MODAL_API_TOKEN = your_modal_token_here
 MODAL_WEBHOOK_URL = https://nick-90891--claude-orchestrator-directive.modal.run
 ```
 
-### **Step 3: Deploy**
+### **Step 4: Deploy via Dashboard**
 
 Click **Save and Deploy**
 
 Your site will be live in 2-3 minutes at:
 ```
-https://5cypressautomation.pages.dev
+https://5cypress.pages.dev
 ```
 
 ---

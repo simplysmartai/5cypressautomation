@@ -1,0 +1,19 @@
+name = "5cypressautomation"
+type = "javascript"
+account_id = ""
+workers_dev = true
+route = ""
+zone_id = ""
+
+[env.production]
+route = "5cypress.pages.dev/*"
+zone_id = ""
+
+[build]
+command = "npm install"
+cwd = "./"
+watch_paths = ["**/*.js", "**/*.json", "public/**/*", "functions/**/*"]
+
+[build.upload]
+format = "modules"
+main = "./server.js"
