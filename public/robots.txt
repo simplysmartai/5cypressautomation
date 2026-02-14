@@ -1,0 +1,18 @@
+User-agent: *
+Allow: /
+Disallow: /dashboard.html
+Disallow: /operations.html
+Disallow: /seo-dashboard.html
+Disallow: /form.html
+Disallow: /client-remy-lasers.html
+Disallow: /client-remy-lasers-presentation.html
+Disallow: /client-remy-lasers-roi.html
+Disallow: /index_old.html
+Disallow: /index_old_v2.html
+Disallow: /index_new_services.html
+Disallow: /preview-work-item.html
+Disallow: /login.html
+Disallow: /skills-dashboard.html
+Disallow: /api/
+
+Sitemap: https://5cypress.com/sitemap.xml
