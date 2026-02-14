@@ -796,6 +796,10 @@
             <li><a href="/">Home</a></li>
             <li><a href="/skills-dashboard.html" class="active">Skills</a></li>
             <li><a href="/form">Order</a></li>
+            <li id="userInfo" style="display: none;">
+                <span id="userName" style="color: var(--accent); font-weight: 600;"></span>
+                <button onclick="logout()" style="background: var(--bg-card); border: 1px solid var(--border); color: var(--text-secondary); padding: 6px 12px; border-radius: 6px; cursor: pointer; margin-left: 0.5rem; font-size: 0.8rem;">Logout</button>
+            </li>
         </ul>
     </nav>
 
@@ -805,7 +809,19 @@
         <!-- Header -->
         <div class="header">
             <h1>Skills <span class="accent">Dashboard</span></h1>
-            <p>Your command center for marketing automation, data scraping, analytics, and growth tools. Activate any skill with one click.</p>
+            <p id="headerSubtitle">Your command center for marketing automation, data scraping, analytics, and growth tools. Activate any skill with one click.</p>
+            <div id="usageInfo" style="display: none; margin-top: 1rem; padding: 1rem; background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px;">
+                <div style="display: flex; gap: 2rem; flex-wrap: wrap;">
+                    <div>
+                        <span style="color: var(--text-muted); font-size: 0.8rem;">Plan:</span>
+                        <span id="clientTier" style="color: var(--accent); font-weight: 600; margin-left: 0.5rem;"></span>
+                    </div>
+                    <div>
+                        <span style="color: var(--text-muted); font-size: 0.8rem;">Usage:</span>
+                        <span id="clientUsage" style="color: var(--text-primary); font-weight: 600; margin-left: 0.5rem;"></span>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <!-- Stats -->
@@ -919,6 +935,8 @@
         let categories = new Set();
         let activeFilter = 'all';
         let runCount = 0;
+        let apiKey = null;
+        let clientInfo = null;
 
         // ── Category Config ──
         const categoryConfig = {
@@ -1140,10 +1158,16 @@
             resultOutput.innerHTML = '<div style="text-align: center; padding: 2rem; color: var(--text-muted);">Processing your request...</div>';
 
             try {
+                // Include API key in request
+                const payload = {
+                    api_key: apiKey,
+                    ...formData
+                };
+
                 const res = await fetch(`/api/skills/${skillId}/run`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(formData)
+                    body: JSON.stringify(payload)
                 });
 
                 const responseData = await res.json();
@@ -1157,6 +1181,13 @@
                     
                     runCount++;
                     updateStats();
+
+                    // Update usage info if available
+                    if (responseData.usage && clientInfo) {
+                        clientInfo.limits.current_month_runs = responseData.usage.current;
+                        localStorage.setItem('client_info', JSON.stringify(clientInfo));
+                        updateAuthUI();
+                    }
                 } else {
                     resultStatus.innerHTML = '❌ <span style="color: var(--error)">Error</span>';
                     resultOutput.innerHTML = `
@@ -1367,8 +1398,49 @@
             if (e.key === 'Escape') closeModal();
         });
 
+        // ── Authentication ──
+        function checkAuth() {
+            apiKey = localStorage.getItem('api_key');
+            const storedClientInfo = localStorage.getItem('client_info');
+            
+            if (!apiKey) {
+                // Not logged in, redirect to login
+                window.location.href = '/login.html';
+                return false;
+            }
+            
+            if (storedClientInfo) {
+                clientInfo = JSON.parse(storedClientInfo);
+                updateAuthUI();
+            }
+            
+            return true;
+        }
+
+        function updateAuthUI() {
+            if (!clientInfo) return;
+            
+            // Update nav
+            document.getElementById('userName').textContent = clientInfo.name;
+            document.getElementById('userInfo').style.display = 'block';
+            
+            // Update usage info
+            document.getElementById('clientTier').textContent = clientInfo.tier.toUpperCase();
+            document.getElementById('clientUsage').textContent = 
+                `${clientInfo.limits.current_month_runs}/${clientInfo.limits.monthly_runs} runs this month`;
+            document.getElementById('usageInfo').style.display = 'block';
+        }
+
+        function logout() {
+            localStorage.removeItem('api_key');
+            localStorage.removeItem('client_info');
+            window.location.href = '/login.html';
+        }
+
         // ── Init ──
-        loadSkills();
+        if (checkAuth()) {
+            loadSkills();
+        }
     </script>
 </body>
 </html>
