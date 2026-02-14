@@ -2,3 +2,12 @@ name = "5cypressautomation"
 
 # Cloudflare Pages configuration
 pages_build_output_dir = "public"
+
+# Cron Triggers (runs every hour to check scheduled skills)
+[triggers]
+crons = ["0 * * * *"]  # Every hour at minute 0
+
+# KV Namespace Bindings (if needed)
+# [[kv_namespaces]]
+# binding = "CLIENTS_KV"
+# id = "your-kv-namespace-id"

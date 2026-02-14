@@ -844,7 +844,18 @@
             </div>
         </div>
 
-        <!-- Controls -->
+        <!-- Tab Navigation -->
+        <div class="tabs-nav" style="display: flex; gap: 1rem; margin-bottom: 2rem; border-bottom: 2px solid var(--border);">
+            <button class="tab-btn active" data-tab="skills" style="background: none; border: none; color: var(--text-secondary); padding: 1rem 1.5rem; cursor: pointer; font-size: 1rem; font-weight: 500; border-bottom: 2px solid transparent; margin-bottom: -2px; transition: all 0.2s;">
+                Skills
+            </button>
+            <button class="tab-btn" data-tab="history" style="background: none; border: none; color: var(--text-secondary); padding: 1rem 1.5rem; cursor: pointer; font-size: 1rem; font-weight: 500; border-bottom: 2px solid transparent; margin-bottom: -2px; transition: all 0.2s;">
+                History
+            </button>
+        </div>
+
+        <!-- Skills Tab Content -->
+        <div class="tab-content" id="skillsTab">
         <div class="controls">
             <div class="search-box">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
@@ -852,7 +863,41 @@
             </div>
             <div class="filter-pills" id="filterPills">
                 <button class="pill active" data-filter="all">All</button>
+            </
+
+        </div>
+
+        <!-- History Tab Content -->
+        <div class="tab-content" id="historyTab" style="display: none;">
+            <div style="margin-bottom: 2rem;">
+                <h2 style="font-size: 1.5rem; margin-bottom: 0.5rem;">Recent Runs</h2>
+                <p style="color: var(--text-muted); font-size: 0.9rem;">Your last 50 skill executions with full details</p>
             </div>
+
+            <!-- History Controls -->
+            <div style="display: flex; gap: 1rem; margin-bottom: 2rem; flex-wrap: wrap;">
+                <input type="text" id="historySearch" placeholder="Search by skill name..." style="flex: 1; min-width: 250px; background: var(--bg-card); border: 1px solid var(--border); color: var(--text-primary); padding: 0.75rem 1rem; border-radius: 8px; font-size: 0.9rem;">
+                <select id="historyFilter" style="background: var(--bg-card); border: 1px solid var(--border); color: var(--text-primary); padding: 0.75rem 1rem; border-radius: 8px; font-size: 0.9rem; cursor: pointer;">
+                    <option value="all">All Skills</option>
+                    <option value="success">Successful Only</option>
+                    <option value="failed">Failed Only</option>
+                </select>
+            </div>
+
+            <!-- History Table -->
+            <div id="historyContainer" style="background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden;">
+                <div id="historyLoading" style="padding: 3rem; text-align: center; color: var(--text-muted);">
+                    <div style="display: inline-block; width: 40px; height: 40px; border: 3px solid var(--border); border-top-color: var(--accent); border-radius: 50%; animation: spin 1s linear infinite;"></div>
+                    <p style="margin-top: 1rem;">Loading history...</p>
+                </div>
+                <div id="historyList" style="display: none;"></div>
+                <div id="historyEmpty" style="display: none; padding: 3rem; text-align: center; color: var(--text-muted);">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="width: 64px; height: 64px; margin: 0 auto 1rem; opacity: 0.3;"><path d="M9.879 7.519c1.171-1.025 3.071-1.025 4.242 0 1.172 1.025 1.172 2.687 0 3.712-.203.179-.43.326-.67.442-.745.361-1.45.999-1.45 1.827v.75M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9 5.25h.008v.008H12v-.008z"/></svg>
+                    <h3>No history yet</h3>
+                    <p style="margin-top: 0.5rem;">Run a skill to see it appear here</p>
+                </div>
+            </div>
+        </div>div>
         </div>
 
         <!-- Skills Grid -->
@@ -1435,6 +1480,192 @@
             localStorage.removeItem('api_key');
             localStorage.removeItem('client_info');
             window.location.href = '/login.html';
+        }
+
+        // ── Tab Navigation ──
+        let currentTab = 'skills';
+        const tabBtns = document.querySelectorAll('.tab-btn');
+        
+        tabBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const tabName = btn.dataset.tab;
+                switchTab(tabName);
+            });
+        });
+
+        function switchTab(tabName) {
+            // Update buttons
+            tabBtns.forEach(btn => {
+                if (btn.dataset.tab === tabName) {
+                    btn.classList.add('active');
+                    btn.style.color = 'var(--accent)';
+                    btn.style.borderBottomColor = 'var(--accent)';
+                } else {
+                    btn.classList.remove('active');
+                    btn.style.color = 'var(--text-secondary)';
+                    btn.style.borderBottomColor = 'transparent';
+                }
+            });
+
+            // Update content
+            if (tabName === 'skills') {
+                document.getElementById('skillsTab').style.display = 'block';
+                document.getElementById('historyTab').style.display = 'none';
+            } else if (tabName === 'history') {
+                document.getElementById('skillsTab').style.display = 'none';
+                document.getElementById('historyTab').style.display = 'block';
+                loadHistory(); // Load history when tab opens
+            }
+
+            currentTab = tabName;
+        }
+
+        // ── History Functions ──
+        let historyData = [];
+
+        async function loadHistory() {
+            const loadingEl = document.getElementById('historyLoading');
+            const listEl = document.getElementById('historyList');
+            const emptyEl = document.getElementById('historyEmpty');
+
+            // Show loading
+            loadingEl.style.display = 'block';
+            listEl.style.display = 'none';
+            emptyEl.style.display = 'none';
+
+            try {
+                const response = await fetch('/api/history/get?limit=50', {
+                    headers: {
+                        'X-API-Key': apiKey
+                    }
+                });
+
+                if (!response.ok) {
+                    throw new Error('Failed to load history');
+                }
+
+                const data = await response.json();
+                historyData = data.runs || [];
+
+                // Hide loading
+                loadingEl.style.display = 'none';
+
+                if (historyData.length === 0) {
+                    emptyEl.style.display = 'block';
+                } else {
+                    renderHistory(historyData);
+                    listEl.style.display = 'block';
+                }
+            } catch (error) {
+                console.error('Failed to load history:', error);
+                loadingEl.innerHTML = `
+                    <div style="color: var(--error);">
+                        <p>❌ Failed to load history</p>
+                        <p style="font-size: 0.9rem; margin-top: 0.5rem;">${error.message}</p>
+                    </div>
+                `;
+            }
+        }
+
+        function renderHistory(runs) {
+            const listEl = document.getElementById('historyList');
+            
+            if (runs.length === 0) {
+                document.getElementById('historyEmpty').style.display = 'block';
+                listEl.style.display = 'none';
+                return;
+            }
+
+            const html = runs.map((run, index) => {
+                const date = new Date(run.timestamp);
+                const skillName = (run.skill_id || 'unknown').replace(/-/g, ' ').replace(/_/g, ' ').split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+                const statusIcon = run.success ? '✅' : '❌';
+                const statusColor = run.success ? 'var(--success)' : 'var(--error)';
+                const statusText = run.success ? 'Success' : 'Failed';
+
+                return `
+                    <div style="border-bottom: 1px solid var(--border); padding: 1.5rem; cursor: pointer; transition: background 0.2s;" onmouseover="this.style.background='var(--bg-card-hover)'" onmouseout="this.style.background='transparent'" onclick="showHistoryDetails(${index})">
+                        <div style="display: flex; justify-content: space-between; align-items: start; gap: 1rem; flex-wrap: wrap;">
+                            <div style="flex: 1; min-width: 200px;">
+                                <div style="font-weight: 600; font-size: 1rem; margin-bottom: 0.5rem;">${skillName}</div>
+                                <div style="color: var(--text-muted); font-size: 0.85rem;">
+                                    ${date.toLocaleDateString()} at ${date.toLocaleTimeString()}
+                                </div>
+                            </div>
+                            <div style="display: flex; align-items: center; gap: 0.5rem;">
+                                <span style="color: ${statusColor}; font-weight: 600; font-size: 0.9rem;">${statusIcon} ${statusText}</span>
+                                ${run.duration_ms ? `<span style="color: var(--text-muted); font-size: 0.85rem;">• ${run.duration_ms}ms</span>` : ''}
+                            </div>
+                        </div>
+                        ${run.error ? `<div style="margin-top: 0.75rem; padding: 0.75rem; background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.3); border-radius: 6px; color: var(--error); font-size: 0.85rem;">${run.error}</div>` : ''}
+                    </div>
+                `;
+            }).join('');
+
+            listEl.innerHTML = html;
+        }
+
+        function showHistoryDetails(index) {
+            const run = historyData[index];
+            const skillName = (run.skill_id || 'unknown').replace(/-/g, ' ').replace(/_/g, ' ').split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+            
+            document.getElementById('modalTitle').textContent = `${skillName} - History`;
+            document.getElementById('modalDesc').textContent = `Executed on ${new Date(run.timestamp).toLocaleString()}`;
+            document.getElementById('modalForm').innerHTML = '';
+            
+            const resultPanel = document.getElementById('resultPanel');
+            const resultStatus = document.getElementById('resultStatus');
+            const resultOutput = document.getElementById('resultOutput');
+            
+            resultPanel.style.display = 'block';
+            
+            if (run.success) {
+                resultStatus.innerHTML = '<span style="color: var(--success);">✅ Success</span>';
+                resultStatus.className = 'result-status success';
+            } else {
+                resultStatus.innerHTML = `<span style="color: var(--error);">❌ Failed</span>`;
+                resultStatus.className = 'result-status error';
+            }
+            
+            // Show full result with formatting
+            if (run.result) {
+                resultOutput.innerHTML = formatResult(run.result, run.skill_id);
+            } else {
+                resultOutput.textContent = run.error || 'No result data available';
+            }
+            
+            // Hide Run button, show only Close
+            document.getElementById('modalRun').style.display = 'none';
+            document.getElementById('modalCancel').textContent = 'Close';
+            
+            document.getElementById('modalOverlay').style.display = 'flex';
+        }
+
+        // History search & filter
+        document.getElementById('historySearch')?.addEventListener('input', filterHistory);
+        document.getElementById('historyFilter')?.addEventListener('change', filterHistory);
+
+        function filterHistory() {
+            const searchTerm = document.getElementById('historySearch').value.toLowerCase();
+            const filter = document.getElementById('historyFilter').value;
+
+            let filtered = historyData;
+
+            // Apply search
+            if (searchTerm) {
+                filtered = filtered.filter(run => 
+                    (run.skill_id || '').toLowerCase().includes(searchTerm)
+                );
+            }
+
+            // Apply status filter
+            if (filter === 'success') {
+                filtered = filtered.filter(run => run.success);
+            } else if (filter === 'failed') {
+                filtered = filtered.filter(run => !run.success);
+            }
+
+            renderHistory(filtered);
         }
 
         // ── Init ──

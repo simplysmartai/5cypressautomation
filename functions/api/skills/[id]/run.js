@@ -115,15 +115,27 @@ export async function onRequestPost(context) {
     
     const result = await response.json();
     
-    // Log usage (in production, this would update a database/sheets)
-    // For now, we track in-memory (resets on deploy)
-    await logUsage(request.url, {
+    const timestamp = new Date().toISOString();
+    const runData = {
       client_id: client.id,
+      client_name: client.name,
       skill_id: skillId,
-      timestamp: new Date().toISOString(),
+      timestamp,
       inputs: formInputs,
-      success: result.success !== false
-    });
+      success: result.success !== false,
+      result: result,
+      error: result.error || '',
+      duration_ms: 0 // Will be calculated by receiver
+    };
+    
+    // Log usage to counter
+    await logUsage(request.url, api_key, runData);
+    
+    // Log to history for job tracking
+    await logToHistory(request.url, api_key, runData);
+    
+    // Send Slack notification if configured
+    await sendSlackNotification(runData);
     
     // Return formatted response
     return new Response(JSON.stringify({
@@ -161,16 +173,76 @@ export async function onRequestPost(context) {
   }
 }
 
-async function logUsage(baseUrl, usage) {
+async function logUsage(baseUrl, apiKey, usage) {
   try {
     // Log to usage tracking endpoint
     await fetch(new URL('/api/usage/log', baseUrl), {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 
+        'Content-Type': 'application/json',
+        'X-API-Key': apiKey
+      },
       body: JSON.stringify(usage)
     });
   } catch (e) {
     console.error('Failed to log usage:', e);
+  }
+}
+
+async function logToHistory(baseUrl, apiKey, runData) {
+  try {
+    await fetch(new URL('/api/history/log', baseUrl), {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-API-Key': apiKey
+      },
+      body: JSON.stringify(runData)
+    });
+  } catch (e) {
+    console.error('Failed to log to history:', e);
+  }
+}
+
+async function sendSlackNotification(runData) {
+  try {
+    // Only send if SLACK_WEBHOOK_URL is configured
+    const slackUrl = process.env.SLACK_WEBHOOK_URL;
+    if (!slackUrl) return;
+    
+    const skillName = runData.skill_id.replace(/-/g, ' ').replace(/_/g, ' ').split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+    const status = runData.success ? 'Success ✅' : 'Failed ❌';
+    
+    const message = {
+      text: `Skill Run: ${skillName}`,
+      blocks: [
+        {
+          type: 'section',
+          text: {
+            type: 'mrkdwn',
+            text: `*${status}* - ${skillName}\nClient: ${runData.client_name}\nTime: ${new Date(runData.timestamp).toLocaleString()}`
+          }
+        }
+      ]
+    };
+    
+    if (!runData.success && runData.error) {
+      message.blocks.push({
+        type: 'section',
+        text: {
+          type: 'mrkdwn',
+          text: `*Error:* ${runData.error}`
+        }
+      });
+    }
+    
+    await fetch(slackUrl, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(message)
+    });
+  } catch (e) {
+    console.error('Failed to send Slack notification:', e);
   }
 }
 
