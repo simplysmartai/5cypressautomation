@@ -3,11 +3,6 @@ name = "5cypressautomation"
 # Cloudflare Pages configuration
 pages_build_output_dir = "public"
 
-# Cron Triggers (runs every hour to check scheduled skills)
-[triggers]
-crons = ["0 * * * *"]  # Every hour at minute 0
-
-# KV Namespace Bindings (if needed)
-# [[kv_namespaces]]
-# binding = "CLIENTS_KV"
-# id = "your-kv-namespace-id"
+# Note: Cron triggers (_scheduled.js) are not supported in Pages directly.
+# To enable scheduled skills, deploy _scheduled.js as a separate Cloudflare Worker.
+# See PHASE_3_COMPLETE.md for worker deployment instructions.

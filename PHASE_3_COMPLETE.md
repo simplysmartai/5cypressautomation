@@ -104,7 +104,9 @@ Time: 2:30 PM
 - ✅ Telegram notifications for scheduled runs
 - ✅ Respects client usage limits
 
-**Cron Configuration:**
+**Important:** Schedules are managed via API (create/list/delete). To enable automatic cron triggering, you must deploy `_scheduled.js` as a separate Cloudflare Worker (see Deployment section).
+
+**Cron Configuration** (for optional Worker deployment):
 ```toml
 [triggers]
 crons = ["0 * * * *"]  # Every hour at minute 0
@@ -224,11 +226,34 @@ MODAL_WEBHOOK_URL = https://nick-90891--claude-orchestrator-directive.modal.run
 python execution/sheets_logger.py
 ```
 
-### 4. Deploy Cron Trigger
-The cron trigger deploys automatically with Cloudflare Pages. Verify in dashboard:
-**Workers & Pages → 5cypressautomation → Settings → Triggers → Cron Triggers**
+### 4. Scheduled Skills (Optional: Enable Cron Automation)
 
-Should show: `0 * * * *` (every hour)
+The Scheduled Skills **API is ready now** - you can create/view/delete schedules via REST endpoints.
+
+**To add automatic cron triggering** (optional), deploy `_scheduled.js` as a Cloudflare Worker:
+
+```bash
+# 1. Install Wrangler (Cloudflare Worker CLI)
+npm install -g wrangler
+
+# 2. Create a new worker project
+wrangler init scheduled-skills
+
+# 3. Copy _scheduled.js to the worker src/
+# 4. Update wrangler.toml for the worker with cron triggers:
+
+[env.production]
+name = "5cypress-scheduled-skills"
+vars = { MODAL_WEBHOOK_URL = "https://nick-90891--claude-orchestrator-directive.modal.run" }
+
+[triggers]
+crons = ["0 * * * *"]  # Run every hour
+
+# 5. Deploy
+wrangler deploy --env production
+```
+
+**Without cron deployment:** You can still manually trigger skills by calling `/api/schedules/list` and running them via API.
 
 ### 5. Test Scheduled Skills
 ```bash
@@ -299,8 +324,7 @@ All Phase 3 endpoints require `X-API-Key` header:
 - [x] Click history item → modal shows details
 - [x] Telegram notification received after skill run
 - [x] Create schedule → appears in list
-- [x] Cron trigger executes schedule (wait 1 hour or trigger manually)
-- [x] Scheduled run appears in history with "scheduled: true"
+- [ ] Cron trigger executes schedule (optional: deploy Worker first)
 - [x] Delete schedule → removed from list
 - [ ] Google Sheets logging (requires setup)
 
@@ -367,12 +391,15 @@ Headers: { 'X-API-Key': 'your_key' }
 
 **Lines of Code:** ~1,500
 
-**Ready For:**
-- ✅ Production use
-- ✅ Client onboarding
-- ✅ Scheduled automation workflows
-- ✅ Real-time monitoring via Telegram
-- ✅ Data analysis in Google Sheets
+**Ready For (No Setup Required):**
+- ✅ Production use - Dashboard is live at https://5cypress.com
+- ✅ Client onboarding - Auth system with API keys
+- ✅ Job history tracking - Full run history with search/filter
+- ✅ Real-time monitoring via Telegram (5-minute setup)
+
+**Optional Advanced Features:**
+- 🔧 Scheduled automation (requires separate Worker deployment)
+- 🔧 Google Sheets logging (requires service account setup)
 
 ---
 
