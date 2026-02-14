@@ -163,10 +163,11 @@ async function runScheduledSkill(schedule, env) {
     if (history.length > 100) history = history.slice(-100);
     await env.CLIENTS_KV.put(historyKey, JSON.stringify(history));
 
-    // Send Slack notification if configured
-    const slackUrl = env.SLACK_WEBHOOK_URL;
-    if (slackUrl) {
-      await sendScheduledNotification(slackUrl, runData, schedule);
+    // Send Telegram notification if configured
+    const botToken = env.TELEGRAM_BOT_TOKEN;
+    const chatId = env.TELEGRAM_CHAT_ID;
+    if (botToken && chatId) {
+      await sendScheduledNotification(botToken, chatId, runData, schedule);
     }
 
     // Update last run time
@@ -189,44 +190,34 @@ async function runScheduledSkill(schedule, env) {
   }
 }
 
-// Send Slack notification for scheduled runs
-async function sendScheduledNotification(slackUrl, runData, schedule) {
+// Send Telegram notification for scheduled runs
+async function sendScheduledNotification(botToken, chatId, runData, schedule) {
   try {
     const skillName = runData.skill_id.replace(/-/g, ' ').replace(/_/g, ' ').split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
-    const status = runData.success ? '✅ Success' : '❌ Failed';
+    const emoji = runData.success ? '✅' : '❌';
+    const status = runData.success ? 'Success' : 'Failed';
 
-    const message = {
-      text: `Scheduled Skill: ${skillName}`,
-      blocks: [
-        {
-          type: 'section',
-          text: {
-            type: 'mrkdwn',
-            text: `*${status}* - ${skillName} (Scheduled)\n` +
-                  `Client: ${runData.client_name}\n` +
-                  `Frequency: ${schedule.frequency}\n` +
-                  `Time: ${new Date(runData.timestamp).toLocaleString()}`
-          }
-        }
-      ]
-    };
+    let messageText = `${emoji} *Scheduled Skill ${status}*\n\n`;
+    messageText += `*Skill:* ${skillName}\n`;
+    messageText += `*Client:* ${runData.client_name}\n`;
+    messageText += `*Frequency:* ${schedule.frequency}\n`;
+    messageText += `*Time:* ${new Date(runData.timestamp).toLocaleString()}`;
 
     if (!runData.success && runData.error) {
-      message.blocks.push({
-        type: 'section',
-        text: {
-          type: 'mrkdwn',
-          text: `*Error:* ${runData.error}`
-        }
-      });
+      messageText += `\n\n*Error:* \`${runData.error}\``;
     }
 
-    await fetch(slackUrl, {
+    const telegramUrl = `https://api.telegram.org/bot${botToken}/sendMessage`;
+    await fetch(telegramUrl, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(message)
+      body: JSON.stringify({
+        chat_id: chatId,
+        text: messageText,
+        parse_mode: 'Markdown'
+      })
     });
   } catch (error) {
-    console.error('Failed to send Slack notification:', error);
+    console.error('Failed to send Telegram notification:', error);
   }
 }

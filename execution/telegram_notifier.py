@@ -180,4 +180,3 @@ if __name__ == '__main__':
     
     result = send_slack_notification(test_notification)
     print(json.dumps(result, indent=2))
-telegram

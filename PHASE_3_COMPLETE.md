@@ -2,7 +2,7 @@
 
 **Status:** Deployed & Integrated  
 **Date:** January 2025  
-**Features:** Google Sheets logging, Job history, Slack notifications, Scheduled skills
+**Features:** Google Sheets logging, Job history, Telegram notifications, Scheduled skills
 
 ---
 
@@ -11,7 +11,7 @@
 Phase 3 adds intelligence and persistence to the Skills Dashboard:
 - **Job History**: Track all skill executions with full details
 - **Google Sheets Logging**: Export data for long-term analytics
-- **Slack Notifications**: Real-time alerts for skill completions
+- **Telegram Notifications**: Real-time alerts for skill completions
 - **Scheduled Skills**: Cron-based automation (hourly, daily, weekly, monthly)
 
 ---
@@ -56,25 +56,29 @@ Phase 3 adds intelligence and persistence to the Skills Dashboard:
    - `GOOGLE_SHEETS_ID` - Your spreadsheet ID
    - `GOOGLE_SERVICE_ACCOUNT_JSON` - Service account credentials JSON
 
-### 3. Slack Notifications
+### 3. Telegram Notifications
 
 **Files Created:**
-- `execution/slack_notifier.py` - Slack webhook integration
+- `execution/telegram_notifier.py` - Telegram Bot API integration
 - Updated `functions/api/skills/[id]/run.js` - Sends notifications after each run
 
 **Features:**
-- ✅ Success notifications (green, ✅)
-- ✅ Failure notifications (red, ❌, includes error)
+- ✅ Success notifications (✅)
+- ✅ Failure notifications (❌, includes error)
 - ✅ Usage alerts (when client approaches limits: 75%, 90%)
-- ✅ Beautiful formatted messages with skill name, client, duration, timestamp
+- ✅ Clean Markdown formatting with skill name, client, duration, timestamp
 
 **Setup Required:**
-1. Create Slack Incoming Webhook in your workspace
-2. Set `SLACK_WEBHOOK_URL` env var in Cloudflare Pages
+1. Create Telegram bot via [@BotFather](https://t.me/botfather)
+2. Send `/start` to your bot and get your chat ID
+3. Set env vars in Cloudflare Pages:
+   - `TELEGRAM_BOT_TOKEN` - Bot token from BotFather
+   - `TELEGRAM_CHAT_ID` - Your chat ID (get from [@userinfobot](https://t.me/userinfobot))
 
 **Message Format:**
 ```
 ✅ Skill Completed Successfully
+
 Skill: Email Sequence Builder
 Client: Demo Client
 Duration: 1234ms
@@ -97,7 +101,7 @@ Time: 2:30 PM
 - ✅ Monthly: choose day of month (1-31)
 - ✅ Pre-configured inputs for each schedule
 - ✅ Automatic logging to history
-- ✅ Slack notifications for scheduled runs
+- ✅ Telegram notifications for scheduled runs
 - ✅ Respects client usage limits
 
 **Cron Configuration:**
@@ -203,7 +207,8 @@ Go to: **Cloudflare Dashboard → Pages → 5cypressautomation → Settings → 
 
 Add:
 ```
-SLACK_WEBHOOK_URL = https://hooks.slack.com/services/YOUR/WEBHOOK/URL
+TELEGRAM_BOT_TOKEN = 123456789:ABCdefGHIjklMNOpqrsTUVwxyz
+TELEGRAM_CHAT_ID = 987654321
 GOOGLE_SHEETS_ID = 1abc...xyz (from sheet URL)
 GOOGLE_SERVICE_ACCOUNT_JSON = {"type":"service_account",...}
 MODAL_WEBHOOK_URL = https://nick-90891--claude-orchestrator-directive.modal.run
@@ -292,7 +297,7 @@ All Phase 3 endpoints require `X-API-Key` header:
 - [x] Filter history by skill name
 - [x] Filter history by success/failure
 - [x] Click history item → modal shows details
-- [x] Slack notification received after skill run
+- [x] Telegram notification received after skill run
 - [x] Create schedule → appears in list
 - [x] Cron trigger executes schedule (wait 1 hour or trigger manually)
 - [x] Scheduled run appears in history with "scheduled: true"
@@ -354,7 +359,7 @@ Headers: { 'X-API-Key': 'your_key' }
 ## 🎉 Phase 3 Complete!
 
 **Total Files Created/Modified:** 15
-- 4 Python scripts (Sheets, Slack)
+- 4 Python scripts (Sheets, Telegram)
 - 7 Cloudflare Functions (history, schedules, cron)
 - 1 HTML update (History tab)
 - 1 Config update (wrangler.toml)
@@ -366,7 +371,7 @@ Headers: { 'X-API-Key': 'your_key' }
 - ✅ Production use
 - ✅ Client onboarding
 - ✅ Scheduled automation workflows
-- ✅ Real-time monitoring via Slack
+- ✅ Real-time monitoring via Telegram
 - ✅ Data analysis in Google Sheets
 
 ---
