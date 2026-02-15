@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Our Process | 5 Cypress Automation</title>
+  <meta name="description" content="From manual chaos to automated system in 2 weeks. Here's exactly how we connect your tools.">
+  <link rel="canonical" href="https://5cypress.com/process.html">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/remixicon@4.0.0/fonts/remixicon.css" rel="stylesheet">
+  <link rel="icon" type="image/svg+xml" href="assets/brand/favicon.svg">
+  <link href="https://assets.calendly.com/assets/external/calendar-widget.css" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <script src="dynamics.js" defer></script>
+</head>
+<body>
+  <div class="conic-mesh"></div>
+
+  <!-- Navigation -->
+  <nav class="navbar">
+    <div class="container nav-container">
+      <a href="/" class="logo">
+        <div class="logo-icon logo-pulse">
+          <img src="assets/brand/logo-leonardo.jpg" alt="5 Cypress Automation Logo">
+        </div>
+        <div class="logo-text-group">
+          <span class="logo-title text-gradient-special">5 Cypress</span>
+          <div class="logo-subtitle">
+            <span>A</span><span>U</span><span>T</span><span>O</span><span>M</span><span>A</span><span>T</span><span>I</span><span>O</span><span>N</span>
+          </div>
+        </div>
+      </a>
+      
+      <div class="nav-menu">
+        <a href="/services.html" class="nav-link">Services</a>
+        <a href="/process.html" class="nav-link active">Process</a>
+        <a href="/case-studies.html" class="nav-link">Case Studies</a>
+        <a href="/about.html" class="nav-link">About</a>
+      </div>
+
+      <div class="nav-actions">
+        <button onclick="openCalendly()" class="btn btn-primary">
+          Get Started <i class="ri-arrow-right-up-line"></i>
+        </button>
+      </div>
+
+      <button class="mobile-toggle" onclick="toggleMobileMenu()">
+        <i class="ri-menu-line"></i>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Mobile Menu -->
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="/services.html" class="mobile-link" onclick="closeMobileMenu()">Services</a>
+    <a href="/process.html" class="mobile-link" onclick="closeMobileMenu()">Process</a>
+    <a href="/case-studies.html" class="mobile-link" onclick="closeMobileMenu()">Case Studies</a>
+    <a href="/about.html" class="mobile-link" onclick="closeMobileMenu()">About</a>
+    <button onclick="openCalendly(); closeMobileMenu();" class="btn btn-primary btn-block">Get Started</button>
+  </div>
+
+  <!-- Page Header -->
+  <section style="padding: 140px 0 60px; text-align: center;">
+    <div class="container">
+      <h1 style="font-size: 3rem; font-weight: 900; margin-bottom: 20px;">
+        <span style="display: block; background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">Our Process</span>
+      </h1>
+      <p style="font-size: 1.25rem; color: var(--text-muted); max-width: 700px; margin: 0 auto;">
+        From manual chaos to automated system in 2 weeks. Here's exactly how we take your disconnected tools and turn them into one automated system.
+      </p>
+    </div>
+  </section>
+
+  <!-- Process Section -->
+  <section id="approach" class="approach-section">
+    <div class="container">
+      <div class="approach-grid" data-reveal="stagger">
+        <!-- Automation Backbone Line (Visual) -->
+        <div class="backbone-line">
+          <div class="backbone-pulse"></div>
+        </div>
+
+        <div class="approach-step">
+          <div class="step-number">01</div>
+          <div class="step-icon">
+            <i class="ri-search-line"></i>
+          </div>
+          <div class="step-content">
+            <span class="step-label">Week 1</span>
+            <h3>We Map Your Current Workflow</h3>
+            <p>We watch how you currently handle orders, bookings, and customer data. Then we show you exactly where you're wasting time—usually copying info between Calendly, QuickBooks, and email.</p>
+          </div>
+        </div>
+
+        <div class="approach-step">
+          <div class="step-number">02</div>
+          <div class="step-icon">
+            <i class="ri-node-tree"></i>
+          </div>
+          <div class="step-content">
+            <span class="step-label">Week 1</span>
+            <h3>You See the Automation Plan</h3>
+            <p>We show you exactly what will happen automatically. Example: "Customer books demo → QuickBooks quote created → confirmation email sent → team notified on Slack." You approve before we build anything.</p>
+          </div>
+        </div>
+
+        <div class="approach-step">
+          <div class="step-number">03</div>
+          <div class="step-icon">
+            <i class="ri-code-box-line"></i>
+          </div>
+          <div class="step-content">
+            <span class="step-label">Week 2</span>
+            <h3>We Connect Your Tools</h3>
+            <p>We link Calendly to QuickBooks, QuickBooks to ShipStation, everything to your CRM. You'll see test orders flow through automatically. We fix any issues before going live.</p>
+          </div>
+        </div>
+
+        <div class="approach-step">
+          <div class="step-number">04</div>
+          <div class="step-icon">
+            <i class="ri-shield-star-line"></i>
+          </div>
+          <div class="step-content">
+            <span class="step-label">Week 2</span>
+            <h3>You Go Live</h3>
+            <p>Your team starts using the new system. Orders process automatically. Invoices create themselves. Customers get instant confirmations. You get 15 hours per week back.</p>
+          </div>
+        </div>
+
+        <div class="approach-step">
+          <div class="step-number">05</div>
+          <div class="step-icon">
+            <i class="ri-brain-line"></i>
+          </div>
+          <div class="step-content">
+            <span class="step-label">Ongoing</span>
+            <h3>We Monitor & Improve</h3>
+            <p>We watch for errors and fix them before you notice. Every month, we show you new workflows we can automate. Your system gets better as your business grows.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section class="cta-section">
+    <div class="container">
+      <div class="cta-card">
+        <div class="cta-visual-bg">
+          <svg viewBox="0 0 1000 400" fill="none" opacity="0.1">
+            <path d="M0,200 Q250,50 500,200 T1000,200" stroke="var(--primary)" stroke-width="2">
+              <animate attributeName="stroke-dasharray" from="0,1500" to="1500,0" dur="20s" repeatCount="indefinite" />
+            </path>
+          </svg>
+        </div>
+        <div class="cta-content">
+          <h2>Ready to Get Started?</h2>
+          <p>Book a free workflow planning call and see exactly how we'll automate your business.</p>
+          <div class="cta-buttons">
+            <button onclick="openCalendly()" class="btn btn-white btn-lg">
+              Book Your Call <i class="ri-calendar-line"></i>
+            </button>
+          </div>
+        </div>
+        <div class="cta-visual">
+          <div class="cta-orb orb-1"></div>
+          <div class="cta-orb orb-2"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="logo">
+            <div class="logo-icon">
+              <img src="assets/brand/logo-leonardo.jpg" alt="5 Cypress Automation Logo">
+            </div>
+            <span>5 Cypress Automation</span>
+          </div>
+          <p class="footer-tagline">Connect your business tools so they work together automatically.</p>
+          <div class="social-links">
+            <a href="https://linkedin.com/company/5cypressautomation" target="_blank" rel="noopener" class="social-link" aria-label="LinkedIn">
+              <i class="ri-linkedin-fill"></i>
+            </a>
+            <a href="https://twitter.com/5cypressautomation" target="_blank" rel="noopener" class="social-link" aria-label="Twitter">
+              <i class="ri-twitter-x-fill"></i>
+            </a>
+          </div>
+        </div>
+        
+        <div class="footer-links">
+          <h4>Services</h4>
+          <ul>
+            <li><a href="/services.html">Calendar Integration</a></li>
+            <li><a href="/services.html">Order Automation</a></li>
+            <li><a href="/services.html">CRM Integration</a></li>
+          </ul>
+        </div>
+        
+        <div class="footer-links">
+          <h4>Company</h4>
+          <ul>
+            <li><a href="/process.html">Process</a></li>
+            <li><a href="/case-studies.html">Case Studies</a></li>
+            <li><a href="/about.html">About</a></li>
+          </ul>
+        </div>
+        
+        <div class="footer-links">
+          <h4>Get Started</h4>
+          <ul>
+            <li><a href="#" onclick="openCalendly(); return false;">Book a Call</a></li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="footer-bottom">
+        <p>&copy; 2026 5 Cypress Automation. All rights reserved.</p>
+        <div class="footer-legal">
+          <a href="/privacy.html">Privacy Policy</a>
+          <span class="footer-divider">•</span>
+          <a href="/terms.html">Terms of Service</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Calendly Modal -->
+  <div class="calendly-modal" id="calendlyModal">
+    <div class="calendly-modal-content">
+      <button class="calendly-close" onclick="closeCalendly()">
+        <i class="ri-close-line"></i>
+      </button>
+      <div class="calendly-container" id="calendlyContainer">
+        <div class="calendly-spinner"></div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://assets.calendly.com/assets/external/widget.js" async></script>
+  <script>
+    const navbar = document.querySelector('.navbar');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 50) {
+        navbar.classList.add('scrolled');
+      } else {
+        navbar.classList.remove('scrolled');
+      }
+    });
+
+    function toggleMobileMenu() {
+      const menu = document.getElementById('mobileMenu');
+      menu.classList.toggle('active');
+    }
+
+    function closeMobileMenu() {
+      const menu = document.getElementById('mobileMenu');
+      menu.classList.remove('active');
+    }
+
+    function openCalendly() {
+      const modal = document.getElementById('calendlyModal');
+      const container = document.getElementById('calendlyContainer');
+      
+      modal.style.display = 'flex';
+      document.body.style.overflow = 'hidden';
+      
+      container.innerHTML = '';
+      Calendly.initInlineWidget({
+        url: 'https://calendly.com/simply-smart',
+        parentElement: container,
+        prefill: {},
+        utm: {}
+      });
+    }
+
+    function closeCalendly() {
+      const modal = document.getElementById('calendlyModal');
+      modal.style.display = 'none';
+      document.body.style.overflow = '';
+    }
+
+    document.getElementById('calendlyModal').addEventListener('click', (e) => {
+      if (e.target.id === 'calendlyModal') {
+        closeCalendly();
+      }
+    });
+
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('revealed');
+        }
+      });
+    }, observerOptions);
+
+    document.querySelectorAll('.approach-step, .reveal').forEach(el => {
+      if (!el.classList.contains('reveal')) el.classList.add('reveal');
+      observer.observe(el);
+    });
+  </script>
+</body>
+</html>

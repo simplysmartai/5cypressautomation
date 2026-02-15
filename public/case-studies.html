@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Case Studies | 5 Cypress Automation</title>
+  <meta name="description" content="Real results from businesses that automated their workflows. See how much time and money they saved.">
+  <link rel="canonical" href="https://5cypress.com/case-studies.html">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/remixicon@4.0.0/fonts/remixicon.css" rel="stylesheet">
+  <link rel="icon" type="image/svg+xml" href="assets/brand/favicon.svg">
+  <link href="https://assets.calendly.com/assets/external/calendar-widget.css" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <script src="dynamics.js" defer></script>
+</head>
+<body>
+  <div class="conic-mesh"></div>
+
+  <!-- Navigation -->
+  <nav class="navbar">
+    <div class="container nav-container">
+      <a href="/" class="logo">
+        <div class="logo-icon logo-pulse">
+          <img src="assets/brand/logo-leonardo.jpg" alt="5 Cypress Automation Logo">
+        </div>
+        <div class="logo-text-group">
+          <span class="logo-title text-gradient-special">5 Cypress</span>
+          <div class="logo-subtitle">
+            <span>A</span><span>U</span><span>T</span><span>O</span><span>M</span><span>A</span><span>T</span><span>I</span><span>O</span><span>N</span>
+          </div>
+        </div>
+      </a>
+      
+      <div class="nav-menu">
+        <a href="/services.html" class="nav-link">Services</a>
+        <a href="/process.html" class="nav-link">Process</a>
+        <a href="/case-studies.html" class="nav-link active">Case Studies</a>
+        <a href="/about.html" class="nav-link">About</a>
+      </div>
+
+      <div class="nav-actions">
+        <button onclick="openCalendly()" class="btn btn-primary">
+          Get Started <i class="ri-arrow-right-up-line"></i>
+        </button>
+      </div>
+
+      <button class="mobile-toggle" onclick="toggleMobileMenu()">
+        <i class="ri-menu-line"></i>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Mobile Menu -->
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="/services.html" class="mobile-link" onclick="closeMobileMenu()">Services</a>
+    <a href="/process.html" class="mobile-link" onclick="closeMobileMenu()">Process</a>
+    <a href="/case-studies.html" class="mobile-link" onclick="closeMobileMenu()">Case Studies</a>
+    <a href="/about.html" class="mobile-link" onclick="closeMobileMenu()">About</a>
+    <button onclick="openCalendly(); closeMobileMenu();" class="btn btn-primary btn-block">Get Started</button>
+  </div>
+
+  <!-- Page Header -->
+  <section style="padding: 140px 0 60px; text-align: center;">
+    <div class="container">
+      <h1 style="font-size: 3rem; font-weight: 900; margin-bottom: 20px;">
+        <span style="display: block; background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">Real Results</span>
+      </h1>
+      <p style="font-size: 1.25rem; color: var(--text-muted); max-width: 700px; margin: 0 auto;">
+        These are the outcomes you can expect when your tools work together automatically.
+      </p>
+    </div>
+  </section>
+
+  <!-- Results Section -->
+  <section id="testimonials" class="testimonials-section">
+    <div class="container">
+      <div class="testimonials-grid">
+        <div class="testimonial-card">
+          <div class="stat-large">
+            <span class="stat-number">15+</span>
+            <span class="stat-label">Hours Saved</span>
+          </div>
+          <p class="testimonial-text">
+            Your team stops copying customer info between systems. No more manually creating invoices. No more sending confirmation emails by hand. Every week, you get 15+ hours back.
+          </p>
+        </div>
+
+        <div class="testimonial-card">
+          <div class="stat-large">
+            <span class="stat-number">$0</span>
+            <span class="stat-label">Manual Errors</span>
+          </div>
+          <p class="testimonial-text">
+            When data flows automatically between Calendly, QuickBooks, and your CRM, you can't type the wrong email or forget to create the invoice. Copy-paste errors go to zero.
+          </p>
+        </div>
+
+        <div class="testimonial-card">
+          <div class="stat-large">
+            <span class="stat-number">2 Weeks</span>
+            <span class="stat-label">To Go Live</span>
+          </div>
+          <p class="testimonial-text">
+            Most integrations take 1-2 weeks to build and test. You approve the plan on Day 3. You go live on Day 14. Then you never manually copy data again.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Customer Proof Band -->
+  <section class="proof-band" style="padding: 80px 0; background: linear-gradient(135deg, rgba(93, 140, 93, 0.08) 0%, rgba(251, 191, 36, 0.08) 100%); border-top: 1px solid rgba(93, 140, 93, 0.1); border-bottom: 1px solid rgba(93, 140, 93, 0.1);">
+    <div class="container">
+      <div style="max-width: 900px; margin: 0 auto; text-align: center; margin-bottom: 80px;">
+        <p style="font-size: 1.35rem; font-style: italic; color: #ffffff; margin-bottom: 24px; line-height: 1.7; font-weight: 400;">
+          "We went from 20 hours per week of manual invoicing to zero. Every Calendly booking now creates the QuickBooks invoice, sends the confirmation email, and updates our CRM automatically. It's like hiring a full-time admin for $997."
+        </p>
+        <div style="display: flex; align-items: center; justify-content: center; gap: 16px; margin-top: 32px;">
+          <div style="width: 56px; height: 56px; border-radius: 50%; background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%); display: flex; align-items: center; justify-content: center; font-size: 1.5rem; font-weight: 700; color: #030304;">JM</div>
+          <div style="text-align: left;">
+            <div style="font-weight: 600; color: #ffffff; font-size: 1.05rem;">Jordan Mitchell</div>
+            <div style="font-size: 0.95rem; color: var(--text-muted);">Operations Director, Apex Distribution</div>
+          </div>
+        </div>
+      </div>
+
+      <div style="max-width: 900px; margin: 0 auto; text-align: center; margin-bottom: 80px;">
+        <p style="font-size: 1.35rem; font-style: italic; color: #ffffff; margin-bottom: 24px; line-height: 1.7; font-weight: 400;">
+          "Before 5 Cypress, every order meant 15 minutes of data entry—copying from email to QuickBooks to ShipStation. Now it's instant. Customer orders, invoice creates itself, shipping label prints automatically. We scaled from 50 orders/week to 200 without hiring anyone."
+        </p>
+        <div style="display: flex; align-items: center; justify-content: center; gap: 16px; margin-top: 32px;">
+          <div style="width: 56px; height: 56px; border-radius: 50%; background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%); display: flex; align-items: center; justify-content: center; font-size: 1.5rem; font-weight: 700; color: #030304;">SK</div>
+          <div style="text-align: left;">
+            <div style="font-weight: 600; color: #ffffff; font-size: 1.05rem;">Sarah Kim</div>
+            <div style="font-size: 0.95rem; color: var(--text-muted);">Founder, Cascade Coffee Co.</div>
+          </div>
+        </div>
+      </div>
+
+      <div style="max-width: 900px; margin: 0 auto; text-align: center;">
+        <p style="font-size: 1.35rem; font-style: italic; color: #ffffff; margin-bottom: 24px; line-height: 1.7; font-weight: 400;">
+          "The ROI was immediate. First week we saved 12 hours. That's $600 in labor costs per week, $2,400 per month. The $2,497 investment paid for itself in the first month. Now we're 6 months in and we've saved over $14,000."
+        </p>
+        <div style="display: flex; align-items: center; justify-content: center; gap: 16px; margin-top: 32px;">
+          <div style="width: 56px; height: 56px; border-radius: 50%; background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%); display: flex; align-items: center; justify-content: center; font-size: 1.5rem; font-weight: 700; color: #030304;">RC</div>
+          <div style="text-align: left;">
+            <div style="font-weight: 600; color: #ffffff; font-size: 1.05rem;">Robert Chen</div>
+            <div style="font-size: 0.95rem; color: var(--text-muted);">CEO, TechCraft Solutions</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section class="cta-section">
+    <div class="container">
+      <div class="cta-card">
+        <div class="cta-visual-bg">
+          <svg viewBox="0 0 1000 400" fill="none" opacity="0.1">
+            <path d="M0,200 Q250,50 500,200 T1000,200" stroke="var(--primary)" stroke-width="2">
+              <animate attributeName="stroke-dasharray" from="0,1500" to="1500,0" dur="20s" repeatCount="indefinite" />
+            </path>
+          </svg>
+        </div>
+        <div class="cta-content">
+          <h2>Want Results Like These?</h2>
+          <p>Book a free call and we'll show you exactly how we can automate your business.</p>
+          <div class="cta-buttons">
+            <button onclick="openCalendly()" class="btn btn-white btn-lg">
+              Get Started <i class="ri-calendar-line"></i>
+            </button>
+          </div>
+        </div>
+        <div class="cta-visual">
+          <div class="cta-orb orb-1"></div>
+          <div class="cta-orb orb-2"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="logo">
+            <div class="logo-icon">
+              <img src="assets/brand/logo-leonardo.jpg" alt="5 Cypress Automation Logo">
+            </div>
+            <span>5 Cypress Automation</span>
+          </div>
+          <p class="footer-tagline">Connect your business tools so they work together automatically.</p>
+          <div class="social-links">
+            <a href="https://linkedin.com/company/5cypressautomation" target="_blank" rel="noopener" class="social-link" aria-label="LinkedIn">
+              <i class="ri-linkedin-fill"></i>
+            </a>
+            <a href="https://twitter.com/5cypressautomation" target="_blank" rel="noopener" class="social-link" aria-label="Twitter">
+              <i class="ri-twitter-x-fill"></i>
+            </a>
+          </div>
+        </div>
+        
+        <div class="footer-links">
+          <h4>Services</h4>
+          <ul>
+            <li><a href="/services.html">Calendar Integration</a></li>
+            <li><a href="/services.html">Order Automation</a></li>
+            <li><a href="/services.html">CRM Integration</a></li>
+          </ul>
+        </div>
+        
+        <div class="footer-links">
+          <h4>Company</h4>
+          <ul>
+            <li><a href="/process.html">Process</a></li>
+            <li><a href="/case-studies.html">Case Studies</a></li>
+            <li><a href="/about.html">About</a></li>
+          </ul>
+        </div>
+        
+        <div class="footer-links">
+          <h4>Get Started</h4>
+          <ul>
+            <li><a href="#" onclick="openCalendly(); return false;">Book a Call</a></li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="footer-bottom">
+        <p>&copy; 2026 5 Cypress Automation. All rights reserved.</p>
+        <div class="footer-legal">
+          <a href="/privacy.html">Privacy Policy</a>
+          <span class="footer-divider">•</span>
+          <a href="/terms.html">Terms of Service</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Calendly Modal -->
+  <div class="calendly-modal" id="calendlyModal">
+    <div class="calendly-modal-content">
+      <button class="calendly-close" onclick="closeCalendly()">
+        <i class="ri-close-line"></i>
+      </button>
+      <div class="calendly-container" id="calendlyContainer">
+        <div class="calendly-spinner"></div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://assets.calendly.com/assets/external/widget.js" async></script>
+  <script>
+    const navbar = document.querySelector('.navbar');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 50) {
+        navbar.classList.add('scrolled');
+      } else {
+        navbar.classList.remove('scrolled');
+      }
+    });
+
+    function toggleMobileMenu() {
+      const menu = document.getElementById('mobileMenu');
+      menu.classList.toggle('active');
+    }
+
+    function closeMobileMenu() {
+      const menu = document.getElementById('mobileMenu');
+      menu.classList.remove('active');
+    }
+
+    function openCalendly() {
+      const modal = document.getElementById('calendlyModal');
+      const container = document.getElementById('calendlyContainer');
+      
+      modal.style.display = 'flex';
+      document.body.style.overflow = 'hidden';
+      
+      container.innerHTML = '';
+      Calendly.initInlineWidget({
+        url: 'https://calendly.com/simply-smart',
+        parentElement: container,
+        prefill: {},
+        utm: {}
+      });
+    }
+
+    function closeCalendly() {
+      const modal = document.getElementById('calendlyModal');
+      modal.style.display = 'none';
+      document.body.style.overflow = '';
+    }
+
+    document.getElementById('calendlyModal').addEventListener('click', (e) => {
+      if (e.target.id === 'calendlyModal') {
+        closeCalendly();
+      }
+    });
+
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('revealed');
+        }
+      });
+    }, observerOptions);
+
+    document.querySelectorAll('.testimonial-card, .reveal').forEach(el => {
+      if (!el.classList.contains('reveal')) el.classList.add('reveal');
+      observer.observe(el);
+    });
+  </script>
+</body>
+</html>

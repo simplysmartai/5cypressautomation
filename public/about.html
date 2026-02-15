@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About Us | 5 Cypress Automation</title>
+  <meta name="description" content="We only do one thing: connect your business tools so they work together automatically. No complex workflows, no ongoing subscriptions.">
+  <link rel="canonical" href="https://5cypress.com/about.html">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/remixicon@4.0.0/fonts/remixicon.css" rel="stylesheet">
+  <link rel="icon" type="image/svg+xml" href="assets/brand/favicon.svg">
+  <link href="https://assets.calendly.com/assets/external/calendar-widget.css" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <script src="dynamics.js" defer></script>
+</head>
+<body>
+  <div class="conic-mesh"></div>
+
+  <!-- Navigation -->
+  <nav class="navbar">
+    <div class="container nav-container">
+      <a href="/" class="logo">
+        <div class="logo-icon logo-pulse">
+          <img src="assets/brand/logo-leonardo.jpg" alt="5 Cypress Automation Logo">
+        </div>
+        <div class="logo-text-group">
+          <span class="logo-title text-gradient-special">5 Cypress</span>
+          <div class="logo-subtitle">
+            <span>A</span><span>U</span><span>T</span><span>O</span><span>M</span><span>A</span><span>T</span><span>I</span><span>O</span><span>N</span>
+          </div>
+        </div>
+      </a>
+      
+      <div class="nav-menu">
+        <a href="/services.html" class="nav-link">Services</a>
+        <a href="/process.html" class="nav-link">Process</a>
+        <a href="/case-studies.html" class="nav-link">Case Studies</a>
+        <a href="/about.html" class="nav-link active">About</a>
+      </div>
+
+      <div class="nav-actions">
+        <button onclick="openCalendly()" class="btn btn-primary">
+          Get Started <i class="ri-arrow-right-up-line"></i>
+        </button>
+      </div>
+
+      <button class="mobile-toggle" onclick="toggleMobileMenu()">
+        <i class="ri-menu-line"></i>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Mobile Menu -->
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="/services.html" class="mobile-link" onclick="closeMobileMenu()">Services</a>
+    <a href="/process.html" class="mobile-link" onclick="closeMobileMenu()">Process</a>
+    <a href="/case-studies.html" class="mobile-link" onclick="closeMobileMenu()">Case Studies</a>
+    <a href="/about.html" class="mobile-link" onclick="closeMobileMenu()">About</a>
+    <button onclick="openCalendly(); closeMobileMenu();" class="btn btn-primary btn-block">Get Started</button>
+  </div>
+
+  <!-- Page Header -->
+  <section style="padding: 140px 0 60px; text-align: center;">
+    <div class="container">
+      <h1 style="font-size: 3rem; font-weight: 900; margin-bottom: 20px;">
+        <span style="display: block; background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">Why Us</span>
+      </h1>
+      <p style="font-size: 1.25rem; color: var(--text-muted); max-width: 700px; margin: 0 auto;">
+        We only do one thing: connect your business tools so they work together automatically.
+      </p>
+    </div>
+  </section>
+
+  <!-- What We Say NO To -->
+  <section class="do-dont-section">
+    <div class="container">
+      <div class="do-dont-grid">
+        <!-- DON'T Column -->
+        <div class="dont-column">
+          <div class="column-header">
+            <div class="icon-badge dont-badge">
+              <i class="ri-close-line"></i>
+            </div>
+            <h2>We DON'T</h2>
+          </div>
+          
+          <div class="comparison-item">
+            <div class="comparison-icon dont-icon">
+              <i class="ri-close-circle-fill"></i>
+            </div>
+            <div class="comparison-content">
+              <h3>Build Complex Workflows You'll Never Use</h3>
+              <p>Most automation companies build 50-step workflows with conditional logic, webhooks, and API calls. You pay $5,000 upfront, then realize you only needed 3 steps automated. We focus on the 3 connections that save you 15 hours per week, not the 47 you'll never touch.</p>
+            </div>
+          </div>
+
+          <div class="comparison-item">
+            <div class="comparison-icon dont-icon">
+              <i class="ri-close-circle-fill"></i>
+            </div>
+            <div class="comparison-content">
+              <h3>Charge Monthly Software Subscriptions</h3>
+              <p>You don't need another $99/month SaaS tool on top of the 12 you're already paying for. We build it once, you own it forever. No monthly fees, no usage limits, no surprise charges when you scale.</p>
+            </div>
+          </div>
+
+          <div class="comparison-item">
+            <div class="comparison-icon dont-icon">
+              <i class="ri-close-circle-fill"></i>
+            </div>
+            <div class="comparison-content">
+              <h3>Require You to Learn Code or "No-Code" Tools</h3>
+              <p>Zapier says it's "easy" but you still need to understand triggers, actions, filters, and formatters. Make.com gives you a visual builder but you're still the one debugging it at 11pm when it breaks. We handle all of that so you never have to log into another automation platform.</p>
+            </div>
+          </div>
+
+          <div class="comparison-item">
+            <div class="comparison-icon dont-icon">
+              <i class="ri-close-circle-fill"></i>
+            </div>
+            <div class="comparison-content">
+              <h3>Take 6 Months to Go Live</h3>
+              <p>Enterprise consultants love billing by the hour. They'll spend 2 months "scoping" and 4 months "iterating." You'll pay $50,000 and wait half a year. We go live in 2 weeks because we're not trying to sell you a year-long engagement.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- DO Column -->
+        <div class="do-column">
+          <div class="column-header">
+            <div class="icon-badge do-badge">
+              <i class="ri-check-line"></i>
+            </div>
+            <h2>We DO</h2>
+          </div>
+          
+          <div class="comparison-item">
+            <div class="comparison-icon do-icon">
+              <i class="ri-checkbox-circle-fill"></i>
+            </div>
+            <div class="comparison-content">
+              <h3>Connect Exactly What You Need</h3>
+              <p>We watch how you work today, identify the 3-5 manual steps eating your time, and automate just those. When a Calendly booking creates a QuickBooks invoice and sends a confirmation email, you save 10 minutes per booking. That's real ROI, not theoretical.</p>
+            </div>
+          </div>
+
+          <div class="comparison-item">
+            <div class="comparison-icon do-icon">
+              <i class="ri-checkbox-circle-fill"></i>
+            </div>
+            <div class="comparison-content">
+              <h3>Build It Once, You Own It Forever</h3>
+              <p>You pay once ($997-$4,997), we build it, you own it. No monthly fees. No usage caps. It runs automatically in the background. If you want to add more connections later, you call us. If not, you're done paying.</p>
+            </div>
+          </div>
+
+          <div class="comparison-item">
+            <div class="comparison-icon do-icon">
+              <i class="ri-checkbox-circle-fill"></i>
+            </div>
+            <div class="comparison-content">
+              <h3>Handle Everything Technical</h3>
+              <p>We connect the APIs, handle the error cases, set up the monitoring. You approve the workflow diagram, we build it, you test it, you go live. If something breaks, we fix it. You never touch code, never debug webhooks, never read API docs.</p>
+            </div>
+          </div>
+
+          <div class="comparison-item">
+            <div class="comparison-icon do-icon">
+              <i class="ri-checkbox-circle-fill"></i>
+            </div>
+            <div class="comparison-content">
+              <h3>Go Live in 2 Weeks</h3>
+              <p>Week 1: We map your workflow and show you the automation plan. Week 2: We build it, you test it, you go live. No 6-month engagements, no scope creep, no consultants milking your budget. You save 15 hours per week starting on Day 14.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Mission Statement -->
+  <section style="padding: 120px 0; background: rgba(93, 140, 93, 0.05);">
+    <div class="container">
+      <div style="max-width: 800px; margin: 0 auto; text-align: center;">
+        <h2 style="font-size: 2.5rem; font-weight: 900; margin-bottom: 32px;">Our Mission</h2>
+        <p style="font-size: 1.35rem; line-height: 1.8; color: var(--text-muted); margin-bottom: 24px;">
+          Small businesses waste 15+ hours per week copying data between tools. We believe that should be zero.
+        </p>
+        <p style="font-size: 1.35rem; line-height: 1.8; color: var(--text-muted);">
+          Every business runs on Calendly, QuickBooks, ShipStation, or similar tools. These tools don't talk to each other by default. So business owners hire people to copy-paste data all day. That's a waste of time and money.
+        </p>
+        <p style="font-size: 1.35rem; line-height: 1.8; color: var(--text-muted); margin-top: 24px;">
+          We connect those tools so they work together automatically. Then you get your time back.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section class="cta-section">
+    <div class="container">
+      <div class="cta-card">
+        <div class="cta-visual-bg">
+          <svg viewBox="0 0 1000 400" fill="none" opacity="0.1">
+            <path d="M0,200 Q250,50 500,200 T1000,200" stroke="var(--primary)" stroke-width="2">
+              <animate attributeName="stroke-dasharray" from="0,1500" to="1500,0" dur="20s" repeatCount="indefinite" />
+            </path>
+          </svg>
+        </div>
+        <div class="cta-content">
+          <h2>Ready to Automate?</h2>
+          <p>Book a free call and see exactly how we'll connect your tools.</p>
+          <div class="cta-buttons">
+            <button onclick="openCalendly()" class="btn btn-white btn-lg">
+              Get Started <i class="ri-calendar-line"></i>
+            </button>
+          </div>
+        </div>
+        <div class="cta-visual">
+          <div class="cta-orb orb-1"></div>
+          <div class="cta-orb orb-2"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="logo">
+            <div class="logo-icon">
+              <img src="assets/brand/logo-leonardo.jpg" alt="5 Cypress Automation Logo">
+            </div>
+            <span>5 Cypress Automation</span>
+          </div>
+          <p class="footer-tagline">Connect your business tools so they work together automatically.</p>
+          <div class="social-links">
+            <a href="https://linkedin.com/company/5cypressautomation" target="_blank" rel="noopener" class="social-link" aria-label="LinkedIn">
+              <i class="ri-linkedin-fill"></i>
+            </a>
+            <a href="https://twitter.com/5cypressautomation" target="_blank" rel="noopener" class="social-link" aria-label="Twitter">
+              <i class="ri-twitter-x-fill"></i>
+            </a>
+          </div>
+        </div>
+        
+        <div class="footer-links">
+          <h4>Services</h4>
+          <ul>
+            <li><a href="/services.html">Calendar Integration</a></li>
+            <li><a href="/services.html">Order Automation</a></li>
+            <li><a href="/services.html">CRM Integration</a></li>
+          </ul>
+        </div>
+        
+        <div class="footer-links">
+          <h4>Company</h4>
+          <ul>
+            <li><a href="/process.html">Process</a></li>
+            <li><a href="/case-studies.html">Case Studies</a></li>
+            <li><a href="/about.html">About</a></li>
+          </ul>
+        </div>
+        
+        <div class="footer-links">
+          <h4>Get Started</h4>
+          <ul>
+            <li><a href="#" onclick="openCalendly(); return false;">Book a Call</a></li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="footer-bottom">
+        <p>&copy; 2026 5 Cypress Automation. All rights reserved.</p>
+        <div class="footer-legal">
+          <a href="/privacy.html">Privacy Policy</a>
+          <span class="footer-divider">•</span>
+          <a href="/terms.html">Terms of Service</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Calendly Modal -->
+  <div class="calendly-modal" id="calendlyModal">
+    <div class="calendly-modal-content">
+      <button class="calendly-close" onclick="closeCalendly()">
+        <i class="ri-close-line"></i>
+      </button>
+      <div class="calendly-container" id="calendlyContainer">
+        <div class="calendly-spinner"></div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://assets.calendly.com/assets/external/widget.js" async></script>
+  <script>
+    const navbar = document.querySelector('.navbar');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 50) {
+        navbar.classList.add('scrolled');
+      } else {
+        navbar.classList.remove('scrolled');
+      }
+    });
+
+    function toggleMobileMenu() {
+      const menu = document.getElementById('mobileMenu');
+      menu.classList.toggle('active');
+    }
+
+    function closeMobileMenu() {
+      const menu = document.getElementById('mobileMenu');
+      menu.classList.remove('active');
+    }
+
+    function openCalendly() {
+      const modal = document.getElementById('calendlyModal');
+      const container = document.getElementById('calendlyContainer');
+      
+      modal.style.display = 'flex';
+      document.body.style.overflow = 'hidden';
+      
+      container.innerHTML = '';
+      Calendly.initInlineWidget({
+        url: 'https://calendly.com/simply-smart',
+        parentElement: container,
+        prefill: {},
+        utm: {}
+      });
+    }
+
+    function closeCalendly() {
+      const modal = document.getElementById('calendlyModal');
+      modal.style.display = 'none';
+      document.body.style.overflow = '';
+    }
+
+    document.getElementById('calendlyModal').addEventListener('click', (e) => {
+      if (e.target.id === 'calendlyModal') {
+        closeCalendly();
+      }
+    });
+
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('revealed');
+        }
+      });
+    }, observerOptions);
+
+    document.querySelectorAll('.comparison-item, .reveal').forEach(el => {
+      if (!el.classList.contains('reveal')) el.classList.add('reveal');
+      observer.observe(el);
+    });
+  </script>
+</body>
+</html>
