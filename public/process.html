@@ -68,77 +68,134 @@
         <span style="display: block; background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">Our Process</span>
       </h1>
       <p style="font-size: 1.25rem; color: var(--text-muted); max-width: 700px; margin: 0 auto;">
-        From manual chaos to automated system in 2 weeks. Here's exactly how we take your disconnected tools and turn them into one automated system.
+        From discovery to deployment, we follow a proven process that gets you to automation fast. We call it The Cypress Method.
       </p>
     </div>
   </section>
 
-  <!-- Process Section -->
-  <section id="approach" class="approach-section">
+  <!-- The Cypress Method -->
+  <section style="padding: 100px 0; background: linear-gradient(135deg, rgba(93, 140, 93, 0.05) 0%, rgba(251, 191, 36, 0.05) 100%);">
     <div class="container">
-      <div class="approach-grid" data-reveal="stagger">
-        <!-- Automation Backbone Line (Visual) -->
-        <div class="backbone-line">
-          <div class="backbone-pulse"></div>
-        </div>
+      <div style="text-align: center; margin-bottom: 80px;">
+        <span class="section-tag">Our Methodology</span>
+        <h2 style="font-size: 2.5rem; font-weight: 900; margin-bottom: 24px; margin-top: 16px;">The Cypress Method</h2>
+        <p style="font-size: 1.2rem; color: var(--text-muted); max-width: 700px; margin: 0 auto;">Four phases that take you from manual chaos to automated system.</p>
+      </div>
 
-        <div class="approach-step">
-          <div class="step-number">01</div>
-          <div class="step-icon">
-            <i class="ri-search-line"></i>
+      <div class="cypress-method-timeline">
+        <!-- Phase 1: ROOT - Discover -->
+        <div class="method-step">
+          <div class="method-icon" style="background: linear-gradient(135deg, rgba(93, 140, 93, 0.2), rgba(93, 140, 93, 0.1));">
+            <i class="ri-seedling-line"></i>
           </div>
-          <div class="step-content">
-            <span class="step-label">Week 1</span>
-            <h3>We Map Your Current Workflow</h3>
-            <p>We watch how you currently handle orders, bookings, and customer data. Then we show you exactly where you're wasting time—usually copying info between Calendly, QuickBooks, and email.</p>
-          </div>
-        </div>
-
-        <div class="approach-step">
-          <div class="step-number">02</div>
-          <div class="step-icon">
-            <i class="ri-node-tree"></i>
-          </div>
-          <div class="step-content">
-            <span class="step-label">Week 1</span>
-            <h3>You See the Automation Plan</h3>
-            <p>We show you exactly what will happen automatically. Example: "Customer books demo → QuickBooks quote created → confirmation email sent → team notified on Slack." You approve before we build anything.</p>
+          <div class="method-content">
+            <div class="method-label">ROOT</div>
+            <h3>Discover: We Find Where You're Bleeding Time</h3>
+            <p>Most businesses waste 15+ hours per week copying data between 3-5 tools. We map every manual step eating your time. You tell us your current workflow, we document exactly where automation can help.</p>
+            <ul style="list-style: none; padding: 0; margin: 20px 0 0 0; color: var(--text-muted);">
+              <li style="padding: 8px 0; display: flex; align-items: flex-start; gap: 12px;"><i class="ri-check-line" style="color: var(--primary); font-size: 1.25rem; flex-shrink: 0;"></i><span>30-minute workflow audit call</span></li>
+              <li style="padding: 8px 0; display: flex; align-items: flex-start; gap: 12px;"><i class="ri-check-line" style="color: var(--primary); font-size: 1.25rem; flex-shrink: 0;"></i><span>Document all manual hand-offs between systems</span></li>
+              <li style="padding: 8px 0; display: flex; align-items: flex-start; gap: 12px;"><i class="ri-check-line" style="color: var(--primary); font-size: 1.25rem; flex-shrink: 0;"></i><span>Identify top 3 time-draining workflows</span></li>
+            </ul>
+            <div class="method-timeline-marker">Week 1 • Days 1-2</div>
           </div>
         </div>
 
-        <div class="approach-step">
-          <div class="step-number">03</div>
-          <div class="step-icon">
-            <i class="ri-code-box-line"></i>
+        <!-- Phase 2: TRUNK - Design -->
+        <div class="method-step">
+          <div class="method-icon" style="background: linear-gradient(135deg, rgba(93, 140, 93, 0.3), rgba(93, 140, 93, 0.15));">
+            <i class="ri-layout-line"></i>
           </div>
-          <div class="step-content">
-            <span class="step-label">Week 2</span>
-            <h3>We Connect Your Tools</h3>
-            <p>We link Calendly to QuickBooks, QuickBooks to ShipStation, everything to your CRM. You'll see test orders flow through automatically. We fix any issues before going live.</p>
-          </div>
-        </div>
-
-        <div class="approach-step">
-          <div class="step-number">04</div>
-          <div class="step-icon">
-            <i class="ri-shield-star-line"></i>
-          </div>
-          <div class="step-content">
-            <span class="step-label">Week 2</span>
-            <h3>You Go Live</h3>
-            <p>Your team starts using the new system. Orders process automatically. Invoices create themselves. Customers get instant confirmations. You get 15 hours per week back.</p>
+          <div class="method-content">
+            <div class="method-label">TRUNK</div>
+            <h3>Design: You Approve Before We Build Anything</h3>
+            <p>We show you exactly what will happen automatically. Example: "Customer books → Invoice creates → Email sends → CRM updates." You see the flowchart, understand every trigger, and approve the plan.</p>
+            <ul style="list-style: none; padding: 0; margin: 20px 0 0 0; color: var(--text-muted);">
+              <li style="padding: 8px 0; display: flex; align-items: flex-start; gap: 12px;"><i class="ri-check-line" style="color: var(--primary); font-size: 1.25rem; flex-shrink: 0;"></i><span>Visual workflow diagrams (before/after)</span></li>
+              <li style="padding: 8px 0; display: flex; align-items: flex-start; gap: 12px;"><i class="ri-check-line" style="color: var(--primary); font-size: 1.25rem; flex-shrink: 0;"></i><span>Detailed automation logic document</span></li>
+              <li style="padding: 8px 0; display: flex; align-items: flex-start; gap: 12px;"><i class="ri-check-line" style="color: var(--primary); font-size: 1.25rem; flex-shrink: 0;"></i><span>Sign-off call to review and adjust</span></li>
+            </ul>
+            <div class="method-timeline-marker">Week 1 • Days 3-4</div>
           </div>
         </div>
 
-        <div class="approach-step">
-          <div class="step-number">05</div>
-          <div class="step-icon">
-            <i class="ri-brain-line"></i>
+        <!-- Phase 3: BRANCHES - Deploy -->
+        <div class="method-step">
+          <div class="method-icon" style="background: linear-gradient(135deg, rgba(93, 140, 93, 0.4), rgba(93, 140, 93, 0.2));">
+            <i class="ri-links-line"></i>
           </div>
-          <div class="step-content">
-            <span class="step-label">Ongoing</span>
-            <h3>We Monitor & Improve</h3>
-            <p>We watch for errors and fix them before you notice. Every month, we show you new workflows we can automate. Your system gets better as your business grows.</p>
+          <div class="method-content">
+            <div class="method-label">BRANCHES</div>
+            <h3>Deploy: We Connect Your Tools & Go Live</h3>
+            <p>Calendly → QuickBooks → ShipStation → CRM → Slack. We connect your tools, test with real orders, fix any issues, and go fully live. You watch it happen in real-time on your first automated order.</p>
+            <ul style="list-style: none; padding: 0; margin: 20px 0 0 0; color: var(--text-muted);">
+              <li style="padding: 8px 0; display: flex; align-items: flex-start; gap: 12px;"><i class="ri-check-line" style="color: var(--primary); font-size: 1.25rem; flex-shrink: 0;"></i><span>OAuth connections to all platforms</span></li>
+              <li style="padding: 8px 0; display: flex; align-items: flex-start; gap: 12px;"><i class="ri-check-line" style="color: var(--primary); font-size: 1.25rem; flex-shrink: 0;"></i><span>Test runs with sample data</span></li>
+              <li style="padding: 8px 0; display: flex; align-items: flex-start; gap: 12px;"><i class="ri-check-line" style="color: var(--primary); font-size: 1.25rem; flex-shrink: 0;"></i><span>Go-live with real orders (monitored)</span></li>
+            </ul>
+            <div class="method-timeline-marker">Week 2 • Days 5-10</div>
+          </div>
+        </div>
+
+        <!-- Phase 4: CANOPY - Document -->
+        <div class="method-step">
+          <div class="method-icon" style="background: linear-gradient(135deg, rgba(93, 140, 93, 0.5), rgba(93, 140, 93, 0.25));">
+            <i class="ri-shield-check-line"></i>
+          </div>
+          <div class="method-content">
+            <div class="method-label">CANOPY</div>
+            <h3>Document: You Own Everything, We Monitor It All</h3>
+            <p>Everything documented, monitored, and maintained. Your team knows exactly how it works. We watch for errors and fix them before you notice. Optional monthly retainer keeps everything running smoothly.</p>
+            <ul style="list-style: none; padding: 0; margin: 20px 0 0 0; color: var(--text-muted);">
+              <li style="padding: 8px 0; display: flex; align-items: flex-start; gap: 12px;"><i class="ri-check-line" style="color: var(--primary); font-size: 1.25rem; flex-shrink: 0;"></i><span>Complete workflow documentation</span></li>
+              <li style="padding: 8px 0; display: flex; align-items: flex-start; gap: 12px;"><i class="ri-check-line" style="color: var(--primary); font-size: 1.25rem; flex-shrink: 0;"></i><span>Admin access to all automation platforms</span></li>
+              <li style="padding: 8px 0; display: flex; align-items: flex-start; gap: 12px;"><i class="ri-check-line" style="color: var(--primary); font-size: 1.25rem; flex-shrink: 0;"></i><span>24/7 error monitoring (optional monthly retainer)</span></li>
+            </ul>
+            <div class="method-timeline-marker">Week 2+ • Ongoing</div>
+          </div>
+        </div>
+      </div>
+
+      <div style="text-align: center; margin-top: 80px;">
+        <button onclick="openCalendly()" class="btn btn-primary btn-lg">Start The Cypress Method <i class="ri-arrow-right-line"></i></button>
+        <p style="margin-top: 16px; font-size: 0.95rem; color: var(--text-muted);">From $997 • Go live in 14 days</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ Section -->
+  <section style="padding: 100px 0;">
+    <div class="container">
+      <div style="max-width: 800px; margin: 0 auto;">
+        <div style="text-align: center; margin-bottom: 64px;">
+          <h2 style="font-size: 2.5rem; font-weight: 900; margin-bottom: 24px;">Common Questions</h2>
+          <p style="font-size: 1.1rem; color: var(--text-muted);">Everything you need to know about The Cypress Method.</p>
+        </div>
+
+        <div style="display: grid; gap: 24px;">
+          <div style="padding: 32px; background: var(--bg-card); border: 1px solid var(--glass-border); border-radius: 16px;">
+            <h3 style="font-size: 1.25rem; font-weight: 700; margin-bottom: 12px; color: var(--primary);">How long does it really take?</h3>
+            <p style="color: var(--text-muted); line-height: 1.7;">Quick-Win Sprint delivers in 1 week. Automation Foundation takes 2 weeks. We don't start the clock until after your approval call—so you're never paying for planning time.</p>
+          </div>
+
+          <div style="padding: 32px; background: var(--bg-card); border: 1px solid var(--glass-border); border-radius: 16px;">
+            <h3 style="font-size: 1.25rem; font-weight: 700; margin-bottom: 12px; color: var(--primary);">Do I own the workflows or are they yours?</h3>
+            <p style="color: var(--text-muted); line-height: 1.7;">You own everything. We give you admin access to all platforms (n8n, Make, Zapier). You can edit, export, or cancel anytime. No vendor lock-in.</p>
+          </div>
+
+          <div style="padding: 32px; background: var(--bg-card); border: 1px solid var(--glass-border); border-radius: 16px;">
+            <h3 style="font-size: 1.25rem; font-weight: 700; margin-bottom: 12px; color: var(--primary);">What if my tools aren't on the list?</h3>
+            <p style="color: var(--text-muted); line-height: 1.7;">Most SaaS tools have APIs we can connect. If your tool has webhooks, Zapier support, or a REST API, we can automate it. We'll confirm compatibility on the discovery call.</p>
+          </div>
+
+          <div style="padding: 32px; background: var(--bg-card); border: 1px solid var(--glass-border); border-radius: 16px;">
+            <h3 style="font-size: 1.25rem; font-weight: 700; margin-bottom: 12px; color: var(--primary);">What happens if something breaks?</h3>
+            <p style="color: var(--text-muted); line-height: 1.7;">All packages include 30-90 days of email support. Automation Partner retainer ($297/month) includes 24/7 monitoring—we fix errors before you notice them.</p>
+          </div>
+
+          <div style="padding: 32px; background: var(--bg-card); border: 1px solid var(--glass-border); border-radius: 16px;">
+            <h3 style="font-size: 1.25rem; font-weight: 700; margin-bottom: 12px; color: var(--primary);">Can I add more workflows later?</h3>
+            <p style="color: var(--text-muted); line-height: 1.7;">Absolutely. Most clients start with Quick-Win Sprint, see the time savings, then add 2-3 more workflows. You can upgrade to Automation Partner retainer anytime for ongoing development.</p>
           </div>
         </div>
       </div>
