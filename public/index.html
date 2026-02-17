@@ -162,56 +162,225 @@
           </div>
         </div>
 
-        <!-- 3D Interactive Dashboard -->
+        <!-- High-Fidelity Dashboard Mockup -->
         <div class="dashboard-visual reveal" style="margin-top: 80px;">
-          <div id="dashboard-3d-container" style="width: 100%; height: 600px; border-radius: 16px; overflow: hidden; box-shadow: var(--shadow-2xl);">
-            <!-- Three.js canvas will be injected here -->
-            <div style="display: flex; align-items: center; justify-content: center; height: 100%; background: var(--bg-surface);">
-              <div style="text-align: center;">
-                <div class="loading-spinner" style="width: 60px; height: 60px; border: 4px solid var(--border-medium); border-top-color: var(--brand-primary); border-radius: 50%; animation: spin 1s linear infinite; margin: 0 auto 20px;"></div>
-                <p style="color: var(--text-secondary);">Loading 3D Dashboard...</p>
+          <div class="dashboard-frame">
+            <div class="dashboard-sidebar">
+              <div class="sidebar-logo">
+                <i class="ri-command-fill"></i>
+              </div>
+              <div class="sidebar-item active"><i class="ri-dashboard-3-line"></i></div>
+              <div class="sidebar-item"><i class="ri-bubble-chart-line"></i></div>
+              <div class="sidebar-item"><i class="ri-exchange-funds-line"></i></div>
+              <div class="sidebar-item"><i class="ri-settings-4-line"></i></div>
+            </div>
+            <div class="dashboard-content">
+              <div class="dashboard-header">
+                <div>
+                  <div class="tag-live">LIVE SYSTEM</div>
+                  <h3 style="margin: 0; font-size: 1.25rem;">Operations Control</h3>
+                </div>
+                <div class="dashboard-status">
+                  <span class="status-pulse"></span>
+                  Connected
+                </div>
+              </div>
+              
+              <div class="dashboard-stats">
+                <div class="dash-stat">
+                  <div class="dash-stat-label">DAILY ORDERS</div>
+                  <div class="dash-stat-value">142</div>
+                  <div class="dash-stat-trend">+12%</div>
+                </div>
+                <div class="dash-stat">
+                  <div class="dash-stat-label">SAVED TIME</div>
+                  <div class="dash-stat-value">128h</div>
+                  <div class="dash-stat-trend">ACTIVE</div>
+                </div>
+                <div class="dash-stat">
+                  <div class="dash-stat-label">REVENUE SYNCED</div>
+                  <div class="dash-stat-value">$24k</div>
+                  <div class="dash-stat-trend">HEALTHY</div>
+                </div>
+              </div>
+
+              <div class="dashboard-main">
+                <div class="workflow-card">
+                  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                    <span style="font-weight: 700; font-size: 0.9rem;">WORKFLOW HEALTH</span>
+                    <i class="ri-more-2-line" style="color: var(--text-tertiary);"></i>
+                  </div>
+                  <div class="workflow-list">
+                    <div class="workflow-item">
+                      <div class="workflow-info">
+                        <div class="workflow-icon" style="background: rgba(44, 160, 28, 0.1); color: #2ca01c;">QB</div>
+                        <div>
+                          <div style="font-size: 0.85rem; font-weight: 600;">QuickBooks Invoicing</div>
+                          <div style="font-size: 0.7rem; color: var(--text-tertiary);">Syncing every 5 mins</div>
+                        </div>
+                      </div>
+                      <div class="status-pill-small">ACTIVE</div>
+                    </div>
+                    <div class="workflow-item">
+                      <div class="workflow-info">
+                        <div class="workflow-icon" style="background: rgba(79, 195, 247, 0.1); color: #4fc3f7;">SS</div>
+                        <div>
+                          <div style="font-size: 0.85rem; font-weight: 600;">ShipStation Automation</div>
+                          <div style="font-size: 0.7rem; color: var(--text-tertiary);">Batch processing</div>
+                        </div>
+                      </div>
+                      <div class="status-pill-small">ACTIVE</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="log-panel">
+                  <div style="font-weight: 700; font-size: 0.9rem; margin-bottom: 15px; color: var(--brand-primary); font-family: var(--font-mono);">SYSTEM_LOGS ></div>
+                  <div class="log-entries">
+                    <div class="log-entry"><span>[15:42]</span> Syncing CRM to QuickBooks...</div>
+                    <div class="log-entry"><span>[15:43]</span> Order #4128 processed successfully</div>
+                    <div class="log-entry"><span>[15:45]</span> Signal Layer: Monitoring high-intent traffic</div>
+                    <div class="log-entry" style="opacity: 0.6;"><span>[15:47]</span> Optimization pass complete</div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
-          <style>
-            @keyframes spin {
-              to { transform: rotate(360deg); }
-            }
-          </style>
         </div>
 
-        <!-- Floating Notification Cards -->
-        <div class="notification-stack" style="margin-top: -100px; position: relative; z-index: 100;">
-          <div class="notification-card reveal" style="animation-delay: 0.2s;">
-            <div class="notif-icon" style="background: linear-gradient(135deg, rgba(93, 140, 93, 0.2), rgba(93, 140, 93, 0.05));">
-              <i class="ri-check-double-line" style="color: var(--brand-primary);"></i>
-            </div>
-            <div>
-              <div class="notif-title">Order #2847 processed</div>
-              <div class="notif-time">2 minutes ago</div>
-            </div>
-          </div>
+        <style>
+          .dashboard-frame {
+            width: 100%;
+            height: 500px;
+            background: var(--bg-surface);
+            border-radius: 20px;
+            border: 1px solid var(--border-subtle);
+            box-shadow: 0 40px 100px rgba(0,0,0,0.5);
+            display: grid;
+            grid-template-columns: 80px 1fr;
+            overflow: hidden;
+            position: relative;
+          }
+          .dashboard-sidebar {
+            background: #0D0D11;
+            border-right: 1px solid var(--border-subtle);
+            padding: 30px 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 25px;
+          }
+          .sidebar-logo {
+            font-size: 1.5rem;
+            color: var(--brand-primary);
+            margin-bottom: 20px;
+          }
+          .sidebar-item {
+            font-size: 1.25rem;
+            color: var(--text-tertiary);
+            transition: all 0.3s;
+            cursor: pointer;
+          }
+          .sidebar-item.active {
+            color: var(--brand-primary);
+            position: relative;
+          }
+          .sidebar-item.active::after {
+            content: ''; position: absolute; left: -15px; top: 50%; transform: translateY(-50%);
+            width: 4px; height: 20px; background: var(--brand-primary); border-radius: 0 4px 4px 0;
+          }
+          .dashboard-content {
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+          }
+          .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+          }
+          .tag-live {
+            font-size: 0.65rem;
+            font-weight: 800;
+            letter-spacing: 0.1em;
+            color: var(--brand-primary);
+            margin-bottom: 4px;
+          }
+          .dashboard-status {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid var(--border-subtle);
+            padding: 8px 16px;
+            border-radius: 100px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+          }
+          .status-pulse {
+            width: 8px; height: 8px; border-radius: 50%; background: var(--brand-primary);
+            box-shadow: 0 0 10px var(--brand-primary);
+            animation: pulse-simple 2s infinite;
+          }
+          @keyframes pulse-simple { 0% { opacity: 1; } 50% { opacity: 0.4; } 100% { opacity: 1; } }
+          .dashboard-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+          }
+          .dash-stat {
+            background: #0D0D11;
+            border: 1px solid var(--border-subtle);
+            padding: 20px;
+            border-radius: 12px;
+          }
+          .dash-stat-label { font-size: 0.65rem; color: var(--text-tertiary); letter-spacing: 0.05em; margin-bottom: 8px; }
+          .dash-stat-value { font-size: 1.75rem; font-weight: 800; font-family: var(--font-display); font-style: italic; }
+          .dash-stat-trend { font-size: 0.65rem; color: var(--brand-primary); font-weight: 700; margin-top: 4px; }
+          .dashboard-main {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            flex: 1;
+          }
+          .workflow-card, .log-panel {
+            background: #0D0D11;
+            border: 1px solid var(--border-subtle);
+            padding: 25px;
+            border-radius: 12px;
+            overflow: hidden;
+          }
+          .workflow-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+          }
+          .workflow-info { display: flex; gap: 12px; align-items: center; }
+          .workflow-icon {
+            width: 32px; height: 32px; border-radius: 8px; font-weight: 800; font-size: 0.6rem;
+            display: flex; align-items: center; justify-content: center;
+          }
+          .status-pill-small {
+            font-size: 0.55rem; font-weight: 800; color: var(--brand-primary);
+            background: rgba(93, 140, 93, 0.1); padding: 4px 8px; border-radius: 4px;
+          }
+          .log-entries { font-family: var(--font-mono); font-size: 0.75rem; color: var(--text-tertiary); }
+          .log-entry { margin-bottom: 8px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+          .log-entry span { color: var(--brand-primary); }
 
-          <div class="notification-card reveal" style="animation-delay: 0.4s;">
-            <div class="notif-icon" style="background: linear-gradient(135deg, rgba(251, 191, 36, 0.2), rgba(251, 191, 36, 0.05));">
-              <i class="ri-funds-line" style="color: var(--brand-accent);"></i>
-            </div>
-            <div>
-              <div class="notif-title">Invoice sent to Acme Corp</div>
-              <div class="notif-time">8 minutes ago</div>
-            </div>
-          </div>
+          @media (max-width: 768px) {
+            .dashboard-main { grid-template-columns: 1fr; }
+            .dash-stat-value { font-size: 1.25rem; }
+            .dashboard-frame { height: auto; grid-template-columns: 60px 1fr; }
+            .dashboard-content { padding: 20px; }
+          }
+        </style>
 
-          <div class="notification-card reveal" style="animation-delay: 0.6s;">
-            <div class="notif-icon" style="background: linear-gradient(135deg, rgba(79, 195, 247, 0.2), rgba(79, 195, 247, 0.05));">
-              <i class="ri-calendar-check-line" style="color: #4fc3f7;"></i>
-            </div>
-            <div>
-              <div class="notif-title">Meeting scheduled</div>
-              <div class="notif-time">14 minutes ago</div>
-            </div>
-          </div>
-        </div>
+        <!-- Removing the floating notification cards as they are too technical -->
+        <!-- Old notification-stack removed -->
       </div>
     </section>
 
