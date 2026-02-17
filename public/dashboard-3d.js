@@ -134,184 +134,138 @@ class Dashboard3D {
   }
 
   createDashboard() {
-    const group = new THREE.Group();
+    this.dashboardGroup = new THREE.Group();
     
-    // Main dashboard panel
-    const panelGeometry = new THREE.BoxGeometry(6, 3.5, 0.1);
-    const panelMaterial = new THREE.MeshPhysicalMaterial({
-      color: 0x1a1a1f,
-      metalness: 0.3,
-      roughness: 0.4,
-      transparent: true,
-      opacity: 0.9,
-      clearcoat: 1,
-      clearcoatRoughness: 0.1
-    });
-    const panel = new THREE.Mesh(panelGeometry, panelMaterial);
-    panel.castShadow = true;
-    panel.receiveShadow = true;
-    group.add(panel);
-    
-    // Glass overlay
-    const glassGeometry = new THREE.BoxGeometry(5.9, 3.4, 0.12);
-    const glassMaterial = new THREE.MeshPhysicalMaterial({
-      color: 0xffffff,
-      metalness: 0,
-      roughness: 0.1,
-      transparent: true,
-      opacity: 0.1,
-      transmission: 0.9,
-      thickness: 0.5,
-    });
-    const glass = new THREE.Mesh(glassGeometry, glassMaterial);
-    glass.position.z = 0.06;
-    group.add(glass);
-    
-    // Create 3D bar charts
-    this.createBarChart(group, -2, 0.5, 847); // Workflows
-    this.createBarChart(group, 0, 0.3, 997); // Uptime
-    this.createBarChart(group, 2, 0.8, 324); // Hours saved
-    
-    // Create stat labels (using sprites)
-    this.createStatLabel(group, -2, -1.2, '847\nWorkflows');
-    this.createStatLabel(group, 0, -1.2, '99.7%\nUptime');
-    this.createStatLabel(group, 2, -1.2, '3,240hrs\nSaved');
-    
-    // Add edge glow
-    const edgesGeometry = new THREE.EdgesGeometry(panelGeometry);
-    const edgesMaterial = new THREE.LineBasicMaterial({
-      color: 0x5d8c5d,
-      transparent: true,
-      opacity: 0.6
-    });
-    const edges = new THREE.LineSegments(edgesGeometry, edgesMaterial);
-    group.add(edges);
-    
-    this.scene.add(group);
-  }
-
-  createBarChart(parent, x, height, value) {
-    const group = new THREE.Group();
-    group.position.set(x, -0.5, 0.15);
-    
-    // Animated bar
-    const barGeometry = new THREE.BoxGeometry(0.3, height * 2, 0.1);
-    const barMaterial = new THREE.MeshStandardMaterial({
+    // 1. Central Core - Root Data Sync Engine
+    const coreGeometry = new THREE.OctahedronGeometry(1.2, 2);
+    const coreMaterial = new THREE.MeshPhysicalMaterial({
       color: 0x5d8c5d,
       emissive: 0x5d8c5d,
-      emissiveIntensity: 0.3,
-      metalness: 0.8,
-      roughness: 0.2
+      emissiveIntensity: 0.5,
+      metalness: 0.9,
+      roughness: 0.1,
+      transparent: true,
+      opacity: 0.8,
+      wireframe: true
     });
-    const bar = new THREE.Mesh(barGeometry, barMaterial);
-    bar.position.y = height;
-    bar.userData.targetHeight = height;
-    bar.userData.currentHeight = 0;
-    bar.castShadow = true;
-    group.add(bar);
-    
-    // Glow cap
-    const capGeometry = new THREE.SphereGeometry(0.15, 16, 16);
-    const capMaterial = new THREE.MeshStandardMaterial({
+    this.core = new THREE.Mesh(coreGeometry, coreMaterial);
+    this.core.position.set(0, 0, 0);
+    this.dashboardGroup.add(this.core);
+
+    // Inner core glow
+    const innerCoreGeo = new THREE.SphereGeometry(0.6, 32, 32);
+    const innerCoreMat = new THREE.MeshStandardMaterial({
       color: 0xfbbf24,
       emissive: 0xfbbf24,
-      emissiveIntensity: 1,
-      metalness: 1,
-      roughness: 0
+      emissiveIntensity: 2
     });
-    const cap = new THREE.Mesh(capGeometry, capMaterial);
-    cap.position.y = height * 2;
-    group.add(cap);
-    
-    // Point light for glow
-    const light = new THREE.PointLight(0xfbbf24, 0.5, 2);
-    light.position.y = height * 2;
-    group.add(light);
-    
-    this.charts.push({ bar, cap, light, targetHeight: height });
-    parent.add(group);
+    const innerCore = new THREE.Mesh(innerCoreGeo, innerCoreMat);
+    this.dashboardGroup.add(innerCore);
+
+    // 2. Satellite Nodes - Integrations
+    const integrationIcons = [
+      { name: 'QuickBooks', color: 0x2ca01c, pos: [-3, 2, 1] },
+      { name: 'ShipStation', color: 0x4fc3f7, pos: [3, 1.5, -1] },
+      { name: 'CRM Sync', color: 0xfbbf24, pos: [2, -2, 2] },
+      { name: 'Lead Flow', color: 0x5d8c5d, pos: [-2.5, -1.8, -2] }
+    ];
+
+    this.links = [];
+    integrationIcons.forEach((icon, i) => {
+      // Node sphere
+      const nodeGeo = new THREE.IcosahedronGeometry(0.4, 1);
+      const nodeMat = new THREE.MeshStandardMaterial({
+        color: icon.color,
+        emissive: icon.color,
+        emissiveIntensity: 0.5,
+        metalness: 0.8,
+        roughness: 0.2
+      });
+      const node = new THREE.Mesh(nodeGeo, nodeMat);
+      node.position.set(...icon.pos);
+      this.dashboardGroup.add(node);
+
+      // Label for node
+      this.createStatLabel(this.dashboardGroup, icon.pos[0], icon.pos[1] + 0.8, icon.name);
+
+      // Connection Line
+      const points = [
+        new THREE.Vector3(0, 0, 0),
+        new THREE.Vector3(...icon.pos)
+      ];
+      const curve = new THREE.CatmullRomCurve3(points);
+      const tubeGeo = new THREE.TubeGeometry(curve, 20, 0.02, 8, false);
+      const tubeMat = new THREE.MeshBasicMaterial({ 
+        color: 0x5d8c5d, 
+        transparent: true, 
+        opacity: 0.3 
+      });
+      const tube = new THREE.Mesh(tubeGeo, tubeMat);
+      this.dashboardGroup.add(tube);
+
+      // Data packets (moving along lines)
+      this.createDataPacket(icon.pos);
+    });
+
+    // 3. Floating Stats Panels (Mirroring real dashboard)
+    this.createUIPlane(this.dashboardGroup, [-4, 0, -2], '24 Active\nAutomations', 0x5d8c5d);
+    this.createUIPlane(this.dashboardGroup, [4, -1, 1], '128h Saved\nPer Week', 0xfbbf24);
+    this.createUIPlane(this.dashboardGroup, [0, 3, 0], '99.9% Uptime\nHealthy', 0x4fc3f7);
+
+    this.scene.add(this.dashboardGroup);
   }
 
-  createStatLabel(parent, x, y, text) {
+  createDataPacket(targetPos) {
+    if (!this.packets) this.packets = [];
+    
+    const packetGeo = new THREE.SphereGeometry(0.08, 8, 8);
+    const packetMat = new THREE.MeshBasicMaterial({ color: 0xfbbf24 });
+    const packet = new THREE.Mesh(packetGeo, packetMat);
+    
+    packet.userData = {
+      progress: Math.random(),
+      speed: 0.2 + Math.random() * 0.3,
+      target: new THREE.Vector3(...targetPos)
+    };
+    
+    this.dashboardGroup.add(packet);
+    this.packets.push(packet);
+  }
+
+  createUIPlane(parent, pos, text, color) {
     const canvas = document.createElement('canvas');
     const context = canvas.getContext('2d');
-    canvas.width = 256;
-    canvas.height = 128;
+    canvas.width = 512;
+    canvas.height = 256;
     
-    // Clear canvas
-    context.clearRect(0, 0, 256, 128);
+    context.fillStyle = 'rgba(15, 23, 42, 0.8)';
+    context.roundRect(0, 0, 512, 256, 40);
+    context.fill();
     
-    // Draw text
-    context.fillStyle = '#5d8c5d';
-    context.font = 'bold 32px "Space Grotesk", sans-serif';
+    context.lineWidth = 4;
+    context.strokeStyle = `rgba(${color >> 16 & 255}, ${color >> 8 & 255}, ${color & 255}, 0.5)`;
+    context.stroke();
+    
+    context.fillStyle = '#ffffff';
+    context.font = 'bold 48px "Inter", sans-serif';
     context.textAlign = 'center';
-    context.textBaseline = 'middle';
     
     const lines = text.split('\n');
     lines.forEach((line, i) => {
-      context.fillText(line, 128, 40 + i * 40);
+      if (i === 1) context.font = '32px "Inter", sans-serif';
+      context.fillText(line, 256, 110 + i * 60);
     });
     
     const texture = new THREE.CanvasTexture(canvas);
-    texture.needsUpdate = true;
-    
-    const spriteMaterial = new THREE.SpriteMaterial({
-      map: texture,
-      transparent: true
-    });
-    
-    const sprite = new THREE.Sprite(spriteMaterial);
-    sprite.position.set(x, y, 0.2);
-    sprite.scale.set(1.5, 0.75, 1);
-    
-    parent.add(sprite);
-  }
-
-  createParticles() {
-    if (this.isMobile) {
-      // Reduce particle count on mobile
-      return;
-    }
-    
-    const particleCount = 500;
-    const positions = new Float32Array(particleCount * 3);
-    const colors = new Float32Array(particleCount * 3);
-    const sizes = new Float32Array(particleCount);
-    
-    const color1 = new THREE.Color(0x5d8c5d);
-    const color2 = new THREE.Color(0xfbbf24);
-    
-    for (let i = 0; i < particleCount; i++) {
-      const i3 = i * 3;
-      
-      positions[i3] = (Math.random() - 0.5) * 20;
-      positions[i3 + 1] = (Math.random() - 0.5) * 20;
-      positions[i3 + 2] = (Math.random() - 0.5) * 20;
-      
-      const mixedColor = color1.clone().lerp(color2, Math.random());
-      colors[i3] = mixedColor.r;
-      colors[i3 + 1] = mixedColor.g;
-      colors[i3 + 2] = mixedColor.b;
-      
-      sizes[i] = Math.random() * 2 + 1;
-    }
-    
-    const geometry = new THREE.BufferGeometry();
-    geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-    geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
-    geometry.setAttribute('size', new THREE.BufferAttribute(sizes, 1));
-    
-    const material = new THREE.PointsMaterial({
-      size: 0.05,
-      vertexColors: true,
+    const planeGeo = new THREE.PlaneGeometry(2, 1);
+    const planeMat = new THREE.MeshBasicMaterial({ 
+      map: texture, 
       transparent: true,
-      opacity: 0.6,
-      blending: THREE.AdditiveBlending,
-      depthWrite: false
+      side: THREE.DoubleSide
     });
-    
-    this.particles = new THREE.Points(geometry, material);
-    this.scene.add(this.particles);
+    const plane = new THREE.Mesh(planeGeo, planeMat);
+    plane.position.set(...pos);
+    parent.add(plane);
   }
 
   animate() {
@@ -320,30 +274,41 @@ class Dashboard3D {
     const delta = this.clock.getDelta();
     const elapsed = this.clock.getElapsedTime();
     
-    // Update controls
-    if (this.controls) {
-      this.controls.update();
+    if (this.controls) this.controls.update();
+    
+    // Rotate Core
+    if (this.core) {
+      this.core.rotation.y += delta * 0.3;
+      this.core.rotation.z += delta * 0.1;
+    }
+
+    // Floating animation for UI planes
+    this.dashboardGroup.children.forEach(child => {
+      if (child.type === 'Mesh' && child.geometry.type === 'PlaneGeometry') {
+        child.position.y += Math.sin(elapsed + child.position.x) * 0.002;
+        child.lookAt(this.camera.position);
+      }
+    });
+
+    // Animate Data Packets
+    if (this.packets) {
+      this.packets.forEach(packet => {
+        packet.userData.progress += delta * packet.userData.speed;
+        if (packet.userData.progress > 1) packet.userData.progress = 0;
+        
+        packet.position.lerpVectors(
+          new THREE.Vector3(0,0,0), 
+          packet.userData.target, 
+          packet.userData.progress
+        );
+        
+        // Add some jitter/noise
+        packet.position.x += Math.sin(elapsed * 5 + packet.userData.speed) * 0.02;
+      });
     }
     
-    // Animate chart bars (grow in)
-    this.charts.forEach((chart, i) => {
-      if (chart.bar.userData.currentHeight < chart.targetHeight) {
-        chart.bar.userData.currentHeight += delta * 0.5;
-        const h = Math.min(chart.bar.userData.currentHeight, chart.targetHeight);
-        chart.bar.scale.y = h / chart.targetHeight;
-        chart.bar.position.y = h;
-        chart.cap.position.y = h * 2;
-        chart.light.position.y = h * 2;
-      }
-      
-      // Pulse glow
-      chart.light.intensity = 0.5 + Math.sin(elapsed * 2 + i) * 0.2;
-    });
-    
-    // Rotate particles slowly
     if (this.particles) {
       this.particles.rotation.y += delta * 0.05;
-      this.particles.rotation.x += delta * 0.02;
     }
     
     this.renderer.render(this.scene, this.camera);
