@@ -386,11 +386,21 @@ class Dashboard3D {
 }
 
 // Auto-initialize if container exists
-document.addEventListener('DOMContentLoaded', () => {
+const initDashboard = () => {
   const container = document.getElementById('dashboard-3d-container');
-  if (container) {
+  if (container && !window.dashboard3D) {
+    console.log('Initializing 3D Dashboard...');
     window.dashboard3D = new Dashboard3D(container);
   }
-});
+};
+
+if (document.readyState === 'complete' || document.readyState === 'interactive') {
+  initDashboard();
+} else {
+  document.addEventListener('DOMContentLoaded', initDashboard);
+}
+
+// Fallback for slower connections or partial loads
+window.addEventListener('load', initDashboard);
 
 export default Dashboard3D;
