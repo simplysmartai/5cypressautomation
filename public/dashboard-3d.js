@@ -11,8 +11,8 @@
    
    ============================================ */
 
-import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js';
-import { OrbitControls } from 'https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/controls/OrbitControls.js';
+import * as THREE from 'three';
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 
 class Dashboard3D {
   constructor(container) {
@@ -27,7 +27,12 @@ class Dashboard3D {
     this.isMobile = window.innerWidth < 768;
     this.clock = new THREE.Clock();
     
-    this.init();
+    try {
+      this.init();
+    } catch (error) {
+      console.error('3D Dashboard Init Error:', error);
+      this.showFallback();
+    }
   }
 
   init() {
@@ -40,6 +45,48 @@ class Dashboard3D {
     this.createParticles();
     this.setupEventListeners();
     this.animate();
+    
+    // Hide loading state
+    const loadingElem = this.container.querySelector('div');
+    if (loadingElem) loadingElem.style.display = 'none';
+  }
+
+  showFallback() {
+    console.log('Switching to high-fidelity 2D fallback');
+    this.container.innerHTML = `
+      <div style="width: 100%; height: 100%; background: var(--bg-surface); padding: 40px; display: flex; flex-direction: column; gap: 32px;">
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+          <div style="font-family: var(--font-heading); font-size: 1.5rem; font-weight: 900;" class="text-gradient">Operations Control</div>
+          <div style="padding: 4px 12px; background: rgba(93, 140, 93, 0.1); border: 1px solid var(--brand-primary); border-radius: 100px; color: var(--brand-primary); font-size: 0.75rem; font-weight: 700;">LIVE SYSTEM</div>
+        </div>
+        
+        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px;">
+          <div style="background: rgba(255,255,255,0.03); border: 1px solid var(--border-subtle); padding: 24px; border-radius: 16px;">
+            <div style="color: var(--text-tertiary); font-size: 0.8rem; text-transform: uppercase;">Active Automations</div>
+            <div style="font-size: 2.5rem; font-weight: 800; font-family: var(--font-display); font-style: italic;">24</div>
+            <div style="color: var(--brand-primary); font-size: 0.8rem; margin-top: 8px;">SYTEM HEALTHY</div>
+          </div>
+          <div style="background: rgba(255,255,255,0.03); border: 1px solid var(--border-subtle); padding: 24px; border-radius: 16px;">
+            <div style="color: var(--text-tertiary); font-size: 0.8rem; text-transform: uppercase;">Hours Saved</div>
+            <div style="font-size: 2.5rem; font-weight: 800; font-family: var(--font-display); font-style: italic;">128h</div>
+            <div style="color: var(--brand-primary); font-size: 0.8rem; margin-top: 8px;">+14% THIS MONTH</div>
+          </div>
+          <div style="background: rgba(255,255,255,0.03); border: 1px solid var(--border-subtle); padding: 24px; border-radius: 16px;">
+            <div style="color: var(--text-tertiary); font-size: 0.8rem; text-transform: uppercase;">System Uptime</div>
+            <div style="font-size: 2.5rem; font-weight: 800; font-family: var(--font-display); font-style: italic;">99.9%</div>
+            <div style="color: var(--text-tertiary); font-size: 0.8rem; margin-top: 8px;">LAST 30 DAYS</div>
+          </div>
+        </div>
+        
+        <div style="flex: 1; min-height: 200px; background: rgba(0,0,0,0.2); border: 1px solid var(--border-subtle); border-radius: 16px; padding: 20px; font-family: var(--font-mono); font-size: 0.85rem; overflow: hidden;">
+          <div style="color: var(--brand-primary); margin-bottom: 8px;">[SYSTEM] Initializing 5 Cypress Control Center...</div>
+          <div style="color: var(--text-secondary); margin-bottom: 8px;">[LOG] Root Audit complete for 12 nodes.</div>
+          <div style="color: #fbbf24; margin-bottom: 8px;">[SIGNAL] High-intent lead detected in Signal Layer.</div>
+          <div style="color: #4fc3f7; margin-bottom: 8px;">[BRANCH] Routing request to Architecture Engine.</div>
+          <div style="color: var(--text-tertiary);">[SCANNING] Monitoring QuickBooks API sync...</div>
+        </div>
+      </div>
+    `;
   }
 
   setupScene() {
