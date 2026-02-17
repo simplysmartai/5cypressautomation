@@ -1,0 +1,772 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="mobile-web-app-capable" content="yes">
+  <title>5 Cypress | Elite Business Automation & AI Integration</title>
+  <meta name="description" content="Transform your business operations with precision-engineered automation. We connect your tools, eliminate manual work, and amplify human potential. Trusted by 200+ businesses.">
+  
+  <!-- Enhanced SEO -->
+  <meta name="robots" content="index, follow">
+  <meta name="author" content="5 Cypress">
+  <link rel="canonical" href="https://5cypress.com/">
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="5 Cypress | Elite Business Automation">
+  <meta property="og:description" content="Transform operations with precision automation. Save 15+ hours weekly.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://5cypress.com">
+  <meta property="og:image" content="https://5cypress.com/assets/brand/og-image.png">
+  
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="5 Cypress | Elite Business Automation">
+  <meta name="twitter:description" content="Transform operations with precision automation.">
+  <meta name="twitter:image" content="https://5cypress.com/assets/brand/og-image.png">
+  
+  <!-- Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "5 Cypress",
+    "description": "Elite business automation and AI integration services",
+    "url": "https://5cypress.com",
+    "logo": "https://5cypress.com/assets/brand/logo-full.svg",
+    "sameAs": [
+      "https://linkedin.com/company/5cypress",
+      "https://twitter.com/5cypress"
+    ],
+    "contactPoint": {
+      "@type": "ContactPoint",
+      "contactType": "sales",
+      "email": "hello@5cypress.com"
+    }
+  }
+  </script>
+  
+  <!-- Icons & Fonts -->
+  <link href="https://cdn.jsdelivr.net/npm/remixicon@4.0.0/fonts/remixicon.css" rel="stylesheet">
+  <link rel="icon" type="image/svg+xml" href="assets/brand/favicon.svg">
+  
+  <!-- Calendly -->
+  <link href="https://assets.calendly.com/assets/external/calendar-widget.css" rel="stylesheet">
+  
+  <!-- Premium Styles -->
+  <link rel="stylesheet" href="styles-premium.css">
+  <script src="dynamics.js" defer></script>
+</head>
+<body>
+  <!-- Atmospheric Background -->
+  <div class="atmosphere"></div>
+
+  <!-- Navigation -->
+  <nav class="navbar">
+    <div class="container nav-container">
+      <a href="/" class="logo">
+        <div class="logo-icon pulse-glow">
+          <img src="assets/brand/logo-leonardo.jpg" alt="5 Cypress Logo">
+        </div>
+        <div class="logo-text-group">
+          <span class="logo-title text-shimmer">5 Cypress</span>
+          <div class="logo-subtitle">
+            <span>A</span><span>U</span><span>T</span><span>O</span><span>M</span><span>A</span><span>T</span><span>I</span><span>O</span><span>N</span>
+          </div>
+        </div>
+      </a>
+      
+      <div class="nav-menu">
+        <a href="/services.html" class="nav-link">Services</a>
+        <a href="/process.html" class="nav-link">Process</a>
+        <a href="/case-studies.html" class="nav-link">Case Studies</a>
+        <a href="/about.html" class="nav-link">About</a>
+      </div>
+
+      <div class="nav-actions">
+        <button onclick="openCalendly()" class="btn btn-primary btn-lg">
+          Get Started <i class="ri-arrow-right-up-line"></i>
+        </button>
+      </div>
+
+      <button class="mobile-toggle" onclick="toggleMobileMenu()">
+        <i class="ri-menu-line"></i>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Mobile Menu -->
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="/services.html" class="mobile-link" onclick="closeMobileMenu()">Services</a>
+    <a href="/process.html" class="mobile-link" onclick="closeMobileMenu()">Process</a>
+    <a href="/case-studies.html" class="mobile-link" onclick="closeMobileMenu()">Case Studies</a>
+    <a href="/about.html" class="mobile-link" onclick="closeMobileMenu()">About</a>
+    <button onclick="openCalendly(); closeMobileMenu();" class="btn btn-primary btn-block btn-lg">
+      Get Started
+    </button>
+  </div>
+
+  <!-- Hero Section -->
+  <section class="hero-section">
+    <div class="container">
+      <div class="hero-content">
+        <h1 class="animate-in">
+          <span style="display: block; font-size: 0.25em; font-family: var(--font-mono); font-style: normal; font-weight: 600; color: var(--brand-primary); text-transform: uppercase; letter-spacing: 0.2em; margin-bottom: 1rem;">
+            Precision Engineering for Business
+          </span>
+          <span style="display: block;">
+            Your Tools Should
+          </span>
+          <span style="display: block;" class="text-gradient">
+            Work Together
+          </span>
+        </h1>
+        
+        <p class="hero-description animate-in animate-in-delay-1">
+          We design automation systems for businesses with 5–50 employees. Stop copying data between Calendly, QuickBooks, and your CRM. Connect your tools once. Let them talk automatically.
+        </p>
+
+        <div class="hero-proof animate-in animate-in-delay-2">
+          <span style="display: flex; align-items: center; gap: 8px;">
+            <strong style="font-size: 1.5rem; color: var(--brand-primary);">200+</strong> 
+            <span>businesses automated</span>
+          </span>
+          <span style="opacity: 0.3;">•</span>
+          <span style="display: flex; align-items: center; gap: 8px;">
+            <strong style="font-size: 1.5rem; color: var(--brand-primary);">15+</strong> 
+            <span>hours saved weekly</span>
+          </span>
+          <span style="opacity: 0.3;">•</span>
+          <span style="display: flex; align-items: center; gap: 8px;">
+            <strong style="font-size: 1.5rem; color: var(--brand-primary);">14 days</strong> 
+            <span>to go live</span>
+          </span>
+        </div>
+
+        <div class="hero-cta animate-in animate-in-delay-3">
+          <button onclick="openCalendly()" class="btn btn-primary btn-lg">
+            <span>Book Free Automation Assessment</span> 
+            <i class="ri-arrow-right-line"></i>
+          </button>
+          <a href="/case-studies.html" class="btn btn-secondary btn-lg">
+            <span>View Case Studies</span>
+            <i class="ri-file-list-3-line"></i>
+          </a>
+        </div>
+        
+        <div class="hero-trust animate-in animate-in-delay-4" style="display: flex; align-items: center; justify-content: center; gap: 16px; flex-wrap: wrap; font-size: 0.9rem; color: var(--text-tertiary); margin-top: 24px;">
+          <span style="display: flex; align-items: center; gap: 6px;">
+            <i class="ri-checkbox-circle-fill" style="color: var(--success);"></i>
+            From <strong style="color: var(--brand-accent); margin-left: 4px;">$997</strong>
+          </span>
+          <span style="opacity: 0.3;">•</span>
+          <span style="display: flex; align-items: center; gap: 6px;">
+            <i class="ri-checkbox-circle-fill" style="color: var(--success);"></i>
+            No monthly fees
+          </span>
+          <span style="opacity: 0.3;">•</span>
+          <span style="display: flex; align-items: center; gap: 6px;">
+            <i class="ri-checkbox-circle-fill" style="color: var(--success);"></i>
+            30-min discovery call
+          </span>
+        </div>
+      </div>
+
+      <!-- Enhanced Hero Visual -->
+      <div class="hero-visual reveal">
+        <div class="visual-container">
+          <div class="dashboard-frame">
+            <div class="dash-sidebar">
+              <div style="width: 40px; height: 40px; margin-bottom: 32px; border-radius: 50%; background: rgba(93, 140, 93, 0.1); display: flex; align-items: center; justify-content: center; border: 2px solid var(--border-brand);">
+                <img src="assets/brand/logo-leonardo.jpg" alt="5C" style="width: 28px; height: 28px; border-radius: 50%;">
+              </div>
+              <div class="sidebar-item active">
+                <i class="ri-dashboard-line"></i> Overview
+              </div>
+              <div class="sidebar-item">
+                <i class="ri-bubble-chart-line"></i> Workflows
+              </div>
+              <div class="sidebar-item">
+                <i class="ri-user-search-line"></i> Leads
+              </div>
+              <div class="sidebar-item">
+                <i class="ri-database-2-line"></i> CRM Data
+              </div>
+              <div class="sidebar-item">
+                <i class="ri-line-chart-line"></i> Analytics
+              </div>
+              <div class="sidebar-item" style="margin-top: auto;">
+                <i class="ri-settings-3-line"></i> Settings
+              </div>
+            </div>
+            
+            <div class="dash-content">
+              <div class="dash-header">
+                <div class="dash-title">System Operations Dashboard</div>
+                <div class="dash-status">
+                  Core Engine Active
+                </div>
+              </div>
+              
+              <div class="dash-grid">
+                <div class="data-card">
+                  <div class="data-label">Active Workflows</div>
+                  <div class="data-value">
+                    847 
+                    <span class="data-trend">
+                      <i class="ri-arrow-right-up-line"></i> 12%
+                    </span>
+                  </div>
+                  <div class="mini-chart">
+                    <div class="m-bar" style="height: 40%"></div>
+                    <div class="m-bar" style="height: 65%"></div>
+                    <div class="m-bar" style="height: 48%"></div>
+                    <div class="m-bar" style="height: 85%; opacity: 0.9;"></div>
+                    <div class="m-bar" style="height: 55%"></div>
+                    <div class="m-bar" style="height: 72%"></div>
+                    <div class="m-bar" style="height: 60%"></div>
+                  </div>
+                </div>
+                
+                <div class="data-card">
+                  <div class="data-label">System Uptime</div>
+                  <div class="data-value">
+                    99.7% 
+                    <span class="data-trend" style="color: var(--success);">
+                      Optimal
+                    </span>
+                  </div>
+                  <div class="mini-chart">
+                    <div class="m-bar" style="height: 88%"></div>
+                    <div class="m-bar" style="height: 82%"></div>
+                    <div class="m-bar" style="height: 90%; opacity: 0.9;"></div>
+                    <div class="m-bar" style="height: 85%"></div>
+                    <div class="m-bar" style="height: 92%"></div>
+                    <div class="m-bar" style="height: 87%"></div>
+                    <div class="m-bar" style="height: 91%"></div>
+                  </div>
+                </div>
+
+                <div class="data-card">
+                  <div class="data-label">Hours Saved</div>
+                  <div class="data-value">
+                    3,240 
+                    <span class="data-trend">
+                      <i class="ri-arrow-right-up-line"></i> 18%
+                    </span>
+                  </div>
+                  <div class="mini-chart">
+                    <div class="m-bar" style="height: 55%"></div>
+                    <div class="m-bar" style="height: 68%"></div>
+                    <div class="m-bar" style="height: 62%"></div>
+                    <div class="m-bar" style="height: 78%; opacity: 0.9;"></div>
+                    <div class="m-bar" style="height: 70%"></div>
+                    <div class="m-bar" style="height: 82%"></div>
+                    <div class="m-bar" style="height: 75%"></div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="log-feed">
+                <div class="log-inner">
+                  <div class="log-entry">> [14:23:47] Customer booked appointment via Calendly → Invoice created in QuickBooks</div>
+                  <div class="log-entry">> [14:24:02] Payment received $1,250.00 [STRIPE] → HubSpot deal stage updated</div>
+                  <div class="log-entry">> [14:24:15] ShipStation label generated → Tracking sent to customer via email</div>
+                  <div class="log-entry">> [14:24:28] Team notification sent via Slack: Order #2847 shipped successfully</div>
+                  <div class="log-entry">> [14:24:35] Inventory synchronized across all platforms → Stock levels updated</div>
+                  <div class="log-entry">> [14:24:42] New lead captured from website → Added to CRM with enriched data</div>
+                  <div class="log-entry">> [14:24:55] Automated follow-up email sequence initiated for Lead #4521</div>
+                  <div class="log-entry">> [14:25:08] Calendar event created → Zoom meeting link generated and sent</div>
+                  <div class="log-entry">> [14:25:20] All systems synchronized successfully → Operations running optimally</div>
+                  <div class="log-entry">> [14:25:33] Monthly report compiled → Performance metrics calculated</div>
+                  <!-- Duplicate for seamless loop -->
+                  <div class="log-entry">> [14:23:47] Customer booked appointment via Calendly → Invoice created in QuickBooks</div>
+                  <div class="log-entry">> [14:24:02] Payment received $1,250.00 [STRIPE] → HubSpot deal stage updated</div>
+                  <div class="log-entry">> [14:24:15] ShipStation label generated → Tracking sent to customer via email</div>
+                 <div class="log-entry">> [14:24:28] Team notification sent via Slack: Order #2847 shipped successfully</div>
+                  <div class="log-entry">> [14:24:35] Inventory synchronized across all platforms → Stock levels updated</div>
+                  <div class="log-entry">> [14:24:42] New lead captured from website → Added to CRM with enriched data</div>
+                  <div class="log-entry">> [14:24:55] Automated follow-up email sequence initiated for Lead #4521</div>
+                  <div class="log-entry">> [14:25:08] Calendar event created → Zoom meeting link generated and sent</div>
+                  <div class="log-entry">> [14:25:20] All systems synchronized successfully → Operations running optimally</div>
+                  <div class="log-entry">> [14:25:33] Monthly report compiled → Performance metrics calculated</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Floating Notifications -->
+          <div class="dash-notification floating">
+            <div style="width: 32px; height: 32px; background: rgba(16, 185, 129, 0.15); border-radius: 8px; display: flex; align-items: center; justify-content: center;">
+              <i class="ri-check-double-line" style="color: var(--success); font-size: 1.2rem;"></i>
+            </div>
+            <span><strong>Invoice Paid:</strong> $5,000.00</span>
+          </div>
+          
+          <div class="dash-notification floating" style="animation-delay: 3s;">
+            <div style="width: 32px; height: 32px; background: rgba(251, 191, 36, 0.15); border-radius: 8px; display: flex; align-items: center; justify-content: center;">
+              <i class="ri-star-fill" style="color: var(--brand-accent); font-size: 1.2rem;"></i>
+            </div>
+            <span><strong>Lead Qualified:</strong> Enterprise Client</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Pain Points Section -->
+  <section style="padding: 120px 0; position: relative;">
+    <div class="container">
+      <div class="text-center" style="max-width: 900px; margin: 0 auto 80px;">
+        <h2 style="font-size: clamp(2rem, 4vw, 3.5rem); font-weight: 900; margin-bottom: 24px; font-family: var(--font-heading);">
+          Stop Losing Time to Manual Work
+        </h2>
+        <p style="font-size: 1.25rem; color: var(--text-secondary); line-height: 1.7;">
+          You're paying for tools that don't talk to each other. Your team wastes hours copying data manually. This is costing you money and momentum.
+        </p>
+      </div>
+      
+      <div class="grid grid-cols-3 gap-8" data-reveal="stagger">
+        <div class="card card-glass">
+          <div style="width: 64px; height: 64px; margin-bottom: 24px; background: var(--error-bg); border-radius: var(--radius-lg); display: flex; align-items: center; justify-content: center;">
+            <i class="ri-time-line" style="font-size: 2rem; color: var(--error);"></i>
+          </div>
+          <h3 style="font-size: 1.5rem; font-weight: 700; margin-bottom: 16px; font-family: var(--font-heading);">
+            Drowning in Data Entry?
+          </h3>
+          <p style="color: var(--text-secondary); line-height: 1.7;">
+            Stop copying customer info between Calendly, QuickBooks, and your CRM. We connect them automatically so data flows without your team touching it.
+          </p>
+        </div>
+
+        <div class="card card-glass">
+          <div style="width: 64px; height: 64px; margin-bottom: 24px; background: var(--error-bg); border-radius: var(--radius-lg); display: flex; align-items: center; justify-content: center;">
+            <i class="ri-error-warning-line" style="font-size: 2rem; color: var(--error);"></i>
+          </div>
+          <h3 style="font-size: 1.5rem; font-weight: 700; margin-bottom: 16px; font-family: var(--font-heading);">
+            Errors from Copy-Pasting?
+          </h3>
+          <p style="color: var(--text-secondary); line-height: 1.7;">
+            Wrong emails. Duplicate entries. Forgotten steps. Every manual process is a risk. Automation eliminates human error at the source.
+          </p>
+        </div>
+
+        <div class="card card-glass">
+          <div style="width: 64px; height: 64px; margin-bottom: 24px; background: var(--error-bg); border-radius: var(--radius-lg); display: flex; align-items: center; justify-content: center;">
+            <i class="ri-money-dollar-circle-line" style="font-size: 2rem; color: var(--error);"></i>
+          </div>
+          <h3 style="font-size: 1.5rem; font-weight: 700; margin-bottom: 16px; font-family: var(--font-heading);">
+            Overpaying for Disconnected Tools?
+          </h3>
+          <p style="color: var(--text-secondary); line-height: 1.7;">
+            You have Calendly, QuickBooks, HubSpot, Slack—but they don't talk. You're paying full price for 50% of the value. Make them work together.
+          </p>
+        </div>
+      </div>
+
+      <div class="text-center" style="margin-top: 64px;">
+        <div style="display: inline-flex; align-items: center; gap: 16px; padding: 24px 40px; background: var(--bg-surface); border: 1px solid var(--border-brand); border-radius: var(--radius-xl); box-shadow: var(--shadow-glow);">
+          <div style="width: 56px; height: 56px; background: var(--brand-primary); border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+            <i class="ri-lightbulb-flash-line" style="font-size: 1.75rem; color: var(--bg-void);"></i>
+          </div>
+          <div style="text-align: left;">
+            <div style="font-size: 0.9rem; color: var(--text-tertiary); margin-bottom: 4px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em;">
+              The Solution
+            </div>
+            <div style="font-size: 1.25rem; font-weight: 700; color: var(--text-primary);">
+              One automation. 15+ hours saved per week. Forever.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- How It Works Section -->
+  <section style="padding: 120px 0; background: linear-gradient(135deg, rgba(93, 140, 93, 0.03) 0%, rgba(251, 191, 36, 0.03) 100%); position: relative;">
+    <div class="container">
+      <div class="text-center" style="margin-bottom: 80px;">
+        <h2 style="font-size: clamp(2rem, 4vw, 3.5rem); font-weight: 900; margin-bottom: 24px; font-family: var(--font-heading);">
+          Simple Process. Powerful Results.
+        </h2>
+        <p style="font-size: 1.25rem; color: var(--text-secondary); max-width: 700px; margin: 0 auto;">
+          We build it. You launch it. Your team saves hours every week.
+        </p>
+      </div>
+
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 48px; max-width: 1400px; margin: 0 auto;" data-reveal="stagger">
+        <div style="position: relative;">
+          <div style="position: absolute; top: 0; left: 24px; width: 56px; height: 56px; background: var(--gradient-primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.75rem; font-weight: 900; color: var(--bg-void); box-shadow: var(--shadow-glow);">
+            1
+          </div>
+          <div style="padding: 32px; padding-top: 88px; background: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: var(--radius-xl); height: 100%;">
+            <h3 style="font-size: 1.75rem; font-weight: 800; margin-bottom: 16px; font-family: var(--font-heading);">
+              30-Minute Discovery Call
+            </h3>
+            <p style="color: var(--text-secondary); line-height: 1.7; margin-bottom: 20px;">
+              We audit your current tools and workflows. You show us where the pain is. We identify exactly what to automate.
+            </p>
+            <div style="padding: 16px; background: rgba(93, 140, 93, 0.05); border-radius: var(--radius-md); font-size: 0.9rem; color: var(--text-tertiary);">
+              <strong style="color: var(--brand-primary);">Outcome:</strong> Clear automation roadmap and fixed-price quote
+            </div>
+          </div>
+        </div>
+
+        <div style="position: relative;">
+          <div style="position: absolute; top: 0; left: 24px; width: 56px; height: 56px; background: var(--gradient-primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.75rem; font-weight: 900; color: var(--bg-void); box-shadow: var(--shadow-glow);">
+            2
+          </div>
+          <div style="padding: 32px; padding-top: 88px; background: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: var(--radius-xl); height: 100%;">
+            <h3 style="font-size: 1.75rem; font-weight: 800; margin-bottom: 16px; font-family: var(--font-heading);">
+              We Build It (7-14 Days)
+            </h3>
+            <p style="color: var(--text-secondary); line-height: 1.7; margin-bottom: 20px;">
+              Our team connects your tools, builds the automation workflows, tests everything, and hands you the keys. Zero coding required from you.
+            </p>
+            <div style="padding: 16px; background: rgba(93, 140, 93, 0.05); border-radius: var(--radius-md); font-size: 0.9rem; color: var(--text-tertiary);">
+              <strong style="color: var(--brand-primary);">Outcome:</strong> Production-ready automation + documentation
+            </div>
+          </div>
+        </div>
+
+        <div style="position: relative;">
+          <div style="position: absolute; top: 0; left: 24px; width: 56px; height: 56px; background: var(--gradient-primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.75rem; font-weight: 900; color: var(--bg-void); box-shadow: var(--shadow-glow);">
+            3
+          </div>
+          <div style="padding: 32px; padding-top: 88px; background: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: var(--radius-xl); height: 100%;">
+            <h3 style="font-size: 1.75rem; font-weight: 800; margin-bottom: 16px; font-family: var(--font-heading);">
+              You Launch & Save Time
+            </h3>
+            <p style="color: var(--text-secondary); line-height: 1.7; margin-bottom: 20px;">
+              Your automation runs 24/7. No monthly fees. No maintenance headaches. Just time savings compounding every single week.
+            </p>
+            <div style="padding: 16px; background: rgba(93, 140, 93, 0.05); border-radius: var(--radius-md); font-size: 0.9rem; color: var(--text-tertiary);">
+              <strong style="color: var(--brand-primary);">Outcome:</strong> 15+ hours saved weekly, permanently
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="text-center" style="margin-top: 64px;">
+        <button onclick="openCalendly()" class="btn btn-primary btn-lg">
+          <span>Book Your Free Assessment</span>
+          <i class="ri-calendar-check-line"></i>
+        </button>
+        <p style="margin-top: 16px; font-size: 0.9rem; color: var(--text-tertiary);">
+          30-minute call. Zero obligation. See exactly what we'd automate.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Services Preview Section -->
+  <section style="padding: 120px 0; position: relative;">
+    <div class="container">
+      <div class="text-center" style="margin-bottom: 80px;">
+        <h2 style="font-size: clamp(2rem, 4vw, 3.5rem); font-weight: 900; margin-bottom: 24px; font-family: var(--font-heading);">
+          What We Connect
+        </h2>
+        <p style="font-size: 1.25rem; color: var(--text-secondary); max-width: 700px; margin: 0 auto;">
+          We specialize in the tools SMBs actually use. Calendly to QuickBooks. Forms to CRM. Orders to inventory. All of it.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-2 gap-8" data-reveal="stagger">
+        <div class="card card-glow">
+          <div style="display: flex; align-items: flex-start; gap: 20px;">
+            <div style="width: 72px; height: 72px; background: var(--success-bg); border-radius: var(--radius-lg); display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+              <i class="ri-calendar-check-line" style="font-size: 2.25rem; color: var(--success);"></i>
+            </div>
+            <div>
+              <h3 style="font-size: 1.75rem; font-weight: 800; margin-bottom: 12px; font-family: var(--font-heading);">
+                Calendar → Invoicing → CRM
+              </h3>
+              <p style="color: var(--text-secondary); line-height: 1.7; margin-bottom: 16px;">
+                Customer books on Calendly? Instant invoice in QuickBooks. Payment received? CRM updates automatically. Team gets Slack notification.
+              </p>
+              <a href="/services.html#calendar" style="display: inline-flex; align-items: center; gap: 8px; color: var(--brand-primary); font-weight: 600; font-size: 0.95rem;">
+                Learn More <i class="ri-arrow-right-line"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <div class="card card-glow">
+          <div style="display: flex; align-items: flex-start; gap: 20px;">
+            <div style="width: 72px; height: 72px; background: var(--info-bg); border-radius: var(--radius-lg); display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+              <i class="ri-shopping-cart-line" style="font-size: 2.25rem; color: var(--info);"></i>
+            </div>
+            <div>
+              <h3 style="font-size: 1.75rem; font-weight: 800; margin-bottom: 12px; font-family: var(--font-heading);">
+                Orders → Shipping → Inventory
+              </h3>
+              <p style="color: var(--text-secondary); line-height: 1.7; margin-bottom: 16px;">
+                Order placed? Auto-generate labels in ShipStation. Update inventory everywhere. Send tracking numbers. Sync across every platform.
+              </p>
+              <a href="/services.html#order" style="display: inline-flex; align-items: center; gap: 8px; color: var(--brand-primary); font-weight: 600; font-size: 0.95rem;">
+                Learn More <i class="ri-arrow-right-line"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <div class="card card-glow">
+          <div style="display: flex; align-items: flex-start; gap: 20px;">
+            <div style="width: 72px; height: 72px; background: var(--warning-bg); border-radius: var(--radius-lg); display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+              <i class="ri-user-add-line" style="font-size: 2.25rem; color: var(--warning);"></i>
+            </div>
+            <div>
+              <h3 style="font-size: 1.75rem; font-weight: 800; margin-bottom: 12px; font-family: var(--font-heading);">
+                Leads → Enrichment → Follow-Up
+              </h3>
+              <p style="color: var(--text-secondary); line-height: 1.7; margin-bottom: 16px;">
+                Form submitted? Enrich with company data. Add to CRM. Trigger email sequence. Assign to sales rep. Notify team. All automatic.
+              </p>
+              <a href="/services.html#lead" style="display: inline-flex; align-items: center; gap: 8px; color: var(--brand-primary); font-weight: 600; font-size: 0.95rem;">
+                Learn More <i class="ri-arrow-right-line"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <div class="card card-glow">
+          <div style="display: flex; align-items: flex-start; gap: 20px;">
+            <div style="width: 72px; height: 72px; background: rgba(168, 85, 247, 0.1); border-radius: var(--radius-lg); display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+              <i class="ri-terminal-box-line" style="font-size: 2.25rem; color: #a855f7;"></i>
+            </div>
+            <div>
+              <h3 style="font-size: 1.75rem; font-weight: 800; margin-bottom: 12px; font-family: var(--font-heading);">
+                Custom Workflows
+              </h3>
+              <p style="color: var(--text-secondary); line-height: 1.7; margin-bottom: 16px;">
+                Have a unique process? We build custom automations for your exact workflow. Connect any tools. Any triggers. Any actions.
+              </p>
+              <a href="/services.html#custom" style="display: inline-flex; align-items: center; gap: 8px; color: var(--brand-primary); font-weight: 600; font-size: 0.95rem;">
+                Learn More <i class="ri-arrow-right-line"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="text-center" style="margin-top: 64px;">
+        <a href="/services.html" class="btn btn-secondary btn-lg">
+          <span>View All Services</span>
+          <i class="ri-arrow-right-line"></i>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Social Proof Section -->
+  <section style="padding: 120px 0; background: linear-gradient(135deg, rgba(93, 140, 93, 0.05) 0%, rgba(251, 191, 36, 0.05) 100%); position: relative;">
+    <div class="container">
+      <div class="text-center" style="margin-bottom: 80px;">
+        <h2 style="font-size: clamp(2rem, 4vw, 3.5rem); font-weight: 900; margin-bottom: 24px; font-family: var(--font-heading);">
+          Trusted by 200+ Businesses
+        </h2>
+        <p style="font-size: 1.25rem; color: var(--text-secondary);">
+          Real automation. Real time savings. Real results.
+        </p>
+      </div>
+
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 32px;" data-reveal="stagger">
+        <div class="card">
+          <div style="display: flex; align-items: flex-start; gap: 16px; margin-bottom: 20px;">
+            <div style="width: 56px; height: 56px; background: var(--gradient-primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 1.5rem; font-weight: 900; color: var(--bg-void);">
+              RL
+            </div>
+            <div>
+              <div style="font-weight: 700; font-size: 1.1rem; margin-bottom: 4px;">Remy Lasers</div>
+              <div style="font-size: 0.9rem; color: var(--text-tertiary);">Manufacturing Equipment</div>
+            </div>
+          </div>
+          <p style="color: var(--text-secondary); line-height: 1.7; margin-bottom: 20px; font-size: 1.05rem;">
+            "We went from <strong style="color: var(--text-primary);">20 minutes per order to 30 seconds</strong>. The system handles everything: form submission, QuickBooks invoice, ShipStation label, inventory sync. <strong style="color: var(--text-primary);">12-16 hours saved every month</strong>."
+          </p>
+          <div style="display: flex; gap: 24px; padding-top: 20px; border-top: 1px solid var(--border-subtle); font-size: 0.9rem;">
+            <div>
+              <div style="color: var(--text-tertiary); margin-bottom: 4px;">Time Saved</div>
+              <div style="font-size: 1.5rem; font-weight: 800; color: var(--brand-primary);">95%</div>
+            </div>
+            <div>
+              <div style="color: var(--text-tertiary); margin-bottom: 4px;">Monthly ROI</div>
+              <div style="font-size: 1.5rem; font-weight: 800; color: var(--brand-primary);">$2,400</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div style="display: flex; align-items: flex-start; gap: 16px; margin-bottom: 20px;">
+            <div style="width: 56px; height: 56px; background: var(--gradient-primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 1.5rem; font-weight: 900; color: var(--bg-void);">
+              MA
+            </div>
+            <div>
+              <div style="font-weight: 700; font-size: 1.1rem; margin-bottom: 4px;">Marketing Agency</div>
+              <div style="font-size: 0.9rem; color: var(--text-tertiary);">15 Employees</div>
+            </div>
+          </div>
+          <p style="color: var(--text-secondary); line-height: 1.7; margin-bottom: 20px; font-size: 1.05rem;">
+            "Client books a call on Calendly? Invoice goes to QuickBooks, deal updates in HubSpot, project kicks off in ClickUp, team gets Slack notification. <strong style="color: var(--text-primary);">Zero manual work</strong>. Saved us 18 hours a week."
+          </p>
+          <div style="display: flex; gap: 24px; padding-top: 20px; border-top: 1px solid var(--border-subtle); font-size: 0.9rem;">
+            <div>
+              <div style="color: var(--text-tertiary); margin-bottom: 4px;">Time Saved</div>
+              <div style="font-size: 1.5rem; font-weight: 800; color: var(--brand-primary);">18hrs/wk</div>
+            </div>
+            <div>
+              <div style="color: var(--text-tertiary); margin-bottom: 4px;">Error Rate</div>
+              <div style="font-size: 1.5rem; font-weight: 800; color: var(--brand-primary);">0%</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div style="display: flex; align-items: flex-start; gap: 16px; margin-bottom: 20px;">
+            <div style="width: 56px; height: 56px; background: var(--gradient-primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 1.5rem; font-weight: 900; color: var(--bg-void);">
+              TS
+            </div>
+            <div>
+              <div style="font-weight: 700; font-size: 1.1rem; margin-bottom: 4px;">Trade Services Co</div>
+              <div style="font-size: 0.9rem; color: var(--text-tertiary);">HVAC & Plumbing</div>
+            </div>
+          </div>
+          <p style="color: var(--text-secondary); line-height: 1.7; margin-bottom: 20px; font-size: 1.05rem;">
+            "After every service call, our crew was logging everything manually - hours, materials, photos. Now it's automatic. <strong style="color: var(--text-primary);">Job data flows straight to QuickBooks and our CRM</strong>. No more weekend data entry."
+          </p>
+          <div style="display: flex; gap: 24px; padding-top: 20px; border-top: 1px solid var(--border-subtle); font-size: 0.9rem;">
+            <div>
+              <div style="color: var(--text-tertiary); margin-bottom: 4px;">Time Saved</div>
+              <div style="font-size: 1.5rem; font-weight: 800; color: var(--brand-primary);">12hrs/wk</div>
+            </div>
+            <div>
+              <div style="color: var(--text-tertiary); margin-bottom: 4px;">Accuracy</div>
+              <div style="font-size: 1.5rem; font-weight: 800; color: var(--brand-primary);">100%</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="text-center" style="margin-top: 64px;">
+        <a href="/case-studies.html" class="btn btn-secondary btn-lg">
+          <span>Read More Case Studies</span>
+          <i class="ri-file-list-3-line"></i>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Final CTA Section -->
+  <section style="padding: 120px 0; position: relative;">
+    <div class="container">
+      <div style="max-width: 1000px; margin: 0 auto; padding: 80px 60px; background: var(--bg-surface); border: 1px solid var(--border-brand); border-radius: var(--radius-2xl); box-shadow: var(--shadow-glow), var(--shadow-xl); text-align: center; position: relative; overflow: hidden;">
+        <div style="position: absolute; inset: 0; background: var(--gradient-mesh); opacity: 0.3; pointer-events: none;"></div>
+        
+        <div style="position: relative; z-index: 10;">
+          <h2 style="font-size: clamp(2rem, 4vw, 3.5rem); font-weight: 900; margin-bottom: 24px; font-family: var(--font-heading);">
+            Ready to Automate<br/>Your Business?
+          </h2>
+          <p style="font-size: 1.25rem; color: var(--text-secondary); max-width: 700px; margin: 0 auto 40px; line-height: 1.7;">
+            Book a 30-minute call. We'll audit your workflows, show you exactly what we'd automate, and give you a fixed-price quote. Zero obligation.
+          </p>
+          
+          <div style="display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; margin-bottom: 32px;">
+            <button onclick="openCalendly()" class="btn btn-primary btn-lg" style="font-size: 1.125rem; padding: 20px 48px;">
+              <span>Book Your Free Assessment</span>
+              <i class="ri-calendar-check-line"></i>
+            </button>
+            <a href="/case-studies.html" class="btn btn-secondary btn-lg" style="font-size: 1.125rem; padding: 20px 48px;">
+              <span>View Case Studies</span>
+              <i class="ri-arrow-right-line"></i>
+            </a>
+          </div>
+
+          <div style="display: flex; align-items: center; justify-content: center; gap: 32px; flex-wrap: wrap; font-size: 0.95rem; color: var(--text-tertiary);">
+            <span style="display: flex; align-items: center; gap: 8px;">
+              <i class="ri-checkbox-circle-fill" style="color: var(--success);"></i>
+              30-minute call
+            </span>
+            <span style="display: flex; align-items: center; gap: 8px;">
+              <i class="ri-checkbox-circle-fill" style="color: var(--success);"></i>
+              Fixed-price quote
+            </span>
+            <span style="display: flex; align-items: center; gap: 8px;">
+              <i class="ri-checkbox-circle-fill" style="color: var(--success);"></i>
+              Zero obligation
+            </span>
+            <span style="display: flex; align-items: center; gap: 8px;">
+              <i class="ri-checkbox-circle-fill" style="color: var(--success);"></i>
+              From $997
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer style="padding: 80px 0 40px; border-top: 1px solid var(--border-subtle); position: relative;">
+    <div class="container">
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 48px; margin-bottom: 64px;">
+        <div>
+          <div style="display: flex; align-items: center; gap: 16px; margin-bottom: 20px;">
+            <img src="assets/brand/logo-leonardo.jpg" alt="5 Cypress" style="width: 48px; height: 48px; border-radius: 50%; border: 2px solid var(--border-brand);">
+            <div>
+              <div style="font-size: 1.5rem; font-weight: 900; font-family: var(--font-heading);" class="text-gradient">5 Cypress</div>
+              <div style="font-size: 0.7rem; font-family: var(--font-mono); color: var(--text-tertiary); text-transform: uppercase; letter-spacing: 0.15em;">Automation</div>
+            </div>
+          </div>
+          <p style="color: var(--text-secondary); line-height: 1.7; font-size: 0.95rem;">
+            Precision-engineered automation for businesses with 5–50 employees. Connect your tools. Eliminate manual work.
+          </p>
+        </div>
+
+        <div>
+          <h4 style="font-size: 1rem; font-weight: 700; margin-bottom: 20px; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-primary);">Services</h4>
+          <div style="display: flex; flex-direction: column; gap: 12px;">
+            <a href="/services.html" style="color: var(--text-secondary); font-size: 0.95rem;">Calendar Integration</a>
+            <a href="/services.html" style="color: var(--text-secondary); font-size: 0.95rem;">Order Automation</a>
+            <a href="/services.html" style="color: var(--text-secondary); font-size: 0.95rem;">Lead Management</a>
+            <a href="/services.html" style="color: var(--text-secondary); font-size: 0.95rem;">Custom Workflows</a>
+          </div>
+        </div>
+
+        <div>
+          <h4 style="font-size: 1rem; font-weight: 700; margin-bottom: 20px; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-primary);">Company</h4>
+          <div style="display: flex; flex-direction: column; gap: 12px;">
+            <a href="/about.html" style="color: var(--text-secondary); font-size: 0.95rem;">About Us</a>
+            <a href="/process.html" style="color: var(--text-secondary); font-size: 0.95rem;">Our Process</a>
+            <a href="/case-studies.html" style="color: var(--text-secondary); font-size: 0.95rem;">Case Studies</a>
+            <a href="/privacy.html" style="color: var(--text-secondary); font-size: 0.95rem;">Privacy Policy</a>
+          </div>
+        </div>
+
+        <div>
+          <h4 style="font-size: 1rem; font-weight: 700; margin-bottom: 20px; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-primary);">Get Started</h4>
+          <p style="color: var(--text-secondary); margin-bottom: 20px; font-size: 0.95rem; line-height: 1.6;">
+            Book a 30-minute call to see what we can automate for your business.
+          </p>
+          <button onclick="openCalendly()" class="btn btn-primary">
+            <span>Book Free Call</span>
+            <i class="ri-calendar-check-line"></i>
+          </button>
+        </div>
+      </div>
+
+      <div style="padding-top: 32px; border-top: 1px solid var(--border-subtle); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px;">
+        <div style="color: var(--text-tertiary); font-size: 0.9rem;">
+          © 2025 5 Cypress. All rights reserved.
+        </div>
+        <div style="display: flex; gap: 24px;">
+          <a href="#" style="color: var(--text-tertiary); font-size: 1.5rem; transition: color 0.3s;"><i class="ri-linkedin-fill"></i></a>
+          <a href="#" style="color: var(--text-tertiary); font-size: 1.5rem; transition: color 0.3s;"><i class="ri-twitter-x-fill"></i></a>
+          <a href="mailto:hello@5cypress.com" style="color: var(--text-tertiary); font-size: 1.5rem; transition: color 0.3s;"><i class="ri-mail-fill"></i></a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Calendly Widget -->
+  <script src="https://assets.calendly.com/assets/external/widget.js" type="text/javascript" async></script>
+</body>
+</html>
