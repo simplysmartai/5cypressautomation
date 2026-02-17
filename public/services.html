@@ -4,29 +4,124 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Services | 5 Cypress Automation</title>
-  <meta name="description" content="Calendar, order, and CRM automation services. Connect Calendly, QuickBooks, ShipStation, and more.">
-  <link rel="canonical" href="https://5cypress.com/services.html">
+  <meta name="description" content="Professional business automation for growing small businesses. Order processing, CRM syncing, inventory management, and invoice automation.">
+  
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link href="https://cdn.jsdelivr.net/npm/remixicon@4.0.0/fonts/remixicon.css" rel="stylesheet">
-  <link rel="icon" type="image/svg+xml" href="assets/brand/favicon.svg">
-  <link href="https://assets.calendly.com/assets/external/calendar-widget.css" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css">
-  <script src="dynamics.js" defer></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400..800;1,400..800&family=Space+Grotesk:wght@300..700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet">
+  
+  <link rel="stylesheet" href="design-system.css">
+  <link rel="stylesheet" href="styles-premium.css">
+  <link rel="stylesheet" href="styles-mobile-enhanced.css">
+  
+  <style>
+    .service-detailed-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: 24px;
+      padding: 60px;
+      margin-bottom: 48px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      align-items: center;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .service-detailed-card:nth-child(even) {
+      direction: rtl;
+    }
+    
+    .service-detailed-card:nth-child(even) .service-text {
+      direction: ltr;
+    }
+
+    .service-visual {
+      background: rgba(255,255,255,0.02);
+      border-radius: 16px;
+      aspect-ratio: 16/10;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      border: 1px solid rgba(255,255,255,0.05);
+    }
+
+    .service-visual i {
+      font-size: 5rem;
+      color: var(--brand-primary);
+      filter: drop-shadow(0 0 20px rgba(93, 140, 93, 0.4));
+    }
+
+    .feature-list {
+      list-style: none;
+      padding: 0;
+      margin: 32px 0;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .feature-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      color: var(--text-secondary);
+      font-size: 1.1rem;
+    }
+
+    .feature-item i {
+      color: var(--brand-primary);
+      font-size: 1.25rem;
+    }
+
+    .service-header-tag {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: var(--brand-primary);
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      margin-bottom: 16px;
+      display: block;
+    }
+
+    @media (max-width: 992px) {
+      .service-detailed-card {
+        grid-template-columns: 1fr;
+        padding: 40px;
+        gap: 40px;
+      }
+      .service-detailed-card:nth-child(even) {
+        direction: ltr;
+      }
+    }
+  </style>
+
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "https://unpkg.com/three@0.162.0/build/three.module.js",
+        "three/addons/": "https://unpkg.com/three@0.162.0/examples/jsm/"
+      }
+    }
+  </script>
 </head>
 <body>
-  <div class="conic-mesh"></div>
+  <!-- Atmospheric Background -->
+  <div class="atmosphere"></div>
 
   <!-- Navigation -->
   <nav class="navbar">
     <div class="container nav-container">
       <a href="/" class="logo">
-        <div class="logo-icon logo-pulse">
-          <img src="assets/brand/logo-leonardo.jpg" alt="5 Cypress Automation Logo">
+        <div class="logo-icon pulse-glow">
+          <img src="assets/brand/logo-leonardo.jpg" alt="5 Cypress Logo">
         </div>
         <div class="logo-text-group">
-          <span class="logo-title text-gradient-special">5 Cypress</span>
+          <span class="logo-title text-shimmer">5 Cypress</span>
           <div class="logo-subtitle">
             <span>A</span><span>U</span><span>T</span><span>O</span><span>M</span><span>A</span><span>T</span><span>I</span><span>O</span><span>N</span>
           </div>
@@ -41,12 +136,12 @@
       </div>
 
       <div class="nav-actions">
-        <button onclick="openCalendly()" class="btn btn-primary">
+        <button onclick="openCalendly()" class="btn btn-primary btn-lg ripple">
           Get Started <i class="ri-arrow-right-up-line"></i>
         </button>
       </div>
 
-      <button class="mobile-toggle" onclick="toggleMobileMenu()">
+      <button class="mobile-toggle" onclick="toggleMobileMenu()" aria-label="Toggle mobile menu">
         <i class="ri-menu-line"></i>
       </button>
     </div>
@@ -54,379 +149,321 @@
 
   <!-- Mobile Menu -->
   <div class="mobile-menu" id="mobileMenu">
-    <a href="/services.html" class="mobile-link" onclick="closeMobileMenu()">Services</a>
+    <button class="mobile-menu-close" onclick="closeMobileMenu()" aria-label="Close menu">
+      <i class="ri-close-line"></i>
+    </button>
+    <a href="/services.html" class="mobile-link active" onclick="closeMobileMenu()">Services</a>
     <a href="/process.html" class="mobile-link" onclick="closeMobileMenu()">Process</a>
     <a href="/case-studies.html" class="mobile-link" onclick="closeMobileMenu()">Case Studies</a>
     <a href="/about.html" class="mobile-link" onclick="closeMobileMenu()">About</a>
-    <button onclick="openCalendly(); closeMobileMenu();" class="btn btn-primary btn-block">Get Started</button>
+    <button onclick="openCalendly(); closeMobileMenu();" class="btn btn-primary btn-lg btn-block ripple" style="margin-top: 24px;">
+      Get Started <i class="ri-arrow-right-up-line"></i>
+    </button>
   </div>
 
-  <!-- Page Header -->
-  <section style="padding: 175px 0 60px; text-align: center;">
-    <div class="container">
-      <h1 style="font-size: 3rem; font-weight: 900; margin-bottom: 20px;">
-        <span style="display: block; background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">Automation Services</span>
-      </h1>
-      <p style="font-size: 1.25rem; color: var(--text-muted); max-width: 700px; margin: 0 auto;">
-        We connect the tools you already use so they update automatically. No more copying data between systems.
-      </p>
-    </div>
-  </section>
+  <main id="main-content">
+    <!-- Hero Section -->
+    <section style="padding: 180px 0 100px; text-align: center;">
+      <div class="container">
+        <div class="reveal">
+          <h1 style="font-size: clamp(2.5rem, 6vw, 4.5rem); line-height: 1.1; margin-bottom: 24px;">
+            <span class="text-gradient">Precision Services</span><br>
+            for Scalable Growth
+          </h1>
+          <p class="lead" style="max-width: 800px; margin: 0 auto 48px; color: var(--text-secondary);">
+            We don't just sell software. We build the digital nervous system for your business, connecting your tools into a single, reliable engine.
+          </p>
+        </div>
+      </div>
+    </section>
 
-  <!-- Who We Serve -->
-  <section style="padding: 80px 0; background: linear-gradient(135deg, rgba(93, 140, 93, 0.05) 0%, rgba(251, 191, 36, 0.05) 100%);">
-    <div class="container">
-      <div style="max-width: 900px; margin: 0 auto; text-align: center;">
-        <h2 style="font-size: 2rem; font-weight: 800; margin-bottom: 24px;">Who We Serve</h2>
-        <p style="font-size: 1.15rem; line-height: 1.8; color: var(--text-muted);">
-          We work with <strong style="color: var(--primary);">businesses with 5–50 employees</strong> across agencies, clinics, trades, and local services. 
-          You're big enough to feel the pain of disconnected tools, but too small to justify a full-time IT team. 
-          <strong style="color: #ffffff;">That's exactly where we help.</strong>
+    <!-- Services Deep Dive -->
+    <section style="padding: 40px 0 120px;">
+      <div class="container">
+        
+        <!-- 1. Order Processing -->
+        <article class="service-detailed-card reveal">
+          <div class="service-text">
+            <span class="service-header-tag">Module 01</span>
+            <h2 style="font-size: 2.5rem; font-weight: 800; margin-bottom: 20px;">Order Processing</h2>
+            <p style="font-size: 1.2rem; color: var(--text-secondary); line-height: 1.7;">
+              Manual order entry is where mistakes happen and time evaporates. We automate the entire flow from customer purchase to warehouse fulfillment.
+            </p>
+            <ul class="feature-list">
+              <li class="feature-item"><i class="ri-checkbox-circle-fill"></i> Shop → ERP → Fulfillment sync</li>
+              <li class="feature-item"><i class="ri-checkbox-circle-fill"></i> Real-time tracking updates</li>
+              <li class="feature-item"><i class="ri-checkbox-circle-fill"></i> Customer notification triggers</li>
+            </ul>
+            <button onclick="openCalendly()" class="btn btn-secondary btn-lg">Discuss My Workflow</button>
+          </div>
+          <div class="service-visual">
+            <i class="ri-box-3-line"></i>
+            <div class="glow-effect" style="position: absolute; width: 100%; height: 100%; background: radial-gradient(circle at center, rgba(93, 140, 93, 0.1) 0%, transparent 70%);"></div>
+          </div>
+        </article>
+
+        <!-- 2. Lead Capture & CRM -->
+        <article class="service-detailed-card reveal">
+          <div class="service-text">
+            <span class="service-header-tag">Module 02</span>
+            <h2 style="font-size: 2.5rem; font-weight: 800; margin-bottom: 20px;">Lead Capture & CRM</h2>
+            <p style="font-size: 1.2rem; color: var(--text-secondary); line-height: 1.7;">
+              Stop losing leads to the "inbox void." We ensure every contact form, ad lead, and chat interaction maps directly to your CRM with proper attribution.
+            </p>
+            <ul class="feature-list">
+              <li class="feature-item"><i class="ri-checkbox-circle-fill"></i> Real-time CRM delivery</li>
+              <li class="feature-item"><i class="ri-checkbox-circle-fill"></i> Automated lead scoring</li>
+              <li class="feature-item"><i class="ri-checkbox-circle-fill"></i> Instant follow-up sequences</li>
+            </ul>
+            <button onclick="openCalendly()" class="btn btn-secondary btn-lg">Audit My Lead Flow</button>
+          </div>
+          <div class="service-visual">
+            <i class="ri-user-follow-line"></i>
+          </div>
+        </article>
+
+        <!-- 3. Inventory Syncing -->
+        <article class="service-detailed-card reveal">
+          <div class="service-text">
+            <span class="service-header-tag">Module 03</span>
+            <h2 style="font-size: 2.5rem; font-weight: 800; margin-bottom: 20px;">Inventory Syncing</h2>
+            <p style="font-size: 1.2rem; color: var(--text-secondary); line-height: 1.7;">
+              Overselling is a reputation killer. We keep your warehouse, Shopify store, and Amazon account perfectly in sync across every channel.
+            </p>
+            <ul class="feature-list">
+              <li class="feature-item"><i class="ri-checkbox-circle-fill"></i> Multi-channel stock mapping</li>
+              <li class="feature-item"><i class="ri-checkbox-circle-fill"></i> Low-stock alerts & PO triggers</li>
+              <li class="feature-item"><i class="ri-checkbox-circle-fill"></i> Zero manual inventory sheets</li>
+            </ul>
+            <button onclick="openCalendly()" class="btn btn-secondary btn-lg">Sync My Inventory</button>
+          </div>
+          <div class="service-visual">
+            <i class="ri-stack-line"></i>
+          </div>
+        </article>
+
+        <!-- 4. Invoice Automation -->
+        <article class="service-detailed-card reveal">
+          <div class="service-text">
+            <span class="service-header-tag">Module 04</span>
+            <h2 style="font-size: 2.5rem; font-weight: 800; margin-bottom: 20px;">Invoice Automation</h2>
+            <p style="font-size: 1.2rem; color: var(--text-secondary); line-height: 1.7;">
+              Waiting hours to bill for finished work hurts cash flow. We trigger invoices in QuickBooks, Xero, or Stripe the moment an order is fulfilled or a job is marked done.
+            </p>
+            <ul class="feature-list">
+              <li class="feature-item"><i class="ri-checkbox-circle-fill"></i> Auto-generated client invoices</li>
+              <li class="feature-item"><i class="ri-checkbox-circle-fill"></i> Payment status reconciliation</li>
+              <li class="feature-item"><i class="ri-checkbox-circle-fill"></i> Financial dashboard syncing</li>
+            </ul>
+            <button onclick="openCalendly()" class="btn btn-secondary btn-lg">Automate My Billing</button>
+          </div>
+          <div class="service-visual">
+            <i class="ri-bank-card-line"></i>
+          </div>
+        </article>
+
+        <!-- 5. Calendar Integration -->
+        <article class="service-detailed-card reveal">
+          <div class="service-text">
+            <span class="service-header-tag">Module 05</span>
+            <h2 style="font-size: 2.5rem; font-weight: 800; margin-bottom: 20px;">Calendar Integration</h2>
+            <p style="font-size: 1.2rem; color: var(--text-secondary); line-height: 1.7;">
+              Appointments are the lifeblood of your service business. We sync Calendly with your project management system and CRM to prepare your team before the call starts.
+            </p>
+            <ul class="feature-list">
+              <li class="feature-item"><i class="ri-checkbox-circle-fill"></i> CRM/Project tool creation</li>
+              <li class="feature-item"><i class="ri-checkbox-circle-fill"></i> Automated prep-material sent</li>
+              <li class="feature-item"><i class="ri-checkbox-circle-fill"></i> No more manual rescheduling</li>
+            </ul>
+            <button onclick="openCalendly()" class="btn btn-secondary btn-lg">Connect My Calendar</button>
+          </div>
+          <div class="service-visual">
+            <i class="ri-calendar-event-line"></i>
+          </div>
+        </article>
+
+      </div>
+    </section>
+
+    <!-- Why Us / Trust Section -->
+    <section style="padding: 120px 0; background: var(--bg-surface); border-top: 1px solid var(--border-subtle);">
+      <div class="container">
+        <div style="text-align: center; margin-bottom: 80px;">
+          <h2 class="reveal" style="font-size: 3rem; font-style: italic; font-weight: 900;">The 5 Cypress Standard</h2>
+          <p class="reveal" style="color: var(--text-secondary); font-size: 1.25rem;">Why businesses trust us over "DIY" automation.</p>
+        </div>
+        
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 32px;">
+          <div class="reveal dash-stat" style="background: var(--bg-void); padding: 40px;">
+            <i class="ri-shield-keyhole-line" style="font-size: 2rem; color: var(--brand-primary); margin-bottom: 20px; display: block;"></i>
+            <h3 style="margin-bottom: 16px;">Enterprise Security</h3>
+            <p style="color: var(--text-tertiary); font-size: 0.95rem;">Your data remains yours. We build using industry-standard encryption and security protocols.</p>
+          </div>
+          <div class="reveal dash-stat" style="background: var(--bg-void); padding: 40px;">
+            <i class="ri-speed-up-line" style="font-size: 2rem; color: var(--brand-primary); margin-bottom: 20px; display: block;"></i>
+            <h3 style="margin-bottom: 16px;">Fast Turnaround</h3>
+            <p style="color: var(--text-tertiary); font-size: 0.95rem;">We deploy on timelines that make sense for your business speed. No elongated consulting cycles.</p>
+          </div>
+          <div class="reveal dash-stat" style="background: var(--bg-void); padding: 40px;">
+            <i class="ri-refresh-line" style="font-size: 2rem; color: var(--brand-primary); margin-bottom: 20px; display: block;"></i>
+            <h3 style="margin-bottom: 16px;">Zero Maintenance</h3>
+            <p style="color: var(--text-tertiary); font-size: 0.95rem;">We build systems that last. When an API changes, we're already ahead of it.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Final CTA -->
+    <section style="padding: 120px 0; text-align: center; position: relative; overflow: hidden;">
+      <div class="atmosphere" style="opacity: 0.2;"></div>
+      <div class="container" style="position: relative; z-index: 10;">
+        <h2 class="reveal" style="font-family: var(--font-display); font-size: clamp(2rem, 5vw, 3.5rem); font-weight: 900; font-style: italic; margin-bottom: 24px;">
+          <span class="text-gradient">Ready to stop the busywork?</span>
+        </h2>
+        <p class="reveal" style="font-size: 1.25rem; color: var(--text-secondary); max-width: 700px; margin: 0 auto 48px;">
+          Let's map out which of these 5 modules will have the biggest impact on your bottom line today.
         </p>
-        <div style="display: flex; align-items: center; justify-content: center; gap: 32px; flex-wrap: wrap; margin-top: 40px; font-size: 0.95rem; color: var(--text-muted);">
-          <span style="display: flex; align-items: center; gap: 8px;"><i class="ri-team-line" style="color: var(--primary); font-size: 1.25rem;"></i> Marketing Agencies</span>
-          <span style="display: flex; align-items: center; gap: 8px;"><i class="ri-heart-pulse-line" style="color: var(--primary); font-size: 1.25rem;"></i> Medical Clinics</span>
-          <span style="display: flex; align-items: center; gap: 8px;"><i class="ri-tools-line" style="color: var(--primary); font-size: 1.25rem;"></i> Trade Services</span>
-          <span style="display: flex; align-items: center; gap: 8px;"><i class="ri-store-2-line" style="color: var(--primary); font-size: 1.25rem;"></i> Local Businesses</span>
-        </div>
+        <button onclick="openCalendly()" class="btn btn-primary btn-lg btn-magnetic ripple reveal">
+          <span>Book Free Discovery Call</span>
+          <i class="ri-calendar-check-line"></i>
+        </button>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- Services Section -->
-  <section id="services" class="services-section">
-    <div class="container">
-      <div class="services-grid" data-reveal="stagger">
-        <!-- Calendar Integration -->
-        <div class="service-card">
-          <div class="card-visual">
-            <i class="ri-links-line"></i>
-          </div>
-          <h3>Calendar Integration</h3>
-          <p class="service-tagline">Calendly • Google Calendar • Zoho • Outlook • Microsoft 365</p>
-          <ul class="service-features">
-            <li><i class="ri-check-line"></i> See all team calendars in one dashboard</li>
-            <li><i class="ri-check-line"></i> Smart scheduling finds available times automatically</li>
-            <li><i class="ri-check-line"></i> Meeting booked → QB quote created instantly</li>
-            <li><i class="ri-check-line"></i> Auto-reserve conference rooms + create Zoom links</li>
-          </ul>
-          <button onclick="openCalendly()" class="btn btn-secondary" style="width: 100%; margin-top: 24px;">
-            Learn More <i class="ri-arrow-right-line"></i>
-          </button>
-        </div>
-
-        <!-- Order Automation - Featured -->
-        <div class="service-card featured">
-          <div class="featured-badge">Most Popular</div>
-          <div class="card-visual">
-            <i class="ri-flow-chart"></i>
-          </div>
-          <h3>Order Automation</h3>
-          <p class="service-tagline">QuickBooks • ShipStation • Shopify • WooCommerce • Email</p>
-          <ul class="service-features">
-            <li><i class="ri-check-line"></i> Customer orders → QB invoice + payment processing</li>
-            <li><i class="ri-check-line"></i> Invoice paid → ShipStation label auto-generated</li>
-            <li><i class="ri-check-line"></i> Shipped → tracking email sent instantly</li>
-            <li><i class="ri-check-line"></i> Inventory synced across all platforms in real-time</li>
-          </ul>
-          <button onclick="openCalendly()" class="btn btn-primary" style="width: 100%; margin-top: 24px;">
-            Get Started <i class="ri-arrow-right-line"></i>
-          </button>
-        </div>
-
-        <!-- CRM Integration -->
-        <div class="service-card">
-          <div class="card-visual">
-            <i class="ri-contacts-line"></i>
-          </div>
-          <h3>CRM Integration</h3>
-          <p class="service-tagline">HubSpot • Salesforce • Pipedrive • Zoho CRM • Copper</p>
-          <ul class="service-features">
-            <li><i class="ri-check-line"></i> Website form → new CRM contact + welcome email</li>
-            <li><i class="ri-check-line"></i> Calendly booking → deal created + sales rep notified</li>
-            <li><i class="ri-check-line"></i> Invoice paid → deal status updated automatically</li>
-            <li><i class="ri-check-line"></i> Email campaigns trigger follow-up tasks</li>
-          </ul>
-          <button onclick="openCalendly()" class="btn btn-secondary" style="width: 100%; margin-top: 24px;">
-            Learn More <i class="ri-arrow-right-line"></i>
-          </button>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Tools We Integrate -->  
-  <section style="padding: 100px 0;">
-    <div class="container">
-      <div style="text-align: center; margin-bottom: 64px;">
-        <span class="section-tag">Integrations</span>
-        <h2 style="font-size: 2.5rem; font-weight: 900; margin-bottom: 24px; margin-top: 16px;">The Tools You Already Use</h2>
-        <p style="font-size: 1.2rem; color: var(--text-muted); max-width: 700px; margin: 0 auto;">We connect your existing software so it works together automatically.</p>
-      </div>
-
-      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 32px; max-width: 1000px; margin: 0 auto;">
-        <div class="tool-logo-card">
-          <div class="tool-icon" style="background: linear-gradient(135deg, #006BFF 0%, #0052CC 100%);"><i class="ri-calendar-check-line" style="font-size: 2rem; color: white;"></i></div>
-          <span>Calendly</span>
-        </div>
-        <div class="tool-logo-card">
-          <div class="tool-icon" style="background: linear-gradient(135deg, #2CA01C 0%, #1E7A0F 100%);"><i class="ri-file-text-line" style="font-size: 2rem; color: white;"></i></div>
-          <span>QuickBooks</span>
-        </div>
-        <div class="tool-logo-card">
-          <div class="tool-icon" style="background: linear-gradient(135deg, #39B54A 0%, #2E9138 100%);"><i class="ri-ship-line" style="font-size: 2rem; color: white;"></i></div>
-          <span>ShipStation</span>
-        </div>
-        <div class="tool-logo-card">
-          <div class="tool-icon" style="background: linear-gradient(135deg, #FF6B35 0%, #F14C2C 100%);"><i class="ri-customer-service-2-line" style="font-size: 2rem; color: white;"></i></div>
-          <span>HubSpot</span>
-        </div>
-        <div class="tool-logo-card">
-          <div class="tool-icon" style="background: linear-gradient(135deg, #00A4EF 0%, #0078D4 100%);"><i class="ri-contacts-book-2-line" style="font-size: 2rem; color: white;"></i></div>
-          <span>Salesforce</span>
-        </div>
-        <div class="tool-logo-card">
-          <div class="tool-icon" style="background: linear-gradient(135deg, #4A154B 0%, #36113B 100%);"><i class="ri-slack-line" style="font-size: 2rem; color: white;"></i></div>
-          <span>Slack</span>
-        </div>
-        <div class="tool-logo-card">
-          <div class="tool-icon" style="background: linear-gradient(135deg, #EA4335 0%, #D33426 100%);"><i class="ri-mail-line" style="font-size: 2rem; color: white;"></i></div>
-          <span>Gmail</span>
-        </div>
-        <div class="tool-logo-card">
-          <div class="tool-icon" style="background: linear-gradient(135deg, #1DB954 0%, #1AA34A 100%);"><i class="ri-database-2-line" style="font-size: 2rem; color: white;"></i></div>
-          <span>Airtable</span>
-        </div>
-      </div>
-
-      <p style="text-align: center; margin-top: 48px; color: var(--text-muted); font-size: 1rem;">Plus: Stripe, PayPal, Shopify, WooCommerce, Google Sheets, Microsoft Teams, Zoom, and 1,000+ more.</p>
-    </div>
-  </section>
-
-  <!-- Pricing Section -->
-  <section id="pricing" class="pricing-section" style="padding: 120px 0; background: linear-gradient(135deg, rgba(93, 140, 93, 0.03) 0%, rgba(251, 191, 36, 0.03) 100%);">
-    <div class="container">
-      <div class="section-header text-center">
-        <span class="section-tag">Pricing</span>
-        <h2>Simple, Transparent Pricing</h2>
-        <p>No surprises. No hidden fees. Just straightforward automation that pays for itself.</p>
-      </div>
-
-      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 32px; max-width: 1000px; margin: 60px auto 0;">
-        <div class="service-card" style="text-align: center;">
-          <h3 style="font-size: 1.5rem; margin-bottom: 8px;">Quick-Win Sprint</h3>
-          <div style="font-size: 3rem; font-weight: 900; color: var(--primary); margin: 24px 0;">$997<span style="font-size: 1rem; font-weight: 600; color: var(--text-muted);">/one-time</span></div>
-          <p style="color: var(--text-muted); margin-bottom: 32px;">Perfect for single workflow automation</p>
-          <ul style="text-align: left; list-style: none; padding: 0; margin-bottom: 32px;">
-            <li style="padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.05);"><i class="ri-check-line" style="color: var(--primary); margin-right: 12px;"></i>1 core automation workflow</li>
-            <li style="padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.05);"><i class="ri-check-line" style="color: var(--primary); margin-right: 12px;"></i>2 tool integrations</li>
-            <li style="padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.05);"><i class="ri-check-line" style="color: var(--primary); margin-right: 12px;"></i>1 week implementation</li>
-            <li style="padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.05);"><i class="ri-check-line" style="color: var(--primary); margin-right: 12px;"></i>30 days support</li>
-          </ul>
-          <button onclick="openCalendly()" class="btn btn-secondary" style="width: 100%;">Get Started</button>
-        </div>
-
-        <div class="service-card featured" style="text-align: center; transform: scale(1.05); border-color: var(--primary);">
-          <div class="featured-badge">Most Popular</div>
-          <h3 style="font-size: 1.5rem; margin-bottom: 8px;">Automation Foundation</h3>
-          <div style="font-size: 3rem; font-weight: 900; color: var(--primary); margin: 24px 0;">$2,497<span style="font-size: 1rem; font-weight: 600; color: var(--text-muted);">/one-time</span></div>
-          <p style="color: var(--text-muted); margin-bottom: 32px;">Complete automation for growing businesses</p>
-          <ul style="text-align: left; list-style: none; padding: 0; margin-bottom: 32px;">
-            <li style="padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.05);"><i class="ri-check-line" style="color: var(--primary); margin-right: 12px;"></i>3 automation workflows</li>
-            <li style="padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.05);"><i class="ri-check-line" style="color: var(--primary); margin-right: 12px;"></i>5+ tool integrations</li>
-            <li style="padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.05);"><i class="ri-check-line" style="color: var(--primary); margin-right: 12px;"></i>2 week implementation</li>
-            <li style="padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.05);"><i class="ri-check-line" style="color: var(--primary); margin-right: 12px;"></i>Custom dashboard</li>
-            <li style="padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.05);"><i class="ri-check-line" style="color: var(--primary); margin-right: 12px;"></i>90 days support</li>
-          </ul>
-          <button onclick="openCalendly()" class="btn btn-primary" style="width: 100%;">Get Started</button>
-        </div>
-
-        <div class="service-card" style="text-align: center;">
-          <h3 style="font-size: 1.5rem; margin-bottom: 8px;">Automation Partner</h3>
-          <div style="font-size: 3rem; font-weight: 900; color: var(--primary); margin: 24px 0;">$297<span style="font-size: 1rem; font-weight: 600; color: var(--text-muted);">/month</span></div>
-          <p style="color: var(--text-muted); margin-bottom: 32px;">Ongoing maintenance + new workflows as you scale</p>
-          <ul style="text-align: left; list-style: none; padding: 0; margin-bottom: 32px;">
-            <li style="padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.05);"><i class="ri-check-line" style="color: var(--primary); margin-right: 12px;"></i>Unlimited workflows</li>
-            <li style="padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.05);"><i class="ri-check-line" style="color: var(--primary); margin-right: 12px;"></i>Unlimited integrations</li>
-            <li style="padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.05);"><i class="ri-check-line" style="color: var(--primary); margin-right: 12px;"></i>Priority implementation</li>
-            <li style="padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.05);"><i class="ri-check-line" style="color: var(--primary); margin-right: 12px;"></i>Advanced dashboards</li>
-            <li style="padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.05);"><i class="ri-check-line" style="color: var(--primary); margin-right: 12px;"></i>Dedicated support</li>
-          </ul>
-          <button onclick="openCalendly()" class="btn btn-secondary" style="width: 100%;">Contact Us</button>
-        </div>
-      </div>
-
-      <p style="text-align: center; margin-top: 48px; color: var(--text-muted); font-size: 0.9rem;">Ongoing monitoring & maintenance available from $297/month</p>
-    </div>
-  </section>
-
-  <!-- CTA Section -->
-  <section class="cta-section">
-    <div class="container">
-      <div class="cta-card">
-        <div class="cta-visual-bg">
-          <svg viewBox="0 0 1000 400" fill="none" opacity="0.1">
-            <path d="M0,200 Q250,50 500,200 T1000,200" stroke="var(--primary)" stroke-width="2">
-              <animate attributeName="stroke-dasharray" from="0,1500" to="1500,0" dur="20s" repeatCount="indefinite" />
-            </path>
-          </svg>
-        </div>
-        <div class="cta-content">
-          <h2>Ready to Save 15 Hours Per Week?</h2>
-          <p>Book a free workflow planning call. We'll show you exactly how much time you're wasting on manual data entry and how we can automate it away.</p>
-          <div class="cta-buttons">
-            <button onclick="openCalendly()" class="btn btn-white btn-lg">
-              Get Started <i class="ri-calendar-line"></i>
-            </button>
-          </div>
-          <p style="margin-top: 16px; font-size: 0.9rem; opacity: 0.8;">From $997 • Go live in 14 days • No monthly contracts</p>
-        </div>
-        <div class="cta-visual">
-          <div class="cta-orb orb-1"></div>
-          <div class="cta-orb orb-2"></div>
-        </div>
-      </div>
-    </div>
-  </section>
+  </main>
 
   <!-- Footer -->
-  <footer class="footer">
+  <footer style="padding: 100px 0 60px; border-top: 1px solid var(--border-subtle); position: relative; background: #070709;">
     <div class="container">
-      <div class="footer-grid">
-        <div class="footer-brand">
-          <div class="logo">
-            <div class="logo-icon">
-              <img src="assets/brand/logo-leonardo.jpg" alt="5 Cypress Automation Logo">
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 64px; margin-bottom: 80px;">
+        <div style="grid-column: span 2;">
+          <div style="display: flex; align-items: center; gap: 20px; margin-bottom: 24px;">
+            <div class="logo-icon" style="width: 56px; height: 56px; border: 2px solid var(--brand-primary); padding: 2px; background: var(--bg-void);">
+              <img src="assets/brand/logo-leonardo.jpg" alt="5 Cypress" style="border-radius: 50%;">
             </div>
-            <span>5 Cypress Automation</span>
+            <div>
+              <div style="font-size: 1.75rem; font-weight: 900; font-family: var(--font-heading); line-height: 1;" class="text-gradient">5 Cypress</div>
+              <div style="font-size: 0.75rem; font-family: var(--font-mono); color: var(--brand-primary); text-transform: uppercase; letter-spacing: 0.2em; margin-top: 4px;">Automation</div>
+            </div>
           </div>
-          <p class="footer-tagline">Connect your business tools so they work together automatically.</p>
-          <div class="social-links">
-            <a href="https://linkedin.com/company/5cypressautomation" target="_blank" rel="noopener" class="social-link" aria-label="LinkedIn">
-              <i class="ri-linkedin-fill"></i>
-            </a>
-            <a href="https://twitter.com/5cypressautomation" target="_blank" rel="noopener" class="social-link" aria-label="Twitter">
-              <i class="ri-twitter-x-fill"></i>
-            </a>
+          <p style="color: var(--text-secondary); line-height: 1.8; font-size: 1rem; max-width: 400px; margin-bottom: 32px;">
+            We automate the busywork so you can focus on growth. Custom workflows built for small teams that need systems they can actually use.
+          </p>
+          <div style="display: flex; gap: 16px;">
+            <a href="#" class="social-btn" aria-label="LinkedIn"><i class="ri-linkedin-fill"></i></a>
+            <a href="#" class="social-btn" aria-label="Twitter"><i class="ri-twitter-x-fill"></i></a>
+            <a href="mailto:hello@5cypress.com" class="social-btn" aria-label="Email"><i class="ri-mail-fill"></i></a>
           </div>
         </div>
-        
-        <div class="footer-links">
-          <h4>Services</h4>
-          <ul>
+
+        <div>
+          <h4 class="footer-heading">Services</h4>
+          <ul class="footer-links">
+            <li><a href="/services.html">Order Processing</a></li>
+            <li><a href="/services.html">Lead Capture & CRM</a></li>
+            <li><a href="/services.html">Inventory Syncing</a></li>
+            <li><a href="/services.html">Invoice Automation</a></li>
             <li><a href="/services.html">Calendar Integration</a></li>
-            <li><a href="/services.html">Order Automation</a></li>
-            <li><a href="/services.html">CRM Integration</a></li>
           </ul>
         </div>
-        
-        <div class="footer-links">
-          <h4>Company</h4>
-          <ul>
-            <li><a href="/process.html">Process</a></li>
+
+        <div>
+          <h4 class="footer-heading">Expertise</h4>
+          <ul class="footer-links">
+            <li><a href="/process.html">Our Framework</a></li>
             <li><a href="/case-studies.html">Case Studies</a></li>
-            <li><a href="/about.html">About</a></li>
-          </ul>
-        </div>
-        
-        <div class="footer-links">
-          <h4>Get Started</h4>
-          <ul>
-            <li><a href="#" onclick="openCalendly(); return false;">Book a Call</a></li>
+            <li><a href="/about.html">About 5 Cypress</a></li>
+            <li><a href="/privacy.html">Privacy Control</a></li>
           </ul>
         </div>
       </div>
-      
-      <div class="footer-bottom">
-        <p>&copy; 2026 5 Cypress Automation. All rights reserved.</p>
-        <div class="footer-legal">
-          <a href="/privacy.html">Privacy Policy</a>
-          <span class="footer-divider">•</span>
-          <a href="/terms.html">Terms of Service</a>
+
+      <div style="padding-top: 40px; border-top: 1px solid rgba(255,255,255,0.05); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 24px;">
+        <div style="color: var(--text-tertiary); font-size: 0.85rem; font-family: var(--font-mono);">
+          © 2026 5 CYPRESS AUTOMATION. <span style="color: var(--brand-primary);">SYSTEM_STATUS: OPTIMAL</span>
+        </div>
+        <div style="display: flex; gap: 32px; font-size: 0.85rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em;">
+          <a href="/terms.html" class="nav-link" style="color: var(--text-tertiary);">Terms</a>
+          <a href="/privacy.html" class="nav-link" style="color: var(--text-tertiary);">Privacy</a>
+          <a href="/security.html" class="nav-link" style="color: var(--text-tertiary);">Security</a>
         </div>
       </div>
     </div>
   </footer>
 
-  <!-- Calendly Modal -->
-  <div class="calendly-modal" id="calendlyModal">
-    <div class="calendly-modal-content">
-      <button class="calendly-close" onclick="closeCalendly()">
-        <i class="ri-close-line"></i>
-      </button>
-      <div class="calendly-container" id="calendlyContainer">
-        <div class="calendly-spinner"></div>
-      </div>
-    </div>
-  </div>
+  <style>
+    .footer-heading {
+      font-size: 0.8rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--brand-primary);
+      margin-bottom: 24px;
+    }
+    .footer-links {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .footer-links a {
+      color: var(--text-tertiary);
+      font-size: 0.95rem;
+      font-weight: 500;
+      transition: all 0.3s ease;
+    }
+    .footer-links a:hover {
+      color: var(--text-primary);
+      transform: translateX(4px);
+      display: inline-block;
+    }
+    .social-btn {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid var(--border-subtle);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-secondary);
+      font-size: 1.25rem;
+      transition: all 0.3s ease;
+    }
+    .social-btn:hover {
+      border-color: var(--brand-primary);
+      color: var(--brand-primary);
+      background: rgba(93, 140, 93, 0.1);
+      transform: translateY(-4px);
+    }
+  </style>
 
-  <script src="https://assets.calendly.com/assets/external/widget.js" async></script>
+  <!-- Scripts -->
+  <script src="https://assets.calendly.com/assets/external/widget.js" type="text/javascript" async></script>
+  <script src="dynamics-premium.js" defer></script>
+  <script src="touch-gestures.js" defer></script>
+  
   <script>
-    // Navbar scroll effect
-    const navbar = document.querySelector('.navbar');
-    window.addEventListener('scroll', () => {
-      if (window.scrollY > 50) {
-        navbar.classList.add('scrolled');
-      } else {
-        navbar.classList.remove('scrolled');
+    function openCalendly() {
+      if (typeof Calendly !== 'undefined') {
+        Calendly.initPopupWidget({
+          url: 'https://calendly.com/your-calendly-link'
+        });
       }
-    });
-
+      return false;
+    }
+    
     function toggleMobileMenu() {
       const menu = document.getElementById('mobileMenu');
       menu.classList.toggle('active');
     }
-
+    
     function closeMobileMenu() {
       const menu = document.getElementById('mobileMenu');
       menu.classList.remove('active');
     }
-
-    function openCalendly() {
-      const modal = document.getElementById('calendlyModal');
-      const container = document.getElementById('calendlyContainer');
-      
-      modal.style.display = 'flex';
-      document.body.style.overflow = 'hidden';
-      
-      container.innerHTML = '';
-      Calendly.initInlineWidget({
-        url: 'https://calendly.com/simply-smart',
-        parentElement: container,
-        prefill: {},
-        utm: {}
-      });
-    }
-
-    function closeCalendly() {
-      const modal = document.getElementById('calendlyModal');
-      modal.style.display = 'none';
-      document.body.style.overflow = '';
-    }
-
-    document.getElementById('calendlyModal').addEventListener('click', (e) => {
-      if (e.target.id === 'calendlyModal') {
-        closeCalendly();
-      }
-    });
-
-    const observerOptions = {
-      threshold: 0.1,
-      rootMargin: '0px 0px -50px 0px'
-    };
-
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('revealed');
-        }
-      });
-    }, observerOptions);
-
-    document.querySelectorAll('.service-card, .reveal').forEach(el => {
-      if (!el.classList.contains('reveal')) el.classList.add('reveal');
-      observer.observe(el);
-    });
   </script>
 </body>
 </html>
