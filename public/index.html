@@ -434,66 +434,111 @@
   </main>
 
   <!-- Footer -->
-  <footer style="padding: 80px 0 40px; border-top: 1px solid var(--border-subtle); position: relative;">
+  <footer style="padding: 100px 0 60px; border-top: 1px solid var(--border-subtle); position: relative; background: #070709;">
     <div class="container">
-      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 48px; margin-bottom: 64px;">
-        <div>
-          <div style="display: flex; align-items: center; gap: 16px; margin-bottom: 20px;">
-            <img src="assets/brand/logo-leonardo.jpg" alt="5 Cypress" style="width: 48px; height: 48px; border-radius: 50%; border: 2px solid var(--border-brand);">
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 64px; margin-bottom: 80px;">
+        <div style="grid-column: span 2;">
+          <div style="display: flex; align-items: center; gap: 20px; margin-bottom: 24px;">
+            <div class="logo-icon" style="width: 56px; height: 56px; border: 2px solid var(--brand-primary); padding: 2px; background: var(--bg-void);">
+              <img src="assets/brand/logo-leonardo.jpg" alt="5 Cypress" style="border-radius: 50%;">
+            </div>
             <div>
-              <div style="font-size: 1.5rem; font-weight: 900; font-family: var(--font-heading);" class="text-gradient">5 Cypress</div>
-              <div style="font-size: 0.7rem; font-family: var(--font-mono); color: var(--text-tertiary); text-transform: uppercase; letter-spacing: 0.15em;">Automation</div>
+              <div style="font-size: 1.75rem; font-weight: 900; font-family: var(--font-heading); line-height: 1;" class="text-gradient">5 Cypress</div>
+              <div style="font-size: 0.75rem; font-family: var(--font-mono); color: var(--brand-primary); text-transform: uppercase; letter-spacing: 0.2em; margin-top: 4px;">Automation</div>
             </div>
           </div>
-          <p style="color: var(--text-secondary); line-height: 1.7; font-size: 0.95rem;">
-            Precision-engineered automation for growing small businesses. Connect your tools. Eliminate manual work.
+          <p style="color: var(--text-secondary); line-height: 1.8; font-size: 1rem; max-width: 400px; margin-bottom: 32px;">
+            We build surgical automation systems for growth-minded businesses. Precision-engineered to eliminate manual work.
           </p>
-        </div>
-
-        <div>
-          <h4 style="font-size: 1rem; font-weight: 700; margin-bottom: 20px; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-primary);">Services</h4>
-          <div style="display: flex; flex-direction: column; gap: 12px;">
-            <a href="/services.html" class="icon-btn" style="color: var(--text-secondary); font-size: 0.95rem;">Calendar Integration</a>
-            <a href="/services.html" class="icon-btn" style="color: var(--text-secondary); font-size: 0.95rem;">Order Automation</a>
-            <a href="/services.html" class="icon-btn" style="color: var(--text-secondary); font-size: 0.95rem;">Lead Management</a>
-            <a href="/services.html" class="icon-btn" style="color: var(--text-secondary); font-size: 0.95rem;">Custom Workflows</a>
+          <div style="display: flex; gap: 16px;">
+            <a href="#" class="social-btn" aria-label="LinkedIn"><i class="ri-linkedin-fill"></i></a>
+            <a href="#" class="social-btn" aria-label="Twitter"><i class="ri-twitter-x-fill"></i></a>
+            <a href="mailto:hello@5cypress.com" class="social-btn" aria-label="Email"><i class="ri-mail-fill"></i></a>
           </div>
         </div>
 
         <div>
-          <h4 style="font-size: 1rem; font-weight: 700; margin-bottom: 20px; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-primary);">Company</h4>
-          <div style="display: flex; flex-direction: column; gap: 12px;">
-            <a href="/about.html" class="icon-btn" style="color: var(--text-secondary); font-size: 0.95rem;">About Us</a>
-            <a href="/process.html" class="icon-btn" style="color: var(--text-secondary); font-size: 0.95rem;">Our Process</a>
-            <a href="/case-studies.html" class="icon-btn" style="color: var(--text-secondary); font-size: 0.95rem;">Case Studies</a>
-            <a href="/privacy.html" class="icon-btn" style="color: var(--text-secondary); font-size: 0.95rem;">Privacy Policy</a>
-          </div>
+          <h4 class="footer-heading">Solutions</h4>
+          <ul class="footer-links">
+            <li><a href="/services.html">Order Management</a></li>
+            <li><a href="/services.html">CRM Integration</a></li>
+            <li><a href="/services.html">Inventory Sync</a></li>
+            <li><a href="/services.html">Automated Billing</a></li>
+          </ul>
         </div>
 
         <div>
-          <h4 style="font-size: 1rem; font-weight: 700; margin-bottom: 20px; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-primary);">Get Started</h4>
-          <p style="color: var(--text-secondary); margin-bottom: 20px; font-size: 0.95rem; line-height: 1.6;">
-            Book a 30-minute call to see what we can automate for your business.
-          </p>
-          <button onclick="openCalendly()" class="btn btn-primary ripple">
-            <span>Book Free Call</span>
-            <i class="ri-calendar-check-line"></i>
-          </button>
+          <h4 class="footer-heading">Expertise</h4>
+          <ul class="footer-links">
+            <li><a href="/process.html">Our Framework</a></li>
+            <li><a href="/case-studies.html">Case Studies</a></li>
+            <li><a href="/about.html">About 5 Cypress</a></li>
+            <li><a href="/privacy.html">Privacy Control</a></li>
+          </ul>
         </div>
       </div>
 
-      <div style="padding-top: 32px; border-top: 1px solid var(--border-subtle); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px;">
-        <div style="color: var(--text-tertiary); font-size: 0.9rem;">
-          © 2025 5 Cypress. All rights reserved.
+      <div style="padding-top: 40px; border-top: 1px solid rgba(255,255,255,0.05); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 24px;">
+        <div style="color: var(--text-tertiary); font-size: 0.85rem; font-family: var(--font-mono);">
+          © 2026 5 CYPRESS AUTOMATION. <span style="color: var(--brand-primary);">SYSTEM_STATUS: OPTIMAL</span>
         </div>
-        <div style="display: flex; gap: 24px;">
-          <a href="#" class="icon-btn" style="color: var(--text-tertiary); font-size: 1.5rem;" aria-label="LinkedIn"><i class="ri-linkedin-fill"></i></a>
-          <a href="#" class="icon-btn" style="color: var(--text-tertiary); font-size: 1.5rem;" aria-label="Twitter"><i class="ri-twitter-x-fill"></i></a>
-          <a href="mailto:hello@5cypress.com" class="icon-btn" style="color: var(--text-tertiary); font-size: 1.5rem;" aria-label="Email"><i class="ri-mail-fill"></i></a>
+        <div style="display: flex; gap: 32px; font-size: 0.85rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em;">
+          <a href="/terms.html" class="nav-link" style="color: var(--text-tertiary);">Terms</a>
+          <a href="/privacy.html" class="nav-link" style="color: var(--text-tertiary);">Privacy</a>
+          <a href="/security.html" class="nav-link" style="color: var(--text-tertiary);">Security</a>
         </div>
       </div>
     </div>
   </footer>
+
+  <style>
+    .footer-heading {
+      font-size: 0.8rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--brand-primary);
+      margin-bottom: 24px;
+    }
+    .footer-links {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .footer-links a {
+      color: var(--text-tertiary);
+      font-size: 0.95rem;
+      font-weight: 500;
+      transition: all 0.3s ease;
+    }
+    .footer-links a:hover {
+      color: var(--text-primary);
+      transform: translateX(4px);
+      display: inline-block;
+    }
+    .social-btn {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid var(--border-subtle);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-secondary);
+      font-size: 1.25rem;
+      transition: all 0.3s ease;
+    }
+    .social-btn:hover {
+      border-color: var(--brand-primary);
+      color: var(--brand-primary);
+      background: rgba(93, 140, 93, 0.1);
+      transform: translateY(-4px);
+    }
+  </style>
 
   <!-- Scripts -->
   <!-- Calendly Widget -->
