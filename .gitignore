@@ -65,6 +65,11 @@ modal_token.txt
 # OS
 Thumbs.db
 Desktop.ini
+nul
+
+# SQLite database and backups
+platform.db
+backups/
 
 # Client data (sensitive)
 clients/

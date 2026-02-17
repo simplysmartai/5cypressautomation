@@ -1,80 +1,59 @@
 const express = require('express');
 const path = require('path');
 const { exec } = require('child_process');
+const helmet = require('helmet');
+const morgan = require('morgan');
+const rateLimit = require('express-rate-limit');
+const xss = require('xss-clean');
+const hpp = require('hpp');
+const { body, validationResult } = require('express-validator');
+const db = require('./db');
 const app = express();
 
-// Middleware
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-app.use(express.static('public'));
-
-// Basic logger
-app.use((req, res, next) => {
-  console.log(`${new Date().toISOString()} - ${req.method} ${req.url}`);
-  next();
+// Rate Limiting
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 100, // Limit each IP to 100 requests per window
+  message: 'Too many requests from this IP, please try again after 15 minutes'
 });
 
-// In-memory storage for demo
-let orders = [
-  {
-    id: 1,
-    customerName: 'Tech Corp',
-    customerEmail: 'john@techcorp.com',
-    date: '2026-01-20',
-    salesRep: 'Doc',
-    orderType: 'New',
-    productName: 'Laser 1',
-    quantity: 2,
-    status: 'invoiced',
-    createdAt: new Date('2026-01-20')
-  },
-  {
-    id: 2,
-    customerName: 'Manufacturing Inc',
-    customerEmail: 'sarah@mfg.com',
-    date: '2026-01-21',
-    salesRep: 'Other guy',
-    orderType: 'Renewal',
-    productName: 'Mini Laser 2',
-    quantity: 1,
-    status: 'shipped',
-    createdAt: new Date('2026-01-21')
-  }
-];
+// Apply rate limiting to all requests
+app.use('/api/', limiter);
 
-let clients = [
-  {
-    slug: 'remy-lasers',
-    name: 'Remy Lasers',
-    status: 'prospecting',
-    dealValue: 2500,
-    nextAction: 'Present 30-day trial program to CFO',
-    engagement: 'trial_program',
-    industry: 'Laser Manufacturing',
-    createdAt: new Date('2026-02-03')
+// Security Middleware
+app.use(helmet({
+  contentSecurityPolicy: {
+    directives: {
+      defaultSrc: ["'self'"],
+      scriptSrc: ["'self'", "'unsafe-inline'", "https://cdn.jsdelivr.net", "https://assets.calendly.com", "https://*.cloudflare.com"],
+      styleSrc: ["'self'", "'unsafe-inline'", "https://cdn.jsdelivr.net", "https://assets.calendly.com", "https://fonts.googleapis.com"],
+      imgSrc: ["'self'", "data:", "https:", "assets/brand/"],
+      connectSrc: ["'self'", "https://*.cloudflare.com"],
+      fontSrc: ["'self'", "https://fonts.gstatic.com"],
+      objectSrc: ["'none'"],
+      upgradeInsecureRequests: [],
+    }
   },
-  {
-    slug: 'acme-plumbing-co',
-    name: 'Acme Plumbing Co',
-    status: 'proposal',
-    dealValue: 7500,
-    nextAction: 'Send proposal and follow up'
-  },
-  {
-    slug: 'tech-corp',
-    name: 'Tech Corp',
-    status: 'active',
-    dealValue: 12000,
-    nextAction: 'Weekly check-in'
-  },
-  {
-    slug: 'mfg-inc',
-    name: 'Manufacturing Inc',
-    status: 'active',
-    dealValue: 8500,
-    nextAction: 'Monitor deployment'
-  }
-];
+}));
+
+// Data sanitization against XSS
+app.use(xss());
+
+// Prevent HTTP parameter pollution
+app.use(hpp());
+
+// Middleware
+app.use(express.json({ limit: '10kb' })); // Body limit to prevent DOS
+app.use(express.urlencoded({ extended: true, limit: '10kb' }));
+app.use(express.static('public'));
+
+// Structured Logging (Morgan)
+app.use(morgan(':remote-addr - :remote-user [:date[clf]] ":method :url HTTP/:http-version" :status :res[content-length] ":referrer" ":user-agent" - :response-time ms'));
+
+
+// In-memory storage for demo
+let orders = [];
+let clients = [];
 
 // Work items storage (for operations dashboard)
 let workItems = [];
@@ -152,15 +131,19 @@ app.get('/clients/:clientSlug', (req, res) => {
 
 // API Routes
 app.get('/api/dashboard', (req, res) => {
+  const clients = db.prepare('SELECT * FROM clients').all();
+  const orders = db.prepare('SELECT * FROM orders').all();
+
   const activeCount = clients.filter(c => c.status === 'active').length;
   const proposalCount = clients.filter(c => c.status === 'proposal').length;
   const totalPipeline = clients.reduce((sum, c) => sum + c.dealValue, 0);
-  const thisWeekOrders = orders.filter(o => {
-    const orderDate = new Date(o.date);
-    const oneWeekAgo = new Date();
-    oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
-    return orderDate >= oneWeekAgo;
-  }).length;
+  
+  const oneWeekAgo = new Date();
+  oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
+  const oneWeekAgoStr = oneWeekAgo.toISOString().split('T')[0];
+
+  const thisWeekOrders = orders.filter(o => o.date >= oneWeekAgoStr).length;
+  const todayStr = new Date().toISOString().split('T')[0];
 
   res.json({
     summary: {
@@ -168,7 +151,7 @@ app.get('/api/dashboard', (req, res) => {
       proposals: proposalCount,
       pipelineValue: totalPipeline,
       thisWeekOrders: thisWeekOrders,
-      todayOrders: orders.filter(o => o.date === new Date().toISOString().split('T')[0]).length
+      todayOrders: orders.filter(o => o.date === todayStr).length
     },
     recentOrders: orders.slice(-5).reverse(),
     clients: clients
@@ -176,19 +159,37 @@ app.get('/api/dashboard', (req, res) => {
 });
 
 app.get('/api/orders', (req, res) => {
+  const orders = db.prepare('SELECT * FROM orders ORDER BY createdAt DESC').all();
   res.json(orders);
 });
 
-app.post('/api/orders', (req, res) => {
-  const { customerName, customerEmail, date, salesRep, orderType, productName, quantity } = req.body;
-  
-  // Validation
-  if (!customerName || !customerEmail || !productName || !quantity) {
-    return res.status(400).json({ error: 'Missing required fields' });
+app.post('/api/orders', [
+  body('customerName').trim().notEmpty().withMessage('Name is required').isLength({ max: 100 }),
+  body('customerEmail').isEmail().withMessage('Valid email is required').normalizeEmail(),
+  body('productName').trim().notEmpty().withMessage('Product is required'),
+  body('quantity').isInt({ min: 1 }).withMessage('Quantity must be at least 1'),
+  body('utm_source').optional().trim().escape(),
+  body('utm_medium').optional().trim().escape(),
+  body('utm_campaign').optional().trim().escape()
+], (req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
   }
 
+  const { customerName, customerEmail, date, salesRep, orderType, productName, quantity, utm_source, utm_medium, utm_campaign } = req.body;
+
+  const stmt = db.prepare(`
+    INSERT INTO orders (customerName, customerEmail, date, salesRep, orderType, productName, quantity, status, utm_source, utm_medium, utm_campaign)
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+  `);
+  
+  const info = stmt.run(customerName, customerEmail, date, salesRep, orderType, productName, parseInt(quantity), 'pending', utm_source || null, utm_medium || null, utm_campaign || null);
+  const invoiceId = `INV-${info.lastInsertRowid}`;
+  const shipmentId = `SHIP-${info.lastInsertRowid}`;
+
   const newOrder = {
-    id: orders.length + 1,
+    id: info.lastInsertRowid,
     customerName,
     customerEmail,
     date,
@@ -198,19 +199,17 @@ app.post('/api/orders', (req, res) => {
     quantity: parseInt(quantity),
     status: 'pending',
     createdAt: new Date(),
-    invoiceId: `INV-${Date.now()}`,
-    shipmentId: `SHIP-${Date.now()}`
+    invoiceId,
+    shipmentId
   };
-
-  orders.push(newOrder);
 
   res.json({
     success: true,
     message: 'Order submitted successfully',
     order: newOrder,
     automation: {
-      qboInvoice: `Created invoice ${newOrder.invoiceId}`,
-      shipstationOrder: `Created shipment ${newOrder.shipmentId}`,
+      qboInvoice: `Created invoice ${invoiceId}`,
+      shipstationOrder: `Created shipment ${shipmentId}`,
       emailSent: `Confirmation sent to ${customerEmail}`
     }
   });
