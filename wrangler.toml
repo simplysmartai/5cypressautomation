@@ -1,4 +1,4 @@
-name = "5cypressautomation"
+name = "5cypress"
 
 # Cloudflare Pages configuration
 pages_build_output_dir = "public"
