@@ -7,7 +7,7 @@
     "start": "node server.js",
     "dev": "nodemon server.js",
     "build": "npm install",
-    "deploy": "npx wrangler deploy",
+    "deploy": "npx wrangler pages deploy public",
     "versions": "npx wrangler versions upload"
   },
   "keywords": [
