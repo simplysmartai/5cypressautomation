@@ -1,0 +1,588 @@
+/* ============================================
+   MOBILE-ENHANCED STYLESHEET
+   ============================================
+   
+   Following mobile-design skill principles:
+   - 44-48px minimum touch targets (iOS HIG / Material Design)
+   - Thumb zone optimization
+   - Fitts' Law for touch
+   - Touch gesture support
+   - Mobile performance optimization
+   
+   ============================================ */
+
+/* ============================================
+   TOUCH TARGET ENHANCEMENTS
+   ============================================ */
+
+/* Ensure ALL interactive elements meet 44-48px minimum */
+.btn,
+button:not(.mobile-toggle),
+a[role="button"] {
+  min-height: 48px;
+  min-width: 48px;
+  /* Visual can be smaller, but hit area must be 48px */
+  position: relative;
+}
+
+.btn-lg {
+  min-height: 56px; /* Critical actions get larger targets */
+}
+
+.btn-sm {
+  min-height: 44px; /* Even small buttons meet WCAG 2.2 */
+  padding: var(--space-3) var(--space-6);
+}
+
+/* Mobile navigation links - full width for easier tapping */
+@media (max-width: 1024px) {
+  .mobile-link {
+    min-height: 56px; /* Larger for thumb-friendly tapping */
+    display: flex;
+    align-items: center;
+    padding: var(--space-5) var(--space-4);
+  }
+  
+  .mobile-toggle {
+    min-height: 48px;
+    min-width: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+/* Touch-friendly spacing between interactive elements */
+.nav-actions .btn + .btn {
+  margin-left: var(--space-3); /* 12px minimum spacing */
+}
+
+/* Hero CTAs - thumb zone optimized */
+@media (max-width: 768px) {
+  .hero-cta {
+    flex-direction: column;
+    width: 100%;
+    gap: var(--space-4); /* 16px spacing prevents accidental taps */
+  }
+  
+  .hero-cta .btn {
+    width: 100%;
+    min-height: 56px; /* Primary CTAs get 56px on mobile */
+  }
+}
+
+/* Icon buttons - extend hit area beyond visual */
+.icon-btn {
+  position: relative;
+  min-height: 44px;
+  min-width: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.icon-btn i {
+  font-size: 24px; /* Visual icon can be 24px */
+  pointer-events: none; /* Hit area defined by parent */
+}
+
+/* Card interactive areas */
+.card[onclick],
+.card[href],
+.card-interactive {
+  cursor: pointer;
+  min-height: 80px; /* Cards need larger touch targets */
+}
+
+/* ============================================
+   THUMB ZONE OPTIMIZATION
+   ============================================ */
+
+/* Position critical actions in the "natural thumb zone"
+   (bottom 1/3 of viewport for one-handed use) */
+
+@media (max-width: 768px) {
+  /* Sticky CTA bar for mobile - bottom thumb zone */
+  .mobile-sticky-cta {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: var(--space-4) var(--space-6);
+    background: var(--bg-surface);
+    backdrop-filter: var(--backdrop-strong);
+    border-top: 1px solid var(--border-medium);
+    z-index: var(--z-sticky);
+    box-shadow: var(--shadow-xl);
+    transform: translateY(100px);
+    animation: slideUpCTA 0.6s var(--ease-out) 1s forwards;
+  }
+  
+  @keyframes slideUpCTA {
+    to { transform: translateY(0); }
+  }
+  
+  .mobile-sticky-cta .btn {
+    width: 100%;
+    min-height: 56px;
+    font-size: var(--text-lg);
+    font-weight: var(--weight-bold);
+  }
+  
+  /* Add padding to body to prevent content overlap */
+  body.has-sticky-cta {
+    padding-bottom: 100px;
+  }
+  
+  /* FAB (Floating Action Button) - positioned for thumb access */
+  .fab {
+    position: fixed;
+    bottom: var(--space-8);
+    right: var(--space-6); /* Right for right-handed, left thumb can reach */
+    width: 64px;
+    height: 64px;
+    border-radius: var(--radius-full);
+    background: var(--gradient-primary);
+    color: var(--bg-void);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: var(--shadow-2xl), var(--shadow-glow);
+    z-index: var(--z-fab);
+    cursor: pointer;
+    transition: all var(--duration-normal) var(--ease-out);
+  }
+  
+  .fab:active {
+    transform: scale(0.9);
+  }
+  
+  .fab i {
+    font-size: 28px;
+  }
+  
+  /* Alternative left-handed positioning */
+  .fab.left-handed {
+    right: auto;
+    left: var(--space-6);
+  }
+}
+
+/* ============================================
+   TOUCH GESTURE SUPPORT
+   ============================================ */
+
+/* Swipeable testimonial cards */
+.testimonial-track {
+  display: flex;
+  gap: var(--space-6);
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch; /* iOS momentum scrolling */
+  scrollbar-width: none; /* Hide scrollbar */
+  padding: var(--space-4) 0;
+}
+
+.testimonial-track::-webkit-scrollbar {
+  display: none; /* Hide scrollbar on WebKit */
+}
+
+.testimonial-card {
+  flex: 0 0 85%; /* Cards take 85% width for peek effect */
+  scroll-snap-align: center;
+  scroll-snap-stop: always;
+}
+
+@media (min-width: 769px) {
+  .testimonial-card {
+    flex: 0 0 calc(33.333% - var(--space-4));
+  }
+}
+
+/* Swipe indicators */
+.swipe-indicator {
+  display: flex;
+  justify-content: center;
+  gap: var(--space-2);
+  margin-top: var(--space-6);
+}
+
+.swipe-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: var(--radius-full);
+  background: var(--border-medium);
+  transition: all var(--duration-fast) var(--ease-out);
+  cursor: pointer;
+  /* Extend touch target */
+  padding: var(--space-2);
+  margin: calc(var(--space-2) * -1);
+}
+
+.swipe-dot.active {
+  background: var(--brand-primary);
+  width: 24px;
+}
+
+/* Pull-to-refresh hint (visual only, requires JS) */
+.pull-refresh-hint {
+  position: absolute;
+  top: -60px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: var(--text-tertiary);
+  font-size: var(--text-sm);
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  transition: top var(--duration-fast) var(--ease-out);
+}
+
+.pull-refresh-hint.visible {
+  top: 80px;
+}
+
+/* ============================================
+   MOBILE PERFORMANCE OPTIMIZATIONS
+   ============================================ */
+
+/* Reduce animations on mobile for performance */
+@media (max-width: 768px) {
+  /* Simplify film grain - lighter CPU load */
+  body::after {
+    opacity: 0.03; /* Reduce from 0.06 */
+  }
+  
+  /* Reduce gradient mesh complexity */
+  .atmosphere {
+    background: radial-gradient(
+      ellipse 80% 50% at 50% -20%,
+      rgba(93, 140, 93, 0.15),
+      transparent 70%
+    );
+    /* Remove other gradients on mobile */
+  }
+  
+  /* Disable parallax on mobile - saves battery */
+  .parallax-element {
+    transform: none !important;
+  }
+  
+  /* Simpler hover states (no transform) */
+  .card:hover {
+    transform: none;
+    border-color: var(--brand-primary);
+  }
+  
+  /* Disable magnetic effect on mobile - not relevant for touch */
+  .btn-magnetic:hover {
+    transform: none !important;
+  }
+  
+  /* Reduce shadow blur for performance */
+  .card-glow:hover {
+    box-shadow: var(--shadow-md); /* Lighter than desktop */
+  }
+}
+
+/* Use simpler animations on low-end devices */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  
+  .reveal {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
+
+/* ============================================
+   MOBILE TYPOGRAPHY ADJUSTMENTS
+   ============================================ */
+
+@media (max-width: 768px) {
+  /* Ensure text is readable without zoom (16px minimum) */
+  body {
+    font-size: 16px; /* iOS won't zoom if 16px+ */
+  }
+  
+  .hero-content h1 {
+    font-size: clamp(2.5rem, 12vw, 4rem); /* Smaller range on mobile */
+    line-height: 1.1;
+  }
+  
+  .hero-content .lead {
+    font-size: var(--text-lg);
+    line-height: var(--leading-relaxed);
+  }
+  
+  /* Prevent orphans on mobile */
+  h1, h2, h3 {
+    text-wrap: balance;
+  }
+  
+  p {
+    text-wrap: pretty;
+  }
+}
+
+/* ============================================
+   MOBILE NAVIGATION ENHANCEMENTS
+   ============================================ */
+
+@media (max-width: 1024px) {
+  /* Make close button more accessible in mobile menu */
+  .mobile-menu-close {
+    position: absolute;
+    top: var(--space-6);
+    right: var(--space-6);
+    min-width: 48px;
+    min-height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--bg-surface-hover);
+    border-radius: var(--radius-full);
+    cursor: pointer;
+    z-index: 100;
+  }
+  
+  .mobile-menu-close i {
+    font-size: 24px;
+    color: var(--text-primary);
+  }
+  
+  /* Safe area insets for notched devices (iPhone X+) */
+  .navbar {
+    padding-left: env(safe-area-inset-left);
+    padding-right: env(safe-area-inset-right);
+  }
+  
+  .mobile-menu {
+    padding-left: calc(var(--space-8) + env(safe-area-inset-left));
+    padding-right: calc(var(--space-8) + env(safe-area-inset-right));
+    padding-bottom: calc(var(--space-8) + env(safe-area-inset-bottom));
+  }
+  
+  .mobile-sticky-cta {
+    padding-bottom: calc(var(--space-4) + env(safe-area-inset-bottom));
+  }
+}
+
+/* ============================================
+   HAPTIC FEEDBACK INDICATORS
+   ============================================ */
+
+/* Visual feedback for haptic-enabled interactions */
+@media (hover: none) and (pointer: coarse) {
+  /* This targets touch devices */
+  
+  .btn:active,
+  .card-interactive:active,
+  .mobile-link:active {
+    background: var(--bg-surface-hover);
+    transform: scale(0.97);
+    transition: transform 0.1s var(--ease-out);
+  }
+  
+  .btn-primary:active {
+    transform: scale(0.97) !important;
+    filter: brightness(1.1);
+  }
+  
+  /* Ripple effect for Material-style feedback */
+  .ripple {
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .ripple::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.3);
+    transform: translate(-50%, -50%);
+    transition: width 0.4s, height 0.4s;
+  }
+  
+  .ripple:active::after {
+    width: 300px;
+    height: 300px;
+  }
+}
+
+/* ============================================
+   MOBILE-SPECIFIC LAYOUT IMPROVEMENTS
+   ============================================ */
+
+@media (max-width: 768px) {
+  /* Stack cards vertically on mobile */
+  .services-grid,
+  .features-grid,
+  .process-grid {
+    grid-template-columns: 1fr;
+    gap: var(--space-6);
+  }
+  
+  /* Full-width cards for easier tapping */
+  .card {
+    width: 100%;
+  }
+  
+  /* Reduce padding on mobile to maximize content area */
+  section {
+    padding-top: var(--space-16);
+    padding-bottom: var(--space-16);
+  }
+  
+  /* Hero spacing adjustments */
+  .hero-section {
+    padding-top: calc(var(--space-24) + 80px);
+    padding-bottom: var(--space-16);
+  }
+  
+  /* Dashboard frame - adapt for mobile */
+  .dashboard-frame {
+    padding: var(--space-4);
+    grid-template-columns: 1fr;
+    gap: var(--space-3);
+  }
+  
+  .dashboard-stat {
+    padding: var(--space-4);
+  }
+  
+  .dashboard-chart {
+    height: 100px; /* Smaller charts on mobile */
+  }
+}
+
+/* ============================================
+   LANDSCAPE MOBILE OPTIMIZATION
+   ============================================ */
+
+@media (max-width: 926px) and (orientation: landscape) {
+  /* Reduce vertical padding in landscape */
+  .hero-section {
+    padding-top: calc(var(--space-16) + 60px);
+    padding-bottom: var(--space-8);
+  }
+  
+  section {
+    padding-top: var(--space-12);
+    padding-bottom: var(--space-12);
+  }
+  
+  /* Hide sticky CTA in landscape to save space */
+  .mobile-sticky-cta {
+    display: none;
+  }
+}
+
+/* ============================================
+   TOUCH-FRIENDLY FORM INPUTS
+   ============================================ */
+
+@media (max-width: 768px) {
+  input,
+  textarea,
+  select {
+    min-height: 48px;
+    font-size: 16px; /* Prevents iOS zoom on focus */
+    padding: var(--space-3) var(--space-4);
+  }
+  
+  textarea {
+    min-height: 120px;
+  }
+  
+  /* Larger tap targets for checkboxes/radio */
+  input[type="checkbox"],
+  input[type="radio"] {
+    width: 24px;
+    height: 24px;
+    /* Create 44px hit area with padding */
+    margin: 10px;
+  }
+  
+  label {
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    padding: var(--space-2) 0;
+  }
+}
+
+/* ============================================
+   ACCESSIBILITY ENHANCEMENTS
+   ============================================ */
+
+/* Focus indicators for keyboard navigation (works on mobile too) */
+*:focus-visible {
+  outline: 3px solid var(--brand-primary);
+  outline-offset: 2px;
+}
+
+/* Skip to content link for screen readers */
+.skip-to-content {
+  position: absolute;
+  top: -100px;
+  left: 0;
+  background: var(--brand-primary);
+  color: var(--bg-void);
+  padding: var(--space-3) var(--space-6);
+  text-decoration: none;
+  z-index: 9999;
+  min-height: 48px;
+  display: flex;
+  align-items: center;
+}
+
+.skip-to-content:focus {
+  top: 0;
+}
+
+/* Ensure color contrast on mobile (OLED screens) */
+@media (max-width: 768px) {
+  .text-tertiary {
+    color: rgba(213, 213, 216, 0.7); /* Slightly brighter for OLED */
+  }
+}
+
+/* ============================================
+   MOBILE NOTIFICATION CARDS
+   ============================================ */
+
+@media (max-width: 768px) {
+  .notification-card {
+    width: calc(100vw - var(--space-12));
+    left: var(--space-6);
+    right: auto;
+    transform: none;
+  }
+  
+  .notification-stack {
+    gap: var(--space-3);
+  }
+}
+
+/* ============================================
+   Z-INDEX SCALE FOR MOBILE
+   ============================================ */
+
+:root {
+  --z-fab: 999;
+  --z-sticky: 900;
+  --z-tooltip: 1000;
+}
