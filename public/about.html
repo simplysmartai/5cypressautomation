@@ -4,29 +4,83 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>About Us | 5 Cypress Automation</title>
-  <meta name="description" content="We only do one thing: connect your business tools so they work together automatically. No complex workflows, no ongoing subscriptions.">
-  <link rel="canonical" href="https://5cypress.com/about.html">
+  <meta name="description" content="Precision engineering for small business systems. Learn about the philosophy behind 5 Cypress.">
+  
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link href="https://cdn.jsdelivr.net/npm/remixicon@4.0.0/fonts/remixicon.css" rel="stylesheet">
-  <link rel="icon" type="image/svg+xml" href="assets/brand/favicon.svg">
-  <link href="https://assets.calendly.com/assets/external/calendar-widget.css" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css">
-  <script src="dynamics.js" defer></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400..800;1,400..800&family=Space+Grotesk:wght@300..700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet">
+  
+  <link rel="stylesheet" href="design-system.css">
+  <link rel="stylesheet" href="styles-premium.css">
+  <link rel="stylesheet" href="styles-mobile-enhanced.css">
+  
+  <style>
+    .about-visual {
+      position: relative;
+      height: 100%;
+      min-height: 400px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .about-visual::before {
+      content: '';
+      position: absolute;
+      width: 150%;
+      height: 150%;
+      background: radial-gradient(circle at center, rgba(93, 140, 93, 0.1) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 120px;
+      align-items: center;
+    }
+
+    .value-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: 20px;
+      padding: 40px;
+      height: 100%;
+    }
+
+    .value-number {
+      font-family: var(--font-mono);
+      color: var(--brand-primary);
+      font-size: 0.9rem;
+      font-weight: 700;
+      margin-bottom: 24px;
+      display: block;
+    }
+
+    @media (max-width: 991px) {
+      .about-grid {
+        grid-template-columns: 1fr;
+        gap: 60px;
+      }
+      .about-visual {
+        min-height: 300px;
+      }
+    }
+  </style>
 </head>
 <body>
-  <div class="conic-mesh"></div>
+  <div class="atmosphere"></div>
 
   <!-- Navigation -->
   <nav class="navbar">
     <div class="container nav-container">
       <a href="/" class="logo">
-        <div class="logo-icon logo-pulse">
-          <img src="assets/brand/logo-leonardo.jpg" alt="5 Cypress Automation Logo">
+        <div class="logo-icon pulse-glow">
+          <img src="assets/brand/logo-leonardo.jpg" alt="5 Cypress Logo">
         </div>
         <div class="logo-text-group">
-          <span class="logo-title text-gradient-special">5 Cypress</span>
+          <span class="logo-title text-shimmer">5 Cypress</span>
           <div class="logo-subtitle">
             <span>A</span><span>U</span><span>T</span><span>O</span><span>M</span><span>A</span><span>T</span><span>I</span><span>O</span><span>N</span>
           </div>
@@ -41,12 +95,12 @@
       </div>
 
       <div class="nav-actions">
-        <button onclick="openCalendly()" class="btn btn-primary">
+        <button onclick="openCalendly()" class="btn btn-primary btn-lg ripple">
           Get Started <i class="ri-arrow-right-up-line"></i>
         </button>
       </div>
 
-      <button class="mobile-toggle" onclick="toggleMobileMenu()">
+      <button class="mobile-toggle" onclick="toggleMobileMenu()" aria-label="Toggle mobile menu">
         <i class="ri-menu-line"></i>
       </button>
     </div>
@@ -54,439 +108,164 @@
 
   <!-- Mobile Menu -->
   <div class="mobile-menu" id="mobileMenu">
+    <button class="mobile-menu-close" onclick="closeMobileMenu()" aria-label="Close menu">
+      <i class="ri-close-line"></i>
+    </button>
     <a href="/services.html" class="mobile-link" onclick="closeMobileMenu()">Services</a>
     <a href="/process.html" class="mobile-link" onclick="closeMobileMenu()">Process</a>
     <a href="/case-studies.html" class="mobile-link" onclick="closeMobileMenu()">Case Studies</a>
-    <a href="/about.html" class="mobile-link" onclick="closeMobileMenu()">About</a>
-    <button onclick="openCalendly(); closeMobileMenu();" class="btn btn-primary btn-block">Get Started</button>
+    <a href="/about.html" class="mobile-link active" onclick="closeMobileMenu()">About</a>
+    <button onclick="openCalendly(); closeMobileMenu();" class="btn btn-primary btn-lg btn-block ripple" style="margin-top: 24px;">
+      Get Started <i class="ri-arrow-right-up-line"></i>
+    </button>
   </div>
 
-  <!-- Page Header -->
-  <section style="padding: 175px 0 60px; text-align: center;">
-    <div class="container">
-      <h1 style="font-size: 3rem; font-weight: 900; margin-bottom: 20px;">
-        <span style="display: block; background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">Why Us</span>
-      </h1>
-      <p style="font-size: 1.25rem; color: var(--text-muted); max-width: 700px; margin: 0 auto;">
-        We only do one thing: connect your business tools so they work together automatically.
-      </p>
-    </div>
-  </section>
-
-  <!-- Who We Serve -->
-  <section style="padding: 100px 0; background: linear-gradient(135deg, rgba(93, 140, 93, 0.05) 0%, rgba(251, 191, 36, 0.05) 100%);">
-    <div class="container">
-      <div style="max-width: 1000px; margin: 0 auto;">
-        <div style="text-align: center; margin-bottom: 64px;">
-          <span class="section-tag">Our Customers</span>
-          <h2 style="font-size: 2.5rem; font-weight: 900; margin-bottom: 24px; margin-top: 16px;">Built For Businesses With 5–50 Employees</h2>
-          <p style="font-size: 1.2rem; color: var(--text-muted); max-width: 700px; margin: 0 auto;">You're big enough to feel the pain of disconnected tools, but too small to justify a full-time IT team.</p>
-        </div>
-
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 32px; margin-bottom: 64px;">
-          <div style="padding: 40px; background: var(--bg-card); border: 1px solid var(--glass-border); border-radius: 24px;">
-            <div style="width: 64px; height: 64px; margin-bottom: 24px; background: rgba(93, 140, 93, 0.1); border-radius: 16px; display: flex; align-items: center; justify-content: center;">
-              <i class="ri-team-line" style="font-size: 2rem; color: var(--primary);"></i>
-            </div>
-            <h3 style="font-size: 1.35rem; font-weight: 800; margin-bottom: 16px;">Marketing & Creative Agencies</h3>
-            <p style="color: var(--text-muted); line-height: 1.7; margin-bottom: 20px;">You're juggling 10-20 clients, each with their own workflows. Client onboarding, project tracking, invoicing, time tracking—all disconnected.</p>
-            <div style="padding: 16px; background: rgba(93, 140, 93, 0.05); border-radius: 12px;">
-              <div style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 8px; font-weight: 600;">Common Automations:</div>
-              <div style="font-size: 0.95rem; color: var(--text-main);">Contract signed → Slack notification → Project created → Invoice sent → Time tracking started</div>
-            </div>
+  <main id="main-content">
+    <!-- Hero Segment -->
+    <section style="padding: 180px 0 100px;">
+      <div class="container">
+        <div class="about-grid">
+          <div class="reveal">
+            <span class="tag" style="margin-bottom: 24px;">THE CYPRESS STANDARD</span>
+            <h1 style="font-size: clamp(2.5rem, 6vw, 4rem); line-height: 1.1; margin-bottom: 32px;">
+              Systemic <span class="text-italic weight-light">Simplicity</span> for Complex Teams.
+            </h1>
+            <p style="font-size: 1.35rem; line-height: 1.6; color: var(--text-secondary); margin-bottom: 40px;">
+              We believe that the best automation isn't the one with the most code, but the one that disappears into your daily routine. 
+            </p>
+            <p style="color: var(--text-tertiary); line-height: 1.8;">
+              Founded on the principle of "Precision Engineering," 5 Cypress was built to solve a specific problem: Small businesses were overpaying for generic "no-code" consultants who left behind rigid systems that broke within months. We build systems like we build infrastructure—stable, scalable, and documented.
+            </p>
           </div>
-
-          <div style="padding: 40px; background: var(--bg-card); border: 1px solid var(--glass-border); border-radius: 24px;">
-            <div style="width: 64px; height: 64px; margin-bottom: 24px; background: rgba(93, 140, 93, 0.1); border-radius: 16px; display: flex; align-items: center; justify-content: center;">
-              <i class="ri-heart-pulse-line" style="font-size: 2rem; color: var(--primary);"></i>
-            </div>
-            <h3 style="font-size: 1.35rem; font-weight: 800; margin-bottom: 16px;">Medical & Dental Clinics</h3>
-            <p style="color: var(--text-muted); line-height: 1.7; margin-bottom: 20px;">Patient bookings, insurance verification, appointment reminders, intake forms, billing—all manual copy-paste between systems.</p>
-            <div style="padding: 16px; background: rgba(93, 140, 93, 0.05); border-radius: 12px;">
-              <div style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 8px; font-weight: 600;">Common Automations:</div>
-              <div style="font-size: 0.95rem; color: var(--text-main);">Patient books → Intake form sent → Insurance verified → Reminder sent → Chart updated</div>
-            </div>
-          </div>
-
-          <div style="padding: 40px; background: var(--bg-card); border: 1px solid var(--glass-border); border-radius: 24px;">
-            <div style="width: 64px; height: 64px; margin-bottom: 24px; background: rgba(93, 140, 93, 0.1); border-radius: 16px; display: flex; align-items: center; justify-content: center;">
-              <i class="ri-tools-line" style="font-size: 2rem; color: var(--primary);"></i>
-            </div>
-            <h3 style="font-size: 1.35rem; font-weight: 800; margin-bottom: 16px;">Trade Services (HVAC, Plumbing, Electrical)</h3>
-            <p style="color: var(--text-muted); line-height: 1.7; margin-bottom: 20px;">Service calls, quotes, scheduling, invoicing, payment collection, parts inventory—all separate systems that don't talk.</p>
-            <div style="padding: 16px; background: rgba(93, 140, 93, 0.05); border-radius: 12px;">
-              <div style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 8px; font-weight: 600;">Common Automations:</div>
-              <div style="font-size: 0.95rem; color: var(--text-main);">Quote approved → Job scheduled → Invoice created → Payment link sent → Parts ordered</div>
-            </div>
-          </div>
-
-          <div style="padding: 40px; background: var(--bg-card); border: 1px solid var(--glass-border); border-radius: 24px;">
-            <div style="width: 64px; height: 64px; margin-bottom: 24px; background: rgba(93, 140, 93, 0.1); border-radius: 16px; display: flex; align-items: center; justify-content: center;">
-              <i class="ri-store-2-line" style="font-size: 2rem; color: var(--primary);"></i>
-            </div>
-            <h3 style="font-size: 1.35rem; font-weight: 800; margin-bottom: 16px;">Local Service Businesses</h3>
-            <p style="color: var(--text-muted); line-height: 1.7; margin-bottom: 20px;">Booking calendars, customer records, invoices, email confirmations, follow-ups—you're copying the same customer info into 5 different places.</p>
-            <div style="padding: 16px; background: rgba(93, 140, 93, 0.05); border-radius: 12px;">
-              <div style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 8px; font-weight: 600;">Common Automations:</div>
-              <div style="font-size: 0.95rem; color: var(--text-main);">Customer books → Calendar updated → CRM synced → Confirmation sent → Follow-up scheduled</div>
+          <div class="about-visual reveal">
+            <div class="glass-module" style="padding: 40px; border-radius: 30px; text-align: center; border: 1px solid rgba(255,255,255,0.08);">
+              <i class="ri-box-3-line" style="font-size: 5rem; color: var(--brand-primary); opacity: 0.5;"></i>
+              <div style="font-family: var(--font-mono); font-size: 0.8rem; letter-spacing: 0.3em; margin-top: 20px; color: var(--brand-primary);">PRECISION ARCHITECTURE</div>
             </div>
           </div>
         </div>
+      </div>
+    </section>
 
-        <div style="text-align: center; padding: 48px; background: var(--bg-card); border: 2px solid var(--primary); border-radius: 24px;">
-          <h3 style="font-size: 1.75rem; font-weight: 800; margin-bottom: 20px;">The Common Thread</h3>
-          <p style="font-size: 1.15rem; line-height: 1.8; color: var(--text-muted); max-width: 800px; margin: 0 auto;">
-            You're using <strong style="color: var(--primary);">Calendly, QuickBooks, a CRM, email, and 2-3 other tools</strong>. They work great individually, but they don't talk to each other. So your team copies data manually between them—wasting 15+ hours every week. <strong style="color: #ffffff;">That's exactly what we fix.</strong>
+    <!-- Values Section -->
+    <section style="padding: 100px 0; background: var(--bg-surface); border-top: 1px solid var(--border-subtle); border-bottom: 1px solid var(--border-subtle);">
+      <div class="container">
+        <h2 class="reveal" style="font-size: 2.5rem; font-weight: 800; text-align: center; margin-bottom: 80px;">The Principles We <span class="text-gradient">Code By</span></h2>
+        
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 32px;">
+          <!-- Principle 1 -->
+          <div class="value-card reveal">
+            <span class="value-number">01 // DETERMINISM</span>
+            <h3 style="font-size: 1.5rem; margin-bottom: 16px;">Reliability Over Flash</h3>
+            <p style="color: var(--text-secondary); line-height: 1.7;">
+              An automation that works 95% of the time is more work than no automation at all. We build for the "failure cases" first, ensuring your business stays operational even when APIs hiccup.
+            </p>
+          </div>
+
+          <!-- Principle 2 -->
+          <div class="value-card reveal">
+            <span class="value-number">02 // TRANSPARENCY</span>
+            <h3 style="font-size: 1.5rem; margin-bottom: 16px;">Zero Black Boxes</h3>
+            <p style="color: var(--text-secondary); line-height: 1.7;">
+              Every system we build includes a "Diagnostic Hub." You should always know exactly where an order is, why an invoice was sent, and how your data is moving.
+            </p>
+          </div>
+
+          <!-- Principle 3 -->
+          <div class="value-card reveal">
+            <span class="value-number">03 // ADAPTABILITY</span>
+            <h3 style="font-size: 1.5rem; margin-bottom: 16px;">Grow Without Friction</h3>
+            <p style="color: var(--text-secondary); line-height: 1.7;">
+              Hard-coding is for hobbyists. We architect using "Modular Blocks" so when you add a new service or swap a CRM, your entire system doesn't need a rebuild.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Team / Vision -->
+    <section style="padding: 120px 0; text-align: center;">
+      <div class="container">
+        <div style="max-width: 800px; margin: 0 auto;" class="reveal">
+          <h2 style="font-size: 2.5rem; font-weight: 800; margin-bottom: 32px;">The Small Business <span class="text-italic weight-light">Advocate</span></h2>
+          <p style="font-size: 1.25rem; color: var(--text-secondary); line-height: 1.8;">
+            We don't chase Enterprise contracts. Our mission is to give the "5-person powerhouse" team the same operational efficiency and data visibility that a Fortune 500 company has—without the $1M overhead.
           </p>
         </div>
       </div>
-    </div>
-  </section>
-
-  <!-- Automation Teardowns -->
-  <section style="padding: 100px 0;">
-    <div class="container">
-      <div style="max-width: 1000px; margin: 0 auto;">
-        <div style="background: linear-gradient(135deg, rgba(93, 140, 93, 0.1) 0%, rgba(251, 191, 36, 0.1) 100%); border-radius: 32px; padding: 64px; text-align: center;">
-          <div style="width: 72px; height: 72px; margin: 0 auto 24px; background: var(--primary); border-radius: 16px; display: flex; align-items: center; justify-content: center;">
-            <i class="ri-play-circle-line" style="font-size: 2.5rem; color: #030304;"></i>
-          </div>
-          
-          <span class="section-tag" style="display: inline-block; margin-bottom: 16px;">Free Resource</span>
-          <h2 style="font-size: 2.5rem; font-weight: 900; margin-bottom: 24px;">Automation Teardowns</h2>
-          <p style="font-size: 1.2rem; color: var(--text-muted); max-width: 700px; margin: 0 auto 40px;">We record Loom videos tearing down real small business workflows—showing exactly what we'd automate and why. No fluff, just actionable insights you can implement today.</p>
-          
-          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; text-align: left; margin-bottom: 48px;">
-            <div style="padding: 24px; background: rgba(255,255,255,0.03); border-radius: 16px;">
-              <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 12px;">
-                <i class="ri-video-line" style="font-size: 1.5rem; color: var(--primary);"></i>
-                <h3 style="font-size: 1.15rem; font-weight: 700;">Dental Clinic Appointment Flow</h3>
-              </div>
-              <p style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.6;">Patient booking → intake form → insurance verification → appointment reminder → chart update. 7 manual steps → 0.</p>
-            </div>
-
-            <div style="padding: 24px; background: rgba(255,255,255,0.03); border-radius: 16px;">
-              <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 12px;">
-                <i class="ri-video-line" style="font-size: 1.5rem; color: var(--primary);"></i>
-                <h3 style="font-size: 1.15rem; font-weight: 700;">Roofing Company Quote-to-Contract</h3>
-              </div>
-              <p style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.6;">Site visit → estimate created → quote sent → signed → invoice generated → payment collected. All automated.</p>
-            </div>
-
-            <div style="padding: 24px; background: rgba(255,255,255,0.03); border-radius: 16px;">
-              <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 12px;">
-                <i class="ri-video-line" style="font-size: 1.5rem; color: var(--primary);"></i>
-                <h3 style="font-size: 1.15rem; font-weight: 700;">Marketing Agency Client Onboarding</h3>
-              </div>
-              <p style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.6;">Contract signed → project tracker created → Slack workspace setup → time tracking enabled → first invoice sent.</p>
-            </div>
-          </div>
-
-          <div style="display: flex; align-items: center; justify-content: center; gap: 24px; flex-wrap: wrap;">
-            <button onclick="openCalendly()" class="btn btn-primary btn-lg">Request Your Free Teardown</button>
-            <a href="#" style="color: var(--primary); font-weight: 600; text-decoration: none; display: inline-flex; align-items: center; gap: 8px;">
-              Subscribe for Weekly Teardowns <i class="ri-arrow-right-line"></i>
-            </a>
-          </div>
-
-          <p style="margin-top: 32px; color: var(--text-muted); font-size: 0.95rem;">
-            We send a Loom to your inbox every week analyzing a different SMB workflow. Real businesses, real pain points, real automation opportunities.
-          </p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- What We Say NO To -->
-  <section class="do-dont-section">
-    <div class="container">
-      <div class="do-dont-grid">
-        <!-- DON'T Column -->
-        <div class="dont-column">
-          <div class="column-header">
-            <div class="icon-badge dont-badge">
-              <i class="ri-close-line"></i>
-            </div>
-            <h2>We DON'T</h2>
-          </div>
-          
-          <div class="comparison-item">
-            <div class="comparison-icon dont-icon">
-              <i class="ri-close-circle-fill"></i>
-            </div>
-            <div class="comparison-content">
-              <h3>Build Complex Workflows You'll Never Use</h3>
-              <p>Most automation companies build 50-step workflows with conditional logic, webhooks, and API calls. You pay $5,000 upfront, then realize you only needed 3 steps automated. We focus on the 3 connections that save you 15 hours per week, not the 47 you'll never touch.</p>
-            </div>
-          </div>
-
-          <div class="comparison-item">
-            <div class="comparison-icon dont-icon">
-              <i class="ri-close-circle-fill"></i>
-            </div>
-            <div class="comparison-content">
-              <h3>Charge Monthly Software Subscriptions</h3>
-              <p>You don't need another $99/month SaaS tool on top of the 12 you're already paying for. We build it once, you own it forever. No monthly fees, no usage limits, no surprise charges when you scale.</p>
-            </div>
-          </div>
-
-          <div class="comparison-item">
-            <div class="comparison-icon dont-icon">
-              <i class="ri-close-circle-fill"></i>
-            </div>
-            <div class="comparison-content">
-              <h3>Require You to Learn Code or "No-Code" Tools</h3>
-              <p>Zapier says it's "easy" but you still need to understand triggers, actions, filters, and formatters. Make.com gives you a visual builder but you're still the one debugging it at 11pm when it breaks. We handle all of that so you never have to log into another automation platform.</p>
-            </div>
-          </div>
-
-          <div class="comparison-item">
-            <div class="comparison-icon dont-icon">
-              <i class="ri-close-circle-fill"></i>
-            </div>
-            <div class="comparison-content">
-              <h3>Take 6 Months to Go Live</h3>
-              <p>Enterprise consultants love billing by the hour. They'll spend 2 months "scoping" and 4 months "iterating." You'll pay $50,000 and wait half a year. We go live in 2 weeks because we're not trying to sell you a year-long engagement.</p>
-            </div>
-          </div>
-        </div>
-
-        <!-- DO Column -->
-        <div class="do-column">
-          <div class="column-header">
-            <div class="icon-badge do-badge">
-              <i class="ri-check-line"></i>
-            </div>
-            <h2>We DO</h2>
-          </div>
-          
-          <div class="comparison-item">
-            <div class="comparison-icon do-icon">
-              <i class="ri-checkbox-circle-fill"></i>
-            </div>
-            <div class="comparison-content">
-              <h3>Connect Exactly What You Need</h3>
-              <p>We watch how you work today, identify the 3-5 manual steps eating your time, and automate just those. When a Calendly booking creates a QuickBooks invoice and sends a confirmation email, you save 10 minutes per booking. That's real ROI, not theoretical.</p>
-            </div>
-          </div>
-
-          <div class="comparison-item">
-            <div class="comparison-icon do-icon">
-              <i class="ri-checkbox-circle-fill"></i>
-            </div>
-            <div class="comparison-content">
-              <h3>Build It Once, You Own It Forever</h3>
-              <p>You pay once ($997-$4,997), we build it, you own it. No monthly fees. No usage caps. It runs automatically in the background. If you want to add more connections later, you call us. If not, you're done paying.</p>
-            </div>
-          </div>
-
-          <div class="comparison-item">
-            <div class="comparison-icon do-icon">
-              <i class="ri-checkbox-circle-fill"></i>
-            </div>
-            <div class="comparison-content">
-              <h3>Handle Everything Technical</h3>
-              <p>We connect the APIs, handle the error cases, set up the monitoring. You approve the workflow diagram, we build it, you test it, you go live. If something breaks, we fix it. You never touch code, never debug webhooks, never read API docs.</p>
-            </div>
-          </div>
-
-          <div class="comparison-item">
-            <div class="comparison-icon do-icon">
-              <i class="ri-checkbox-circle-fill"></i>
-            </div>
-            <div class="comparison-content">
-              <h3>Go Live in 2 Weeks</h3>
-              <p>Week 1: We map your workflow and show you the automation plan. Week 2: We build it, you test it, you go live. No 6-month engagements, no scope creep, no consultants milking your budget. You save 15 hours per week starting on Day 14.</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Mission Statement -->
-  <section style="padding: 120px 0; background: rgba(93, 140, 93, 0.05);">
-    <div class="container">
-      <div style="max-width: 800px; margin: 0 auto; text-align: center;">
-        <h2 style="font-size: 2.5rem; font-weight: 900; margin-bottom: 32px;">Our Mission</h2>
-        <p style="font-size: 1.35rem; line-height: 1.8; color: var(--text-muted); margin-bottom: 24px;">
-          Small businesses waste 15+ hours per week copying data between tools. We believe that should be zero.
-        </p>
-        <p style="font-size: 1.35rem; line-height: 1.8; color: var(--text-muted);">
-          Every business runs on Calendly, QuickBooks, ShipStation, or similar tools. These tools don't talk to each other by default. So business owners hire people to copy-paste data all day. That's a waste of time and money.
-        </p>
-        <p style="font-size: 1.35rem; line-height: 1.8; color: var(--text-muted); margin-top: 24px;">
-          We connect those tools so they work together automatically. Then you get your time back.
-        </p>
-      </div>
-    </div>
-  </section>
-
-  <!-- CTA Section -->
-  <section class="cta-section">
-    <div class="container">
-      <div class="cta-card">
-        <div class="cta-visual-bg">
-          <svg viewBox="0 0 1000 400" fill="none" opacity="0.1">
-            <path d="M0,200 Q250,50 500,200 T1000,200" stroke="var(--primary)" stroke-width="2">
-              <animate attributeName="stroke-dasharray" from="0,1500" to="1500,0" dur="20s" repeatCount="indefinite" />
-            </path>
-          </svg>
-        </div>
-        <div class="cta-content">
-          <h2>Ready to Automate?</h2>
-          <p>Book a free call and see exactly how we'll connect your tools.</p>
-          <div class="cta-buttons">
-            <button onclick="openCalendly()" class="btn btn-white btn-lg">
-              Get Started <i class="ri-calendar-line"></i>
-            </button>
-          </div>
-        </div>
-        <div class="cta-visual">
-          <div class="cta-orb orb-1"></div>
-          <div class="cta-orb orb-2"></div>
-        </div>
-      </div>
-    </div>
-  </section>
+    </section>
+  </main>
 
   <!-- Footer -->
-  <footer class="footer">
+  <footer style="padding: 100px 0 60px; border-top: 1px solid var(--border-subtle); position: relative; background: #070709;">
     <div class="container">
-      <div class="footer-grid">
-        <div class="footer-brand">
-          <div class="logo">
-            <div class="logo-icon">
-              <img src="assets/brand/logo-leonardo.jpg" alt="5 Cypress Automation Logo">
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 64px; margin-bottom: 80px;">
+        <div style="grid-column: span 2;">
+          <div style="display: flex; align-items: center; gap: 20px; margin-bottom: 24px;">
+            <div class="logo-icon" style="width: 56px; height: 56px; border: 2px solid var(--brand-primary); padding: 2px; background: var(--bg-void);">
+              <img src="assets/brand/logo-leonardo.jpg" alt="5 Cypress" style="border-radius: 50%;">
             </div>
-            <span>5 Cypress Automation</span>
+            <div>
+              <div style="font-size: 1.75rem; font-weight: 900; font-family: var(--font-heading); line-height: 1;" class="text-gradient">5 Cypress</div>
+              <div style="font-size: 0.75rem; font-family: var(--font-mono); color: var(--brand-primary); text-transform: uppercase; letter-spacing: 0.2em; margin-top: 4px;">Automation</div>
+            </div>
           </div>
-          <p class="footer-tagline">Connect your business tools so they work together automatically.</p>
-          <div class="social-links">
-            <a href="https://linkedin.com/company/5cypressautomation" target="_blank" rel="noopener" class="social-link" aria-label="LinkedIn">
-              <i class="ri-linkedin-fill"></i>
-            </a>
-            <a href="https://twitter.com/5cypressautomation" target="_blank" rel="noopener" class="social-link" aria-label="Twitter">
-              <i class="ri-twitter-x-fill"></i>
-            </a>
+          <p style="color: var(--text-secondary); line-height: 1.8; font-size: 1rem; max-width: 400px; margin-bottom: 32px;">
+            We automate the busywork so you can focus on growth. Custom workflows built for small teams that need systems they can actually use.
+          </p>
+          <div style="display: flex; gap: 16px;">
+            <a href="#" class="social-btn" aria-label="LinkedIn"><i class="ri-linkedin-fill"></i></a>
+            <a href="#" class="social-btn" aria-label="Twitter"><i class="ri-twitter-x-fill"></i></a>
+            <a href="mailto:hello@5cypress.com" class="social-btn" aria-label="Email"><i class="ri-mail-fill"></i></a>
           </div>
         </div>
-        
-        <div class="footer-links">
-          <h4>Services</h4>
-          <ul>
+
+        <div>
+          <h4 class="footer-heading">Services</h4>
+          <ul class="footer-links">
+            <li><a href="/services.html">Order Processing</a></li>
+            <li><a href="/services.html">Lead Capture & CRM</a></li>
+            <li><a href="/services.html">Inventory Syncing</a></li>
+            <li><a href="/services.html">Invoice Automation</a></li>
             <li><a href="/services.html">Calendar Integration</a></li>
-            <li><a href="/services.html">Order Automation</a></li>
-            <li><a href="/services.html">CRM Integration</a></li>
           </ul>
         </div>
-        
-        <div class="footer-links">
-          <h4>Company</h4>
-          <ul>
-            <li><a href="/process.html">Process</a></li>
+
+        <div>
+          <h4 class="footer-heading">Expertise</h4>
+          <ul class="footer-links">
+            <li><a href="/process.html">Our Framework</a></li>
             <li><a href="/case-studies.html">Case Studies</a></li>
-            <li><a href="/about.html">About</a></li>
-          </ul>
-        </div>
-        
-        <div class="footer-links">
-          <h4>Get Started</h4>
-          <ul>
-            <li><a href="#" onclick="openCalendly(); return false;">Book a Call</a></li>
+            <li><a href="/about.html">About 5 Cypress</a></li>
+            <li><a href="/privacy.html">Privacy Control</a></li>
           </ul>
         </div>
       </div>
-      
-      <div class="footer-bottom">
-        <p>&copy; 2026 5 Cypress Automation. All rights reserved.</p>
-        <div class="footer-legal">
-          <a href="/privacy.html">Privacy Policy</a>
-          <span class="footer-divider">•</span>
-          <a href="/terms.html">Terms of Service</a>
+
+      <div style="padding-top: 40px; border-top: 1px solid rgba(255,255,255,0.05); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 24px;">
+        <div style="color: var(--text-tertiary); font-size: 0.85rem; font-family: var(--font-mono);">
+          © 2026 5 CYPRESS AUTOMATION. <span style="color: var(--brand-primary);">SYSTEM_STATUS: OPTIMAL</span>
+        </div>
+        <div style="display: flex; gap: 32px; font-size: 0.85rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em;">
+          <a href="/terms.html" class="nav-link" style="color: var(--text-tertiary);">Terms</a>
+          <a href="/privacy.html" class="nav-link" style="color: var(--text-tertiary);">Privacy</a>
+          <a href="/security.html" class="nav-link" style="color: var(--text-tertiary);">Security</a>
         </div>
       </div>
     </div>
   </footer>
 
-  <!-- Calendly Modal -->
-  <div class="calendly-modal" id="calendlyModal">
-    <div class="calendly-modal-content">
-      <button class="calendly-close" onclick="closeCalendly()">
-        <i class="ri-close-line"></i>
-      </button>
-      <div class="calendly-container" id="calendlyContainer">
-        <div class="calendly-spinner"></div>
-      </div>
-    </div>
-  </div>
-
-  <script src="https://assets.calendly.com/assets/external/widget.js" async></script>
+  <script src="https://assets.calendly.com/assets/external/widget.js" type="text/javascript" async></script>
+  <script src="dynamics-premium.js" defer></script>
   <script>
-    const navbar = document.querySelector('.navbar');
-    window.addEventListener('scroll', () => {
-      if (window.scrollY > 50) {
-        navbar.classList.add('scrolled');
-      } else {
-        navbar.classList.remove('scrolled');
-      }
-    });
-
-    function toggleMobileMenu() {
-      const menu = document.getElementById('mobileMenu');
-      menu.classList.toggle('active');
-    }
-
-    function closeMobileMenu() {
-      const menu = document.getElementById('mobileMenu');
-      menu.classList.remove('active');
-    }
-
     function openCalendly() {
-      const modal = document.getElementById('calendlyModal');
-      const container = document.getElementById('calendlyContainer');
-      
-      modal.style.display = 'flex';
-      document.body.style.overflow = 'hidden';
-      
-      container.innerHTML = '';
-      Calendly.initInlineWidget({
-        url: 'https://calendly.com/simply-smart',
-        parentElement: container,
-        prefill: {},
-        utm: {}
-      });
-    }
-
-    function closeCalendly() {
-      const modal = document.getElementById('calendlyModal');
-      modal.style.display = 'none';
-      document.body.style.overflow = '';
-    }
-
-    document.getElementById('calendlyModal').addEventListener('click', (e) => {
-      if (e.target.id === 'calendlyModal') {
-        closeCalendly();
+      if (typeof Calendly !== 'undefined') {
+        Calendly.initPopupWidget({
+          url: 'https://calendly.com/your-calendly-link'
+        });
       }
-    });
-
-    const observerOptions = {
-      threshold: 0.1,
-      rootMargin: '0px 0px -50px 0px'
-    };
-
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('revealed');
-        }
-      });
-    }, observerOptions);
-
-    document.querySelectorAll('.comparison-item, .reveal').forEach(el => {
-      if (!el.classList.contains('reveal')) el.classList.add('reveal');
-      observer.observe(el);
-    });
+      return false;
+    }
   </script>
 </body>
 </html>
