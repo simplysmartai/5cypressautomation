@@ -27,7 +27,7 @@ app.use(helmet({
       defaultSrc: ["'self'"],
       scriptSrc: ["'self'", "'unsafe-inline'", "https://cdn.jsdelivr.net", "https://assets.calendly.com", "https://*.cloudflare.com"],
       styleSrc: ["'self'", "'unsafe-inline'", "https://cdn.jsdelivr.net", "https://assets.calendly.com", "https://fonts.googleapis.com"],
-      imgSrc: ["'self'", "data:", "https:", "assets/brand/"],
+      imgSrc: ["'self'", "data:", "https:"],
       connectSrc: ["'self'", "https://*.cloudflare.com"],
       fontSrc: ["'self'", "https://fonts.gstatic.com"],
       objectSrc: ["'none'"],

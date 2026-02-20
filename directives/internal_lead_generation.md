@@ -1,7 +1,11 @@
 # Internal Lead Generation Workflow
 
 ## Overview
-Daily autonomous lead research workflow for 5 Cypress Labs' own sales pipeline. Uses the same Lead Research Service framework to identify and score prospects in the B2B automation/consulting space.
+Two parallel tracks:
+1. **Local SMB Quick-Win Campaign** — targets non-HVAC local businesses within 30 miles of zip 30022 (Alpharetta, GA) with a $500 setup / $97/mo missed call text-back offer. Uses `config/local_lead_gen_config.json`. ← **Active campaign as of 2026-02-18.**
+2. **B2B Automation Pipeline** — targets SaaS/Agencies/eCommerce for $2,500+ engagements. Uses `config/internal_lead_gen_config.json` (pending).
+
+Both tracks use the same Lead Research Service orchestration framework.
 
 ## Objectives
 
@@ -51,7 +55,22 @@ Daily autonomous lead research workflow for 5 Cypress Labs' own sales pipeline. 
 
 ### Daily Execution (Automated, 6am)
 
-1. **Run orchestrator**
+1. **Run local SMB campaign (active)**
+   ```bash
+   # Step A — scrape Google Maps for each niche
+   python execution/google_maps_scraper.py --config config/local_lead_gen_config.json --niche med_spa
+   python execution/google_maps_scraper.py --config config/local_lead_gen_config.json --niche dental
+   python execution/google_maps_scraper.py --config config/local_lead_gen_config.json --niche real_estate_teams
+   # (repeat for remaining niches or pass --all-niches flag)
+
+   # Step B — score and enrich leads
+   python execution/lead_research_orchestrator.py \
+       --client-id simply-smart-automation \
+       --config config/local_lead_gen_config.json \
+       --output-csv .tmp/leads_scored_{date}.csv
+   ```
+
+   **B2B pipeline (pending config):**
    ```bash
    python execution/lead_research_orchestrator.py \
        --client-id simply-smart-automation \
@@ -259,7 +278,8 @@ Links to `manage_pipeline.md` sheet, shows which leads have been added to sales 
 
 ## Execution Checklist
 
-- [ ] Internal lead gen config created
+- [x] Local SMB lead gen config created (`config/local_lead_gen_config.json`) — 2026-02-18
+- [ ] B2B pipeline config created (`config/internal_lead_gen_config.json`)
 - [ ] Google Sheets master database set up
 - [ ] Daily orchestrator scheduled (6am cron job)
 - [ ] Slack notifications configured (score >80)
@@ -284,6 +304,26 @@ Links to `manage_pipeline.md` sheet, shows which leads have been added to sales 
 
 **Cost:** ~2 hours/month human review + orchestration time  
 **ROI:** Significant if even 1-2 deals close per year
+
+---
+
+## Local SMB Campaign — Quick Reference
+
+| Field | Value |
+|-------|-------|
+| Config | `config/local_lead_gen_config.json` |
+| Anchor zip | 30022 (Alpharetta, GA) |
+| Radius | 30 miles |
+| Priority niches | Med Spa, Dental, Real Estate Teams |
+| Offer | $500 setup + $97/mo (missed call text-back) |
+| Upsell 1 | $1,500 Review Accelerator @ 60 days |
+| Upsell 2 | $2,500 Full Audit @ 120 days |
+| Contact threshold | Score ≥ 60 |
+| Hot lead threshold | Score ≥ 80 → Slack alert |
+| Daily send limit | 40 emails |
+| Send window | 9am–5pm ET |
+| From | Nick @ nick@5cypress.com |
+| Excluded niches | HVAC, plumbing, electricians |
 
 ---
 

@@ -75,6 +75,14 @@ def send_via_smtp(to_email, subject, html_body, from_email=None):
         smtp_user = os.getenv("SIMPLYSMART_SMTP_USER")
         smtp_pass = os.getenv("SIMPLYSMART_SMTP_PASS")
         smtp_secure = os.getenv("SIMPLYSMART_SMTP_SECURE", "true").lower() == "true"
+    elif "5cypress.com" in from_email:
+        # Route to correct 5cypress.com account based on sender
+        prefix = from_email.split("@")[0].upper()  # nick, jimmy, info, admin
+        smtp_host = os.getenv(f"CYPRESS_{prefix}_SMTP_HOST", os.getenv("CYPRESS_NICK_SMTP_HOST"))
+        smtp_port = int(os.getenv(f"CYPRESS_{prefix}_SMTP_PORT", os.getenv("CYPRESS_NICK_SMTP_PORT", "465")))
+        smtp_user = os.getenv(f"CYPRESS_{prefix}_SMTP_USER", os.getenv("CYPRESS_NICK_SMTP_USER"))
+        smtp_pass = os.getenv(f"CYPRESS_{prefix}_SMTP_PASS", os.getenv("CYPRESS_NICK_SMTP_PASS"))
+        smtp_secure = os.getenv(f"CYPRESS_{prefix}_SMTP_SECURE", "true").lower() == "true"
     else:
         # Fall back to default SMTP (nexairi.com)
         smtp_host = os.getenv("SMTP_HOST")

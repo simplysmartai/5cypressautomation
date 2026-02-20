@@ -3,19 +3,79 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Terms of Service | 5 Cypress Automation</title>
+  <title>Terms & Conditions | 5 Cypress Automation</title>
+  <meta name="description" content="Terms and Conditions for 5 Cypress Automation services.">
   <link rel="canonical" href="https://5cypress.com/terms.html">
-  <link rel="stylesheet" href="styles.css">
-  <link rel="icon" type="image/svg+xml" href="assets/brand/favicon.svg">
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400..800;1,400..800&family=Space+Grotesk:wght@300..700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet">
+  
+  <link rel="stylesheet" href="design-system.css">
+  <link rel="stylesheet" href="styles-premium.css">
+  <link rel="stylesheet" href="styles-mobile-enhanced.css">
+  
+  <style>
+    .legal-content {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: 24px;
+      padding: 55px; /* Increased padding +15 from baseline 40 */
+    }
+    
+    .legal-content h2 {
+      font-size: 1.5rem;
+      font-weight: 800;
+      margin-top: 48px;
+      margin-bottom: 24px;
+      color: var(--text-primary);
+    }
+
+    .legal-content h3 {
+      font-size: 1.15rem;
+      font-weight: 700;
+      margin-top: 24px;
+      margin-bottom: 12px;
+      color: var(--text-primary);
+    }
+    
+    .legal-content h2:first-child {
+      margin-top: 0;
+    }
+
+    .legal-content p, .legal-content li {
+      color: var(--text-secondary);
+      line-height: 1.8;
+      font-size: 1.05rem;
+      margin-bottom: 20px;
+    }
+
+    .legal-content ul {
+      margin-left: 20px;
+      margin-bottom: 32px;
+    }
+    
+    .legal-content a {
+      color: var(--brand-primary);
+      text-decoration: none;
+      font-weight: 500;
+    }
+    
+    .legal-content a:hover {
+      text-decoration: underline;
+    }
+  </style>
 </head>
 <body>
-  <div class="conic-mesh"></div>
-  
+  <div class="atmosphere"></div>
+
+  <!-- Navigation -->
   <nav class="navbar">
     <div class="container nav-container">
       <a href="/" class="logo">
         <div class="logo-icon logo-pulse">
-          <img loading="lazy" src="assets/brand/logo-icon.svg" alt="5 Cypress Automation Logo">
+          <img src="assets/brand/logo-5cypress.jpg" alt="5 Cypress Automation Logo">
         </div>
         <div class="logo-text-group">
           <span class="logo-title text-gradient-special">5 Cypress</span>
@@ -24,115 +84,265 @@
           </div>
         </div>
       </a>
-      <div class="nav-actions">
-        <a href="/" class="btn btn-secondary">← Back to Home</a>
+      
+      <div class="nav-menu">
+        <a href="/services.html" class="nav-link">Services</a>
+        <a href="/process.html" class="nav-link">Process</a>
+        <a href="/case-studies.html" class="nav-link">Case Studies</a>
+        <a href="/about.html" class="nav-link">About</a>
       </div>
+
+      <div class="nav-actions">
+        <button onclick="openCalendly()" class="btn btn-primary btn-lg ripple">
+          Get Started <i class="ri-arrow-right-up-line"></i>
+        </button>
+      </div>
+
+      <button class="mobile-toggle" onclick="toggleMobileMenu()" aria-label="Toggle mobile menu">
+        <i class="ri-menu-line"></i>
+      </button>
     </div>
   </nav>
 
-  <section style="padding: 120px 0;">
-    <div class="container" style="max-width: 900px;">
-      <h1 style="margin-bottom: 40px;">Terms of Service</h1>
-      <p style="color: var(--text-muted); margin-bottom: 40px;">Last updated: February 14, 2026</p>
+  <main id="main-content">
+    <section style="padding: 180px 0 100px;">
+      <div class="container" style="max-width: 900px;">
+        <div class="reveal">
+          <h1 style="font-size: 3rem; margin-bottom: 16px;">Terms of <span class="text-italic weight-light">Service</span></h1>
+          <p style="color: var(--text-tertiary); font-family: var(--font-mono); font-size: 0.85rem; margin-bottom: 60px;">
+            LAST UPDATED: FEBRUARY 19, 2026 // VERSION 1.2
+          </p>
+          
+          <div class="legal-content">
+            <h2>1. Services</h2>
+            <p>5 Cypress Automation provides business automation consulting and implementation services. We connect your existing business tools (like Calendly, QuickBooks, and CRM systems) so they work together automatically.</p>
 
-      <h2>1. Services</h2>
-      <p>5 Cypress Automation provides business automation consulting and implementation services. We connect your existing business tools (like Calendly, QuickBooks, and CRM systems) so they work together automatically.</p>
+            <h2>2. Engagement Process</h2>
+            <h3>Discovery Call</h3>
+            <p>We start with a free audit call to understand your workflow and identify automation opportunities.</p>
+            
+            <h3>Proposal & Agreement</h3>
+            <p>If we're a good fit, we provide a detailed proposal outlining scope, timeline, and pricing. Work begins after you sign the agreement.</p>
+            
+            <h3>Implementation</h3>
+            <p>We build, test, and deploy your automations. Most projects go live within 1-2 weeks.</p>
 
-      <h2>2. Engagement Process</h2>
-      <h3>Discovery Call</h3>
-      <p>We start with a free audit call to understand your workflow and identify automation opportunities.</p>
-      
-      <h3>Proposal & Agreement</h3>
-      <p>If we're a good fit, we provide a detailed proposal outlining scope, timeline, and pricing. Work begins after you sign the agreement.</p>
-      
-      <h3>Implementation</h3>
-      <p>We build, test, and deploy your automations. Most projects go live within 1-2 weeks.</p>
+            <h2>3. Payment Terms</h2>
+            <ul>
+              <li>50% upfront, 50% upon completion (for fixed-price projects)</li>
+              <li>Monthly billing for ongoing support and monitoring</li>
+              <li>Invoices are due within 15 days</li>
+            </ul>
 
-      <h2>3. Payment Terms</h2>
-      <ul>
-        <li>50% upfront, 50% upon completion (for fixed-price projects)</li>
-        <li>Monthly billing for ongoing support and monitoring</li>
-        <li>Invoices are due within 15 days</li>
-      </ul>
+            <h2>4. Your Responsibilities</h2>
+            <p>You agree to:</p>
+            <ul>
+              <li>Provide accurate information about your tools and workflows</li>
+              <li>Grant necessary access to your systems (with appropriate permissions)</li>
+              <li>Review and approve automation plans before we build them</li>
+              <li>Test automations before going live</li>
+            </ul>
 
-      <h2>4. Your Responsibilities</h2>
-      <p>You agree to:</p>
-      <ul>
-        <li>Provide accurate information about your tools and workflows</li>
-        <li>Grant necessary access to your systems (with appropriate permissions)</li>
-        <li>Review and approve automation plans before we build them</li>
-        <li>Test automations before going live</li>
-      </ul>
+            <h2>5. Our Responsibilities</h2>
+            <p>We agree to:</p>
+            <ul>
+              <li>Build automations that match the approved specifications</li>
+              <li>Test thoroughly before deployment</li>
+              <li>Provide documentation for your team</li>
+              <li>Monitor for errors and fix them promptly</li>
+            </ul>
 
-      <h2>5. Our Responsibilities</h2>
-      <p>We agree to:</p>
-      <ul>
-        <li>Build automations that match the approved specifications</li>
-        <li>Test thoroughly before deployment</li>
-        <li>Provide documentation for your team</li>
-        <li>Monitor for errors and fix them promptly</li>
-      </ul>
+            <h2>6. Limitations</h2>
+            <ul>
+              <li>We integrate existing tools—we don't build custom software or replace your current systems</li>
+              <li>We're not responsible for downtime caused by third-party services (like QuickBooks or Calendly)</li>
+              <li>We recommend testing automations before processing real customer transactions</li>
+            </ul>
 
-      <h2>6. Limitations</h2>
-      <ul>
-        <li>We integrate existing tools—we don't build custom software or replace your current systems</li>
-        <li>We're not responsible for downtime caused by third-party services (like QuickBooks or Calendly)</li>
-        <li>We recommend testing automations before processing real customer transactions</li>
-      </ul>
+            <h2>7. Cancellation</h2>
+            <p>You can cancel anytime with 30 days' notice. If you cancel mid-project, you'll be billed for work completed to date.</p>
 
-      <h2>7. Cancellation</h2>
-      <p>You can cancel anytime with 30 days' notice. If you cancel mid-project, you'll be billed for work completed to date.</p>
+            <h2>8. Liability</h2>
+            <p>Our liability is limited to the amount you paid us in the past 12 months. We're not responsible for indirect damages, lost profits, or data loss caused by third-party service failures.</p>
 
-      <h2>8. Liability</h2>
-      <p>Our liability is limited to the amount you paid us in the past 12 months. We're not responsible for indirect damages, lost profits, or data loss caused by third-party service failures.</p>
+            <h2>9. Confidentiality</h2>
+            <p>We treat your business data as confidential. We won't share your information, workflows, or results without your permission.</p>
 
-      <h2>9. Confidentiality</h2>
-      <p>We treat your business data as confidential. We won't share your information, workflows, or results without your permission.</p>
+            <h2>10. Modifications</h2>
+            <p>We may update these terms. We'll notify you of significant changes via email.</p>
 
-      <h2>10. Modifications</h2>
-      <p>We may update these terms. We'll notify you of significant changes via email.</p>
+            <h2>11. Contact</h2>
+            <p>Questions about these terms? Email us at: <a href="mailto:info@5cypress.com">info@5cypress.com</a></p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
 
-      <h2>11. Contact</h2>
-      <p>Questions about these terms? Email us at: <a href="mailto:hello@5cypress.com">hello@5cypress.com</a></p>
+  <!-- Footer -->
+  <footer style="padding: 100px 0 60px; border-top: 1px solid var(--border-subtle); position: relative; background: #070709;">
+    <div class="container">
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 64px; margin-bottom: 80px;">
+        <div style="grid-column: span 2;">
+          <a href="/" class="logo" style="margin-bottom: 24px;">
+            <div class="logo-icon logo-pulse" style="width: 120px; height: 120px;">
+              <img src="assets/brand/logo-5cypress.jpg" alt="5 Cypress Automation Logo">
+            </div>
+            <div class="logo-text-group">
+              <span class="logo-title text-gradient-special" style="font-size: 2rem; line-height: 1.2; padding-bottom: 0.15em; margin-bottom: -0.15em;">5 Cypress</span>
+              <div class="logo-subtitle">
+                <span>A</span><span>U</span><span>T</span><span>O</span><span>M</span><span>A</span><span>T</span><span>I</span><span>O</span><span>N</span>
+              </div>
+            </div>
+          </a>
+          <p style="color: var(--text-secondary); line-height: 1.8; font-size: 1rem; max-width: 400px; margin-bottom: 32px;">
+            We automate the busywork so you can focus on growth. Custom workflows built for small teams that need systems they can actually use.
+          </p>
+          <div style="display: flex; gap: 16px;">
+            <a href="#" class="social-btn" aria-label="LinkedIn"><i class="ri-linkedin-fill"></i></a>
+            <a href="#" class="social-btn" aria-label="Twitter"><i class="ri-twitter-x-fill"></i></a>
+            <a href="mailto:info@5cypress.com" class="social-btn" aria-label="Email"><i class="ri-mail-fill"></i></a>
+          </div>
+        </div>
 
-      <div style="margin-top: 80px; padding-top: 40px; border-top: 1px solid var(--border-subtle);">
-        <a href="/" class="btn btn-primary">← Back to Home</a>
+        <div>
+          <h4 class="footer-heading">Core Services</h4>
+          <ul class="footer-links">
+            <li><a href="/services.html">Order Processing</a></li>
+            <li><a href="/services.html">Lead Capture & CRM</a></li>
+            <li><a href="/services.html">Inventory Syncing</a></li>
+            <li><a href="/services.html">Invoice Automation</a></li>
+            <li><a href="/services.html">Calendar Integration</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="footer-heading">Expertise</h4>
+          <ul class="footer-links">
+            <li><a href="/process.html">Our Framework</a></li>
+            <li><a href="/case-studies.html">Case Studies</a></li>
+            <li><a href="/about.html">About 5 Cypress</a></li>
+            <li><a href="/privacy.html">Privacy Control</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div style="padding-top: 40px; border-top: 1px solid rgba(255,255,255,0.05); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 24px;">
+        <div style="color: var(--text-tertiary); font-size: 0.85rem; font-family: var(--font-mono);">
+          © 2026 5 CYPRESS AUTOMATION. <span style="color: var(--brand-primary);">SYSTEM_STATUS: OPTIMAL</span>
+        </div>
+        <div style="display: flex; gap: 32px; font-size: 0.85rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em;">
+          <a href="/terms.html" class="nav-link" style="color: var(--text-tertiary);">Terms</a>
+          <a href="/privacy.html" class="nav-link" style="color: var(--text-tertiary);">Privacy</a>
+          <a href="/security.html" class="nav-link" style="color: var(--text-tertiary);">Security</a>
+        </div>
       </div>
     </div>
-  </section>
+  </footer>
 
   <style>
-    h2 {
-      margin-top: 40px;
-      margin-bottom: 20px;
-      color: var(--text-main);
+    .footer-heading {
+      font-size: 0.8rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--brand-primary);
+      margin-bottom: 24px;
     }
-    h3 {
-      margin-top: 24px;
-      margin-bottom: 12px;
-      color: var(--text-main);
-      font-size: 1.1em;
+    .footer-links {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
     }
-    p, li {
-      color: var(--text-muted);
-      line-height: 1.8;
-      margin-bottom: 20px;
+    .footer-links a {
+      color: var(--text-tertiary);
+      font-size: 0.95rem;
+      font-weight: 500;
+      transition: all 0.3s ease;
     }
-    ul {
-      margin-left: 20px;
-      margin-bottom: 30px;
+    .footer-links a:hover {
+      color: var(--text-primary);
+      transform: translateX(4px);
+      display: inline-block;
     }
-    li {
-      margin-bottom: 10px;
+    .social-btn {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid var(--border-subtle);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-secondary);
+      font-size: 1.25rem;
+      transition: all 0.3s ease;
     }
-    a {
-      color: var(--primary);
-      text-decoration: none;
-    }
-    a:hover {
-      text-decoration: underline;
+    .social-btn:hover {
+      border-color: var(--brand-primary);
+      color: var(--brand-primary);
+      background: rgba(93, 140, 93, 0.1);
+      transform: translateY(-4px);
     }
   </style>
+
+  <script src="dynamics-premium.js" defer></script>
+
+  <!-- Booking Modal -->
+  <div id="bookingModal" class="calendly-modal">
+    <div class="calendly-modal-content" style="max-width: 600px; height: auto; max-height: 90vh; overflow-y: auto;">
+      <button class="calendly-close" onclick="closeBookingModal()">
+        <i class="ri-close-line"></i>
+      </button>
+      <div class="vetting-form-container" style="padding: 40px;">
+        <h2 class="form-title text-gradient" style="text-align: center; margin-bottom: 10px;">Apply for Automation</h2>
+        <p style="text-align: center; color: var(--text-secondary); margin-bottom: 30px;">
+          Tell us about your operational bottlenecks. We review every application to ensure we can deliver 10x ROI.
+        </p>
+        <form id="vettingForm" onsubmit="handleVettingSubmit(event)">
+          <div class="form-group" style="margin-bottom: 20px;">
+            <label style="display: block; color: var(--text-primary); margin-bottom: 8px;">Full Name</label>
+            <input type="text" name="name" required placeholder="John Doe"
+                   style="width: 100%; padding: 12px; border-radius: 8px; border: 1px solid var(--border-subtle); background: rgba(255,255,255,0.05); color: #fff;">
+          </div>
+          <div class="form-group" style="margin-bottom: 20px;">
+            <label style="display: block; color: var(--text-primary); margin-bottom: 8px;">Work Email</label>
+            <input type="email" name="email" required placeholder="john@company.com"
+                   style="width: 100%; padding: 12px; border-radius: 8px; border: 1px solid var(--border-subtle); background: rgba(255,255,255,0.05); color: #fff;">
+          </div>
+          <div class="form-group" style="margin-bottom: 20px;">
+            <label style="display: block; color: var(--text-primary); margin-bottom: 8px;">Company Website</label>
+            <input type="text" name="company" placeholder="company.com"
+                   style="width: 100%; padding: 12px; border-radius: 8px; border: 1px solid var(--border-subtle); background: rgba(255,255,255,0.05); color: #fff;">
+          </div>
+          <div class="form-group" style="margin-bottom: 20px;">
+            <label style="display: block; color: var(--text-primary); margin-bottom: 8px;">Biggest Manual Bottleneck?</label>
+            <textarea name="details" required rows="3" placeholder="e.g. Copy-pasting leads from email to CRM..."
+                      style="width: 100%; padding: 12px; border-radius: 8px; border: 1px solid var(--border-subtle); background: rgba(255,255,255,0.05); color: #fff;"></textarea>
+          </div>
+          <div class="form-group" style="margin-bottom: 30px;">
+            <label style="display: block; color: var(--text-primary); margin-bottom: 8px;">Target Timeline</label>
+            <select name="timeline" style="width: 100%; padding: 12px; border-radius: 8px; border: 1px solid var(--border-subtle); background: #000; color: #fff;">
+              <option value="" disabled selected style="background: #000; color: #fff;">When do you want to start?</option>
+              <option value="asap" style="background: #000; color: #fff;">ASAP (Immediate Need)</option>
+              <option value="1-3_months" style="background: #000; color: #fff;">1-3 Months (Planning)</option>
+              <option value="exploring" style="background: #000; color: #fff;">Just Exploring Options</option>
+            </select>
+          </div>
+          <button type="submit" class="btn btn-primary btn-block ripple" style="width: 100%; justify-content: center;">
+            <span>Submit Application</span>
+            <i class="ri-arrow-right-line"></i>
+          </button>
+          <p id="formStatus" style="margin-top: 15px; text-align: center; font-size: 0.9em; min-height: 20px;"></p>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script src="dynamics.js"></script>
 </body>
 </html>
 

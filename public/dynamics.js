@@ -1,169 +1,192 @@
-// Enhanced Dynamic Interactions for 5 Cypress Labs
-document.addEventListener('DOMContentLoaded', function() {
+// Improved dynamics.js with explicit global registration for Vetting Form
+// ===================================
+
+// Global Booking Handler (attached immediately)
+window.openCalendly = function() {
+    console.log("Opening Vetting Form Modal...");
+    const modal = document.getElementById("bookingModal");
     
-    // Smooth parallax scrolling for background elements
+    if (modal) {
+        modal.classList.add("active");
+        document.body.style.overflow = "hidden";
+        // Ensure form is reset if needed
+        const form = document.getElementById("vettingForm");
+        if(form) form.reset();
+        const status = document.getElementById("formStatus");
+        if(status) status.innerHTML = "";
+    } else {
+        console.warn("Booking modal not found, redirecting...");
+        window.location.href = "/booking.html";
+    }
+    return false;
+};
+
+window.closeBookingModal = function() {
+    const modal = document.getElementById("bookingModal");
+    if (modal) {
+        modal.classList.remove("active");
+        document.body.style.overflow = "";
+    }
+};
+
+window.handleVettingSubmit = async function(event) {
+    event.preventDefault();
+    const form = event.target;
+    const status = document.getElementById("formStatus");
+    const submitBtn = form.querySelector("button[type='submit']");
+    
+    // Collect data
+    const formData = new FormData(form);
+    const data = Object.fromEntries(formData.entries());
+    
+    // UI Loading State
+    submitBtn.disabled = true;
+    submitBtn.innerHTML = "<span>Analyzing...</span>";
+    status.style.color = "var(--text-secondary)";
+    status.innerText = "Processing application...";
+    
+    try {
+        // Send to Cloudflare Function (or backend endpoint)
+        const response = await fetch("/submit-inquiry", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(data)
+        });
+        
+        const result = await response.json();
+        
+        if (response.ok) {
+            status.style.color = "var(--brand-primary)";
+            status.innerText = "Application Received. We'll be in touch shortly.";
+            form.reset();
+            setTimeout(() => {
+                closeBookingModal();
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = "<span>Submit Application</span> <i class='ri-arrow-right-line'></i>";
+                status.innerText = "";
+            }, 3000);
+        } else {
+            throw new Error(result.error || "Submission failed");
+        }
+    } catch (error) {
+        console.error("Submission Error:", error);
+        status.style.color = "#ff4d4d";
+        status.innerText = "Error submitting form. Please email info@5cypress.com directly.";
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = "<span>Try Again</span> <i class='ri-refresh-line'></i>";
+    }
+};
+
+window.toggleMobileMenu = function() {
+    const mobileMenu = document.getElementById("mobileMenu");
+    const toggleIcon = document.querySelector(".mobile-toggle i");
+    
+    if (mobileMenu) {
+        mobileMenu.classList.toggle("active");
+        const isActive = mobileMenu.classList.contains("active");
+        document.body.style.overflow = isActive ? "hidden" : "";
+        
+        if (toggleIcon) {
+            toggleIcon.className = isActive ? "ri-close-line" : "ri-menu-line";
+        }
+    }
+};
+
+window.closeMobileMenu = function() {
+    const mobileMenu = document.getElementById("mobileMenu");
+    const toggleIcon = document.querySelector(".mobile-toggle i");
+    
+    if (mobileMenu) {
+        mobileMenu.classList.remove("active");
+        document.body.style.overflow = "";
+        if (toggleIcon) {
+            toggleIcon.className = "ri-menu-line";
+        }
+    }
+};
+
+// Animation Loop to replace all others
+document.addEventListener("DOMContentLoaded", function() {
+    console.log("DOM Loaded - Initializing 5 Cypress Dynamics");
+
+    // Unified Scroll Animation Handler
     let ticking = false;
-    
-    function updateParallax() {
-        const scrolled = window.pageYOffset;
-        const parallaxElements = document.querySelectorAll('.glow-blob');
-        
-        parallaxElements.forEach((el, index) => {
-            const speed = (index + 1) * 0.2;
-            el.style.transform = `translateY(${scrolled * speed}px)`;
-        });
-        
-        // Tech grid parallax
-        const grid = document.querySelector('body::before');
-        if (grid) {
-            document.documentElement.style.setProperty('--grid-offset', `${scrolled * 0.1}px`);
-        }
-        
-        ticking = false;
-    }
-    
-    function requestParallax() {
-        if (!ticking) {
-            requestAnimationFrame(updateParallax);
-            ticking = true;
-        }
-    }
-    
-    window.addEventListener('scroll', requestParallax);
-    
-    // Enhanced hover effects for service cards
-    const serviceCards = document.querySelectorAll('.service-card');
-    serviceCards.forEach(card => {
-        card.addEventListener('mouseenter', function(e) {
-            // Add subtle tilt based on mouse position
-            const rect = this.getBoundingClientRect();
-            const centerX = rect.left + rect.width / 2;
-            const centerY = rect.top + rect.height / 2;
-            const mouseX = e.clientX - centerX;
-            const mouseY = e.clientY - centerY;
-            
-            const tiltX = (mouseY / rect.height) * 10;
-            const tiltY = -(mouseX / rect.width) * 10;
-            
-            this.style.transform = `translateY(-20px) rotateX(${5 + tiltX}deg) rotateY(${tiltY}deg) scale(1.02)`;
-        });
-        
-        card.addEventListener('mouseleave', function() {
-            this.style.transform = '';
-        });
-        
-        card.addEventListener('mousemove', function(e) {
-            const rect = this.getBoundingClientRect();
-            const centerX = rect.left + rect.width / 2;
-            const centerY = rect.top + rect.height / 2;
-            const mouseX = e.clientX - centerX;
-            const mouseY = e.clientY - centerY;
-            
-            const tiltX = (mouseY / rect.height) * 5;
-            const tiltY = -(mouseX / rect.width) * 5;
-            
-            this.style.transform = `translateY(-20px) rotateX(${5 + tiltX}deg) rotateY(${tiltY}deg) scale(1.02)`;
-        });
-    });
-    
-    // Magnetic effect for buttons
-    const buttons = document.querySelectorAll('.btn');
-    buttons.forEach(button => {
-        button.addEventListener('mousemove', function(e) {
-            const rect = this.getBoundingClientRect();
-            const centerX = rect.left + rect.width / 2;
-            const centerY = rect.top + rect.height / 2;
-            const mouseX = e.clientX - centerX;
-            const mouseY = e.clientY - centerY;
-            
-            const moveX = mouseX * 0.3;
-            const moveY = mouseY * 0.3;
-            
-            this.style.transform = `translateY(-8px) translate(${moveX}px, ${moveY}px) scale(1.05)`;
-        });
-        
-        button.addEventListener('mouseleave', function() {
-            this.style.transform = '';
-        });
-    });
-    
-    // Intersection Observer for scroll animations
     const observerOptions = {
         threshold: 0.1,
-        rootMargin: '0px 0px -50px 0px'
+        rootMargin: "0px 0px -50px 0px"
     };
-    
-    const observer = new IntersectionObserver((entries) => {
+
+    const scrollObserver = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
-                entry.target.classList.add('animate-in');
+                entry.target.classList.add("animate-in");
+                scrollObserver.unobserve(entry.target); // Stop observing once animated
             }
         });
     }, observerOptions);
-    
-    // Observe all sections and cards
-    document.querySelectorAll('section, .service-card, .approach-item').forEach(el => {
-        observer.observe(el);
-    });
-    
-    // Enhanced blob animation based on scroll position
-    window.addEventListener('scroll', () => {
-        const scrollPercent = window.scrollY / (document.body.scrollHeight - window.innerHeight);
-        const blobs = document.querySelectorAll('.glow-blob');
+
+    function handleScrollAnimations() {
+        const scrolled = window.scrollY;
         
+        // Optimally calculate scroll percent
+        const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+        const scrollPercent = docHeight > 0 ? scrolled / docHeight : 0;
+
+        // Blob Parallax - Use translate3d for GPU acceleration
+        const blobs = document.querySelectorAll(".glow-blob");
         blobs.forEach((blob, index) => {
-            const rotation = scrollPercent * 360 * (index + 1);
-            const scale = 1 + Math.sin(scrollPercent * Math.PI * 2) * 0.1;
-            blob.style.transform += ` rotate(${rotation}deg) scale(${scale})`;
+            // Simplified math to reduce CPU load
+            const yPos = scrolled * ((index + 1) * 0.15); 
+            // Only rotate a bit based on scroll
+            const rot = scrollPercent * 180;
+            blob.style.transform = `translate3d(0, ${yPos}px, 0) rotate(${rot}deg)`;
         });
-    });
-    
-    // Enhanced navbar scroll effect
-    const navbar = document.querySelector('.navbar');
-    let lastScrollY = window.scrollY;
-    
-    window.addEventListener('scroll', () => {
-        if (window.scrollY > lastScrollY && window.scrollY > 100) {
-            navbar.style.transform = 'translateY(-100%)';
-        } else {
-            navbar.style.transform = 'translateY(0)';
+
+        // Navbar Effects
+        const navbar = document.querySelector(".navbar");
+        if (navbar) {
+            if (scrolled > 50) {
+                if (!navbar.classList.contains("scrolled")) navbar.classList.add("scrolled");
+            } else {
+                if (navbar.classList.contains("scrolled")) navbar.classList.remove("scrolled");
+            }
         }
-        lastScrollY = window.scrollY;
-        
-        if (window.scrollY > 50) {
-            navbar.classList.add('scrolled');
-        } else {
-            navbar.classList.remove('scrolled');
+
+        ticking = false;
+    }
+
+    // Use passive listener for better scroll performance
+    window.addEventListener("scroll", () => {
+        if (!ticking) {
+            window.requestAnimationFrame(handleScrollAnimations);
+            ticking = true;
         }
+    }, { passive: true });
+
+    // Initialize Observers
+    const elementsToObserve = [
+        ".reveal", 
+        ".service-detailed-card", 
+        ".hero-content h1", 
+        ".hero-description", 
+        ".hero-cta", 
+        ".hero-visual",
+        "section",
+        ".service-card",
+        ".approach-item"
+    ];
+    
+    elementsToObserve.forEach(selector => {
+        document.querySelectorAll(selector).forEach(el => scrollObserver.observe(el));
     });
+
+    // Close modal on outside click
+    const modal = document.getElementById("bookingModal");
+    if (modal) {
+        modal.addEventListener("click", function(e) {
+            if (e.target === modal) {
+                closeBookingModal();
+            }
+        });
+    }
 });
-
-// Global Mobile Menu Toggle
-function toggleMobileMenu() {
-    const mobileMenu = document.getElementById('mobileMenu');
-    const toggleIcon = document.querySelector('.mobile-toggle i');
-    
-    if (mobileMenu) {
-        mobileMenu.classList.toggle('active');
-        const isActive = mobileMenu.classList.contains('active');
-        document.body.style.overflow = isActive ? 'hidden' : '';
-        
-        // Update icon if it exists (using Remix Icon as in index.html)
-        if (toggleIcon) {
-            toggleIcon.className = isActive ? 'ri-close-line' : 'ri-menu-line';
-        }
-    }
-}
-
-function closeMobileMenu() {
-    const mobileMenu = document.getElementById('mobileMenu');
-    const toggleIcon = document.querySelector('.mobile-toggle i');
-    
-    if (mobileMenu) {
-        mobileMenu.classList.remove('active');
-        document.body.style.overflow = '';
-        if (toggleIcon) {
-            toggleIcon.className = 'ri-menu-line';
-        }
-    }
-}

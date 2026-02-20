@@ -314,17 +314,8 @@ document.querySelectorAll('[data-count]').forEach(el => {
 // CALENDLY INTEGRATION
 // ===================================
 
-window.openCalendly = () => {
-  if (typeof Calendly !== 'undefined') {
-    Calendly.initPopupWidget({
-      url: 'https://calendly.com/your-link'
-    });
-  } else {
-    console.warn('Calendly not loaded');
-    alert('Booking system is loading. Please try again in a moment.');
-  }
-  return false;
-};
+// Booking managed by dynamics.js modal
+// window.openCalendly removed to prevent conflict
 
 // ===================================
 // SMOOTH ENTRANCE ANIMATIONS

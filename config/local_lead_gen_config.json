@@ -1,0 +1,226 @@
+{
+  "client_name": "Simply Smart Automation",
+  "campaign": "local_smb_quick_win",
+  "offer": {
+    "name": "The 24-Hour Fix",
+    "tagline": "Missed Call Text-Back Automation — Live in 24 Hours",
+    "price_setup": 500,
+    "price_monthly": 97,
+    "upsell_1": { "name": "Review Accelerator", "price": 1500, "trigger_days": 60 },
+    "upsell_2": { "name": "Full Workflow Audit", "price": 2500, "trigger_days": 120 }
+  },
+  "geography": {
+    "anchor_zip": "30022",
+    "radius_miles": 30,
+    "cities": [
+      "Alpharetta", "Johns Creek", "Roswell", "Duluth",
+      "Cumming", "Milton", "Sandy Springs", "Peachtree Corners",
+      "Suwanee", "Lawrenceville", "Norcross", "Dunwoody"
+    ],
+    "state": "GA",
+    "country": "US"
+  },
+  "target_niches": [
+    {
+      "id": "med_spa",
+      "label": "Med Spas & Aesthetics",
+      "google_maps_keywords": ["med spa", "aesthetics clinic", "laser aesthetics", "botox clinic", "skin care clinic"],
+      "pain_point": "Missed calls = lost $800+ bookings with no recovery",
+      "quick_win_automation": "missed_call_text_back",
+      "priority": 1
+    },
+    {
+      "id": "dental",
+      "label": "Dental Practices",
+      "google_maps_keywords": ["dentist", "dental office", "cosmetic dentist", "orthodontist"],
+      "pain_point": "No-shows cost $200–$400 per slot with no rebooking system",
+      "quick_win_automation": "appointment_reminder_rebook",
+      "priority": 2
+    },
+    {
+      "id": "real_estate_teams",
+      "label": "Residential Real Estate Teams",
+      "google_maps_keywords": ["real estate team", "real estate agent", "realtor", "realty group"],
+      "pain_point": "Web leads go cold in under 5 minutes with no instant reply",
+      "quick_win_automation": "web_lead_instant_reply",
+      "priority": 3
+    },
+    {
+      "id": "landscaping",
+      "label": "Landscaping & Lawn Care",
+      "google_maps_keywords": ["landscaping", "lawn care", "lawn service", "landscape company", "yard maintenance"],
+      "pain_point": "Quote requests sit 24–72 hours with no follow-up automation",
+      "quick_win_automation": "quote_request_followup",
+      "priority": 4
+    },
+    {
+      "id": "pool_service",
+      "label": "Pool Service Companies",
+      "google_maps_keywords": ["pool service", "pool cleaning", "pool maintenance", "pool repair"],
+      "pain_point": "Seasonal schedule filling is entirely manual — no text broadcast system",
+      "quick_win_automation": "seasonal_booking_blast",
+      "priority": 5
+    },
+    {
+      "id": "veterinary",
+      "label": "Veterinary Clinics",
+      "google_maps_keywords": ["veterinary clinic", "vet", "animal hospital", "pet clinic"],
+      "pain_point": "Wellness recall reminders are manual or nonexistent — appointments lapse",
+      "quick_win_automation": "wellness_recall_reminder",
+      "priority": 6
+    },
+    {
+      "id": "personal_injury_law",
+      "label": "Personal Injury Law Firms",
+      "google_maps_keywords": ["personal injury attorney", "personal injury lawyer", "accident attorney"],
+      "pain_point": "Web form leads take 24+ hours to contact — conversion window is 5 minutes",
+      "quick_win_automation": "form_to_instant_call",
+      "priority": 7
+    },
+    {
+      "id": "property_management",
+      "label": "Property Management Companies",
+      "google_maps_keywords": ["property management", "property manager", "rental management"],
+      "pain_point": "Maintenance requests go into a black hole — tenants have no status updates",
+      "quick_win_automation": "maintenance_request_ack",
+      "priority": 8
+    },
+    {
+      "id": "insurance_agents",
+      "label": "Independent Insurance Agents",
+      "google_maps_keywords": ["insurance agent", "insurance agency", "independent insurance"],
+      "pain_point": "Policy renewals managed in spreadsheets — renewals are missed or last-minute",
+      "quick_win_automation": "renewal_reminder_sequence",
+      "priority": 9
+    },
+    {
+      "id": "fitness_studios",
+      "label": "Boutique Fitness Studios",
+      "google_maps_keywords": ["fitness studio", "yoga studio", "pilates studio", "crossfit", "barre studio"],
+      "pain_point": "Trial members churn silently — no missed class check-in or re-engagement",
+      "quick_win_automation": "missed_class_reengagement",
+      "priority": 10
+    }
+  ],
+  "icp": {
+    "decision_maker_titles": [
+      "Owner",
+      "Practice Owner",
+      "Office Manager",
+      "Practice Manager",
+      "Managing Partner",
+      "Broker/Owner",
+      "Studio Owner",
+      "Principal"
+    ],
+    "employee_count_range": [1, 50],
+    "google_review_count_max": 200,
+    "has_website": true,
+    "has_google_business_listing": true
+  },
+  "buying_signals": [
+    {
+      "id": "low_review_count",
+      "label": "Fewer than 50 Google reviews",
+      "description": "Low review count suggests no automated review request system",
+      "score_weight": 25
+    },
+    {
+      "id": "no_chat_widget",
+      "label": "No live chat or chatbot on website",
+      "description": "Missing chat = likely missing other automations",
+      "score_weight": 20
+    },
+    {
+      "id": "slow_website",
+      "label": "Website loads slowly or looks outdated",
+      "description": "Signals a non-tech-forward owner who may not know what they're missing",
+      "score_weight": 10
+    },
+    {
+      "id": "no_online_booking",
+      "label": "No online booking system visible",
+      "description": "Still relying on phone calls only — high missed call exposure",
+      "score_weight": 25
+    },
+    {
+      "id": "unanswered_reviews",
+      "label": "Google reviews with no owner responses",
+      "description": "No reputation management — likely no automation at all",
+      "score_weight": 20
+    }
+  ],
+  "scoring_model": {
+    "icp_fit": {
+      "weight": 40,
+      "factors": {
+        "niche_match": 25,
+        "geography_match": 15,
+        "size_match": 10,
+        "decision_maker_reachable": 20,
+        "has_website": 15,
+        "has_google_listing": 15
+      }
+    },
+    "buying_signals": {
+      "weight": 40,
+      "factors": {
+        "low_review_count": 25,
+        "no_chat_widget": 20,
+        "no_online_booking": 25,
+        "unanswered_reviews": 20,
+        "slow_or_outdated_site": 10
+      }
+    },
+    "reachability": {
+      "weight": 20,
+      "factors": {
+        "phone_found": 15,
+        "email_found": 30,
+        "owner_name_found": 20,
+        "google_maps_listed": 10,
+        "website_contact_form": 25
+      }
+    }
+  },
+  "thresholds": {
+    "hot_immediate_contact": 80,
+    "warm_sequence_start": 60,
+    "cold_monitor_only": 40,
+    "discard_below": 40
+  },
+  "research_vectors": {
+    "google_maps_api": true,
+    "website_scrape": true,
+    "google_reviews_check": true,
+    "linkedin": false,
+    "crunchbase": false,
+    "news_api": false
+  },
+  "outreach": {
+    "channel": "email",
+    "sequence_id_prefix": "local_smb",
+    "from_name": "Nick",
+    "from_email": "nick@5cypress.com",
+    "daily_send_limit": 40,
+    "send_window_start": "09:00",
+    "send_window_end": "17:00",
+    "timezone": "America/New_York"
+  },
+  "daily_lead_target": 30,
+  "min_fit_score_for_contact": 60,
+  "output": {
+    "csv_path": ".tmp/leads_{niche}_{date}.csv",
+    "google_sheet_name": "SSA Local Lead Gen — {YYYY}",
+    "slack_notify_above_score": 80
+  },
+  "exclude_list": [
+    "existing_customers",
+    "existing_prospects",
+    "HVAC companies",
+    "plumbing companies",
+    "electricians"
+  ],
+  "last_updated": "2026-02-18",
+  "notes": "Targets non-HVAC local SMBs within 30 miles of zip 30022 (Alpharetta, GA). Offer is $500 setup + $97/mo missed call text-back automation. Upsell path: 60 days -> $1,500 Review Accelerator, 120 days -> $2,500 Full Audit."
+}
