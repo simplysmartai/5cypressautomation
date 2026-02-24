@@ -1,11 +1,22 @@
 // GET /api/seo/config — returns live API status to the frontend
-export async function onRequestGet(context) {
-  const { env } = context;
+export async function onRequest(context) {
+  const { request, env } = context;
 
   const cors = {
     'Access-Control-Allow-Origin': '*',
     'Content-Type': 'application/json',
   };
+
+  if (request.method === 'OPTIONS') {
+    return new Response(null, {
+      status: 204,
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Methods': 'GET, OPTIONS',
+        'Access-Control-Allow-Headers': 'Content-Type',
+      },
+    });
+  }
 
   return new Response(JSON.stringify({
     dataforseo_enabled: !!(env.DATAFORSEO_USERNAME && env.DATAFORSEO_PASSWORD),
@@ -17,15 +28,4 @@ export async function onRequestGet(context) {
     is_admin:           false,
     env:                'cloudflare-pages',
   }), { status: 200, headers: cors });
-}
-
-export async function onRequestOptions() {
-  return new Response(null, {
-    status: 204,
-    headers: {
-      'Access-Control-Allow-Origin': '*',
-      'Access-Control-Allow-Methods': 'GET, OPTIONS',
-      'Access-Control-Allow-Headers': 'Content-Type',
-    },
-  });
 }
