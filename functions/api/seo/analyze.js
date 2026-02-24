@@ -108,7 +108,8 @@ async function runPageSpeed(url, env) {
   if (!key) throw new Error('GOOGLE_PAGESPEED_API_KEY not configured');
 
   const endpoint = `https://www.googleapis.com/pagespeedonline/v5/runPagespeed`
-    + `?url=${encodeURIComponent(url)}&strategy=mobile&key=${key}`;
+    + `?url=${encodeURIComponent(url)}&strategy=mobile&key=${key}`
+    + `&category=performance&category=accessibility&category=best-practices&category=seo`;
 
   const res = await fetch(endpoint, { cf: { cacheTtl: 300 } });
   if (!res.ok) throw new Error(`PageSpeed HTTP ${res.status}`);

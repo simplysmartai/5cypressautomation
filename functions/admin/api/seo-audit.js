@@ -56,7 +56,8 @@ export async function onRequestGet(context) {
 
   try {
     const endpoint = `https://www.googleapis.com/pagespeedonline/v5/runPagespeed`
-      + `?url=${encodeURIComponent(targetUrl)}&strategy=${strategy}&key=${key}`;
+      + `?url=${encodeURIComponent(targetUrl)}&strategy=${strategy}&key=${key}`
+      + `&category=performance&category=accessibility&category=best-practices&category=seo`;
 
     const res = await fetch(endpoint);
     if (!res.ok) throw new Error(`PageSpeed API returned ${res.status}`);
