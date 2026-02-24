@@ -1,6 +1,19 @@
 {
   "currency": "USD",
   "last_updated": "2026-02-03",
+
+  "seo_services": {
+    "one_time_audit": {
+      "name": "One-Time SEO Intelligence Audit",
+      "price": 50,
+      "description": "Full structural audit and vulnerability report"
+    },
+    "monthly_retainer": {
+      "name": "SEO Dominance Retainer",
+      "price": 1200,
+      "description": "Continuous optimization and monthly dossier updates"
+    }
+  },
   
   "hourly_rates": {
     "architecture": 350,

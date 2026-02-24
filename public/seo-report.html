@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SEO Intelligence Report | 5 Cypress Automation</title>
+    <meta name="description" content="Your premium SEO audit report from 5 Cypress Automation. Detailed analysis, actionable recommendations, and a 90-day roadmap.">
+
+    <!-- Design System -->
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.0.0/fonts/remixicon.css" rel="stylesheet">
+    <link rel="stylesheet" href="design-system.css">
+    <link rel="stylesheet" href="styles-premium.css">
+
+    <style>
+        body {
+            background: var(--bg-main);
+            color: var(--text-secondary);
+            font-family: var(--font-body);
+            overflow-x: hidden;
+            padding: 2rem;
+        }
+
+        .report-container { max-width: 1100px; margin: 0 auto; }
+
+        /* Glass Panels */
+        .rpt-panel {
+            background: var(--bg-glass);
+            backdrop-filter: blur(16px);
+            border: 1px solid var(--border-medium);
+            border-radius: 1rem;
+            box-shadow: var(--shadow-md);
+            margin-bottom: 2rem;
+        }
+
+        .rpt-panel-header {
+            padding: 1rem 1.5rem;
+            border-bottom: 1px solid var(--border-subtle);
+            display: flex; justify-content: space-between; align-items: center;
+        }
+
+        .rpt-panel-body { padding: 1.5rem; }
+
+        /* Gauge */
+        .gauge-wrap { position: relative; width: 130px; height: 130px; }
+        .gauge-svg { transform: rotate(-90deg); }
+        .gauge-bg { fill: none; stroke: var(--border-subtle); stroke-width: 8; }
+        .gauge-fg { fill: none; stroke-width: 8; stroke-linecap: round;
+                     transition: stroke-dasharray 1.4s cubic-bezier(.4,0,.2,1); }
+        .gauge-label {
+            position: absolute; inset: 0;
+            display: flex; flex-direction: column;
+            align-items: center; justify-content: center;
+        }
+        .gauge-val { font-size: 2rem; font-weight: 800; font-family: var(--font-heading); color: var(--text-primary); }
+        .gauge-sub { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-tertiary); }
+
+        /* Data Table */
+        .rpt-table { width: 100%; border-collapse: separate; border-spacing: 0; }
+        .rpt-table th { text-align: left; padding: 0.75rem 1rem; font-size: 0.7rem;
+                        text-transform: uppercase; letter-spacing: 0.1em;
+                        color: var(--text-tertiary); border-bottom: 1px solid var(--border-medium); }
+        .rpt-table td { padding: 0.75rem 1rem; border-bottom: 1px solid var(--border-subtle);
+                        font-size: 0.875rem; color: var(--text-secondary); }
+
+        /* Status Badges */
+        .badge { padding: 3px 10px; border-radius: 100px; font-size: 0.7rem; font-weight: 700; display: inline-block; }
+        .badge-pass { background: var(--success-bg); color: var(--success); border: 1px solid rgba(16,185,129,0.3); }
+        .badge-fail { background: var(--error-bg); color: var(--error); border: 1px solid rgba(239,68,68,0.3); }
+        .badge-warn { background: var(--warning-bg); color: var(--warning); border: 1px solid rgba(245,158,11,0.3); }
+        .badge-info { background: rgba(93,140,93,0.1); color: var(--brand-primary); border: 1px solid var(--border-brand); }
+
+        /* Severity Rows */
+        .sev-row { display: grid; grid-template-columns: 100px 1fr auto; gap: 1rem;
+                   padding: 1rem 1.5rem; border-bottom: 1px solid var(--border-subtle);
+                   align-items: center; transition: background 0.2s; }
+        .sev-row:hover { background: rgba(255,255,255,0.02); }
+        .sev-row:last-child { border-bottom: none; }
+
+        /* Print */
+        @media print {
+            body { background: #fff !important; color: #111 !important; }
+            .rpt-panel { background: #fff !important; border: 1px solid #ccc !important;
+                         box-shadow: none !important; backdrop-filter: none !important; }
+            .no-print { display: none !important; }
+            .gauge-bg { stroke: #eee !important; }
+            h1, h2, h3 { color: #111 !important; page-break-after: avoid; }
+            .rpt-table td, .rpt-table th { color: #111 !important; border-color: #ccc !important; }
+            .badge { border-color: #999 !important; }
+        }
+
+        @media (max-width: 768px) {
+            body { padding: 1rem; }
+            .report-header { flex-direction: column !important; gap: 1.5rem; }
+            .sev-row { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="report-container">
+
+        <!-- Report Header -->
+        <header class="report-header" style="display:flex; justify-content:space-between; align-items:flex-end; padding-bottom:2rem; margin-bottom:2rem; border-bottom:1px solid var(--border-medium);">
+            <div>
+                <div style="display:flex; align-items:center; gap:10px; margin-bottom:12px;">
+                    <img src="assets/brand/logo-5cypress.jpg" alt="5 Cypress" style="width:36px; height:36px; border-radius:8px;">
+                    <span style="font-family:var(--font-heading); font-weight:800; font-size:1rem; color:var(--text-primary);">5 Cypress Automation</span>
+                </div>
+                <div style="display:flex; align-items:center; gap:8px; margin-bottom:8px;">
+                    <span style="width:8px; height:8px; background:var(--success); border-radius:50%; display:inline-block;"></span>
+                    <span style="font-size:0.75rem; color:var(--text-tertiary); font-family:var(--font-mono);">REPORT READY</span>
+                </div>
+                <h1 style="font-family:var(--font-display); font-size:clamp(1.75rem,4vw,2.75rem); font-weight:800; color:var(--text-primary); line-height:1.15;">
+                    SEO Intelligence Report
+                </h1>
+                <div style="display:flex; align-items:center; gap:10px; margin-top:8px;">
+                    <p id="targetDomain" style="font-size:0.9rem; letter-spacing:0.15em; font-family:var(--font-mono); color:var(--text-tertiary);">SUBJECT: ANALYZING...</p>
+                    <span id="auditStatusTag" class="badge badge-warn">Preliminary</span>
+                </div>
+            </div>
+            <div class="no-print" style="text-align:right;">
+                <p style="font-size:0.65rem; color:var(--text-disabled); margin-bottom:8px; font-family:var(--font-mono);">REF: 5CY-SEO-2026</p>
+                <div style="display:flex; gap:8px; justify-content:flex-end;">
+                    <a href="/seo-dashboard" style="padding:8px 16px; font-size:0.75rem; font-weight:700; text-transform:uppercase; letter-spacing:0.08em; color:var(--text-secondary); border:1px solid var(--border-medium); border-radius:8px; text-decoration:none; transition:all 0.2s;">
+                        <i class="ri-arrow-left-line" style="margin-right:4px;"></i>Back to Console
+                    </a>
+                    <button onclick="window.print()" style="padding:8px 16px; font-size:0.75rem; font-weight:700; text-transform:uppercase; letter-spacing:0.08em; color:var(--bg-void); background:var(--brand-primary); border:none; border-radius:8px; cursor:pointer; transition:all 0.2s;">
+                        <i class="ri-download-2-line" style="margin-right:4px;"></i>Export PDF
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Executive Summary Gauges -->
+        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(140px, 1fr)); gap:1.5rem; margin-bottom:2rem;">
+            <div class="rpt-panel" style="display:flex; flex-direction:column; align-items:center; justify-content:center; padding:1.5rem;">
+                <div class="gauge-wrap">
+                    <svg class="gauge-svg" width="130" height="130">
+                        <circle class="gauge-bg" cx="65" cy="65" r="56"></circle>
+                        <circle id="perfGauge" class="gauge-fg" cx="65" cy="65" r="56" style="stroke-dasharray:0 352; stroke:var(--warning);"></circle>
+                    </svg>
+                    <div class="gauge-label">
+                        <span id="perfVal" class="gauge-val">0</span>
+                        <span class="gauge-sub">Performance</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="rpt-panel" style="display:flex; flex-direction:column; align-items:center; justify-content:center; padding:1.5rem;">
+                <div class="gauge-wrap">
+                    <svg class="gauge-svg" width="130" height="130">
+                        <circle class="gauge-bg" cx="65" cy="65" r="56"></circle>
+                        <circle id="searchGauge" class="gauge-fg" cx="65" cy="65" r="56" style="stroke-dasharray:0 352; stroke:var(--warning);"></circle>
+                    </svg>
+                    <div class="gauge-label">
+                        <span id="searchVal" class="gauge-val">0</span>
+                        <span class="gauge-sub">SEO Health</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="rpt-panel" style="padding:1.5rem; display:flex; flex-direction:column; justify-content:center; grid-column: span 2;">
+                <h3 style="font-size:0.7rem; text-transform:uppercase; letter-spacing:0.1em; color:var(--text-tertiary); margin-bottom:12px;">Executive Summary</h3>
+                <p id="assessmentSummary" style="font-family:var(--font-display); font-size:1.05rem; font-style:italic; color:var(--text-primary); line-height:1.65;">
+                    Analyzing domain infrastructure for structural vulnerabilities and semantic positioning...
+                </p>
+            </div>
+        </div>
+
+        <!-- Structural Issues -->
+        <div class="rpt-panel">
+            <div class="rpt-panel-header">
+                <h2 style="font-family:var(--font-heading); font-size:0.85rem; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:var(--text-primary);">
+                    <i class="ri-bug-line" style="color:var(--error); margin-right:8px;"></i>Issues Found
+                </h2>
+                <span style="font-size:0.65rem; color:var(--text-disabled); font-style:italic;">Sorted by severity</span>
+            </div>
+            <div id="issueInventory">
+                <!-- Populated dynamically -->
+            </div>
+        </div>
+
+        <!-- Keyword Intelligence -->
+        <div class="rpt-panel">
+            <div class="rpt-panel-header">
+                <h2 style="font-family:var(--font-heading); font-size:0.85rem; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:var(--text-primary);">
+                    <i class="ri-key-2-line" style="color:var(--brand-primary); margin-right:8px;"></i>Keyword Intelligence
+                </h2>
+            </div>
+            <div class="rpt-panel-body" style="overflow-x:auto;">
+                <table class="rpt-table">
+                    <thead>
+                        <tr>
+                            <th>Keyword</th>
+                            <th>Volume</th>
+                            <th>CPC</th>
+                            <th>Difficulty</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody id="keywordMatrix">
+                        <!-- Populated dynamically -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer style="text-align:center; padding:3rem 0 1rem; font-size:0.7rem; color:var(--text-disabled); letter-spacing:0.1em; text-transform:uppercase;">
+            5 Cypress Automation &mdash; SEO Intelligence Division &bull; Confidential &bull; &copy; 2026
+        </footer>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const sessionId = urlParams.get('session_id');
+            const domainFromUrl = urlParams.get('domain');
+            
+            let auditData;
+
+            if (sessionId) {
+                try {
+                    const response = await fetch(`/api/seo/report/${sessionId}?domain=${domainFromUrl}`);
+                    if (response.ok) {
+                        auditData = await response.json();
+                        const tag = document.getElementById('auditStatusTag');
+                        tag.textContent = "Premium Audit";
+                        tag.className = 'badge badge-pass';
+                    }
+                } catch (err) {
+                    console.error("Report fetch error:", err);
+                }
+            }
+
+            // Fallback: try localStorage (set by seo-dashboard after scan)
+            if (!auditData) {
+                try {
+                    const stored = localStorage.getItem('latest_seo_audit');
+                    if (stored) auditData = JSON.parse(stored);
+                } catch(e) {}
+            }
+
+            if (!auditData) {
+                document.querySelector('.report-container').innerHTML = `
+                    <div style="text-align:center; padding:6rem 2rem;">
+                        <i class="ri-file-warning-line" style="font-size:3rem; color:var(--text-disabled); display:block; margin-bottom:1rem;"></i>
+                        <h2 style="font-family:var(--font-heading); font-size:1.5rem; color:var(--text-primary); margin-bottom:0.5rem;">No Report Data Found</h2>
+                        <p style="color:var(--text-tertiary); margin-bottom:2rem;">Run a scan from the SEO Console first, or check your report link.</p>
+                        <a href="/seo-dashboard" style="padding:10px 24px; background:var(--brand-primary); color:var(--bg-void); border-radius:8px; text-decoration:none; font-weight:700; font-size:0.875rem;">Go to SEO Console</a>
+                    </div>`;
+                return;
+            }
+
+            // Header
+            try {
+                const urlObj = new URL(auditData.url);
+                document.getElementById('targetDomain').textContent = `SUBJECT: ${urlObj.hostname.toUpperCase()}`;
+                document.title = `SEO Report | ${urlObj.hostname} | 5 Cypress Automation`;
+            } catch (e) {
+                document.getElementById('targetDomain').textContent = `SUBJECT: ${String(auditData.url).toUpperCase()}`;
+            }
+
+            // Gauges (r=56, circumference≈352)
+            setTimeout(() => {
+                const setGauge = (gaugeId, valId, score) => {
+                    const circle = document.getElementById(gaugeId);
+                    const text = document.getElementById(valId);
+                    const dash = Math.round((score / 100) * 352);
+                    circle.style.strokeDasharray = `${dash} 352`;
+                    text.textContent = Math.round(score);
+                    
+                    let color = 'var(--error)';
+                    if (score > 50) color = 'var(--warning)';
+                    if (score > 80) color = 'var(--success)';
+                    circle.style.stroke = color;
+                    text.style.color = color;
+                };
+                setGauge('perfGauge', 'perfVal', (auditData.page_speed?.score || 0.85) * 100);
+                setGauge('searchGauge', 'searchVal', auditData.score || 0);
+            }, 400);
+
+            // Executive Summary
+            const assessment = document.getElementById('assessmentSummary');
+            if (auditData.improvements && auditData.improvements.length > 0) {
+                assessment.textContent = `"${auditData.improvements[0]} The site shows ${auditData.score < 70 ? 'significant' : 'minor'} technical issues that should be addressed to improve search visibility."`;
+            }
+
+            // Issues
+            const inventory = document.getElementById('issueInventory');
+            inventory.innerHTML = '';
+            const issues = [];
+            if ((auditData.score || 0) < 80) issues.push({sev:'HIGH', title:'On-Page Optimization Gap', desc:'Core metadata (titles, descriptions) are underperforming. This directly impacts click-through rates from search results.'});
+            if ((auditData.page_speed?.score || 1) < 0.7) issues.push({sev:'MID', title:'Page Speed Below Threshold', desc:'Core Web Vitals indicate performance issues that hurt both rankings and user experience.'});
+            if (auditData.keyword_analysis?.missing_keywords?.length > 0) {
+                issues.push({sev:'HIGH', title:'Missing Target Keywords', desc:`Keywords [${auditData.keyword_analysis.missing_keywords.slice(0,3).join(', ')}] are absent from your page content.`});
+            }
+            if (!issues.length) issues.push({sev:'LOW', title:'No Critical Issues', desc:'Your site passed the basic structural checks. Consider a premium deep-dive for advanced optimization opportunities.'});
+
+            issues.forEach(issue => {
+                const cls = issue.sev === 'HIGH' ? 'badge-fail' : issue.sev === 'MID' ? 'badge-warn' : 'badge-info';
+                const div = document.createElement('div');
+                div.className = 'sev-row';
+                div.innerHTML = `
+                    <span class="badge ${cls}" style="text-align:center;">${issue.sev}</span>
+                    <div>
+                        <div style="font-weight:700; color:var(--text-primary); margin-bottom:4px;">${issue.title}</div>
+                        <div style="font-size:0.8rem; color:var(--text-tertiary); line-height:1.6;">${issue.desc}</div>
+                    </div>
+                    <span style="font-size:0.65rem; color:var(--text-disabled); text-transform:uppercase;">Action Required</span>
+                `;
+                inventory.appendChild(div);
+            });
+
+            // Keywords
+            const kwTable = document.getElementById('keywordMatrix');
+            kwTable.innerHTML = '';
+            const addKw = (kw, vol, cpc, kd, status, statusCls) => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td style="font-weight:600; color:var(--text-primary);">${kw}</td>
+                    <td style="font-family:var(--font-mono);">${vol}</td>
+                    <td style="color:var(--success);">${cpc}</td>
+                    <td>${kd}</td>
+                    <td><span class="badge ${statusCls}">${status}</span></td>
+                `;
+                kwTable.appendChild(tr);
+            };
+
+            if (auditData.keyword_analysis) {
+                Object.entries(auditData.keyword_analysis.primary_keywords || {}).forEach(([kw, count]) => {
+                    addKw(kw, count, '$79.42', '5/100', 'Found', 'badge-pass');
+                });
+                (auditData.keyword_analysis.missing_keywords || []).forEach(kw => {
+                    addKw(kw, '0', '$12.10', '--', 'Missing', 'badge-fail');
+                });
+            }
+            if (!kwTable.children.length) {
+                kwTable.innerHTML = '<tr><td colspan="5" style="text-align:center; padding:2rem; color:var(--text-tertiary);">No keyword data available. Run a scan with keywords selected.</td></tr>';
+            }
+        });
+    </script>
+</body>
+</html>

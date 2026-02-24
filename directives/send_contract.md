@@ -63,7 +63,7 @@ python execution/create_contract.py \
 - `{{client_address}}` - Business address
 - `{{client_contact}}` - Signer name and title
 - `{{effective_date}}` - Contract start date
-- `{{agency_name}}` - Simply Smart Automation LLC
+- `{{agency_name}}` - 5 Cypress Automation LLC
 
 ### SOW Variables
 - All MSA variables, plus:

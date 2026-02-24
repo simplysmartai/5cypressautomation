@@ -1,5 +1,7 @@
 const express = require('express');
 const path = require('path');
+const fs = require('fs');
+require('dotenv').config();
 const { exec } = require('child_process');
 const helmet = require('helmet');
 const morgan = require('morgan');
@@ -8,6 +10,15 @@ const xss = require('xss-clean');
 const hpp = require('hpp');
 const { body, validationResult } = require('express-validator');
 const db = require('./db');
+
+// Initialize Stripe gracefully
+let stripe;
+if (process.env.STRIPE_SECRET_KEY) {
+  stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
+} else {
+  console.warn('WARNING: STRIPE_SECRET_KEY is missing. Payment features will be disabled.');
+}
+
 const app = express();
 
 // Rate Limiting
@@ -25,11 +36,12 @@ app.use(helmet({
   contentSecurityPolicy: {
     directives: {
       defaultSrc: ["'self'"],
-      scriptSrc: ["'self'", "'unsafe-inline'", "https://cdn.jsdelivr.net", "https://assets.calendly.com", "https://*.cloudflare.com"],
-      styleSrc: ["'self'", "'unsafe-inline'", "https://cdn.jsdelivr.net", "https://assets.calendly.com", "https://fonts.googleapis.com"],
+      scriptSrc: ["'self'", "'unsafe-inline'", "https://cdn.jsdelivr.net", "https://assets.calendly.com", "https://*.cloudflare.com", "https://cdnjs.cloudflare.com"],
+      styleSrc: ["'self'", "'unsafe-inline'", "https://cdn.jsdelivr.net", "https://assets.calendly.com", "https://fonts.googleapis.com", "https://cdnjs.cloudflare.com"],
+      styleSrcElem: ["'self'", "'unsafe-inline'", "https://cdn.jsdelivr.net", "https://cdnjs.cloudflare.com", "https://fonts.googleapis.com"],
       imgSrc: ["'self'", "data:", "https:"],
-      connectSrc: ["'self'", "https://*.cloudflare.com"],
-      fontSrc: ["'self'", "https://fonts.gstatic.com"],
+      connectSrc: ["'self'", "https://*.cloudflare.com", "https://cdnjs.cloudflare.com"],
+      fontSrc: ["'self'", "https://fonts.gstatic.com", "https://cdn.jsdelivr.net", "https://cdnjs.cloudflare.com"],
       objectSrc: ["'none'"],
       upgradeInsecureRequests: [],
     }
@@ -45,7 +57,37 @@ app.use(hpp());
 // Middleware
 app.use(express.json({ limit: '10kb' })); // Body limit to prevent DOS
 app.use(express.urlencoded({ extended: true, limit: '10kb' }));
+app.use('/admin', adminAuth);
 app.use(express.static('public'));
+
+// Admin basic-auth middleware (protect admin pages)
+function adminAuth(req, res, next) {
+  // Require environment vars ADMIN_USER and ADMIN_PASS to be set
+  const adminUser = process.env.ADMIN_USER;
+  const adminPass = process.env.ADMIN_PASS;
+
+  if (!adminUser || !adminPass) {
+    // If not configured, deny access to admin routes
+    return res.status(503).send('Admin authentication not configured');
+  }
+
+  const authHeader = req.headers.authorization;
+  if (!authHeader || !authHeader.startsWith('Basic ')) {
+    res.set('WWW-Authenticate', 'Basic realm="5Cypress Admin"');
+    return res.status(401).send('Authentication required');
+  }
+
+  const base64 = authHeader.split(' ')[1];
+  const creds = Buffer.from(base64, 'base64').toString('utf8');
+  const [user, pass] = creds.split(':');
+
+  if (user === adminUser && pass === adminPass) {
+    return next();
+  }
+
+  res.set('WWW-Authenticate', 'Basic realm="5Cypress Admin"');
+  return res.status(401).send('Invalid credentials');
+}
 
 // Structured Logging (Morgan)
 app.use(morgan(':remote-addr - :remote-user [:date[clf]] ":method :url HTTP/:http-version" :status :res[content-length] ":referrer" ":user-agent" - :response-time ms'));
@@ -58,6 +100,21 @@ let clients = [];
 // Work items storage (for operations dashboard)
 let workItems = [];
 let workItemCounter = 0;
+
+function getMarketingBasePath() {
+  return process.env.MARKETING_TEAM_PATH || path.join(__dirname, 'marketing-team');
+}
+
+function getClientsConfigPath() {
+  const marketingBase = getMarketingBasePath();
+  const marketingConfigPath = path.join(marketingBase, 'config', 'clients.json');
+
+  if (fs.existsSync(marketingConfigPath)) {
+    return marketingConfigPath;
+  }
+
+  return path.join(__dirname, 'config', 'clients.json');
+}
 
 // Routes - Pages
 app.get('/', (req, res) => {
@@ -80,8 +137,318 @@ app.get('/seo-dashboard', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'seo-dashboard.html'));
 });
 
+app.get('/marketing', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'marketing-dashboard.html'));
+});
+
+// SEO Config Endpoint - tells frontend what features are enabled
+app.get('/api/seo/config', (req, res) => {
+  const adminUser = process.env.ADMIN_USER;
+  const adminPass = process.env.ADMIN_PASS;
+  let isAdmin = false;
+
+  const authHeader = req.headers.authorization;
+  if (authHeader && authHeader.startsWith('Basic ') && adminUser && adminPass) {
+    const base64 = authHeader.split(' ')[1];
+    const creds = Buffer.from(base64, 'base64').toString('utf8');
+    const [user, pass] = creds.split(':');
+    if (user === adminUser && pass === adminPass) isAdmin = true;
+  }
+
+  res.json({
+    stripe_enabled: !!(stripe && process.env.STRIPE_SECRET_KEY),
+    is_admin: isAdmin,
+    dataforseo_enabled: !!(process.env.DATAFORSEO_USERNAME && process.env.DATAFORSEO_PASSWORD),
+    pagespeed_enabled: !!process.env.GOOGLE_PAGESPEED_API_KEY,
+    calendly_url: process.env.CALENDLY_URL || 'https://calendly.com/5cypress/discovery',
+    brand: '5 Cypress Automation'
+  });
+});
+
 app.get('/preview-work-item', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'preview-work-item.html'));
+});
+
+app.get('/health', (req, res) => {
+  res.status(200).json({
+    status: 'ok',
+    service: '5cypress-admin-api',
+    timestamp: new Date().toISOString()
+  });
+});
+
+app.get('/admin', adminAuth, (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'admin', 'index.html'));
+});
+
+app.get('/admin/clients', adminAuth, (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'admin', 'clients.html'));
+});
+
+app.get('/admin/seo', adminAuth, (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'admin', 'seo.html'));
+});
+
+app.get('/admin/marketing', adminAuth, (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'admin', 'marketing.html'));
+});
+
+app.get('/admin/leads', adminAuth, (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'admin', 'leads.html'));
+});
+
+// Admin-only: New client intake form (GET)
+app.get('/admin/newclient', adminAuth, (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'admin', 'newclient-form.html'));
+});
+
+// Admin-only: Create client scaffold files (POST)
+app.post('/admin/newclient', adminAuth, [
+  body('company_name').trim().notEmpty().isLength({ max: 100 }).escape(),
+  body('website').optional({ checkFalsy: true }).trim().isURL({ require_protocol: false }),
+  body('industry').trim().notEmpty().isLength({ max: 100 }).escape(),
+  body('contact_name').trim().notEmpty().isLength({ max: 150 }).escape(),
+  body('contact_email').optional({ checkFalsy: true }).isEmail().normalizeEmail(),
+  body('what_they_sell').trim().notEmpty().isLength({ max: 1000 }),
+  body('who_they_sell_to').trim().notEmpty().isLength({ max: 300 }),
+  body('main_goal').trim().notEmpty().isLength({ max: 300 }),
+  body('services').optional({ checkFalsy: true }).trim().isLength({ max: 500 }),
+  body('automations').optional({ checkFalsy: true }).trim().isLength({ max: 500 }),
+  body('contract_start').optional({ checkFalsy: true }).isISO8601(),
+  body('bio').optional({ checkFalsy: true }).trim().isLength({ max: 3000 }),
+], (req, res) => {
+  const fs = require('fs');
+
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
+
+  const {
+    company_name, website, industry, contact_name, contact_email,
+    what_they_sell, who_they_sell_to, main_goal,
+    services, automations, contract_start, bio
+  } = req.body;
+
+  const todayStr = new Date().toISOString().split('T')[0];
+  const clientId = company_name.toLowerCase().replace(/[^a-z0-9\s-]/g, '').trim().replace(/\s+/g, '-');
+
+  // Resolve marketing team path (override with MARKETING_TEAM_PATH env var if needed)
+  const marketingBase = getMarketingBasePath();
+
+  const configDir   = path.join(marketingBase, 'config');
+  const contextDir  = path.join(marketingBase, 'context');
+  const clientsDir  = path.join(marketingBase, 'clients', clientId);
+  const outputDir   = path.join(marketingBase, 'output', clientId);
+  const meetingsDir = path.join(clientsDir, 'meetings');
+  const assetsDir   = path.join(clientsDir, 'assets');
+
+  // Reject path traversal attempts
+  const safeDirs = [configDir, contextDir, clientsDir, outputDir, meetingsDir, assetsDir];
+  for (const d of safeDirs) {
+    if (!d.startsWith(marketingBase)) {
+      return res.status(400).json({ error: 'Invalid client ID — path traversal detected' });
+    }
+  }
+
+  const serviceList = (services || '').split(',').map(s => s.trim()).filter(Boolean);
+  const autoList    = (automations || '').split(',').map(s => s.trim()).filter(Boolean);
+
+  // ----- Build file contents -----
+
+  const jsonEntry = {
+    id: clientId,
+    name: company_name,
+    status: 'active',
+    industry,
+    contact_name,
+    contact_email: contact_email || '(TBD)',
+    website: website || '(TBD)',
+    onboarded: todayStr,
+    contract_start: contract_start || todayStr,
+    billing_cycle: 'monthly',
+    services: serviceList,
+    automations: { count: autoList.length, active: [], proposed: autoList },
+    files: {
+      context: `context/${clientId}.md`,
+      history: `clients/${clientId}/history.md`,
+      automations: `clients/${clientId}/automations.md`,
+      output_folder: `output/${clientId}/`
+    },
+    notes: (bio || '').substring(0, 200)
+  };
+
+  const contextMd = `# Client Context: ${company_name}
+**ID:** ${clientId}
+**Status:** active
+**Last Updated:** ${todayStr}
+
+---
+
+## Company Overview
+- **Company name:** ${company_name}
+- **Website:** ${website || '(TBD)'}
+- **Industry:** ${industry}
+- **Primary contact:** ${contact_name}
+- **Contact email:** ${contact_email || '(TBD)'}
+- **Company size:** (TBD)
+- **Revenue / ARR:** (TBD)
+
+## What They Sell
+${what_they_sell}
+
+## Target Audience
+- **Ideal customer:** ${who_they_sell_to}
+- **Key pain points:** (TBD)
+- **Top objections:** (TBD)
+
+## Marketing Goals
+- **#1 goal:** ${main_goal}
+- **90-day success:** (TBD)
+- **KPIs:** (TBD)
+
+## Services We're Providing
+${serviceList.length ? serviceList.map(s => `- ${s}`).join('\n') : '- (TBD)'}
+
+## Current Marketing Status
+- **Active channels:** (TBD)
+- **Email list size:** (TBD)
+- **Monthly website traffic:** (TBD)
+
+## Tools & Integrations
+- **CRM:** (TBD)
+- **Email platform:** (TBD)
+
+## Competitors
+- (TBD)
+
+## Brand Voice & Preferences
+- **Tone:** (TBD)
+
+## Notes & Background
+${bio || '(TBD)'}
+`;
+
+  const historyMd = `# Client History: ${company_name}
+**ID:** ${clientId}
+**Onboarded:** ${todayStr}
+**Status:** active
+**Primary Contact:** ${contact_name}
+
+---
+
+## Work Log
+
+| Date | Deliverable | Skill/Workflow Used | File Location | Notes |
+|------|------------|-------------------|--------------|-------|
+| ${todayStr} | Client onboarded | /newclient | context/${clientId}.md | Initial setup |
+
+---
+
+## Meeting Notes
+
+*(Add meeting notes here)*
+
+---
+
+## Client Preferences & Standing Instructions
+
+*(Fill in as learned)*
+
+---
+
+## Campaign Performance
+
+| Campaign | Launch Date | Type | Primary Metric | Result | Notes |
+|----------|------------|------|---------------|--------|-------|
+| | | | | | |
+`;
+
+  const automationsMd = `# Automation Tracker: ${company_name}
+**ID:** ${clientId}
+**Last Updated:** ${todayStr}
+
+---
+
+## Active Automations
+
+| ID | Automation Name | Type | Status | Created | Tools | Notes |
+|----|----------------|------|--------|---------|-------|-------|
+| — | None yet | — | — | — | — | — |
+
+### Status Key
+- 🟢 **Live** — Running in production
+- 🟡 **In Progress** — Being built or tested
+- 🔵 **Proposed** — Scoped, not started
+- 🔴 **Paused** — Built but not running
+- ⚫ **Retired** — No longer in use
+
+---
+
+## Proposed Automations
+${autoList.length ? autoList.map(a => `- ${a}`).join('\n') : '- None yet'}
+
+---
+
+## Integration Map
+
+| Tool / API | Purpose | Auth Method | Status | Notes |
+|------------|---------|------------|--------|-------|
+| | | | | |
+
+---
+
+## Monthly Health Check
+
+| Month | Automations Running | Errors | Fixes Applied | Notes |
+|-------|-------------------|--------|--------------|-------|
+| | | | | |
+`;
+
+  // ----- Write files -----
+  try {
+    // Ensure all directories exist
+    [configDir, contextDir, clientsDir, outputDir, meetingsDir, assetsDir].forEach(d => {
+      fs.mkdirSync(d, { recursive: true });
+    });
+
+    // Update (or create) config/clients.json
+    const clientsJsonPath = path.join(configDir, 'clients.json');
+    let clientsList = { agency: '5 Cypress Automation', last_updated: todayStr, clients: [] };
+    if (fs.existsSync(clientsJsonPath)) {
+      try { clientsList = JSON.parse(fs.readFileSync(clientsJsonPath, 'utf8')); } catch (_) {}
+    }
+    // Remove existing entry with same id then push updated
+    clientsList.clients = clientsList.clients.filter(c => c.id !== clientId);
+    clientsList.clients.push(jsonEntry);
+    clientsList.last_updated = todayStr;
+    fs.writeFileSync(clientsJsonPath, JSON.stringify(clientsList, null, 2), 'utf8');
+
+    // Write context file
+    fs.writeFileSync(path.join(contextDir, `${clientId}.md`), contextMd, 'utf8');
+
+    // Write history + automations
+    fs.writeFileSync(path.join(clientsDir, 'history.md'), historyMd, 'utf8');
+    fs.writeFileSync(path.join(clientsDir, 'automations.md'), automationsMd, 'utf8');
+
+    console.log(`[ADMIN] New client scaffolded: ${clientId} (${company_name})`);
+
+    res.json({
+      success: true,
+      clientId,
+      files: {
+        context: `context/${clientId}.md`,
+        history: `clients/${clientId}/history.md`,
+        automations: `clients/${clientId}/automations.md`,
+        config: 'config/clients.json (updated)',
+        output: `output/${clientId}/ (folder created)`
+      }
+    });
+
+  } catch (err) {
+    console.error('[ADMIN] Failed to scaffold client files:', err);
+    res.status(500).json({ error: 'Failed to write client files', detail: err.message });
+  }
 });
 
 // Client Dashboard Routes
@@ -369,17 +736,194 @@ app.post('/api/work-items/:id/execute', (req, res) => {
   });
 });
 
+app.get('/admin/api/clients', adminAuth, (req, res) => {
+  try {
+    const clientsPath = getClientsConfigPath();
+
+    if (!fs.existsSync(clientsPath)) {
+      return res.status(404).json({ error: 'clients.json not found' });
+    }
+
+    const raw = fs.readFileSync(clientsPath, 'utf8');
+    const parsed = JSON.parse(raw);
+    const data = Array.isArray(parsed?.clients) ? parsed.clients : [];
+
+    return res.json({
+      source: clientsPath,
+      count: data.length,
+      clients: data
+    });
+  } catch (error) {
+    console.error('[ADMIN] Failed to load clients list:', error);
+    return res.status(500).json({ error: 'Failed to load clients', detail: error.message });
+  }
+});
+
+app.get('/admin/api/seo-audit', adminAuth, async (req, res) => {
+  try {
+    const target = String(req.query.url || '').trim();
+    const strategy = String(req.query.strategy || 'mobile').trim().toLowerCase();
+    const apiKey = process.env.GOOGLE_PAGESPEED_API_KEY;
+
+    if (!apiKey) {
+      return res.status(503).json({ error: 'GOOGLE_PAGESPEED_API_KEY is not configured' });
+    }
+
+    if (!target) {
+      return res.status(400).json({ error: 'Missing required query param: url' });
+    }
+
+    const normalizedStrategy = strategy === 'desktop' ? 'desktop' : 'mobile';
+    const normalizedUrl = /^https?:\/\//i.test(target) ? target : `https://${target}`;
+
+    let validated;
+    try {
+      validated = new URL(normalizedUrl);
+    } catch (_) {
+      return res.status(400).json({ error: 'Invalid URL provided' });
+    }
+
+    const endpoint = new URL('https://www.googleapis.com/pagespeedonline/v5/runPagespeed');
+    endpoint.searchParams.set('url', validated.toString());
+    endpoint.searchParams.set('strategy', normalizedStrategy);
+    endpoint.searchParams.set('key', apiKey);
+    endpoint.searchParams.set('category', 'performance');
+    endpoint.searchParams.set('category', 'accessibility');
+    endpoint.searchParams.set('category', 'best-practices');
+    endpoint.searchParams.set('category', 'seo');
+
+    const response = await fetch(endpoint.toString(), {
+      method: 'GET',
+      headers: { Accept: 'application/json' }
+    });
+
+    const payload = await response.json();
+
+    if (!response.ok) {
+      return res.status(response.status).json({
+        error: 'PageSpeed request failed',
+        detail: payload?.error?.message || 'Unknown API error',
+        raw: payload
+      });
+    }
+
+    const categories = payload?.lighthouseResult?.categories || {};
+    const audits = payload?.lighthouseResult?.audits || {};
+    const loadingExperience = payload?.loadingExperience?.metrics || {};
+
+    return res.json({
+      fetchedAt: new Date().toISOString(),
+      requested: {
+        url: validated.toString(),
+        strategy: normalizedStrategy
+      },
+      scores: {
+        performance: categories.performance?.score ?? null,
+        accessibility: categories.accessibility?.score ?? null,
+        bestPractices: categories['best-practices']?.score ?? null,
+        seo: categories.seo?.score ?? null
+      },
+      vitals: {
+        lcp: audits['largest-contentful-paint']?.displayValue || null,
+        cls: audits['cumulative-layout-shift']?.displayValue || null,
+        inp: audits['interaction-to-next-paint']?.displayValue || null,
+        fcp: audits['first-contentful-paint']?.displayValue || null,
+        ttfb: audits['server-response-time']?.displayValue || null
+      },
+      fieldData: {
+        lcp: loadingExperience.LARGEST_CONTENTFUL_PAINT_MS?.percentile || null,
+        cls: loadingExperience.CUMULATIVE_LAYOUT_SHIFT_SCORE?.percentile || null,
+        inp: loadingExperience.INTERACTION_TO_NEXT_PAINT?.percentile || null,
+        fcp: loadingExperience.FIRST_CONTENTFUL_PAINT_MS?.percentile || null
+      },
+      lighthouseLink: payload?.lighthouseResult?.finalDisplayedUrl || validated.toString()
+    });
+  } catch (error) {
+    console.error('[ADMIN] SEO audit endpoint failed:', error);
+    return res.status(500).json({ error: 'Failed to run SEO audit', detail: error.message });
+  }
+});
+
 // Admin Pipeline Action API
-app.post('/api/admin/pipeline-action', (req, res) => {
+app.post('/admin/api/pipeline-action', adminAuth, (req, res) => {
   const { action, id, data } = req.body;
   console.log(`Received pipeline action: ${action} for ${id}`);
-  
-  // Simulate processing
   res.json({
     success: true,
     message: `Action ${action} processed successfully for ${id}`,
     timestamp: new Date().toISOString()
   });
+});
+
+// Admin: Recent leads from DB
+app.get('/admin/api/leads', adminAuth, (req, res) => {
+  try {
+    const limit = Math.min(parseInt(req.query.limit) || 50, 200);
+    const leads = db.prepare(`SELECT * FROM leads ORDER BY createdAt DESC LIMIT ?`).all(limit);
+    const total = db.prepare(`SELECT COUNT(*) as count FROM leads`).get().count;
+    res.json({ total, leads });
+  } catch (err) {
+    console.error('[ADMIN] Leads query failed:', err.message);
+    res.status(500).json({ error: 'Failed to load leads', detail: err.message });
+  }
+});
+
+// Admin: Dashboard summary stats
+app.get('/admin/api/stats', adminAuth, (req, res) => {
+  try {
+    const leadCount  = db.prepare(`SELECT COUNT(*) as c FROM leads`).get().c;
+    const clientCount = db.prepare(`SELECT COUNT(*) as c FROM clients`).get().c;
+    const auditCount = db.prepare(`SELECT COUNT(*) as c FROM seo_audits`).get().c;
+    const newLeads   = db.prepare(`SELECT COUNT(*) as c FROM leads WHERE createdAt >= datetime('now','-7 days')`).get().c;
+    res.json({ leadCount, clientCount, auditCount, newLeads, serverTime: new Date().toISOString() });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// Admin: Marketing team clients + output listing
+app.get('/admin/api/marketing', adminAuth, (req, res) => {
+  try {
+    const mktgPath = process.env.MARKETING_TEAM_PATH || path.join(__dirname, 'marketing-team');
+    const contextDir  = path.join(mktgPath, 'context');
+    const outputDir   = path.join(mktgPath, 'output');
+
+    const clients = [];
+    if (fs.existsSync(contextDir)) {
+      fs.readdirSync(contextDir).filter(f => f.endsWith('.md') && f !== 'agency.md' && f !== 'client-template.md').forEach(file => {
+        const slug = file.replace('.md', '');
+        const outputs = [];
+        const clientOutputDir = path.join(outputDir, slug);
+        if (fs.existsSync(clientOutputDir)) {
+          fs.readdirSync(clientOutputDir).forEach(outFile => {
+            const stat = fs.statSync(path.join(clientOutputDir, outFile));
+            outputs.push({ name: outFile, size: stat.size, modified: stat.mtime.toISOString() });
+          });
+        }
+        clients.push({ slug, contextFile: file, outputCount: outputs.length, outputs });
+      });
+    }
+    res.json({ mktgPath, clientCount: clients.length, clients });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// Admin: Serve a marketing output file (HTML preview)
+app.get('/admin/api/marketing/file', adminAuth, (req, res) => {
+  try {
+    const mktgPath = process.env.MARKETING_TEAM_PATH || path.join(__dirname, 'marketing-team');
+    const { client, file } = req.query;
+    if (!client || !file) return res.status(400).json({ error: 'client and file params required' });
+    // Sanitize to prevent path traversal
+    const safeClient = path.basename(client);
+    const safeFile   = path.basename(file);
+    const filePath   = path.join(mktgPath, 'output', safeClient, safeFile);
+    if (!fs.existsSync(filePath)) return res.status(404).json({ error: 'File not found' });
+    res.sendFile(filePath);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
 });
 
 // Helper function to generate preview data
@@ -505,14 +1049,14 @@ app.post('/api/lead-capture', (req, res) => {
   });
 });
 
-// Get all leads (admin)
-app.get('/api/leads', (req, res) => {
+// Get all leads (admin — requires auth)
+app.get('/api/leads', adminAuth, (req, res) => {
   res.json(leads);
 });
 
 // SEO Analysis API
 app.post('/api/seo/analyze', async (req, res) => {
-  const { website_url } = req.body;
+  const { website_url, keywords, modules, competitors } = req.body;
   
   if (!website_url) {
     return res.status(400).json({ error: 'Missing website_url parameter' });
@@ -520,13 +1064,14 @@ app.post('/api/seo/analyze', async (req, res) => {
   
   // Validate URL format
   try {
-    new URL(website_url);
+    new URL(website_url.startsWith('http') ? website_url : 'https://' + website_url);
   } catch (e) {
     return res.status(400).json({ error: 'Invalid URL format' });
   }
   
   const { spawn } = require('child_process');
   const fs = require('fs');
+  const path = require('path');
   
   // Create output path
   const outputDir = path.join(__dirname, '.tmp', 'seo_reports');
@@ -534,18 +1079,22 @@ app.post('/api/seo/analyze', async (req, res) => {
     fs.mkdirSync(outputDir, { recursive: true });
   }
   
-  const domain = new URL(website_url).hostname.replace(/[^a-z0-9]/gi, '-');
+  const domain = new URL(website_url.startsWith('http') ? website_url : 'https://' + website_url).hostname.replace(/[^a-z0-9]/gi, '-');
   const outputPath = path.join(outputDir, `${domain}.json`);
   
-  console.log(`Starting SEO analysis for ${website_url}`);
+  console.log(`Starting SEO analysis for ${website_url} with modules: ${modules}`);
   
-  // Spawn Python process
-  const pythonProcess = spawn('python', [
-    path.join(__dirname, 'execution', 'seo_orchestrator.py'),
+  // Spawn Python process - upgraded to DataForSEO runner
+  const pythonArgs = [
+    path.join(__dirname, 'execution', 'seo_audit_runner.py'),
     '--website-url', website_url,
-    '--output', outputPath,
-    '--max-pages', '30'
-  ]);
+    '--keywords', keywords ? (Array.isArray(keywords) ? keywords.join(',') : keywords) : '',
+    '--modules', modules ? (Array.isArray(modules) ? modules.join(',') : modules) : 'on_page',
+    '--competitors', competitors ? (Array.isArray(competitors) ? competitors.join(',') : competitors) : '',
+    '--output', outputPath
+  ];
+
+  const pythonProcess = spawn('python', pythonArgs);
   
   let stdout = '';
   let stderr = '';
@@ -573,6 +1122,19 @@ app.post('/api/seo/analyze', async (req, res) => {
     try {
       const reportData = fs.readFileSync(outputPath, 'utf8');
       const report = JSON.parse(reportData);
+      
+      // Cache in database
+      try {
+        const checkExists = db.prepare('SELECT id FROM seo_audits WHERE domain = ? AND status = "pending"').get(domain);
+        if (checkExists) {
+          db.prepare('UPDATE seo_audits SET report_data = ? WHERE id = ?').run(reportData, checkExists.id);
+        } else {
+          db.prepare('INSERT INTO seo_audits (domain, report_data, status) VALUES (?, ?, "pending")').run(domain, reportData);
+        }
+      } catch (dbErr) {
+        console.error('Database logging failed:', dbErr);
+      }
+
       res.json(report);
     } catch (e) {
       console.error('Failed to read SEO report:', e);
@@ -585,6 +1147,159 @@ app.post('/api/seo/analyze', async (req, res) => {
     pythonProcess.kill();
     res.status(504).json({ error: 'Analysis timeout - website may be too large or slow' });
   }, 120000);
+});
+
+// Admin: Free premium SEO report (no payment required)
+app.get('/api/seo/admin/report/:domain', adminAuth, (req, res) => {
+  const { domain } = req.params;
+  const safeDomain = domain.replace(/[^a-z0-9-]/gi, '-');
+  const reportPath = path.join(__dirname, '.tmp', 'seo_reports', `${safeDomain}.json`);
+
+  if (!fs.existsSync(reportPath)) {
+    return res.status(404).json({ error: 'No cached report found. Run /api/seo/analyze first.' });
+  }
+
+  try {
+    const report = JSON.parse(fs.readFileSync(reportPath, 'utf8'));
+    res.json({ ...report, admin_access: true, payment_bypassed: true });
+  } catch (e) {
+    res.status(500).json({ error: 'Failed to read report' });
+  }
+});
+
+// Stripe Checkout Session
+app.post('/api/seo/create-checkout-session', async (req, res) => {
+  const { domain, email } = req.body;
+
+  if (!domain) {
+    return res.status(400).json({ error: 'Domain is required' });
+  }
+
+  if (!stripe) {
+    // Graceful fallback: return Calendly URL instead of error
+    const calendlyUrl = process.env.CALENDLY_URL || 'https://calendly.com/5cypress/discovery';
+    return res.status(402).json({
+      error: 'stripe_not_configured',
+      message: 'Premium report available via consultation. Book a free call instead.',
+      fallback: 'calendly',
+      calendly_url: calendlyUrl
+    });
+  }
+
+  try {
+    const session = await stripe.checkout.sessions.create({
+      payment_method_types: ['card'],
+      customer_email: email,
+      line_items: [
+        {
+          price_data: {
+            currency: 'usd',
+            product_data: {
+              name: 'SEO Intelligence Audit - Premium Dossier',
+              description: `Deep structural audit and vulnerability report for ${domain}`,
+            },
+            unit_amount: 5000, // $50.00
+          },
+          quantity: 1,
+        },
+      ],
+      mode: 'payment',
+      success_url: `${process.env.STRIPE_SUCCESS_URL || 'http://localhost:3000/seo-report.html'}?domain=${domain}&session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: `${process.env.STRIPE_CANCEL_URL || 'http://localhost:3000/seo-dashboard.html'}`,
+      metadata: {
+        domain: domain,
+        audit_type: 'premium_dossier'
+      }
+    });
+
+    // Update the record with the session ID
+    db.prepare('UPDATE seo_audits SET session_id = ?, email = ? WHERE domain = ? AND status = "pending"')
+      .run(session.id, email, domain);
+
+    res.json({ id: session.id, url: session.url });
+  } catch (error) {
+    console.error('Stripe error:', error);
+    res.status(500).json({ error: 'Failed to create checkout session' });
+  }
+});
+
+// Verify Payment and Retrieve Report
+app.get('/api/seo/report/:sessionId', async (req, res) => {
+  const { sessionId } = req.params;
+  const { domain } = req.query;
+
+  try {
+    // Check if session is paid in Stripe
+    const audit = db.prepare('SELECT * FROM seo_audits WHERE session_id = ?').get(sessionId);
+    
+    if (!audit) {
+      return res.status(404).json({ error: 'Audit not found' });
+    }
+
+    if (audit.status !== 'paid') {
+      if (!stripe) {
+        return res.status(503).json({ error: 'Payment verification unavailable (Stripe not configured).' });
+      }
+      const session = await stripe.checkout.sessions.retrieve(sessionId);
+      if (session.payment_status === 'paid') {
+        db.prepare('UPDATE seo_audits SET status = "paid" WHERE session_id = ?').run(sessionId);
+        audit.status = 'paid';
+      }
+    }
+
+    if (audit.status === 'paid') {
+      res.json(JSON.parse(audit.report_data));
+    } else {
+      res.status(402).json({ error: 'Payment required', status: audit.status });
+    }
+  } catch (error) {
+    console.error('Verification error:', error);
+    res.status(500).json({ error: 'Failed to verify payment or retrieve report' });
+  }
+});
+
+// General Contact / Lead Capture API
+app.post('/api/contact', [
+  body('name').trim().notEmpty().isLength({ max: 150 }).escape(),
+  body('email').isEmail().normalizeEmail(),
+  body('website').optional({ checkFalsy: true }).trim().isLength({ max: 200 }),
+  body('source').optional().trim().escape(),
+  body('scanned_domain').optional().trim().isLength({ max: 200 }),
+  body('challenge').optional().trim().isLength({ max: 2000 }),
+  body('details').optional().trim().isLength({ max: 2000 }),
+  body('company').optional().trim().isLength({ max: 200 }).escape(),
+  body('timeline').optional().trim().escape(),
+], (req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
+
+  const { name, email, website, source, scanned_domain, challenge, details, company, timeline } = req.body;
+  const timestamp = new Date().toISOString();
+
+  // Log lead to database
+  try {
+    db.prepare(`
+      INSERT INTO leads (name, email, company, website, source, scanned_domain, challenge, timeline)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+    `).run(
+      name,
+      email,
+      company || null,
+      website || null,
+      source || null,
+      scanned_domain || null,
+      (challenge || details) || null,
+      timeline || null
+    );
+  } catch (dbErr) {
+    console.error('Lead DB log failed (non-fatal):', dbErr.message);
+  }
+
+  console.log(`[LEAD] ${name} <${email}> from ${source || 'website'} @ ${timestamp}`);
+
+  res.json({ success: true, message: 'Received. We\'ll be in touch within one business day.' });
 });
 
 // Get cached SEO report
@@ -640,7 +1355,7 @@ app.get('/api/skills', (req, res) => {
   res.json(skills);
 });
 
-app.post('/api/skills/:id/run', (req, res) => {
+app.post('/api/skills/:id/run', adminAuth, (req, res) => {
   const fs = require('fs');
   if (!fs.existsSync(skillsPath)) {
     return res.status(404).json({ error: 'Skills config not found' });

@@ -1,7 +1,7 @@
 # Endurance Document Architecture Service
 
 ## Overview
-Enterprise-grade document generation engine from 5 Cypress Labs. We create resilient, legally-compliant contracts, proposals, and policies that act as the formal roots of your business expansion. Our AI-driven logic transforms simple inputs into polished, branded assets designed for growth.
+Enterprise-grade document generation engine from 5 Cypress Automation. We create resilient, legally-compliant contracts, proposals, and policies that act as the formal roots of your business expansion. Our AI-driven logic transforms simple inputs into polished, branded assets designed for growth.
 
 ## Service Tier
 

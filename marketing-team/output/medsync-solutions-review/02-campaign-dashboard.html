@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Campaign Dashboard — MedSync Solutions</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+  :root{
+    --green:#1B4332;--green-mid:#2D6A4F;--green-light:#52B788;--accent:#D8F3DC;
+    --yellow:#F59E0B;--red:#EF4444;--blue:#3B82F6;
+    --bg:#0f1117;--card:#1a1e2a;--border:#2d3347;--text:#e5e7eb;--muted:#9ca3af;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+
+  /* Header */
+  header{background:linear-gradient(90deg,var(--green) 0%,var(--green-mid) 100%);
+    padding:20px 32px;display:flex;align-items:center;gap:20px;justify-content:space-between;flex-wrap:wrap}
+  .logo{font-weight:700;font-size:1rem;color:#fff;opacity:.8}
+  header h1{font-size:1.25rem;font-weight:700;color:#fff}
+  .period{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);
+    border-radius:100px;padding:4px 14px;font-size:.78rem;color:rgba(255,255,255,.85)}
+
+  /* Filter bar */
+  .filters{display:flex;gap:10px;padding:20px 32px;flex-wrap:wrap;align-items:center;border-bottom:1px solid var(--border)}
+  .filter-label{font-size:.8rem;color:var(--muted);margin-right:4px}
+  .btn-filter{background:var(--card);border:1px solid var(--border);color:var(--muted);
+    padding:6px 14px;border-radius:100px;font-size:.8rem;cursor:pointer;transition:.2s}
+  .btn-filter.active,.btn-filter:hover{background:var(--green);border-color:var(--green-light);color:#fff}
+
+  /* Main grid */
+  .dash{padding:24px 32px;display:grid;gap:20px;grid-template-columns:1fr 1fr 1fr 1fr}
+  @media(max-width:900px){.dash{grid-template-columns:1fr 1fr;padding:16px}}
+  @media(max-width:560px){.dash{grid-template-columns:1fr;padding:12px}}
+
+  /* KPI cards */
+  .kpi{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:20px;grid-column:span 1}
+  .kpi .label{font-size:.72rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
+  .kpi .val{font-size:2rem;font-weight:700;line-height:1}
+  .kpi .delta{font-size:.78rem;margin-top:6px}
+  .kpi .delta.up{color:#34d399}.kpi .delta.down{color:var(--red)}
+  .kpi .bar{height:4px;background:#2d3347;border-radius:4px;margin-top:12px;overflow:hidden}
+  .kpi .bar-fill{height:100%;border-radius:4px}
+
+  /* Charts */
+  .chart-card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:24px}
+  .chart-card.span2{grid-column:span 2}
+  .chart-card.span4{grid-column:span 4}
+  @media(max-width:900px){.chart-card.span2,.chart-card.span4{grid-column:span 2}}
+  @media(max-width:560px){.chart-card.span2,.chart-card.span4{grid-column:span 1}}
+  .chart-card h3{font-size:.88rem;font-weight:600;color:var(--text);margin-bottom:16px;display:flex;align-items:center;justify-content:space-between}
+  .chart-card h3 span{font-size:.72rem;color:var(--muted);font-weight:400}
+  .chart-wrap{position:relative;height:260px}
+  .chart-wrap-sm{height:200px}
+
+  /* Table */
+  .data-table{width:100%;border-collapse:collapse;font-size:.82rem}
+  .data-table th{color:var(--muted);font-weight:600;padding:8px 12px;border-bottom:1px solid var(--border);text-align:left;font-size:.75rem;text-transform:uppercase;letter-spacing:.08em}
+  .data-table td{padding:10px 12px;border-bottom:1px solid var(--border)}
+  .data-table tr:last-child td{border-bottom:none}
+  .data-table td.good{color:#34d399}.data-table td.bad{color:var(--red)}.data-table td.mid{color:var(--yellow)}
+
+  footer{text-align:center;padding:24px;font-size:.75rem;color:var(--muted);border-top:1px solid var(--border)}
+</style>
+</head>
+<body>
+
+<header>
+  <div>
+    <div class="logo">5 Cypress Automation</div>
+    <h1>MedSync Solutions — Campaign Performance Dashboard</h1>
+  </div>
+  <div class="period">Q1 2026 · 90-Day View · Last updated Feb 23, 2026</div>
+</header>
+
+<div class="filters">
+  <span class="filter-label">Channel:</span>
+  <button class="btn-filter active" onclick="filterChannel('all',this)">All Channels</button>
+  <button class="btn-filter" onclick="filterChannel('google',this)">Google Ads</button>
+  <button class="btn-filter" onclick="filterChannel('email',this)">Email</button>
+  <button class="btn-filter" onclick="filterChannel('linkedin',this)">LinkedIn</button>
+</div>
+
+<div class="dash">
+  <!-- KPIs -->
+  <div class="kpi">
+    <div class="label">Total Demo Requests</div>
+    <div class="val" id="kpi-demos">47</div>
+    <div class="delta up" id="kpi-demos-d">↑ +182% vs prior 90 days</div>
+    <div class="bar"><div class="bar-fill" style="width:62%;background:var(--green-light)"></div></div>
+  </div>
+  <div class="kpi">
+    <div class="label">Trial Starts</div>
+    <div class="val" id="kpi-trials">31</div>
+    <div class="delta up" id="kpi-trials-d">↑ +124% vs prior period</div>
+    <div class="bar"><div class="bar-fill" style="width:52%;background:#3B82F6"></div></div>
+  </div>
+  <div class="kpi">
+    <div class="label">Total Spend</div>
+    <div class="val" id="kpi-spend">$4,820</div>
+    <div class="delta mid" id="kpi-spend-d">Google Ads + LinkedIn</div>
+    <div class="bar"><div class="bar-fill" style="width:74%;background:var(--yellow)"></div></div>
+  </div>
+  <div class="kpi">
+    <div class="label">Cost Per Demo</div>
+    <div class="val" id="kpi-cpd">$103</div>
+    <div class="delta up" id="kpi-cpd-d">↓ Below $120 target</div>
+    <div class="bar"><div class="bar-fill" style="width:86%;background:#34d399"></div></div>
+  </div>
+
+  <!-- Trend line: impressions / clicks / conversions -->
+  <div class="chart-card span4">
+    <h3>Daily Performance Trend — All Channels <span>Impressions · Clicks · Conversions</span></h3>
+    <div class="chart-wrap"><canvas id="trendChart"></canvas></div>
+  </div>
+
+  <!-- Channel comparison bar -->
+  <div class="chart-card span2">
+    <h3>Channel Comparison <span>CTR · Cost Per Click · Demo Rate</span></h3>
+    <div class="chart-wrap chart-wrap-sm"><canvas id="channelChart"></canvas></div>
+  </div>
+
+  <!-- Spend donut -->
+  <div class="chart-card">
+    <h3>Spend Breakdown</h3>
+    <div class="chart-wrap chart-wrap-sm"><canvas id="spendChart"></canvas></div>
+  </div>
+
+  <!-- Conversion funnel -->
+  <div class="chart-card">
+    <h3>Conversion Funnel</h3>
+    <div class="chart-wrap chart-wrap-sm"><canvas id="funnelChart"></canvas></div>
+  </div>
+
+  <!-- Channel breakdown table -->
+  <div class="chart-card span4">
+    <h3>Channel Breakdown — 90-Day Summary</h3>
+    <table class="data-table">
+      <thead>
+        <tr><th>Channel</th><th>Impressions</th><th>Clicks</th><th>CTR</th><th>Spend</th><th>CPC</th><th>Demos</th><th>Trials</th><th>Cost/Demo</th><th>vs Target</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Google Ads</strong></td>
+          <td>84,200</td><td>2,105</td>
+          <td class="good">2.50%</td>
+          <td>$3,200</td><td>$1.52</td>
+          <td class="good">28</td><td>19</td>
+          <td class="good">$114</td>
+          <td class="good">✓ On target</td>
+        </tr>
+        <tr>
+          <td><strong>Email Nurture</strong></td>
+          <td>—</td><td>640 sent</td>
+          <td class="good">31.4% open / 5.2% CTR</td>
+          <td>$0</td><td>—</td>
+          <td class="good">14</td><td>9</td>
+          <td class="good">$0</td>
+          <td class="good">✓ Exceeded</td>
+        </tr>
+        <tr>
+          <td><strong>LinkedIn</strong></td>
+          <td>18,400</td><td>310</td>
+          <td class="mid">1.68%</td>
+          <td>$1,620</td><td>$5.22</td>
+          <td class="mid">5</td><td>3</td>
+          <td class="bad">$324</td>
+          <td class="bad">✗ Over target</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<footer>5 Cypress Automation · MedSync Solutions Campaign Dashboard · 90-Day Period: Dec 2025 – Feb 2026 · Data is synthetic for planning purposes</footer>
+
+<script>
+// ── Generate 90 days of synthetic data ──
+function makeData() {
+  const labels=[], imp=[], clicks=[], convs=[], goog=[], em=[], li=[];
+  let base_imp=800, base_click=18, base_conv=0.4;
+  const start=new Date('2025-12-01');
+  for(let i=0;i<90;i++){
+    const d=new Date(start); d.setDate(d.getDate()+i);
+    labels.push(d.toLocaleDateString('en-US',{month:'short',day:'numeric'}));
+    const growth=1+i*0.008;
+    const noise=()=>0.8+Math.random()*0.4;
+    const dayImp=Math.round(base_imp*growth*noise());
+    const dayClick=Math.round(base_click*growth*noise());
+    const dayConv=Math.round(base_conv*(1+i*0.015)*noise());
+    imp.push(dayImp); clicks.push(dayClick); convs.push(dayConv);
+    goog.push(Math.round(dayConv*0.6));
+    em.push(Math.round(dayConv*0.3));
+    li.push(Math.round(dayConv*0.1));
+  }
+  return {labels,imp,clicks,convs,goog,em,li};
+}
+const D=makeData();
+let currentChannel='all';
+
+const tooltipStyle={
+  backgroundColor:'#1a1e2a',borderColor:'#2d3347',borderWidth:1,
+  titleColor:'#e5e7eb',bodyColor:'#9ca3af',padding:12,cornerRadius:8
+};
+
+// Trend chart
+const trendCtx=document.getElementById('trendChart').getContext('2d');
+let trendChart=new Chart(trendCtx,{
+  type:'line',
+  data:{
+    labels:D.labels,
+    datasets:[
+      {label:'Impressions',data:D.imp,borderColor:'#3B82F6',backgroundColor:'rgba(59,130,246,.08)',tension:.4,yAxisID:'y1',pointRadius:0,borderWidth:2},
+      {label:'Clicks',data:D.clicks,borderColor:'#52B788',backgroundColor:'rgba(82,183,136,.08)',tension:.4,yAxisID:'y2',pointRadius:0,borderWidth:2},
+      {label:'Conversions',data:D.convs,borderColor:'#F59E0B',backgroundColor:'rgba(245,158,11,.15)',tension:.4,yAxisID:'y2',fill:true,pointRadius:0,borderWidth:2},
+    ]
+  },
+  options:{
+    responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},
+    plugins:{legend:{labels:{color:'#9ca3af',boxWidth:12,font:{size:11}}},tooltip:{...tooltipStyle,mode:'index'}},
+    scales:{
+      x:{ticks:{color:'#6b7280',maxTicksLimit:12,font:{size:10}},grid:{color:'rgba(255,255,255,.04)'}},
+      y1:{type:'linear',position:'left',ticks:{color:'#3B82F6',font:{size:10}},grid:{color:'rgba(255,255,255,.04)'},title:{display:true,text:'Impressions',color:'#6b7280',font:{size:10}}},
+      y2:{type:'linear',position:'right',ticks:{color:'#52B788',font:{size:10}},grid:{display:false},title:{display:true,text:'Clicks / Conversions',color:'#6b7280',font:{size:10}}}
+    }
+  }
+});
+
+// Channel bar chart
+new Chart(document.getElementById('channelChart').getContext('2d'),{
+  type:'bar',
+  data:{
+    labels:['Google Ads','Email','LinkedIn'],
+    datasets:[
+      {label:'CTR (%)',data:[2.50,5.20,1.68],backgroundColor:['#52B788','#3B82F6','#F59E0B'],borderRadius:6},
+      {label:'Demo Rate (%)',data:[1.33,2.19,0.27],backgroundColor:['rgba(82,183,136,.35)','rgba(59,130,246,.35)','rgba(245,158,11,.35)'],borderRadius:6}
+    ]
+  },
+  options:{
+    responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{labels:{color:'#9ca3af',boxWidth:10,font:{size:10}}},tooltip:tooltipStyle},
+    scales:{
+      x:{ticks:{color:'#9ca3af',font:{size:11}},grid:{display:false}},
+      y:{ticks:{color:'#9ca3af',font:{size:10}},grid:{color:'rgba(255,255,255,.04)'}}
+    }
+  }
+});
+
+// Spend donut
+new Chart(document.getElementById('spendChart').getContext('2d'),{
+  type:'doughnut',
+  data:{
+    labels:['Google Ads','LinkedIn','Email (tools)'],
+    datasets:[{data:[3200,1620,0],backgroundColor:['#52B788','#F59E0B','#3B82F6'],borderWidth:0,hoverOffset:6}]
+  },
+  options:{
+    responsive:true,maintainAspectRatio:false,cutout:'65%',
+    plugins:{legend:{position:'bottom',labels:{color:'#9ca3af',boxWidth:10,font:{size:10}}},tooltip:tooltipStyle}
+  }
+});
+
+// Funnel bar
+new Chart(document.getElementById('funnelChart').getContext('2d'),{
+  type:'bar',
+  data:{
+    labels:['Impressions','Clicks','Demo Requests','Trials','Paid'],
+    datasets:[{
+      data:[102600,2415+640,47,31,9],
+      backgroundColor:['rgba(82,183,136,.25)','rgba(82,183,136,.4)','rgba(82,183,136,.6)','rgba(82,183,136,.8)','#52B788'],
+      borderRadius:6
+    }]
+  },
+  options:{
+    indexAxis:'y',responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{display:false},tooltip:tooltipStyle},
+    scales:{
+      x:{ticks:{color:'#9ca3af',font:{size:10}},grid:{color:'rgba(255,255,255,.04)'},type:'logarithmic'},
+      y:{ticks:{color:'#9ca3af',font:{size:11}},grid:{display:false}}
+    }
+  }
+});
+
+// Channel filter
+function filterChannel(ch, btn){
+  currentChannel=ch;
+  document.querySelectorAll('.btn-filter').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  let data;
+  if(ch==='google') data=D.goog;
+  else if(ch==='email') data=D.em;
+  else if(ch==='linkedin') data=D.li;
+  else data=D.convs;
+  trendChart.data.datasets[2].data=data;
+  trendChart.update();
+}
+</script>
+</body>
+</html>

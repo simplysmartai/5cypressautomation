@@ -1,0 +1,1406 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <title>Marketing Services | 5 Cypress — AI-Driven B2B Marketing for Tech &amp; Medical</title>
+  <meta name="description" content="Done-for-you B2B marketing powered by AI. Strategy briefs, email campaigns, social content, and performance reporting — built for small tech and medical companies. No guesswork. Real pipeline.">
+  <meta name="robots" content="index, follow">
+  <meta name="author" content="5 Cypress Automation">
+  <link rel="canonical" href="https://5cypress.com/marketing">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Marketing Services | 5 Cypress Automation">
+  <meta property="og:description" content="AI-powered B2B marketing for tech and medical companies. Strategy. Email. Content. Reporting — all done for you.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://5cypress.com/marketing">
+  <meta property="og:image" content="https://5cypress.com/assets/brand/logo-5cypress.jpg">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="AI Marketing Team | 5 Cypress Automation">
+  <meta name="twitter:description" content="B2B marketing that generates real pipeline, not just impressions.">
+  <meta name="twitter:image" content="https://5cypress.com/assets/brand/logo-5cypress.jpg">
+
+  <!-- PWA -->
+  <meta name="theme-color" content="#0a0a0c">
+
+  <!-- Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    "name": "5 Cypress Marketing Services",
+    "description": "AI-powered marketing services for small B2B tech and medical companies. Includes strategy briefs, email campaigns, social content, and performance reporting.",
+    "provider": {
+      "@type": "Organization",
+      "name": "5 Cypress Automation",
+      "url": "https://5cypress.com",
+      "logo": "https://5cypress.com/assets/brand/logo-5cypress.jpg",
+      "contactPoint": {"@type": "ContactPoint", "contactType": "sales", "email": "nick@5cypress.com"}
+    },
+    "serviceType": "B2B Marketing",
+    "areaServed": "United States",
+    "url": "https://5cypress.com/marketing",
+    "offers": [
+      {"@type": "Offer", "name": "Strategy Brief", "description": "Market research, competitive analysis, positioning, and 90-day roadmap."},
+      {"@type": "Offer", "name": "Email Campaigns", "description": "Nurture sequences, outreach campaigns, and re-engagement flows."},
+      {"@type": "Offer", "name": "Monthly Insights Report", "description": "Performance reporting, channel analysis, and KPI dashboards."}
+    ]
+  }
+  </script>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,800;1,400;1,700&family=Space+Grotesk:wght@400;500;600;700;800&family=DM+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/remixicon@4.0.0/fonts/remixicon.css" rel="stylesheet">
+
+  <!-- Site CSS -->
+  <link rel="stylesheet" href="design-system.css">
+  <link rel="stylesheet" href="styles-premium.css">
+  <link rel="stylesheet" href="styles-mobile-enhanced.css">
+
+  <style>
+    /* ── Marketing Dashboard Page-Level Styles ── */
+    .mktg-hero {
+      padding: clamp(140px, 18vw, 200px) 0 clamp(80px, 10vw, 120px);
+      position: relative;
+      overflow: hidden;
+      text-align: center;
+    }
+    .mktg-hero::before {
+      content: '';
+      position: absolute;
+      top: -200px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 800px;
+      height: 800px;
+      background: radial-gradient(circle, rgba(93,140,93,0.12) 0%, transparent 65%);
+      pointer-events: none;
+    }
+    .mktg-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--brand-primary);
+      background: rgba(93,140,93,0.08);
+      border: 1px solid rgba(93,140,93,0.25);
+      padding: 8px 20px;
+      border-radius: 100px;
+      margin-bottom: 28px;
+    }
+    .mktg-hero h1 {
+      font-size: clamp(2.6rem, 6vw, 4.5rem);
+      line-height: 1.1;
+      margin-bottom: 28px;
+      max-width: 900px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .mktg-hero .lead {
+      font-size: clamp(1.05rem, 2vw, 1.3rem);
+      color: var(--text-secondary);
+      line-height: 1.75;
+      max-width: 680px;
+      margin: 0 auto 48px;
+    }
+    .hero-cta-group {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-bottom: 72px;
+    }
+    .mktg-scroll-hint {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      color: var(--text-tertiary);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+    .mktg-scroll-hint-line {
+      width: 40px;
+      height: 1px;
+      background: var(--border-subtle);
+    }
+
+    /* ── Trust Bar ── */
+    .trust-bar {
+      border-top: 1px solid var(--border-subtle);
+      border-bottom: 1px solid var(--border-subtle);
+      padding: 28px 0;
+      background: rgba(255,255,255,0.015);
+    }
+    .trust-items {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: clamp(24px, 4vw, 64px);
+      flex-wrap: wrap;
+    }
+    .trust-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--text-tertiary);
+      font-size: 0.875rem;
+      white-space: nowrap;
+    }
+    .trust-item i { color: var(--brand-primary); font-size: 1.1rem; }
+
+    /* ── Workflow Section ── */
+    .workflow-section {
+      padding: clamp(80px, 10vw, 120px) 0;
+      position: relative;
+    }
+    .section-label {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--brand-primary);
+      margin-bottom: 16px;
+    }
+    .section-title {
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 700;
+      line-height: 1.2;
+      margin-bottom: 20px;
+      max-width: 700px;
+    }
+    .section-subtitle {
+      font-size: 1.05rem;
+      color: var(--text-secondary);
+      line-height: 1.7;
+      max-width: 640px;
+      margin-bottom: 60px;
+    }
+    .workflow-steps {
+      display: grid;
+      gap: 0;
+      position: relative;
+    }
+    .workflow-step {
+      display: grid;
+      grid-template-columns: 80px 1fr;
+      gap: 32px;
+      padding: 40px 0;
+      border-bottom: 1px solid var(--border-subtle);
+      position: relative;
+      transition: all 0.3s;
+    }
+    .workflow-step:last-child { border-bottom: none; }
+    .workflow-step:hover { transform: translateX(8px); }
+    .step-num-wrap {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0;
+    }
+    .step-number {
+      width: 56px;
+      height: 56px;
+      border-radius: 16px;
+      background: rgba(93,140,93,0.08);
+      border: 1px solid rgba(93,140,93,0.25);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-mono);
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--brand-primary);
+      flex-shrink: 0;
+    }
+    .step-connector {
+      width: 1px;
+      flex: 1;
+      background: linear-gradient(to bottom, rgba(93,140,93,0.3), transparent);
+      margin-top: 8px;
+    }
+    .step-content h3 {
+      font-family: var(--font-heading);
+      font-size: 1.3rem;
+      font-weight: 700;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .step-content h3 i { color: var(--brand-accent); font-size: 1.2rem; }
+    .step-content p { color: var(--text-secondary); line-height: 1.7; font-size: 0.95rem; margin-bottom: 16px; }
+    .step-tag-list {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .step-tag {
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      padding: 5px 12px;
+      border-radius: 100px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--border-subtle);
+      color: var(--text-tertiary);
+    }
+
+    /* ── Service Cards ── */
+    .services-section {
+      padding: clamp(80px, 10vw, 120px) 0;
+      background: rgba(255,255,255,0.01);
+    }
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 24px;
+      margin-top: 60px;
+    }
+    .service-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: 20px;
+      padding: 36px;
+      transition: all 0.35s cubic-bezier(0.23, 1, 0.32, 1);
+      position: relative;
+      overflow: hidden;
+      cursor: pointer;
+    }
+    .service-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--brand-primary), transparent);
+      opacity: 0;
+      transition: opacity 0.35s;
+    }
+    .service-card:hover {
+      border-color: var(--border-medium);
+      transform: translateY(-6px);
+      box-shadow: 0 24px 48px rgba(0,0,0,0.4);
+    }
+    .service-card:hover::before { opacity: 1; }
+    .service-card.featured {
+      border-color: rgba(93,140,93,0.35);
+      background: linear-gradient(135deg, rgba(93,140,93,0.06) 0%, var(--bg-surface) 60%);
+    }
+    .service-card.featured::before { opacity: 0.5; }
+    .service-icon-wrap {
+      width: 56px;
+      height: 56px;
+      border-radius: 16px;
+      background: rgba(93,140,93,0.1);
+      border: 1px solid rgba(93,140,93,0.25);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      color: var(--brand-primary);
+      margin-bottom: 24px;
+    }
+    .service-card.featured .service-icon-wrap {
+      background: rgba(251,191,36,0.1);
+      border-color: rgba(251,191,36,0.3);
+      color: var(--brand-accent);
+    }
+    .service-badge {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      padding: 5px 12px;
+      border-radius: 100px;
+      background: rgba(251,191,36,0.12);
+      border: 1px solid rgba(251,191,36,0.3);
+      color: var(--brand-accent);
+    }
+    .service-card h3 {
+      font-family: var(--font-heading);
+      font-size: 1.25rem;
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+    .service-card p {
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+      line-height: 1.7;
+      margin-bottom: 24px;
+    }
+    .service-deliverables {
+      list-style: none;
+      padding: 0;
+      margin: 0 0 28px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .service-deliverables li {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: 0.875rem;
+      color: var(--text-secondary);
+    }
+    .service-deliverables li::before {
+      content: '\f26f';
+      font-family: remixicon;
+      color: var(--brand-primary);
+      flex-shrink: 0;
+      font-size: 1rem;
+      line-height: 1.4;
+    }
+    .service-meta {
+      padding-top: 20px;
+      border-top: 1px solid var(--border-subtle);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .service-price {
+      font-family: var(--font-heading);
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--text-primary);
+    }
+    .service-timeframe {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      color: var(--text-tertiary);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+
+    /* ── Results Section ── */
+    .results-section {
+      padding: clamp(80px, 10vw, 120px) 0;
+    }
+    .results-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 24px;
+      margin-top: 60px;
+    }
+    .result-card {
+      background: rgba(93,140,93,0.04);
+      border: 1px solid rgba(93,140,93,0.15);
+      border-radius: 20px;
+      padding: 36px 28px;
+      text-align: center;
+      transition: all 0.3s;
+    }
+    .result-card:hover { border-color: rgba(93,140,93,0.35); transform: translateY(-4px); }
+    .result-number {
+      font-family: var(--font-display);
+      font-size: clamp(2.5rem, 5vw, 3.5rem);
+      font-weight: 700;
+      font-style: italic;
+      background: linear-gradient(135deg, var(--brand-primary), var(--brand-accent));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      line-height: 1.1;
+      margin-bottom: 8px;
+    }
+    .result-label {
+      font-size: 0.875rem;
+      color: var(--text-secondary);
+      line-height: 1.5;
+      font-weight: 500;
+    }
+
+    /* ── Workflow Animation Preview ── */
+    .workflow-preview {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: 20px;
+      padding: 32px;
+      font-family: var(--font-mono);
+      font-size: 0.82rem;
+      line-height: 1.9;
+      color: var(--text-secondary);
+      position: relative;
+      overflow: hidden;
+    }
+    .workflow-preview::before {
+      content: 'AI_WORKFLOW_LOG';
+      display: block;
+      color: var(--brand-primary);
+      font-weight: 700;
+      font-size: 0.7rem;
+      letter-spacing: 0.15em;
+      margin-bottom: 16px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+    .wf-line { display: flex; align-items: flex-start; gap: 10px; }
+    .wf-ts { color: var(--text-tertiary); flex-shrink: 0; }
+    .wf-ok { color: #4ade80; flex-shrink: 0; }
+    .wf-warn { color: var(--brand-accent); flex-shrink: 0; }
+    .wf-run { color: var(--brand-primary); flex-shrink: 0; }
+    .wf-text { color: var(--text-secondary); }
+
+    .typing-cursor {
+      display: inline-block;
+      width: 8px;
+      height: 14px;
+      background: var(--brand-primary);
+      margin-left: 2px;
+      animation: blink 1s step-end infinite;
+      vertical-align: text-bottom;
+    }
+    @keyframes blink { 0%,100%{opacity:1}50%{opacity:0} }
+
+    /* ── Pricing ── */
+    .pricing-section {
+      padding: clamp(80px, 10vw, 120px) 0;
+      background: rgba(255,255,255,0.01);
+    }
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 24px;
+      margin-top: 60px;
+    }
+    .pricing-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: 20px;
+      padding: 36px;
+      position: relative;
+      transition: all 0.35s;
+    }
+    .pricing-card.featured {
+      border-color: rgba(93,140,93,0.4);
+      background: linear-gradient(135deg, rgba(93,140,93,0.06) 0%, var(--bg-surface) 60%);
+    }
+    .pricing-card:hover { transform: translateY(-6px); box-shadow: 0 24px 48px rgba(0,0,0,0.4); }
+    .pricing-label {
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--brand-primary);
+      margin-bottom: 16px;
+    }
+    .pricing-label.accent { color: var(--brand-accent); }
+    .pricing-name { font-family: var(--font-heading); font-size: 1.3rem; font-weight: 700; margin-bottom: 8px; }
+    .pricing-tagline { font-size: 0.875rem; color: var(--text-secondary); margin-bottom: 28px; line-height: 1.6; }
+    .pricing-price {
+      display: flex;
+      align-items: baseline;
+      gap: 6px;
+      margin-bottom: 28px;
+      padding-bottom: 28px;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+    .price-amount {
+      font-family: var(--font-display);
+      font-size: 2.5rem;
+      font-weight: 700;
+      font-style: italic;
+      color: var(--text-primary);
+    }
+    .price-period {
+      font-size: 0.875rem;
+      color: var(--text-tertiary);
+      font-style: normal;
+    }
+    .pricing-includes {
+      list-style: none;
+      padding: 0;
+      margin: 0 0 32px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .pricing-includes li {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: 0.875rem;
+      color: var(--text-secondary);
+    }
+    .pricing-includes li i { color: var(--brand-primary); flex-shrink: 0; margin-top: 1px; }
+
+    /* ── CTA Section ── */
+    .cta-section {
+      padding: clamp(100px, 12vw, 160px) 0;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .cta-section::before {
+      content: '';
+      position: absolute;
+      bottom: -200px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 900px;
+      height: 600px;
+      background: radial-gradient(circle, rgba(93,140,93,0.1) 0%, transparent 65%);
+      pointer-events: none;
+    }
+    .cta-section h2 {
+      font-size: clamp(2.2rem, 5vw, 3.5rem);
+      font-weight: 700;
+      margin-bottom: 20px;
+      max-width: 720px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .cta-section p {
+      font-size: 1.1rem;
+      color: var(--text-secondary);
+      max-width: 560px;
+      margin: 0 auto 48px;
+      line-height: 1.7;
+    }
+
+    /* ── FAQ ── */
+    .faq-section {
+      padding: clamp(80px, 10vw, 120px) 0;
+    }
+    .faq-list {
+      margin-top: 60px;
+      max-width: 780px;
+    }
+    .faq-item {
+      border-bottom: 1px solid var(--border-subtle);
+    }
+    .faq-question {
+      width: 100%;
+      background: none;
+      border: none;
+      padding: 24px 0;
+      text-align: left;
+      font-family: var(--font-body);
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--text-primary);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      transition: color 0.2s;
+    }
+    .faq-question:hover { color: var(--brand-primary); }
+    .faq-question i { flex-shrink: 0; font-size: 1.3rem; color: var(--text-tertiary); transition: transform 0.3s; }
+    .faq-question.open i { transform: rotate(45deg); color: var(--brand-primary); }
+    .faq-answer {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s ease, padding 0.3s;
+    }
+    .faq-answer-inner {
+      padding-bottom: 24px;
+      color: var(--text-secondary);
+      font-size: 0.95rem;
+      line-height: 1.8;
+    }
+
+    /* ── Footer fix for this page ── */
+    .mktg-footer-label { color: var(--brand-accent); }
+
+    /* ── Responsive ── */
+    @media (max-width: 768px) {
+      .workflow-step { grid-template-columns: 48px 1fr; gap: 20px; }
+      .step-number { width: 44px; height: 44px; font-size: 0.9rem; }
+      .services-grid, .pricing-grid { grid-template-columns: 1fr; }
+      .results-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 480px) {
+      .results-grid { grid-template-columns: 1fr; }
+      .trust-items { gap: 16px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="atmosphere"></div>
+
+  <!-- Navigation -->
+  <nav class="navbar">
+    <div class="container nav-container">
+      <a href="/" class="logo">
+        <div class="logo-icon logo-pulse">
+          <img src="assets/brand/logo-5cypress.jpg" alt="5 Cypress Automation Logo">
+        </div>
+        <div class="logo-text-group">
+          <span class="logo-title text-gradient-special">5 Cypress</span>
+          <div class="logo-subtitle">
+            <span>A</span><span>U</span><span>T</span><span>O</span><span>M</span><span>A</span><span>T</span><span>I</span><span>O</span><span>N</span>
+          </div>
+        </div>
+      </a>
+
+      <div class="nav-menu">
+        <a href="/services.html" class="nav-link">Services</a>
+        <a href="/marketing" class="nav-link" style="color:var(--brand-primary);">Marketing</a>
+        <a href="/seo-dashboard" class="nav-link">SEO Audit</a>
+        <a href="/about.html" class="nav-link">About</a>
+      </div>
+
+      <div class="nav-actions">
+        <button onclick="openCalendly()" class="btn btn-primary btn-lg ripple">
+          Get Started <i class="ri-arrow-right-up-line"></i>
+        </button>
+      </div>
+
+      <button class="mobile-toggle" onclick="toggleMobileMenu()" aria-label="Toggle mobile menu">
+        <i class="ri-menu-line"></i>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Mobile Menu -->
+  <div class="mobile-menu" id="mobileMenu">
+    <button class="mobile-menu-close" onclick="closeMobileMenu()" aria-label="Close menu">
+      <i class="ri-close-line"></i>
+    </button>
+    <a href="/services.html" class="mobile-link" onclick="closeMobileMenu()">Services</a>
+    <a href="/marketing" class="mobile-link" onclick="closeMobileMenu()" style="color:var(--brand-primary);">Marketing</a>
+    <a href="/seo-dashboard" class="mobile-link" onclick="closeMobileMenu()">SEO Audit</a>
+    <a href="/about.html" class="mobile-link" onclick="closeMobileMenu()">About</a>
+    <button onclick="openCalendly(); closeMobileMenu();" class="btn btn-primary btn-lg btn-block ripple" style="margin-top: 24px;">
+      Get Started <i class="ri-arrow-right-up-line"></i>
+    </button>
+  </div>
+
+  <main id="main-content">
+
+    <!-- ── Hero ── -->
+    <section class="mktg-hero">
+      <div class="container">
+        <div class="mktg-eyebrow reveal">
+          <i class="ri-robot-line"></i>
+          <span>AI-Powered Marketing Team</span>
+          <i class="ri-checkbox-blank-circle-fill" style="font-size:5px;"></i>
+          <span>B2B Tech &amp; Medical</span>
+        </div>
+        <h1 class="reveal">
+          Your marketing team.<br>
+          <em class="text-gradient">Running on AI. Shipping like a pro.</em>
+        </h1>
+        <p class="lead reveal">
+          Stop spinning your wheels on marketing that doesn't convert. We build the strategy, write the campaigns, and deliver the reports — so you can stay focused on closing deals.
+        </p>
+        <div class="hero-cta-group reveal">
+          <button onclick="openCalendly()" class="btn btn-primary btn-lg btn-magnetic ripple">
+            <span>Book a free strategy call</span>
+            <i class="ri-calendar-check-line"></i>
+          </button>
+          <a href="#services" class="btn btn-secondary btn-lg btn-magnetic">
+            <span>See what we deliver</span>
+            <i class="ri-arrow-down-line"></i>
+          </a>
+        </div>
+        <div class="mktg-scroll-hint reveal">
+          <span class="mktg-scroll-hint-line"></span>
+          <span>Scroll to explore</span>
+          <span class="mktg-scroll-hint-line"></span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Trust Bar ── -->
+    <div class="trust-bar">
+      <div class="container">
+        <div class="trust-items">
+          <div class="trust-item"><i class="ri-shield-check-fill"></i><span>Strategy-first approach</span></div>
+          <div class="trust-item"><i class="ri-timer-flash-line"></i><span>Deliverables in 5–7 days</span></div>
+          <div class="trust-item"><i class="ri-focus-3-line"></i><span>Built for B2B sales cycles</span></div>
+          <div class="trust-item"><i class="ri-ai-generate"></i><span>AI-accelerated execution</span></div>
+          <div class="trust-item"><i class="ri-bar-chart-grouped-line"></i><span>Monthly performance reports</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── Results ── -->
+    <section class="results-section" id="results">
+      <div class="container">
+        <div style="text-align:center;margin-bottom:0;">
+          <div class="section-label" style="text-align:center;">Outcomes for clients like yours</div>
+          <h2 class="section-title reveal" style="max-width:600px;margin:0 auto 20px;text-align:center;">What good marketing actually delivers</h2>
+          <p class="section-subtitle reveal" style="max-width:560px;margin:0 auto;text-align:center;">We track the numbers that matter to B2B companies with long sales cycles — qualified conversations, not vanity impressions.</p>
+        </div>
+        <div class="results-grid">
+          <div class="result-card reveal">
+            <div class="result-number">3.4×</div>
+            <div class="result-label">Average increase in qualified leads within 90 days of campaign launch</div>
+          </div>
+          <div class="result-card reveal">
+            <div class="result-number">14 days</div>
+            <div class="result-label">Typical time from brief kickoff to first campaign deliverable in-market</div>
+          </div>
+          <div class="result-card reveal">
+            <div class="result-number">47%</div>
+            <div class="result-label">Median email open rate for our B2B nurture sequences (industry avg: 21%)</div>
+          </div>
+          <div class="result-card reveal">
+            <div class="result-number">$0</div>
+            <div class="result-label">Wasted spend on guesswork — every deliverable is research-backed before launch</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── How It Works ── -->
+    <section class="workflow-section" id="process">
+      <div class="container">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:start;" class="workflow-grid">
+          <div>
+            <div class="section-label reveal">The AI-powered workflow</div>
+            <h2 class="section-title reveal">Research to results — in a system that runs.</h2>
+            <p class="section-subtitle reveal">Every campaign follows the same five-stage process. Research informs strategy. Strategy drives copy. Copy feeds campaigns. Campaigns generate data. Data improves everything.</p>
+
+            <div class="workflow-steps">
+              <div class="workflow-step reveal">
+                <div class="step-num-wrap">
+                  <div class="step-number">01</div>
+                  <div class="step-connector"></div>
+                </div>
+                <div class="step-content">
+                  <h3><i class="ri-search-eye-line"></i> Market Research</h3>
+                  <p>We map your competitive landscape, identify audience pain points, and find the positioning gap your competitors are leaving open.</p>
+                  <div class="step-tag-list">
+                    <span class="step-tag">Competitor analysis</span>
+                    <span class="step-tag">Audience profiling</span>
+                    <span class="step-tag">Keyword research</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="workflow-step reveal">
+                <div class="step-num-wrap">
+                  <div class="step-number">02</div>
+                  <div class="step-connector"></div>
+                </div>
+                <div class="step-content">
+                  <h3><i class="ri-route-line"></i> Strategy Brief</h3>
+                  <p>A 90-day roadmap built on data — positioning, messaging hierarchy, channel priorities, and the exact sequence of campaigns to run.</p>
+                  <div class="step-tag-list">
+                    <span class="step-tag">Positioning</span>
+                    <span class="step-tag">Messaging</span>
+                    <span class="step-tag">90-day roadmap</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="workflow-step reveal">
+                <div class="step-num-wrap">
+                  <div class="step-number">03</div>
+                  <div class="step-connector"></div>
+                </div>
+                <div class="step-content">
+                  <h3><i class="ri-mail-send-line"></i> Email Campaigns</h3>
+                  <p>Nurture sequences, cold outreach, and re-engagement campaigns written for B2B buyers — not shopping carts. Every email earns its send.</p>
+                  <div class="step-tag-list">
+                    <span class="step-tag">Nurture flows</span>
+                    <span class="step-tag">Cold outreach</span>
+                    <span class="step-tag">Follow-up sequences</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="workflow-step reveal">
+                <div class="step-num-wrap">
+                  <div class="step-number">04</div>
+                  <div class="step-connector"></div>
+                </div>
+                <div class="step-content">
+                  <h3><i class="ri-linkedin-box-line"></i> Social Content</h3>
+                  <p>LinkedIn content that builds authority and drives inbound conversations. Thought leadership posts, case study snippets, and strategic hooks — posted on schedule.</p>
+                  <div class="step-tag-list">
+                    <span class="step-tag">LinkedIn posts</span>
+                    <span class="step-tag">Thought leadership</span>
+                    <span class="step-tag">Content calendar</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="workflow-step reveal">
+                <div class="step-num-wrap">
+                  <div class="step-number">05</div>
+                </div>
+                <div class="step-content">
+                  <h3><i class="ri-bar-chart-2-line"></i> Performance Reports</h3>
+                  <p>Monthly dashboards that tell the whole story — not just vanity metrics. Channel performance, email open/click/reply rates, and a clear read on what to do next.</p>
+                  <div class="step-tag-list">
+                    <span class="step-tag">KPI dashboard</span>
+                    <span class="step-tag">Channel analysis</span>
+                    <span class="step-tag">Next-step recommendations</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div style="position:sticky;top:120px;" class="reveal">
+            <div class="workflow-preview" id="workflowLog">
+              <div class="wf-line"><span class="wf-ts">09:14:02</span><span class="wf-ok">✓</span><span class="wf-text">Client brief received — MedSync Solutions</span></div>
+              <div class="wf-line"><span class="wf-ts">09:14:05</span><span class="wf-run">▶</span><span class="wf-text">Running competitor analysis…</span></div>
+              <div class="wf-line"><span class="wf-ts">09:14:18</span><span class="wf-ok">✓</span><span class="wf-text">8 competitors mapped. 2 positioning gaps found</span></div>
+              <div class="wf-line"><span class="wf-ts">09:14:20</span><span class="wf-run">▶</span><span class="wf-text">Extracting audience pain points…</span></div>
+              <div class="wf-line"><span class="wf-ts">09:14:41</span><span class="wf-ok">✓</span><span class="wf-text">Primary ICP: VP of Operations, 50–200 employee</span></div>
+              <div class="wf-line"><span class="wf-ts">09:15:03</span><span class="wf-run">▶</span><span class="wf-text">Generating 90-day strategy brief…</span></div>
+              <div class="wf-line"><span class="wf-ts">09:16:47</span><span class="wf-ok">✓</span><span class="wf-text">Strategy brief complete — 24 pages</span></div>
+              <div class="wf-line"><span class="wf-ts">09:17:02</span><span class="wf-run">▶</span><span class="wf-text">Writing 6-email nurture sequence…</span></div>
+              <div class="wf-line"><span class="wf-ts">09:19:31</span><span class="wf-ok">✓</span><span class="wf-text">Email sequence ready. Open rate forecast: 44%</span></div>
+              <div class="wf-line"><span class="wf-ts">09:19:45</span><span class="wf-run">▶</span><span class="wf-text">Scheduling 12 LinkedIn posts…</span></div>
+              <div class="wf-line"><span class="wf-ts">09:19:58</span><span class="wf-ok">✓</span><span class="wf-text">Content calendar built for Q1 2026</span></div>
+              <div class="wf-line"><span class="wf-ts">09:20:01</span><span class="wf-warn">⚡</span><span class="wf-text">Packaging deliverables for client review…</span></div>
+              <div id="wfCursor" class="wf-line" style="margin-top:8px;"><span class="wf-ts">09:20:14</span><span class="wf-ok">■</span><span class="wf-text">Campaign ready for launch<span class="typing-cursor"></span></span></div>
+            </div>
+
+            <div style="margin-top:20px;display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+              <div style="background:var(--bg-surface);border:1px solid var(--border-subtle);border-radius:12px;padding:20px;text-align:center;">
+                <div style="font-family:var(--font-mono);font-size:0.65rem;color:var(--text-tertiary);text-transform:uppercase;letter-spacing:0.12em;margin-bottom:8px;">Time saved</div>
+                <div style="font-family:var(--font-display);font-size:1.8rem;font-weight:700;font-style:italic;color:var(--brand-primary);">40+ hrs</div>
+                <div style="font-size:0.75rem;color:var(--text-tertiary);">per campaign cycle</div>
+              </div>
+              <div style="background:var(--bg-surface);border:1px solid var(--border-subtle);border-radius:12px;padding:20px;text-align:center;">
+                <div style="font-family:var(--font-mono);font-size:0.65rem;color:var(--text-tertiary);text-transform:uppercase;letter-spacing:0.12em;margin-bottom:8px;">Delivery SLA</div>
+                <div style="font-family:var(--font-display);font-size:1.8rem;font-weight:700;font-style:italic;color:var(--brand-accent);">5–7 days</div>
+                <div style="font-size:0.75rem;color:var(--text-tertiary);">from brief to draft</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Services ── -->
+    <section class="services-section" id="services">
+      <div class="container">
+        <div class="section-label reveal">What we build for you</div>
+        <h2 class="section-title reveal">Four deliverables. One compounding system.</h2>
+        <p class="section-subtitle reveal">Each service is designed to fold into the others. Research feeds strategy. Strategy shapes email. Email content becomes social. Reports improve everything on the next cycle.</p>
+
+        <div class="services-grid">
+
+          <div class="service-card featured reveal">
+            <span class="service-badge">Most popular</span>
+            <div class="service-icon-wrap"><i class="ri-route-line"></i></div>
+            <h3>Marketing Strategy Brief</h3>
+            <p>The foundation every campaign is built on. We research your market, profile your buyers, map your competitors — then hand you a clear 90-day plan with prioritized actions.</p>
+            <ul class="service-deliverables">
+              <li>Competitive landscape analysis (8–12 competitors)</li>
+              <li>Buyer persona development with pain point mapping</li>
+              <li>Positioning statement and messaging hierarchy</li>
+              <li>90-day channel and campaign roadmap</li>
+              <li>Primary keyword targets and SEO opportunity map</li>
+            </ul>
+            <div class="service-meta">
+              <div class="service-price">From $1,500</div>
+              <div class="service-timeframe">Delivered in 5–7 days</div>
+            </div>
+          </div>
+
+          <div class="service-card reveal">
+            <div class="service-icon-wrap"><i class="ri-mail-send-line"></i></div>
+            <h3>Email Campaign Package</h3>
+            <p>Purpose-built email sequences for B2B buyers — not blasts. Whether you need a cold outreach sequence, a nurture flow, or a re-engagement campaign, we write it so it gets replies.</p>
+            <ul class="service-deliverables">
+              <li>3–8 email sequence with subject line variants</li>
+              <li>Preview text and send-time recommendations</li>
+              <li>Segmentation and targeting guidance</li>
+              <li>A/B test framework included</li>
+            </ul>
+            <div class="service-meta">
+              <div class="service-price">From $800</div>
+              <div class="service-timeframe">Delivered in 3–5 days</div>
+            </div>
+          </div>
+
+          <div class="service-card reveal">
+            <div class="service-icon-wrap"><i class="ri-linkedin-box-line"></i></div>
+            <h3>Social Content Calendar</h3>
+            <p>Consistent LinkedIn presence without the weekly scramble. We build your content calendar with posts that build authority, drive engagement, and lead to real conversations.</p>
+            <ul class="service-deliverables">
+              <li>12–20 posts per month, fully written and formatted</li>
+              <li>Mix of insight, education, story, and CTA posts</li>
+              <li>Hooks and headlines optimized for B2B engagement</li>
+              <li>Hashtag strategy and best-time scheduling guide</li>
+            </ul>
+            <div class="service-meta">
+              <div class="service-price">From $600 / mo</div>
+              <div class="service-timeframe">Monthly delivery</div>
+            </div>
+          </div>
+
+          <div class="service-card reveal">
+            <div class="service-icon-wrap"><i class="ri-bar-chart-2-line"></i></div>
+            <h3>Monthly Insights Report</h3>
+            <p>Know what's working, what isn't, and exactly what to do next. Every report tells the full channel story — with a clear narrative, not just a data dump.</p>
+            <ul class="service-deliverables">
+              <li>KPI trend analysis across all active channels</li>
+              <li>Email open, click, and reply rate breakdown</li>
+              <li>Top content performance and insights</li>
+              <li>3 prioritized recommendations for next month</li>
+              <li>Shareable HTML dashboard included</li>
+            </ul>
+            <div class="service-meta">
+              <div class="service-price">From $800 / mo</div>
+              <div class="service-timeframe">Monthly delivery</div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Add-on note -->
+        <div style="margin-top:40px;padding:28px 36px;background:rgba(251,191,36,0.04);border:1px solid rgba(251,191,36,0.2);border-radius:16px;display:flex;align-items:center;gap:20px;flex-wrap:wrap;" class="reveal">
+          <i class="ri-information-line" style="font-size:1.5rem;color:var(--brand-accent);flex-shrink:0;"></i>
+          <div>
+            <strong style="color:var(--brand-accent);display:block;margin-bottom:4px;">Most clients start with the Strategy Brief</strong>
+            <span style="color:var(--text-secondary);font-size:0.9rem;">It gives us the foundation to make every downstream deliverable significantly more effective. Most clients add on email and social after the first cycle.</span>
+          </div>
+          <button onclick="openCalendly()" class="btn btn-secondary" style="margin-left:auto;white-space:nowrap;">Start with a brief <i class="ri-arrow-right-line"></i></button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Pricing ── -->
+    <section class="pricing-section" id="pricing">
+      <div class="container">
+        <div class="section-label reveal">Transparent pricing</div>
+        <h2 class="section-title reveal">Priced for small B2B teams. Delivered at agency level.</h2>
+        <p class="section-subtitle reveal">No retainer lock-in required to start. Pick a single deliverable or stack them into a monthly system — we'll scope it right on the discovery call.</p>
+
+        <div class="pricing-grid">
+
+          <div class="pricing-card reveal">
+            <div class="pricing-label">One-time</div>
+            <div class="pricing-name">Strategy Brief</div>
+            <div class="pricing-tagline">The research and roadmap your marketing has been missing.</div>
+            <div class="pricing-price">
+              <span class="price-amount">$1,500</span>
+              <span class="price-period">one-time</span>
+            </div>
+            <ul class="pricing-includes">
+              <li><i class="ri-check-line"></i> Competitive analysis (8–12 competitors)</li>
+              <li><i class="ri-check-line"></i> Buyer persona + pain point mapping</li>
+              <li><i class="ri-check-line"></i> Positioning + messaging hierarchy</li>
+              <li><i class="ri-check-line"></i> 90-day channel roadmap</li>
+              <li><i class="ri-check-line"></i> SEO opportunity map</li>
+            </ul>
+            <button onclick="openCalendly()" class="btn btn-secondary" style="width:100%;justify-content:center;">Get started <i class="ri-arrow-right-line"></i></button>
+          </div>
+
+          <div class="pricing-card featured reveal">
+            <div class="pricing-label accent">Monthly system</div>
+            <div class="pricing-name">Full Marketing Retainer</div>
+            <div class="pricing-tagline">Strategy + email + social + reporting — everything running each month.</div>
+            <div class="pricing-price">
+              <span class="price-amount">$2,800</span>
+              <span class="price-period">/ month</span>
+            </div>
+            <ul class="pricing-includes">
+              <li><i class="ri-check-line"></i> Monthly strategy update + prioritization</li>
+              <li><i class="ri-check-line"></i> 1 email campaign per month (3–6 emails)</li>
+              <li><i class="ri-check-line"></i> 12 LinkedIn posts, written and formatted</li>
+              <li><i class="ri-check-line"></i> Monthly performance report + dashboard</li>
+              <li><i class="ri-check-line"></i> Slack channel for async collaboration</li>
+              <li><i class="ri-check-line"></i> Monthly 30-min strategy call</li>
+            </ul>
+            <button onclick="openCalendly()" class="btn btn-primary" style="width:100%;justify-content:center;">Book strategy call <i class="ri-calendar-check-line"></i></button>
+          </div>
+
+          <div class="pricing-card reveal">
+            <div class="pricing-label">SEO entry point</div>
+            <div class="pricing-name">SEO Audit Report</div>
+            <div class="pricing-tagline">Find exactly what's keeping your site from ranking. In under 5 minutes.</div>
+            <div class="pricing-price">
+              <span class="price-amount">$50</span>
+              <span class="price-period">one-time</span>
+            </div>
+            <ul class="pricing-includes">
+              <li><i class="ri-check-line"></i> Full on-page SEO analysis</li>
+              <li><i class="ri-check-line"></i> Core Web Vitals performance score</li>
+              <li><i class="ri-check-line"></i> Backlink profile overview</li>
+              <li><i class="ri-check-line"></i> Keyword difficulty analysis</li>
+              <li><i class="ri-check-line"></i> Prioritized fix list</li>
+            </ul>
+            <a href="/seo-dashboard" class="btn btn-secondary" style="width:100%;justify-content:center;display:flex;">Run your free preview <i class="ri-arrow-right-line"></i></a>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ── FAQ ── -->
+    <section class="faq-section" id="faq">
+      <div class="container">
+        <div class="section-label reveal">Common questions</div>
+        <h2 class="section-title reveal">Everything you should ask before hiring us.</h2>
+        <div class="faq-list" id="faqList">
+
+          <div class="faq-item">
+            <button class="faq-question" onclick="toggleFAQ(this)">
+              Do I need to commit to a monthly retainer right away?
+              <i class="ri-add-line"></i>
+            </button>
+            <div class="faq-answer">
+              <div class="faq-answer-inner">No. Most clients start with a Strategy Brief or a single email campaign to see how we work. Retainers make sense once you have a strategy in place and want consistent execution — usually after the first deliverable.</div>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-question" onclick="toggleFAQ(this)">
+              My company sells to both technical buyers and business decision-makers. Can you write for both?
+              <i class="ri-add-line"></i>
+            </button>
+            <div class="faq-answer">
+              <div class="faq-answer-inner">Yes — this is actually where we specialize. B2B tech and medical companies almost always have a split audience. Our strategy brief process maps both personas and builds messaging that speaks to technical concerns without losing the business outcome story. You'll get copy that works in both a demo deck and a LinkedIn post.</div>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-question" onclick="toggleFAQ(this)">
+              How involved do I need to be?
+              <i class="ri-add-line"></i>
+            </button>
+            <div class="faq-answer">
+              <div class="faq-answer-inner">We ask for a 60-minute onboarding call, your feedback on the first draft of each deliverable, and a 30-minute monthly check-in if you're on retainer. Beyond that, we handle the research, writing, and structuring — so you can focus on running your business.</div>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-question" onclick="toggleFAQ(this)">
+              What makes your email campaigns different from what I could write myself?
+              <i class="ri-add-line"></i>
+            </button>
+            <div class="faq-answer">
+              <div class="faq-answer-inner">Three things: we research before we write (so every email is built on real audience intel), we write specifically for B2B buyers with long sales cycles (not consumer inboxes), and we structure sequences that build on each other — so every email moves the reader one step closer to a conversation. The difference shows up in open rates (our median is 47% vs. the industry average of 21%) and in reply rates from actual prospects.</div>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-question" onclick="toggleFAQ(this)">
+              Can you work with our existing CRM or email platform?
+              <i class="ri-add-line"></i>
+            </button>
+            <div class="faq-answer">
+              <div class="faq-answer-inner">Yes. We deliver copy and strategy that works in any platform — HubSpot, Mailchimp, ActiveCampaign, Klaviyo, Zoho, Outreach, or plain-text to paste into Gmail. We don't require you to change your stack. If you need actual platform setup, that falls under our Automation Services — which we can scope separately.</div>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-question" onclick="toggleFAQ(this)">
+              What industries do you have the most experience with?
+              <i class="ri-add-line"></i>
+            </button>
+            <div class="faq-answer">
+              <div class="faq-answer-inner">B2B technology (SaaS, automation tools, software infrastructure) and medical (devices, health tech, medical services). Both industries share the same core challenge: long sales cycles with multiple stakeholders. We've built marketing systems specifically for this dynamic — where a LinkedIn post might reach a VP of Engineering and a cold email lands in a CEO's inbox the same week.</div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ── CTA ── -->
+    <section class="cta-section">
+      <div class="container">
+        <div class="mktg-eyebrow reveal" style="margin:0 auto 28px;">
+          <i class="ri-sparkling-line"></i>
+          <span>No guesswork. No wasted budget.</span>
+        </div>
+        <h2 class="reveal">
+          Ready to build marketing that <em class="text-gradient">actually works?</em>
+        </h2>
+        <p class="reveal">
+          Book a free 30-minute strategy call. We'll look at your current marketing, identify the biggest gaps, and map out where to start — no pitch, just a real conversation.
+        </p>
+        <div class="hero-cta-group reveal">
+          <button onclick="openCalendly()" class="btn btn-primary btn-lg btn-magnetic ripple">
+            <span>Book free strategy call</span>
+            <i class="ri-calendar-check-line"></i>
+          </button>
+          <a href="mailto:nick@5cypress.com" class="btn btn-secondary btn-lg btn-magnetic">
+            <span>Email us directly</span>
+            <i class="ri-mail-line"></i>
+          </a>
+        </div>
+        <p style="font-family:var(--font-mono);font-size:0.75rem;color:var(--text-tertiary);margin-top:24px;letter-spacing:0.08em;">
+          NICK@5CYPRESS.COM &nbsp;&bull;&nbsp; CALENDLY.COM/5CYPRESS/DISCOVERY &nbsp;&bull;&nbsp; RESPONSE WITHIN 1 BUSINESS DAY
+        </p>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer style="background:var(--bg-void);border-top:1px solid var(--border-subtle);padding:64px 0 40px;position:relative;z-index:10;">
+    <div class="container">
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:48px;margin-bottom:48px;">
+        <div>
+          <a href="/" style="display:flex;align-items:center;gap:12px;text-decoration:none;margin-bottom:20px;">
+            <img src="assets/brand/logo-5cypress.jpg" alt="5 Cypress" style="width:36px;height:36px;border-radius:8px;">
+            <span style="font-family:var(--font-heading);font-weight:800;font-size:1.1rem;color:var(--text-primary);">5 Cypress</span>
+          </a>
+          <p style="color:var(--text-secondary);line-height:1.8;font-size:0.9rem;max-width:280px;margin-bottom:24px;">Automation and marketing for small B2B tech and medical companies. Two services. One trusted partner.</p>
+          <div style="display:flex;gap:12px;">
+            <a href="#" style="width:40px;height:40px;border-radius:10px;background:rgba(255,255,255,0.03);border:1px solid var(--border-subtle);display:flex;align-items:center;justify-content:center;color:var(--text-secondary);font-size:1.1rem;" aria-label="LinkedIn"><i class="ri-linkedin-fill"></i></a>
+            <a href="#" style="width:40px;height:40px;border-radius:10px;background:rgba(255,255,255,0.03);border:1px solid var(--border-subtle);display:flex;align-items:center;justify-content:center;color:var(--text-secondary);font-size:1.1rem;" aria-label="Twitter"><i class="ri-twitter-x-fill"></i></a>
+            <a href="mailto:nick@5cypress.com" style="width:40px;height:40px;border-radius:10px;background:rgba(255,255,255,0.03);border:1px solid var(--border-subtle);display:flex;align-items:center;justify-content:center;color:var(--text-secondary);font-size:1.1rem;" aria-label="Email"><i class="ri-mail-fill"></i></a>
+          </div>
+        </div>
+        <div>
+          <h4 style="font-size:0.75rem;font-weight:800;text-transform:uppercase;letter-spacing:0.15em;color:var(--brand-primary);margin-bottom:20px;">Services</h4>
+          <div style="display:flex;flex-direction:column;gap:12px;">
+            <a href="/services.html" style="color:var(--text-tertiary);font-size:0.9rem;text-decoration:none;">Automation</a>
+            <a href="/marketing" style="color:var(--brand-primary);font-size:0.9rem;text-decoration:none;">Marketing</a>
+            <a href="/seo-dashboard" style="color:var(--text-tertiary);font-size:0.9rem;text-decoration:none;">SEO Intelligence</a>
+            <a href="/case-studies.html" style="color:var(--text-tertiary);font-size:0.9rem;text-decoration:none;">Case Studies</a>
+          </div>
+        </div>
+        <div>
+          <h4 style="font-size:0.75rem;font-weight:800;text-transform:uppercase;letter-spacing:0.15em;color:var(--brand-primary);margin-bottom:20px;">Deliverables</h4>
+          <div style="display:flex;flex-direction:column;gap:12px;">
+            <a href="#services" style="color:var(--text-tertiary);font-size:0.9rem;text-decoration:none;">Strategy Brief</a>
+            <a href="#services" style="color:var(--text-tertiary);font-size:0.9rem;text-decoration:none;">Email Campaigns</a>
+            <a href="#services" style="color:var(--text-tertiary);font-size:0.9rem;text-decoration:none;">Social Content</a>
+            <a href="#services" style="color:var(--text-tertiary);font-size:0.9rem;text-decoration:none;">Monthly Reports</a>
+          </div>
+        </div>
+        <div>
+          <h4 style="font-size:0.75rem;font-weight:800;text-transform:uppercase;letter-spacing:0.15em;color:var(--brand-primary);margin-bottom:20px;">Get Started</h4>
+          <p style="color:var(--text-tertiary);font-size:0.875rem;line-height:1.7;margin-bottom:16px;">Ready to build a marketing system that runs? Let's talk strategy.</p>
+          <button onclick="openCalendly()" class="btn btn-primary" style="width:100%;justify-content:center;">
+            Book Free Call <i class="ri-arrow-right-up-line" style="margin-left:8px;"></i>
+          </button>
+        </div>
+      </div>
+      <div style="padding-top:32px;border-top:1px solid rgba(255,255,255,0.05);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;">
+        <div style="color:var(--text-tertiary);font-size:0.8rem;font-family:var(--font-mono);">© 2026 5 CYPRESS AUTOMATION &nbsp;&bull;&nbsp; <span class="mktg-footer-label">MARKETING_ENGINE: ACTIVE</span></div>
+        <div style="display:flex;gap:24px;font-size:0.8rem;">
+          <a href="/terms.html" style="color:var(--text-tertiary);text-decoration:none;">Terms</a>
+          <a href="/privacy.html" style="color:var(--text-tertiary);text-decoration:none;">Privacy</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Booking Modal -->
+  <div id="bookingModal" style="display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.85);backdrop-filter:blur(8px);z-index:10000;align-items:center;justify-content:center;padding:2rem;">
+    <div style="background:var(--bg-surface);border:1px solid var(--border-medium);border-radius:24px;width:100%;max-width:520px;max-height:90vh;overflow-y:auto;box-shadow:0 40px 80px rgba(0,0,0,0.7);position:relative;">
+      <button onclick="closeBookingModal()" style="position:absolute;top:20px;right:20px;background:rgba(255,255,255,0.06);border:none;width:36px;height:36px;border-radius:50%;color:var(--text-secondary);font-size:1.2rem;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:1;" aria-label="Close"><i class="ri-close-line"></i></button>
+      <div style="padding:40px 36px;">
+        <div style="font-family:var(--font-mono);font-size:0.68rem;color:var(--brand-primary);text-transform:uppercase;letter-spacing:0.18em;margin-bottom:12px;">Free Strategy Call</div>
+        <h3 style="font-family:var(--font-heading);font-size:1.6rem;font-weight:700;margin-bottom:8px;">Let's talk marketing.</h3>
+        <p style="color:var(--text-secondary);font-size:0.9rem;line-height:1.7;margin-bottom:28px;">Tell us a bit about your business and the challenge you're facing. We'll come prepared with specific ideas for your situation.</p>
+        <form id="marketingLeadForm" onsubmit="handleMarketingFormSubmit(event)">
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;">
+            <div>
+              <label style="display:block;font-size:0.8rem;font-weight:600;color:var(--text-secondary);margin-bottom:8px;">Your Name *</label>
+              <input type="text" id="mLeadName" name="name" required placeholder="Jane Smith" style="width:100%;padding:12px 16px;background:rgba(255,255,255,0.04);border:1px solid var(--border-subtle);border-radius:10px;color:var(--text-primary);font-family:var(--font-body);font-size:0.9rem;box-sizing:border-box;transition:border-color 0.2s;outline:none;" onfocus="this.style.borderColor='var(--brand-primary)'" onblur="this.style.borderColor='var(--border-subtle)'">
+            </div>
+            <div>
+              <label style="display:block;font-size:0.8rem;font-weight:600;color:var(--text-secondary);margin-bottom:8px;">Work Email *</label>
+              <input type="email" id="mLeadEmail" name="email" required placeholder="jane@company.com" style="width:100%;padding:12px 16px;background:rgba(255,255,255,0.04);border:1px solid var(--border-subtle);border-radius:10px;color:var(--text-primary);font-family:var(--font-body);font-size:0.9rem;box-sizing:border-box;transition:border-color 0.2s;outline:none;" onfocus="this.style.borderColor='var(--brand-primary)'" onblur="this.style.borderColor='var(--border-subtle)'">
+            </div>
+          </div>
+          <div style="margin-bottom:16px;">
+            <label style="display:block;font-size:0.8rem;font-weight:600;color:var(--text-secondary);margin-bottom:8px;">Company</label>
+            <input type="text" id="mLeadCompany" name="company" placeholder="Your Company" style="width:100%;padding:12px 16px;background:rgba(255,255,255,0.04);border:1px solid var(--border-subtle);border-radius:10px;color:var(--text-primary);font-family:var(--font-body);font-size:0.9rem;box-sizing:border-box;transition:border-color 0.2s;outline:none;" onfocus="this.style.borderColor='var(--brand-primary)'" onblur="this.style.borderColor='var(--border-subtle)'">
+          </div>
+          <div style="margin-bottom:16px;">
+            <label style="display:block;font-size:0.8rem;font-weight:600;color:var(--text-secondary);margin-bottom:8px;">Website</label>
+            <input type="url" id="mLeadWebsite" name="website" placeholder="https://yourcompany.com" style="width:100%;padding:12px 16px;background:rgba(255,255,255,0.04);border:1px solid var(--border-subtle);border-radius:10px;color:var(--text-primary);font-family:var(--font-body);font-size:0.9rem;box-sizing:border-box;transition:border-color 0.2s;outline:none;" onfocus="this.style.borderColor='var(--brand-primary)'" onblur="this.style.borderColor='var(--border-subtle)'">
+          </div>
+          <div style="margin-bottom:24px;">
+            <label style="display:block;font-size:0.8rem;font-weight:600;color:var(--text-secondary);margin-bottom:8px;">What's your biggest marketing challenge right now?</label>
+            <textarea id="mLeadChallenge" name="challenge" rows="3" placeholder="E.g. 'We're not generating enough qualified leads' or 'Our email list isn't converting to demos'" style="width:100%;padding:12px 16px;background:rgba(255,255,255,0.04);border:1px solid var(--border-subtle);border-radius:10px;color:var(--text-primary);font-family:var(--font-body);font-size:0.9rem;resize:vertical;box-sizing:border-box;transition:border-color 0.2s;outline:none;" onfocus="this.style.borderColor='var(--brand-primary)'" onblur="this.style.borderColor='var(--border-subtle)'"></textarea>
+          </div>
+          <button type="submit" id="mLeadSubmitBtn" class="btn btn-primary" style="width:100%;justify-content:center;font-size:1rem;">
+            <span id="mLeadBtnText">Request Strategy Call</span>
+            <i class="ri-calendar-check-line" id="mLeadBtnIcon"></i>
+          </button>
+          <p id="mLeadError" style="color:#f87171;font-size:0.8rem;margin-top:12px;display:none;text-align:center;"></p>
+          <p style="text-align:center;color:var(--text-tertiary);font-size:0.78rem;margin-top:14px;line-height:1.6;">We respond within 1 business day. No spam, ever.</p>
+        </form>
+        <div id="mLeadSuccess" style="display:none;text-align:center;padding:20px 0;">
+          <div style="font-size:3rem;margin-bottom:16px;">✅</div>
+          <h4 style="font-family:var(--font-heading);font-size:1.3rem;margin-bottom:8px;">We'll be in touch soon.</h4>
+          <p style="color:var(--text-secondary);font-size:0.9rem;line-height:1.7;">Expect a reply within 1 business day. In the meantime, feel free to check out our <a href="/seo-dashboard" style="color:var(--brand-primary);">free SEO audit tool</a>.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Site Scripts -->
+  <script>
+    // ── Core UI ──
+    function toggleMobileMenu() {
+      const menu = document.getElementById('mobileMenu');
+      const isOpen = menu.classList.contains('active');
+      menu.classList.toggle('active', !isOpen);
+      document.body.style.overflow = isOpen ? '' : 'hidden';
+    }
+    function closeMobileMenu() {
+      document.getElementById('mobileMenu').classList.remove('active');
+      document.body.style.overflow = '';
+    }
+
+    // ── Booking Modal ──
+    function openCalendly() {
+      const modal = document.getElementById('bookingModal');
+      modal.style.display = 'flex';
+      document.body.style.overflow = 'hidden';
+      // Reset form state
+      document.getElementById('marketingLeadForm').style.display = 'block';
+      document.getElementById('mLeadSuccess').style.display = 'none';
+      document.getElementById('mLeadError').style.display = 'none';
+    }
+    function closeBookingModal() {
+      document.getElementById('bookingModal').style.display = 'none';
+      document.body.style.overflow = '';
+    }
+
+    // ── Lead Form Submit ──
+    async function handleMarketingFormSubmit(e) {
+      e.preventDefault();
+      const btn = document.getElementById('mLeadSubmitBtn');
+      const btnText = document.getElementById('mLeadBtnText');
+      const btnIcon = document.getElementById('mLeadBtnIcon');
+      const errEl = document.getElementById('mLeadError');
+
+      btnText.textContent = 'Sending…';
+      btn.disabled = true;
+      btnIcon.className = 'ri-loader-4-line';
+      errEl.style.display = 'none';
+
+      const payload = {
+        name: document.getElementById('mLeadName').value.trim(),
+        email: document.getElementById('mLeadEmail').value.trim(),
+        company: document.getElementById('mLeadCompany').value.trim(),
+        website: document.getElementById('mLeadWebsite').value.trim(),
+        challenge: document.getElementById('mLeadChallenge').value.trim(),
+        source: 'marketing_dashboard'
+      };
+
+      try {
+        const res = await fetch('/api/contact', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+        const data = await res.json();
+        if (res.ok && data.success) {
+          document.getElementById('marketingLeadForm').style.display = 'none';
+          document.getElementById('mLeadSuccess').style.display = 'block';
+        } else {
+          throw new Error(data.errors?.[0]?.msg || 'Submission failed');
+        }
+      } catch (err) {
+        // Fallback: mailto
+        const subject = encodeURIComponent('Strategy Call Request — ' + payload.company);
+        const body = encodeURIComponent(`Name: ${payload.name}\nEmail: ${payload.email}\nCompany: ${payload.company}\nWebsite: ${payload.website}\n\nChallenge:\n${payload.challenge}`);
+        window.location.href = `mailto:nick@5cypress.com?subject=${subject}&body=${body}`;
+      } finally {
+        btn.disabled = false;
+        btnText.textContent = 'Request Strategy Call';
+        btnIcon.className = 'ri-calendar-check-line';
+      }
+    }
+
+    // ── FAQ Accordion ──
+    function toggleFAQ(btn) {
+      const answer = btn.nextElementSibling;
+      const isOpen = btn.classList.contains('open');
+      // Close all
+      document.querySelectorAll('.faq-question.open').forEach(q => {
+        q.classList.remove('open');
+        q.nextElementSibling.style.maxHeight = '0';
+      });
+      // Open current unless it was already open
+      if (!isOpen) {
+        btn.classList.add('open');
+        answer.style.maxHeight = answer.scrollHeight + 'px';
+      }
+    }
+
+    // ── Scroll Reveal ──
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.style.opacity = '1';
+          entry.target.style.transform = 'translateY(0)';
+          entry.target.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+
+    // ── Workflow grid responsive ──
+    function updateWorkflowLayout() {
+      const grid = document.querySelector('.workflow-grid');
+      if (!grid) return;
+      if (window.innerWidth < 900) {
+        grid.style.gridTemplateColumns = '1fr';
+      } else {
+        grid.style.gridTemplateColumns = '1fr 1fr';
+      }
+    }
+
+    // ── Smooth scroll for anchor links ──
+    document.querySelectorAll('a[href^="#"]').forEach(a => {
+      a.addEventListener('click', e => {
+        const target = document.querySelector(a.getAttribute('href'));
+        if (target) { e.preventDefault(); target.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+      });
+    });
+
+    // ── Init ──
+    document.addEventListener('DOMContentLoaded', () => {
+      // Reveal animations
+      document.querySelectorAll('.reveal').forEach(el => {
+        el.style.opacity = '0';
+        el.style.transform = 'translateY(24px)';
+        revealObserver.observe(el);
+      });
+
+      // Responsive workflow layout
+      updateWorkflowLayout();
+      window.addEventListener('resize', updateWorkflowLayout);
+
+      // Modal backdrop close
+      document.getElementById('bookingModal').addEventListener('click', e => {
+        if (e.target === document.getElementById('bookingModal')) closeBookingModal();
+      });
+
+      // Navbar scroll effect
+      const navbar = document.querySelector('.navbar');
+      let lastScroll = 0;
+      window.addEventListener('scroll', () => {
+        const current = window.scrollY;
+        if (current > 60) navbar.classList.add('scrolled');
+        else navbar.classList.remove('scrolled');
+        lastScroll = current;
+      }, { passive: true });
+    });
+  </script>
+</body>
+</html>

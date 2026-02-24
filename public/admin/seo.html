@@ -1,19 +1,19 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="robots" content="noindex, nofollow">
-  <title>SEO Audit Tool — Admin | 5 Cypress</title>
+  <title>SEO Audit Console — Admin | 5 Cypress</title>
   <link href="https://cdn.jsdelivr.net/npm/remixicon@4.0.0/fonts/remixicon.css" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700;800&family=DM+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800;900&family=Space+Grotesk:wght@400;500;600;700;800&family=DM+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/design-system.css">
   <link rel="stylesheet" href="/styles-premium.css">
   <style>
     :root { --admin-sidebar: 240px; }
 
+    /* ── Admin Layout ── */
     .admin-layout { display:grid; grid-template-columns:var(--admin-sidebar) 1fr; min-height:100vh; }
-
     .sidebar { background:var(--bg-void); border-right:1px solid var(--border-subtle); position:fixed; top:0; left:0; width:var(--admin-sidebar); height:100vh; display:flex; flex-direction:column; z-index:100; overflow-y:auto; }
     .sidebar-logo { padding:24px 20px; border-bottom:1px solid var(--border-subtle); display:flex; align-items:center; gap:12px; text-decoration:none; }
     .sidebar-logo img { width:32px; height:32px; border-radius:8px; }
@@ -35,72 +35,164 @@
     .page-title { font-family:var(--font-heading); font-size:1.1rem; font-weight:700; color:var(--text-primary); display:flex; align-items:center; gap:10px; }
     .page-title i { color:var(--brand-primary); }
     .admin-badge { font-family:var(--font-mono); font-size:0.65rem; font-weight:700; text-transform:uppercase; letter-spacing:0.12em; padding:5px 12px; border-radius:100px; background:rgba(93,140,93,0.1); border:1px solid rgba(93,140,93,0.25); color:var(--brand-primary); }
-    .content-area { padding:32px; max-width:1100px; }
+    .content-area { padding:32px; max-width:1200px; }
 
-    /* Audit form panel */
+    /* ── API Status Bar ── */
+    .api-status-bar { display:flex; gap:16px; margin-bottom:28px; flex-wrap:wrap; }
+    .api-pill { display:inline-flex; align-items:center; gap:8px; padding:8px 16px; border-radius:100px; font-family:var(--font-mono); font-size:0.7rem; font-weight:700; letter-spacing:0.08em; border:1px solid; }
+    .api-pill.ok { background:rgba(74,222,128,0.06); border-color:rgba(74,222,128,0.2); color:#4ade80; }
+    .api-pill.ok .dot { background:#4ade80; box-shadow:0 0 6px rgba(74,222,128,0.5); }
+    .api-pill.warn { background:rgba(251,191,36,0.06); border-color:rgba(251,191,36,0.2); color:#fbbf24; }
+    .api-pill.warn .dot { background:#fbbf24; box-shadow:0 0 6px rgba(251,191,36,0.5); }
+    .api-pill.err { background:rgba(248,113,113,0.06); border-color:rgba(248,113,113,0.2); color:#f87171; }
+    .api-pill.err .dot { background:#f87171; box-shadow:0 0 6px rgba(248,113,113,0.5); }
+    .api-pill .dot { width:7px; height:7px; border-radius:50%; flex-shrink:0; }
+
+    /* ── Module Cards ── */
+    .module-grid { display:grid; grid-template-columns:repeat(3, 1fr); gap:1rem; }
+    .module-card { background:rgba(255,255,255,0.02); border:1px solid var(--border-medium); border-radius:12px; padding:1.25rem; cursor:pointer; transition:all 0.3s ease; position:relative; }
+    .module-card:hover { background:rgba(255,255,255,0.05); border-color:var(--brand-primary); transform:translateY(-2px); }
+    .module-card.selected { background:linear-gradient(135deg,rgba(93,140,93,0.08) 0%,rgba(10,10,12,0.2) 100%); border-color:var(--brand-primary); box-shadow:0 0 0 1px rgba(93,140,93,0.2); }
+    .module-icon { width:38px; height:38px; background:rgba(93,140,93,0.1); color:var(--brand-primary); border-radius:8px; display:flex; align-items:center; justify-content:center; font-size:1.2rem; margin-bottom:0.75rem; border:1px solid rgba(93,140,93,0.2); transition:all 0.3s; }
+    .module-card.selected .module-icon { background:var(--brand-primary); color:var(--bg-void); }
+    .module-card h4 { font-family:var(--font-heading); font-size:0.95rem; font-weight:700; margin-bottom:4px; }
+    .module-card p { font-size:0.78rem; color:var(--text-tertiary); line-height:1.5; }
+    .module-check { position:absolute; top:12px; right:12px; font-size:1.1rem; }
+    .module-check.checked { color:var(--brand-primary); }
+    .module-check.unchecked { color:var(--text-disabled); }
+
+    /* ── Audit Panel ── */
     .audit-panel { background:var(--bg-surface); border:1px solid var(--border-subtle); border-radius:16px; overflow:hidden; margin-bottom:28px; }
-    .audit-panel-header { padding:20px 28px; border-bottom:1px solid var(--border-subtle); display:flex; align-items:center; gap:12px; }
+    .audit-panel-header { padding:18px 24px; border-bottom:1px solid var(--border-subtle); display:flex; align-items:center; gap:12px; }
     .audit-panel-header i { font-size:1.3rem; color:var(--brand-primary); }
-    .audit-panel-title { font-family:var(--font-heading); font-size:1rem; font-weight:700; }
-    .audit-panel-sub { font-size:0.8rem; color:var(--text-tertiary); margin-top:2px; }
-    .audit-form { padding:28px; display:grid; grid-template-columns:1fr auto auto; gap:12px; align-items:end; }
-    .form-group label { display:block; font-family:var(--font-mono); font-size:0.7rem; font-weight:600; text-transform:uppercase; letter-spacing:0.1em; color:var(--text-tertiary); margin-bottom:8px; }
-    .form-group input, .form-group select { width:100%; padding:12px 16px; background:var(--bg-void); border:1px solid var(--border-subtle); border-radius:10px; color:var(--text-primary); font-size:0.9rem; font-family:var(--font-body); transition:border-color 0.2s; }
-    .form-group input:focus, .form-group select:focus { outline:none; border-color:rgba(93,140,93,0.5); }
-    .form-group input::placeholder { color:var(--text-tertiary); }
-    .form-group select { background:var(--bg-void); cursor:pointer; }
-    .audit-btn { padding:12px 28px; background:var(--brand-primary); color:#fff; border:none; border-radius:10px; font-family:var(--font-body); font-size:0.9rem; font-weight:600; cursor:pointer; white-space:nowrap; display:flex; align-items:center; gap:8px; transition:opacity 0.2s; align-self:end; }
-    .audit-btn:hover { opacity:0.85; }
-    .audit-btn:disabled { opacity:0.5; cursor:not-allowed; }
-    .audit-btn i { font-size:1rem; }
+    .audit-panel-title { font-family:var(--font-heading); font-size:0.95rem; font-weight:700; }
+    .audit-panel-sub { font-size:0.78rem; color:var(--text-tertiary); margin-top:2px; }
+    .form-grid { padding:24px; display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+    .form-group label { display:block; font-family:var(--font-mono); font-size:0.68rem; font-weight:600; text-transform:uppercase; letter-spacing:0.1em; color:var(--text-tertiary); margin-bottom:8px; }
+    .form-group input, .form-group textarea, .form-group select { width:100%; padding:11px 14px; background:var(--bg-void); border:1px solid var(--border-subtle); border-radius:10px; color:var(--text-primary); font-size:0.875rem; font-family:var(--font-body); transition:border-color 0.2s; box-sizing:border-box; }
+    .form-group input:focus, .form-group textarea:focus, .form-group select:focus { outline:none; border-color:rgba(93,140,93,0.5); box-shadow:0 0 0 2px rgba(93,140,93,0.12); }
+    .form-group input::placeholder, .form-group textarea::placeholder { color:var(--text-disabled); }
+    .form-group.full-row { grid-column:1 / -1; }
+    .form-actions { padding:0 24px 24px; display:flex; gap:12px; align-items:center; }
+
+    /* ── Buttons ── */
+    .run-btn { padding:12px 28px; background:var(--brand-primary); color:var(--bg-void); border:none; border-radius:10px; font-family:var(--font-body); font-size:0.9rem; font-weight:700; cursor:pointer; display:flex; align-items:center; gap:8px; transition:opacity 0.2s; }
+    .run-btn:hover { opacity:0.88; }
+    .run-btn:disabled { opacity:0.45; cursor:not-allowed; }
+    .reset-btn { padding:12px 20px; background:transparent; color:var(--text-secondary); border:1px solid var(--border-subtle); border-radius:10px; font-family:var(--font-body); font-size:0.875rem; cursor:pointer; transition:all 0.2s; display:inline-flex; align-items:center; gap:8px; }
+    .reset-btn:hover { border-color:var(--border-medium); color:var(--text-primary); }
+
+    /* ── Loader ── */
     @keyframes spin { to { transform:rotate(360deg); } }
-    .spinner-icon { animation:spin 0.8s linear infinite; display:inline-block; }
+    .loader-overlay { display:none; position:fixed; inset:0; z-index:999; background:rgba(10,10,12,0.92); backdrop-filter:blur(16px); flex-direction:column; align-items:center; justify-content:center; gap:24px; }
+    .loader-overlay.active { display:flex; }
+    .loader-spinner { width:60px; height:60px; border:3px solid rgba(93,140,93,0.2); border-top-color:var(--brand-primary); border-radius:50%; animation:spin 0.8s linear infinite; }
+    .loader-title { font-family:var(--font-display); font-size:1.5rem; color:var(--text-primary); }
+    .loader-status { font-family:var(--font-mono); font-size:0.75rem; color:var(--brand-primary); letter-spacing:0.15em; text-transform:uppercase; }
+    .loader-steps { display:flex; flex-direction:column; gap:6px; margin-top:8px; }
+    .loader-step { font-family:var(--font-mono); font-size:0.68rem; color:var(--text-tertiary); display:flex; align-items:center; gap:8px; transition:all 0.4s; }
+    .loader-step.active { color:var(--brand-primary); }
+    .loader-step.done { color:#4ade80; }
+    .loader-step i { font-size:0.9rem; width:14px; text-align:center; }
 
-    /* Config warning */
-    .config-warn { margin:0 28px 28px; background:rgba(251,191,36,0.06); border:1px solid rgba(251,191,36,0.2); border-radius:12px; padding:16px 20px; display:flex; align-items:flex-start; gap:12px; }
-    .config-warn i { color:var(--brand-accent); font-size:1.1rem; margin-top:2px; flex-shrink:0; }
-    .config-warn-text { font-size:0.85rem; color:var(--text-secondary); line-height:1.6; }
-    .config-warn-text strong { color:var(--brand-accent); }
-    .config-warn-text code { font-family:var(--font-mono); font-size:0.78rem; background:rgba(255,255,255,0.06); padding:1px 6px; border-radius:4px; }
+    /* ── Banners ── */
+    .banner { border-radius:12px; padding:14px 18px; display:flex; align-items:flex-start; gap:10px; margin-bottom:20px; font-size:0.85rem; line-height:1.6; }
+    .banner.warn { background:rgba(251,191,36,0.06); border:1px solid rgba(251,191,36,0.2); color:var(--text-secondary); }
+    .banner.warn i { color:#fbbf24; flex-shrink:0; margin-top:2px; }
+    .banner.err { background:rgba(248,113,113,0.06); border:1px solid rgba(248,113,113,0.2); color:var(--text-secondary); }
+    .banner.err i { color:#f87171; flex-shrink:0; margin-top:2px; }
+    .banner.info { background:rgba(93,140,93,0.06); border:1px solid rgba(93,140,93,0.2); color:var(--text-secondary); }
+    .banner.info i { color:var(--brand-primary); flex-shrink:0; margin-top:2px; }
+    .banner code { font-family:var(--font-mono); font-size:0.78rem; background:rgba(255,255,255,0.07); padding:1px 6px; border-radius:4px; }
+    .banner strong { color:var(--text-primary); }
+    .banner a { color:var(--brand-primary); }
 
-    /* Scores grid */
-    .results-section { display:none; }
-    .results-section.visible { display:block; }
-    .section-label { font-family:var(--font-mono); font-size:0.7rem; font-weight:700; text-transform:uppercase; letter-spacing:0.15em; color:var(--text-tertiary); margin-bottom:16px; padding-bottom:8px; border-bottom:1px solid var(--border-subtle); }
-    .scores-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:16px; margin-bottom:28px; }
-    .score-card { background:var(--bg-surface); border:1px solid var(--border-subtle); border-radius:14px; padding:24px 20px; text-align:center; position:relative; overflow:hidden; transition:border-color 0.3s; }
-    .score-ring { width:72px; height:72px; position:relative; margin:0 auto 16px; }
-    .score-ring svg { width:72px; height:72px; transform:rotate(-90deg); }
+    /* ── Results ── */
+    .results-area { display:none; }
+    .results-area.visible { display:block; }
+    .results-header { display:flex; align-items:flex-end; justify-content:space-between; margin-bottom:24px; padding-bottom:20px; border-bottom:1px solid var(--border-subtle); }
+    .results-domain { font-family:var(--font-display); font-size:2rem; font-weight:700; }
+    .results-meta { display:flex; align-items:center; gap:12px; margin-bottom:8px; }
+    .results-badge { font-family:var(--font-mono); font-size:0.65rem; font-weight:700; text-transform:uppercase; letter-spacing:0.1em; padding:4px 12px; border-radius:100px; background:rgba(74,222,128,0.1); color:#4ade80; border:1px solid rgba(74,222,128,0.2); }
+    .results-score-label { font-family:var(--font-mono); font-size:0.65rem; color:var(--text-tertiary); text-transform:uppercase; letter-spacing:0.12em; margin-bottom:4px; text-align:right; }
+    .results-score-num { font-family:var(--font-heading); font-size:3rem; font-weight:800; color:var(--brand-primary); line-height:1; }
+
+    /* Tabs */
+    .tabs-bar { display:flex; gap:0; border-bottom:1px solid var(--border-subtle); margin-bottom:24px; overflow-x:auto; }
+    .tab-btn { background:transparent; border:none; color:var(--text-tertiary); padding:12px 20px; border-bottom:2px solid transparent; cursor:pointer; transition:all 0.2s; font-family:var(--font-heading); font-size:0.875rem; font-weight:500; white-space:nowrap; }
+    .tab-btn:hover { color:var(--text-primary); }
+    .tab-btn.active { color:var(--brand-primary); border-bottom-color:var(--brand-primary); }
+
+    /* Scores / vitals */
+    .scores-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:14px; margin-bottom:24px; }
+    .score-card { background:var(--bg-surface); border:1px solid var(--border-subtle); border-radius:14px; padding:20px 16px; text-align:center; }
+    .score-ring { width:64px; height:64px; position:relative; margin:0 auto 12px; }
+    .score-ring svg { width:64px; height:64px; transform:rotate(-90deg); }
     .score-ring-bg { fill:none; stroke:rgba(255,255,255,0.06); stroke-width:6; }
-    .score-ring-bar { fill:none; stroke-width:6; stroke-linecap:round; transition:stroke-dashoffset 1s ease, stroke 0.3s; }
-    .score-number { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; font-family:var(--font-heading); font-size:1.2rem; font-weight:800; }
-    .score-name { font-size:0.78rem; color:var(--text-tertiary); margin-bottom:6px; }
-    .score-grade { font-family:var(--font-mono); font-size:0.65rem; text-transform:uppercase; letter-spacing:0.1em; padding:3px 10px; border-radius:100px; display:inline-block; }
+    .score-ring-bar { fill:none; stroke-width:6; stroke-linecap:round; }
+    .score-number { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; font-family:var(--font-heading); font-size:1.1rem; font-weight:800; }
+    .score-name { font-size:0.75rem; color:var(--text-tertiary); margin-bottom:6px; }
+    .score-grade { font-family:var(--font-mono); font-size:0.6rem; text-transform:uppercase; letter-spacing:0.1em; padding:3px 8px; border-radius:100px; display:inline-block; }
     .grade-good { background:rgba(74,222,128,0.1); color:#4ade80; }
-    .grade-warn { background:rgba(251,191,36,0.1); color:var(--brand-accent); }
+    .grade-warn { background:rgba(251,191,36,0.1); color:#fbbf24; }
     .grade-bad { background:rgba(248,113,113,0.1); color:#f87171; }
     .grade-none { background:rgba(255,255,255,0.04); color:var(--text-tertiary); }
+    .vitals-grid { display:grid; grid-template-columns:repeat(5,1fr); gap:10px; margin-bottom:24px; }
+    .vital-card { background:var(--bg-surface); border:1px solid var(--border-subtle); border-radius:12px; padding:14px; }
+    .vital-label { font-family:var(--font-mono); font-size:0.62rem; text-transform:uppercase; letter-spacing:0.1em; color:var(--text-tertiary); margin-bottom:8px; }
+    .vital-value { font-family:var(--font-heading); font-size:1.1rem; font-weight:700; }
+    .vital-desc { font-size:0.7rem; color:var(--text-tertiary); margin-top:3px; }
 
-    /* Vitals */
-    .vitals-grid { display:grid; grid-template-columns:repeat(5, 1fr); gap:12px; margin-bottom:28px; }
-    .vital-card { background:var(--bg-surface); border:1px solid var(--border-subtle); border-radius:12px; padding:16px; }
-    .vital-label { font-family:var(--font-mono); font-size:0.65rem; text-transform:uppercase; letter-spacing:0.1em; color:var(--text-tertiary); margin-bottom:8px; }
-    .vital-value { font-family:var(--font-heading); font-size:1.15rem; font-weight:700; }
-    .vital-desc { font-size:0.72rem; color:var(--text-tertiary); margin-top:4px; }
+    /* Data tables */
+    .data-table { width:100%; border-collapse:separate; border-spacing:0; }
+    .data-table th { text-align:left; padding:10px 14px; color:var(--text-tertiary); font-size:0.7rem; text-transform:uppercase; letter-spacing:0.1em; border-bottom:1px solid var(--border-medium); font-family:var(--font-mono); }
+    .data-table td { padding:10px 14px; border-bottom:1px solid var(--border-subtle); color:var(--text-secondary); font-size:0.875rem; }
+    .data-table tr:last-child td { border-bottom:none; }
+    .data-table tr:hover td { background:rgba(255,255,255,0.015); }
 
-    /* Raw output */
-    .raw-output { background:var(--bg-void); border:1px solid var(--border-subtle); border-radius:12px; padding:20px; font-family:var(--font-mono); font-size:0.78rem; line-height:1.6; color:var(--text-secondary); white-space:pre-wrap; word-break:break-all; max-height:280px; overflow-y:auto; }
+    /* Metric boxes */
+    .metric-box { background:rgba(255,255,255,0.02); border:1px solid var(--border-subtle); border-radius:12px; padding:20px; text-align:center; }
+    .metric-val { font-size:1.75rem; font-weight:700; font-family:var(--font-heading); color:var(--text-primary); margin-bottom:6px; }
+    .metric-lbl { font-size:0.7rem; text-transform:uppercase; letter-spacing:0.1em; color:var(--text-tertiary); }
+    .gauge-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:12px; }
 
-    /* Error banner */
-    .error-banner { background:rgba(248,113,113,0.06); border:1px solid rgba(248,113,113,0.2); border-radius:12px; padding:16px 20px; display:flex; align-items:flex-start; gap:12px; margin-bottom:20px; }
-    .error-banner i { color:#f87171; font-size:1.1rem; margin-top:2px; flex-shrink:0; }
-    .error-banner-text { font-size:0.85rem; color:var(--text-secondary); }
-    .error-banner-text strong { color:#f87171; display:block; margin-bottom:4px; }
+    /* Raw JSON */
+    .raw-panel { background:var(--bg-void); border:1px solid var(--border-subtle); border-radius:12px; padding:18px; font-family:var(--font-mono); font-size:0.75rem; line-height:1.65; color:var(--text-secondary); white-space:pre-wrap; word-break:break-all; max-height:360px; overflow-y:auto; }
 
-    @media (max-width:900px) { .admin-layout{grid-template-columns:1fr;} .sidebar{position:relative;width:100%;height:auto;} .main-content{margin-left:0;} .scores-grid{grid-template-columns:repeat(2,1fr);} .vitals-grid{grid-template-columns:repeat(2,1fr);} .audit-form{grid-template-columns:1fr;} }
+    /* Section labels */
+    .section-label { font-family:var(--font-mono); font-size:0.68rem; font-weight:700; text-transform:uppercase; letter-spacing:0.15em; color:var(--text-tertiary); margin-bottom:14px; padding-bottom:8px; border-bottom:1px solid var(--border-subtle); margin-top:28px; }
+
+    .rank-good { color:#4ade80; font-family:var(--font-mono); font-size:0.8rem; font-weight:700; }
+    .rank-warn { color:#fbbf24; font-family:var(--font-mono); font-size:0.8rem; font-weight:700; }
+    .rank-bad { color:#f87171; font-family:var(--font-mono); font-size:0.8rem; font-weight:700; }
+
+    @media (max-width:900px) {
+      .admin-layout { grid-template-columns:1fr; }
+      .sidebar { position:relative; width:100%; height:auto; }
+      .main-content { margin-left:0; }
+      .module-grid { grid-template-columns:repeat(2,1fr); }
+      .scores-grid { grid-template-columns:repeat(2,1fr); }
+      .vitals-grid { grid-template-columns:repeat(2,1fr); }
+      .gauge-grid { grid-template-columns:repeat(2,1fr); }
+      .form-grid { grid-template-columns:1fr; }
+    }
   </style>
 </head>
 <body>
+
+<div id="loaderOverlay" class="loader-overlay">
+  <div class="loader-spinner"></div>
+  <div class="loader-title">Running SEO Audit</div>
+  <div class="loader-status">Initializing…</div>
+  <div class="loader-steps">
+    <div class="loader-step" id="lstep1"><i class="ri-loader-4-line"></i> Checking page structure</div>
+    <div class="loader-step" id="lstep2"><i class="ri-loader-4-line"></i> Measuring page speed</div>
+    <div class="loader-step" id="lstep3"><i class="ri-loader-4-line"></i> Scanning keywords</div>
+    <div class="loader-step" id="lstep4"><i class="ri-loader-4-line"></i> Fetching backlink data</div>
+    <div class="loader-step" id="lstep5"><i class="ri-loader-4-line"></i> Building report</div>
+  </div>
+</div>
+
 <div class="admin-layout">
 
   <aside class="sidebar">
@@ -119,9 +211,10 @@
       <div class="nav-group-label">Marketing Team</div>
       <a href="/admin/marketing" class="nav-item"><i class="ri-robot-line"></i>AI Marketing</a>
       <div class="nav-group-label">SEO</div>
-      <a href="/admin/seo" class="nav-item active"><i class="ri-search-eye-line"></i>SEO Audit Tool</a>
+      <a href="/admin/seo" class="nav-item active"><i class="ri-search-eye-line"></i>SEO Audit</a>
       <div class="nav-group-label">Site</div>
       <a href="/" class="nav-item" target="_blank"><i class="ri-home-line"></i>Homepage</a>
+      <a href="/seo-dashboard" class="nav-item" target="_blank"><i class="ri-external-link-line"></i>Public Audit Tool</a>
       <a href="/admin/newclient" class="nav-item"><i class="ri-user-star-line"></i>New Client Intake</a>
     </nav>
     <div class="sidebar-footer">
@@ -134,77 +227,196 @@
 
   <div class="main-content">
     <div class="top-bar">
-      <div class="page-title"><i class="ri-search-eye-line"></i>SEO Audit Tool</div>
-      <span class="admin-badge">Admin Only</span>
+      <div class="page-title"><i class="ri-search-eye-line"></i>SEO Audit Console</div>
+      <span class="admin-badge">Admin Mode — No Paywalls</span>
     </div>
 
     <div class="content-area">
 
+      <!-- API Status Bar -->
+      <div class="api-status-bar">
+        <div class="api-pill warn" id="pillPagespeed"><span class="dot"></span>PageSpeed: Checking…</div>
+        <div class="api-pill warn" id="pillDataforseo"><span class="dot"></span>DataForSEO: Checking…</div>
+        <div class="api-pill warn" id="pillStripe"><span class="dot"></span>Stripe: Checking…</div>
+      </div>
+
+      <!-- Config Warnings -->
+      <div id="bannerNoPagespeed" class="banner warn" style="display:none;">
+        <i class="ri-error-warning-line"></i>
+        <div><strong>PageSpeed API key not set.</strong> On-page and speed modules require <code>GOOGLE_PAGESPEED_API_KEY</code>. Get a free key at <a href="https://console.cloud.google.com/" target="_blank">Google Cloud Console</a> → APIs & Services → PageSpeed Insights API.</div>
+      </div>
+      <div id="bannerNoDataforseo" class="banner warn" style="display:none;">
+        <i class="ri-error-warning-line"></i>
+        <div><strong>DataForSEO not configured.</strong> Keywords, backlinks, SERP, and competitor modules need <code>DATAFORSEO_USERNAME</code> + <code>DATAFORSEO_PASSWORD</code>. Get credentials at <a href="https://dataforseo.com/" target="_blank">dataforseo.com</a>.</div>
+      </div>
+
+      <!-- Module Selection -->
+      <div class="audit-panel">
+        <div class="audit-panel-header">
+          <i class="ri-layout-masonry-line"></i>
+          <div>
+            <div class="audit-panel-title">Select Audit Modules</div>
+            <div class="audit-panel-sub">All modules available — no paywalls.</div>
+          </div>
+        </div>
+        <div style="padding:20px;">
+          <div class="module-grid">
+            <div class="module-card selected" data-module="on_page" onclick="toggleModule('on_page')">
+              <div class="module-icon"><i class="ri-layout-masonry-line"></i></div>
+              <i class="ri-checkbox-circle-fill module-check checked" id="icon-on_page"></i>
+              <h4>On-Page SEO</h4>
+              <p>Title tags, meta descriptions, headings, images, internal links.</p>
+            </div>
+            <div class="module-card selected" data-module="speed" onclick="toggleModule('speed')">
+              <div class="module-icon"><i class="ri-flashlight-line"></i></div>
+              <i class="ri-checkbox-circle-fill module-check checked" id="icon-speed"></i>
+              <h4>Page Speed</h4>
+              <p>Core Web Vitals — LCP, CLS, TTFB, FCP via Google Lighthouse.</p>
+            </div>
+            <div class="module-card selected" data-module="keywords" onclick="toggleModule('keywords')">
+              <div class="module-icon"><i class="ri-key-2-line"></i></div>
+              <i class="ri-checkbox-circle-fill module-check checked" id="icon-keywords"></i>
+              <h4>Keyword Analysis</h4>
+              <p>Ranking keywords, gaps, search volume via DataForSEO.</p>
+            </div>
+            <div class="module-card selected" data-module="backlinks" onclick="toggleModule('backlinks')">
+              <div class="module-icon"><i class="ri-links-line"></i></div>
+              <i class="ri-checkbox-circle-fill module-check checked" id="icon-backlinks"></i>
+              <h4>Backlink Profile</h4>
+              <p>Total backlinks, referring domains, domain rank.</p>
+            </div>
+            <div class="module-card selected" data-module="serp" onclick="toggleModule('serp')">
+              <div class="module-icon"><i class="ri-search-eye-line"></i></div>
+              <i class="ri-checkbox-circle-fill module-check checked" id="icon-serp"></i>
+              <h4>Search Rankings</h4>
+              <p>Current Google positions for target keywords.</p>
+            </div>
+            <div class="module-card selected" data-module="competitor" onclick="toggleModule('competitor')">
+              <div class="module-icon"><i class="ri-radar-line"></i></div>
+              <i class="ri-checkbox-circle-fill module-check checked" id="icon-competitor"></i>
+              <h4>Competitor Analysis</h4>
+              <p>Keyword overlap and authority benchmarking.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <!-- Audit Form -->
       <div class="audit-panel">
         <div class="audit-panel-header">
-          <i class="ri-search-eye-line"></i>
+          <i class="ri-settings-3-line"></i>
           <div>
-            <div class="audit-panel-title">Run SEO Audit</div>
-            <div class="audit-panel-sub">Google Lighthouse via PageSpeed Insights API — free, no token consumed</div>
+            <div class="audit-panel-title">Audit Configuration</div>
+            <div class="audit-panel-sub">Enter URL, optional keywords and competitors, then run.</div>
           </div>
         </div>
-        <div id="configWarn" style="display:none;" class="config-warn">
-          <i class="ri-error-warning-line"></i>
-          <div class="config-warn-text">
-            <strong>PageSpeed API key not configured.</strong>
-            Set the <code>GOOGLE_PAGESPEED_API_KEY</code> environment variable to enable live audits. You can get a free key from <a href="https://console.cloud.google.com/" target="_blank" style="color:var(--brand-primary);">Google Cloud Console</a> → APIs & Services → PageSpeed Insights API.
-          </div>
-        </div>
-        <div class="audit-form">
-          <div class="form-group" style="grid-column:1">
-            <label>URL to Audit</label>
-            <input id="targetUrl" type="url" placeholder="https://www.example.com" autocomplete="off" spellcheck="false">
+        <div class="form-grid">
+          <div class="form-group full-row">
+            <label>Target Website URL</label>
+            <input id="targetUrl" type="url" placeholder="https://www.5cypress.com" autocomplete="off" spellcheck="false">
           </div>
           <div class="form-group">
-            <label>Device</label>
+            <label>Target Keywords <span style="opacity:0.5;">(optional, one per line)</span></label>
+            <textarea id="keywords" rows="4" placeholder="automation services&#10;workflow optimization&#10;B2B marketing automation"></textarea>
+          </div>
+          <div class="form-group">
+            <label>Competitor URLs <span style="opacity:0.5;">(optional)</span></label>
+            <input id="comp1" type="url" placeholder="https://competitor1.com" style="margin-bottom:10px;">
+            <input id="comp2" type="url" placeholder="https://competitor2.com">
+          </div>
+          <div class="form-group">
+            <label>Device Strategy</label>
             <select id="strategy">
-              <option value="mobile">Mobile</option>
+              <option value="mobile">Mobile (default)</option>
               <option value="desktop">Desktop</option>
             </select>
           </div>
-          <button class="audit-btn" id="runBtn" type="button">
-            <i class="ri-play-circle-line" id="runIcon"></i>
-            Run Audit
+        </div>
+        <div class="form-actions">
+          <button class="run-btn" id="runBtn" type="button" onclick="runAudit()">
+            <i class="ri-play-circle-line"></i>
+            Run Full Audit
+          </button>
+          <button class="reset-btn" type="button" onclick="resetForm()">
+            <i class="ri-refresh-line"></i> Reset
+          </button>
+          <button class="reset-btn" type="button" onclick="loadSampleData()" style="margin-left:auto;">
+            <i class="ri-flask-line"></i> Load Sample
           </button>
         </div>
       </div>
 
-      <!-- Error banner (hidden by default) -->
-      <div class="error-banner" id="errorBanner" style="display:none;">
+      <!-- Error Banner -->
+      <div class="banner err" id="errBanner" style="display:none;">
         <i class="ri-error-warning-line"></i>
-        <div class="error-banner-text"><strong id="errorTitle">Audit failed</strong><span id="errorMsg"></span></div>
+        <div><strong id="errTitle">Audit failed</strong> — <span id="errMsg"></span></div>
       </div>
 
-      <!-- Results (hidden until audit runs) -->
-      <div class="results-section" id="resultsSection">
-
-        <div class="section-label">Lighthouse Scores</div>
-        <div class="scores-grid" id="scoresGrid">
-          <!-- Injected by JS -->
+      <!-- ── RESULTS ── -->
+      <div class="results-area" id="resultsArea">
+        <div class="results-header">
+          <div>
+            <div class="results-meta">
+              <span class="results-badge">AUDIT COMPLETE</span>
+              <span style="font-family:var(--font-mono);font-size:0.72rem;color:var(--text-tertiary);" id="resultTimestamp"></span>
+              <span id="sampleTag" style="display:none;font-family:var(--font-mono);font-size:0.65rem;padding:3px 10px;border-radius:100px;background:rgba(251,191,36,0.1);border:1px solid rgba(251,191,36,0.25);color:#fbbf24;">SAMPLE DATA</span>
+            </div>
+            <div class="results-domain" id="resultDomain">domain.com</div>
+          </div>
+          <div>
+            <div class="results-score-label">Overall Score</div>
+            <div class="results-score-num" id="overallScore">—</div>
+          </div>
         </div>
 
-        <div class="section-label">Core Web Vitals</div>
-        <div class="vitals-grid" id="vitalsGrid">
-          <!-- Injected by JS -->
+        <div class="tabs-bar" id="tabsBar"></div>
+        <div id="tabContent" style="min-height:300px;transition:opacity 0.15s;"></div>
+
+        <div style="margin-top:24px;">
+          <button onclick="toggleRaw()" class="reset-btn" style="font-family:var(--font-mono);font-size:0.7rem;"><i class="ri-code-s-slash-line"></i> Toggle Raw JSON</button>
+          <div id="rawPanel" class="raw-panel" style="display:none;margin-top:12px;"></div>
         </div>
-
-        <div class="section-label">Audit Details</div>
-        <pre class="raw-output" id="rawOutput"></pre>
-
       </div>
 
     </div><!-- /content-area -->
   </div><!-- /main-content -->
-</div>
+</div><!-- /admin-layout -->
 
 <script>
-  /* ── Sidebar health ── */
+  const state = {
+    selectedModules: ['on_page','speed','keywords','backlinks','serp','competitor'],
+    auditData: null,
+    competitorData: [],
+    rawJson: null,
+    siteConfig: { dataforseo_enabled:false, pagespeed_enabled:false, stripe_enabled:false }
+  };
+
+  window.addEventListener('DOMContentLoaded', async () => {
+    checkHealth();
+    await loadSiteConfig();
+    document.getElementById('targetUrl').value = 'https://www.5cypress.com';
+    syncModuleUI();
+  });
+
+  async function loadSiteConfig() {
+    try {
+      const r = await fetch('/api/seo/config');
+      if (r.ok) state.siteConfig = await r.json();
+    } catch(e) { /* use defaults */ }
+    setPill('pillPagespeed', state.siteConfig.pagespeed_enabled, 'PageSpeed API');
+    setPill('pillDataforseo', state.siteConfig.dataforseo_enabled, 'DataForSEO');
+    setPill('pillStripe', state.siteConfig.stripe_enabled, 'Stripe');
+    if (!state.siteConfig.pagespeed_enabled) document.getElementById('bannerNoPagespeed').style.display = 'flex';
+    if (!state.siteConfig.dataforseo_enabled) document.getElementById('bannerNoDataforseo').style.display = 'flex';
+  }
+
+  function setPill(id, ok, label) {
+    const el = document.getElementById(id);
+    if (!el) return;
+    el.className = ok ? 'api-pill ok' : 'api-pill err';
+    el.innerHTML = `<span class="dot"></span>${label}: ${ok ? 'Ready' : 'Not configured'}`;
+  }
+
   async function checkHealth() {
     try {
       const r = await fetch('/health');
@@ -215,142 +427,381 @@
       document.getElementById('sidebarStatusText').textContent = 'Unreachable';
     }
   }
+  setInterval(checkHealth, 30000);
 
-  /* ── Score helpers ── */
-  function scoreColor(v) {
-    if (v === null || v === undefined) return 'rgba(255,255,255,0.15)';
-    const n = Math.round(v * 100);
-    if (n >= 90) return '#4ade80';
-    if (n >= 50) return '#fbbf24';
-    return '#f87171';
-  }
-  function gradeClass(v) {
-    if (v === null || v === undefined) return 'grade-none';
-    const n = Math.round(v * 100);
-    if (n >= 90) return 'grade-good';
-    if (n >= 50) return 'grade-warn';
-    return 'grade-bad';
-  }
-  function gradeLabel(v) {
-    if (v === null || v === undefined) return '—';
-    const n = Math.round(v * 100);
-    if (n >= 90) return 'Good';
-    if (n >= 50) return 'Needs Work';
-    return 'Poor';
+  function toggleModule(id) {
+    const idx = state.selectedModules.indexOf(id);
+    if (idx > -1) { if (state.selectedModules.length > 1) state.selectedModules.splice(idx, 1); }
+    else { state.selectedModules.push(id); }
+    syncModuleUI();
   }
 
-  function scoreCard(label, value) {
-    const num = value !== null && value !== undefined ? Math.round(value * 100) : null;
-    const color = scoreColor(value);
-    const circumference = 2 * Math.PI * 30; // r=30
-    const offset = num !== null ? circumference - (num / 100) * circumference : circumference;
-    const displayNum = num !== null ? num : '—';
-    return `<div class="score-card">
-      <div class="score-ring">
-        <svg viewBox="0 0 72 72">
-          <circle class="score-ring-bg" cx="36" cy="36" r="30"/>
-          <circle class="score-ring-bar" cx="36" cy="36" r="30"
-            stroke="${color}"
-            stroke-dasharray="${circumference}"
-            stroke-dashoffset="${offset}"/>
-        </svg>
-        <div class="score-number" style="color:${color}">${displayNum}</div>
-      </div>
-      <div class="score-name">${label}</div>
-      <span class="score-grade ${gradeClass(value)}">${gradeLabel(value)}</span>
-    </div>`;
+  function syncModuleUI() {
+    document.querySelectorAll('.module-card').forEach(card => {
+      const id = card.dataset.module;
+      const icon = document.getElementById(`icon-${id}`);
+      const sel = state.selectedModules.includes(id);
+      card.classList.toggle('selected', sel);
+      if (icon) icon.className = sel ? 'ri-checkbox-circle-fill module-check checked' : 'ri-checkbox-blank-circle-line module-check unchecked';
+    });
   }
 
-  const VITAL_META = {
-    lcp:  { label: 'LCP',  desc: 'Largest Contentful Paint' },
-    cls:  { label: 'CLS',  desc: 'Cumulative Layout Shift' },
-    inp:  { label: 'INP',  desc: 'Interaction to Next Paint' },
-    fcp:  { label: 'FCP',  desc: 'First Contentful Paint' },
-    ttfb: { label: 'TTFB', desc: 'Time to First Byte' }
-  };
-  function vitalCard(key, value) {
-    const meta = VITAL_META[key] || { label: key.toUpperCase(), desc: '' };
-    return `<div class="vital-card">
-      <div class="vital-label">${meta.label}</div>
-      <div class="vital-value">${value || '—'}</div>
-      <div class="vital-desc">${meta.desc}</div>
-    </div>`;
-  }
-
-  /* ── Run Audit ── */
   async function runAudit() {
-    const url      = document.getElementById('targetUrl').value.trim();
+    const url = document.getElementById('targetUrl').value.trim();
+    if (!url) { document.getElementById('targetUrl').focus(); return; }
+    const keywords = document.getElementById('keywords').value.trim();
+    const comp1 = document.getElementById('comp1').value.trim();
+    const comp2 = document.getElementById('comp2').value.trim();
     const strategy = document.getElementById('strategy').value;
-    const runBtn   = document.getElementById('runBtn');
-    const runIcon  = document.getElementById('runIcon');
-    const results  = document.getElementById('resultsSection');
-    const errBanner = document.getElementById('errorBanner');
+    const comps = [comp1, comp2].filter(Boolean);
+    state.competitorData = comps;
 
-    if (!url) {
-      document.getElementById('targetUrl').focus();
-      return;
-    }
+    showLoader();
+    document.getElementById('errBanner').style.display = 'none';
+    document.getElementById('resultsArea').classList.remove('visible');
 
-    runBtn.disabled = true;
-    runIcon.className = 'ri-loader-4-line spinner-icon';
-    errBanner.style.display = 'none';
-    results.classList.remove('visible');
+    const steps = ['lstep1','lstep2','lstep3','lstep4','lstep5'];
+    let si = 0;
+    const timer = setInterval(() => {
+      if (si > 0) { const p = document.getElementById(steps[si-1]); if(p){p.classList.remove('active');p.classList.add('done');p.querySelector('i').className='ri-check-line';} }
+      if (si < steps.length) { const c = document.getElementById(steps[si]); if(c) c.classList.add('active'); si++; }
+    }, 2200);
+
+    let auditData = null, rawJson = null, usedSample = false;
 
     try {
-      const r = await fetch(`/api/admin/seo-audit?url=${encodeURIComponent(url)}&strategy=${encodeURIComponent(strategy)}`);
-      const data = await r.json();
-
-      if (!r.ok) {
-        // Config warning if key missing
-        if (r.status === 503) {
-          document.getElementById('configWarn').style.display = 'flex';
+      // Primary: POST /api/seo/analyze (DataForSEO Python runner)
+      try {
+        const resp = await fetch('/api/seo/analyze', {
+          method:'POST',
+          headers:{'Content-Type':'application/json'},
+          body: JSON.stringify({
+            website_url: url,
+            modules: state.selectedModules,
+            keywords: keywords ? keywords.split('\n').map(k=>k.trim()).filter(Boolean) : [],
+            competitors: comps,
+            strategy
+          })
+        });
+        if (!resp.ok) {
+          const e = await resp.json().catch(()=>({}));
+          throw new Error(e.error || `HTTP ${resp.status}`);
         }
-        throw new Error(data.detail || data.error || `HTTP ${r.status}`);
+        const result = await resp.json();
+        rawJson = result;
+        auditData = result.data || result;
+        if (result.status === 'error') throw new Error(result.error || 'Backend error');
+      } catch(backendErr) {
+        console.warn('[Admin SEO] Backend unavailable, using sample:', backendErr.message);
+        auditData = generateSampleData(url);
+        rawJson = { _fallback:true, reason:backendErr.message, data:auditData };
+        usedSample = true;
       }
 
-      // Hide config warn on success
-      document.getElementById('configWarn').style.display = 'none';
+      // Supplemental: /admin/api/seo-audit (Lighthouse / PageSpeed)
+      if (state.siteConfig.pagespeed_enabled) {
+        try {
+          const psResp = await fetch(`/admin/api/seo-audit?url=${encodeURIComponent(url)}&strategy=${encodeURIComponent(strategy)}`);
+          if (psResp.ok) auditData._lighthouse = await psResp.json();
+        } catch(e) { /* non-fatal */ }
+      }
 
-      // Render scores
-      const { scores, vitals, fetchedAt, requested } = data;
-      document.getElementById('scoresGrid').innerHTML = [
-        scoreCard('Performance',     scores.performance),
-        scoreCard('Accessibility',   scores.accessibility),
-        scoreCard('Best Practices',  scores.bestPractices),
-        scoreCard('SEO',             scores.seo)
-      ].join('');
-
-      document.getElementById('vitalsGrid').innerHTML = Object.entries(vitals)
-        .map(([k, v]) => vitalCard(k, v)).join('');
-
-      document.getElementById('rawOutput').textContent =
-        `Audited:   ${requested.url}\n` +
-        `Device:    ${requested.strategy}\n` +
-        `Timestamp: ${new Date(fetchedAt).toLocaleString()}\n\n` +
-        `Scores\n──────\n` +
-        Object.entries(scores).map(([k, v]) => `${k.padEnd(16)} ${v !== null ? Math.round(v*100)+'/100' : '—'}`).join('\n') +
-        `\n\nCore Web Vitals\n───────────────\n` +
-        Object.entries(vitals).map(([k, v]) => `${k.toUpperCase().padEnd(6)} ${v || '—'}`).join('\n');
-
-      results.classList.add('visible');
-
+      state.auditData = auditData;
+      state.rawJson = rawJson;
+      renderResults(url, usedSample);
     } catch(err) {
-      errBanner.style.display = 'flex';
-      document.getElementById('errorTitle').textContent = 'Audit failed';
-      document.getElementById('errorMsg').textContent = ' — ' + (err.message || String(err));
+      document.getElementById('errBanner').style.display = 'flex';
+      document.getElementById('errTitle').textContent = 'Audit failed';
+      document.getElementById('errMsg').textContent = err.message || String(err);
     } finally {
-      runBtn.disabled = false;
-      runIcon.className = 'ri-play-circle-line';
+      clearInterval(timer);
+      hideLoader();
     }
   }
 
-  document.getElementById('runBtn').addEventListener('click', runAudit);
-  document.getElementById('targetUrl').addEventListener('keydown', e => { if (e.key === 'Enter') runAudit(); });
+  function showLoader() {
+    document.getElementById('loaderOverlay').classList.add('active');
+    document.querySelectorAll('.loader-step').forEach(s=>{s.classList.remove('active','done');s.querySelector('i').className='ri-loader-4-line';});
+  }
+  function hideLoader() { document.getElementById('loaderOverlay').classList.remove('active'); }
 
-  // Pre-fill with a useful default
-  document.getElementById('targetUrl').value = 'https://www.5cypress.com';
+  function resetForm() {
+    document.getElementById('targetUrl').value = '';
+    document.getElementById('keywords').value = '';
+    document.getElementById('comp1').value = '';
+    document.getElementById('comp2').value = '';
+    document.getElementById('resultsArea').classList.remove('visible');
+    document.getElementById('errBanner').style.display = 'none';
+  }
 
-  checkHealth();
+  function renderResults(url, isSample) {
+    const data = state.auditData || {};
+    try {
+      const host = new URL(url.startsWith('http') ? url : 'https://'+url).hostname;
+      document.getElementById('resultDomain').textContent = host;
+    } catch(e) { document.getElementById('resultDomain').textContent = url; }
+    document.getElementById('overallScore').textContent = data.score || '—';
+    document.getElementById('resultTimestamp').textContent = new Date().toLocaleString();
+    document.getElementById('sampleTag').style.display = isSample ? 'inline' : 'none';
+    document.getElementById('rawPanel').textContent = JSON.stringify(state.rawJson, null, 2);
+
+    const tabsBar = document.getElementById('tabsBar');
+    tabsBar.innerHTML = '';
+    const showLH = !!(data._lighthouse);
+    const tabs = [
+      {id:'overview',label:'Overview',show:true},
+      {id:'lighthouse',label:'Lighthouse',show:showLH},
+      {id:'on_page',label:'On-Page SEO',show:state.selectedModules.includes('on_page')},
+      {id:'speed',label:'Page Speed',show:state.selectedModules.includes('speed')},
+      {id:'keywords',label:'Keywords',show:state.selectedModules.includes('keywords')},
+      {id:'backlinks',label:'Backlinks',show:state.selectedModules.includes('backlinks')},
+      {id:'serp',label:'Rankings',show:state.selectedModules.includes('serp')},
+      {id:'competitor',label:'Competitors',show:state.selectedModules.includes('competitor')},
+    ];
+    let first = true;
+    tabs.forEach(t => {
+      if (!t.show) return;
+      const btn = document.createElement('button');
+      btn.className = `tab-btn${first ? ' active' : ''}`;
+      btn.textContent = t.label;
+      btn.onclick = () => showTab(t.id, btn);
+      tabsBar.appendChild(btn);
+      if (first) { first = false; showTabContent(t.id); }
+    });
+    document.getElementById('resultsArea').classList.add('visible');
+    window.scrollTo({ top: document.getElementById('resultsArea').offsetTop - 20, behavior:'smooth' });
+  }
+
+  function showTab(id, btnEl) {
+    document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+    if (btnEl) btnEl.classList.add('active');
+    const content = document.getElementById('tabContent');
+    content.style.opacity = '0.3';
+    setTimeout(() => { content.innerHTML = renderTab(id); content.style.opacity = '1'; }, 120);
+  }
+
+  function showTabContent(id) {
+    document.getElementById('tabContent').innerHTML = renderTab(id);
+  }
+
+  function renderTab(id) {
+    const data = state.auditData || {};
+    switch(id) {
+      case 'overview':   return renderOverview(data);
+      case 'lighthouse': return renderLighthouse(data._lighthouse);
+      case 'on_page':    return renderOnPage(data);
+      case 'speed':      return renderSpeed(data);
+      case 'keywords':   return renderKeywords(data);
+      case 'backlinks':  return renderBacklinks(data);
+      case 'serp':       return renderSERP(data);
+      case 'competitor': return renderCompetitor(data);
+      default:           return '<p style="color:var(--text-tertiary)">No data.</p>';
+    }
+  }
+
+  // ── Renderers ──────────────────────────────────────────────
+
+  function renderOverview(data) {
+    const imps = data.improvements || [];
+    const technical = data.full_report?.technical || [];
+    const recap = data.full_report?.recap || 'Audit complete. See tabs for detailed findings.';
+    return `
+      <div style="display:grid;grid-template-columns:1fr 280px;gap:24px;">
+        <div>
+          <div class="section-label" style="margin-top:0;">Summary</div>
+          <p style="color:var(--text-secondary);line-height:1.8;font-size:0.9rem;">${recap}</p>
+          ${imps.length ? `<div class="section-label">Recommended Fixes</div>
+          <div style="display:flex;flex-direction:column;gap:10px;">
+            ${imps.map((imp,i)=>`<div style="display:flex;align-items:flex-start;gap:12px;padding:12px 16px;background:rgba(255,255,255,0.02);border:1px solid var(--border-subtle);border-radius:10px;">
+              <span style="font-family:var(--font-mono);font-size:0.7rem;color:var(--brand-primary);background:rgba(93,140,93,0.1);border-radius:6px;padding:2px 8px;flex-shrink:0;">${i+1}</span>
+              <span style="font-size:0.875rem;color:var(--text-secondary);">${imp}</span>
+            </div>`).join('')}
+          </div>` : ''}
+          ${technical.length ? `<div class="section-label">Technical Health</div>
+          <table class="data-table">
+            <thead><tr><th>Check</th><th>Status</th></tr></thead>
+            <tbody>${technical.map(t=>`<tr><td>${t[0]}</td><td><span style="font-family:var(--font-mono);font-size:0.75rem;color:${t[1].toLowerCase().includes('pass') ? '#4ade80' : '#fbbf24'};">${t[1]}</span></td></tr>`).join('')}</tbody>
+          </table>` : ''}
+        </div>
+        <div>
+          <div class="section-label" style="margin-top:0;">Key Metrics</div>
+          <div style="display:flex;flex-direction:column;gap:12px;">
+            <div class="metric-box"><div class="metric-val" style="color:var(--brand-primary);">${data.score||'—'}</div><div class="metric-lbl">Overall SEO Score</div></div>
+            <div class="metric-box"><div class="metric-val">${data.page_speed?.metrics?.LCP||'—'}</div><div class="metric-lbl">Largest Contentful Paint</div></div>
+            <div class="metric-box"><div class="metric-val">${data.backlinks?.referring_domains||'—'}</div><div class="metric-lbl">Referring Domains</div></div>
+            <div class="metric-box"><div class="metric-val">${(data.keywords||[]).length||'—'}</div><div class="metric-lbl">Keywords Analyzed</div></div>
+          </div>
+        </div>
+      </div>`;
+  }
+
+  function renderLighthouse(ls) {
+    if (!ls) return noDataMsg('Lighthouse', 'speed');
+    const sc = ls.scores || {};
+    const vt = ls.vitals || {};
+    const C = 2 * Math.PI * 26;
+    const pct = v => v !== null && v !== undefined ? Math.round(v*100) : null;
+    const clr = v => { if(v===null) return 'rgba(255,255,255,0.2)'; return v>=90?'#4ade80':v>=50?'#fbbf24':'#f87171'; };
+    const gcls = v => { if(v===null) return 'grade-none'; return v>=90?'grade-good':v>=50?'grade-warn':'grade-bad'; };
+    const glbl = v => { if(v===null) return '—'; return v>=90?'Good':v>=50?'Needs Work':'Poor'; };
+    const ring = (label,rawVal) => {
+      const n=pct(rawVal), c=clr(n), off=n!==null?C-(n/100)*C:C;
+      return `<div class="score-card"><div class="score-ring"><svg viewBox="0 0 64 64"><circle class="score-ring-bg" cx="32" cy="32" r="26"/><circle class="score-ring-bar" cx="32" cy="32" r="26" stroke="${c}" stroke-dasharray="${C}" stroke-dashoffset="${off}"/></svg><div class="score-number" style="color:${c}">${n!==null?n:'—'}</div></div><div class="score-name">${label}</div><span class="score-grade ${gcls(n)}">${glbl(n)}</span></div>`;
+    };
+    const vm = {lcp:{l:'LCP',d:'Largest Contentful Paint'},cls:{l:'CLS',d:'Cumulative Layout Shift'},inp:{l:'INP',d:'Interaction to Next Paint'},fcp:{l:'FCP',d:'First Contentful Paint'},ttfb:{l:'TTFB',d:'Time to First Byte'}};
+    return `
+      <div class="section-label" style="margin-top:0;">Lighthouse Scores</div>
+      <div class="scores-grid">${ring('Performance',sc.performance)}${ring('Accessibility',sc.accessibility)}${ring('Best Practices',sc.bestPractices)}${ring('SEO',sc.seo)}</div>
+      <div class="section-label">Core Web Vitals</div>
+      <div class="vitals-grid">${Object.entries(vm).map(([k,m])=>`<div class="vital-card"><div class="vital-label">${m.l}</div><div class="vital-value">${vt[k]||'—'}</div><div class="vital-desc">${m.d}</div></div>`).join('')}</div>
+      <p style="font-family:var(--font-mono);font-size:0.7rem;color:var(--text-tertiary);">URL: ${ls.requested?.url||'—'} · Strategy: ${ls.requested?.strategy||'—'} · ${ls.fetchedAt?new Date(ls.fetchedAt).toLocaleString():'—'}</p>`;
+  }
+
+  function renderOnPage(data) {
+    const rows = data.full_report?.on_page || [];
+    if (!rows.length) return noDataMsg('On-page analysis', 'on_page');
+    return `<div class="section-label" style="margin-top:0;">On-Page SEO Checks</div>
+      <table class="data-table"><thead><tr><th>Check</th><th>Detected</th><th>Status</th></tr></thead><tbody>
+      ${rows.map(r=>{
+        const st=String(r[2]||'');
+        const cls=st.includes('Fail')?'background:rgba(248,113,113,0.1);color:#f87171;':st.includes('warn')||st.includes('Warn')?'background:rgba(251,191,36,0.1);color:#fbbf24;':'background:rgba(74,222,128,0.1);color:#4ade80;';
+        return `<tr><td style="font-weight:600;color:var(--text-primary);">${r[0]}</td><td style="font-family:var(--font-mono);font-size:0.8rem;">${r[1]}</td><td><span style="font-family:var(--font-mono);font-size:0.7rem;padding:3px 10px;border-radius:100px;${cls}">${st}</span></td></tr>`;
+      }).join('')}
+      </tbody></table>`;
+  }
+
+  function renderSpeed(data) {
+    const m = data.page_speed?.metrics || {};
+    const lsV = data._lighthouse?.vitals || {};
+    if (!Object.keys(m).length && !Object.keys(lsV).length) return noDataMsg('Page Speed', 'speed');
+    const display = {LCP:m.LCP||lsV.lcp||'—',TTFB:m.TTFB||lsV.ttfb||'—',CLS:m.CLS||lsV.cls||'—','FCP/FID':m.FID||lsV.fcp||'—'};
+    return `<div class="section-label" style="margin-top:0;">Performance Metrics</div>
+      <div class="gauge-grid">${Object.entries(display).map(([k,v])=>`<div class="metric-box"><div class="metric-val" style="color:var(--brand-primary);">${v}</div><div class="metric-lbl">${k}</div></div>`).join('')}</div>
+      <div style="margin-top:16px;padding:14px 18px;background:rgba(93,140,93,0.05);border:1px solid rgba(93,140,93,0.2);border-radius:12px;font-size:0.85rem;color:var(--text-secondary);">
+        <i class="ri-information-line" style="color:var(--brand-primary);margin-right:8px;"></i>
+        LCP should be &lt;2.5s · CLS should be &lt;0.1 · TTFB should be &lt;0.8s
+      </div>`;
+  }
+
+  function renderKeywords(data) {
+    const kws = data.keywords || [];
+    if (!kws.length) return noDataMsg('Keyword Analysis', 'keywords');
+    return `<div class="section-label" style="margin-top:0;">Keyword Opportunities</div>
+      <table class="data-table"><thead><tr><th>Keyword</th><th>Volume</th><th>Rank</th><th>Opportunity</th></tr></thead><tbody>
+      ${kws.map(k=>{
+        const r=k.rank?parseInt(String(k.rank).replace('#','')):99;
+        const cls=r<=10?'rank-good':r<=30?'rank-warn':'rank-bad';
+        const opp=r<=10?'✅ Ranking':r<=30?'⚡ Quick Win':'🔥 High Opp';
+        return `<tr><td style="font-weight:600;color:var(--text-primary);">${k.keyword}</td><td style="font-family:var(--font-mono);font-size:0.8rem;">${k.volume||'—'}/mo</td><td><span class="${cls}">${k.rank||'Not ranked'}</span></td><td>${opp}</td></tr>`;
+      }).join('')}
+      </tbody></table>
+      <p style="font-size:0.78rem;color:var(--text-tertiary);margin-top:12px;"><i class="ri-lightbulb-line" style="color:var(--brand-accent);"></i> Terms ranked #11–30 are quick-win targets.</p>`;
+  }
+
+  function renderBacklinks(data) {
+    const bl = data.backlinks || {};
+    const total = bl.total || bl.backlinks_count || 0;
+    const domains = bl.referring_domains || bl.referring_domains_count || 0;
+    const rank = bl.rank || bl.domain_rank || 0;
+    const health = rank>40?'#4ade80':rank>20?'#fbbf24':'#f87171';
+    const reco = rank>40?'Strong authority — focus on niche-relevant high-DR links.':rank>20?'Moderate authority — prioritize 3–5 guest posts on industry publications.':'Low authority — start with press releases, directory submissions, and partner links.';
+    return `<div class="section-label" style="margin-top:0;">Backlink Profile</div>
+      <div class="gauge-grid" style="margin-bottom:20px;">
+        <div class="metric-box"><div class="metric-val" style="color:var(--brand-primary);">${total.toLocaleString()}</div><div class="metric-lbl">Total Backlinks</div></div>
+        <div class="metric-box"><div class="metric-val">${domains.toLocaleString()}</div><div class="metric-lbl">Referring Domains</div></div>
+        <div class="metric-box"><div class="metric-val" style="color:${health};">${rank}</div><div class="metric-lbl">Domain Rank</div></div>
+        <div class="metric-box"><div class="metric-val">${domains>0?(total/domains).toFixed(1):'—'}</div><div class="metric-lbl">Links / Domain</div></div>
+      </div>
+      <div style="padding:14px 18px;background:rgba(93,140,93,0.05);border:1px solid rgba(93,140,93,0.2);border-radius:12px;font-size:0.875rem;">
+        <strong style="color:var(--brand-primary);">Interpretation: </strong><span style="color:var(--text-secondary);">${reco}</span>
+      </div>`;
+  }
+
+  function renderSERP(data) {
+    const kws = data.keywords || [];
+    if (!kws.length) return noDataMsg('Search Rankings', 'serp');
+    return `<div class="section-label" style="margin-top:0;">SERP Position Map</div>
+      <table class="data-table"><thead><tr><th>Keyword</th><th>Volume</th><th>Rank</th><th>Opportunity</th></tr></thead><tbody>
+      ${kws.map(k=>{
+        const r=k.rank?parseInt(String(k.rank).replace('#','')):99;
+        const cls=r<=10?'rank-good':r<=30?'rank-warn':'rank-bad';
+        const opp=r>30?'🔥 High':r>10?'⚡ Medium':'✅ Ranking';
+        return `<tr><td style="font-weight:600;">${k.keyword}</td><td style="font-family:var(--font-mono);font-size:0.8rem;">${k.volume||'—'}</td><td><span class="${cls}">${k.rank||'Not ranked'}</span></td><td>${opp}</td></tr>`;
+      }).join('')}
+      </tbody></table>`;
+  }
+
+  function renderCompetitor(data) {
+    const comps = state.competitorData;
+    if (!comps.length) return `<div style="text-align:center;padding:3rem;color:var(--text-tertiary);"><i class="ri-radar-line" style="font-size:2.5rem;display:block;margin-bottom:1rem;opacity:0.35;"></i><p>No competitor URLs provided. Add them in the form above and re-run.</p></div>`;
+    return `<div class="section-label" style="margin-top:0;">Competitive Intelligence</div>
+      <div class="banner info"><i class="ri-information-line"></i><div>Competitors analyzed: <strong>${comps.join(', ')}</strong>. Full head-to-head breakdown requires DataForSEO.</div></div>
+      ${(data.competitor_data||[]).length ? `<table class="data-table"><thead><tr><th>Domain</th><th>Domain Rank</th><th>Backlinks</th><th>Keywords</th></tr></thead><tbody>
+        ${(data.competitor_data||[]).map(c=>`<tr><td style="font-weight:600;">${c.domain||'—'}</td><td style="font-family:var(--font-mono);">${c.domain_rank||'—'}</td><td style="font-family:var(--font-mono);">${(c.backlinks||0).toLocaleString()}</td><td style="font-family:var(--font-mono);">${(c.keywords||0).toLocaleString()}</td></tr>`).join('')}
+      </tbody></table>` : '<p style="color:var(--text-tertiary);font-size:0.875rem;margin-top:12px;">No competitor data returned — check DataForSEO credentials.</p>'}`;
+  }
+
+  function noDataMsg(label, module) {
+    const needsDF = ['keywords','backlinks','serp','competitor'].includes(module);
+    const needsPS = ['on_page','speed','lighthouse'].includes(module);
+    return `<div style="text-align:center;padding:3rem;color:var(--text-tertiary);">
+      <i class="ri-database-2-line" style="font-size:2.5rem;display:block;margin-bottom:1rem;opacity:0.35;"></i>
+      <p><strong style="color:var(--text-secondary);">No ${label} data returned.</strong></p>
+      <p style="font-size:0.85rem;margin-top:8px;">${needsDF?'Set DATAFORSEO_USERNAME + DATAFORSEO_PASSWORD env vars.':''}${needsPS?'Set GOOGLE_PAGESPEED_API_KEY env var.':''}</p>
+    </div>`;
+  }
+
+  // ── Sample Data ──────────────────────────────────────────────
+  function generateSampleData(url) {
+    return {
+      score: 71, status:'success', domain:url, is_sample:true,
+      full_report: {
+        recap:`Sample data — backend unavailable or API keys not configured. Configure DATAFORSEO_USERNAME/PASSWORD and GOOGLE_PAGESPEED_API_KEY to get live results for ${url}.`,
+        on_page:[
+          ['Title Tag','Detected (58 chars)','Pass'],['Meta Description','Missing','Fail'],
+          ['H1 Tag','1 found','Pass'],['H2 Structure','4 headings','Pass'],
+          ['Image Alt Text','6 images missing alt','Warning'],['Word Count','1,240 words','Pass'],
+          ['Internal Links','8 internal links','Pass'],['Canonical Tag','Present','Pass'],
+          ['Robots Meta','index, follow','Pass'],['Schema Markup','None detected','Warning'],
+        ],
+        technical:[['HTTPS','Pass'],['Mobile-Friendly','Pass'],['Sitemap.xml','Present'],['Robots.txt','Present']]
+      },
+      page_speed:{metrics:{LCP:'2.1s',TTFB:'0.3s',CLS:'0.04',FID:'18ms'}},
+      keywords:[
+        {keyword:'automation services',volume:'12,000',rank:'#14'},
+        {keyword:'workflow automation B2B',volume:'3,400',rank:'#8'},
+        {keyword:'business process automation',volume:'22,000',rank:'#42'},
+        {keyword:'marketing automation small business',volume:'6,600',rank:'#23'},
+        {keyword:'QuickBooks invoice automation',volume:'1,900',rank:'#5'},
+      ],
+      backlinks:{total:1240,referring_domains:84,rank:45},
+      improvements:[
+        'Add meta descriptions — missing on ~60% of indexed pages',
+        'Compress hero images and convert to WebP (estimated 340KB savings)',
+        'Add schema.org Organization and WebApplication markup',
+        'Fix 6 images missing alt text — impacts accessibility and SEO signals',
+        'Consolidate render-blocking scripts in <head> to reduce FCP',
+      ]
+    };
+  }
+
+  function loadSampleData() {
+    document.getElementById('targetUrl').value = 'https://www.5cypress.com';
+    document.getElementById('keywords').value = 'automation services\nworkflow optimization\nB2B marketing automation';
+    document.getElementById('comp1').value = 'https://zapier.com';
+    document.getElementById('comp2').value = 'https://make.com';
+    state.selectedModules = ['on_page','speed','keywords','backlinks','serp','competitor'];
+    syncModuleUI();
+    state.auditData = generateSampleData('https://www.5cypress.com');
+    state.rawJson = state.auditData;
+    state.competitorData = ['https://zapier.com','https://make.com'];
+    renderResults('https://www.5cypress.com', true);
+  }
+
+  function toggleRaw() {
+    const p = document.getElementById('rawPanel');
+    p.style.display = p.style.display === 'none' ? 'block' : 'none';
+  }
 </script>
 </body>
 </html>

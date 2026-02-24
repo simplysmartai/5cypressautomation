@@ -30,6 +30,30 @@ db.exec(`
     utm_campaign TEXT,
     createdAt DATETIME DEFAULT CURRENT_TIMESTAMP
   );
+
+  CREATE TABLE IF NOT EXISTS seo_audits (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    domain TEXT,
+    email TEXT,
+    session_id TEXT UNIQUE,
+    status TEXT DEFAULT 'pending', -- 'pending', 'paid', 'expired'
+    report_data TEXT, -- JSON blob
+    createdAt DATETIME DEFAULT CURRENT_TIMESTAMP
+  );
+
+  CREATE TABLE IF NOT EXISTS leads (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name TEXT NOT NULL,
+    email TEXT NOT NULL,
+    company TEXT,
+    website TEXT,
+    source TEXT,
+    scanned_domain TEXT,
+    challenge TEXT,
+    timeline TEXT,
+    status TEXT DEFAULT 'new',
+    createdAt DATETIME DEFAULT CURRENT_TIMESTAMP
+  );
 `);
 
 // Seed data if empty

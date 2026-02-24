@@ -2,480 +2,1545 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SEO Optimization Dashboard | Simply Smart Automation</title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Free SEO Audit Tool — Check Your Site in 30 Seconds | 5 Cypress</title>
+    <meta name="description" content="Run a free SEO audit on any website. Get scores for on-page SEO, page speed, keywords, backlinks, and rankings — plus actionable fixes. No signup required.">
+    <meta property="og:title" content="Free SEO Audit Tool | 5 Cypress Automation">
+    <meta property="og:description" content="Enter your URL and get a detailed SEO report in seconds. On-page checks, speed scores, keyword gaps, and a clear list of what to fix first.">
+    <meta property="og:type" content="website">
+    <link rel="canonical" href="https://www.5cypress.com/seo-dashboard">
+
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "Free SEO Audit Tool",
+        "url": "https://www.5cypress.com/seo-dashboard",
+        "description": "Run a free SEO audit on any website. Get scores for on-page SEO, page speed, keywords, backlinks, and rankings.",
+        "applicationCategory": "SEO Tool",
+        "operatingSystem": "Web",
+        "offers": [
+            {"@type": "Offer", "price": "0", "priceCurrency": "USD", "description": "Free SEO Scan"},
+            {"@type": "Offer", "price": "50", "priceCurrency": "USD", "description": "Premium SEO Report"}
+        ],
+        "provider": {
+            "@type": "Organization",
+            "name": "5 Cypress Automation",
+            "url": "https://www.5cypress.com"
+        }
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+            {"@type": "Question", "name": "Is the free SEO audit really free?", "acceptedAnswer": {"@type": "Answer", "text": "Yes, completely free. No signup, no email required, no credit card. Enter your URL and get results in under 60 seconds."}},
+            {"@type": "Question", "name": "What does the premium SEO report include?", "acceptedAnswer": {"@type": "Answer", "text": "A 40+ page technical breakdown with prioritized fix list, competitive keyword gap analysis, complete backlink profile, and a custom 90-day SEO roadmap."}},
+            {"@type": "Question", "name": "How accurate is the SEO audit data?", "acceptedAnswer": {"@type": "Answer", "text": "We use Google's PageSpeed Insights API and DataForSEO — the same sources professional SEO agencies use."}},
+            {"@type": "Question", "name": "Do you offer ongoing SEO services?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. Monthly SEO management starting at $1,200/mo for small B2B companies, including technical fixes, content optimization, link building, and monthly reporting."}},
+            {"@type": "Question", "name": "Who is this SEO tool built for?", "acceptedAnswer": {"@type": "Answer", "text": "Small B2B tech and medical companies that need to improve search visibility but don't have an in-house SEO team."}}
+        ]
+    }
+    </script>
+
+    <!-- Icons & Fonts -->
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.0.0/fonts/remixicon.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="design-system.css">
+    <link rel="stylesheet" href="styles-premium.css">
+    <link rel="stylesheet" href="styles-mobile-enhanced.css">
+
     <style>
-        :root {
-            --bg-color: #020617;
-            --card-bg: #1e293b;
-            --text-primary: #f8fafc;
-            --text-secondary: #94a3b8;
-            --accent-green: #10b981;
-            --accent-blue: #3b82f6;
-            --border-color: #334155;
-        }
-
+        /* Console Specific Overrides */
         body {
-            background-color: var(--bg-color);
-            color: var(--text-primary);
-            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            padding-top: 80px; /* Space for fixed navbar */
         }
 
-        .glass-panel {
-            background: rgba(30, 41, 59, 0.7);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+        .console-container {
+            min-height: calc(100vh - 80px); /* Fill remaining usage */
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            z-index: 10;
+            padding-top: 20px; /* Space so H1 doesn't collide with fixed navbar */
+        }
+
+        .glass-panel-console {
+            background: rgba(10, 10, 12, 0.6);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            border-radius: 1.5rem;
+        }
+
+        /* Wizard Animations */
+        .wizard-step {
+            transition: opacity 0.4s ease, transform 0.4s ease;
+            animation: fadeIn 0.6s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Steps Indicator */
+        .step-indicator {
+            display: flex;
+            justify-content: center;
+            gap: 0.75rem;
+            margin-bottom: 2rem;
+        }
+
+        .step-dot {
+            width: 40px;
+            height: 4px;
+            background: var(--border-medium);
+            border-radius: 2px;
+            transition: all 0.4s ease;
+        }
+
+        .step-dot.active {
+            background: var(--brand-primary);
+            box-shadow: 0 0 15px var(--brand-primary-glow);
+        }
+
+        /* Module Grid Enhanced */
+        .module-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .module-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border-medium);
             border-radius: 1rem;
+            padding: 2rem;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
         }
 
-        .nav-link {
-            color: var(--text-secondary);
-            transition: all 0.2s;
-            border-left: 3px solid transparent;
+        .module-card:hover {
+            background: rgba(255, 255, 255, 0.06);
+            border-color: var(--brand-primary);
+            transform: translateY(-4px);
+            box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
         }
 
-        .nav-link:hover, .nav-link.active {
-            color: var(--accent-green);
-            background: rgba(16, 185, 129, 0.1);
-            border-left-color: var(--accent-green);
+        .module-card.selected {
+            background: linear-gradient(135deg, rgba(93, 140, 93, 0.1) 0%, rgba(10, 10, 12, 0.2) 100%);
+            border-color: var(--brand-primary);
+            box-shadow: 0 0 0 1px var(--brand-primary), 0 10px 30px -10px rgba(93, 140, 93, 0.3);
         }
 
-        .btn-primary {
-            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-            color: white;
+        .module-icon {
+            width: 48px;
+            height: 48px;
+            background: rgba(93, 140, 93, 0.1);
+            color: var(--brand-primary);
+            border-radius: 0.75rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            margin-bottom: 1.25rem;
+            border: 1px solid rgba(93, 140, 93, 0.2);
+        }
+
+        .module-card.selected .module-icon {
+            background: var(--brand-primary);
+            color: var(--bg-void);
+            box-shadow: 0 0 20px var(--brand-primary-glow);
+        }
+
+        /* Form Inputs Premium */
+        .form-input-premium {
+            width: 100%;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--border-medium);
+            border-radius: 0.5rem;
+            padding: 1rem 1.25rem;
+            color: var(--text-primary);
+            font-family: var(--font-heading);
+            font-size: 1rem;
             transition: all 0.3s ease;
         }
 
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+        .form-input-premium:focus {
+            outline: none;
+            border-color: var(--brand-primary);
+            box-shadow: 0 0 0 2px rgba(93, 140, 93, 0.2);
+            background: rgba(0, 0, 0, 0.5);
         }
 
-        /* Gauge Styles */
-        .gauge-container {
-            position: relative;
-            width: 150px;
-            height: 150px;
-            margin: 0 auto;
-        }
-
-        .gauge-bg {
-            fill: none;
-            stroke: #334155;
-            stroke-width: 10;
-        }
-
-        .gauge-value {
-            fill: none;
-            stroke: #10b981;
-            stroke-width: 10;
-            stroke-linecap: round;
-            transform: rotate(-90deg);
-            transform-origin: 50% 50%;
-            transition: stroke-dasharray 1s ease;
-        }
-
-        .gauge-text {
-            fill: #f8fafc;
-            font-size: 2rem;
-            font-weight: bold;
-            text-anchor: middle;
-            dominant-baseline: middle;
-        }
-
-        /* Table Syles */
-        .table-row {
-            border-bottom: 1px solid var(--border-color);
-            transition: background-color 0.2s;
+        /* Results & Tabs */
+        .tabs-container {
+            background: rgba(255, 255, 255, 0.02);
+            border-bottom: 1px solid var(--border-subtle);
+            padding: 0 2rem;
+            margin-bottom: 2rem;
+            display: flex;
+            gap: 2rem;
+            overflow-x: auto;
         }
         
-        .table-row:hover {
-            background-color: rgba(255, 255, 255, 0.02);
+        .tab-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-tertiary);
+            padding: 1rem 0;
+            border-bottom: 2px solid transparent;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: var(--font-heading);
+            font-weight: 500;
+            letter-spacing: 0.05em;
+            white-space: nowrap;
         }
 
-        /* Loading Animation */
-        .loading-pulse {
-            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        .tab-btn:hover { color: var(--text-primary); }
+        
+        .tab-btn.active {
+            color: var(--brand-primary);
+            border-bottom-color: var(--brand-primary);
         }
 
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: .5; }
+        /* Data Tables */
+        .data-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
         }
 
-        .hidden { display: none; }
+        .data-table th {
+            text-align: left;
+            padding: 1rem;
+            color: var(--text-tertiary);
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            border-bottom: 1px solid var(--border-medium);
+        }
+
+        .data-table td {
+            padding: 1rem;
+            border-bottom: 1px solid var(--border-subtle);
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .data-table tr:last-child td { border-bottom: none; }
+
+        /* Gauge Grid */
+        .gauge-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1rem;
+        }
+        @media (max-width: 768px) {
+            .gauge-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+
+        .metric-box {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--border-subtle);
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            text-align: center;
+        }
+
+        .metric-val {
+            font-size: 2rem;
+            font-weight: 700;
+            font-family: var(--font-heading);
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .metric-lbl {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--text-tertiary);
+        }
+
+        /* Utilities */
+        .hidden { display: none !important; }
+        .text-glow { text-shadow: 0 0 20px rgba(93, 140, 93, 0.5); }
     </style>
 </head>
-<body class="min-h-screen flex">
-    
-    <!-- Sidebar -->
-    <aside class="w-64 glass-panel border-r border-gray-800 fixed h-full z-10 flex flex-col">
-        <div class="p-6 border-b border-gray-800">
-            <div class="flex items-center gap-3">
-                <div class="w-8 h-8 rounded bg-green-500 flex items-center justify-center">
-                    <i class="fas fa-bolt text-white text-sm"></i>
-                </div>
-                <span class="font-bold text-lg tracking-tight">SimplySmart</span>
+<body class="bg-main text-primary font-body">
+
+    <!-- Atmospheric Background -->
+    <div class="atmosphere"></div>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container nav-container">
+        <a href="/" class="logo">
+            <div class="logo-icon logo-pulse">
+            <img src="assets/brand/logo-5cypress.jpg" alt="5 Cypress Automation Logo">
             </div>
-        </div>
+            <div class="logo-text-group">
+            <span class="logo-title text-gradient-special">5 Cypress</span>
+            <div class="logo-subtitle">
+                <span>A</span><span>U</span><span>T</span><span>O</span><span>M</span><span>A</span><span>T</span><span>I</span><span>O</span><span>N</span>
+            </div>
+            </div>
+        </a>
         
-        <nav class="flex-1 overflow-y-auto py-4">
-            <div class="px-4 mb-2 text-xs font-semibold text-gray-500 uppercase tracking-wider">
-                Services
-            </div>
-            <a href="dashboard.html" class="nav-link flex items-center gap-3 px-6 py-3">
-                <i class="fas fa-home w-5"></i>
-                <span>Main Dashboard</span>
-            </a>
-            <a href="#" class="nav-link active flex items-center gap-3 px-6 py-3">
-                <i class="fas fa-search w-5"></i>
-                <span>SEO Optimization</span>
-            </a>
-            <a href="#" class="nav-link flex items-center gap-3 px-6 py-3">
-                <i class="fas fa-chart-line w-5"></i>
-                <span>Analytics</span>
-            </a>
-        </nav>
-    </aside>
+        <div class="nav-menu">
+            <a href="/services.html" class="nav-link">Services</a>
+            <a href="/process.html" class="nav-link">Process</a>
+            <a href="/case-studies.html" class="nav-link">Case Studies</a>
+            <span class="nav-link active">Console</span>
+        </div>
 
-    <!-- Main Content -->
-    <main class="flex-1 ml-64 p-8">
-        <!-- Header -->
-        <header class="flex justify-between items-center mb-8">
-            <div>
-                <h1 class="text-3xl font-bold text-white mb-2">SEO Optimization Console</h1>
-                <p class="text-gray-400">Deep dive analysis, competitor tracking, and optimization insights.</p>
+        <div class="nav-actions">
+            <button onclick="window.location.href='/'" class="btn btn-secondary btn-sm">
+                <i class="ri-arrow-left-line" style="margin-right:4px"></i> Back to Site
+            </button>
+        </div>
+
+        <button class="mobile-toggle" onclick="toggleMobileMenu()" aria-label="Toggle mobile menu">
+            <i class="ri-menu-line"></i>
+        </button>
+        </div>
+    </nav>
+
+    <!-- Main Console Container -->
+    <main class="console-container container section-padding">
+        
+        <!-- Step 1: Selection -->
+        <div id="step1" class="wizard-step max-w-5xl mx-auto w-full">
+            <div class="text-center mb-12">
+                <div class="step-indicator">
+                    <div class="step-dot active"></div>
+                    <div class="step-dot"></div>
+                    <div class="step-dot"></div>
+                </div>
+                <h1 class="font-display text-5xl md:text-7xl mb-6">
+                    <span class="block text-gradient-special text-glow">Free SEO Audit</span>
+                </h1>
+                <p class="text-xl text-secondary max-w-2xl mx-auto font-light">
+                    Find out what's holding your website back. Pick your audit modules, enter your URL, and get results in under 60 seconds.
+                </p>
             </div>
-            <div class="flex gap-4">
-                <button onclick="requestMonthlyReport()" class="px-4 py-2 rounded-lg bg-gray-800 hover:bg-gray-700 text-gray-300 transition border border-gray-700">
-                    <i class="fas fa-file-download mr-2"></i>Generate Report
+
+            <div class="module-grid">
+                <!-- On-Page -->
+                <div class="module-card selected" data-module="on_page">
+                    <div class="flex justify-between items-start">
+                        <div class="module-icon"><i class="ri-layout-masonry-line"></i></div>
+                        <div class="module-check text-brand-primary">
+                            <i class="ri-checkbox-circle-fill text-xl" id="icon-on_page"></i>
+                        </div>
+                    </div>
+                    <h4 class="font-heading text-xl mb-2">On-Page SEO</h4>
+                    <p class="text-sm text-tertiary">Check title tags, meta descriptions, headings, images, and content structure.</p>
+                    <input type="checkbox" id="check-on_page" class="hidden" checked>
+                </div>
+
+                <!-- Speed -->
+                <div class="module-card" data-module="speed">
+                    <div class="flex justify-between items-start">
+                        <div class="module-icon"><i class="ri-flashlight-line"></i></div>
+                        <div class="module-check text-tertiary">
+                            <i class="ri-checkbox-blank-circle-line text-xl" id="icon-speed"></i>
+                        </div>
+                    </div>
+                    <h4 class="font-heading text-xl mb-2">Page Speed</h4>
+                    <p class="text-sm text-tertiary">Measure Core Web Vitals — LCP, CLS, TTFB — and find what's slowing you down.</p>
+                    <input type="checkbox" id="check-speed" class="hidden">
+                </div>
+
+                <!-- Keywords -->
+                <div class="module-card" data-module="keywords">
+                    <div class="flex justify-between items-start">
+                        <div class="module-icon"><i class="ri-key-2-line"></i></div>
+                        <div class="module-check text-tertiary">
+                            <i class="ri-checkbox-blank-circle-line text-xl" id="icon-keywords"></i>
+                        </div>
+                    </div>
+                    <h4 class="font-heading text-xl mb-2">Keyword Analysis</h4>
+                    <p class="text-sm text-tertiary">Find the keywords you should be ranking for but aren't targeting yet.</p>
+                    <input type="checkbox" id="check-keywords" class="hidden">
+                </div>
+
+                <!-- Backlinks -->
+                <div class="module-card" data-module="backlinks">
+                    <div class="flex justify-between items-start">
+                        <div class="module-icon"><i class="ri-links-line"></i></div>
+                        <div class="module-check text-tertiary">
+                            <i class="ri-checkbox-blank-circle-line text-xl" id="icon-backlinks"></i>
+                        </div>
+                    </div>
+                    <h4 class="font-heading text-xl mb-2">Backlink Profile</h4>
+                    <p class="text-sm text-tertiary">Analyze your backlinks, referring domains, and overall domain authority.</p>
+                    <input type="checkbox" id="check-backlinks" class="hidden">
+                </div>
+
+                <!-- SERP -->
+                <div class="module-card" data-module="serp">
+                    <div class="flex justify-between items-start">
+                        <div class="module-icon"><i class="ri-search-eye-line"></i></div>
+                        <div class="module-check text-tertiary">
+                            <i class="ri-checkbox-blank-circle-line text-xl" id="icon-serp"></i>
+                        </div>
+                    </div>
+                    <h4 class="font-heading text-xl mb-2">Search Rankings</h4>
+                    <p class="text-sm text-tertiary">See where you actually rank in Google for your target keywords.</p>
+                    <input type="checkbox" id="check-serp" class="hidden">
+                </div>
+
+                <!-- Competitor -->
+                <div class="module-card" data-module="competitor">
+                    <div class="flex justify-between items-start">
+                        <div class="module-icon"><i class="ri-radar-line"></i></div>
+                        <div class="module-check text-tertiary">
+                            <i class="ri-checkbox-blank-circle-line text-xl" id="icon-competitor"></i>
+                        </div>
+                    </div>
+                    <h4 class="font-heading text-xl mb-2">Competitor Analysis</h4>
+                    <p class="text-sm text-tertiary">Compare your SEO metrics head-to-head against your top competitors.</p>
+                    <input type="checkbox" id="check-competitor" class="hidden">
+                </div>
+            </div>
+
+            <div class="flex justify-between items-center border-t border-white/10 pt-8 mt-8">
+                <button id="btnSample" class="text-tertiary hover:text-brand-primary text-sm transition-colors">
+                    <i class="ri-flask-line mr-2"></i>See Sample Report
+                </button>
+                <button id="btnNextConfig" class="btn btn-primary btn-lg ripple">
+                    Next: Enter Your URL <i class="ri-arrow-right-line ml-2"></i>
                 </button>
             </div>
-        </header>
+        </div>
 
-        <!-- Analysis Input -->
-        <div class="glass-panel p-6 mb-8">
-            <div class="flex flex-col md:flex-row gap-4 items-end">
-                <div class="flex-1 w-full">
-                    <label class="block text-sm font-medium text-gray-300 mb-2">Target URL</label>
-                    <div class="relative">
-                        <i class="fas fa-globe absolute left-3 top-3 text-gray-500"></i>
-                        <input type="url" id="targetUrl" placeholder="https://example.com" 
-                            class="w-full bg-gray-800 border border-gray-700 rounded-lg py-2.5 pl-10 pr-4 text-white focus:ring-2 focus:ring-green-500 focus:border-transparent outline-none transition">
+        <!-- Step 2: Configuration -->
+        <div id="step2" class="wizard-step hidden max-w-3xl mx-auto w-full">
+            <div class="text-center mb-12">
+                <div class="step-indicator">
+                    <div class="step-dot"></div>
+                    <div class="step-dot active"></div>
+                    <div class="step-dot"></div>
+                </div>
+                <h1 class="font-display text-4xl md:text-5xl mb-4">Enter Your Website</h1>
+                <p class="text-secondary">We'll analyze your site and deliver results in under 60 seconds.</p>
+            </div>
+
+            <div class="glass-panel-console p-8 md:p-12">
+                <div class="mb-8">
+                    <label class="block text-xs uppercase tracking-widest text-tertiary mb-3">Website URL</label>
+                    <input type="text" id="targetUrl" class="form-input-premium" placeholder="https://yourwebsite.com" autocomplete="off">
+                </div>
+
+                <div id="keywordInput" class="mb-8 hidden">
+                    <label class="block text-xs uppercase tracking-widest text-tertiary mb-3">Target Keywords (optional)</label>
+                    <textarea id="keywords" class="form-input-premium" rows="3" placeholder="Enter keywords you want to rank for, one per line..."></textarea>
+                    <p class="text-xs text-tertiary mt-2">We'll check if these keywords appear in your page content and metadata.</p>
+                </div>
+
+                <div id="competitorInput" class="mb-8 hidden">
+                    <label class="block text-xs uppercase tracking-widest text-tertiary mb-3">Competitor Websites (optional)</label>
+                    <div class="space-y-4">
+                        <input type="text" id="comp1" class="form-input-premium" placeholder="Competitor URL 1">
+                        <input type="text" id="comp2" class="form-input-premium" placeholder="Competitor URL 2">
                     </div>
                 </div>
-                <div class="flex-1 w-full">
-                    <label class="block text-sm font-medium text-gray-300 mb-2">Target Keywords (comma separated)</label>
-                    <div class="relative">
-                        <i class="fas fa-key absolute left-3 top-3 text-gray-500"></i>
-                        <input type="text" id="keywords" placeholder="automation, consulting, ai agents" 
-                            class="w-full bg-gray-800 border border-gray-700 rounded-lg py-2.5 pl-10 pr-4 text-white focus:ring-2 focus:ring-green-500 focus:border-transparent outline-none transition">
+
+                <div class="flex justify-between items-center pt-8 border-t border-white/5">
+                    <button id="btnBack" class="btn btn-secondary">Back</button>
+                    <button id="btnExecute" class="btn btn-primary btn-lg ripple">
+                        Run Free Audit <i class="ri-search-line ml-2"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Step 3: Results -->
+        <div id="step3" class="wizard-step hidden w-full">
+            <header class="flex flex-col md:flex-row justify-between items-end mb-8 pb-8 border-b border-white/10">
+                <div>
+                    <div class="flex items-center gap-3 mb-2">
+                        <span class="px-3 py-1 bg-success/20 text-success text-xs font-bold rounded-full border border-success/30">ANALYSIS COMPLETE</span>
+                        <span class="text-tertiary text-sm" id="resultDate">Just now</span>
+                    </div>
+                    <h2 id="resultDomain" class="font-display text-4xl md:text-5xl">domain.com</h2>
+                </div>
+                <div class="text-right mt-6 md:mt-0">
+                    <div class="text-xs text-tertiary uppercase tracking-widest mb-1">Health Score</div>
+                    <div class="text-5xl font-bold text-brand-primary" id="overallScoreBadge">92</div>
+                </div>
+            </header>
+
+            <div class="glass-panel-console pb-0 overflow-hidden">
+                <div class="tabs-header border-b border-white/5 px-6 pt-4" id="tabsHeader">
+                    <!-- Dynamic Tabs -->
+                </div>
+
+                <div id="tabContent" class="p-8 min-h-[400px]">
+                    <!-- Content populated by JS -->
+                </div>
+            </div>
+
+            <!-- Premium Upsell / CTA -->
+            <div id="premiumOffer" class="mt-12 glass-panel-console" style="padding: 3rem; position: relative; overflow: hidden; border-color: rgba(93,140,93,0.3);">
+                <div style="position:absolute;top:-60px;right:-60px;width:300px;height:300px;background:radial-gradient(circle,rgba(93,140,93,0.1) 0%,transparent 70%);pointer-events:none;"></div>
+
+                <!-- Stripe mode (payment) -->
+                <div id="premiumStripe" style="display:none;">
+                    <div style="display:flex;flex-direction:column;gap:2rem;" class="premium-layout">
+                        <div style="flex:1;">
+                            <div style="display:inline-flex;align-items:center;gap:8px;background:rgba(93,140,93,0.1);border:1px solid rgba(93,140,93,0.3);border-radius:100px;padding:6px 16px;margin-bottom:20px;">
+                                <i class="ri-file-text-line" style="color:var(--brand-primary);"></i>
+                                <span style="font-size:0.75rem;font-weight:700;letter-spacing:0.1em;color:var(--brand-primary);">PREMIUM REPORT</span>
+                            </div>
+                            <h3 style="font-family:var(--font-display);font-size:clamp(1.5rem,3vw,2.25rem);font-weight:700;margin-bottom:12px;">Get the Full SEO Report</h3>
+                            <p style="color:var(--text-secondary);line-height:1.7;max-width:520px;">
+                                A complete 40+ page breakdown with actionable fix list, code snippets, competitive keyword map, backlink analysis, and a 90-day SEO roadmap built for your domain.
+                            </p>
+                            <div style="display:flex;gap:24px;margin-top:24px;">
+                                <div><div style="font-size:0.75rem;color:var(--text-tertiary);margin-bottom:4px;">DELIVERY</div><div style="font-weight:700;">Within 2 hours</div></div>
+                                <div><div style="font-size:0.75rem;color:var(--text-tertiary);margin-bottom:4px;">FORMAT</div><div style="font-weight:700;">PDF + Data Export</div></div>
+                                <div><div style="font-size:0.75rem;color:var(--text-tertiary);margin-bottom:4px;">PRICE</div><div style="font-weight:700;color:var(--brand-primary);">$50</div></div>
+                            </div>
+                        </div>
+                        <div style="min-width:280px;display:flex;flex-direction:column;gap:12px;">
+                            <input type="email" id="customerEmail" placeholder="your@company.com" class="form-input-premium" style="background:rgba(0,0,0,0.4);">
+                            <button id="btnUnlockPremium" class="btn btn-primary ripple" style="width:100%;justify-content:center;">
+                                <i class="ri-download-2-line" style="margin-right:8px;"></i>Get Full Report — $50
+                            </button>
+                            <p style="font-size:0.75rem;color:var(--text-tertiary);text-align:center;">One-time payment via Stripe. No subscription required.</p>
+                        </div>
                     </div>
                 </div>
-                <button onclick="runAnalysis()" class="btn-primary px-6 py-2.5 rounded-lg font-medium shadow-lg flex items-center gap-2">
-                    <span id="btnText">Run Audit</span>
-                    <i class="fas fa-rocket" id="btnIcon"></i>
+
+                <!-- Admin mode (free access) -->
+                <div id="premiumAdmin" style="display:none;">
+                    <div style="background:rgba(93,140,93,0.05);border:1px solid rgba(93,140,93,0.2);border-radius:1rem;padding:1.5rem;display:flex;align-items:center;gap:16px;">
+                        <div style="width:48px;height:48px;background:var(--brand-primary);border-radius:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                            <i class="ri-shield-check-line" style="font-size:1.5rem;color:#000;"></i>
+                        </div>
+                        <div style="flex:1;">
+                            <div style="font-weight:700;margin-bottom:4px;">Admin Access — Premium Report Available</div>
+                            <div style="font-size:0.875rem;color:var(--text-secondary);">You're authenticated as admin. Access the full report at no charge.</div>
+                        </div>
+                        <a id="btnAdminReport" href="#" class="btn btn-primary" style="flex-shrink:0;">
+                            <i class="ri-file-chart-line" style="margin-right:8px;"></i>View Full Report
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Calendly fallback (no Stripe) -->
+                <div id="premiumCalendly" style="display:none;">
+                    <div style="display:flex;flex-direction:column;gap:2rem;" class="premium-layout">
+                        <div style="flex:1;">
+                            <div style="display:inline-flex;align-items:center;gap:8px;background:rgba(251,191,36,0.1);border:1px solid rgba(251,191,36,0.3);border-radius:100px;padding:6px 16px;margin-bottom:20px;">
+                                <i class="ri-sparkling-2-line" style="color:var(--brand-accent);"></i>
+                                <span style="font-size:0.75rem;font-weight:700;letter-spacing:0.1em;color:var(--brand-accent);">FREE STRATEGY CALL</span>
+                            </div>
+                            <h3 style="font-family:var(--font-display);font-size:clamp(1.5rem,3vw,2.25rem);font-weight:700;margin-bottom:12px;">Want the Full Report — Free?</h3>
+                            <p style="color:var(--text-secondary);line-height:1.7;max-width:520px;">
+                                Book a free 30-minute strategy call. We'll walk through your complete SEO audit, explain every finding, and show you exactly what to fix first. No sales pitch. Just clarity.
+                            </p>
+                            <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:24px;">
+                                <div style="padding:16px;background:rgba(255,255,255,0.02);border:1px solid var(--border-subtle);border-radius:12px;text-align:center;">
+                                    <div style="font-size:1.5rem;font-weight:800;color:var(--brand-primary);">Free</div>
+                                    <div style="font-size:0.75rem;color:var(--text-tertiary);">30-min call</div>
+                                </div>
+                                <div style="padding:16px;background:rgba(255,255,255,0.02);border:1px solid var(--border-subtle);border-radius:12px;text-align:center;">
+                                    <div style="font-size:1.5rem;font-weight:800;color:var(--brand-primary);">Full</div>
+                                    <div style="font-size:0.75rem;color:var(--text-tertiary);">audit walkthrough</div>
+                                </div>
+                                <div style="padding:16px;background:rgba(255,255,255,0.02);border:1px solid var(--border-subtle);border-radius:12px;text-align:center;">
+                                    <div style="font-size:1.5rem;font-weight:800;color:var(--brand-primary);">0</div>
+                                    <div style="font-size:0.75rem;color:var(--text-tertiary);">sales pressure</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div style="min-width:280px;display:flex;flex-direction:column;gap:12px;">
+                            <button onclick="openCalendly()" class="btn btn-primary btn-lg ripple" style="width:100%;justify-content:center;">
+                                <i class="ri-calendar-check-line" style="margin-right:8px;"></i>Book Free Strategy Call
+                            </button>
+                            <p style="font-size:0.75rem;color:var(--text-tertiary);text-align:center;">30 minutes &bull; No obligation &bull; Real answers</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="text-center mt-12 pb-12">
+                <button id="btnNewScan" class="text-tertiary hover:text-white transition-colors text-sm">
+                    <i class="ri-refresh-line mr-2"></i>Start New Scan
                 </button>
             </div>
         </div>
-
-        <!-- Loading State -->
-        <div id="loadingState" class="hidden text-center py-20">
-            <div class="inline-block relative">
-                <div class="w-16 h-16 border-4 border-green-500/30 border-t-green-500 rounded-full animate-spin"></div>
-            </div>
-            <h3 class="mt-4 text-xl font-semibold text-white">Analyzing Website...</h3>
-            <p class="text-gray-400 mt-2">Crawling pages, checking performance, and analyzing keywords.</p>
-        </div>
-
-        <!-- Results Dashboard -->
-        <div id="resultsArea" class="hidden space-y-6">
-            
-            <!-- Overall Health Scores -->
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <!-- SEO Score -->
-                <div class="glass-panel p-6 text-center">
-                    <h3 class="text-gray-400 font-medium mb-4">Overall SEO Score</h3>
-                    <div class="gauge-container">
-                        <svg viewBox="0 0 100 100" class="w-full h-full">
-                            <path class="gauge-bg" d="M 20 80 A 40 40 0 0 1 80 80" />
-                            <path id="seoScoreGauge" class="gauge-value" d="M 20 80 A 40 40 0 0 1 80 80" stroke-dasharray="0 126" />
-                            <text id="seoScoreText" x="50" y="65" class="gauge-text">0</text>
-                        </svg>
-                    </div>
-                    <p class="text-sm text-gray-500 mt-2">Based on on-page factors</p>
-                </div>
-
-                <!-- Performance -->
-                <div class="glass-panel p-6 text-center">
-                    <h3 class="text-gray-400 font-medium mb-4">Performance</h3>
-                    <div class="gauge-container">
-                        <svg viewBox="0 0 100 100" class="w-full h-full">
-                            <path class="gauge-bg" d="M 20 80 A 40 40 0 0 1 80 80" />
-                            <path id="perfScoreGauge" class="gauge-value" d="M 20 80 A 40 40 0 0 1 80 80" stroke-dasharray="0 126" />
-                            <text id="perfScoreText" x="50" y="65" class="gauge-text">0</text>
-                        </svg>
-                    </div>
-                    <p class="text-sm text-gray-500 mt-2">Core Web Vitals</p>
-                </div>
-
-                <!-- Keyword Health -->
-                <div class="glass-panel p-6 text-center">
-                    <h3 class="text-gray-400 font-medium mb-4">Keyword Visibility</h3>
-                    <div class="gauge-container">
-                        <svg viewBox="0 0 100 100" class="w-full h-full">
-                            <path class="gauge-bg" d="M 20 80 A 40 40 0 0 1 80 80" />
-                            <path id="kwScoreGauge" class="gauge-value" d="M 20 80 A 40 40 0 0 1 80 80" stroke-dasharray="0 126" />
-                            <text id="kwScoreText" x="50" y="65" class="gauge-text">0</text>
-                        </svg>
-                    </div>
-                    <p class="text-sm text-gray-500 mt-2">Target keyword density</p>
-                </div>
-            </div>
-
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                <!-- Keyword Analysis -->
-                <div class="glass-panel p-6">
-                    <h3 class="text-lg font-bold text-white mb-4 border-b border-gray-800 pb-2">Keyword Analysis</h3>
-                    <div class="overflow-x-auto">
-                        <table class="w-full text-left text-sm">
-                            <thead>
-                                <tr class="text-gray-400">
-                                    <th class="pb-3 text-center">Keyword</th>
-                                    <th class="pb-3 text-center">Count</th>
-                                    <th class="pb-3 text-center">Density</th>
-                                    <th class="pb-3 text-center">Status</th>
-                                </tr>
-                            </thead>
-                            <tbody id="keywordTableBody">
-                                <!-- Populated dynamically -->
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-
-                <!-- Missing Content -->
-                <div class="glass-panel p-6">
-                    <h3 class="text-lg font-bold text-white mb-4 border-b border-gray-800 pb-2">Technical Issues</h3>
-                    <div class="space-y-3" id="issuesList">
-                        <!-- Populated dynamically -->
-                    </div>
-                </div>
-            </div>
-
-            <!-- Page Speed Metrics -->
-            <div class="glass-panel p-6">
-                <h3 class="text-lg font-bold text-white mb-4">Core Web Vitals</h3>
-                <div class="grid grid-cols-2 md:grid-cols-4 gap-4" id="webVitalsGrid">
-                    <!-- Populated dynamically -->
-                </div>
-            </div>
-
-            <!-- Recommendations -->
-            <div class="glass-panel p-6 border-l-4 border-green-500">
-                <h3 class="text-lg font-bold text-white mb-4">Action Plan</h3>
-                <ul class="space-y-2 text-gray-300" id="recommendationsList">
-                    <!-- Populated dynamically -->
-                </ul>
-            </div>
-            
-        </div>
-
-        <footer class="mt-12 pt-6 border-t border-gray-800 text-center text-gray-500 text-sm">
-            <p>&copy; 2024 Simply Smart Automation. All rights reserved.</p>
-        </footer>
 
     </main>
 
-    <script>
-        async function runAnalysis() {
-            const url = document.getElementById('targetUrl').value;
-            const keywords = document.getElementById('keywords').value;
+    <!-- HOW IT WORKS -->
+    <section style="padding:6rem 0;position:relative;z-index:10;border-top:1px solid var(--border-subtle);">
+        <div class="container" style="max-width:1100px;margin:0 auto;">
+            <div style="text-align:center;margin-bottom:4rem;">
+                <span style="display:inline-block;font-size:0.7rem;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;color:var(--brand-primary);background:rgba(93,140,93,0.1);border:1px solid rgba(93,140,93,0.2);border-radius:100px;padding:6px 16px;margin-bottom:16px;">HOW IT WORKS</span>
+                <h2 style="font-family:var(--font-display);font-size:clamp(2rem,4vw,3rem);font-weight:700;margin-bottom:12px;color:var(--text-primary);">Your SEO Report in 3 Steps</h2>
+                <p style="color:var(--text-tertiary);font-size:1.05rem;max-width:560px;margin:0 auto;">No signup. No credit card. Just actionable data about your website.</p>
+            </div>
+            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:2.5rem;">
+                <div style="text-align:center;padding:2.5rem 2rem;">
+                    <div style="width:56px;height:56px;border-radius:16px;background:rgba(93,140,93,0.1);border:1px solid rgba(93,140,93,0.25);display:flex;align-items:center;justify-content:center;margin:0 auto 1.5rem;font-size:1.5rem;color:var(--brand-primary);"><i class="ri-checkbox-multiple-line"></i></div>
+                    <div style="font-family:var(--font-mono);font-size:0.7rem;color:var(--brand-primary);letter-spacing:0.2em;margin-bottom:8px;">STEP 1</div>
+                    <h3 style="font-family:var(--font-heading);font-size:1.25rem;font-weight:700;margin-bottom:8px;color:var(--text-primary);">Pick Your Audits</h3>
+                    <p style="color:var(--text-tertiary);font-size:0.9rem;line-height:1.7;">Choose which SEO areas to check — on-page, speed, keywords, backlinks, rankings, or competitors.</p>
+                </div>
+                <div style="text-align:center;padding:2.5rem 2rem;">
+                    <div style="width:56px;height:56px;border-radius:16px;background:rgba(93,140,93,0.1);border:1px solid rgba(93,140,93,0.25);display:flex;align-items:center;justify-content:center;margin:0 auto 1.5rem;font-size:1.5rem;color:var(--brand-primary);"><i class="ri-globe-line"></i></div>
+                    <div style="font-family:var(--font-mono);font-size:0.7rem;color:var(--brand-primary);letter-spacing:0.2em;margin-bottom:8px;">STEP 2</div>
+                    <h3 style="font-family:var(--font-heading);font-size:1.25rem;font-weight:700;margin-bottom:8px;color:var(--text-primary);">Enter Your URL</h3>
+                    <p style="color:var(--text-tertiary);font-size:0.9rem;line-height:1.7;">Add your website and optional keywords or competitor URLs. We handle the rest.</p>
+                </div>
+                <div style="text-align:center;padding:2.5rem 2rem;">
+                    <div style="width:56px;height:56px;border-radius:16px;background:rgba(93,140,93,0.1);border:1px solid rgba(93,140,93,0.25);display:flex;align-items:center;justify-content:center;margin:0 auto 1.5rem;font-size:1.5rem;color:var(--brand-primary);"><i class="ri-file-chart-line"></i></div>
+                    <div style="font-family:var(--font-mono);font-size:0.7rem;color:var(--brand-primary);letter-spacing:0.2em;margin-bottom:8px;">STEP 3</div>
+                    <h3 style="font-family:var(--font-heading);font-size:1.25rem;font-weight:700;margin-bottom:8px;color:var(--text-primary);">Get Your Report</h3>
+                    <p style="color:var(--text-tertiary);font-size:0.9rem;line-height:1.7;">See scores, issues, and a prioritized fix list in under 60 seconds. Upgrade for the full deep-dive.</p>
+                </div>
+            </div>
+        </div>
+    </section>
 
-            if (!url) {
-                alert("Please enter a URL");
-                return;
+    <!-- WHAT YOU GET -->
+    <section style="padding:6rem 0;position:relative;z-index:10;background:var(--bg-surface);">
+        <div class="container" style="max-width:1100px;margin:0 auto;">
+            <div style="text-align:center;margin-bottom:4rem;">
+                <span style="display:inline-block;font-size:0.7rem;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;color:var(--brand-accent);background:rgba(251,191,36,0.1);border:1px solid rgba(251,191,36,0.2);border-radius:100px;padding:6px 16px;margin-bottom:16px;">WHAT YOU GET</span>
+                <h2 style="font-family:var(--font-display);font-size:clamp(2rem,4vw,3rem);font-weight:700;margin-bottom:12px;color:var(--text-primary);">Every Audit Module, Explained</h2>
+                <p style="color:var(--text-tertiary);font-size:1.05rem;max-width:560px;margin:0 auto;">The free scan gives you a snapshot. The premium report gives you everything.</p>
+            </div>
+            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:1.5rem;">
+                <!-- Card 1 -->
+                <div style="background:rgba(255,255,255,0.02);border:1px solid var(--border-medium);border-radius:16px;padding:2rem;">
+                    <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px;">
+                        <div style="width:40px;height:40px;border-radius:10px;background:rgba(93,140,93,0.1);border:1px solid rgba(93,140,93,0.2);display:flex;align-items:center;justify-content:center;color:var(--brand-primary);font-size:1.25rem;"><i class="ri-layout-masonry-line"></i></div>
+                        <h3 style="font-family:var(--font-heading);font-weight:700;color:var(--text-primary);">On-Page SEO</h3>
+                    </div>
+                    <p style="color:var(--text-secondary);font-size:0.9rem;line-height:1.7;margin-bottom:12px;">Title tags, meta descriptions, heading structure, alt text, internal links. We flag exactly what's missing and what to fix.</p>
+                    <div style="display:flex;gap:8px;flex-wrap:wrap;">
+                        <span style="font-size:0.7rem;padding:4px 10px;background:rgba(255,255,255,0.04);border:1px solid var(--border-subtle);border-radius:6px;color:var(--text-tertiary);">Meta Tags</span>
+                        <span style="font-size:0.7rem;padding:4px 10px;background:rgba(255,255,255,0.04);border:1px solid var(--border-subtle);border-radius:6px;color:var(--text-tertiary);">Headings</span>
+                        <span style="font-size:0.7rem;padding:4px 10px;background:rgba(255,255,255,0.04);border:1px solid var(--border-subtle);border-radius:6px;color:var(--text-tertiary);">Image Alt</span>
+                    </div>
+                </div>
+                <!-- Card 2 -->
+                <div style="background:rgba(255,255,255,0.02);border:1px solid var(--border-medium);border-radius:16px;padding:2rem;">
+                    <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px;">
+                        <div style="width:40px;height:40px;border-radius:10px;background:rgba(93,140,93,0.1);border:1px solid rgba(93,140,93,0.2);display:flex;align-items:center;justify-content:center;color:var(--brand-primary);font-size:1.25rem;"><i class="ri-flashlight-line"></i></div>
+                        <h3 style="font-family:var(--font-heading);font-weight:700;color:var(--text-primary);">Page Speed</h3>
+                    </div>
+                    <p style="color:var(--text-secondary);font-size:0.9rem;line-height:1.7;margin-bottom:12px;">Core Web Vitals scored against Google's benchmarks. We pinpoint the resources and scripts slowing your load time.</p>
+                    <div style="display:flex;gap:8px;flex-wrap:wrap;">
+                        <span style="font-size:0.7rem;padding:4px 10px;background:rgba(255,255,255,0.04);border:1px solid var(--border-subtle);border-radius:6px;color:var(--text-tertiary);">LCP</span>
+                        <span style="font-size:0.7rem;padding:4px 10px;background:rgba(255,255,255,0.04);border:1px solid var(--border-subtle);border-radius:6px;color:var(--text-tertiary);">CLS</span>
+                        <span style="font-size:0.7rem;padding:4px 10px;background:rgba(255,255,255,0.04);border:1px solid var(--border-subtle);border-radius:6px;color:var(--text-tertiary);">TTFB</span>
+                    </div>
+                </div>
+                <!-- Card 3 -->
+                <div style="background:rgba(255,255,255,0.02);border:1px solid var(--border-medium);border-radius:16px;padding:2rem;">
+                    <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px;">
+                        <div style="width:40px;height:40px;border-radius:10px;background:rgba(93,140,93,0.1);border:1px solid rgba(93,140,93,0.2);display:flex;align-items:center;justify-content:center;color:var(--brand-primary);font-size:1.25rem;"><i class="ri-key-2-line"></i></div>
+                        <h3 style="font-family:var(--font-heading);font-weight:700;color:var(--text-primary);">Keyword Analysis</h3>
+                    </div>
+                    <p style="color:var(--text-secondary);font-size:0.9rem;line-height:1.7;margin-bottom:12px;">See which high-value keywords you're missing. Get volume, difficulty, and content gap data to guide your next content push.</p>
+                    <div style="display:flex;gap:8px;flex-wrap:wrap;">
+                        <span style="font-size:0.7rem;padding:4px 10px;background:rgba(255,255,255,0.04);border:1px solid var(--border-subtle);border-radius:6px;color:var(--text-tertiary);">Search Volume</span>
+                        <span style="font-size:0.7rem;padding:4px 10px;background:rgba(255,255,255,0.04);border:1px solid var(--border-subtle);border-radius:6px;color:var(--text-tertiary);">Gaps</span>
+                        <span style="font-size:0.7rem;padding:4px 10px;background:rgba(255,255,255,0.04);border:1px solid var(--border-subtle);border-radius:6px;color:var(--text-tertiary);">Difficulty</span>
+                    </div>
+                </div>
+                <!-- Card 4 -->
+                <div style="background:rgba(255,255,255,0.02);border:1px solid var(--border-medium);border-radius:16px;padding:2rem;">
+                    <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px;">
+                        <div style="width:40px;height:40px;border-radius:10px;background:rgba(93,140,93,0.1);border:1px solid rgba(93,140,93,0.2);display:flex;align-items:center;justify-content:center;color:var(--brand-primary);font-size:1.25rem;"><i class="ri-links-line"></i></div>
+                        <h3 style="font-family:var(--font-heading);font-weight:700;color:var(--text-primary);">Backlink Profile</h3>
+                    </div>
+                    <p style="color:var(--text-secondary);font-size:0.9rem;line-height:1.7;margin-bottom:12px;">Total backlinks, referring domains, domain rank, and link quality. Know your authority and where to build more.</p>
+                    <div style="display:flex;gap:8px;flex-wrap:wrap;">
+                        <span style="font-size:0.7rem;padding:4px 10px;background:rgba(255,255,255,0.04);border:1px solid var(--border-subtle);border-radius:6px;color:var(--text-tertiary);">DA Score</span>
+                        <span style="font-size:0.7rem;padding:4px 10px;background:rgba(255,255,255,0.04);border:1px solid var(--border-subtle);border-radius:6px;color:var(--text-tertiary);">Ref. Domains</span>
+                        <span style="font-size:0.7rem;padding:4px 10px;background:rgba(255,255,255,0.04);border:1px solid var(--border-subtle);border-radius:6px;color:var(--text-tertiary);">Link Quality</span>
+                    </div>
+                </div>
+                <!-- Card 5 -->
+                <div style="background:rgba(255,255,255,0.02);border:1px solid var(--border-medium);border-radius:16px;padding:2rem;">
+                    <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px;">
+                        <div style="width:40px;height:40px;border-radius:10px;background:rgba(93,140,93,0.1);border:1px solid rgba(93,140,93,0.2);display:flex;align-items:center;justify-content:center;color:var(--brand-primary);font-size:1.25rem;"><i class="ri-search-eye-line"></i></div>
+                        <h3 style="font-family:var(--font-heading);font-weight:700;color:var(--text-primary);">Search Rankings</h3>
+                    </div>
+                    <p style="color:var(--text-secondary);font-size:0.9rem;line-height:1.7;margin-bottom:12px;">See your current Google positions for target keywords. Spot quick wins — terms on page 2 that a single push could move to page 1.</p>
+                    <div style="display:flex;gap:8px;flex-wrap:wrap;">
+                        <span style="font-size:0.7rem;padding:4px 10px;background:rgba(255,255,255,0.04);border:1px solid var(--border-subtle);border-radius:6px;color:var(--text-tertiary);">Rankings</span>
+                        <span style="font-size:0.7rem;padding:4px 10px;background:rgba(255,255,255,0.04);border:1px solid var(--border-subtle);border-radius:6px;color:var(--text-tertiary);">Opportunity</span>
+                        <span style="font-size:0.7rem;padding:4px 10px;background:rgba(255,255,255,0.04);border:1px solid var(--border-subtle);border-radius:6px;color:var(--text-tertiary);">Quick Wins</span>
+                    </div>
+                </div>
+                <!-- Card 6 -->
+                <div style="background:rgba(255,255,255,0.02);border:1px solid var(--border-medium);border-radius:16px;padding:2rem;">
+                    <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px;">
+                        <div style="width:40px;height:40px;border-radius:10px;background:rgba(93,140,93,0.1);border:1px solid rgba(93,140,93,0.2);display:flex;align-items:center;justify-content:center;color:var(--brand-primary);font-size:1.25rem;"><i class="ri-radar-line"></i></div>
+                        <h3 style="font-family:var(--font-heading);font-weight:700;color:var(--text-primary);">Competitor Analysis</h3>
+                    </div>
+                    <p style="color:var(--text-secondary);font-size:0.9rem;line-height:1.7;margin-bottom:12px;">Side-by-side comparison with your competitors. Keyword overlap, authority gap, and content cadence — see exactly where you stand.</p>
+                    <div style="display:flex;gap:8px;flex-wrap:wrap;">
+                        <span style="font-size:0.7rem;padding:4px 10px;background:rgba(255,255,255,0.04);border:1px solid var(--border-subtle);border-radius:6px;color:var(--text-tertiary);">Head-to-Head</span>
+                        <span style="font-size:0.7rem;padding:4px 10px;background:rgba(255,255,255,0.04);border:1px solid var(--border-subtle);border-radius:6px;color:var(--text-tertiary);">Gaps</span>
+                        <span style="font-size:0.7rem;padding:4px 10px;background:rgba(255,255,255,0.04);border:1px solid var(--border-subtle);border-radius:6px;color:var(--text-tertiary);">Strategy</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FREE vs PREMIUM -->
+    <section style="padding:6rem 0;position:relative;z-index:10;">
+        <div class="container" style="max-width:900px;margin:0 auto;">
+            <div style="text-align:center;margin-bottom:3.5rem;">
+                <h2 style="font-family:var(--font-display);font-size:clamp(2rem,4vw,3rem);font-weight:700;margin-bottom:12px;color:var(--text-primary);">Free Scan vs. Premium Report</h2>
+                <p style="color:var(--text-tertiary);font-size:1.05rem;">The free scan shows you what's wrong. The premium report tells you exactly how to fix it.</p>
+            </div>
+            <div style="background:rgba(255,255,255,0.02);border:1px solid var(--border-medium);border-radius:20px;overflow:hidden;">
+                <table style="width:100%;border-collapse:collapse;">
+                    <thead>
+                        <tr>
+                            <th style="text-align:left;padding:1.25rem 1.5rem;font-size:0.75rem;text-transform:uppercase;letter-spacing:0.1em;color:var(--text-tertiary);border-bottom:1px solid var(--border-medium);width:50%;">Feature</th>
+                            <th style="text-align:center;padding:1.25rem 1.5rem;font-size:0.75rem;text-transform:uppercase;letter-spacing:0.1em;color:var(--text-tertiary);border-bottom:1px solid var(--border-medium);width:25%;">Free Scan</th>
+                            <th style="text-align:center;padding:1.25rem 1.5rem;font-size:0.75rem;text-transform:uppercase;letter-spacing:0.1em;color:var(--brand-primary);border-bottom:1px solid var(--border-medium);width:25%;background:rgba(93,140,93,0.05);">Premium — $50</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td style="padding:1rem 1.5rem;border-bottom:1px solid var(--border-subtle);color:var(--text-secondary);">Overall SEO Score</td><td style="text-align:center;padding:1rem;border-bottom:1px solid var(--border-subtle);color:var(--success);">&#10003;</td><td style="text-align:center;padding:1rem;border-bottom:1px solid var(--border-subtle);color:var(--success);background:rgba(93,140,93,0.03);">&#10003;</td></tr>
+                        <tr><td style="padding:1rem 1.5rem;border-bottom:1px solid var(--border-subtle);color:var(--text-secondary);">On-Page Issue Summary</td><td style="text-align:center;padding:1rem;border-bottom:1px solid var(--border-subtle);color:var(--success);">&#10003;</td><td style="text-align:center;padding:1rem;border-bottom:1px solid var(--border-subtle);color:var(--success);background:rgba(93,140,93,0.03);">&#10003;</td></tr>
+                        <tr><td style="padding:1rem 1.5rem;border-bottom:1px solid var(--border-subtle);color:var(--text-secondary);">Core Web Vitals</td><td style="text-align:center;padding:1rem;border-bottom:1px solid var(--border-subtle);color:var(--success);">&#10003;</td><td style="text-align:center;padding:1rem;border-bottom:1px solid var(--border-subtle);color:var(--success);background:rgba(93,140,93,0.03);">&#10003;</td></tr>
+                        <tr><td style="padding:1rem 1.5rem;border-bottom:1px solid var(--border-subtle);color:var(--text-secondary);">Actionable fix list with code snippets</td><td style="text-align:center;padding:1rem;border-bottom:1px solid var(--border-subtle);color:var(--text-disabled);">—</td><td style="text-align:center;padding:1rem;border-bottom:1px solid var(--border-subtle);color:var(--success);background:rgba(93,140,93,0.03);">&#10003;</td></tr>
+                        <tr><td style="padding:1rem 1.5rem;border-bottom:1px solid var(--border-subtle);color:var(--text-secondary);">Competitive keyword gap map</td><td style="text-align:center;padding:1rem;border-bottom:1px solid var(--border-subtle);color:var(--text-disabled);">—</td><td style="text-align:center;padding:1rem;border-bottom:1px solid var(--border-subtle);color:var(--success);background:rgba(93,140,93,0.03);">&#10003;</td></tr>
+                        <tr><td style="padding:1rem 1.5rem;border-bottom:1px solid var(--border-subtle);color:var(--text-secondary);">Full backlink profile &amp; quality analysis</td><td style="text-align:center;padding:1rem;border-bottom:1px solid var(--border-subtle);color:var(--text-disabled);">—</td><td style="text-align:center;padding:1rem;border-bottom:1px solid var(--border-subtle);color:var(--success);background:rgba(93,140,93,0.03);">&#10003;</td></tr>
+                        <tr><td style="padding:1rem 1.5rem;border-bottom:1px solid var(--border-subtle);color:var(--text-secondary);">90-day SEO roadmap</td><td style="text-align:center;padding:1rem;border-bottom:1px solid var(--border-subtle);color:var(--text-disabled);">—</td><td style="text-align:center;padding:1rem;border-bottom:1px solid var(--border-subtle);color:var(--success);background:rgba(93,140,93,0.03);">&#10003;</td></tr>
+                        <tr><td style="padding:1rem 1.5rem;color:var(--text-secondary);">PDF + data export</td><td style="text-align:center;padding:1rem;color:var(--text-disabled);">—</td><td style="text-align:center;padding:1rem;color:var(--success);background:rgba(93,140,93,0.03);">&#10003;</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div style="text-align:center;margin-top:2rem;">
+                <a href="#step1" style="display:inline-flex;align-items:center;gap:8px;padding:14px 32px;background:var(--brand-primary);color:var(--bg-void);font-weight:700;border-radius:12px;text-decoration:none;font-size:0.95rem;transition:all 0.3s;">
+                    Run Your Free Audit Now <i class="ri-arrow-up-line"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ -->
+    <section style="padding:6rem 0;position:relative;z-index:10;background:var(--bg-surface);">
+        <div class="container" style="max-width:800px;margin:0 auto;">
+            <div style="text-align:center;margin-bottom:3.5rem;">
+                <h2 style="font-family:var(--font-display);font-size:clamp(2rem,4vw,2.5rem);font-weight:700;margin-bottom:12px;color:var(--text-primary);">Frequently Asked Questions</h2>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:1rem;">
+                <details style="background:rgba(255,255,255,0.02);border:1px solid var(--border-medium);border-radius:12px;overflow:hidden;">
+                    <summary style="padding:1.25rem 1.5rem;cursor:pointer;font-family:var(--font-heading);font-weight:600;color:var(--text-primary);list-style:none;display:flex;justify-content:space-between;align-items:center;">Is the free audit really free?<span style="color:var(--brand-primary);font-size:1.25rem;transition:transform 0.3s;">+</span></summary>
+                    <div style="padding:0 1.5rem 1.25rem;color:var(--text-secondary);line-height:1.7;font-size:0.9rem;">Yes, completely free. No signup, no email required, no credit card. Enter your URL and get results in under 60 seconds. We offer a paid premium report ($50) if you want deeper analysis, but the free scan is genuinely useful on its own.</div>
+                </details>
+                <details style="background:rgba(255,255,255,0.02);border:1px solid var(--border-medium);border-radius:12px;overflow:hidden;">
+                    <summary style="padding:1.25rem 1.5rem;cursor:pointer;font-family:var(--font-heading);font-weight:600;color:var(--text-primary);list-style:none;display:flex;justify-content:space-between;align-items:center;">What does the premium report include?<span style="color:var(--brand-primary);font-size:1.25rem;transition:transform 0.3s;">+</span></summary>
+                    <div style="padding:0 1.5rem 1.25rem;color:var(--text-secondary);line-height:1.7;font-size:0.9rem;">A 40+ page technical breakdown with: prioritized fix list with code snippets, competitive keyword gap analysis, complete backlink profile, and a custom 90-day SEO roadmap for your domain. Delivered as PDF + data export within 2 hours.</div>
+                </details>
+                <details style="background:rgba(255,255,255,0.02);border:1px solid var(--border-medium);border-radius:12px;overflow:hidden;">
+                    <summary style="padding:1.25rem 1.5rem;cursor:pointer;font-family:var(--font-heading);font-weight:600;color:var(--text-primary);list-style:none;display:flex;justify-content:space-between;align-items:center;">How accurate is the data?<span style="color:var(--brand-primary);font-size:1.25rem;transition:transform 0.3s;">+</span></summary>
+                    <div style="padding:0 1.5rem 1.25rem;color:var(--text-secondary);line-height:1.7;font-size:0.9rem;">We use the same data sources used by professional SEO agencies — including Google's PageSpeed Insights API and DataForSEO. The free scan provides real-time data. If our live service is temporarily unavailable, results will be clearly marked as sample data.</div>
+                </details>
+                <details style="background:rgba(255,255,255,0.02);border:1px solid var(--border-medium);border-radius:12px;overflow:hidden;">
+                    <summary style="padding:1.25rem 1.5rem;cursor:pointer;font-family:var(--font-heading);font-weight:600;color:var(--text-primary);list-style:none;display:flex;justify-content:space-between;align-items:center;">Do you offer ongoing SEO services?<span style="color:var(--brand-primary);font-size:1.25rem;transition:transform 0.3s;">+</span></summary>
+                    <div style="padding:0 1.5rem 1.25rem;color:var(--text-secondary);line-height:1.7;font-size:0.9rem;">Yes. We offer monthly SEO management starting at $1,200/mo for small B2B companies. This includes technical fixes, content optimization, link building, and monthly reporting. <a href="mailto:nick@5cypress.com" style="color:var(--brand-primary);">Contact us</a> or book a free strategy call to discuss.</div>
+                </details>
+                <details style="background:rgba(255,255,255,0.02);border:1px solid var(--border-medium);border-radius:12px;overflow:hidden;">
+                    <summary style="padding:1.25rem 1.5rem;cursor:pointer;font-family:var(--font-heading);font-weight:600;color:var(--text-primary);list-style:none;display:flex;justify-content:space-between;align-items:center;">Who is this built for?<span style="color:var(--brand-primary);font-size:1.25rem;transition:transform 0.3s;">+</span></summary>
+                    <div style="padding:0 1.5rem 1.25rem;color:var(--text-secondary);line-height:1.7;font-size:0.9rem;">Small B2B tech and medical companies that need to improve their search visibility but don't have an in-house SEO team. If you sell services or products to other businesses and want more organic traffic, this is for you.</div>
+                </details>
+            </div>
+        </div>
+    </section>
+
+    <!-- CLOSING CTA -->
+    <section style="padding:6rem 0;position:relative;z-index:10;text-align:center;">
+        <div class="container" style="max-width:700px;margin:0 auto;">
+            <h2 style="font-family:var(--font-display);font-size:clamp(2rem,4vw,3rem);font-weight:700;margin-bottom:16px;color:var(--text-primary);">Ready to See What's Holding You Back?</h2>
+            <p style="color:var(--text-secondary);font-size:1.1rem;line-height:1.7;margin-bottom:2.5rem;">Run a free audit right now — it takes 30 seconds. Or book a call and we'll walk through everything together.</p>
+            <div style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap;">
+                <a href="#step1" style="display:inline-flex;align-items:center;gap:8px;padding:16px 36px;background:var(--brand-primary);color:var(--bg-void);font-weight:700;border-radius:12px;text-decoration:none;font-size:1rem;transition:all 0.3s;">
+                    <i class="ri-search-line"></i> Run Free Audit
+                </a>
+                <button onclick="openCalendly()" style="display:inline-flex;align-items:center;gap:8px;padding:16px 36px;background:transparent;color:var(--text-primary);font-weight:700;border-radius:12px;border:1px solid var(--border-medium);font-size:1rem;cursor:pointer;transition:all 0.3s;">
+                    <i class="ri-calendar-line"></i> Book Free Call
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Overlay Loader -->
+    <div id="loaderOverlay" class="loader-overlay hidden fixed inset-0 z-50 bg-bg-main/90 backdrop-blur-xl flex flex-col items-center justify-center">
+        <div class="relative mb-8">
+            <div class="absolute inset-0 bg-brand-primary/20 blur-xl rounded-full animate-pulse"></div>
+            <img src="assets/brand/logo-5cypress.jpg" alt="Processing" class="relative w-24 h-24 rounded-full border-2 border-brand-primary animate-spin-slow">
+        </div>
+        <h3 class="font-display text-3xl mb-2 text-white">Analyzing Your Website</h3>
+        <p id="loaderStatus" class="text-brand-primary font-mono text-sm tracking-widest uppercase">Starting audit...</p>
+    </div>
+
+    <!-- Debug Panel -->
+    <div id="debugPanel" style="position:fixed;right:20px;bottom:80px;z-index:9000;opacity:0.2;transition:opacity 0.3s;" onmouseenter="this.style.opacity=1" onmouseleave="this.style.opacity=0.2">
+        <div class="glass-panel-console" style="padding:8px 16px;">
+            <span id="debugState" style="font-family:var(--font-mono);font-size:0.75rem;color:var(--text-tertiary);">Ready</span>
+        </div>
+    </div>
+
+    <!-- Site Footer -->
+    <footer style="background:var(--bg-void);border-top:1px solid var(--border-subtle);padding:64px 0 40px;margin-top:80px;position:relative;z-index:10;">
+        <div class="container">
+            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:48px;margin-bottom:48px;">
+                <div>
+                    <a href="/" style="display:flex;align-items:center;gap:12px;text-decoration:none;margin-bottom:20px;">
+                        <img src="assets/brand/logo-5cypress.jpg" alt="5 Cypress" style="width:36px;height:36px;border-radius:8px;">
+                        <span style="font-family:var(--font-heading);font-weight:800;font-size:1.1rem;color:var(--text-primary);">5 Cypress</span>
+                    </a>
+                    <p style="color:var(--text-secondary);line-height:1.8;font-size:0.9rem;max-width:280px;margin-bottom:24px;">Automation and marketing for small B2B tech and medical companies. Two services. One trusted partner.</p>
+                    <div style="display:flex;gap:12px;">
+                        <a href="#" style="width:40px;height:40px;border-radius:10px;background:rgba(255,255,255,0.03);border:1px solid var(--border-subtle);display:flex;align-items:center;justify-content:center;color:var(--text-secondary);font-size:1.1rem;transition:all 0.3s;" aria-label="LinkedIn"><i class="ri-linkedin-fill"></i></a>
+                        <a href="#" style="width:40px;height:40px;border-radius:10px;background:rgba(255,255,255,0.03);border:1px solid var(--border-subtle);display:flex;align-items:center;justify-content:center;color:var(--text-secondary);font-size:1.1rem;transition:all 0.3s;" aria-label="Twitter"><i class="ri-twitter-x-fill"></i></a>
+                        <a href="mailto:nick@5cypress.com" style="width:40px;height:40px;border-radius:10px;background:rgba(255,255,255,0.03);border:1px solid var(--border-subtle);display:flex;align-items:center;justify-content:center;color:var(--text-secondary);font-size:1.1rem;transition:all 0.3s;" aria-label="Email"><i class="ri-mail-fill"></i></a>
+                    </div>
+                </div>
+                <div>
+                    <h4 style="font-size:0.75rem;font-weight:800;text-transform:uppercase;letter-spacing:0.15em;color:var(--brand-primary);margin-bottom:20px;">Services</h4>
+                    <div style="display:flex;flex-direction:column;gap:12px;">
+                        <a href="/services.html" style="color:var(--text-tertiary);font-size:0.9rem;text-decoration:none;transition:color 0.2s;" onmouseover="this.style.color='var(--text-primary)'" onmouseout="this.style.color='var(--text-tertiary)'">Automation</a>
+                        <a href="/marketing" style="color:var(--text-tertiary);font-size:0.9rem;text-decoration:none;transition:color 0.2s;" onmouseover="this.style.color='var(--text-primary)'" onmouseout="this.style.color='var(--text-tertiary)'">Marketing</a>
+                        <a href="/seo-dashboard" style="color:var(--brand-primary);font-size:0.9rem;text-decoration:none;">SEO Intelligence</a>
+                        <a href="/case-studies.html" style="color:var(--text-tertiary);font-size:0.9rem;text-decoration:none;transition:color 0.2s;" onmouseover="this.style.color='var(--text-primary)'" onmouseout="this.style.color='var(--text-tertiary)'">Case Studies</a>
+                    </div>
+                </div>
+                <div>
+                    <h4 style="font-size:0.75rem;font-weight:800;text-transform:uppercase;letter-spacing:0.15em;color:var(--brand-primary);margin-bottom:20px;">Company</h4>
+                    <div style="display:flex;flex-direction:column;gap:12px;">
+                        <a href="/about.html" style="color:var(--text-tertiary);font-size:0.9rem;text-decoration:none;transition:color 0.2s;" onmouseover="this.style.color='var(--text-primary)'" onmouseout="this.style.color='var(--text-tertiary)'">About</a>
+                        <a href="/process.html" style="color:var(--text-tertiary);font-size:0.9rem;text-decoration:none;transition:color 0.2s;" onmouseover="this.style.color='var(--text-primary)'" onmouseout="this.style.color='var(--text-tertiary)'">Our Process</a>
+                        <a href="/privacy.html" style="color:var(--text-tertiary);font-size:0.9rem;text-decoration:none;transition:color 0.2s;" onmouseover="this.style.color='var(--text-primary)'" onmouseout="this.style.color='var(--text-tertiary)'">Privacy</a>
+                        <a href="mailto:nick@5cypress.com" style="color:var(--text-tertiary);font-size:0.9rem;text-decoration:none;transition:color 0.2s;" onmouseover="this.style.color='var(--text-primary)'" onmouseout="this.style.color='var(--text-tertiary)'">nick@5cypress.com</a>
+                    </div>
+                </div>
+                <div>
+                    <h4 style="font-size:0.75rem;font-weight:800;text-transform:uppercase;letter-spacing:0.15em;color:var(--brand-primary);margin-bottom:20px;">Get Started</h4>
+                    <p style="color:var(--text-tertiary);font-size:0.875rem;line-height:1.7;margin-bottom:16px;">Ready to fix what this audit found? Let's talk.</p>
+                    <button onclick="openCalendly()" class="btn btn-primary" style="width:100%;justify-content:center;">
+                        Book Free Assessment <i class="ri-arrow-right-up-line" style="margin-left:8px;"></i>
+                    </button>
+                </div>
+            </div>
+            <div style="padding-top:32px;border-top:1px solid rgba(255,255,255,0.05);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;">
+                <div style="color:var(--text-tertiary);font-size:0.8rem;font-family:var(--font-mono);">© 2026 5 CYPRESS AUTOMATION &nbsp;&bull;&nbsp; <span style="color:var(--brand-primary);">SEO_CONSOLE: ACTIVE</span></div>
+                <div style="display:flex;gap:24px;font-size:0.8rem;">
+                    <a href="/terms.html" style="color:var(--text-tertiary);text-decoration:none;">Terms</a>
+                    <a href="/privacy.html" style="color:var(--text-tertiary);text-decoration:none;">Privacy</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Booking Modal -->
+    <div id="bookingModal" style="display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.85);backdrop-filter:blur(8px);z-index:10000;align-items:center;justify-content:center;padding:2rem;">
+        <div style="background:var(--bg-surface);border:1px solid var(--border-medium);border-radius:24px;width:100%;max-width:520px;max-height:90vh;overflow-y:auto;box-shadow:0 40px 80px rgba(0,0,0,0.7);position:relative;">
+            <button onclick="closeBookingModal()" style="position:absolute;top:20px;right:20px;background:rgba(255,255,255,0.05);border:1px solid var(--border-subtle);border-radius:8px;width:36px;height:36px;color:var(--text-secondary);cursor:pointer;font-size:1.25rem;display:flex;align-items:center;justify-content:center;transition:all 0.2s;">
+                <i class="ri-close-line"></i>
+            </button>
+            <div style="padding:40px;">
+                <div style="text-align:center;margin-bottom:28px;">
+                    <img src="assets/brand/logo-5cypress.jpg" alt="5 Cypress" style="width:48px;height:48px;border-radius:12px;margin-bottom:16px;">
+                    <h2 style="font-family:var(--font-display);font-size:1.75rem;font-weight:700;margin-bottom:8px;">Let's Talk Growth</h2>
+                    <p style="color:var(--text-secondary);font-size:0.9rem;">Tell us where you're stuck. We'll scope exactly what to fix first.</p>
+                </div>
+                <form id="seoCTAForm" onsubmit="handleSEOFormSubmit(event)">
+                    <div style="margin-bottom:16px;">
+                        <label style="display:block;color:var(--text-secondary);font-size:0.8rem;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:8px;">Full Name</label>
+                        <input type="text" name="name" required placeholder="Jane Smith" class="form-input-premium">
+                    </div>
+                    <div style="margin-bottom:16px;">
+                        <label style="display:block;color:var(--text-secondary);font-size:0.8rem;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:8px;">Work Email</label>
+                        <input type="email" name="email" required placeholder="jane@company.com" class="form-input-premium">
+                    </div>
+                    <div style="margin-bottom:16px;">
+                        <label style="display:block;color:var(--text-secondary);font-size:0.8rem;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:8px;">Company Website</label>
+                        <input type="text" name="website" placeholder="company.com" class="form-input-premium">
+                    </div>
+                    <div style="margin-bottom:24px;">
+                        <label style="display:block;color:var(--text-secondary);font-size:0.8rem;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:8px;">Biggest SEO Challenge</label>
+                        <textarea name="challenge" rows="3" placeholder="e.g. We don't rank for our main keywords, traffic has been declining..." class="form-input-premium" style="resize:vertical;"></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary ripple" style="width:100%;justify-content:center;">
+                        <span>Book Free Assessment</span>
+                        <i class="ri-arrow-right-line" style="margin-left:8px;"></i>
+                    </button>
+                    <p id="seoCTAStatus" style="margin-top:12px;text-align:center;font-size:0.85rem;min-height:20px;"></p>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <style>
+        @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+        .premium-layout { display: flex; flex-direction: column; gap: 2rem; }
+        @media (min-width: 768px) {
+            .premium-layout { flex-direction: row; align-items: flex-start; }
+        }
+        #bookingModal { display: none; }
+        #bookingModal.active { display: flex; }
+    </style>
+
+    <script>
+        // Use a persistent state object
+        const state = {
+            step: 1,
+            selectedModules: ["on_page"],
+            auditData: null
+        };
+
+        // Initialize on load
+        window.addEventListener("DOMContentLoaded", async () => {
+            console.log("SEO Audit Console v2.0 — 5 Cypress Automation");
+            await loadSiteConfig();
+            syncCheckboxes();
+            updateDebug();
+            
+            // Grid Click Handler
+            const grid = document.querySelector(".module-grid");
+            if (grid) {
+                grid.addEventListener("click", (e) => {
+                    const card = e.target.closest(".module-card");
+                    if (card && card.dataset && card.dataset.module) {
+                        e.preventDefault();
+                        toggleModule(card.dataset.module);
+                    }
+                });
             }
 
-            // UI State
-            document.getElementById('loadingState').classList.remove('hidden');
-            document.getElementById('resultsArea').classList.add('hidden');
-            document.getElementById('btnText').innerText = "Analyzing...";
-            document.getElementById('btnIcon').classList.add('fa-spin');
+            // Button Bindings
+            document.getElementById("btnSample")?.addEventListener("click", loadNexairiSample);
+            document.getElementById("btnNextConfig")?.addEventListener("click", () => goToStep(2));
+            document.getElementById("btnBack")?.addEventListener("click", () => goToStep(1));
+            document.getElementById("btnExecute")?.addEventListener("click", startAnalysis);
+            document.getElementById("btnUnlockPremium")?.addEventListener("click", unlockPremium);
+            document.getElementById("btnNewScan")?.addEventListener("click", () => location.reload());
+
+            // Close booking modal on backdrop click
+            const modal = document.getElementById('bookingModal');
+            if (modal) modal.addEventListener('click', (e) => { if (e.target === modal) closeBookingModal(); });
+        });
+
+        function toggleModule(id) {
+            const index = state.selectedModules.indexOf(id);
+            
+            if (index > -1) {
+                if (state.selectedModules.length > 1) { // Prevent unselecting last one
+                    state.selectedModules.splice(index, 1);
+                }
+            } else {
+                state.selectedModules.push(id);
+            }
+            syncCheckboxes();
+        }
+
+        function syncCheckboxes() {
+            // Update UI based on state
+            document.querySelectorAll(".module-card").forEach(card => {
+                const id = card.getAttribute("data-module");
+                const checkbox = document.getElementById(`check-${id}`);
+                const icon = document.getElementById(`icon-${id}`);
+                
+                if (state.selectedModules.includes(id)) {
+                    card.classList.add("selected");
+                    if (checkbox) checkbox.checked = true;
+                    if (icon) {
+                        icon.className = "ri-checkbox-circle-fill text-xl";
+                        icon.parentElement.classList.replace("text-tertiary", "text-brand-primary");
+                    }
+                } else {
+                    card.classList.remove("selected");
+                    if (checkbox) checkbox.checked = false;
+                    if (icon) {
+                        icon.className = "ri-checkbox-blank-circle-line text-xl";
+                        icon.parentElement.classList.replace("text-brand-primary", "text-tertiary");
+                    }
+                }
+            });
+            updateConfigInputs();
+            updateDebug();
+        }
+
+        function updateConfigInputs() {
+            const kwInput = document.getElementById("keywordInput");
+            const compInput = document.getElementById("competitorInput");
+            
+            if (kwInput) {
+                if (state.selectedModules.includes("keywords") || state.selectedModules.includes("serp")) {
+                    kwInput.classList.remove("hidden");
+                } else {
+                    kwInput.classList.add("hidden");
+                }
+            }
+            
+            if (compInput) {
+                if (state.selectedModules.includes("competitor")) {
+                    compInput.classList.remove("hidden");
+                } else {
+                    compInput.classList.add("hidden");
+                }
+            }
+        }
+
+        function updateDebug() {
+            const el = document.getElementById("debugState");
+            if (el) el.textContent = `S:${state.step} | M:[${state.selectedModules.length}]`;
+        }
+
+        function goToStep(n) {
+            document.querySelectorAll(".wizard-step").forEach(s => s.classList.add("hidden"));
+            const nextStep = document.getElementById(`step${n}`);
+            if (nextStep) {
+                nextStep.classList.remove("hidden");
+                state.step = n;
+                window.scrollTo({ top: 0, behavior: "smooth" });
+            }
+            updateDebug();
+        }
+
+        async function startAnalysis() {
+            const urlInput = document.getElementById("targetUrl");
+            const url = urlInput ? urlInput.value.trim() : "";
+            if (!url) return alert("Please enter a valid URL to scan.");
+
+            const overlay = document.getElementById("loaderOverlay");
+            const loaderStatus = document.getElementById("loaderStatus");
+            if (overlay) overlay.classList.remove("hidden");
+
+            const statusMsgs = [
+                "Checking page structure...", 
+                "Measuring load speed...", 
+                "Scanning for keywords...", 
+                "Analyzing backlink profile...",
+                "Building your report..."
+            ];
+            let i = 0;
+            const timer = setInterval(() => { 
+                if (loaderStatus) loaderStatus.textContent = statusMsgs[++i % statusMsgs.length]; 
+            }, 2500);
 
             try {
-                const response = await fetch('/api/seo/analyze', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        url: url,
-                        campaign_type: 'on_demand',
-                        keywords: keywords.split(',').map(k => k.trim()).filter(k => k)
-                    })
+                // Mock Delay for "Analysis" feel
+                await new Promise(r => setTimeout(r, 2000));
+
+                /* 
+                   In a real scenario, this would POST to the backend.
+                   For this demo, we will simulate a successful fetch or use the mock if backend fails.
+                */
+                const keywords = document.getElementById("keywords")?.value || "";
+                const comps = [
+                    document.getElementById("comp1")?.value || "",
+                    document.getElementById("comp2")?.value || ""
+                ].filter(c => c);
+                state.competitorData = comps;
+
+                let result = { status: "success", data: null };
+
+                // Attempt real fetch
+                try {
+                    const response = await fetch("/api/seo/analyze", {
+                        method: "POST",
+                        headers: {"Content-Type": "application/json"},
+                        body: JSON.stringify({ 
+                            website_url: url,
+                            modules: state.selectedModules,
+                            keywords: keywords.split("\n").filter(k => k.trim()),
+                            competitors: comps
+                        })
+                    });
+                    if (response.ok) {
+                        result = await response.json();
+                    } else {
+                        throw new Error("API unavailable");
+                    }
+                } catch (e) {
+                    console.log("Backend execution failed, falling back to simulation", e);
+                    result.data = generateMockData(url);
+                }
+                
+                if (result.status === "success") {
+                    state.auditData = result.data || generateMockData(url);
+                    renderDashboard(url);
+                    showPremiumOffer();
+                } else {
+                    alert("Analysis Failed: " + (result.error || "Unknown error"));
+                }
+            } catch (err) {
+                console.error("Analysis error:", err);
+                alert("Critical System Error.");
+            } finally {
+                clearInterval(timer);
+                if (overlay) overlay.classList.add("hidden");
+                updateDebug();
+            }
+        }
+
+        function generateMockData(domain) {
+            return {
+                score: Math.floor(Math.random() * 30) + 60, // 60-90
+                status: "success",
+                domain: domain,
+                is_sample: true,
+                full_report: {
+                    recap: `Note: This is sample data — our live audit service is temporarily unavailable. The report below uses representative scores to show you what a real audit looks like for ${domain}. Run the audit again later for live results, or book a free call to get a manual review.`,
+                    on_page: [
+                        ["Title Tag", "Detected", "Pass"],
+                        ["Meta Description", "Missing", "Fail"],
+                        ["H1 Hierarchy", "Multiple H1s", "Warning"],
+                        ["Image Alt Text", "40% Missing", "Fail"]
+                    ]
+                },
+                page_speed: { 
+                    metrics: { 
+                        LCP: (Math.random() * 2 + 0.5).toFixed(1) + "s", 
+                        TTFB: (Math.random() * 0.5 + 0.1).toFixed(1) + "s", 
+                        CLS: "0.04", 
+                        FID: "24ms" 
+                    } 
+                },
+                keywords: [
+                    { keyword: "automation services", volume: "12k", rank: "#14" },
+                    { keyword: "workflow optimization", volume: "3.4k", rank: "#8" },
+                    { keyword: "business ai", volume: "22k", rank: "#42" }
+                ],
+                backlinks: { total: 1240, referring_domains: 84, rank: 45 },
+                improvements: [
+                    "Consolidate blocking scripts in <head>",
+                    "Compress hero images to WebP format",
+                    "Add schema.org structural markup"
+                ]
+            };
+        }
+
+        function renderDashboard(url) {
+            goToStep(3);
+
+            // Show banner if sample data
+            if (state.auditData.is_sample) {
+                const banner = document.getElementById('step3').querySelector('.sample-banner');
+                if (!banner) {
+                    const b = document.createElement('div');
+                    b.className = 'sample-banner';
+                    b.style.cssText = 'background:rgba(251,191,36,0.1);border:1px solid rgba(251,191,36,0.3);border-radius:12px;padding:12px 20px;margin-bottom:1.5rem;display:flex;align-items:center;gap:10px;';
+                    b.innerHTML = '<i class="ri-information-line" style="color:var(--brand-accent);font-size:1.25rem;flex-shrink:0;"></i><span style="font-size:0.85rem;color:var(--text-secondary);">This report uses <strong style="color:var(--text-primary);">sample data</strong> because our live audit service is temporarily unavailable. Run the scan again later for real results, or <a href="#" onclick="openCalendly();return false;" style="color:var(--brand-primary);text-decoration:underline;">book a free call</a> for a manual review.</span>';
+                    document.getElementById('step3').insertBefore(b, document.getElementById('step3').firstChild.nextSibling);
+                }
+            }
+
+            const domainEl = document.getElementById("resultDomain");
+            if (domainEl) {
+                try {
+                    const hostname = new URL(url.startsWith("http") ? url : "https://"+url).hostname;
+                    domainEl.textContent = hostname;
+                } catch(e) {
+                    domainEl.textContent = url;
+                }
+            }
+
+            const badge = document.getElementById("overallScoreBadge");
+            if (badge) badge.textContent = state.auditData.score || 72;
+            
+            const tabsHeader = document.getElementById("tabsHeader");
+            if (tabsHeader) {
+                tabsHeader.innerHTML = "";
+                // Summary Tab always first
+                addTab("Overview", "summary", true);
+                
+                state.selectedModules.forEach(mod => {
+                    const label = mod.split("_").map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(" ");
+                    addTab(label, mod);
+                });
+            }
+
+            showTab("summary");
+        }
+
+        function addTab(label, id, active = false) {
+            const btn = document.createElement("button");
+            btn.className = `tab-btn ${active ? "active" : ""}`;
+            btn.textContent = label;
+            btn.onclick = () => showTab(id, btn);
+            const header = document.getElementById("tabsHeader");
+            if (header) header.appendChild(btn);
+        }
+
+        function showTab(id, btnEl) {
+            if (btnEl) {
+                document.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
+                btnEl.classList.add("active");
+            }
+            
+            const content = document.getElementById("tabContent");
+            if (!content) return;
+            
+            // Fade out
+            content.style.opacity = "0.5";
+            
+            setTimeout(() => {
+                switch(id) {
+                    case "summary": content.innerHTML = renderSummary(); break;
+                    case "on_page": content.innerHTML = renderOnPage(); break;
+                    case "speed": content.innerHTML = renderSpeed(); break;
+                    case "keywords": content.innerHTML = renderKeywords(); break;
+                    case "backlinks": content.innerHTML = renderBacklinks(); break;
+                    case "serp": content.innerHTML = renderSERP(); break;
+                    case "competitor": content.innerHTML = renderCompetitor(); break;
+                }
+                // Fade in
+                content.style.opacity = "1";
+            }, 150);
+        }
+
+        // --- Render Modules ---
+
+        function renderSummary() {
+            const data = state.auditData;
+            return `
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <div class="md:col-span-2">
+                        <h3 class="font-heading text-xl mb-4 text-white">Summary</h3>
+                        <p class="text-secondary leading-relaxed mb-8">
+                            ${data.full_report?.recap || "Analysis complete."}
+                        </p>
+                        
+                        <h4 class="font-heading text-sm uppercase tracking-widest text-brand-primary mb-4">Recommended Fixes</h4>
+                        <div class="space-y-4">
+                            ${(data.improvements || []).map(imp => `
+                                <div class="flex items-start gap-4 p-4 bg-white/5 rounded border border-white/5">
+                                    <i class="ri-alert-line text-warning mt-1"></i>
+                                    <span class="text-sm text-gray-300">${imp}</span>
+                                </div>
+                            `).join("")}
+                        </div>
+                    </div>
+                    <div>
+                        <div class="metric-box mb-4">
+                            <div class="metric-val text-brand-primary">${data.page_speed?.metrics?.LCP || "2.4s"}</div>
+                            <div class="metric-lbl">Largest Content Paint</div>
+                        </div>
+                        <div class="metric-box mb-4">
+                            <div class="metric-val text-white">${data.backlinks?.rank || "N/A"}</div>
+                            <div class="metric-lbl">Domain Authority</div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderOnPage() {
+            const rows = state.auditData?.full_report?.on_page || [];
+            return `
+                <h3 class="font-heading text-xl mb-6 text-white">On-Page SEO Checks</h3>
+                <div class="overflow-x-auto">
+                    <table class="data-table">
+                        <thead><tr><th>Check</th><th>Detected</th><th>Status</th></tr></thead>
+                        <tbody>
+                            ${rows.map(r => `
+                                <tr>
+                                    <td class="font-bold text-gray-300">${r[0]}</td>
+                                    <td class="font-mono text-xs">${r[1]}</td>
+                                    <td><span class="px-2 py-1 rounded text-xs font-bold ${r[2].includes("Fail") ? "bg-error/20 text-error" : "bg-success/20 text-success"}">${r[2]}</span></td>
+                                </tr>
+                            `).join("")}
+                        </tbody>
+                    </table>
+                </div>
+            `;
+        }
+
+        function renderSpeed() {
+            const m = state.auditData?.page_speed?.metrics || {};
+            return `
+                <h3 class="font-heading text-xl mb-6 text-white">Performance Metrics</h3>
+                <div class="gauge-grid mb-8">
+                    <div class="metric-box">
+                        <div class="metric-val text-brand-primary">${m.LCP}</div>
+                        <div class="metric-lbl">LCP</div>
+                    </div>
+                    <div class="metric-box">
+                        <div class="metric-val">${m.TTFB}</div>
+                        <div class="metric-lbl">TTFB</div>
+                    </div>
+                    <div class="metric-box">
+                        <div class="metric-val">${m.CLS}</div>
+                        <div class="metric-lbl">CLS</div>
+                    </div>
+                    <div class="metric-box">
+                        <div class="metric-val">${m.FID}</div>
+                        <div class="metric-lbl">FID</div>
+                    </div>
+                </div>
+                <div class="p-4 bg-brand-primary/10 border border-brand-primary/20 rounded text-sm text-brand-primary">
+                    <i class="ri-information-line mr-2"></i> Performance impacts conversion. Improving LCP by 0.1s can increase revenue by 8%.
+                </div>
+            `;
+        }
+
+        function renderKeywords() {
+            const kws = state.auditData?.keywords || [];
+            return `
+                <h3 class="font-heading text-xl mb-6 text-white">Keyword Gaps</h3>
+                <table class="data-table">
+                    <thead><tr><th>Keyword</th><th>Volume</th><th>Current Rank</th></tr></thead>
+                    <tbody>
+                        ${kws.map(k => `<tr><td>${k.keyword}</td><td>${k.volume}</td><td>${k.rank}</td></tr>`).join("")}
+                    </tbody>
+                </table>
+            `;
+        }
+        
+        function renderBacklinks() {
+            const bl = state.auditData?.backlinks || {};
+            const total = bl.total || 0;
+            const domains = bl.referring_domains || 0;
+            const rank = bl.rank || 0;
+            const health = rank > 40 ? 'text-success' : rank > 20 ? 'text-warning' : 'text-error';
+            return `
+                <h3 style="font-family:var(--font-heading);font-size:1.25rem;font-weight:700;margin-bottom:1.5rem;">Backlink Profile</h3>
+                <div class="gauge-grid mb-8">
+                    <div class="metric-box">
+                        <div class="metric-val" style="color:var(--brand-primary);">${total.toLocaleString()}</div>
+                        <div class="metric-lbl">Total Backlinks</div>
+                    </div>
+                    <div class="metric-box">
+                        <div class="metric-val">${domains.toLocaleString()}</div>
+                        <div class="metric-lbl">Referring Domains</div>
+                    </div>
+                    <div class="metric-box">
+                        <div class="metric-val ${health}">${rank}</div>
+                        <div class="metric-lbl">Domain Rank</div>
+                    </div>
+                    <div class="metric-box">
+                        <div class="metric-val">${domains > 0 ? (total/domains).toFixed(1) : '—'}</div>
+                        <div class="metric-lbl">Links per Domain</div>
+                    </div>
+                </div>
+                <div style="padding:16px;background:rgba(93,140,93,0.05);border:1px solid rgba(93,140,93,0.2);border-radius:12px;font-size:0.875rem;">
+                    <strong style="color:var(--brand-primary);"><i class="ri-information-line" style="margin-right:8px;"></i>What This Means:</strong>
+                    <p style="color:var(--text-secondary);margin-top:8px;line-height:1.7;">
+                        ${rank > 40 ? 'Strong domain authority. Focus on acquiring links from high-DR niche sites to push rankings in competitive terms.' :
+                          rank > 20 ? 'Moderate authority. Prioritize 3–5 guest posts on industry publications and get listed in 2–3 B2B directories.' :
+                          'Low domain authority. Start with foundational link building: press releases, directory submissions, and partner link exchanges.'}
+                    </p>
+                </div>
+            `;
+        }
+
+        function renderSERP() {
+            const kws = state.auditData?.keywords || [];
+            if (!kws.length) return `
+                <div style="text-align:center;padding:3rem;color:var(--text-tertiary);">
+                    <i class="ri-search-eye-line" style="font-size:3rem;display:block;margin-bottom:1rem;opacity:0.4;"></i>
+                    <p>No keyword data captured. Re-run the scan with <strong>Keyword Gaps</strong> selected and enter your target topics.</p>
+                </div>`;
+
+            return `
+                <h3 style="font-family:var(--font-heading);font-size:1.25rem;font-weight:700;margin-bottom:0.5rem;">SERP Position Map</h3>
+                <p style="color:var(--text-tertiary);font-size:0.875rem;margin-bottom:1.5rem;">Current organic rankings vs. estimated traffic opportunity.</p>
+                <table class="data-table">
+                    <thead><tr><th>Target Keyword</th><th>Search Volume</th><th>Current Rank</th><th>Opportunity</th></tr></thead>
+                    <tbody>
+                        ${kws.map(k => {
+                            const rank = k.rank ? parseInt(k.rank.replace('#','')) : 99;
+                            const opp = rank > 30 ? '🔥 High' : rank > 10 ? '⚡ Medium' : '✅ Ranking';
+                            const rankClass = rank <= 10 ? 'color:var(--success)' : rank <= 30 ? 'color:var(--warning)' : 'color:var(--error)';
+                            return `<tr>
+                                <td style="font-weight:600;color:var(--text-primary);">${k.keyword}</td>
+                                <td style="font-family:var(--font-mono);font-size:0.875rem;">${k.volume || '—'}/mo</td>
+                                <td style="font-family:var(--font-mono);font-size:0.875rem;${rankClass}">${k.rank || 'Not ranked'}</td>
+                                <td style="font-size:0.875rem;">${opp}</td>
+                            </tr>`;
+                        }).join('')}
+                    </tbody>
+                </table>
+                <div style="margin-top:1.5rem;padding:16px;background:rgba(255,255,255,0.02);border:1px solid var(--border-subtle);border-radius:12px;">
+                    <p style="font-size:0.8rem;color:var(--text-tertiary);"><i class="ri-lightbulb-line" style="color:var(--brand-accent);margin-right:8px;"></i>Terms ranked #11–30 are your <strong style="color:var(--text-primary);">quick-win targets</strong> — a single content refresh or backlink push can move them onto page 1.</p>
+                </div>
+            `;
+        }
+
+        function renderCompetitor() {
+            const comps = state.competitorData || [];
+            if (!comps.length) return `
+                <div style="text-align:center;padding:3rem;color:var(--text-tertiary);">
+                    <i class="ri-radar-line" style="font-size:3rem;display:block;margin-bottom:1rem;opacity:0.4;"></i>
+                    <p>No competitor URLs were provided. Re-run the scan with <strong>Rival Benchmarking</strong> selected and enter 1–2 competitor domains.</p>
+                </div>`;
+
+            return `
+                <h3 style="font-family:var(--font-heading);font-size:1.25rem;font-weight:700;margin-bottom:1.5rem;">Competitive Intelligence</h3>
+                <div style="color:var(--text-secondary);font-size:0.9rem;line-height:1.7;padding:24px;background:rgba(255,255,255,0.02);border:1px solid var(--border-subtle);border-radius:12px;">
+                    <p>Competitor comparison data captured for: <strong style="color:var(--text-primary);">${comps.join(', ')}</strong></p>
+                    <p>Full head-to-head breakdown including keyword overlap, authority gap, and content cadence is included in the <strong style="color:var(--brand-primary);">Premium SEO Report</strong>. Unlock it below.</p>
+                </div>
+            `;
+        }
+
+        // --- Sample ---
+
+        function loadNexairiSample() {
+            state.selectedModules = ["on_page", "speed", "keywords", "backlinks"];
+            const urlInput = document.getElementById("targetUrl");
+            if (urlInput) urlInput.value = "nexairi.com";
+            
+            // Auto advance
+            goToStep(2);
+            syncCheckboxes();
+        }
+
+        // --- Config & Premium Logic ---
+
+        let siteConfig = { stripe_enabled: false, is_admin: false, calendly_url: 'https://calendly.com/5cypress/discovery' };
+
+        async function loadSiteConfig() {
+            try {
+                const r = await fetch('/api/seo/config');
+                if (r.ok) siteConfig = await r.json();
+            } catch(e) { /* use defaults */ }
+        }
+
+        function showPremiumOffer() {
+            const domEl = document.getElementById('resultDomain');
+            const domain = domEl ? domEl.textContent : 'your-site.com';
+
+            document.getElementById('premiumStripe').style.display = 'none';
+            document.getElementById('premiumAdmin').style.display = 'none';
+            document.getElementById('premiumCalendly').style.display = 'none';
+
+            if (siteConfig.is_admin) {
+                document.getElementById('premiumAdmin').style.display = 'block';
+                const adminBtn = document.getElementById('btnAdminReport');
+                if (adminBtn) adminBtn.href = `/api/seo/admin/report/${domain}`;
+            } else if (siteConfig.stripe_enabled) {
+                document.getElementById('premiumStripe').style.display = 'block';
+            } else {
+                document.getElementById('premiumCalendly').style.display = 'block';
+            }
+        }
+
+        // --- Calendly & Mobile Menu ---
+
+        function openCalendly() {
+            const modal = document.getElementById('bookingModal');
+            if (modal) {
+                modal.style.display = 'flex';
+                document.body.style.overflow = 'hidden';
+            }
+        }
+
+        function closeBookingModal() {
+            const modal = document.getElementById('bookingModal');
+            if (modal) {
+                modal.style.display = 'none';
+                document.body.style.overflow = '';
+            }
+        }
+
+        function toggleMobileMenu() {
+            const menu = document.querySelector('.nav-menu');
+            if (menu) {
+                menu.classList.toggle('mobile-open');
+            }
+        }
+
+        async function unlockPremium() {
+            const emailEl = document.getElementById("customerEmail");
+            const urlEl = document.getElementById("targetUrl");
+            const email = emailEl ? emailEl.value : "";
+            const domain = urlEl ? urlEl.value : "unknown-domain.com";
+            
+            if (!email) return alert("Please enter your email address.");
+            
+            const btn = document.getElementById("btnUnlockPremium");
+            const originalHTML = btn.innerHTML;
+            btn.innerHTML = '<i class="ri-loader-4-line" style="animation:spin 1s linear infinite;margin-right:8px;"></i>Processing...';
+            btn.disabled = true;
+            
+            try {
+                const response = await fetch("/api/seo/create-checkout-session", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ domain, email })
                 });
 
                 const data = await response.json();
                 
-                if (data.status === 'success') {
-                    renderResults(data.data);
+                if (response.ok && data.url) {
+                    window.location.href = data.url;
+                } else if (data.error === 'stripe_not_configured' || data.fallback === 'calendly') {
+                    // Stripe not configured — flip to Calendly CTA
+                    siteConfig.stripe_enabled = false;
+                    showPremiumOffer();
                 } else {
-                    alert('Analysis failed: ' + (data.error || 'Unknown error'));
+                    alert("Could not create checkout session. Please contact info@5cypress.com");
+                    btn.innerHTML = originalHTML;
+                    btn.disabled = false;
                 }
-
-            } catch (error) {
-                console.error('Error:', error);
-                alert('Connection error. Please try again.');
-            } finally {
-                // Restore UI
-                document.getElementById('loadingState').classList.add('hidden');
-                document.getElementById('btnText').innerText = "Run Audit";
-                document.getElementById('btnIcon').classList.remove('fa-spin');
+            } catch (err) {
+                siteConfig.stripe_enabled = false;
+                showPremiumOffer();
             }
         }
+        async function handleSEOFormSubmit(e) {
+            e.preventDefault();
+            const form = e.target;
+            const status = document.getElementById('seoCTAStatus');
+            const btn = form.querySelector('button[type="submit"]');
+            const data = Object.fromEntries(new FormData(form));
 
-        function renderResults(data) {
-            document.getElementById('resultsArea').classList.remove('hidden');
-            
-            // 1. Update Gauges
-            setGauge('seoScoreGauge', 'seoScoreText', data.score);
-            
-            // Mocking performance/keyword score for now if not in data, or calculating
-            // Assuming data.mobile_friendliness implies some performance metric
-            const perfScore = data.page_speed ? data.page_speed.score * 100 : 75; // specific parsing depends on python output
-            setGauge('perfScoreGauge', 'perfScoreText', Math.round(perfScore));
+            btn.innerHTML = '<i class="ri-loader-4-line" style="animation:spin 1s linear infinite;margin-right:8px;"></i>Submitting...';
+            btn.disabled = true;
 
-            const kwScore = calculateKeywordScore(data.keyword_analysis);
-            setGauge('kwScoreGauge', 'kwScoreText', kwScore);
-
-            // 2. Keyword Table
-            const kwBody = document.getElementById('keywordTableBody');
-            kwBody.innerHTML = '';
-            
-            if (data.keyword_analysis) {
-                // Primary keywords
-                Object.entries(data.keyword_analysis.primary_keywords || {}).forEach(([kw, count]) => {
-                    addRow(kwBody, kw, count, 'Primary', 'text-green-400');
-                });
-                
-                // Missing
-                (data.keyword_analysis.missing_keywords || []).forEach(kw => {
-                    addRow(kwBody, kw, 0, 'Missing', 'text-red-400');
-                });
-            }
-
-            // 3. Issues List
-            const issuesList = document.getElementById('issuesList');
-            issuesList.innerHTML = '';
-            
-            if (data.technical_health) {
-                const health = data.technical_health;
-                if (!health.ssl_secure) addIssue(issuesList, 'SSL Certificate Missing or Invalid', 'critical');
-                if (!health.mobile_friendly) addIssue(issuesList, 'Page not optimized for mobile', 'critical');
-                if (health.broken_links && health.broken_links.length > 0) {
-                    addIssue(issuesList, `${health.broken_links.length} Broken Links Detected`, 'warning');
-                }
-            }
-            // Add a generic success if empty
-            if (issuesList.children.length === 0) {
-                issuesList.innerHTML = '<div class="p-3 bg-green-500/10 border border-green-500/20 rounded text-green-400"><i class="fas fa-check-circle mr-2"></i>No critical technical issues found.</div>';
-            }
-
-
-            // 4. Web Vitals
-            const vitalsGrid = document.getElementById('webVitalsGrid');
-            vitalsGrid.innerHTML = '';
-            if (data.page_speed && data.page_speed.metrics) {
-                const metrics = data.page_speed.metrics;
-                addVitalCard(vitalsGrid, 'LCP', metrics.LCP || '2.5s', 'Largest Contentful Paint');
-                addVitalCard(vitalsGrid, 'FID', metrics.FID || '100ms', 'First Input Delay');
-                addVitalCard(vitalsGrid, 'CLS', metrics.CLS || '0.1', 'Cumulative Layout Shift');
-                addVitalCard(vitalsGrid, 'TTFB', metrics.TTFB || '0.8s', 'Time to First Byte');
-            } else {
-                 vitalsGrid.innerHTML = '<p class="text-gray-500 col-span-4 text-center">PageSpeed API data unavailable (Make sure API key is set)</p>';
-            }
-
-            // 5. Recommendations
-            const recList = document.getElementById('recommendationsList');
-            const improvements = data.improvements || [];
-            recList.innerHTML = improvements.map(imp => 
-                `<li class="flex items-start gap-2"><i class="fas fa-arrow-right text-green-500 mt-1"></i><span>${imp}</span></li>`
-            ).join('');
-        }
-
-        function setGauge(gaugeId, textId, value) {
-            const maxDash = 126; // approx circumference for radius 20
-            const dash = (value / 100) * maxDash;
-            document.getElementById(gaugeId).style.strokeDasharray = `${dash} ${maxDash}`;
-            
-            // Color logic
-            let color = '#ef4444'; // red
-            if (value > 50) color = '#eab308'; // yellow
-            if (value > 80) color = '#10b981'; // green
-            
-            document.getElementById(gaugeId).style.stroke = color;
-            document.getElementById(textId).textContent = value;
-            document.getElementById(textId).style.fill = color;
-        }
-
-        function addRow(tbody, kw, count, type, colorClass) {
-            const tr = document.createElement('tr');
-            tr.className = 'table-row text-center';
-            tr.innerHTML = `
-                <td class="py-3 font-medium text-white text-left pl-4">${kw}</td>
-                <td class="py-3 text-gray-400">${count}</td>
-                <td class="py-3 text-gray-400">-</td>
-                <td class="py-3 ${colorClass} text-xs font-bold uppercase tracking-wide">${type}</td>
-            `;
-            tbody.appendChild(tr);
-        }
-
-        function addIssue(container, text, severity) {
-            const color = severity === 'critical' ? 'red' : 'yellow';
-            const icon = severity === 'critical' ? 'fa-times-circle' : 'fa-exclamation-triangle';
-            
-            const div = document.createElement('div');
-            div.className = `p-3 bg-${color}-500/10 border border-${color}-500/20 rounded flex items-center gap-3`;
-            div.innerHTML = `
-                <i class="fas ${icon} text-${color}-500"></i>
-                <span class="text-${color}-200 text-sm font-medium">${text}</span>
-            `;
-            container.appendChild(div);
-        }
-
-        function addVitalCard(container, title, value, label) {
-            const div = document.createElement('div');
-            div.className = 'bg-gray-800/50 rounded p-3 text-center border border-gray-700';
-            div.innerHTML = `
-                <div class="text-xs text-gray-500 uppercase tracking-widest mb-1">${title}</div>
-                <div class="text-xl font-bold text-white mb-1">${value}</div>
-                <div class="text-[10px] text-gray-400">${label}</div>
-            `;
-            container.appendChild(div);
-        }
-
-        function calculateKeywordScore(kwData) {
-            if (!kwData) return 0;
-            const primary = Object.keys(kwData.primary_keywords || {}).length;
-            const missing = (kwData.missing_keywords || []).length;
-            const total = primary + missing;
-            if (total === 0) return 100;
-            return Math.round((primary / total) * 100);
-        }
-
-        async function requestMonthlyReport() {
-            if (!confirm("Generate monthly insights report? This may take a minute.")) return;
-            
             try {
-                // Placeholder endpoint - in real app would trigger generate_seo_insights.py
-                alert("Report generation queued. Check your email shortly.");
-            } catch (e) {
-                console.error(e);
+                const r = await fetch('/api/contact', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ ...data, source: 'seo-dashboard', scanned_domain: document.getElementById('targetUrl')?.value })
+                });
+                if (r.ok) {
+                    status.style.color = 'var(--success)';
+                    status.textContent = '✓ Submitted! We\'ll be in touch within one business day.';
+                    form.reset();
+                    setTimeout(closeBookingModal, 2500);
+                } else {
+                    throw new Error('Server error');
+                }
+            } catch(err) {
+                // Graceful fallback: open mailto
+                status.style.color = 'var(--brand-primary)';
+                status.textContent = 'Email us directly at nick@5cypress.com';
+                btn.innerHTML = '<span>Book Free Assessment</span><i class="ri-arrow-right-line" style="margin-left:8px;"></i>';
+                btn.disabled = false;
             }
         }
     </script>
 </body>
 </html>
-

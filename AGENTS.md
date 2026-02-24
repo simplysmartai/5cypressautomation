@@ -1,28 +1,53 @@
-# Agent Instructions
+# Agent Instructions for 5 Cypress Automation
 
 > This file is mirrored across CLAUDE.md, AGENTS.md, and GEMINI.md so the same instructions load in any AI environment.
+> For the full Operations Bible, see CLAUDE.md. For marketing-specific instructions, see marketing-team/CLAUDE.md.
 
-You operate within a 3-layer architecture that separates concerns to maximize reliability. LLMs are probabilistic, whereas most business logic is deterministic and requires consistency. This system fixes that mismatch.
+# 5 Cypress Automation — Operations Bible
+
+**Brand:** 5 Cypress Automation | **Website:** www.5cypress.com | **Contact:** nick@5cypress.com
+
+**Mission:** Deliver two high-value services to small B2B businesses:
+1. **Marketing Services** — Strategy, email campaigns, reporting, social content (see `marketing-team/`)
+2. **Automation Services** — QuickBooks invoicing, ShipStation, SEO, lead gen, missed-call text-back
+
+**Target clients:** Small B2B tech and medical companies with relationship-driven sales cycles.
+**Tech:** Node/TS or Python. APIs: QuickBooks Online, ShipStation, Stripe, Zoho.
+
+---
+
+## Choosing the Right System
+
+| Task | Go to |
+|------|-------|
+| Strategy brief, email campaign, social content, reporting | `marketing-team/CLAUDE.md` |
+| QBO invoice, ShipStation shipping, lead gen, SEO | `directives/` + `execution/` (this file) |
+| New client onboarding | `directives/onboard_client.md` |
+| Proposal or contract | `directives/create_proposal.md`, `directives/send_contract.md` |
+
+---
 
 ## The 3-Layer Architecture
 
 **Layer 1: Directive (What to do)**
-- Basically just SOPs written in Markdown, live in `directives/`
-- Define the goals, inputs, tools/scripts to use, outputs, and edge cases
+- SOPs written in Markdown, live in `directives/`
+- Define goals, inputs, tools/scripts to use, outputs, and edge cases
 - Natural language instructions, like you'd give a mid-level employee
 
 **Layer 2: Orchestration (Decision making)**
 - This is you. Your job: intelligent routing.
-- Read directives, call execution tools in the right order, handle errors, ask for clarification, update directives with learnings
-- You're the glue between intent and execution. E.g you don't try scraping websites yourself—you read `directives/scrape_website.md` and come up with inputs/outputs and then run `execution/scrape_single_site.py`
+- Read directives, call execution tools in the right order, handle errors, update directives with learnings
+- You are the glue between intent and execution. Example: read `directives/sales-to-qbo.md`, then run `execution/qbo_invoice.py`
 
 **Layer 3: Execution (Doing the work)**
-- Deterministic Python scripts in `execution/`
-- Environment variables, api tokens, etc are stored in `.env`
+- Deterministic scripts in `execution/` (Python, with some TypeScript)
+- Environment variables and API tokens stored in `.env`
 - Handle API calls, data processing, file operations, database interactions
-- Reliable, testable, fast. Use scripts instead of manual work.
+- Reliable, testable, fast. Use scripts instead of doing things manually.
 
-**Why this works:** if you do everything yourself, errors compound. 90% accuracy per step = 59% success over 5 steps. The solution is push complexity into deterministic code. That way you just focus on decision-making.
+**Why this works:** Errors compound. 90% accuracy per step = 59% success over 5 steps. Pushing complexity into deterministic code leaves you focused on decision-making only.
+
+---
 
 ## Operating Principles
 
@@ -31,125 +56,130 @@ Before writing a script, check `execution/` per your directive. Only create new 
 
 **2. Self-anneal when things break**
 - Read error message and stack trace
-- Fix the script and test it again (unless it uses paid tokens/credits/etc—in which case you check w user first)
+- Fix the script and re-test (check with user first if it uses paid API credits)
 - Update the directive with what you learned (API limits, timing, edge cases)
-- Example: you hit an API rate limit → you then look into API → find a batch endpoint that would fix → rewrite script to accommodate → test → update directive.
 
 **3. Update directives as you learn**
-Directives are living documents. When you discover API constraints, better approaches, common errors, or timing expectations—update the directive. But don't create or overwrite directives without asking unless explicitly told to. Directives are your instruction set and must be preserved (and improved upon over time, not extemporaneously used and then discarded).
+Directives are living documents. Update them when you discover API constraints, better approaches, or common errors. Do not create or overwrite directives without asking unless explicitly instructed.
 
-## Self-annealing loop
+---
 
-Errors are learning opportunities. When something breaks:
+## Safety Rules (NON-NEGOTIABLE)
+
+- **Financial:** QBO sandbox first, inventory check before invoice
+- **Data:** Zod/Pydantic validation on ALL inputs
+- **Client:** `.env.example` only, no stored credentials ever
+- **Errors:** Log every API call, notify on failure
+- **Testing:** Dry-run + 80% coverage before delivery
+
+---
+
+## Self-Annealing Loop
+
+When something breaks:
 1. Fix it
-2. Update the tool
-3. Test tool, make sure it works
-4. Update directive to include new flow
+2. Update the script/tool
+3. Test the fix
+4. Update the directive with the new flow
 5. System is now stronger
 
-## File Organization
+---
 
-**Deliverables vs Intermediates:**
-- **Deliverables**: Google Sheets, Google Slides, or other cloud-based outputs that the user can access
-- **Intermediates**: Temporary files needed during processing
+## Core Automation Workflows
 
-**Directory structure:**
-- `.tmp/` - All intermediate files (dossiers, scraped data, temp exports). Never commit, always regenerated.
-- `execution/` - Python scripts (the deterministic tools)
-- `directives/` - SOPs in Markdown (the instruction set)
-- `.env` - Environment variables and API keys
-- `credentials.json`, `token.json` - Google OAuth credentials (required files, in `.gitignore`)
+| Workflow | Directive | Scripts |
+|----------|-----------|---------|
+| Sales Form → QBO Invoice | `directives/sales-to-qbo.md` | `execution/create_qbo_invoice.py` |
+| QBO Invoice → ShipStation | `directives/form_to_invoice_shipping_inventory.md` | `execution/create_shipping_order.py` |
+| SEO outreach machine | `directives/seo_sales_machine.md` | `execution/seo_outreach_prepper.py` |
+| Lead research | `directives/lead_research_service.md` | `execution/lead_research_orchestrator.py` |
+| Missed-call text-back | `directives/workflow_packages.md` | — |
+| Monthly insights report | `directives/deliver_monthly_insights.md` | `execution/generate_monthly_insights.py` |
+| Client onboarding | `directives/onboard_client.md` | `execution/onboard_client.py` |
+| Proposal creation | `directives/create_proposal.md` | `execution/create_proposal.py` |
+| Invoice sending | `directives/send_invoice.md` | `execution/create_invoice.py` |
 
-**Key principle:** Local files are only for processing. Deliverables live in cloud services (Google Sheets, Slides, etc.) where the user can access them. Everything in `.tmp/` can be deleted and regenerated.
+---
 
-## Cloud Webhooks (Modal)
+## Tech Stack (MANDATORY)
 
-The system supports event-driven execution via Modal webhooks. Each webhook maps to exactly one directive with scoped tool access.
+- **Language:** Python/FastAPI (primary), TypeScript/Node.js (secondary)
+- **DB:** SQLite/Postgres (dev → client PostgreSQL/MySQL)
+- **APIs:** QuickBooks Online OAuth, ShipStation, Stripe, Zoho Calendar
+- **Validation:** Pydantic (Python) / Zod (TypeScript) on ALL inputs
+- **Hosting:** Client server — Heroku/Vercel/Railway/Docker as needed
+- **Testing:** Pytest + dry-run scripts, 80% coverage before delivery
+- **Never:** Hard-coded secrets, auto-prod API calls, Google Sheets as the primary DB
 
-**When user says "add a webhook that...":**
-1. Read `directives/add_webhook.md` for complete instructions
-2. Create the directive file in `directives/`
-3. Add entry to `execution/webhooks.json`
-4. Deploy: `modal deploy execution/modal_webhook.py`
-5. Test the endpoint
+---
 
-**Key files:**
-- `execution/webhooks.json` - Webhook slug → directive mapping
-- `execution/modal_webhook.py` - Modal app (do not modify unless necessary)
-- `directives/add_webhook.md` - Complete setup guide
-
-**Endpoints:**
-- `https://nick-90891--claude-orchestrator-list-webhooks.modal.run` - List webhooks
-- `https://nick-90891--claude-orchestrator-directive.modal.run?slug={slug}` - Execute directive
-- `https://nick-90891--claude-orchestrator-test-email.modal.run` - Test email
-
-**Available tools for webhooks:** `send_email`, `read_sheet`, `update_sheet`
-
-**All webhook activity streams to Slack in real-time.**
-
-## Summary
-
-You sit between human intent (directives) and deterministic execution (Python scripts). Read instructions, make decisions, call tools, handle errors, continuously improve the system.
-
-Be pragmatic. Be reliable. Self-anneal.
-
-Also, use Opus-4.5 for everything while building. It came out a few days ago and is an order of magnitude better than Sonnet and other models. If you can't find it, look it up first.
-
-## Available Agent Plugins (wshobson/agents)
-
-The `agents/` folder contains 67 specialized plugins with 99 agents and 107 skills. These are registered with Claude Code's plugin system.
-
-### Core Plugins for SMB Automation
-
-| Plugin | Use Case |
-|--------|----------|
-| `payment-processing` | Stripe/PayPal integration, webhooks, PCI compliance |
-| `backend-development` | API design for QBO/ShipStation, microservices patterns |
-| `python-development` | FastAPI scaffolding, async patterns, pytest |
-| `api-scaffolding` | Project templates for FastAPI/Django |
-| `data-validation-suite` | Pydantic/Zod validation patterns |
-| `unit-testing` | Test generation, 80% coverage requirement |
-| `debugging-toolkit` | Error tracing for self-annealing workflow |
-| `customer-sales-automation` | Sales outreach, CRM patterns |
-
-### Using Plugins
-
-**Slash commands** (structured invocation):
-```
-/python-development:python-scaffold fastapi-microservice
-/backend-development:feature-development OAuth2 integration
-/unit-testing:test-generate src/api/
-```
-
-**Natural language** (Claude reasons about which agent):
-```
-"Use backend-architect to design the QBO invoice API"
-"Have security-auditor scan for OWASP vulnerabilities"
-```
-
-### Skill Activation
-
-Skills load progressively to save tokens:
-- Metadata always loaded (name, when to use)
-- Instructions loaded when activated
-- Resources loaded on demand
-
-Relevant skills for SMB work:
-- `stripe-integration` - Payment webhooks, checkout flows
-- `async-python-patterns` - AsyncIO for API endpoints
-- `api-design-principles` - REST best practices
-- `pydantic-validation` - Input validation schemas
-
-### Plugin Directory Structure
+## Folder Structure
 
 ```
-agents/plugins/{plugin-name}/
-├── agents/     # Specialized agent definitions
-├── commands/   # Slash command workflows
-└── skills/     # Knowledge packages (SKILL.md format)
+marketing-team/       # AI Marketing Team (strategy, email, reporting, content)
+├── context/          # Agency profile + per-client context files
+├── sops/             # Email, research, reporting SOPs
+├── skills/           # 5 marketing skill definitions
+├── references/       # Email examples, frameworks, reporting templates
+└── output/           # Client deliverables (per-client subfolders)
+
+directives/           # Automation workflow SOPs
+execution/            # API scripts (Python/TypeScript)
+clients/              # Per-client config + history
+config/               # pricing.json, clients.json
+documents/            # Templates, contracts, static docs
+.tmp/                 # Temp files (gitignored, always regenerated)
+.env                  # API keys (never commit)
+.env.example          # Client config template (safe to share)
 ```
 
-### Codex Compatibility
+---
 
-Codex-specific skills are in `.codex/skills/`:
-- `smb-automation` - Custom skill for this project's workflows
+## Agent Roles
+
+- **Strategist (Claude):** Requirements → flowchart → directive
+- **Builder (Execution scripts):** Code + tests per directive
+- **Reviewer (Claude):** Validate output, write docs, produce deploy guide
+
+---
+
+## Skills & Automation Agent Knowledge
+
+Custom skills in `.claude/skills/` provide specialized patterns:
+
+| Skill | Use Case |
+|-------|----------|
+| `backend-development` | API design for QBO/ShipStation integrations |
+| `payment-processing` | Stripe/PayPal, webhooks, PCI compliance |
+| `python-development` | FastAPI, async patterns, Pydantic |
+| `data-validation` | Input validation, spam prevention |
+| `customer-sales` | Cold outreach, follow-ups, proposals |
+| `code-documentation` | Client runbooks, deploy guides |
+| `api-scaffolding` | Spin up REST APIs quickly |
+
+For detailed agent patterns:
+- Backend architecture: `agents/plugins/backend-development/agents/backend-architect.md`
+- Python expertise: `agents/plugins/python-development/agents/python-pro.md`
+- Stripe integration: `agents/plugins/payment-processing/skills/stripe-integration/SKILL.md`
+
+---
+
+## Custom Commands
+
+Available slash commands in `.claude/commands/`:
+- `/scaffold-api` — Create new API endpoint with validation
+- `/review-code` — Review code for SMB automation best practices
+- `/new-directive` — Create workflow directive following 3-layer architecture
+- `/outreach-email` — Generate personalized cold outreach email for prospects
+
+---
+
+## Marketing Team Commands
+
+For marketing deliverables, switch context to `marketing-team/CLAUDE.md` and use:
+- `/research` — 90-day strategy brief
+- `/email` — B2B email campaign
+- `/report` — Marketing performance dashboard
+- `/content` — LinkedIn content calendar
+- `/present` — HTML presentation from deliverables
+- `/newclient` — Scaffold client context file

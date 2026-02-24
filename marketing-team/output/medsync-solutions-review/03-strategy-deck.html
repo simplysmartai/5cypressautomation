@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Strategy Deck — MedSync Solutions</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@700&display=swap');
+  :root{
+    --green:#1B4332;--green-mid:#2D6A4F;--green-light:#52B788;--accent:#D8F3DC;
+    --dark:#0f1117;--card:#1a1e2a;--text:#1a1a1a;--muted:#6b7280;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{width:100%;height:100%;overflow:hidden;font-family:'Inter',sans-serif;background:#111;color:#fff}
+
+  /* Deck shell */
+  .deck{width:100vw;height:100vh;position:relative}
+  .slide{position:absolute;inset:0;display:none;flex-direction:column}
+  .slide.active{display:flex}
+
+  /* Progress */
+  .progress-bar{position:fixed;top:0;left:0;right:0;height:3px;background:rgba(255,255,255,.1);z-index:100}
+  .progress-fill{height:100%;background:var(--green-light);transition:width .4s ease}
+
+  /* Nav */
+  .nav{position:fixed;bottom:28px;left:50%;transform:translateX(-50%);
+    display:flex;align-items:center;gap:16px;z-index:100;
+    background:rgba(0,0,0,.5);backdrop-filter:blur(12px);
+    border:1px solid rgba(255,255,255,.12);border-radius:100px;padding:8px 20px}
+  .nav button{background:none;border:none;color:rgba(255,255,255,.7);cursor:pointer;padding:4px 8px;font-size:.85rem;transition:.2s}
+  .nav button:hover{color:#fff}
+  .nav .slide-counter{font-size:.78rem;color:rgba(255,255,255,.5);min-width:50px;text-align:center}
+  .nav .dot{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.2);cursor:pointer;transition:.2s}
+  .nav .dot.on{background:var(--green-light)}
+
+  /* ─── SLIDE THEMES ─── */
+
+  /* Cover */
+  .s-cover{background:linear-gradient(135deg,var(--green) 0%,#0d2818 100%);
+    justify-content:center;align-items:center;text-align:center;padding:60px}
+  .s-cover .badge{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);
+    border-radius:100px;padding:6px 20px;font-size:.72rem;letter-spacing:.15em;
+    text-transform:uppercase;color:rgba(255,255,255,.7);margin-bottom:40px;display:inline-block}
+  .s-cover h1{font-family:'Playfair Display',serif;font-size:3.5rem;line-height:1.1;max-width:700px;margin-bottom:16px}
+  .s-cover .sub{font-size:1.1rem;color:rgba(255,255,255,.65);margin-bottom:48px}
+  .s-cover .meta{display:flex;gap:48px;justify-content:center;font-size:.85rem}
+  .s-cover .meta div .l{color:rgba(255,255,255,.45);font-size:.7rem;text-transform:uppercase;letter-spacing:.1em;margin-bottom:4px}
+
+  /* Dark content */
+  .s-dark{background:linear-gradient(160deg,#0f1117 0%,#131820 100%);padding:60px 80px}
+  @media(max-width:768px){.s-dark{padding:40px 32px}}
+  .s-dark .eyebrow{font-size:.7rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;
+    color:var(--green-light);margin-bottom:14px}
+  .s-dark h2{font-family:'Playfair Display',serif;font-size:2.4rem;color:#fff;margin-bottom:10px;line-height:1.15}
+  .s-dark .lead{color:rgba(255,255,255,.6);font-size:1rem;margin-bottom:36px;max-width:620px}
+  .s-dark .divider{height:1px;background:rgba(255,255,255,.08);margin:28px 0}
+
+  /* Light content */
+  .s-light{background:#f8f9fa;padding:60px 80px;color:var(--text)}
+  @media(max-width:768px){.s-light{padding:40px 32px}}
+  .s-light .eyebrow{font-size:.7rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;
+    color:var(--green-mid);margin-bottom:14px}
+  .s-light h2{font-family:'Playfair Display',serif;font-size:2.4rem;color:var(--green);margin-bottom:10px;line-height:1.15}
+  .s-light .lead{color:var(--muted);font-size:1rem;margin-bottom:36px;max-width:620px}
+
+  /* Grid helpers */
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+  .grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px}
+  .grid4{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:14px}
+  @media(max-width:768px){.grid2,.grid3,.grid4{grid-template-columns:1fr 1fr}}
+
+  /* Cards */
+  .card-dark{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:22px}
+  .card-light{background:#fff;border:1px solid #e5e7eb;border-radius:14px;padding:22px;box-shadow:0 2px 8px rgba(0,0,0,.06)}
+  .card-dark h4,.card-light h4{font-size:.88rem;font-weight:700;margin-bottom:8px}
+  .card-dark p,.card-light p{font-size:.82rem;color:rgba(255,255,255,.55);line-height:1.5}
+  .card-light p{color:var(--muted)}
+  .card-dark .num{font-size:2rem;font-weight:700;color:var(--green-light);margin-bottom:6px}
+  .card-light .num{font-size:2rem;font-weight:700;color:var(--green);margin-bottom:6px}
+
+  /* Table */
+  table{width:100%;border-collapse:collapse;font-size:.82rem}
+  th{padding:10px 14px;text-align:left;font-weight:600;font-size:.75rem;letter-spacing:.06em;text-transform:uppercase;border-bottom:1px solid rgba(255,255,255,.12);color:rgba(255,255,255,.4)}
+  .s-light th{border-bottom-color:#e5e7eb;color:var(--muted)}
+  td{padding:10px 14px;border-bottom:1px solid rgba(255,255,255,.06)}
+  .s-light td{border-bottom-color:#f0f0f0;color:var(--text)}
+
+  /* Stat accent */
+  .big-stat{font-size:4rem;font-weight:700;color:var(--green-light);line-height:1}
+  .big-stat-l{font-size:4rem;font-weight:700;color:var(--green);line-height:1}
+
+  /* Quote */
+  .quote{border-left:4px solid var(--green-light);padding:16px 24px;background:rgba(255,255,255,.03);border-radius:0 10px 10px 0;font-size:1rem;font-style:italic;color:rgba(255,255,255,.8)}
+  .quote-l{border-left:4px solid var(--green);padding:16px 24px;background:var(--accent);border-radius:0 10px 10px 0;font-size:1rem;font-style:italic;color:var(--green)}
+
+  /* Roadmap pills */
+  .month-head{display:inline-block;padding:4px 14px;border-radius:100px;font-size:.75rem;font-weight:700;margin-bottom:12px}
+  .m1{background:var(--green);color:#fff}
+  .m2{background:var(--green-mid);color:#fff}
+  .m3{background:var(--green-light);color:#fff}
+  .rm-li{font-size:.82rem;color:rgba(255,255,255,.65);margin-bottom:7px;padding-left:14px;position:relative}
+  .rm-li::before{content:"→";position:absolute;left:0;color:var(--green-light)}
+  .rm-li-l{font-size:.82rem;color:var(--muted);margin-bottom:7px;padding-left:14px;position:relative}
+  .rm-li-l::before{content:"→";position:absolute;left:0;color:var(--green-mid)}
+
+  /* Channel badge */
+  .ch-badge{display:inline-block;padding:2px 10px;border-radius:100px;font-size:.7rem;font-weight:600}
+  .ch-g{background:rgba(82,183,136,.2);color:var(--green-light)}
+  .ch-e{background:rgba(59,130,246,.2);color:#93c5fd}
+  .ch-l{background:rgba(245,158,11,.2);color:#fcd34d}
+
+  /* Keyframe */
+  .slide.active{animation:fadein .4s ease}
+  @keyframes fadein{from{opacity:.4;transform:translateY(12px)} to{opacity:1;transform:none}}
+</style>
+</head>
+<body>
+
+<div class="progress-bar"><div class="progress-fill" id="pbar" style="width:10%"></div></div>
+
+<div class="deck" id="deck">
+
+  <!-- SLIDE 1: COVER -->
+  <div class="slide s-cover active" id="s1">
+    <div class="badge">5 Cypress Automation · Confidential</div>
+    <h1>MedSync Solutions<br/>Growth Strategy</h1>
+    <div class="sub">90-Day Marketing Plan + Campaign Insights · March – May 2026</div>
+    <div style="width:60px;height:3px;background:var(--green-light);margin:0 auto 40px"></div>
+    <div class="meta">
+      <div><div class="l">Prepared by</div>5 Cypress Automation</div>
+      <div><div class="l">Client</div>MedSync Solutions</div>
+      <div><div class="l">Date</div>February 2026</div>
+    </div>
+  </div>
+
+  <!-- SLIDE 2: MARKET OPPORTUNITY -->
+  <div class="slide s-dark" id="s2">
+    <div class="eyebrow">Slide 02 · Market Opportunity</div>
+    <h2>A $4.9B Market Built<br/>for MedSync's Timing</h2>
+    <div class="lead">The digital patient intake market is growing fast — and the dominant players are actively failing small practices.</div>
+    <div class="grid4">
+      <div class="card-dark">
+        <div class="num">$4.9B</div>
+        <h4>Market by 2031</h4>
+        <p>13.7% CAGR. Cloud-first tools dominate adoption.</p>
+      </div>
+      <div class="card-dark">
+        <div class="num">70%</div>
+        <h4>Practices without a strategy</h4>
+        <p>70% of independent practices lack a patient engagement plan. (AdvancedMD)</p>
+      </div>
+      <div class="card-dark">
+        <div class="num">85%</div>
+        <h4>Open to automation</h4>
+        <p>85% of practice managers see AI workflow tools as viable in 2025.</p>
+      </div>
+      <div class="card-dark">
+        <div class="num">28%</div>
+        <h4>MedSync trial conversion</h4>
+        <p>SaaS average is 15–20%. MedSync is already outperforming.</p>
+      </div>
+    </div>
+    <div class="divider"></div>
+    <div class="quote">"Independent practices are under maximum pressure: CMS cut reimbursements 2.83% in 2025, staffing costs are rising, and paper intake workflows are still consuming hours of front-desk time every day."</div>
+  </div>
+
+  <!-- SLIDE 3: COMPETITIVE GAP -->
+  <div class="slide s-light" id="s3">
+    <div class="eyebrow">Slide 03 · Competitive Landscape</div>
+    <h2>The Giants Are Losing<br/>the Small Practice Market</h2>
+    <div class="lead">Every major competitor is optimized for something other than the 1–10 physician practice. That's MedSync's opening.</div>
+    <table>
+      <tr><th>Competitor</th><th>Built for</th><th>Key Weakness for SMB Practices</th><th>Opportunity</th></tr>
+      <tr><td><strong>Phreesia</strong></td><td>Hospitals / health systems</td><td>Steep learning curve; upsells; ads in check-in; poor SMB support</td><td style="color:#1B4332;font-weight:600">Switchers looking for simpler</td></tr>
+      <tr><td><strong>Clearwave</strong></td><td>Mid-market specialty</td><td>Requires physical kiosks; high upfront cost; wrong fit</td><td style="color:#1B4332;font-weight:600">Different segment entirely</td></tr>
+      <tr><td><strong>Solutionreach</strong></td><td>Patient communication CRM</td><td>Misleading contracts, self-scheduling bugs, upsell-heavy</td><td style="color:#1B4332;font-weight:600">Actively dissatisfied users</td></tr>
+      <tr><td><strong>Klara</strong></td><td>Messaging</td><td>Communication-first; not intake workflow focused</td><td style="color:#1B4332;font-weight:600">Different use case</td></tr>
+    </table>
+    <div style="margin-top:20px" class="quote-l">No category leader is explicitly positioning for the 1–10 physician independent practice with a "simple + fast + affordable" message. That position is unoccupied.</div>
+  </div>
+
+  <!-- SLIDE 4: POSITIONING -->
+  <div class="slide s-dark" id="s4">
+    <div class="eyebrow">Slide 04 · Positioning &amp; Messaging</div>
+    <h2>One Position.<br/>Three Messages.</h2>
+    <div class="lead">MedSync wins by owning the "built for your size" narrative — not by competing feature-by-feature with enterprise tools.</div>
+    <div class="grid3" style="margin-bottom:24px">
+      <div class="card-dark">
+        <div style="font-size:1.5rem;margin-bottom:8px">🏥</div>
+        <h4>Built for practices your size</h4>
+        <p>No enterprise contracts. No kiosk hardware. No onboarding team required.</p>
+      </div>
+      <div class="card-dark">
+        <div style="font-size:1.5rem;margin-bottom:8px">⚡</div>
+        <h4>Same-day setup</h4>
+        <p>Patients onboarded before they walk in the door. One afternoon, not one quarter.</p>
+      </div>
+      <div class="card-dark">
+        <div style="font-size:1.5rem;margin-bottom:8px">🔒</div>
+        <h4>HIPAA-ready from day one</h4>
+        <p>No IT department needed. Check the box. Protect your practice.</p>
+      </div>
+    </div>
+    <div class="quote">"MedSync replaces paper intake chaos at independent medical practices with a mobile-first, HIPAA-ready system that sets up in a day — so your front desk can stop re-entering data and start focusing on patients."</div>
+  </div>
+
+  <!-- SLIDE 5: 90-DAY ROADMAP -->
+  <div class="slide s-light" id="s5">
+    <div class="eyebrow">Slide 05 · 90-Day Roadmap</div>
+    <h2>Foundation → Activation → Scale</h2>
+    <div class="lead">Three phases, each building on the last. Goal: 20+ inbound demo requests/month by end of May.</div>
+    <div class="grid3">
+      <div class="card-light">
+        <div class="month-head m1">Month 1 — March</div>
+        <p style="font-weight:600;font-size:.82rem;margin-bottom:10px;color:#374151">Foundation</p>
+        <div class="rm-li-l">Segment + activate 640-contact email list</div>
+        <div class="rm-li-l">Website conversion audit + CTA fixes</div>
+        <div class="rm-li-l">Google Ads baseline campaign launch</div>
+        <div class="rm-li-l">Case study interviews initiated</div>
+        <div class="rm-li-l">HubSpot conversion tracking live</div>
+      </div>
+      <div class="card-light">
+        <div class="month-head m2">Month 2 — April</div>
+        <p style="font-weight:600;font-size:.82rem;margin-bottom:10px;color:#374151">Activation</p>
+        <div class="rm-li-l">5-email nurture sequence launched</div>
+        <div class="rm-li-l">Danielle LinkedIn: 2× posts/week</div>
+        <div class="rm-li-l">Google Ads optimization + retargeting</div>
+        <div class="rm-li-l">Practice manager community presence</div>
+        <div class="rm-li-l">First case study published</div>
+      </div>
+      <div class="card-light">
+        <div class="month-head m3">Month 3 — May</div>
+        <p style="font-weight:600;font-size:.82rem;margin-bottom:10px;color:#374151">Scale</p>
+        <div class="rm-li-l">Cold/warm lead email sequence + lead magnet</div>
+        <div class="rm-li-l">Google Ads scaled to $1,500/mo</div>
+        <div class="rm-li-l">Competitor keyword campaigns</div>
+        <div class="rm-li-l">Second case study published</div>
+        <div class="rm-li-l">2 SEO blog posts live</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 6: CHANNEL PLAN -->
+  <div class="slide s-dark" id="s6">
+    <div class="eyebrow">Slide 06 · Channel Strategy</div>
+    <h2>Four Channels.<br/>One Coherent System.</h2>
+    <div class="lead">Each channel plays a distinct role. None conflicts with the others.</div>
+    <div class="grid2">
+      <div class="card-dark">
+        <span class="ch-badge ch-g">Google Ads</span>
+        <h4 style="margin-top:10px;color:#fff">High-Intent Capture</h4>
+        <p>Target buyers already searching "patient intake software." Month 1 budget $800–$1,000; scale to $1,500 in Month 3. Add competitor keywords (Phreesia alternative) for warm switchers.</p>
+      </div>
+      <div class="card-dark">
+        <span class="ch-badge ch-e">Email</span>
+        <h4 style="margin-top:10px;color:#fff">List Reactivation</h4>
+        <p>640 dormant contacts → 5-email nurture sequence (trial non-converts). Expected: 3–8% reactivation rate, 10–25 demo conversations. Zero media cost.</p>
+      </div>
+      <div class="card-dark">
+        <span class="ch-badge" style="background:rgba(167,139,250,.2);color:#c4b5fd">LinkedIn</span>
+        <h4 style="margin-top:10px;color:#fff">Brand &amp; Trust Building</h4>
+        <p>Danielle's personal profile: 2× posts/week (educational + story). Practice managers trust individual voices over company pages. No ad spend in Month 2.</p>
+      </div>
+      <div class="card-dark">
+        <span class="ch-badge" style="background:rgba(251,191,36,.2);color:#fcd34d">SEO + Content</span>
+        <h4 style="margin-top:10px;color:#fff">Long-Term Pipeline</h4>
+        <p>2 foundational blog posts targeting high-intent keywords in Month 3. Won't rank immediately — builds Q3–Q4 domain authority. Lead magnet gates email capture.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 7: CAMPAIGN SNAPSHOT -->
+  <div class="slide s-dark" id="s7">
+    <div class="eyebrow">Slide 07 · Campaign Performance Snapshot</div>
+    <h2>90-Day Results:<br/>Strong Signal, One Flag</h2>
+    <div class="lead">Based on 90-day synthetic campaign projection. Email and Google Ads are outperforming. LinkedIn needs review.</div>
+    <div class="grid3" style="margin-bottom:24px">
+      <div class="card-dark" style="border-color:rgba(82,183,136,.3)">
+        <span class="ch-badge ch-g" style="margin-bottom:10px;display:inline-block">Google Ads</span>
+        <div class="num" style="font-size:1.6rem;margin-bottom:4px">28 demos</div>
+        <p>$114 cost/demo · 2.50% CTR<br/>✓ Below $120 target</p>
+      </div>
+      <div class="card-dark" style="border-color:rgba(59,130,246,.3)">
+        <span class="ch-badge ch-e" style="margin-bottom:10px;display:inline-block">Email</span>
+        <div class="num" style="font-size:1.6rem;margin-bottom:4px">14 demos</div>
+        <p>31.4% open rate · 5.2% CTR<br/>✓ Exceeded benchmarks</p>
+      </div>
+      <div class="card-dark" style="border-color:rgba(245,158,11,.3)">
+        <span class="ch-badge ch-l" style="margin-bottom:10px;display:inline-block">LinkedIn</span>
+        <div class="num" style="font-size:1.6rem;margin-bottom:4px;color:#F59E0B">5 demos</div>
+        <p>$324 cost/demo · 1.68% CTR<br/>⚠ 3× above target — needs review</p>
+      </div>
+    </div>
+    <div class="quote">Total: <strong>47 demo requests</strong> in 90 days on $4,820 total spend. Average cost per demo: <strong>$103</strong>. Trial starts: <strong>31</strong>. If MedSync's 28% trial conversion holds, this period produces ~<strong>9 new paid customers</strong>.</div>
+  </div>
+
+  <!-- SLIDE 8: KPIs -->
+  <div class="slide s-light" id="s8">
+    <div class="eyebrow">Slide 08 · KPIs &amp; Success Metrics</div>
+    <h2>How We Measure<br/>What Matters</h2>
+    <div class="lead">Every metric ties to the primary goal: 20+ qualified demo requests/month by end of Month 3.</div>
+    <table>
+      <tr><th>Metric</th><th>Month 1 Target</th><th>Month 3 Target</th><th>Tool</th></tr>
+      <tr><td><strong>Inbound demo requests/month</strong></td><td>5–8</td><td style="font-weight:700;color:#1B4332">20+</td><td>HubSpot</td></tr>
+      <tr><td>Email open rate (nurture)</td><td>—</td><td>28%+</td><td>Mailchimp / HubSpot</td></tr>
+      <tr><td>Email click rate (nurture)</td><td>—</td><td>4–6%</td><td>Mailchimp / HubSpot</td></tr>
+      <tr><td>Trial starts from email</td><td>—</td><td>15+</td><td>Trial signup tracking</td></tr>
+      <tr><td>Google Ads cost per trial</td><td>—</td><td>&lt;$120</td><td>Google Ads + GA4</td></tr>
+      <tr><td>Website free trial CTR</td><td>Baseline</td><td>+40% vs baseline</td><td>Google Analytics</td></tr>
+      <tr><td>LinkedIn post impressions</td><td>500+/post</td><td>2,000+/post</td><td>LinkedIn Analytics</td></tr>
+      <tr><td>Published case studies</td><td>0</td><td>2</td><td>File count + URLs</td></tr>
+    </table>
+  </div>
+
+  <!-- SLIDE 9: RECOMMENDATIONS -->
+  <div class="slide s-dark" id="s9">
+    <div class="eyebrow">Slide 09 · Key Recommendations</div>
+    <h2>Three Decisions<br/>That Unlock Growth</h2>
+    <div class="lead">These are the highest-leverage moves available right now, in priority order.</div>
+    <div class="grid3">
+      <div class="card-dark" style="border-top:3px solid var(--green-light)">
+        <div style="font-size:.7rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--green-light);margin-bottom:8px">Priority 1</div>
+        <h4 style="color:#fff;margin-bottom:10px">Activate the list this week</h4>
+        <p>640 contacts are sitting idle. Even a 3% demo rate = 19 conversations before spending a dollar on ads. Start here.</p>
+      </div>
+      <div class="card-dark" style="border-top:3px solid #3B82F6">
+        <div style="font-size:.7rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#93c5fd;margin-bottom:8px">Priority 2</div>
+        <h4 style="color:#fff;margin-bottom:10px">Fix the website above the fold</h4>
+        <p>If visitors can't tell in 5 seconds "this is for small practices, it sets up in a day, I can try it free" — ad spend is wasted. Copy audit comes first.</p>
+      </div>
+      <div class="card-dark" style="border-top:3px solid #F59E0B">
+        <div style="font-size:.7rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#fcd34d;margin-bottom:8px">Priority 3</div>
+        <h4 style="color:#fff;margin-bottom:10px">Pause LinkedIn spend in Month 2</h4>
+        <p>At $324/demo, LinkedIn paid is 3× above target. Danielle's organic presence is higher ROI. Redirect that budget to Google Ads retargeting.</p>
+      </div>
+    </div>
+    <div class="divider" style="height:1px;background:rgba(255,255,255,.08);margin:28px 0"></div>
+    <div class="quote">The single biggest unlock: MedSync has a 28% trial conversion rate. The constraint isn't the product — it's the top of the funnel. Every channel dollar should be optimized to start more trials.</div>
+  </div>
+
+  <!-- SLIDE 10: NEXT STEPS -->
+  <div class="slide s-cover" id="s10">
+    <div style="font-size:.7rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--green-light);margin-bottom:20px">Slide 10 · Immediate Next Steps</div>
+    <h1 style="font-size:2.6rem">Ready to Execute</h1>
+    <div style="width:60px;height:3px;background:var(--green-light);margin:24px auto"></div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;max-width:640px;text-align:left;margin:0 auto 40px">
+      <div class="card-dark" style="border-radius:10px;padding:16px">
+        <div style="font-size:.65rem;text-transform:uppercase;letter-spacing:.1em;color:var(--green-light);margin-bottom:6px">This Week</div>
+        <div style="font-size:.85rem;color:rgba(255,255,255,.8)">Approve messaging · Share Ads access · Identify case study clients</div>
+      </div>
+      <div class="card-dark" style="border-radius:10px;padding:16px">
+        <div style="font-size:.65rem;text-transform:uppercase;letter-spacing:.1em;color:var(--green-light);margin-bottom:6px">Week 2</div>
+        <div style="font-size:.85rem;color:rgba(255,255,255,.8)">Website audit delivered · Email sequence drafted · Ads campaign live</div>
+      </div>
+      <div class="card-dark" style="border-radius:10px;padding:16px">
+        <div style="font-size:.65rem;text-transform:uppercase;letter-spacing:.1em;color:var(--green-light);margin-bottom:6px">Week 3</div>
+        <div style="font-size:.85rem;color:rgba(255,255,255,.8)">First email sent to list · Google Ads optimized · Case study in progress</div>
+      </div>
+      <div class="card-dark" style="border-radius:10px;padding:16px">
+        <div style="font-size:.65rem;text-transform:uppercase;letter-spacing:.1em;color:var(--green-light);margin-bottom:6px">Month 1 Check-in</div>
+        <div style="font-size:.85rem;color:rgba(255,255,255,.8)">Review KPIs · Adjust channels · First demos tracked in HubSpot</div>
+      </div>
+    </div>
+    <div style="font-size:.88rem;color:rgba(255,255,255,.5)">Questions? nick@5cypress.com · www.5cypress.com</div>
+  </div>
+
+</div><!-- /deck -->
+
+<!-- Navigation -->
+<div class="nav" id="nav">
+  <button onclick="go(-1)" title="Previous (←)">←</button>
+  <div id="dots"></div>
+  <span class="slide-counter" id="counter">1 / 10</span>
+  <button onclick="go(1)" title="Next (→)">→</button>
+</div>
+
+<script>
+  const slides=[...document.querySelectorAll('.slide')];
+  const total=slides.length;
+  let cur=0;
+
+  const dotsEl=document.getElementById('dots');
+  dotsEl.style.display='flex'; dotsEl.style.gap='8px';
+  slides.forEach((_,i)=>{
+    const d=document.createElement('div'); d.className='dot'+(i===0?' on':'');
+    d.addEventListener('click',()=>goTo(i)); dotsEl.appendChild(d);
+  });
+
+  function goTo(n){
+    slides[cur].classList.remove('active');
+    dotsEl.children[cur].classList.remove('on');
+    cur=Math.max(0,Math.min(n,total-1));
+    slides[cur].classList.add('active');
+    dotsEl.children[cur].classList.add('on');
+    document.getElementById('counter').textContent=(cur+1)+' / '+total;
+    document.getElementById('pbar').style.width=((cur+1)/total*100)+'%';
+  }
+
+  function go(d){ goTo(cur+d); }
+
+  document.addEventListener('keydown',e=>{
+    if(e.key==='ArrowRight'||e.key==='ArrowDown') go(1);
+    if(e.key==='ArrowLeft'||e.key==='ArrowUp') go(-1);
+  });
+
+  // Touch swipe
+  let tx=0;
+  document.addEventListener('touchstart',e=>{ tx=e.touches[0].clientX; });
+  document.addEventListener('touchend',e=>{
+    const dx=e.changedTouches[0].clientX-tx;
+    if(Math.abs(dx)>50) go(dx<0?1:-1);
+  });
+</script>
+</body>
+</html>

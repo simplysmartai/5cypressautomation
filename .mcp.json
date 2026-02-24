@@ -1,0 +1,55 @@
+{
+  "mcpServers": {
+    "dataforseo": {
+      "command": "npx",
+      "args": ["-y", "dataforseo-mcp-server"],
+      "env": {
+        "DATAFORSEO_USERNAME": "${env:DATAFORSEO_USERNAME}",
+        "DATAFORSEO_PASSWORD": "${env:DATAFORSEO_PASSWORD}"
+      }
+    },
+    "perplexity": {
+      "type": "stdio",
+      "command": "npx",
+      "args": ["-y", "@perplexity-ai/mcp-server"],
+      "env": {
+        "PERPLEXITY_API_KEY": "${env:PERPLEXITY_API_KEY}"
+      }
+    },
+    "nanobanana": {
+      "type": "stdio",
+      "command": "python",
+      "args": ["-m", "uv", "run", "--with", "nanobanana-mcp-server", "nanobanana-mcp-server"],
+      "env": {
+        "GEMINI_API_KEY": "${env:GEMINI_API_KEY}"
+      }
+    },
+    "filesystem": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-filesystem",
+        "C:\\Users\\smart\\OneDrive\\Documents\\Side Gig\\n8n\\websites\\SimplySmartAutomation",
+        "C:\\Users\\smart\\Downloads\\5cypress-marketing-team\\5cypress-marketing-team"
+      ]
+    },
+    "memory": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-memory"]
+    },
+    "brave-search": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-brave-search"],
+      "env": {
+        "BRAVE_API_KEY": "${env:BRAVE_API_KEY}"
+      }
+    },
+    "github": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-github"],
+      "env": {
+        "GITHUB_PERSONAL_ACCESS_TOKEN": "${env:GITHUB_TOKEN}"
+      }
+    }
+  }
+}

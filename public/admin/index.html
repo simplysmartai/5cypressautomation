@@ -297,7 +297,7 @@
 
   async function loadStats() {
     try {
-      const s = await api('/api/admin/stats');
+      const s = await api('/admin/api/stats');
       document.getElementById('statLeads').textContent   = s.leadCount ?? 0;
       document.getElementById('statClients').textContent = s.clientCount ?? 0;
       document.getElementById('statAudits').textContent  = s.auditCount ?? 0;
@@ -315,7 +315,7 @@
   async function loadLeads() {
     const panel = document.getElementById('leadsPanel');
     try {
-      const data = await api('/api/admin/leads?limit=8');
+      const data = await api('/admin/api/leads?limit=8');
       if (!data.leads || !data.leads.length) {
         panel.innerHTML = '<div style="padding:24px;text-align:center;color:var(--text-tertiary);font-size:0.85rem;">No leads yet. Submissions from the contact form will appear here.</div>';
         return;
@@ -342,7 +342,7 @@
   async function loadMarketing() {
     const panel = document.getElementById('marketingPanel');
     try {
-      const data = await api('/api/admin/marketing');
+      const data = await api('/admin/api/marketing');
       document.getElementById('statMktg').textContent = data.clientCount ?? 0;
       document.getElementById('sidebarMktgCount').textContent = data.clientCount ?? '—';
       document.getElementById('hdMktgDot').className = 'health-dot ok';

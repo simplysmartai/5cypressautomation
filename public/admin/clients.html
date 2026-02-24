@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Clients — 5 Cypress Admin</title>
+  <link rel="stylesheet" href="/design-system.css" />
+  <link rel="stylesheet" href="/styles-premium.css" />
+  <style>
+    body { background: var(--bg-main); color: var(--text-primary); font-family: var(--font-body); }
+    .wrap { max-width: 1200px; margin: 48px auto; padding: 24px; }
+    .header { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 14px; }
+    .title { font-family: var(--font-heading); margin: 0; }
+    .btn { display: inline-block; padding: 10px 14px; border-radius: var(--radius-sm); border: 1px solid var(--border-subtle); text-decoration: none; color: var(--text-primary); }
+    .table-wrap { border: 1px solid var(--border-subtle); border-radius: var(--radius-md); overflow: auto; background: var(--bg-card); }
+    table { width: 100%; border-collapse: collapse; min-width: 900px; }
+    th, td { text-align: left; padding: 12px; border-bottom: 1px solid var(--border-subtle); }
+    th { color: var(--text-secondary); font-weight: 600; }
+    .muted { color: var(--text-secondary); }
+    .notice { margin-top: 16px; border: 1px solid var(--border-subtle); border-radius: var(--radius-sm); padding: 12px; }
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <div class="header">
+      <h1 class="title">Client Directory</h1>
+      <div>
+        <a class="btn" href="/admin/newclient">New client</a>
+        <a class="btn" href="/admin">Admin hub</a>
+      </div>
+    </div>
+    <p class="muted">Source: <span id="sourcePath">Loading…</span></p>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Status</th>
+            <th>Industry</th>
+            <th>Contact</th>
+            <th>Website</th>
+            <th>Onboarded</th>
+          </tr>
+        </thead>
+        <tbody id="clientsBody">
+          <tr><td colspan="7" class="muted">Loading clients…</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="notice" id="stats">Loading stats…</div>
+  </main>
+
+  <script>
+    function safe(value) {
+      if (value === undefined || value === null || value === '') return '—';
+      return String(value);
+    }
+
+    async function loadClients() {
+      const body = document.getElementById('clientsBody');
+      const stats = document.getElementById('stats');
+      const sourcePath = document.getElementById('sourcePath');
+
+      try {
+        const res = await fetch('/admin/api/clients');
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.error || 'Failed to load clients');
+
+        sourcePath.textContent = data.source || 'unknown';
+
+        if (!data.clients || data.clients.length === 0) {
+          body.innerHTML = '<tr><td colspan="7" class="muted">No clients found.</td></tr>';
+          stats.textContent = '0 clients currently in config.';
+          return;
+        }
+
+        body.innerHTML = data.clients.map((client) => `
+          <tr>
+            <td>${safe(client.id)}</td>
+            <td>${safe(client.name)}</td>
+            <td>${safe(client.status)}</td>
+            <td>${safe(client.industry)}</td>
+            <td>${safe(client.contact_name)}</td>
+            <td>${safe(client.website)}</td>
+            <td>${safe(client.onboarded)}</td>
+          </tr>
+        `).join('');
+
+        stats.textContent = `${data.count} clients loaded.`;
+      } catch (error) {
+        body.innerHTML = `<tr><td colspan="7">${error.message}</td></tr>`;
+        stats.textContent = 'Could not load clients.';
+      }
+    }
+
+    loadClients();
+  </script>
+</body>
+</html>

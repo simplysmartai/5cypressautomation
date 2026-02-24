@@ -51,7 +51,7 @@ Before creating a proposal, ensure you have:
 - Payment terms (50% deposit, 50% on completion)
 - Optional add-ons if relevant
 
-### 7. Why 5 Cypress Labs
+### 7. Why 5 Cypress Automation
 - Resilient systems narrative
 - Scaling capability
 - Technical excellence and reliability

@@ -19,7 +19,7 @@ Onboard a new partner by initiating the Root Audit and scheduling the Architectu
 Use: `execution/send_email.py`
 
 Email should include:
-- **Subject**: "Welcome to 5 Cypress Labs | Initiating Your Architecture Audit"
+- **Subject**: "Welcome to 5 Cypress Automation | Initiating Your Architecture Audit"
 - **Mission**: High-level focus on resilience and scale
 - **The Journey**: The 5-stage Cypress implementation
 - **Next Steps**: Link to the Architecture Kickoff session
@@ -28,10 +28,10 @@ Template structure:
 ```
 Hi [Client Name],
 
-Welcome to 5 Cypress Labs. We are ready to begin the process of architecting your resilient operations.
+Welcome to 5 Cypress Automation. We are ready to begin the process of architecting your resilient operations.
 
 **Our Mission**
-At 5 Cypress Labs, we don't just "automate"—we build the infrastructure that allows your business to endure and scale. Our focus is on creating deep-rooted reliability and branching logic that grows with you.
+At 5 Cypress Automation, we don't just "automate"—we build the infrastructure that allows your business to endure and scale. Our focus is on creating deep-rooted reliability and branching logic that grows with you.
 
 **The Cypress Journey**
 1. Root Identification (Audit) - Deep dive into your existing infrastructure and bottlenecks.
@@ -47,7 +47,7 @@ Please use the secure link below to book your 45-minute kickoff session. During 
 We look forward to building the systems that power your growth.
 
 Best regards,
-The 5 Cypress Labs Team
+The 5 Cypress Automation Team
 ```
 
 ### Step 3: Create Architecture Session Link
