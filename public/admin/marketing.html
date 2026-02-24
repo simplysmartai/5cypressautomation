@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Marketing Team — Admin | 5 Cypress</title>
+  <link href="https://cdn.jsdelivr.net/npm/remixicon@4.0.0/fonts/remixicon.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700;800&family=DM+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/design-system.css">
+  <link rel="stylesheet" href="/styles-premium.css">
+  <style>
+    :root { --admin-sidebar: 240px; }
+
+    .admin-layout { display:grid; grid-template-columns:var(--admin-sidebar) 1fr; min-height:100vh; }
+
+    .sidebar { background:var(--bg-void); border-right:1px solid var(--border-subtle); position:fixed; top:0; left:0; width:var(--admin-sidebar); height:100vh; display:flex; flex-direction:column; z-index:100; overflow-y:auto; }
+    .sidebar-logo { padding:24px 20px; border-bottom:1px solid var(--border-subtle); display:flex; align-items:center; gap:12px; text-decoration:none; }
+    .sidebar-logo img { width:32px; height:32px; border-radius:8px; }
+    .sidebar-logo-text { font-family:var(--font-heading); font-size:0.95rem; font-weight:800; color:var(--text-primary); line-height:1.2; }
+    .sidebar-logo-sub { font-family:var(--font-mono); font-size:0.6rem; color:var(--brand-primary); text-transform:uppercase; letter-spacing:0.15em; }
+    .sidebar-nav { flex:1; padding:16px 12px; }
+    .nav-group-label { font-family:var(--font-mono); font-size:0.62rem; font-weight:700; text-transform:uppercase; letter-spacing:0.2em; color:var(--text-tertiary); padding:16px 8px 8px; }
+    .nav-item { display:flex; align-items:center; gap:10px; padding:10px; border-radius:10px; color:var(--text-secondary); text-decoration:none; font-size:0.875rem; font-weight:500; transition:all 0.2s; margin-bottom:2px; }
+    .nav-item:hover { background:rgba(255,255,255,0.05); color:var(--text-primary); }
+    .nav-item.active { background:rgba(93,140,93,0.12); color:var(--brand-primary); }
+    .nav-item i { font-size:1.1rem; width:20px; text-align:center; flex-shrink:0; }
+    .nav-badge { margin-left:auto; font-family:var(--font-mono); font-size:0.65rem; background:rgba(93,140,93,0.2); color:var(--brand-primary); padding:2px 7px; border-radius:100px; }
+    .sidebar-footer { padding:16px 12px; border-top:1px solid var(--border-subtle); }
+    .sidebar-status { display:flex; align-items:center; gap:8px; font-family:var(--font-mono); font-size:0.7rem; color:var(--text-tertiary); }
+    .status-dot { width:7px; height:7px; border-radius:50%; background:#4ade80; box-shadow:0 0 6px rgba(74,222,128,0.6); flex-shrink:0; }
+    .status-dot.offline { background:#f87171; box-shadow:0 0 6px rgba(248,113,113,0.6); }
+
+    .main-content { margin-left:var(--admin-sidebar); background:var(--bg-main); min-height:100vh; }
+    .top-bar { background:var(--bg-void); border-bottom:1px solid var(--border-subtle); padding:16px 32px; display:flex; align-items:center; justify-content:space-between; position:sticky; top:0; z-index:50; }
+    .page-title { font-family:var(--font-heading); font-size:1.1rem; font-weight:700; color:var(--text-primary); display:flex; align-items:center; gap:10px; }
+    .page-title i { color:var(--brand-primary); }
+    .admin-badge { font-family:var(--font-mono); font-size:0.65rem; font-weight:700; text-transform:uppercase; letter-spacing:0.12em; padding:5px 12px; border-radius:100px; background:rgba(93,140,93,0.1); border:1px solid rgba(93,140,93,0.25); color:var(--brand-primary); }
+    .content-area { padding:32px; }
+
+    /* Client section */
+    .client-section { margin-bottom:32px; }
+    .client-header {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: 16px 16px 0 0;
+      padding: 20px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+    .client-name { font-family:var(--font-heading); font-size:1.1rem; font-weight:700; text-transform:capitalize; }
+    .client-tag { font-family:var(--font-mono); font-size:0.68rem; text-transform:uppercase; letter-spacing:0.1em; padding:5px 12px; border-radius:100px; background:rgba(93,140,93,0.08); border:1px solid rgba(93,140,93,0.2); color:var(--brand-primary); }
+    .files-grid { background:var(--bg-surface); border:1px solid var(--border-subtle); border-top:none; border-radius:0 0 16px 16px; overflow:hidden; }
+    .file-row { display:flex; align-items:center; gap:16px; padding:16px 24px; border-bottom:1px solid rgba(255,255,255,0.04); transition:background 0.15s; }
+    .file-row:last-child { border-bottom:none; }
+    .file-row:hover { background:rgba(255,255,255,0.02); }
+    .file-icon { width:36px; height:36px; border-radius:8px; display:flex; align-items:center; justify-content:center; font-size:1rem; flex-shrink:0; }
+    .file-icon.html { background:rgba(251,191,36,0.1); color:var(--brand-accent); }
+    .file-icon.md { background:rgba(93,140,93,0.1); color:var(--brand-primary); }
+    .file-icon.pdf { background:rgba(239,68,68,0.1); color:#f87171; }
+    .file-icon.other { background:rgba(255,255,255,0.05); color:var(--text-tertiary); }
+    .file-info { flex:1; min-width:0; }
+    .file-name { font-size:0.875rem; font-weight:600; color:var(--text-primary); }
+    .file-size { font-size:0.75rem; color:var(--text-tertiary); font-family:var(--font-mono); }
+    .file-actions { display:flex; gap:8px; flex-shrink:0; }
+    .file-btn { display:inline-flex; align-items:center; gap:6px; padding:7px 14px; border-radius:8px; font-size:0.78rem; font-weight:500; text-decoration:none; border:1px solid var(--border-subtle); color:var(--text-secondary); background:transparent; cursor:pointer; transition:all 0.2s; }
+    .file-btn:hover { border-color:var(--border-medium); color:var(--text-primary); background:rgba(255,255,255,0.04); }
+    .file-btn.primary { border-color:rgba(93,140,93,0.4); color:var(--brand-primary); background:rgba(93,140,93,0.06); }
+    .file-btn.primary:hover { background:rgba(93,140,93,0.12); }
+
+    /* Preview modal */
+    .modal-overlay { position:fixed; inset:0; background:rgba(0,0,0,0.8); z-index:200; display:none; align-items:center; justify-content:center; padding:24px; }
+    .modal-overlay.open { display:flex; }
+    .modal { background:var(--bg-surface); border:1px solid var(--border-subtle); border-radius:16px; width:90vw; max-width:1000px; max-height:88vh; display:flex; flex-direction:column; overflow:hidden; }
+    .modal-header { padding:20px 24px; border-bottom:1px solid var(--border-subtle); display:flex; align-items:center; justify-content:space-between; flex-shrink:0; }
+    .modal-title { font-family:var(--font-heading); font-size:1rem; font-weight:700; }
+    .modal-close { background:transparent; border:none; color:var(--text-tertiary); font-size:1.4rem; cursor:pointer; padding:4px; line-height:1; }
+    .modal-close:hover { color:var(--text-primary); }
+    .modal-body { flex:1; overflow:hidden; }
+    .modal-iframe { width:100%; height:100%; border:none; background:#fff; min-height:600px; }
+    .modal-markdown { padding:32px; overflow-y:auto; max-height:70vh; font-size:0.9rem; line-height:1.7; color:var(--text-secondary); white-space:pre-wrap; font-family:var(--font-mono); }
+    .modal-markdown h1,h2,h3 { color:var(--text-primary); font-family:var(--font-heading); }
+
+    /* Empty state */
+    .empty-state { text-align:center; padding:64px 32px; color:var(--text-tertiary); }
+    .empty-icon { font-size:3rem; margin-bottom:16px; color:var(--brand-primary); opacity:0.4; }
+    .empty-title { font-family:var(--font-heading); font-size:1.1rem; color:var(--text-secondary); margin-bottom:8px; }
+
+    /* Loading */
+    @keyframes spin { to { transform:rotate(360deg); } }
+    .spinner { width:32px; height:32px; border:3px solid rgba(93,140,93,0.2); border-top-color:var(--brand-primary); border-radius:50%; animation:spin 0.8s linear infinite; margin:40px auto; }
+
+    @media (max-width:900px) { .admin-layout{grid-template-columns:1fr;} .sidebar{position:relative;width:100%;height:auto;} .main-content{margin-left:0;} }
+    @media (max-width:600px) { .content-area{padding:20px;} .file-actions{flex-direction:column;} }
+  </style>
+</head>
+<body>
+<div class="admin-layout">
+  <aside class="sidebar">
+    <a href="/" class="sidebar-logo">
+      <img src="/assets/brand/logo-5cypress.jpg" alt="5 Cypress" onerror="this.style.display='none'">
+      <div>
+        <div class="sidebar-logo-text">5 Cypress</div>
+        <div class="sidebar-logo-sub">Admin Hub</div>
+      </div>
+    </a>
+    <nav class="sidebar-nav">
+      <div class="nav-group-label">Overview</div>
+      <a href="/admin" class="nav-item"><i class="ri-dashboard-line"></i>Dashboard</a>
+      <a href="/admin/leads" class="nav-item"><i class="ri-user-add-line"></i>Leads</a>
+      <a href="/admin/clients" class="nav-item"><i class="ri-briefcase-line"></i>Clients</a>
+      <div class="nav-group-label">Marketing Team</div>
+      <a href="/admin/marketing" class="nav-item active"><i class="ri-robot-line"></i>AI Marketing</a>
+      <a href="/marketing" class="nav-item" target="_blank"><i class="ri-external-link-line"></i>Marketing Page</a>
+      <div class="nav-group-label">SEO</div>
+      <a href="/admin/seo" class="nav-item"><i class="ri-search-eye-line"></i>SEO Audit Tool</a>
+      <a href="/seo-dashboard" class="nav-item" target="_blank"><i class="ri-external-link-line"></i>Public SEO Tool</a>
+      <div class="nav-group-label">Site</div>
+      <a href="/" class="nav-item" target="_blank"><i class="ri-home-line"></i>Homepage</a>
+      <a href="/admin/newclient" class="nav-item"><i class="ri-user-star-line"></i>New Client Intake</a>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="sidebar-status">
+        <span class="status-dot" id="sidebarStatus"></span>
+        <span id="sidebarStatusText">Checking…</span>
+      </div>
+    </div>
+  </aside>
+
+  <div class="main-content">
+    <div class="top-bar">
+      <div class="page-title"><i class="ri-robot-line"></i>Marketing Team — Client Files</div>
+      <div style="display:flex;align-items:center;gap:12px;">
+        <span class="admin-badge" id="clientCountBadge">Loading…</span>
+        <a href="/admin/newclient" class="btn btn-primary" style="padding:8px 20px;font-size:0.85rem;"><i class="ri-user-add-line"></i> New Client</a>
+      </div>
+    </div>
+
+    <div class="content-area" id="mainArea">
+      <div class="spinner"></div>
+    </div>
+  </div>
+</div>
+
+<!-- Preview Modal -->
+<div class="modal-overlay" id="previewModal">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title" id="modalTitle">Preview</div>
+      <button class="modal-close" onclick="closeModal()"><i class="ri-close-line"></i></button>
+    </div>
+    <div class="modal-body" id="modalBody"></div>
+  </div>
+</div>
+
+<script>
+  function esc(s) { return String(s||'').replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+
+  function fileIconClass(name) {
+    const ext = name.split('.').pop().toLowerCase();
+    if (ext === 'html') return 'html';
+    if (ext === 'md') return 'md';
+    if (ext === 'pdf') return 'pdf';
+    return 'other';
+  }
+  function fileIconName(name) {
+    const ext = name.split('.').pop().toLowerCase();
+    if (ext === 'html') return 'ri-file-code-line';
+    if (ext === 'md') return 'ri-markdown-line';
+    if (ext === 'pdf') return 'ri-file-pdf-line';
+    return 'ri-file-line';
+  }
+  function formatSize(bytes) {
+    if (!bytes) return '—';
+    if (bytes < 1024) return bytes + ' B';
+    if (bytes < 1024*1024) return (bytes/1024).toFixed(1) + ' KB';
+    return (bytes/(1024*1024)).toFixed(1) + ' MB';
+  }
+
+  async function loadMarketing() {
+    const area = document.getElementById('mainArea');
+    try {
+      const r = await fetch('/api/admin/marketing');
+      if (!r.ok) throw new Error(`HTTP ${r.status}`);
+      const data = await r.json();
+
+      document.getElementById('clientCountBadge').textContent = `${data.clientCount} client${data.clientCount !== 1 ? 's' : ''}`;
+
+      if (!data.clients || !data.clients.length) {
+        area.innerHTML = `<div class="empty-state">
+          <div class="empty-icon"><i class="ri-robot-line"></i></div>
+          <div class="empty-title">No marketing clients found</div>
+          <p>Add client context files to <code style="font-family:var(--font-mono);color:var(--brand-primary);">marketing-team/context/</code> and output files to <code style="font-family:var(--font-mono);color:var(--brand-primary);">marketing-team/output/[client]/</code>.</p>
+          <a href="/admin/newclient" class="btn btn-primary" style="margin-top:16px;display:inline-flex;align-items:center;gap:8px;"><i class="ri-user-add-line"></i> New Client Intake</a>
+        </div>`;
+        return;
+      }
+
+      area.innerHTML = data.clients.map(client => {
+        const name = client.slug.replace(/-/g,' ').replace(/\b\w/g,x=>x.toUpperCase());
+        const fileRows = client.outputs && client.outputs.length
+          ? client.outputs.map(f => {
+              const iconCls = fileIconClass(f.name);
+              const iconName = fileIconName(f.name);
+              const ext = f.name.split('.').pop().toLowerCase();
+              const canPreview = ['html','md'].includes(ext);
+              return `<div class="file-row">
+                <div class="file-icon ${iconCls}"><i class="${iconName}"></i></div>
+                <div class="file-info">
+                  <div class="file-name">${esc(f.name)}</div>
+                  <div class="file-size">${formatSize(f.size)}</div>
+                </div>
+                <div class="file-actions">
+                  ${canPreview ? `<button class="file-btn primary" onclick="previewFile('${esc(client.slug)}','${esc(f.name)}','${ext}')"><i class="ri-eye-line"></i> Preview</button>` : ''}
+                  <a class="file-btn" href="/api/admin/marketing/file?client=${encodeURIComponent(client.slug)}&file=${encodeURIComponent(f.name)}" target="_blank"><i class="ri-external-link-line"></i> Open</a>
+                </div>
+              </div>`;
+            }).join('')
+          : `<div style="padding:24px;color:var(--text-tertiary);font-size:0.85rem;">No output files yet for this client.</div>`;
+
+        return `<div class="client-section" id="${esc(client.slug)}">
+          <div class="client-header">
+            <div class="client-name">${esc(name)}</div>
+            <span class="client-tag">${client.outputCount||0} file${client.outputCount !== 1 ? 's' : ''}</span>
+          </div>
+          <div class="files-grid">${fileRows}</div>
+        </div>`;
+      }).join('');
+
+      // Scroll to hash if present
+      const hash = location.hash.slice(1);
+      if (hash) {
+        setTimeout(() => {
+          const el = document.getElementById(hash);
+          if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }, 100);
+      }
+    } catch(e) {
+      area.innerHTML = `<div class="empty-state">
+        <div class="empty-icon"><i class="ri-error-warning-line"></i></div>
+        <div class="empty-title">Failed to load marketing data</div>
+        <p>${esc(e.message||String(e))}</p>
+        <p style="margin-top:8px;font-size:0.8rem;color:var(--text-tertiary);">Check that MARKETING_TEAM_PATH env var is set correctly.</p>
+      </div>`;
+    }
+  }
+
+  async function previewFile(clientSlug, fileName, ext) {
+    const modal = document.getElementById('previewModal');
+    document.getElementById('modalTitle').textContent = fileName;
+    const body = document.getElementById('modalBody');
+    body.innerHTML = '<div class="spinner"></div>';
+    modal.classList.add('open');
+
+    const url = `/api/admin/marketing/file?client=${encodeURIComponent(clientSlug)}&file=${encodeURIComponent(fileName)}`;
+
+    if (ext === 'html') {
+      body.innerHTML = `<iframe class="modal-iframe" src="${url}" title="Preview"></iframe>`;
+    } else if (ext === 'md') {
+      try {
+        const r = await fetch(url);
+        const text = await r.text();
+        body.innerHTML = `<div class="modal-markdown">${esc(text)}</div>`;
+      } catch(e) {
+        body.innerHTML = `<div class="modal-markdown">Failed to load file: ${esc(e.message)}</div>`;
+      }
+    }
+  }
+
+  function closeModal() {
+    const modal = document.getElementById('previewModal');
+    modal.classList.remove('open');
+    document.getElementById('modalBody').innerHTML = '';
+  }
+
+  document.getElementById('previewModal').addEventListener('click', function(e) {
+    if (e.target === this) closeModal();
+  });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+  async function checkHealth() {
+    try {
+      const r = await fetch('/health');
+      document.getElementById('sidebarStatus').className = r.ok ? 'status-dot' : 'status-dot offline';
+      document.getElementById('sidebarStatusText').textContent = r.ok ? `Online · ${new Date().toLocaleTimeString()}` : 'API error';
+    } catch {
+      document.getElementById('sidebarStatus').className = 'status-dot offline';
+      document.getElementById('sidebarStatusText').textContent = 'Unreachable';
+    }
+  }
+
+  loadMarketing();
+  checkHealth();
+</script>
+</body>
+</html>
