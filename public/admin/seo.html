@@ -13,7 +13,7 @@
     :root { --admin-sidebar: 240px; }
 
     /* ── Admin Layout ── */
-    .admin-layout { display:grid; grid-template-columns:var(--admin-sidebar) 1fr; min-height:100vh; }
+    .admin-layout { display:block; min-height:100vh; }
     .sidebar { background:var(--bg-void); border-right:1px solid var(--border-subtle); position:fixed; top:0; left:0; width:var(--admin-sidebar); height:100vh; display:flex; flex-direction:column; z-index:100; overflow-y:auto; }
     .sidebar-logo { padding:24px 20px; border-bottom:1px solid var(--border-subtle); display:flex; align-items:center; gap:12px; text-decoration:none; }
     .sidebar-logo img { width:32px; height:32px; border-radius:8px; }
