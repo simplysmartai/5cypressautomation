@@ -240,7 +240,13 @@
         <div class="api-pill warn" id="pillStripe"><span class="dot"></span>Stripe: Checking…</div>
       </div>
 
-      <!-- Config Warnings -->
+      <!-- Offline Mode Banner (shown when no backend) -->
+      <div id="bannerOffline" class="banner info" style="display:none;">
+        <i class="ri-wifi-off-line"></i>
+        <div><strong>Static mode</strong> — Backend server not connected. Click <strong>Load Sample</strong> below to preview the full audit report, or run your Express server for live API audits.</div>
+      </div>
+
+      <!-- Config Warnings (only shown when backend IS connected but keys missing) -->
       <div id="bannerNoPagespeed" class="banner warn" style="display:none;">
         <i class="ri-error-warning-line"></i>
         <div><strong>PageSpeed API key not set.</strong> On-page and speed modules require <code>GOOGLE_PAGESPEED_API_KEY</code>. Get a free key at <a href="https://console.cloud.google.com/" target="_blank">Google Cloud Console</a> → APIs & Services → PageSpeed Insights API.</div>
@@ -388,7 +394,8 @@
     auditData: null,
     competitorData: [],
     rawJson: null,
-    siteConfig: { dataforseo_enabled:false, pagespeed_enabled:false, stripe_enabled:false }
+    siteConfig: { dataforseo_enabled:false, pagespeed_enabled:false, stripe_enabled:false },
+    backendConnected: false
   };
 
   window.addEventListener('DOMContentLoaded', async () => {
@@ -399,10 +406,30 @@
   });
 
   async function loadSiteConfig() {
+    let backendReached = false;
     try {
       const r = await fetch('/api/seo/config');
-      if (r.ok) state.siteConfig = await r.json();
-    } catch(e) { /* use defaults */ }
+      if (r.ok) {
+        const ct = r.headers.get('content-type') || '';
+        if (ct.includes('application/json')) {
+          state.siteConfig = await r.json();
+          backendReached = true;
+        }
+      }
+    } catch(e) { /* backend unreachable — static hosting */ }
+
+    state.backendConnected = backendReached;
+
+    if (!backendReached) {
+      // Static hosting mode: hide scary warnings, show friendly offline banner
+      document.getElementById('bannerOffline').style.display = 'flex';
+      setPill('pillPagespeed', null, 'PageSpeed API');
+      setPill('pillDataforseo', null, 'DataForSEO');
+      setPill('pillStripe', null, 'Stripe');
+      return;
+    }
+
+    // Backend connected — show real API status
     setPill('pillPagespeed', state.siteConfig.pagespeed_enabled, 'PageSpeed API');
     setPill('pillDataforseo', state.siteConfig.dataforseo_enabled, 'DataForSEO');
     setPill('pillStripe', state.siteConfig.stripe_enabled, 'Stripe');
@@ -413,6 +440,12 @@
   function setPill(id, ok, label) {
     const el = document.getElementById(id);
     if (!el) return;
+    if (ok === null) {
+      // Offline / unknown state
+      el.className = 'api-pill warn';
+      el.innerHTML = `<span class="dot"></span>${label}: Offline`;
+      return;
+    }
     el.className = ok ? 'api-pill ok' : 'api-pill err';
     el.innerHTML = `<span class="dot"></span>${label}: ${ok ? 'Ready' : 'Not configured'}`;
   }
@@ -420,11 +453,12 @@
   async function checkHealth() {
     try {
       const r = await fetch('/health');
-      document.getElementById('sidebarStatus').className = r.ok ? 'status-dot' : 'status-dot offline';
-      document.getElementById('sidebarStatusText').textContent = r.ok ? `Online · ${new Date().toLocaleTimeString()}` : 'API error';
+      const ok = r.ok && (r.headers.get('content-type') || '').includes('json');
+      document.getElementById('sidebarStatus').className = ok ? 'status-dot' : 'status-dot offline';
+      document.getElementById('sidebarStatusText').textContent = ok ? `Online · ${new Date().toLocaleTimeString()}` : 'Static mode';
     } catch {
       document.getElementById('sidebarStatus').className = 'status-dot offline';
-      document.getElementById('sidebarStatusText').textContent = 'Unreachable';
+      document.getElementById('sidebarStatusText').textContent = 'Static mode';
     }
   }
   setInterval(checkHealth, 30000);
