@@ -55,7 +55,7 @@ export async function onRequest(context) {
     return err('Invalid URL', 400);
   }
 
-  const isPremium = isAdmin || tier === 'premium';
+  const isPremium = isAdmin || tier === 'premium' || tier === 'admin';
   const domain = targetUrl.hostname;
   const href = targetUrl.href;
 

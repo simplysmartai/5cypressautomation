@@ -514,7 +514,8 @@
             modules: state.selectedModules,
             keywords: keywords ? keywords.split('\n').map(k=>k.trim()).filter(Boolean) : [],
             competitors: comps,
-            strategy
+            strategy,
+            tier: 'admin'
           })
         });
         if (!resp.ok) {
