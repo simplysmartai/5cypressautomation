@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>New Client Intake — Admin | 5 Cypress</title>
+  <link href="https://cdn.jsdelivr.net/npm/remixicon@4.0.0/fonts/remixicon.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700;800&family=DM+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/design-system.css">
+  <link rel="stylesheet" href="/styles-premium.css">
+  <style>
+    :root { --admin-sidebar: 240px; }
+
+    .admin-layout { display:grid; grid-template-columns:var(--admin-sidebar) 1fr; min-height:100vh; }
+
+    .sidebar { background:var(--bg-void); border-right:1px solid var(--border-subtle); position:fixed; top:0; left:0; width:var(--admin-sidebar); height:100vh; display:flex; flex-direction:column; z-index:100; overflow-y:auto; }
+    .sidebar-logo { padding:24px 20px; border-bottom:1px solid var(--border-subtle); display:flex; align-items:center; gap:12px; text-decoration:none; }
+    .sidebar-logo img { width:32px; height:32px; border-radius:8px; }
+    .sidebar-logo-text { font-family:var(--font-heading); font-size:0.95rem; font-weight:800; color:var(--text-primary); line-height:1.2; }
+    .sidebar-logo-sub { font-family:var(--font-mono); font-size:0.6rem; color:var(--brand-primary); text-transform:uppercase; letter-spacing:0.15em; }
+    .sidebar-nav { flex:1; padding:16px 12px; }
+    .nav-group-label { font-family:var(--font-mono); font-size:0.62rem; font-weight:700; text-transform:uppercase; letter-spacing:0.2em; color:var(--text-tertiary); padding:16px 8px 8px; }
+    .nav-item { display:flex; align-items:center; gap:10px; padding:10px; border-radius:10px; color:var(--text-secondary); text-decoration:none; font-size:0.875rem; font-weight:500; transition:all 0.2s; margin-bottom:2px; }
+    .nav-item:hover { background:rgba(255,255,255,0.05); color:var(--text-primary); }
+    .nav-item.active { background:rgba(93,140,93,0.12); color:var(--brand-primary); }
+    .nav-item i { font-size:1.1rem; width:20px; text-align:center; flex-shrink:0; }
+    .sidebar-footer { padding:16px 12px; border-top:1px solid var(--border-subtle); }
+    .sidebar-status { display:flex; align-items:center; gap:8px; font-family:var(--font-mono); font-size:0.7rem; color:var(--text-tertiary); }
+    .status-dot { width:7px; height:7px; border-radius:50%; background:#4ade80; box-shadow:0 0 6px rgba(74,222,128,0.6); flex-shrink:0; }
+    .status-dot.offline { background:#f87171; }
+
+    .main-content { margin-left:var(--admin-sidebar); background:var(--bg-main); min-height:100vh; }
+    .top-bar { background:var(--bg-void); border-bottom:1px solid var(--border-subtle); padding:16px 32px; display:flex; align-items:center; justify-content:space-between; position:sticky; top:0; z-index:50; }
+    .page-title { font-family:var(--font-heading); font-size:1.1rem; font-weight:700; color:var(--text-primary); display:flex; align-items:center; gap:10px; }
+    .page-title i { color:var(--brand-primary); }
+    .admin-badge { font-family:var(--font-mono); font-size:0.65rem; font-weight:700; text-transform:uppercase; letter-spacing:0.12em; padding:5px 12px; border-radius:100px; background:rgba(93,140,93,0.1); border:1px solid rgba(93,140,93,0.25); color:var(--brand-primary); }
+    .content-area { padding:32px; max-width:900px; }
+
+    /* Form sections */
+    .form-section { background:var(--bg-surface); border:1px solid var(--border-subtle); border-radius:16px; overflow:hidden; margin-bottom:20px; }
+    .form-section-header { padding:18px 24px; border-bottom:1px solid var(--border-subtle); display:flex; align-items:center; gap:10px; }
+    .form-section-icon { width:32px; height:32px; border-radius:8px; background:rgba(93,140,93,0.1); display:flex; align-items:center; justify-content:center; color:var(--brand-primary); font-size:1rem; flex-shrink:0; }
+    .form-section-title { font-family:var(--font-heading); font-size:0.95rem; font-weight:700; }
+    .form-section-sub { font-size:0.78rem; color:var(--text-tertiary); margin-top:1px; }
+    .form-section-body { padding:24px; }
+    .fields-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+    .fields-grid .full { grid-column:1/-1; }
+
+    /* Field styling */
+    .field { display:flex; flex-direction:column; gap:6px; }
+    .field label { font-family:var(--font-mono); font-size:0.68rem; font-weight:600; text-transform:uppercase; letter-spacing:0.1em; color:var(--text-tertiary); }
+    .field label .req { color:var(--brand-accent); margin-left:2px; }
+    .field input, .field textarea, .field select {
+      background:var(--bg-void); border:1px solid var(--border-subtle); border-radius:10px;
+      padding:11px 14px; color:var(--text-primary); font-size:0.9rem; font-family:var(--font-body);
+      transition:border-color 0.2s; width:100%; box-sizing:border-box;
+    }
+    .field input:focus, .field textarea:focus, .field select:focus { outline:none; border-color:rgba(93,140,93,0.5); }
+    .field input::placeholder, .field textarea::placeholder { color:var(--text-tertiary); font-size:0.85rem; }
+    .field textarea { min-height:96px; resize:vertical; line-height:1.5; }
+    .field .hint { font-size:0.75rem; color:var(--text-tertiary); line-height:1.4; }
+
+    /* Tag input simulation */
+    .tag-hint { font-size:0.75rem; color:var(--text-tertiary); margin-top:4px; }
+
+    /* Actions */
+    .form-actions { display:flex; align-items:center; gap:12px; padding-top:8px; }
+    .btn-submit { display:flex; align-items:center; gap:8px; padding:13px 28px; background:var(--brand-primary); color:#fff; border:none; border-radius:10px; font-family:var(--font-body); font-size:0.9rem; font-weight:600; cursor:pointer; transition:opacity 0.2s; }
+    .btn-submit:hover { opacity:0.85; }
+    .btn-submit:disabled { opacity:0.5; cursor:not-allowed; }
+    @keyframes spin { to { transform:rotate(360deg); } }
+    .spin { animation:spin 0.8s linear infinite; display:inline-block; }
+    .btn-back { display:flex; align-items:center; gap:6px; padding:13px 20px; background:transparent; border:1px solid var(--border-subtle); border-radius:10px; color:var(--text-secondary); font-family:var(--font-body); font-size:0.9rem; text-decoration:none; transition:all 0.2s; }
+    .btn-back:hover { border-color:var(--border-medium); color:var(--text-primary); }
+
+    /* Result states */
+    .result-panel { background:var(--bg-surface); border:1px solid var(--border-subtle); border-radius:16px; padding:32px; display:none; text-align:center; }
+    .result-panel.success { border-color:rgba(74,222,128,0.25); background:rgba(74,222,128,0.04); }
+    .result-panel.error { border-color:rgba(248,113,113,0.25); background:rgba(248,113,113,0.04); }
+    .result-icon { font-size:2.5rem; margin-bottom:16px; }
+    .result-icon.success { color:#4ade80; }
+    .result-icon.error { color:#f87171; }
+    .result-title { font-family:var(--font-heading); font-size:1.3rem; font-weight:700; margin-bottom:8px; }
+    .result-sub { color:var(--text-secondary); font-size:0.875rem; margin-bottom:24px; line-height:1.6; }
+    .result-files { background:var(--bg-void); border:1px solid var(--border-subtle); border-radius:10px; padding:16px; font-family:var(--font-mono); font-size:0.78rem; color:var(--text-secondary); text-align:left; white-space:pre-wrap; margin-bottom:20px; }
+    .result-actions { display:flex; gap:12px; justify-content:center; flex-wrap:wrap; }
+
+    @media (max-width:900px) { .admin-layout{grid-template-columns:1fr;} .sidebar{position:relative;width:100%;height:auto;} .main-content{margin-left:0;} .fields-grid{grid-template-columns:1fr;} }
+  </style>
+</head>
+<body>
+<div class="admin-layout">
+
+  <aside class="sidebar">
+    <a href="/" class="sidebar-logo">
+      <img src="/assets/brand/logo-5cypress.jpg" alt="5 Cypress" onerror="this.style.display='none'">
+      <div>
+        <div class="sidebar-logo-text">5 Cypress</div>
+        <div class="sidebar-logo-sub">Admin Hub</div>
+      </div>
+    </a>
+    <nav class="sidebar-nav">
+      <div class="nav-group-label">Overview</div>
+      <a href="/admin" class="nav-item"><i class="ri-dashboard-line"></i>Dashboard</a>
+      <a href="/admin/leads" class="nav-item"><i class="ri-user-add-line"></i>Leads</a>
+      <a href="/admin/clients" class="nav-item"><i class="ri-briefcase-line"></i>Clients</a>
+      <div class="nav-group-label">Marketing Team</div>
+      <a href="/admin/marketing" class="nav-item"><i class="ri-robot-line"></i>AI Marketing</a>
+      <div class="nav-group-label">SEO</div>
+      <a href="/admin/seo" class="nav-item"><i class="ri-search-eye-line"></i>SEO Audit Tool</a>
+      <div class="nav-group-label">Site</div>
+      <a href="/" class="nav-item" target="_blank"><i class="ri-home-line"></i>Homepage</a>
+      <a href="/admin/newclient" class="nav-item active"><i class="ri-user-star-line"></i>New Client Intake</a>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="sidebar-status">
+        <span class="status-dot" id="sidebarStatus"></span>
+        <span id="sidebarStatusText">Checking…</span>
+      </div>
+    </div>
+  </aside>
+
+  <div class="main-content">
+    <div class="top-bar">
+      <div class="page-title"><i class="ri-user-star-line"></i>New Client Intake</div>
+      <span class="admin-badge">Admin Only</span>
+    </div>
+
+    <div class="content-area">
+
+      <!-- The form -->
+      <form id="intakeForm">
+
+        <!-- Section 1: Company -->
+        <div class="form-section">
+          <div class="form-section-header">
+            <div class="form-section-icon"><i class="ri-building-line"></i></div>
+            <div>
+              <div class="form-section-title">Company Information</div>
+              <div class="form-section-sub">Basic identity and online presence</div>
+            </div>
+          </div>
+          <div class="form-section-body">
+            <div class="fields-grid">
+              <div class="field">
+                <label>Company Name <span class="req">*</span></label>
+                <input id="company_name" required placeholder="Acme Medical Corp">
+              </div>
+              <div class="field">
+                <label>Industry <span class="req">*</span></label>
+                <input id="industry" required placeholder="Medical Device, B2B SaaS, Tech…">
+              </div>
+              <div class="field">
+                <label>Website</label>
+                <input id="website" type="url" placeholder="https://www.acme.com">
+              </div>
+              <div class="field">
+                <label>Contract Start</label>
+                <input id="contract_start" type="date">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Section 2: Contact -->
+        <div class="form-section">
+          <div class="form-section-header">
+            <div class="form-section-icon"><i class="ri-user-line"></i></div>
+            <div>
+              <div class="form-section-title">Primary Contact</div>
+              <div class="form-section-sub">Main point of contact at the client</div>
+            </div>
+          </div>
+          <div class="form-section-body">
+            <div class="fields-grid">
+              <div class="field">
+                <label>Contact Name <span class="req">*</span></label>
+                <input id="contact_name" required placeholder="Jane Smith">
+              </div>
+              <div class="field">
+                <label>Contact Email</label>
+                <input id="contact_email" type="email" placeholder="jane@acme.com">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Section 3: Business Focus -->
+        <div class="form-section">
+          <div class="form-section-header">
+            <div class="form-section-icon"><i class="ri-target-line"></i></div>
+            <div>
+              <div class="form-section-title">Business Focus</div>
+              <div class="form-section-sub">What they sell, who they reach, and what they're after</div>
+            </div>
+          </div>
+          <div class="form-section-body">
+            <div class="fields-grid">
+              <div class="field full">
+                <label>What They Sell <span class="req">*</span></label>
+                <textarea id="what_they_sell" required placeholder="Describe their product or service offering in plain terms…"></textarea>
+              </div>
+              <div class="field">
+                <label>Who They Sell To <span class="req">*</span></label>
+                <input id="who_they_sell_to" required placeholder="Mid-size medical practices, hospital procurement teams…">
+              </div>
+              <div class="field">
+                <label>Main Goal <span class="req">*</span></label>
+                <input id="main_goal" required placeholder="Generate more qualified demo requests…">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Section 4: Services & Automations -->
+        <div class="form-section">
+          <div class="form-section-header">
+            <div class="form-section-icon"><i class="ri-settings-3-line"></i></div>
+            <div>
+              <div class="form-section-title">Scope of Work</div>
+              <div class="form-section-sub">What 5 Cypress is delivering to this client</div>
+            </div>
+          </div>
+          <div class="form-section-body">
+            <div class="fields-grid">
+              <div class="field">
+                <label>Services</label>
+                <input id="services" placeholder="Email campaigns, Strategy brief, Monthly reporting">
+                <span class="tag-hint">Comma-separated</span>
+              </div>
+              <div class="field">
+                <label>Automations</label>
+                <input id="automations" placeholder="QBO invoicing, ShipStation, Lead gen">
+                <span class="tag-hint">Comma-separated</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Section 5: Notes -->
+        <div class="form-section">
+          <div class="form-section-header">
+            <div class="form-section-icon"><i class="ri-sticky-note-line"></i></div>
+            <div>
+              <div class="form-section-title">Notes</div>
+              <div class="form-section-sub">Anything else worth knowing about this client</div>
+            </div>
+          </div>
+          <div class="form-section-body">
+            <div class="field">
+              <textarea id="bio" placeholder="Discovery call notes, quirks, key context, pricing discussion highlights…" style="min-height:120px;"></textarea>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-actions">
+          <button class="btn-submit" type="submit" id="submitBtn">
+            <i class="ri-user-add-line" id="submitIcon"></i>
+            Create Client
+          </button>
+          <a class="btn-back" href="/admin"><i class="ri-arrow-left-line"></i>Back to Admin</a>
+        </div>
+
+      </form>
+
+      <!-- Result state (replaces form on success/error) -->
+      <div class="result-panel" id="resultPanel">
+        <div class="result-icon" id="resultIcon"></div>
+        <div class="result-title" id="resultTitle"></div>
+        <div class="result-sub" id="resultSub"></div>
+        <div class="result-files" id="resultFiles" style="display:none;"></div>
+        <div class="result-actions">
+          <a href="/admin/newclient" class="btn-submit" style="text-decoration:none;">
+            <i class="ri-user-add-line"></i> Add Another Client
+          </a>
+          <a href="/admin/marketing" class="btn-back">
+            <i class="ri-robot-line"></i> Open Marketing Team
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script>
+  async function checkHealth() {
+    try {
+      const r = await fetch('/health');
+      document.getElementById('sidebarStatus').className = r.ok ? 'status-dot' : 'status-dot offline';
+      document.getElementById('sidebarStatusText').textContent = r.ok ? `Online · ${new Date().toLocaleTimeString()}` : 'API error';
+    } catch {
+      document.getElementById('sidebarStatus').className = 'status-dot offline';
+      document.getElementById('sidebarStatusText').textContent = 'Unreachable';
+    }
+  }
+
+  function getVal(id) { return document.getElementById(id).value.trim(); }
+
+  document.getElementById('intakeForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const btn  = document.getElementById('submitBtn');
+    const icon = document.getElementById('submitIcon');
+    btn.disabled = true;
+    icon.className = 'ri-loader-4-line spin';
+
+    const payload = {
+      company_name:    getVal('company_name'),
+      industry:        getVal('industry'),
+      website:         getVal('website'),
+      contact_name:    getVal('contact_name'),
+      contact_email:   getVal('contact_email'),
+      what_they_sell:  getVal('what_they_sell'),
+      who_they_sell_to:getVal('who_they_sell_to'),
+      main_goal:       getVal('main_goal'),
+      services:        getVal('services'),
+      automations:     getVal('automations'),
+      contract_start:  getVal('contract_start'),
+      bio:             getVal('bio')
+    };
+
+    try {
+      const res  = await fetch('/admin/newclient', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+      const data = await res.json();
+
+      if (!res.ok) {
+        throw new Error(data.error || (data.errors && data.errors[0]?.msg) || 'Failed to create client');
+      }
+
+      // Success
+      const files = Object.entries(data.files || {}).map(([k, v]) => `${k.padEnd(16)} ${v}`).join('\n');
+      document.getElementById('intakeForm').style.display = 'none';
+      const panel = document.getElementById('resultPanel');
+      panel.classList.add('success');
+      document.getElementById('resultIcon').innerHTML = '<i class="ri-check-line" style="color:#4ade80;"></i>';
+      document.getElementById('resultTitle').textContent = `Client Created: ${data.clientId || payload.company_name}`;
+      document.getElementById('resultSub').textContent = 'Context file and folder structure have been scaffolded. Head to the Marketing Team section to start producing deliverables.';
+      if (files) {
+        document.getElementById('resultFiles').style.display = 'block';
+        document.getElementById('resultFiles').textContent = files;
+      }
+      panel.style.display = 'block';
+
+    } catch(err) {
+      const panel = document.getElementById('resultPanel');
+      panel.classList.add('error');
+      document.getElementById('resultIcon').innerHTML = '<i class="ri-error-warning-line" style="color:#f87171;"></i>';
+      document.getElementById('resultTitle').textContent = 'Something went wrong';
+      document.getElementById('resultSub').textContent = err.message || String(err);
+      document.getElementById('intakeForm').style.display = 'none';
+      panel.style.display = 'block';
+    } finally {
+      btn.disabled = false;
+      icon.className = 'ri-user-add-line';
+    }
+  });
+
+  // Set today's date as default for contract_start
+  document.getElementById('contract_start').value = new Date().toISOString().split('T')[0];
+
+  checkHealth();
+</script>
+</body>
+</html>
+    .title { font-family: var(--font-heading); margin: 0 0 6px; }
+    .lead { color: var(--text-secondary); margin: 0 0 16px; }
+    .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    label { display: block; margin-bottom: 6px; color: var(--text-secondary); }
+    input, textarea, select { width: 100%; padding: 10px 12px; border-radius: var(--radius-sm); border: 1px solid var(--border-subtle); background: var(--bg-main); color: var(--text-primary); }
+    textarea { min-height: 100px; }
+    .full { grid-column: 1 / -1; }
+    .actions { margin-top: 16px; display: flex; gap: 10px; }
+    button { padding: 10px 14px; border: 1px solid var(--border-subtle); border-radius: var(--radius-sm); background: var(--bg-main); color: var(--text-primary); cursor: pointer; }
+    .result { margin-top: 16px; border: 1px solid var(--border-subtle); border-radius: var(--radius-sm); padding: 12px; display: none; }
+    @media (max-width: 900px) { .grid { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <h1 class="title">New Client Intake</h1>
+    <p class="lead">Creates context and client files in your marketing workspace.</p>
+
+    <form id="intakeForm">
+      <div class="grid">
+        <div>
+          <label for="company_name">Company name *</label>
+          <input id="company_name" required />
+        </div>
+        <div>
+          <label for="industry">Industry *</label>
+          <input id="industry" required />
+        </div>
+
+        <div>
+          <label for="website">Website</label>
+          <input id="website" />
+        </div>
+        <div>
+          <label for="contact_name">Primary contact *</label>
+          <input id="contact_name" required />
+        </div>
+
+        <div class="full">
+          <label for="what_they_sell">What they sell *</label>
+          <textarea id="what_they_sell" required></textarea>
+        </div>
+
+        <div>
+          <label for="who_they_sell_to">Who they sell to *</label>
+          <input id="who_they_sell_to" required />
+        </div>
+        <div>
+          <label for="main_goal">Main goal *</label>
+          <input id="main_goal" required />
+        </div>
+
+        <div>
+          <label for="services">Services (comma-separated)</label>
+          <input id="services" />
+        </div>
+        <div>
+          <label for="automations">Automations (comma-separated)</label>
+          <input id="automations" />
+        </div>
+
+        <div>
+          <label for="contract_start">Contract start</label>
+          <input id="contract_start" type="date" />
+        </div>
+        <div>
+          <label for="contact_email">Contact email</label>
+          <input id="contact_email" type="email" />
+        </div>
+
+        <div class="full">
+          <label for="bio">Notes / bio</label>
+          <textarea id="bio"></textarea>
+        </div>
+      </div>
+
+      <div class="actions">
+        <button type="submit">Create client</button>
+        <button type="button" onclick="location.href='/admin'">Back to admin</button>
+      </div>
+    </form>
+
+    <section class="result" id="result"></section>
+  </main>
+
+  <script>
+    const form = document.getElementById('intakeForm');
+    const result = document.getElementById('result');
+
+    function getVal(id) {
+      return document.getElementById(id).value.trim();
+    }
+
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+
+      const payload = {
+        company_name: getVal('company_name'),
+        website: getVal('website'),
+        industry: getVal('industry'),
+        contact_name: getVal('contact_name'),
+        contact_email: getVal('contact_email'),
+        what_they_sell: getVal('what_they_sell'),
+        who_they_sell_to: getVal('who_they_sell_to'),
+        main_goal: getVal('main_goal'),
+        services: getVal('services'),
+        automations: getVal('automations'),
+        contract_start: getVal('contract_start'),
+        bio: getVal('bio')
+      };
+
+      try {
+        const res = await fetch('/admin/newclient', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+
+        const data = await res.json();
+        if (!res.ok) {
+          throw new Error(data.error || (data.errors && data.errors[0] && data.errors[0].msg) || 'Failed to create client');
+        }
+
+        const files = Object.entries(data.files || {}).map(([k, v]) => `${k}: ${v}`).join('\n');
+        result.textContent = `Client created: ${data.clientId}\n\n${files}`;
+        result.style.display = 'block';
+      } catch (error) {
+        result.textContent = error.message;
+        result.style.display = 'block';
+      }
+    });
+  </script>
+</body>
+</html>

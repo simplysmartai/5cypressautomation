@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>SEO Audit Tool — Admin | 5 Cypress</title>
+  <link href="https://cdn.jsdelivr.net/npm/remixicon@4.0.0/fonts/remixicon.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700;800&family=DM+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/design-system.css">
+  <link rel="stylesheet" href="/styles-premium.css">
+  <style>
+    :root { --admin-sidebar: 240px; }
+
+    .admin-layout { display:grid; grid-template-columns:var(--admin-sidebar) 1fr; min-height:100vh; }
+
+    .sidebar { background:var(--bg-void); border-right:1px solid var(--border-subtle); position:fixed; top:0; left:0; width:var(--admin-sidebar); height:100vh; display:flex; flex-direction:column; z-index:100; overflow-y:auto; }
+    .sidebar-logo { padding:24px 20px; border-bottom:1px solid var(--border-subtle); display:flex; align-items:center; gap:12px; text-decoration:none; }
+    .sidebar-logo img { width:32px; height:32px; border-radius:8px; }
+    .sidebar-logo-text { font-family:var(--font-heading); font-size:0.95rem; font-weight:800; color:var(--text-primary); line-height:1.2; }
+    .sidebar-logo-sub { font-family:var(--font-mono); font-size:0.6rem; color:var(--brand-primary); text-transform:uppercase; letter-spacing:0.15em; }
+    .sidebar-nav { flex:1; padding:16px 12px; }
+    .nav-group-label { font-family:var(--font-mono); font-size:0.62rem; font-weight:700; text-transform:uppercase; letter-spacing:0.2em; color:var(--text-tertiary); padding:16px 8px 8px; }
+    .nav-item { display:flex; align-items:center; gap:10px; padding:10px; border-radius:10px; color:var(--text-secondary); text-decoration:none; font-size:0.875rem; font-weight:500; transition:all 0.2s; margin-bottom:2px; }
+    .nav-item:hover { background:rgba(255,255,255,0.05); color:var(--text-primary); }
+    .nav-item.active { background:rgba(93,140,93,0.12); color:var(--brand-primary); }
+    .nav-item i { font-size:1.1rem; width:20px; text-align:center; flex-shrink:0; }
+    .sidebar-footer { padding:16px 12px; border-top:1px solid var(--border-subtle); }
+    .sidebar-status { display:flex; align-items:center; gap:8px; font-family:var(--font-mono); font-size:0.7rem; color:var(--text-tertiary); }
+    .status-dot { width:7px; height:7px; border-radius:50%; background:#4ade80; box-shadow:0 0 6px rgba(74,222,128,0.6); flex-shrink:0; }
+    .status-dot.offline { background:#f87171; box-shadow:0 0 6px rgba(248,113,113,0.6); }
+
+    .main-content { margin-left:var(--admin-sidebar); background:var(--bg-main); min-height:100vh; }
+    .top-bar { background:var(--bg-void); border-bottom:1px solid var(--border-subtle); padding:16px 32px; display:flex; align-items:center; justify-content:space-between; position:sticky; top:0; z-index:50; }
+    .page-title { font-family:var(--font-heading); font-size:1.1rem; font-weight:700; color:var(--text-primary); display:flex; align-items:center; gap:10px; }
+    .page-title i { color:var(--brand-primary); }
+    .admin-badge { font-family:var(--font-mono); font-size:0.65rem; font-weight:700; text-transform:uppercase; letter-spacing:0.12em; padding:5px 12px; border-radius:100px; background:rgba(93,140,93,0.1); border:1px solid rgba(93,140,93,0.25); color:var(--brand-primary); }
+    .content-area { padding:32px; max-width:1100px; }
+
+    /* Audit form panel */
+    .audit-panel { background:var(--bg-surface); border:1px solid var(--border-subtle); border-radius:16px; overflow:hidden; margin-bottom:28px; }
+    .audit-panel-header { padding:20px 28px; border-bottom:1px solid var(--border-subtle); display:flex; align-items:center; gap:12px; }
+    .audit-panel-header i { font-size:1.3rem; color:var(--brand-primary); }
+    .audit-panel-title { font-family:var(--font-heading); font-size:1rem; font-weight:700; }
+    .audit-panel-sub { font-size:0.8rem; color:var(--text-tertiary); margin-top:2px; }
+    .audit-form { padding:28px; display:grid; grid-template-columns:1fr auto auto; gap:12px; align-items:end; }
+    .form-group label { display:block; font-family:var(--font-mono); font-size:0.7rem; font-weight:600; text-transform:uppercase; letter-spacing:0.1em; color:var(--text-tertiary); margin-bottom:8px; }
+    .form-group input, .form-group select { width:100%; padding:12px 16px; background:var(--bg-void); border:1px solid var(--border-subtle); border-radius:10px; color:var(--text-primary); font-size:0.9rem; font-family:var(--font-body); transition:border-color 0.2s; }
+    .form-group input:focus, .form-group select:focus { outline:none; border-color:rgba(93,140,93,0.5); }
+    .form-group input::placeholder { color:var(--text-tertiary); }
+    .form-group select { background:var(--bg-void); cursor:pointer; }
+    .audit-btn { padding:12px 28px; background:var(--brand-primary); color:#fff; border:none; border-radius:10px; font-family:var(--font-body); font-size:0.9rem; font-weight:600; cursor:pointer; white-space:nowrap; display:flex; align-items:center; gap:8px; transition:opacity 0.2s; align-self:end; }
+    .audit-btn:hover { opacity:0.85; }
+    .audit-btn:disabled { opacity:0.5; cursor:not-allowed; }
+    .audit-btn i { font-size:1rem; }
+    @keyframes spin { to { transform:rotate(360deg); } }
+    .spinner-icon { animation:spin 0.8s linear infinite; display:inline-block; }
+
+    /* Config warning */
+    .config-warn { margin:0 28px 28px; background:rgba(251,191,36,0.06); border:1px solid rgba(251,191,36,0.2); border-radius:12px; padding:16px 20px; display:flex; align-items:flex-start; gap:12px; }
+    .config-warn i { color:var(--brand-accent); font-size:1.1rem; margin-top:2px; flex-shrink:0; }
+    .config-warn-text { font-size:0.85rem; color:var(--text-secondary); line-height:1.6; }
+    .config-warn-text strong { color:var(--brand-accent); }
+    .config-warn-text code { font-family:var(--font-mono); font-size:0.78rem; background:rgba(255,255,255,0.06); padding:1px 6px; border-radius:4px; }
+
+    /* Scores grid */
+    .results-section { display:none; }
+    .results-section.visible { display:block; }
+    .section-label { font-family:var(--font-mono); font-size:0.7rem; font-weight:700; text-transform:uppercase; letter-spacing:0.15em; color:var(--text-tertiary); margin-bottom:16px; padding-bottom:8px; border-bottom:1px solid var(--border-subtle); }
+    .scores-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:16px; margin-bottom:28px; }
+    .score-card { background:var(--bg-surface); border:1px solid var(--border-subtle); border-radius:14px; padding:24px 20px; text-align:center; position:relative; overflow:hidden; transition:border-color 0.3s; }
+    .score-ring { width:72px; height:72px; position:relative; margin:0 auto 16px; }
+    .score-ring svg { width:72px; height:72px; transform:rotate(-90deg); }
+    .score-ring-bg { fill:none; stroke:rgba(255,255,255,0.06); stroke-width:6; }
+    .score-ring-bar { fill:none; stroke-width:6; stroke-linecap:round; transition:stroke-dashoffset 1s ease, stroke 0.3s; }
+    .score-number { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; font-family:var(--font-heading); font-size:1.2rem; font-weight:800; }
+    .score-name { font-size:0.78rem; color:var(--text-tertiary); margin-bottom:6px; }
+    .score-grade { font-family:var(--font-mono); font-size:0.65rem; text-transform:uppercase; letter-spacing:0.1em; padding:3px 10px; border-radius:100px; display:inline-block; }
+    .grade-good { background:rgba(74,222,128,0.1); color:#4ade80; }
+    .grade-warn { background:rgba(251,191,36,0.1); color:var(--brand-accent); }
+    .grade-bad { background:rgba(248,113,113,0.1); color:#f87171; }
+    .grade-none { background:rgba(255,255,255,0.04); color:var(--text-tertiary); }
+
+    /* Vitals */
+    .vitals-grid { display:grid; grid-template-columns:repeat(5, 1fr); gap:12px; margin-bottom:28px; }
+    .vital-card { background:var(--bg-surface); border:1px solid var(--border-subtle); border-radius:12px; padding:16px; }
+    .vital-label { font-family:var(--font-mono); font-size:0.65rem; text-transform:uppercase; letter-spacing:0.1em; color:var(--text-tertiary); margin-bottom:8px; }
+    .vital-value { font-family:var(--font-heading); font-size:1.15rem; font-weight:700; }
+    .vital-desc { font-size:0.72rem; color:var(--text-tertiary); margin-top:4px; }
+
+    /* Raw output */
+    .raw-output { background:var(--bg-void); border:1px solid var(--border-subtle); border-radius:12px; padding:20px; font-family:var(--font-mono); font-size:0.78rem; line-height:1.6; color:var(--text-secondary); white-space:pre-wrap; word-break:break-all; max-height:280px; overflow-y:auto; }
+
+    /* Error banner */
+    .error-banner { background:rgba(248,113,113,0.06); border:1px solid rgba(248,113,113,0.2); border-radius:12px; padding:16px 20px; display:flex; align-items:flex-start; gap:12px; margin-bottom:20px; }
+    .error-banner i { color:#f87171; font-size:1.1rem; margin-top:2px; flex-shrink:0; }
+    .error-banner-text { font-size:0.85rem; color:var(--text-secondary); }
+    .error-banner-text strong { color:#f87171; display:block; margin-bottom:4px; }
+
+    @media (max-width:900px) { .admin-layout{grid-template-columns:1fr;} .sidebar{position:relative;width:100%;height:auto;} .main-content{margin-left:0;} .scores-grid{grid-template-columns:repeat(2,1fr);} .vitals-grid{grid-template-columns:repeat(2,1fr);} .audit-form{grid-template-columns:1fr;} }
+  </style>
+</head>
+<body>
+<div class="admin-layout">
+
+  <aside class="sidebar">
+    <a href="/" class="sidebar-logo">
+      <img src="/assets/brand/logo-5cypress.jpg" alt="5 Cypress" onerror="this.style.display='none'">
+      <div>
+        <div class="sidebar-logo-text">5 Cypress</div>
+        <div class="sidebar-logo-sub">Admin Hub</div>
+      </div>
+    </a>
+    <nav class="sidebar-nav">
+      <div class="nav-group-label">Overview</div>
+      <a href="/admin" class="nav-item"><i class="ri-dashboard-line"></i>Dashboard</a>
+      <a href="/admin/leads" class="nav-item"><i class="ri-user-add-line"></i>Leads</a>
+      <a href="/admin/clients" class="nav-item"><i class="ri-briefcase-line"></i>Clients</a>
+      <div class="nav-group-label">Marketing Team</div>
+      <a href="/admin/marketing" class="nav-item"><i class="ri-robot-line"></i>AI Marketing</a>
+      <div class="nav-group-label">SEO</div>
+      <a href="/admin/seo" class="nav-item active"><i class="ri-search-eye-line"></i>SEO Audit Tool</a>
+      <div class="nav-group-label">Site</div>
+      <a href="/" class="nav-item" target="_blank"><i class="ri-home-line"></i>Homepage</a>
+      <a href="/admin/newclient" class="nav-item"><i class="ri-user-star-line"></i>New Client Intake</a>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="sidebar-status">
+        <span class="status-dot" id="sidebarStatus"></span>
+        <span id="sidebarStatusText">Checking…</span>
+      </div>
+    </div>
+  </aside>
+
+  <div class="main-content">
+    <div class="top-bar">
+      <div class="page-title"><i class="ri-search-eye-line"></i>SEO Audit Tool</div>
+      <span class="admin-badge">Admin Only</span>
+    </div>
+
+    <div class="content-area">
+
+      <!-- Audit Form -->
+      <div class="audit-panel">
+        <div class="audit-panel-header">
+          <i class="ri-search-eye-line"></i>
+          <div>
+            <div class="audit-panel-title">Run SEO Audit</div>
+            <div class="audit-panel-sub">Google Lighthouse via PageSpeed Insights API — free, no token consumed</div>
+          </div>
+        </div>
+        <div id="configWarn" style="display:none;" class="config-warn">
+          <i class="ri-error-warning-line"></i>
+          <div class="config-warn-text">
+            <strong>PageSpeed API key not configured.</strong>
+            Set the <code>GOOGLE_PAGESPEED_API_KEY</code> environment variable to enable live audits. You can get a free key from <a href="https://console.cloud.google.com/" target="_blank" style="color:var(--brand-primary);">Google Cloud Console</a> → APIs & Services → PageSpeed Insights API.
+          </div>
+        </div>
+        <div class="audit-form">
+          <div class="form-group" style="grid-column:1">
+            <label>URL to Audit</label>
+            <input id="targetUrl" type="url" placeholder="https://www.example.com" autocomplete="off" spellcheck="false">
+          </div>
+          <div class="form-group">
+            <label>Device</label>
+            <select id="strategy">
+              <option value="mobile">Mobile</option>
+              <option value="desktop">Desktop</option>
+            </select>
+          </div>
+          <button class="audit-btn" id="runBtn" type="button">
+            <i class="ri-play-circle-line" id="runIcon"></i>
+            Run Audit
+          </button>
+        </div>
+      </div>
+
+      <!-- Error banner (hidden by default) -->
+      <div class="error-banner" id="errorBanner" style="display:none;">
+        <i class="ri-error-warning-line"></i>
+        <div class="error-banner-text"><strong id="errorTitle">Audit failed</strong><span id="errorMsg"></span></div>
+      </div>
+
+      <!-- Results (hidden until audit runs) -->
+      <div class="results-section" id="resultsSection">
+
+        <div class="section-label">Lighthouse Scores</div>
+        <div class="scores-grid" id="scoresGrid">
+          <!-- Injected by JS -->
+        </div>
+
+        <div class="section-label">Core Web Vitals</div>
+        <div class="vitals-grid" id="vitalsGrid">
+          <!-- Injected by JS -->
+        </div>
+
+        <div class="section-label">Audit Details</div>
+        <pre class="raw-output" id="rawOutput"></pre>
+
+      </div>
+
+    </div><!-- /content-area -->
+  </div><!-- /main-content -->
+</div>
+
+<script>
+  /* ── Sidebar health ── */
+  async function checkHealth() {
+    try {
+      const r = await fetch('/health');
+      document.getElementById('sidebarStatus').className = r.ok ? 'status-dot' : 'status-dot offline';
+      document.getElementById('sidebarStatusText').textContent = r.ok ? `Online · ${new Date().toLocaleTimeString()}` : 'API error';
+    } catch {
+      document.getElementById('sidebarStatus').className = 'status-dot offline';
+      document.getElementById('sidebarStatusText').textContent = 'Unreachable';
+    }
+  }
+
+  /* ── Score helpers ── */
+  function scoreColor(v) {
+    if (v === null || v === undefined) return 'rgba(255,255,255,0.15)';
+    const n = Math.round(v * 100);
+    if (n >= 90) return '#4ade80';
+    if (n >= 50) return '#fbbf24';
+    return '#f87171';
+  }
+  function gradeClass(v) {
+    if (v === null || v === undefined) return 'grade-none';
+    const n = Math.round(v * 100);
+    if (n >= 90) return 'grade-good';
+    if (n >= 50) return 'grade-warn';
+    return 'grade-bad';
+  }
+  function gradeLabel(v) {
+    if (v === null || v === undefined) return '—';
+    const n = Math.round(v * 100);
+    if (n >= 90) return 'Good';
+    if (n >= 50) return 'Needs Work';
+    return 'Poor';
+  }
+
+  function scoreCard(label, value) {
+    const num = value !== null && value !== undefined ? Math.round(value * 100) : null;
+    const color = scoreColor(value);
+    const circumference = 2 * Math.PI * 30; // r=30
+    const offset = num !== null ? circumference - (num / 100) * circumference : circumference;
+    const displayNum = num !== null ? num : '—';
+    return `<div class="score-card">
+      <div class="score-ring">
+        <svg viewBox="0 0 72 72">
+          <circle class="score-ring-bg" cx="36" cy="36" r="30"/>
+          <circle class="score-ring-bar" cx="36" cy="36" r="30"
+            stroke="${color}"
+            stroke-dasharray="${circumference}"
+            stroke-dashoffset="${offset}"/>
+        </svg>
+        <div class="score-number" style="color:${color}">${displayNum}</div>
+      </div>
+      <div class="score-name">${label}</div>
+      <span class="score-grade ${gradeClass(value)}">${gradeLabel(value)}</span>
+    </div>`;
+  }
+
+  const VITAL_META = {
+    lcp:  { label: 'LCP',  desc: 'Largest Contentful Paint' },
+    cls:  { label: 'CLS',  desc: 'Cumulative Layout Shift' },
+    inp:  { label: 'INP',  desc: 'Interaction to Next Paint' },
+    fcp:  { label: 'FCP',  desc: 'First Contentful Paint' },
+    ttfb: { label: 'TTFB', desc: 'Time to First Byte' }
+  };
+  function vitalCard(key, value) {
+    const meta = VITAL_META[key] || { label: key.toUpperCase(), desc: '' };
+    return `<div class="vital-card">
+      <div class="vital-label">${meta.label}</div>
+      <div class="vital-value">${value || '—'}</div>
+      <div class="vital-desc">${meta.desc}</div>
+    </div>`;
+  }
+
+  /* ── Run Audit ── */
+  async function runAudit() {
+    const url      = document.getElementById('targetUrl').value.trim();
+    const strategy = document.getElementById('strategy').value;
+    const runBtn   = document.getElementById('runBtn');
+    const runIcon  = document.getElementById('runIcon');
+    const results  = document.getElementById('resultsSection');
+    const errBanner = document.getElementById('errorBanner');
+
+    if (!url) {
+      document.getElementById('targetUrl').focus();
+      return;
+    }
+
+    runBtn.disabled = true;
+    runIcon.className = 'ri-loader-4-line spinner-icon';
+    errBanner.style.display = 'none';
+    results.classList.remove('visible');
+
+    try {
+      const r = await fetch(`/api/admin/seo-audit?url=${encodeURIComponent(url)}&strategy=${encodeURIComponent(strategy)}`);
+      const data = await r.json();
+
+      if (!r.ok) {
+        // Config warning if key missing
+        if (r.status === 503) {
+          document.getElementById('configWarn').style.display = 'flex';
+        }
+        throw new Error(data.detail || data.error || `HTTP ${r.status}`);
+      }
+
+      // Hide config warn on success
+      document.getElementById('configWarn').style.display = 'none';
+
+      // Render scores
+      const { scores, vitals, fetchedAt, requested } = data;
+      document.getElementById('scoresGrid').innerHTML = [
+        scoreCard('Performance',     scores.performance),
+        scoreCard('Accessibility',   scores.accessibility),
+        scoreCard('Best Practices',  scores.bestPractices),
+        scoreCard('SEO',             scores.seo)
+      ].join('');
+
+      document.getElementById('vitalsGrid').innerHTML = Object.entries(vitals)
+        .map(([k, v]) => vitalCard(k, v)).join('');
+
+      document.getElementById('rawOutput').textContent =
+        `Audited:   ${requested.url}\n` +
+        `Device:    ${requested.strategy}\n` +
+        `Timestamp: ${new Date(fetchedAt).toLocaleString()}\n\n` +
+        `Scores\n──────\n` +
+        Object.entries(scores).map(([k, v]) => `${k.padEnd(16)} ${v !== null ? Math.round(v*100)+'/100' : '—'}`).join('\n') +
+        `\n\nCore Web Vitals\n───────────────\n` +
+        Object.entries(vitals).map(([k, v]) => `${k.toUpperCase().padEnd(6)} ${v || '—'}`).join('\n');
+
+      results.classList.add('visible');
+
+    } catch(err) {
+      errBanner.style.display = 'flex';
+      document.getElementById('errorTitle').textContent = 'Audit failed';
+      document.getElementById('errorMsg').textContent = ' — ' + (err.message || String(err));
+    } finally {
+      runBtn.disabled = false;
+      runIcon.className = 'ri-play-circle-line';
+    }
+  }
+
+  document.getElementById('runBtn').addEventListener('click', runAudit);
+  document.getElementById('targetUrl').addEventListener('keydown', e => { if (e.key === 'Enter') runAudit(); });
+
+  // Pre-fill with a useful default
+  document.getElementById('targetUrl').value = 'https://www.5cypress.com';
+
+  checkHealth();
+</script>
+</body>
+</html>
