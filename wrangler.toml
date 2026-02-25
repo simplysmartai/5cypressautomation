@@ -6,3 +6,22 @@ pages_build_output_dir = "public"
 # Note: Cron triggers (_scheduled.js) are not supported in Pages directly.
 # To enable scheduled skills, deploy _scheduled.js as a separate Cloudflare Worker.
 # See PHASE_3_COMPLETE.md for worker deployment instructions.
+
+# ── KV Namespaces ─────────────────────────────────────────────────────────────
+# Create the namespace first:
+#   npx wrangler kv namespace create CALENDLY_LEADS_KV
+# Then paste the returned id below.
+# [[kv_namespaces]]
+# binding = "CALENDLY_LEADS_KV"
+# id = "PASTE_NAMESPACE_ID_HERE"
+
+# ── Required Cloudflare Pages env secrets ─────────────────────────────────────
+# Set these in: Cloudflare Dashboard → Pages → 5cypress → Settings → Variables
+#
+#   RESEND_API_KEY                 — Resend API key for email notifications
+#   DEFAULT_FROM                   — Sender address (e.g. nick@5cypress.com)
+#   CALENDLY_WEBHOOK_SIGNING_KEY   — Signing key from webhook registration
+#   ADMIN_TOKEN                    — Bearer token for GET /api/leads
+#
+# One-time webhook registration (run after first deploy):
+#   node execution/register_calendly_webhook.js https://5cypress.com/api/webhooks/calendly
