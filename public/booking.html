@@ -31,7 +31,7 @@
       flex-direction: column;
     }
     .booking-container {
-      max-width: 1160px;
+      max-width: 1300px;
       margin: 0 auto;
       width: 100%;
     }
@@ -42,7 +42,7 @@
       overflow: hidden;
       box-shadow: var(--shadow-2xl);
       display: grid;
-      grid-template-columns: 420px 1fr;
+      grid-template-columns: 440px 1fr;
     }
     .booking-info {
       padding: 64px 56px;
@@ -50,12 +50,13 @@
       border-right: 1px solid var(--border-subtle);
     }
     .booking-form-area {
-      padding: 40px 48px;
+      padding: 32px 40px;
       background: #0a0a0c;
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: stretch;
+      position: relative;  /* needed for absolute loader overlay */
     }
     .feature-simple {
       display: flex;
@@ -77,15 +78,23 @@
       font-size: 0.95rem;
       line-height: 1.6;
     }
-    /* Calendly branded loading overlay */
+
+    /* Loader overlays the form-area so the iframe initialises behind it */
     .cal-loader {
+      position: absolute;
+      inset: 0;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      height: 700px;
-      gap: 20px;
-      position: relative;
+      gap: 18px;
+      background: #0a0a0c;
+      z-index: 10;
+      transition: opacity 0.4s ease;
+    }
+    .cal-loader.hidden {
+      opacity: 0;
+      pointer-events: none;
     }
     .cal-loader-ring {
       width: 44px;
@@ -103,17 +112,14 @@
       letter-spacing: 0.12em;
       text-transform: uppercase;
     }
-    .cal-loader.hidden {
-      display: none;
-    }
 
-    @media (max-width: 1024px) {
-      .booking-card { grid-template-columns: 360px 1fr; }
+    @media (max-width: 1100px) {
+      .booking-card { grid-template-columns: 380px 1fr; }
     }
     @media (max-width: 860px) {
       .booking-card { grid-template-columns: 1fr; }
       .booking-info { padding: 44px 36px; border-right: none; border-bottom: 1px solid var(--border-subtle); }
-      .booking-form-area { padding: 36px; }
+      .booking-form-area { padding: 36px; min-height: 780px; }
     }
   </style>
 </head>
@@ -204,14 +210,14 @@
         </div>
 
         <div class="booking-form-area">
-          <!-- Calendly loading overlay (hidden once calendar is ready) -->
+          <!-- Loader overlays the embed — embed stays visible so Calendly iframe fires its ready event -->
           <div id="cal-loader" class="cal-loader">
             <div class="cal-loader-ring"></div>
             <p>Loading your calendar&hellip;</p>
           </div>
 
-          <!-- Calendly widget renders here -->
-          <div id="calendly-embed" style="min-width:320px;height:700px;display:none;"></div>
+          <!-- Calendly embed is always in the DOM so the iframe loads immediately -->
+          <div id="calendly-embed" style="min-width:320px;height:700px;"></div>
 
           <p style="margin-top: 20px; color: var(--text-tertiary); font-size: 0.82rem; text-align:center;">
             Questions before booking? <a href="mailto:jimmy@5cypress.com" style="color: var(--brand-primary);">Email us directly</a>
@@ -236,35 +242,34 @@
     var calReady = false;
 
     function showCalendly() {
-      var loader = document.getElementById('cal-loader');
-      var embed  = document.getElementById('calendly-embed');
-      if (loader) loader.classList.add('hidden');
-      if (embed)  embed.style.display = 'block';
+      if (calReady) return;
       calReady = true;
+      clearTimeout(calFallback);
+      var loader = document.getElementById('cal-loader');
+      if (loader) loader.classList.add('hidden');
     }
 
-    // Listen for Calendly's postMessage events to know when the widget is rendered
+    // Calendly fires this the moment the event-type page is rendered inside the iframe
     window.addEventListener('message', function(e) {
-      if (!calReady && e.data && typeof e.data.event === 'string') {
-        var evt = e.data.event;
-        if (evt === 'calendly.event_type_viewed' ||
-            evt === 'calendly.date_and_time_selected' ||
-            evt === 'calendly.profile_page_viewed') {
-          showCalendly();
-        }
+      if (calReady) return;
+      if (!e.data || typeof e.data.event !== 'string') return;
+      var evt = e.data.event;
+      if (evt === 'calendly.event_type_viewed' ||
+          evt === 'calendly.profile_page_viewed' ||
+          evt === 'calendly.date_and_time_selected') {
+        showCalendly();
       }
     });
 
-    // Fallback: show the widget after 6s regardless (avoids infinite spinner)
-    var calFallback = setTimeout(showCalendly, 6000);
+    // Hard fallback — pulls the overlay off after 3s no matter what
+    var calFallback = setTimeout(showCalendly, 3000);
 
     function initCalendly() {
-      if (window.Calendly) {
-        Calendly.initInlineWidget({
-          url: 'https://calendly.com/jimmy-5cypress/30min?hide_gdpr_banner=1&background_color=0a0a0c&text_color=fefefe&primary_color=5d8c5d',
-          parentElement: document.getElementById('calendly-embed')
-        });
-      }
+      if (!window.Calendly) return;
+      Calendly.initInlineWidget({
+        url: 'https://calendly.com/jimmy-5cypress/30min?hide_gdpr_banner=1&background_color=0a0a0c&text_color=fefefe&primary_color=5d8c5d',
+        parentElement: document.getElementById('calendly-embed')
+      });
     }
     if (document.readyState === 'complete') initCalendly();
     else window.addEventListener('load', initCalendly);
