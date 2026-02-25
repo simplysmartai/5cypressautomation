@@ -9,7 +9,7 @@
  * Required Cloudflare Pages env secrets (set in dashboard → Settings → Variables):
  *   CALENDLY_WEBHOOK_SIGNING_KEY   — from webhook registration
  *   RESEND_API_KEY                 — Resend API key
- *   DEFAULT_FROM                   — sender address  (e.g. nick@5cypress.com)
+ *   DEFAULT_FROM                   — sender address  (e.g. jimmy@5cypress.com)
  *
  * Optional KV binding:
  *   CALENDLY_LEADS_KV              — KV namespace for persisting leads
@@ -78,7 +78,7 @@ async function sendNotificationEmail(env, lead) {
       })
     : 'See Calendly';
 
-  const from = env.DEFAULT_FROM || 'nick@5cypress.com';
+  const from = env.DEFAULT_FROM || 'jimmy@5cypress.com';
 
   const response = await fetch('https://api.resend.com/emails', {
     method: 'POST',
@@ -88,7 +88,7 @@ async function sendNotificationEmail(env, lead) {
     },
     body: JSON.stringify({
       from: `5 Cypress <${from}>`,
-      to: 'nick@5cypress.com',
+      to: 'jimmy@5cypress.com',
       reply_to: lead.email,
       subject: `📅 New Discovery Call: ${lead.name}`,
       html: `
@@ -121,7 +121,7 @@ async function sendNotificationEmail(env, lead) {
     const err = await response.text();
     console.error('[Calendly] Resend error:', err);
   } else {
-    console.log('[Calendly] Notification email sent → nick@5cypress.com');
+    console.log('[Calendly] Notification email sent → jimmy@5cypress.com');
   }
 }
 

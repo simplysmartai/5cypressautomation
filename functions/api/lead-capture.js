@@ -69,8 +69,8 @@ export async function onRequestPost({ request, env }) {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        from: `5 Cypress <${env.DEFAULT_FROM || 'nick@5cypress.com'}>`,
-        to: 'nick@5cypress.com',
+          from: `5 Cypress <${env.DEFAULT_FROM || 'jimmy@5cypress.com'}>`,
+          to: 'jimmy@5cypress.com',
         reply_to: lead.email,
         subject: `🎯 New Lead: ${lead.name}`,
         html: `

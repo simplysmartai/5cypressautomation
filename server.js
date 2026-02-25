@@ -166,7 +166,7 @@ app.get('/api/seo/config', (req, res) => {
     is_admin: isAdmin,
     dataforseo_enabled: !!(process.env.DATAFORSEO_USERNAME && process.env.DATAFORSEO_PASSWORD),
     pagespeed_enabled: !!process.env.GOOGLE_PAGESPEED_API_KEY,
-    calendly_url: process.env.CALENDLY_URL || 'https://calendly.com/5cypress/discovery',
+    calendly_url: process.env.CALENDLY_URL || 'https://calendly.com/jimmy-5cypress/30min',
     brand: '5 Cypress Automation'
   });
 });
@@ -1316,7 +1316,7 @@ app.post('/api/seo/create-checkout-session', async (req, res) => {
 
   if (!stripe) {
     // Graceful fallback: return Calendly URL instead of error
-    const calendlyUrl = process.env.CALENDLY_URL || 'https://calendly.com/5cypress/discovery';
+    const calendlyUrl = process.env.CALENDLY_URL || 'https://calendly.com/jimmy-5cypress/30min';
     return res.status(402).json({
       error: 'stripe_not_configured',
       message: 'Premium report available via consultation. Book a free call instead.',
