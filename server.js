@@ -1,6 +1,7 @@
 const express = require('express');
 const path = require('path');
 const fs = require('fs');
+const crypto = require('crypto');
 require('dotenv').config();
 const { exec } = require('child_process');
 const helmet = require('helmet');
@@ -56,7 +57,11 @@ app.use(xss());
 app.use(hpp());
 
 // Middleware
-app.use(express.json({ limit: '10kb' })); // Body limit to prevent DOS
+// rawBody is stored so Calendly webhook signatures can be verified
+app.use(express.json({
+  limit: '10kb',
+  verify: (req, _res, buf) => { req.rawBody = buf; }
+})); // Body limit to prevent DOS
 app.use(express.urlencoded({ extended: true, limit: '10kb' }));
 app.use('/admin', adminAuth);
 app.use(express.static('public'));
@@ -1054,6 +1059,139 @@ app.post('/api/lead-capture', (req, res) => {
 app.get('/api/leads', adminAuth, (req, res) => {
   res.json(leads);
 });
+
+// ─── Calendly Webhook ────────────────────────────────────────────────────────
+/**
+ * Verify Calendly webhook signature.
+ * Header format: "t=<timestamp>,v1=<hex_hmac>"
+ * Signed payload:  "<timestamp>.<raw_body_string>"
+ */
+function verifyCalendlySignature(req) {
+  const signingKey = process.env.CALENDLY_WEBHOOK_SIGNING_KEY;
+  if (!signingKey) {
+    console.warn('[Calendly] CALENDLY_WEBHOOK_SIGNING_KEY not set — skipping signature check (dev mode)');
+    return true;
+  }
+  const header = req.headers['calendly-webhook-signature'];
+  if (!header) return false;
+
+  // Parse "t=<ts>,v1=<sig>" into { t, v1 }
+  const parts = {};
+  header.split(',').forEach(part => {
+    const idx = part.indexOf('=');
+    if (idx > -1) parts[part.substring(0, idx)] = part.substring(idx + 1);
+  });
+
+  if (!parts.t || !parts.v1) return false;
+
+  const rawBody = req.rawBody ? req.rawBody.toString('utf8') : '{}';
+  const signed = `${parts.t}.${rawBody}`;
+  const expected = crypto.createHmac('sha256', signingKey).update(signed).digest('hex');
+
+  try {
+    return crypto.timingSafeEqual(Buffer.from(parts.v1, 'hex'), Buffer.from(expected, 'hex'));
+  } catch {
+    return false; // Buffers of different length
+  }
+}
+
+app.post('/api/webhooks/calendly', async (req, res) => {
+  // 1. Verify signature
+  if (!verifyCalendlySignature(req)) {
+    console.warn('[Calendly] Invalid webhook signature – request rejected');
+    return res.status(403).json({ error: 'Invalid signature' });
+  }
+
+  const event = req.body;
+  const eventType = event?.event;
+  const invitee = event?.payload?.invitee;
+  const eventDetails = event?.payload?.event;
+
+  if (!eventType) {
+    return res.status(400).json({ error: 'Missing event type' });
+  }
+
+  console.log(`[Calendly] Webhook received: ${eventType}`);
+
+  // ── invitee.created → new booking ──────────────────────────────────────
+  if (eventType === 'invitee.created' && invitee) {
+    const lead = {
+      id: leads.length + 1,
+      name: invitee.name || 'Unknown',
+      email: (invitee.email || '').toLowerCase(),
+      source: 'calendly_webhook',
+      service: 'discovery_call',
+      status: 'booked',
+      calendlyEventUri: eventDetails?.uri || null,
+      startTime: eventDetails?.start_time || null,
+      timezone: invitee.timezone || null,
+      createdAt: new Date().toISOString(),
+      followUpDate: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString()
+    };
+
+    leads.push(lead);
+
+    const startFormatted = lead.startTime
+      ? new Date(lead.startTime).toLocaleString('en-US', {
+          timeZone: 'America/Chicago',
+          dateStyle: 'full',
+          timeStyle: 'short'
+        })
+      : 'See Calendly';
+
+    console.log(`
+╔════════════════════════════════════════════╗
+║   📅 CALENDLY BOOKING RECEIVED             ║
+╠════════════════════════════════════════════╣
+║  Name:  ${lead.name.substring(0, 34).padEnd(34)}║
+║  Email: ${lead.email.substring(0, 33).padEnd(33)}║
+║  Time:  ${startFormatted.substring(0, 33).padEnd(33)}║
+╚════════════════════════════════════════════╝`);
+
+    // Send internal notification email via Resend
+    if (process.env.RESEND_API_KEY) {
+      try {
+        const { Resend } = require('resend');
+        const resend = new Resend(process.env.RESEND_API_KEY);
+        await resend.emails.send({
+          from: `5 Cypress <${process.env.DEFAULT_FROM || 'nick@5cypress.com'}>`,
+          to: 'nick@5cypress.com',
+          subject: `📅 New Discovery Call: ${lead.name}`,
+          html: `
+            <div style="font-family:sans-serif;max-width:560px;margin:auto">
+              <h2 style="color:#5d8c5d">New Discovery Call Booked</h2>
+              <table style="width:100%;border-collapse:collapse">
+                <tr><td style="padding:8px;color:#666"><strong>Name</strong></td><td style="padding:8px">${lead.name}</td></tr>
+                <tr><td style="padding:8px;color:#666"><strong>Email</strong></td><td style="padding:8px"><a href="mailto:${lead.email}">${lead.email}</a></td></tr>
+                <tr><td style="padding:8px;color:#666"><strong>Meeting time</strong></td><td style="padding:8px">${startFormatted} (CT)</td></tr>
+                ${lead.calendlyEventUri ? `<tr><td style="padding:8px;color:#666"><strong>Calendly link</strong></td><td style="padding:8px"><a href="${lead.calendlyEventUri}">${lead.calendlyEventUri}</a></td></tr>` : ''}
+              </table>
+              <hr/>
+              <p style="color:#999;font-size:0.8em">Sent automatically by the 5 Cypress booking system.</p>
+            </div>
+          `
+        });
+        console.log('[Calendly] Notification email sent → nick@5cypress.com');
+      } catch (emailErr) {
+        console.error('[Calendly] Failed to send notification email:', emailErr.message);
+      }
+    }
+  }
+
+  // ── invitee.canceled → mark lead canceled ──────────────────────────────
+  if (eventType === 'invitee.canceled' && invitee) {
+    const existing = leads.find(
+      l => l.email === (invitee.email || '').toLowerCase() && l.status === 'booked'
+    );
+    if (existing) {
+      existing.status = 'canceled';
+      console.log(`[Calendly] Lead ${existing.email} marked as canceled`);
+    }
+  }
+
+  res.status(200).json({ received: true, event: eventType });
+});
+// ─────────────────────────────────────────────────────────────────────────────
 
 // SEO Analysis API
 app.post('/api/seo/analyze', async (req, res) => {
