@@ -169,11 +169,8 @@
 
         <div class="booking-form-area">
           <div style="width: 100%;">
-            <!-- Calendly inline widget -->
-            <div 
-              class="calendly-inline-widget" 
-              style="min-width: 280px; height: 630px; width: 100%;"
-            ></div>
+            <!-- Calendly widget will render here -->
+            <div id="calendly-embed" style="min-width:320px;height:700px;"></div>
           </div>
           
           <p style="margin-top: 24px; color: var(--text-tertiary); font-size: 0.85rem;">
@@ -196,15 +193,16 @@
   <script src="dynamics.js"></script>
   <script src="https://assets.calendly.com/assets/external/widget.js"></script>
   <script>
-    // Explicitly initialize the inline widget after script loads
-    window.addEventListener('load', function() {
-      if (window.Calendly) {
+    function initCalendly() {
+      if (window.Calendly && document.getElementById('calendly-embed')) {
         Calendly.initInlineWidget({
           url: 'https://calendly.com/jimmy-5cypress/30min?hide_gdpr_banner=1&background_color=0a0a0c&text_color=fefefe&primary_color=5d8c5d',
-          parentElement: document.querySelector('.calendly-inline-widget'),
+          parentElement: document.getElementById('calendly-embed')
         });
       }
-    });
+    }
+    if (document.readyState === 'complete') initCalendly(); 
+    else window.addEventListener('load', initCalendly);
   </script>
 </body>
 </html>
