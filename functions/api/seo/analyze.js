@@ -201,7 +201,7 @@ async function runKeywords(domain, keywords, env) {
       body: JSON.stringify([{
         target: domain,
         language_code: 'en',
-        location_code: 2840,
+        location_name: 'United States',
         limit: 20,
         order_by: ['keyword_data.keyword_info.search_volume,desc'],
       }]),
@@ -240,7 +240,7 @@ async function runCompetitors(domain, env) {
       body: JSON.stringify([{
         target: domain,
         language_code: 'en',
-        location_code: 2840,
+        location_name: 'United States',
         limit: 8,
       }]),
     }
@@ -263,7 +263,7 @@ async function runRankings(domain, keywords, env) {
         keywords.slice(0, 5).map(kw => ({
           keyword: kw,
           language_code: 'en',
-          location_code: 2840,
+          location_name: 'United States',
           depth: 20,
         }))
       ),

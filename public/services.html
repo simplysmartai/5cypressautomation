@@ -379,11 +379,11 @@
       <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 64px; margin-bottom: 80px;">
         <div style="grid-column: span 2;">
           <a href="/" class="logo" style="margin-bottom: 24px;">
-            <div class="logo-icon logo-pulse" style="width: 120px; height: 120px;">
+            <div class="logo-icon logo-pulse">
               <img src="assets/brand/logo-5cypress.jpg" alt="5 Cypress Automation Logo">
             </div>
             <div class="logo-text-group">
-              <span class="logo-title text-gradient-special" style="font-size: 2rem; line-height: 1.2; padding-bottom: 0.15em; margin-bottom: -0.15em;">5 Cypress</span>
+              <span class="logo-title text-gradient-special">5 Cypress</span>
               <div class="logo-subtitle">
                 <span>A</span><span>U</span><span>T</span><span>O</span><span>M</span><span>A</span><span>T</span><span>I</span><span>O</span><span>N</span>
               </div>
@@ -494,30 +494,54 @@
   </style>
 
   <!-- Scripts -->
-  <script src="https://assets.calendly.com/assets/external/widget.js" type="text/javascript" async></script>
+  <!-- dynamics.js first: registers openCalendly, handleVettingSubmit, toggleMobileMenu globally -->
+  <script src="dynamics.js"></script>
   <script src="dynamics-premium.js" defer></script>
   <script src="touch-gestures.js" defer></script>
-  
-  <script>
-    function openCalendly() {
-      if (typeof Calendly !== 'undefined') {
-        Calendly.initPopupWidget({
-          url: 'https://calendly.com/your-calendly-link'
-        });
-      }
-      return false;
-    }
-    
-    function toggleMobileMenu() {
-      const menu = document.getElementById('mobileMenu');
-      menu.classList.toggle('active');
-    }
-    
-    function closeMobileMenu() {
-      const menu = document.getElementById('mobileMenu');
-      menu.classList.remove('active');
-    }
-  </script>
+  <script src="https://assets.calendly.com/assets/external/widget.js" type="text/javascript" async></script>
+
+  <!-- Booking Modal -->
+  <div id="bookingModal" class="calendly-modal">
+    <div class="calendly-modal-content" style="max-width: 600px; height: auto; max-height: 90vh; overflow-y: auto;">
+      <button class="calendly-close" onclick="closeBookingModal()"><i class="ri-close-line"></i></button>
+      <div class="vetting-form-container" style="padding: 40px;">
+        <h2 class="form-title text-gradient" style="text-align: center; margin-bottom: 10px;">Let's Talk Growth</h2>
+        <p style="text-align: center; color: var(--text-secondary); margin-bottom: 30px;">Tell us about your business and what's slowing you down. We'll scope exactly what to build first.</p>
+        <form id="vettingForm" onsubmit="handleVettingSubmit(event)">
+          <div class="form-group" style="margin-bottom: 20px;">
+            <label class="form-label">Full Name</label>
+            <input type="text" name="name" required placeholder="John Doe" class="form-input">
+          </div>
+          <div class="form-group" style="margin-bottom: 20px;">
+            <label class="form-label">Work Email</label>
+            <input type="email" name="email" required placeholder="john@company.com" class="form-input">
+          </div>
+          <div class="form-group" style="margin-bottom: 20px;">
+            <label class="form-label">Company Website</label>
+            <input type="text" name="company" placeholder="company.com" class="form-input">
+          </div>
+          <div class="form-group" style="margin-bottom: 20px;">
+            <label class="form-label">What's your biggest challenge right now?</label>
+            <textarea name="details" required rows="3" placeholder="e.g. Manual order entry is eating our team's time..." class="form-input"></textarea>
+          </div>
+          <div class="form-group" style="margin-bottom: 30px;">
+            <label class="form-label">Target Timeline</label>
+            <select name="timeline" class="form-input">
+              <option value="" disabled selected>When do you want to start?</option>
+              <option value="asap">ASAP (Immediate Need)</option>
+              <option value="1-3_months">1-3 Months (Planning)</option>
+              <option value="exploring">Just Exploring Options</option>
+            </select>
+          </div>
+          <button type="submit" class="btn btn-primary btn-block ripple" style="width: 100%; justify-content: center;">
+            <span>Submit Application</span>
+            <i class="ri-arrow-right-line"></i>
+          </button>
+          <p id="formStatus" style="margin-top: 15px; text-align: center; font-size: 0.9em; min-height: 20px;"></p>
+        </form>
+      </div>
+    </div>
+  </div>
 </body>
 </html>
 

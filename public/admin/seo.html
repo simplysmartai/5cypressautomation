@@ -337,6 +337,13 @@
               <option value="desktop">Desktop</option>
             </select>
           </div>
+          <div class="form-group">
+            <label>Audit Scope</label>
+            <div style="display:flex;align-items:center;gap:10px;">
+              <input id="siteAudit" type="checkbox" checked>
+              <div style="font-size:0.92rem;color:var(--text-secondary);">Include domain-level modules (keywords, backlinks, competitors)</div>
+            </div>
+          </div>
         </div>
         <div class="form-actions">
           <button class="run-btn" id="runBtn" type="button" onclick="runAudit()">
@@ -490,6 +497,13 @@
     const comps = [comp1, comp2].filter(Boolean);
     state.competitorData = comps;
 
+    // Audit scope: if the checkbox is unchecked, run page-only (exclude domain-level modules)
+    const siteAudit = document.getElementById('siteAudit')?.checked || false;
+    let modulesToRun = (state.selectedModules || []).slice();
+    if (!siteAudit) {
+      modulesToRun = modulesToRun.filter(m => !['keywords','backlinks','competitor'].includes(m));
+    }
+
     showLoader();
     document.getElementById('errBanner').style.display = 'none';
     document.getElementById('resultsArea').classList.remove('visible');
@@ -511,7 +525,7 @@
           headers:{'Content-Type':'application/json'},
           body: JSON.stringify({
             website_url: url,
-            modules: state.selectedModules,
+            modules: modulesToRun,
             keywords: keywords ? keywords.split('\n').map(k=>k.trim()).filter(Boolean) : [],
             competitors: comps,
             strategy,
@@ -543,6 +557,8 @@
 
       state.auditData = auditData;
       state.rawJson = rawJson;
+      // Reflect requested modules in UI tabs
+      state.selectedModules = modulesToRun;
       renderResults(url, usedSample);
     } catch(err) {
       document.getElementById('errBanner').style.display = 'flex';

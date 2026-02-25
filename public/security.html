@@ -3,9 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Terms & Conditions | 5 Cypress Automation</title>
-  <meta name="description" content="Terms and Conditions for 5 Cypress Automation services.">
-  <link rel="canonical" href="https://5cypress.com/terms.html">
+  <title>Security | 5 Cypress Automation</title>
+  <meta name="description" content="Security practices and data protection at 5 Cypress Automation.">
+  <link rel="canonical" href="https://5cypress.com/security.html">
   
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -108,71 +108,53 @@
     <section style="padding: 180px 0 100px;">
       <div class="container" style="max-width: 900px;">
         <div class="reveal">
-          <h1 style="font-size: 3rem; margin-bottom: 16px;">Terms of <span class="text-italic weight-light">Service</span></h1>
+          <h1 style="font-size: 3rem; margin-bottom: 16px;">Security & <span class="text-italic weight-light">Data Protection</span></h1>
           <p style="color: var(--text-tertiary); font-family: var(--font-mono); font-size: 0.85rem; margin-bottom: 60px;">
-            LAST UPDATED: FEBRUARY 19, 2026 // VERSION 1.2
+            LAST UPDATED: FEBRUARY 19, 2026 // VERSION 1.0
           </p>
           
           <div class="legal-content">
-            <h2>1. Services</h2>
-            <p>5 Cypress Automation provides business automation consulting and implementation services. We connect your existing business tools (like Calendly, QuickBooks, and CRM systems) so they work together automatically.</p>
+            <h2>1. Our Commitment</h2>
+            <p>At 5 Cypress Automation, security is built into everything we do. We handle access to your business tools and workflows with the same care we'd expect for our own systems. This page documents how we protect your data and your business.</p>
 
-            <h2>2. Engagement Process</h2>
-            <h3>Discovery Call</h3>
-            <p>We start with a free audit call to understand your workflow and identify automation opportunities.</p>
-            
-            <h3>Proposal & Agreement</h3>
-            <p>If we're a good fit, we provide a detailed proposal outlining scope, timeline, and pricing. Work begins after you sign the agreement.</p>
-            
-            <h3>Implementation</h3>
-            <p>We build, test, and deploy your automations. Most projects go live within 1-2 weeks.</p>
+            <h2>2. Data Transmission</h2>
+            <p>All communication between your browser and our servers is encrypted using TLS 1.2 or higher (HTTPS). We enforce HSTS to prevent downgrade attacks. Form submissions, API calls, and file transfers are encrypted end-to-end.</p>
 
-            <h2>3. Payment Terms</h2>
+            <h2>3. Credential Handling</h2>
             <ul>
-              <li>50% upfront, 50% upon completion (for fixed-price projects)</li>
-              <li>Monthly billing for ongoing support and monitoring</li>
-              <li>Invoices are due within 15 days</li>
+              <li>We never store API keys or passwords in plain text</li>
+              <li>Client credentials are stored in environment variables, never in source code or shared repositories</li>
+              <li>OAuth tokens (QuickBooks, Zoho, etc.) follow each provider's recommended secure flow</li>
+              <li>Access is scoped to the minimum permissions required for each automation</li>
             </ul>
 
-            <h2>4. Your Responsibilities</h2>
-            <p>You agree to:</p>
+            <h2>4. Access Controls</h2>
+            <p>We apply least-privilege access principles across all integrations:</p>
             <ul>
-              <li>Provide accurate information about your tools and workflows</li>
-              <li>Grant necessary access to your systems (with appropriate permissions)</li>
-              <li>Review and approve automation plans before we build them</li>
-              <li>Test automations before going live</li>
+              <li>Each automation uses only the permissions it needs—nothing more</li>
+              <li>Admin tools and internal dashboards are protected by authentication</li>
+              <li>All API calls are logged for audit purposes</li>
+              <li>We revoke access immediately upon project completion or client request</li>
             </ul>
 
-            <h2>5. Our Responsibilities</h2>
-            <p>We agree to:</p>
+            <h2>5. Third-Party Services</h2>
+            <p>Our automations connect to industry-standard platforms including QuickBooks Online, ShipStation, Stripe, Zoho, and Calendly. Each of these providers maintains their own security certifications (PCI DSS, SOC 2, etc.). We rely on their official APIs and do not store data from these platforms beyond what is necessary to complete a workflow.</p>
+
+            <h2>6. Data Retention</h2>
             <ul>
-              <li>Build automations that match the approved specifications</li>
-              <li>Test thoroughly before deployment</li>
-              <li>Provide documentation for your team</li>
-              <li>Monitor for errors and fix them promptly</li>
+              <li>We do not retain client data after a project ends unless explicitly agreed to for ongoing support</li>
+              <li>Logs are retained for 30 days for debugging purposes, then purged</li>
+              <li>You can request deletion of any data we hold at any time</li>
             </ul>
 
-            <h2>6. Limitations</h2>
-            <ul>
-              <li>We integrate existing tools—we don't build custom software or replace your current systems</li>
-              <li>We're not responsible for downtime caused by third-party services (like QuickBooks or Calendly)</li>
-              <li>We recommend testing automations before processing real customer transactions</li>
-            </ul>
+            <h2>7. Vulnerability Disclosure</h2>
+            <p>If you discover a security issue in our systems, please report it responsibly before public disclosure. Contact us at <a href="mailto:nick@5cypress.com">nick@5cypress.com</a> with details. We commit to acknowledging reports within 48 hours and resolving critical issues within 7 days.</p>
 
-            <h2>7. Cancellation</h2>
-            <p>You can cancel anytime with 30 days' notice. If you cancel mid-project, you'll be billed for work completed to date.</p>
+            <h2>8. Incident Response</h2>
+            <p>In the event of a security incident affecting your data, we will notify you within 72 hours, provide a clear explanation of what happened, what data was affected, and what steps we are taking to resolve it and prevent recurrence.</p>
 
-            <h2>8. Liability</h2>
-            <p>Our liability is limited to the amount you paid us in the past 12 months. We're not responsible for indirect damages, lost profits, or data loss caused by third-party service failures.</p>
-
-            <h2>9. Confidentiality</h2>
-            <p>We treat your business data as confidential. We won't share your information, workflows, or results without your permission.</p>
-
-            <h2>10. Modifications</h2>
-            <p>We may update these terms. We'll notify you of significant changes via email.</p>
-
-            <h2>11. Contact</h2>
-            <p>Questions about these terms? Email us at: <a href="mailto:info@5cypress.com">info@5cypress.com</a></p>
+            <h2>9. Questions</h2>
+            <p>Security concerns or questions? Reach us directly at: <a href="mailto:nick@5cypress.com">nick@5cypress.com</a></p>
           </div>
         </div>
       </div>
@@ -232,7 +214,7 @@
           © 2026 5 CYPRESS AUTOMATION. <span style="color: var(--brand-primary);">SYSTEM_STATUS: OPTIMAL</span>
         </div>
         <div style="display: flex; gap: 32px; font-size: 0.85rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em;">
-          <a href="/terms.html" class="nav-link" style="color: var(--text-tertiary);">Terms</a>
+          <a href="/security.html" class="nav-link" style="color: var(--text-tertiary);">Terms</a>
           <a href="/privacy.html" class="nav-link" style="color: var(--text-tertiary);">Privacy</a>
           <a href="/security.html" class="nav-link" style="color: var(--text-tertiary);">Security</a>
         </div>
@@ -341,4 +323,5 @@
   <script src="dynamics.js"></script>
 </body>
 </html>
+
 

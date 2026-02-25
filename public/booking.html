@@ -13,6 +13,10 @@
   <!-- Icons & Fonts -->
   <link href="https://cdn.jsdelivr.net/npm/remixicon@4.0.0/fonts/remixicon.css" rel="stylesheet">
   <link rel="icon" type="image/svg+xml" href="assets/brand/favicon.svg">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,700&family=Space+Grotesk:wght@400;500;600;700&family=DM+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  
+  <!-- Calendly -->
+  <link href="https://assets.calendly.com/assets/external/calendar-widget.css" rel="stylesheet">
   
   <!-- Stylesheets -->
   <link rel="stylesheet" href="design-system.css">
@@ -102,7 +106,7 @@
   <nav class="navbar">
     <div class="container nav-container">
       <a href="/" class="logo">
-        <div class="logo-icon">
+        <div class="logo-icon logo-pulse">
           <img src="assets/brand/logo-5cypress.jpg" alt="5 Cypress Automation Logo" style="width: 100%; height: 100%; border-radius: 50%;">
         </div>
         <div class="logo-text-group">
@@ -164,19 +168,17 @@
         </div>
 
         <div class="booking-form-area">
-          <div class="placeholder-booking">
-            <i class="ri-calendar-todo-line" style="font-size: 3rem; opacity: 0.3;"></i>
-            <div>
-              <p style="font-weight: 600; color: var(--text-secondary);">Booking System Placeholder</p>
-              <p style="font-size: 0.85rem;">[Calendly or Scheduler Embed Here]</p>
-            </div>
-            <p style="margin-top: 24px; font-size: 0.9rem; color: var(--text-tertiary); max-width: 250px;">
-              Your scheduling system will be connected here to allow visitors to pick a time.
-            </p>
+          <div style="width: 100%;">
+            <!-- Calendly inline widget -->
+            <div 
+              class="calendly-inline-widget" 
+              data-url="https://calendly.com/nick-5cypress/discovery?hide_gdpr_banner=1&background_color=0a0a0c&text_color=fefefe&primary_color=5d8c5d"
+              style="min-width: 280px; height: 630px; width: 100%;"
+            ></div>
           </div>
           
-          <p style="margin-top: 32px; color: var(--text-tertiary); font-size: 0.85rem;">
-            Questions before booking? <a href="mailto:info@5cypress.com" style="color: var(--brand-primary);">Email us</a>
+          <p style="margin-top: 24px; color: var(--text-tertiary); font-size: 0.85rem;">
+            Questions before booking? <a href="mailto:nick@5cypress.com" style="color: var(--brand-primary);">Email us directly</a>
           </p>
         </div>
       </div>
@@ -193,5 +195,6 @@
   </footer>
 
   <script src="dynamics.js"></script>
+  <script src="https://assets.calendly.com/assets/external/widget.js" async></script>
 </body>
 </html>
