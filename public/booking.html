@@ -31,7 +31,7 @@
       flex-direction: column;
     }
     .booking-container {
-      max-width: 1000px;
+      max-width: 1160px;
       margin: 0 auto;
       width: 100%;
     }
@@ -42,31 +42,31 @@
       overflow: hidden;
       box-shadow: var(--shadow-2xl);
       display: grid;
-      grid-template-columns: 1fr 1.5fr;
+      grid-template-columns: 420px 1fr;
     }
     .booking-info {
-      padding: 60px;
-      background: linear-gradient(135deg, rgba(93, 140, 93, 0.05) 0%, rgba(10, 10, 12, 1) 100%);
+      padding: 64px 56px;
+      background: linear-gradient(135deg, rgba(93, 140, 93, 0.06) 0%, rgba(10, 10, 12, 1) 100%);
       border-right: 1px solid var(--border-subtle);
     }
     .booking-form-area {
-      padding: 60px;
+      padding: 40px 48px;
       background: #0a0a0c;
       display: flex;
       flex-direction: column;
       justify-content: center;
-      align-items: center;
-      text-align: center;
+      align-items: stretch;
     }
     .feature-simple {
       display: flex;
       gap: 16px;
-      margin-bottom: 32px;
+      margin-bottom: 28px;
     }
     .feature-simple i {
       color: var(--brand-primary);
-      font-size: 1.5rem;
+      font-size: 1.4rem;
       flex-shrink: 0;
+      margin-top: 2px;
     }
     .feature-simple h4 {
       margin-bottom: 4px;
@@ -77,24 +77,43 @@
       font-size: 0.95rem;
       line-height: 1.6;
     }
-    .placeholder-booking {
-      width: 100%;
-      aspect-ratio: 1/1.2;
-      background: rgba(255,255,255,0.02);
-      border: 2px dashed var(--border-subtle);
-      border-radius: var(--radius-lg);
+    /* Calendly branded loading overlay */
+    .cal-loader {
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
+      height: 700px;
+      gap: 20px;
+      position: relative;
+    }
+    .cal-loader-ring {
+      width: 44px;
+      height: 44px;
+      border: 3px solid rgba(93, 140, 93, 0.15);
+      border-top-color: var(--brand-primary);
+      border-radius: 50%;
+      animation: calSpin 0.9s linear infinite;
+    }
+    @keyframes calSpin { to { transform: rotate(360deg); } }
+    .cal-loader p {
       color: var(--text-tertiary);
-      gap: 16px;
+      font-size: 0.75rem;
+      font-family: var(--font-mono);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+    .cal-loader.hidden {
+      display: none;
     }
 
-    @media (max-width: 992px) {
+    @media (max-width: 1024px) {
+      .booking-card { grid-template-columns: 360px 1fr; }
+    }
+    @media (max-width: 860px) {
       .booking-card { grid-template-columns: 1fr; }
-      .booking-info { padding: 40px; border-right: none; border-bottom: 1px solid var(--border-subtle); }
-      .booking-form-area { padding: 40px; }
+      .booking-info { padding: 44px 36px; border-right: none; border-bottom: 1px solid var(--border-subtle); }
+      .booking-form-area { padding: 36px; }
     }
   </style>
 </head>
@@ -168,12 +187,16 @@
         </div>
 
         <div class="booking-form-area">
-          <div style="width: 100%;">
-            <!-- Calendly widget will render here -->
-            <div id="calendly-embed" style="min-width:320px;height:700px;"></div>
+          <!-- Calendly loading overlay (hidden once calendar is ready) -->
+          <div id="cal-loader" class="cal-loader">
+            <div class="cal-loader-ring"></div>
+            <p>Loading your calendar&hellip;</p>
           </div>
-          
-          <p style="margin-top: 24px; color: var(--text-tertiary); font-size: 0.85rem;">
+
+          <!-- Calendly widget renders here -->
+          <div id="calendly-embed" style="min-width:320px;height:700px;display:none;"></div>
+
+          <p style="margin-top: 20px; color: var(--text-tertiary); font-size: 0.82rem; text-align:center;">
             Questions before booking? <a href="mailto:jimmy@5cypress.com" style="color: var(--brand-primary);">Email us directly</a>
           </p>
         </div>
@@ -193,15 +216,40 @@
   <script src="dynamics.js"></script>
   <script src="https://assets.calendly.com/assets/external/widget.js"></script>
   <script>
+    var calReady = false;
+
+    function showCalendly() {
+      var loader = document.getElementById('cal-loader');
+      var embed  = document.getElementById('calendly-embed');
+      if (loader) loader.classList.add('hidden');
+      if (embed)  embed.style.display = 'block';
+      calReady = true;
+    }
+
+    // Listen for Calendly's postMessage events to know when the widget is rendered
+    window.addEventListener('message', function(e) {
+      if (!calReady && e.data && typeof e.data.event === 'string') {
+        var evt = e.data.event;
+        if (evt === 'calendly.event_type_viewed' ||
+            evt === 'calendly.date_and_time_selected' ||
+            evt === 'calendly.profile_page_viewed') {
+          showCalendly();
+        }
+      }
+    });
+
+    // Fallback: show the widget after 6s regardless (avoids infinite spinner)
+    var calFallback = setTimeout(showCalendly, 6000);
+
     function initCalendly() {
-      if (window.Calendly && document.getElementById('calendly-embed')) {
+      if (window.Calendly) {
         Calendly.initInlineWidget({
           url: 'https://calendly.com/jimmy-5cypress/30min?hide_gdpr_banner=1&background_color=0a0a0c&text_color=fefefe&primary_color=5d8c5d',
           parentElement: document.getElementById('calendly-embed')
         });
       }
     }
-    if (document.readyState === 'complete') initCalendly(); 
+    if (document.readyState === 'complete') initCalendly();
     else window.addEventListener('load', initCalendly);
   </script>
 </body>
