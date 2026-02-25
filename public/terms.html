@@ -15,7 +15,16 @@
   <link rel="stylesheet" href="design-system.css">
   <link rel="stylesheet" href="styles-premium.css">
   <link rel="stylesheet" href="styles-mobile-enhanced.css">
-  
+
+  <!-- Icons & Performance -->
+  <link rel="icon" type="image/svg+xml" href="assets/brand/favicon.svg">
+  <link rel="manifest" href="/manifest.json">
+  <meta name="theme-color" content="#0a0a0c">
+
+  <!-- Calendly -->
+  <link rel="preconnect" href="https://assets.calendly.com">
+  <link href="https://assets.calendly.com/assets/external/calendar-widget.css" rel="stylesheet">
+
   <style>
     .legal-content {
       background: var(--bg-surface);
@@ -68,6 +77,9 @@
   </style>
 </head>
 <body>
+  <!-- Skip to Content (Accessibility) -->
+  <a href="#main-content" class="skip-to-content">Skip to content</a>
+
   <div class="atmosphere"></div>
 
   <!-- Navigation -->
@@ -103,6 +115,20 @@
       </button>
     </div>
   </nav>
+
+  <!-- Mobile Menu -->
+  <div class="mobile-menu" id="mobileMenu">
+    <button class="mobile-menu-close" onclick="closeMobileMenu()" aria-label="Close menu">
+      <i class="ri-close-line"></i>
+    </button>
+    <a href="/services.html" class="mobile-link" onclick="closeMobileMenu()">Services</a>
+    <a href="/process.html" class="mobile-link" onclick="closeMobileMenu()">Process</a>
+    <a href="/case-studies.html" class="mobile-link" onclick="closeMobileMenu()">Case Studies</a>
+    <a href="/about.html" class="mobile-link" onclick="closeMobileMenu()">About</a>
+    <button onclick="openCalendly(); closeMobileMenu();" class="btn btn-primary btn-lg btn-block ripple" style="margin-top: 24px;">
+      Get Started <i class="ri-arrow-right-up-line"></i>
+    </button>
+  </div>
 
   <main id="main-content">
     <section style="padding: 180px 0 100px;">
@@ -206,13 +232,23 @@
         </div>
 
         <div>
-          <h4 class="footer-heading">Core Services</h4>
+          <h4 class="footer-heading">Automation</h4>
           <ul class="footer-links">
             <li><a href="/services.html">Order Processing</a></li>
-            <li><a href="/services.html">Lead Capture & CRM</a></li>
+            <li><a href="/services.html">Lead Capture &amp; CRM</a></li>
             <li><a href="/services.html">Inventory Syncing</a></li>
             <li><a href="/services.html">Invoice Automation</a></li>
             <li><a href="/services.html">Calendar Integration</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="footer-heading">Marketing</h4>
+          <ul class="footer-links">
+            <li><a href="/services.html#marketing">Strategy &amp; Roadmaps</a></li>
+            <li><a href="/services.html#marketing">Email Campaigns</a></li>
+            <li><a href="/services.html#marketing">Performance Reports</a></li>
+            <li><a href="/services.html#marketing">Social Content</a></li>
           </ul>
         </div>
 
@@ -240,56 +276,11 @@
     </div>
   </footer>
 
-  <style>
-    .footer-heading {
-      font-size: 0.8rem;
-      font-weight: 800;
-      text-transform: uppercase;
-      letter-spacing: 0.15em;
-      color: var(--brand-primary);
-      margin-bottom: 24px;
-    }
-    .footer-links {
-      list-style: none;
-      padding: 0;
-      margin: 0;
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-    }
-    .footer-links a {
-      color: var(--text-tertiary);
-      font-size: 0.95rem;
-      font-weight: 500;
-      transition: all 0.3s ease;
-    }
-    .footer-links a:hover {
-      color: var(--text-primary);
-      transform: translateX(4px);
-      display: inline-block;
-    }
-    .social-btn {
-      width: 44px;
-      height: 44px;
-      border-radius: 12px;
-      background: rgba(255,255,255,0.03);
-      border: 1px solid var(--border-subtle);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: var(--text-secondary);
-      font-size: 1.25rem;
-      transition: all 0.3s ease;
-    }
-    .social-btn:hover {
-      border-color: var(--brand-primary);
-      color: var(--brand-primary);
-      background: rgba(93, 140, 93, 0.1);
-      transform: translateY(-4px);
-    }
-  </style>
-
+  <!-- Scripts -->
+  <script src="dynamics.js"></script>
   <script src="dynamics-premium.js" defer></script>
+  <script src="touch-gestures.js" defer></script>
+  <script src="https://assets.calendly.com/assets/external/widget.js" type="text/javascript" async></script>
 
   <!-- Booking Modal -->
   <div id="bookingModal" class="calendly-modal">
@@ -298,9 +289,9 @@
         <i class="ri-close-line"></i>
       </button>
       <div class="vetting-form-container" style="padding: 40px;">
-        <h2 class="form-title text-gradient" style="text-align: center; margin-bottom: 10px;">Apply for Automation</h2>
+        <h2 class="form-title text-gradient" style="text-align: center; margin-bottom: 10px;">Let's Talk Growth</h2>
         <p style="text-align: center; color: var(--text-secondary); margin-bottom: 30px;">
-          Tell us about your operational bottlenecks. We review every application to ensure we can deliver 10x ROI.
+          Tell us about your business and what's slowing you down. Automation, marketing, or both — we'll scope exactly what to build first.
         </p>
         <form id="vettingForm" onsubmit="handleVettingSubmit(event)">
           <div class="form-group" style="margin-bottom: 20px;">
@@ -316,8 +307,8 @@
             <input type="text" name="company" placeholder="company.com" class="form-input">
           </div>
           <div class="form-group" style="margin-bottom: 20px;">
-            <label class="form-label">Biggest Manual Bottleneck?</label>
-            <textarea name="details" required rows="3" placeholder="e.g. Copy-pasting leads from email to CRM..." class="form-input"></textarea>
+            <label class="form-label">What's your biggest challenge right now?</label>
+            <textarea name="details" required rows="3" placeholder="e.g. Manual order entry is eating our team's time... or We have no marketing strategy and run on referrals..." class="form-input"></textarea>
           </div>
           <div class="form-group" style="margin-bottom: 30px;">
             <label class="form-label">Target Timeline</label>
@@ -338,7 +329,6 @@
     </div>
   </div>
 
-  <script src="dynamics.js"></script>
 </body>
 </html>
 

@@ -33,7 +33,16 @@
   <link rel="stylesheet" href="design-system.css">
   <link rel="stylesheet" href="styles-premium.css">
   <link rel="stylesheet" href="styles-mobile-enhanced.css">
-  
+
+  <!-- Icons & Performance -->
+  <link rel="icon" type="image/svg+xml" href="assets/brand/favicon.svg">
+  <link rel="manifest" href="/manifest.json">
+  <meta name="theme-color" content="#0a0a0c">
+
+  <!-- Calendly -->
+  <link rel="preconnect" href="https://assets.calendly.com">
+  <link href="https://assets.calendly.com/assets/external/calendar-widget.css" rel="stylesheet">
+
   <style>
     .service-detailed-card {
       background: var(--bg-surface);
@@ -279,9 +288,24 @@
             </ul>
             <button onclick="openCalendly()" class="btn btn-secondary btn-lg">Discuss My Workflow</button>
           </div>
-          <div class="service-visual">
-            <i class="ri-box-3-line"></i>
-            <div class="glow-effect" style="position: absolute; width: 100%; height: 100%; background: radial-gradient(circle at center, rgba(93, 140, 93, 0.1) 0%, transparent 70%);"></div>
+          <div class="service-visual" style="aspect-ratio: auto; background: transparent; border: none; padding: 8px 0;">
+            <div class="cal-workflow" style="width: 100%;">
+              <div class="cal-live-badge"><div class="cal-live-dot"></div> Automated Flow</div>
+              <div class="cal-step">
+                <div class="cal-step-icon" style="background: rgba(245,158,11,0.12); color: #f59e0b;"><i class="ri-shopping-cart-line"></i></div>
+                <div class="cal-step-label"><span class="cal-step-name">Customer Places Order</span>Web form or shop submission</div>
+              </div>
+              <div class="cal-arrow"><i class="ri-arrow-down-s-line"></i></div>
+              <div class="cal-step">
+                <div class="cal-step-icon" style="background: rgba(93,140,93,0.12); color: var(--brand-primary);"><i class="ri-magic-line"></i></div>
+                <div class="cal-step-label"><span class="cal-step-name">ERP + Invoice Triggered</span>QuickBooks / Xero synced instantly</div>
+              </div>
+              <div class="cal-arrow"><i class="ri-arrow-down-s-line"></i></div>
+              <div class="cal-step">
+                <div class="cal-step-icon" style="background: rgba(99,102,241,0.12); color: #6366f1;"><i class="ri-truck-line"></i></div>
+                <div class="cal-step-label"><span class="cal-step-name">Fulfillment Dispatched</span>ShipStation notified, tracking sent</div>
+              </div>
+            </div>
           </div>
         </article>
 
@@ -300,8 +324,24 @@
             </ul>
             <button onclick="openCalendly()" class="btn btn-secondary btn-lg">Audit My Lead Flow</button>
           </div>
-          <div class="service-visual">
-            <i class="ri-user-follow-line"></i>
+          <div class="service-visual" style="aspect-ratio: auto; background: transparent; border: none; padding: 8px 0;">
+            <div class="cal-workflow" style="width: 100%;">
+              <div class="cal-live-badge"><div class="cal-live-dot"></div> Zero Lead Loss</div>
+              <div class="cal-step">
+                <div class="cal-step-icon" style="background: rgba(0,182,141,0.12); color: #00b68d;"><i class="ri-global-line"></i></div>
+                <div class="cal-step-label"><span class="cal-step-name">Lead Fills Web Form</span>Contact form, ad click, or chat</div>
+              </div>
+              <div class="cal-arrow"><i class="ri-arrow-down-s-line"></i></div>
+              <div class="cal-step">
+                <div class="cal-step-icon" style="background: rgba(93,140,93,0.12); color: var(--brand-primary);"><i class="ri-database-2-line"></i></div>
+                <div class="cal-step-label"><span class="cal-step-name">CRM Auto-Updated</span>Contact + attribution logged instantly</div>
+              </div>
+              <div class="cal-arrow"><i class="ri-arrow-down-s-line"></i></div>
+              <div class="cal-step">
+                <div class="cal-step-icon" style="background: rgba(245,158,11,0.12); color: #f59e0b;"><i class="ri-send-plane-line"></i></div>
+                <div class="cal-step-label"><span class="cal-step-name">Follow-Up Sequence Fired</span>Rep notified + nurture email sent</div>
+              </div>
+            </div>
           </div>
         </article>
 
@@ -320,8 +360,34 @@
             </ul>
             <button onclick="openCalendly()" class="btn btn-secondary btn-lg">Sync My Inventory</button>
           </div>
-          <div class="service-visual">
-            <i class="ri-stack-line"></i>
+          <div class="service-visual" style="aspect-ratio: auto; background: transparent; border: none; padding: 8px 0;">
+            <div class="cal-workflow" style="width: 100%;">
+              <div class="cal-live-badge"><div class="cal-live-dot"></div> Multi-Channel Sync</div>
+              <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-bottom: 10px;">
+                <div class="cal-step" style="padding: 10px; flex-direction: column; gap: 6px; text-align: center; align-items: center;">
+                  <div class="cal-step-icon" style="background: rgba(0,182,141,0.12); color: #00b68d;"><i class="ri-store-line"></i></div>
+                  <span class="cal-step-name" style="font-size: 0.7rem;">Shopify</span>
+                </div>
+                <div class="cal-step" style="padding: 10px; flex-direction: column; gap: 6px; text-align: center; align-items: center;">
+                  <div class="cal-step-icon" style="background: rgba(245,158,11,0.12); color: #f59e0b;"><i class="ri-gradienter-line"></i></div>
+                  <span class="cal-step-name" style="font-size: 0.7rem;">Amazon</span>
+                </div>
+                <div class="cal-step" style="padding: 10px; flex-direction: column; gap: 6px; text-align: center; align-items: center;">
+                  <div class="cal-step-icon" style="background: rgba(99,102,241,0.12); color: #6366f1;"><i class="ri-building-line"></i></div>
+                  <span class="cal-step-name" style="font-size: 0.7rem;">Warehouse</span>
+                </div>
+              </div>
+              <div class="cal-arrow"><i class="ri-arrow-down-s-line"></i></div>
+              <div class="cal-step">
+                <div class="cal-step-icon" style="background: rgba(93,140,93,0.12); color: var(--brand-primary);"><i class="ri-stack-line"></i></div>
+                <div class="cal-step-label"><span class="cal-step-name">Unified Inventory</span>Live stock counts — zero overselling</div>
+              </div>
+              <div class="cal-arrow"><i class="ri-arrow-down-s-line"></i></div>
+              <div class="cal-step">
+                <div class="cal-step-icon" style="background: rgba(239,68,68,0.12); color: #ef4444;"><i class="ri-alarm-warning-line"></i></div>
+                <div class="cal-step-label"><span class="cal-step-name">Low-Stock Alert Fires</span>Reorder PO auto-triggered</div>
+              </div>
+            </div>
           </div>
         </article>
 
@@ -340,8 +406,24 @@
             </ul>
             <button onclick="openCalendly()" class="btn btn-secondary btn-lg">Automate My Billing</button>
           </div>
-          <div class="service-visual">
-            <i class="ri-bank-card-line"></i>
+          <div class="service-visual" style="aspect-ratio: auto; background: transparent; border: none; padding: 8px 0;">
+            <div class="cal-workflow" style="width: 100%;">
+              <div class="cal-live-badge"><div class="cal-live-dot"></div> Cash Flow Accelerated</div>
+              <div class="cal-step">
+                <div class="cal-step-icon" style="background: rgba(0,182,141,0.12); color: #00b68d;"><i class="ri-checkbox-circle-line"></i></div>
+                <div class="cal-step-label"><span class="cal-step-name">Job Marked Complete</span>In your project mgmt or CRM</div>
+              </div>
+              <div class="cal-arrow"><i class="ri-arrow-down-s-line"></i></div>
+              <div class="cal-step">
+                <div class="cal-step-icon" style="background: rgba(93,140,93,0.12); color: var(--brand-primary);"><i class="ri-file-text-line"></i></div>
+                <div class="cal-step-label"><span class="cal-step-name">Invoice Generated</span>QuickBooks / Xero / Stripe — instant</div>
+              </div>
+              <div class="cal-arrow"><i class="ri-arrow-down-s-line"></i></div>
+              <div class="cal-step">
+                <div class="cal-step-icon" style="background: rgba(245,158,11,0.12); color: #f59e0b;"><i class="ri-secure-payment-line"></i></div>
+                <div class="cal-step-label"><span class="cal-step-name">Payment Reconciled</span>Status synced to financial dashboard</div>
+              </div>
+            </div>
           </div>
         </article>
 
@@ -408,9 +490,24 @@
             </ul>
             <button onclick="openCalendly()" class="btn btn-secondary btn-lg">Build My Marketing Engine</button>
           </div>
-          <div class="service-visual">
-            <i class="ri-bar-chart-box-line"></i>
-            <div class="glow-effect" style="position: absolute; width: 100%; height: 100%; background: radial-gradient(circle at center, rgba(251, 191, 36, 0.08) 0%, transparent 70%);"></div>
+          <div class="service-visual" style="aspect-ratio: auto; background: transparent; border: none; padding: 8px 0;">
+            <div class="cal-workflow" style="width: 100%;">
+              <div class="cal-live-badge"><div class="cal-live-dot"></div> Full-Funnel Strategy</div>
+              <div class="cal-step">
+                <div class="cal-step-icon" style="background: rgba(93,140,93,0.12); color: var(--brand-primary);"><i class="ri-lightbulb-line"></i></div>
+                <div class="cal-step-label"><span class="cal-step-name">90-Day Strategy Brief</span>Market research + competitor analysis</div>
+              </div>
+              <div class="cal-arrow"><i class="ri-arrow-down-s-line"></i></div>
+              <div class="cal-step">
+                <div class="cal-step-icon" style="background: rgba(245,158,11,0.12); color: #f59e0b;"><i class="ri-mail-send-line"></i></div>
+                <div class="cal-step-label"><span class="cal-step-name">Email Campaigns Built</span>Nurture sequences + outreach</div>
+              </div>
+              <div class="cal-arrow"><i class="ri-arrow-down-s-line"></i></div>
+              <div class="cal-step">
+                <div class="cal-step-icon" style="background: rgba(99,102,241,0.12); color: #6366f1;"><i class="ri-line-chart-line"></i></div>
+                <div class="cal-step-label"><span class="cal-step-name">Monthly Performance Report</span>Dashboard + LinkedIn content calendar</div>
+              </div>
+            </div>
           </div>
         </article>
 
@@ -534,55 +631,6 @@
       </div>
     </div>
   </footer>
-
-  <style>
-    .footer-heading {
-      font-size: 0.8rem;
-      font-weight: 800;
-      text-transform: uppercase;
-      letter-spacing: 0.15em;
-      color: var(--brand-primary);
-      margin-bottom: 24px;
-    }
-    .footer-links {
-      list-style: none;
-      padding: 0;
-      margin: 0;
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-    }
-    .footer-links a {
-      color: var(--text-tertiary);
-      font-size: 0.95rem;
-      font-weight: 500;
-      transition: all 0.3s ease;
-    }
-    .footer-links a:hover {
-      color: var(--text-primary);
-      transform: translateX(4px);
-      display: inline-block;
-    }
-    .social-btn {
-      width: 44px;
-      height: 44px;
-      border-radius: 12px;
-      background: rgba(255,255,255,0.03);
-      border: 1px solid var(--border-subtle);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: var(--text-secondary);
-      font-size: 1.25rem;
-      transition: all 0.3s ease;
-    }
-    .social-btn:hover {
-      border-color: var(--brand-primary);
-      color: var(--brand-primary);
-      background: rgba(93, 140, 93, 0.1);
-      transform: translateY(-4px);
-    }
-  </style>
 
   <!-- Scripts -->
   <!-- dynamics.js first: registers openCalendly, handleVettingSubmit, toggleMobileMenu globally -->
