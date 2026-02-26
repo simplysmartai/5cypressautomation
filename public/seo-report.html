@@ -4,340 +4,558 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SEO Intelligence Report | 5 Cypress Automation</title>
-    <meta name="description" content="Your premium SEO audit report from 5 Cypress Automation. Detailed analysis, actionable recommendations, and a 90-day roadmap.">
-
-    <!-- Design System -->
+    <meta name="description" content="Your premium SEO audit report from 5 Cypress Automation.">
+    <meta name="robots" content="noindex, nofollow">
     <link href="https://cdn.jsdelivr.net/npm/remixicon@4.0.0/fonts/remixicon.css" rel="stylesheet">
     <link rel="stylesheet" href="design-system.css">
     <link rel="stylesheet" href="styles-premium.css">
-
     <style>
-        body {
-            background: var(--bg-main);
-            color: var(--text-secondary);
-            font-family: var(--font-body);
-            overflow-x: hidden;
-            padding: 2rem;
-        }
-
-        .report-container { max-width: 1100px; margin: 0 auto; }
-
-        /* Glass Panels */
-        .rpt-panel {
-            background: var(--bg-glass);
-            backdrop-filter: blur(16px);
-            border: 1px solid var(--border-medium);
-            border-radius: 1rem;
-            box-shadow: var(--shadow-md);
-            margin-bottom: 2rem;
-        }
-
-        .rpt-panel-header {
-            padding: 1rem 1.5rem;
-            border-bottom: 1px solid var(--border-subtle);
-            display: flex; justify-content: space-between; align-items: center;
-        }
-
-        .rpt-panel-body { padding: 1.5rem; }
-
-        /* Gauge */
-        .gauge-wrap { position: relative; width: 130px; height: 130px; }
-        .gauge-svg { transform: rotate(-90deg); }
-        .gauge-bg { fill: none; stroke: var(--border-subtle); stroke-width: 8; }
-        .gauge-fg { fill: none; stroke-width: 8; stroke-linecap: round;
-                     transition: stroke-dasharray 1.4s cubic-bezier(.4,0,.2,1); }
-        .gauge-label {
-            position: absolute; inset: 0;
-            display: flex; flex-direction: column;
-            align-items: center; justify-content: center;
-        }
-        .gauge-val { font-size: 2rem; font-weight: 800; font-family: var(--font-heading); color: var(--text-primary); }
-        .gauge-sub { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-tertiary); }
-
-        /* Data Table */
-        .rpt-table { width: 100%; border-collapse: separate; border-spacing: 0; }
-        .rpt-table th { text-align: left; padding: 0.75rem 1rem; font-size: 0.7rem;
-                        text-transform: uppercase; letter-spacing: 0.1em;
-                        color: var(--text-tertiary); border-bottom: 1px solid var(--border-medium); }
-        .rpt-table td { padding: 0.75rem 1rem; border-bottom: 1px solid var(--border-subtle);
-                        font-size: 0.875rem; color: var(--text-secondary); }
-
-        /* Status Badges */
-        .badge { padding: 3px 10px; border-radius: 100px; font-size: 0.7rem; font-weight: 700; display: inline-block; }
-        .badge-pass { background: var(--success-bg); color: var(--success); border: 1px solid rgba(16,185,129,0.3); }
-        .badge-fail { background: var(--error-bg); color: var(--error); border: 1px solid rgba(239,68,68,0.3); }
-        .badge-warn { background: var(--warning-bg); color: var(--warning); border: 1px solid rgba(245,158,11,0.3); }
-        .badge-info { background: rgba(93,140,93,0.1); color: var(--brand-primary); border: 1px solid var(--border-brand); }
-
-        /* Severity Rows */
-        .sev-row { display: grid; grid-template-columns: 100px 1fr auto; gap: 1rem;
-                   padding: 1rem 1.5rem; border-bottom: 1px solid var(--border-subtle);
-                   align-items: center; transition: background 0.2s; }
-        .sev-row:hover { background: rgba(255,255,255,0.02); }
-        .sev-row:last-child { border-bottom: none; }
-
-        /* Print */
+        body { background:var(--bg-main); color:var(--text-secondary); font-family:var(--font-body); padding:2rem; overflow-x:hidden; }
+        .report-container { max-width:1100px; margin:0 auto; }
+        .rpt-panel { background:var(--bg-glass); backdrop-filter:blur(16px); border:1px solid var(--border-medium); border-radius:1rem; box-shadow:var(--shadow-md); margin-bottom:2rem; overflow:hidden; }
+        .rpt-panel-header { padding:1rem 1.5rem; border-bottom:1px solid var(--border-subtle); display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:.5rem; }
+        .rpt-panel-body { padding:1.5rem; }
+        .gauge-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(140px,1fr)); gap:1rem; margin-bottom:2rem; }
+        .gauge-card { background:var(--bg-glass); border:1px solid var(--border-medium); border-radius:1rem; padding:1.25rem; display:flex; flex-direction:column; align-items:center; }
+        .gauge-wrap { position:relative; width:120px; height:120px; }
+        .gauge-svg { transform:rotate(-90deg); }
+        .gauge-bg { fill:none; stroke:var(--border-subtle); stroke-width:8; }
+        .gauge-fg { fill:none; stroke-width:8; stroke-linecap:round; transition:stroke-dasharray 1.4s cubic-bezier(.4,0,.2,1); }
+        .gauge-label { position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; }
+        .gauge-val { font-size:1.75rem; font-weight:800; font-family:var(--font-heading); color:var(--text-primary); }
+        .gauge-sub { font-size:0.6rem; text-transform:uppercase; letter-spacing:0.1em; color:var(--text-tertiary); text-align:center; margin-top:2px; }
+        .grade-badge { font-size:2.5rem; font-weight:900; font-family:var(--font-display); width:72px; height:72px; border-radius:50%; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+        .grade-A { background:rgba(16,185,129,0.15); color:var(--success); border:2px solid var(--success); }
+        .grade-B { background:rgba(59,130,246,0.15); color:#3b82f6; border:2px solid #3b82f6; }
+        .grade-C { background:rgba(245,158,11,0.15); color:var(--warning); border:2px solid var(--warning); }
+        .grade-D { background:rgba(249,115,22,0.15); color:#f97316; border:2px solid #f97316; }
+        .grade-F { background:rgba(239,68,68,0.15); color:var(--error); border:2px solid var(--error); }
+        .badge { padding:3px 10px; border-radius:100px; font-size:0.68rem; font-weight:700; display:inline-block; }
+        .badge-pass { background:rgba(16,185,129,0.1); color:var(--success); border:1px solid rgba(16,185,129,0.3); }
+        .badge-fail { background:rgba(239,68,68,0.1); color:var(--error); border:1px solid rgba(239,68,68,0.3); }
+        .badge-warn { background:rgba(245,158,11,0.1); color:var(--warning); border:1px solid rgba(245,158,11,0.3); }
+        .badge-info { background:rgba(93,140,93,0.1); color:var(--brand-primary); border:1px solid var(--border-brand); }
+        .badge-high { background:rgba(239,68,68,0.1); color:var(--error); border:1px solid rgba(239,68,68,0.3); }
+        .badge-medium { background:rgba(245,158,11,0.1); color:var(--warning); border:1px solid rgba(245,158,11,0.3); }
+        .badge-low { background:rgba(93,140,93,0.1); color:var(--brand-primary); border:1px solid var(--border-brand); }
+        .finding-card { border-bottom:1px solid var(--border-subtle); }
+        .finding-card:last-child { border-bottom:none; }
+        .finding-header { padding:1rem 1.5rem; cursor:pointer; display:flex; align-items:center; gap:1rem; transition:background 0.2s; list-style:none; }
+        .finding-header:hover { background:rgba(255,255,255,0.02); }
+        details > .finding-header { display:flex; }
+        .finding-body { padding:0 1.5rem 1.5rem; display:flex; flex-direction:column; gap:1rem; }
+        .finding-chevron { margin-left:auto; color:var(--text-tertiary); transition:transform 0.25s; }
+        details[open] .finding-chevron { transform:rotate(180deg); }
+        .ai-prompt-box { background:rgba(0,0,0,0.3); border:1px solid var(--border-brand); border-radius:8px; padding:1rem 1.25rem; position:relative; }
+        .ai-prompt-label { font-size:0.6rem; text-transform:uppercase; letter-spacing:0.12em; color:var(--brand-primary); margin-bottom:6px; display:flex; align-items:center; gap:6px; }
+        .ai-prompt-text { font-size:0.82rem; color:var(--text-secondary); line-height:1.65; font-family:var(--font-mono); white-space:pre-wrap; word-break:break-word; }
+        .copy-btn { position:absolute; top:8px; right:8px; background:var(--brand-primary); color:var(--bg-void); border:none; border-radius:6px; padding:4px 10px; font-size:0.65rem; font-weight:700; cursor:pointer; transition:all 0.2s; }
+        .copy-btn.copied { background:var(--success); }
+        .vitals-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(120px,1fr)); gap:1rem; }
+        .vital-card { background:rgba(0,0,0,0.2); border:1px solid var(--border-subtle); border-radius:10px; padding:1rem; text-align:center; }
+        .vital-val { font-size:1.4rem; font-weight:800; font-family:var(--font-mono); color:var(--text-primary); }
+        .vital-lbl { font-size:0.6rem; text-transform:uppercase; letter-spacing:0.1em; color:var(--text-tertiary); margin-top:4px; }
+        .roadmap-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:1.5rem; }
+        .roadmap-phase { background:rgba(0,0,0,0.2); border:1px solid var(--border-subtle); border-radius:12px; padding:1.5rem; }
+        .roadmap-num { font-size:2.5rem; font-weight:900; font-family:var(--font-display); color:var(--brand-primary); opacity:0.3; line-height:1; }
+        .roadmap-task { font-size:0.82rem; color:var(--text-secondary); padding:6px 0; border-bottom:1px solid var(--border-subtle); display:flex; align-items:flex-start; gap:8px; }
+        .roadmap-task:last-child { border-bottom:none; }
+        .roadmap-task::before { content:'→'; color:var(--brand-primary); flex-shrink:0; }
+        .quick-win { display:flex; align-items:flex-start; gap:12px; padding:12px 0; border-bottom:1px solid var(--border-subtle); }
+        .quick-win:last-child { border-bottom:none; }
+        .qw-num { min-width:24px; height:24px; background:var(--brand-primary); color:var(--bg-void); border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:0.7rem; font-weight:800; flex-shrink:0; }
+        .rpt-table { width:100%; border-collapse:separate; border-spacing:0; }
+        .rpt-table th { text-align:left; padding:0.75rem 1rem; font-size:0.68rem; text-transform:uppercase; letter-spacing:0.1em; color:var(--text-tertiary); border-bottom:1px solid var(--border-medium); }
+        .rpt-table td { padding:0.75rem 1rem; border-bottom:1px solid var(--border-subtle); font-size:0.875rem; color:var(--text-secondary); }
+        .rpt-table tr:last-child td { border-bottom:none; }
+        .insight-strip { background:rgba(93,140,93,0.05); border:1px solid rgba(93,140,93,0.2); border-radius:10px; padding:1rem 1.5rem; font-size:0.875rem; line-height:1.7; color:var(--text-secondary); }
+        .opp-item { display:grid; grid-template-columns:1fr auto; gap:1rem; align-items:center; padding:8px 0; border-bottom:1px solid var(--border-subtle); }
+        .opp-item:last-child { border-bottom:none; }
+        .opp-bar { height:4px; background:var(--border-medium); border-radius:100px; overflow:hidden; margin-top:4px; }
+        .opp-bar-fill { height:100%; background:var(--warning); border-radius:100px; }
+        #reportLoading { position:fixed; inset:0; z-index:999; background:var(--bg-void); display:flex; flex-direction:column; align-items:center; justify-content:center; gap:1rem; }
+        .spinner { width:48px; height:48px; border:4px solid var(--border-medium); border-top-color:var(--brand-primary); border-radius:50%; animation:spin 0.8s linear infinite; }
+        @keyframes spin { to { transform:rotate(360deg); } }
+        #sampleBanner { background:rgba(245,158,11,0.08); border:1px solid rgba(245,158,11,0.3); border-radius:12px; padding:1rem 1.5rem; display:none; margin-bottom:2rem; }
+        .flt-btn { background:transparent; border:1px solid var(--border-medium); color:var(--text-tertiary); padding:3px 10px; border-radius:100px; font-size:0.68rem; cursor:pointer; font-weight:700; transition:all 0.2s; }
+        .flt-btn.active, .flt-btn:hover { background:var(--brand-primary); color:var(--bg-void); border-color:var(--brand-primary); }
         @media print {
-            body { background: #fff !important; color: #111 !important; }
-            .rpt-panel { background: #fff !important; border: 1px solid #ccc !important;
-                         box-shadow: none !important; backdrop-filter: none !important; }
-            .no-print { display: none !important; }
-            .gauge-bg { stroke: #eee !important; }
-            h1, h2, h3 { color: #111 !important; page-break-after: avoid; }
-            .rpt-table td, .rpt-table th { color: #111 !important; border-color: #ccc !important; }
-            .badge { border-color: #999 !important; }
+            body { background:#fff !important; color:#111 !important; padding:0; }
+            #reportLoading, .no-print { display:none !important; }
+            .rpt-panel { background:#fff !important; border:1px solid #ccc !important; box-shadow:none !important; backdrop-filter:none !important; break-inside:avoid; }
+            .gauge-card { background:#fff !important; border:1px solid #ccc !important; }
+            .gauge-bg { stroke:#eee !important; }
+            .ai-prompt-box { background:#f5f5f5 !important; border:1px solid #ccc !important; }
+            h1,h2,h3,h4 { color:#111 !important; page-break-after:avoid; }
+            .rpt-table td, .rpt-table th { color:#111 !important; border-color:#ccc !important; }
+            details { display:block !important; }
+            details > .finding-body { display:flex !important; }
+            .finding-chevron { display:none; }
+            .roadmap-phase, .vital-card { background:#f9f9f9 !important; border:1px solid #ccc !important; }
+            .insight-strip { background:#f9f9f9 !important; }
+            .copy-btn { display:none; }
         }
-
-        @media (max-width: 768px) {
-            body { padding: 1rem; }
-            .report-header { flex-direction: column !important; gap: 1.5rem; }
-            .sev-row { grid-template-columns: 1fr; }
+        @media (max-width:768px) {
+            body { padding:1rem; }
+            .report-header { flex-direction:column !important; gap:1.5rem; }
+            .gauge-grid { grid-template-columns:repeat(2,1fr); }
         }
     </style>
 </head>
 <body>
-    <div class="report-container">
+    <div id="reportLoading">
+        <div class="spinner"></div>
+        <div style="font-family:var(--font-mono);font-size:0.75rem;color:var(--text-tertiary);letter-spacing:0.1em;" id="loadingMsg">LOADING REPORT...</div>
+    </div>
 
-        <!-- Report Header -->
-        <header class="report-header" style="display:flex; justify-content:space-between; align-items:flex-end; padding-bottom:2rem; margin-bottom:2rem; border-bottom:1px solid var(--border-medium);">
+    <div class="report-container" id="reportBody" style="display:none;">
+
+        <!-- Header -->
+        <header class="report-header" style="display:flex;justify-content:space-between;align-items:flex-end;padding-bottom:2rem;margin-bottom:2rem;border-bottom:1px solid var(--border-medium);">
             <div>
-                <div style="display:flex; align-items:center; gap:10px; margin-bottom:12px;">
-                    <img src="assets/brand/logo-5cypress.jpg" alt="5 Cypress" style="width:36px; height:36px; border-radius:8px;">
-                    <span style="font-family:var(--font-heading); font-weight:800; font-size:1rem; color:var(--text-primary);">5 Cypress Automation</span>
+                <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;">
+                    <img src="assets/brand/logo-5cypress.jpg" alt="5 Cypress" style="width:36px;height:36px;border-radius:8px;" onerror="this.style.display='none'">
+                    <span style="font-family:var(--font-heading);font-weight:800;font-size:1rem;color:var(--text-primary);">5 Cypress Automation</span>
                 </div>
-                <div style="display:flex; align-items:center; gap:8px; margin-bottom:8px;">
-                    <span style="width:8px; height:8px; background:var(--success); border-radius:50%; display:inline-block;"></span>
-                    <span style="font-size:0.75rem; color:var(--text-tertiary); font-family:var(--font-mono);">REPORT READY</span>
+                <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;">
+                    <span style="width:8px;height:8px;background:var(--success);border-radius:50%;display:inline-block;"></span>
+                    <span style="font-size:0.7rem;color:var(--text-tertiary);font-family:var(--font-mono);" id="reportStatus">REPORT READY</span>
                 </div>
-                <h1 style="font-family:var(--font-display); font-size:clamp(1.75rem,4vw,2.75rem); font-weight:800; color:var(--text-primary); line-height:1.15;">
-                    SEO Intelligence Report
-                </h1>
-                <div style="display:flex; align-items:center; gap:10px; margin-top:8px;">
-                    <p id="targetDomain" style="font-size:0.9rem; letter-spacing:0.15em; font-family:var(--font-mono); color:var(--text-tertiary);">SUBJECT: ANALYZING...</p>
-                    <span id="auditStatusTag" class="badge badge-warn">Preliminary</span>
+                <h1 style="font-family:var(--font-display);font-size:clamp(1.75rem,4vw,2.5rem);font-weight:800;color:var(--text-primary);line-height:1.15;">SEO Intelligence Report</h1>
+                <div style="display:flex;align-items:center;gap:10px;margin-top:8px;flex-wrap:wrap;">
+                    <p id="targetDomain" style="font-size:0.9rem;letter-spacing:0.15em;font-family:var(--font-mono);color:var(--text-tertiary);">SUBJECT: —</p>
+                    <span id="auditStatusTag" class="badge badge-warn">Loading</span>
+                    <span id="reportDateTag" style="font-size:0.7rem;color:var(--text-disabled);font-family:var(--font-mono);"></span>
                 </div>
             </div>
             <div class="no-print" style="text-align:right;">
-                <p style="font-size:0.65rem; color:var(--text-disabled); margin-bottom:8px; font-family:var(--font-mono);">REF: 5CY-SEO-2026</p>
-                <div style="display:flex; gap:8px; justify-content:flex-end;">
-                    <a href="/seo-dashboard" style="padding:8px 16px; font-size:0.75rem; font-weight:700; text-transform:uppercase; letter-spacing:0.08em; color:var(--text-secondary); border:1px solid var(--border-medium); border-radius:8px; text-decoration:none; transition:all 0.2s;">
-                        <i class="ri-arrow-left-line" style="margin-right:4px;"></i>Back to Console
+                <p style="font-size:0.65rem;color:var(--text-disabled);margin-bottom:8px;font-family:var(--font-mono);" id="reportRef">REF: 5CY-SEO</p>
+                <div style="display:flex;gap:8px;justify-content:flex-end;">
+                    <a href="/seo-dashboard" style="padding:8px 16px;font-size:0.75rem;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:var(--text-secondary);border:1px solid var(--border-medium);border-radius:8px;text-decoration:none;">
+                        <i class="ri-arrow-left-line" style="margin-right:4px;"></i>New Scan
                     </a>
-                    <button onclick="window.print()" style="padding:8px 16px; font-size:0.75rem; font-weight:700; text-transform:uppercase; letter-spacing:0.08em; color:var(--bg-void); background:var(--brand-primary); border:none; border-radius:8px; cursor:pointer; transition:all 0.2s;">
+                    <button onclick="window.print()" style="padding:8px 16px;font-size:0.75rem;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:var(--bg-void);background:var(--brand-primary);border:none;border-radius:8px;cursor:pointer;">
                         <i class="ri-download-2-line" style="margin-right:4px;"></i>Export PDF
                     </button>
                 </div>
             </div>
         </header>
 
-        <!-- Executive Summary Gauges -->
-        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(140px, 1fr)); gap:1.5rem; margin-bottom:2rem;">
-            <div class="rpt-panel" style="display:flex; flex-direction:column; align-items:center; justify-content:center; padding:1.5rem;">
+        <!-- Sample Banner -->
+        <div id="sampleBanner">
+            <i class="ri-alert-line" style="color:var(--warning);margin-right:8px;"></i>
+            <strong style="color:var(--warning);">Sample Data Mode</strong>
+            <span style="color:var(--text-secondary);font-size:0.875rem;"> — This preview uses representative data. <a href="/seo-dashboard" style="color:var(--brand-primary);">Run a live scan</a> for your real results.</span>
+        </div>
+
+        <!-- Score Gauges + Grade -->
+        <div class="gauge-grid">
+            <div class="gauge-card">
                 <div class="gauge-wrap">
-                    <svg class="gauge-svg" width="130" height="130">
-                        <circle class="gauge-bg" cx="65" cy="65" r="56"></circle>
-                        <circle id="perfGauge" class="gauge-fg" cx="65" cy="65" r="56" style="stroke-dasharray:0 352; stroke:var(--warning);"></circle>
+                    <svg class="gauge-svg" width="120" height="120" viewBox="0 0 120 120">
+                        <circle class="gauge-bg" cx="60" cy="60" r="52"></circle>
+                        <circle id="perfGauge" class="gauge-fg" cx="60" cy="60" r="52" style="stroke-dasharray:0 327;stroke:var(--warning);"></circle>
                     </svg>
-                    <div class="gauge-label">
-                        <span id="perfVal" class="gauge-val">0</span>
-                        <span class="gauge-sub">Performance</span>
-                    </div>
+                    <div class="gauge-label"><span id="perfVal" class="gauge-val">—</span><span class="gauge-sub">Performance</span></div>
                 </div>
             </div>
-
-            <div class="rpt-panel" style="display:flex; flex-direction:column; align-items:center; justify-content:center; padding:1.5rem;">
+            <div class="gauge-card">
                 <div class="gauge-wrap">
-                    <svg class="gauge-svg" width="130" height="130">
-                        <circle class="gauge-bg" cx="65" cy="65" r="56"></circle>
-                        <circle id="searchGauge" class="gauge-fg" cx="65" cy="65" r="56" style="stroke-dasharray:0 352; stroke:var(--warning);"></circle>
+                    <svg class="gauge-svg" width="120" height="120" viewBox="0 0 120 120">
+                        <circle class="gauge-bg" cx="60" cy="60" r="52"></circle>
+                        <circle id="seoGauge" class="gauge-fg" cx="60" cy="60" r="52" style="stroke-dasharray:0 327;stroke:var(--warning);"></circle>
                     </svg>
-                    <div class="gauge-label">
-                        <span id="searchVal" class="gauge-val">0</span>
-                        <span class="gauge-sub">SEO Health</span>
-                    </div>
+                    <div class="gauge-label"><span id="seoVal" class="gauge-val">—</span><span class="gauge-sub">SEO Health</span></div>
                 </div>
             </div>
-
-            <div class="rpt-panel" style="padding:1.5rem; display:flex; flex-direction:column; justify-content:center; grid-column: span 2;">
-                <h3 style="font-size:0.7rem; text-transform:uppercase; letter-spacing:0.1em; color:var(--text-tertiary); margin-bottom:12px;">Executive Summary</h3>
-                <p id="assessmentSummary" style="font-family:var(--font-display); font-size:1.05rem; font-style:italic; color:var(--text-primary); line-height:1.65;">
-                    Analyzing domain infrastructure for structural vulnerabilities and semantic positioning...
-                </p>
+            <div class="gauge-card">
+                <div class="gauge-wrap">
+                    <svg class="gauge-svg" width="120" height="120" viewBox="0 0 120 120">
+                        <circle class="gauge-bg" cx="60" cy="60" r="52"></circle>
+                        <circle id="a11yGauge" class="gauge-fg" cx="60" cy="60" r="52" style="stroke-dasharray:0 327;stroke:var(--warning);"></circle>
+                    </svg>
+                    <div class="gauge-label"><span id="a11yVal" class="gauge-val">—</span><span class="gauge-sub">Accessibility</span></div>
+                </div>
+            </div>
+            <div class="gauge-card">
+                <div class="gauge-wrap">
+                    <svg class="gauge-svg" width="120" height="120" viewBox="0 0 120 120">
+                        <circle class="gauge-bg" cx="60" cy="60" r="52"></circle>
+                        <circle id="bpGauge" class="gauge-fg" cx="60" cy="60" r="52" style="stroke-dasharray:0 327;stroke:var(--warning);"></circle>
+                    </svg>
+                    <div class="gauge-label"><span id="bpVal" class="gauge-val">—</span><span class="gauge-sub">Best Practices</span></div>
+                </div>
+            </div>
+            <div class="gauge-card" style="grid-column:span 2;flex-direction:row;gap:1.5rem;align-items:flex-start;">
+                <div id="gradeCircle" class="grade-badge grade-C">C</div>
+                <div>
+                    <div style="font-size:0.65rem;text-transform:uppercase;letter-spacing:0.12em;color:var(--text-tertiary);margin-bottom:6px;">Overall Grade</div>
+                    <p id="execSummary" style="font-size:0.9rem;line-height:1.7;color:var(--text-secondary);">Loading expert analysis…</p>
+                </div>
             </div>
         </div>
 
-        <!-- Structural Issues -->
+        <!-- Quick Wins -->
         <div class="rpt-panel">
             <div class="rpt-panel-header">
-                <h2 style="font-family:var(--font-heading); font-size:0.85rem; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:var(--text-primary);">
-                    <i class="ri-bug-line" style="color:var(--error); margin-right:8px;"></i>Issues Found
+                <h2 style="font-family:var(--font-heading);font-size:0.85rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-primary);">
+                    <i class="ri-flashlight-line" style="color:var(--warning);margin-right:8px;"></i>Quick Wins
                 </h2>
-                <span style="font-size:0.65rem; color:var(--text-disabled); font-style:italic;">Sorted by severity</span>
+                <span style="font-size:0.65rem;color:var(--text-disabled);font-style:italic;">Highest impact, lowest effort</span>
             </div>
-            <div id="issueInventory">
-                <!-- Populated dynamically -->
+            <div class="rpt-panel-body" id="quickWinsList"><div style="color:var(--text-tertiary);font-size:0.875rem;text-align:center;padding:1rem;">Loading…</div></div>
+        </div>
+
+        <!-- Findings with Expert Analysis & AI Prompts -->
+        <div class="rpt-panel">
+            <div class="rpt-panel-header">
+                <h2 style="font-family:var(--font-heading);font-size:0.85rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-primary);">
+                    <i class="ri-bug-line" style="color:var(--error);margin-right:8px;"></i>Issues &amp; Expert Analysis
+                </h2>
+                <div style="display:flex;gap:6px;" class="no-print">
+                    <button class="flt-btn active" onclick="filterFindings('all',this)">All</button>
+                    <button class="flt-btn" onclick="filterFindings('High',this)">🔴 High</button>
+                    <button class="flt-btn" onclick="filterFindings('Medium',this)">🟡 Medium</button>
+                    <button class="flt-btn" onclick="filterFindings('Low',this)">🟢 Low</button>
+                </div>
+            </div>
+            <div id="findingsList"><div style="color:var(--text-tertiary);font-size:0.875rem;text-align:center;padding:2rem;">Loading expert analysis…</div></div>
+        </div>
+
+        <!-- Page Speed Vitals -->
+        <div class="rpt-panel">
+            <div class="rpt-panel-header">
+                <h2 style="font-family:var(--font-heading);font-size:0.85rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-primary);">
+                    <i class="ri-speed-line" style="color:var(--brand-primary);margin-right:8px;"></i>Core Web Vitals &amp; Speed
+                </h2>
+            </div>
+            <div class="rpt-panel-body">
+                <div class="vitals-grid" id="vitalsGrid"><div style="color:var(--text-tertiary);font-size:0.875rem;text-align:center;padding:1rem;">Loading…</div></div>
+                <div id="speedOpportunities" style="margin-top:1.5rem;display:none;">
+                    <div style="font-size:0.7rem;text-transform:uppercase;letter-spacing:0.1em;color:var(--text-tertiary);margin-bottom:1rem;">Speed Opportunities</div>
+                    <div id="oppList"></div>
+                </div>
             </div>
         </div>
 
-        <!-- Keyword Intelligence -->
-        <div class="rpt-panel">
+        <!-- Keywords -->
+        <div class="rpt-panel" id="keywordsPanel" style="display:none;">
             <div class="rpt-panel-header">
-                <h2 style="font-family:var(--font-heading); font-size:0.85rem; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:var(--text-primary);">
-                    <i class="ri-key-2-line" style="color:var(--brand-primary); margin-right:8px;"></i>Keyword Intelligence
+                <h2 style="font-family:var(--font-heading);font-size:0.85rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-primary);">
+                    <i class="ri-key-2-line" style="color:var(--brand-primary);margin-right:8px;"></i>Keyword Intelligence
+                </h2>
+            </div>
+            <div class="rpt-panel-body" id="kwPanelBody">
+                <div id="kwInsightStrip" class="insight-strip" style="margin-bottom:1.5rem;display:none;"></div>
+                <div style="overflow-x:auto;">
+                    <table class="rpt-table">
+                        <thead><tr><th>Keyword</th><th>Volume/mo</th><th>CPC</th><th>Difficulty</th><th>Opportunity</th></tr></thead>
+                        <tbody id="keywordMatrix"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Backlinks -->
+        <div class="rpt-panel" id="backlinksPanel" style="display:none;">
+            <div class="rpt-panel-header">
+                <h2 style="font-family:var(--font-heading);font-size:0.85rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-primary);">
+                    <i class="ri-links-line" style="color:var(--brand-primary);margin-right:8px;"></i>Backlinks &amp; Domain Authority
+                </h2>
+            </div>
+            <div class="rpt-panel-body">
+                <div id="blInsightStrip" class="insight-strip" style="margin-bottom:1.5rem;display:none;"></div>
+                <div id="blStats" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:1rem;"></div>
+            </div>
+        </div>
+
+        <!-- Competitors -->
+        <div class="rpt-panel" id="competitorsPanel" style="display:none;">
+            <div class="rpt-panel-header">
+                <h2 style="font-family:var(--font-heading);font-size:0.85rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-primary);">
+                    <i class="ri-bar-chart-2-line" style="color:var(--brand-primary);margin-right:8px;"></i>Competitive Landscape
                 </h2>
             </div>
             <div class="rpt-panel-body" style="overflow-x:auto;">
                 <table class="rpt-table">
-                    <thead>
-                        <tr>
-                            <th>Keyword</th>
-                            <th>Volume</th>
-                            <th>CPC</th>
-                            <th>Difficulty</th>
-                            <th>Status</th>
-                        </tr>
-                    </thead>
-                    <tbody id="keywordMatrix">
-                        <!-- Populated dynamically -->
-                    </tbody>
+                    <thead><tr><th>Competitor</th><th>Common Keywords</th><th>Traffic Est.</th><th>Advantage</th></tr></thead>
+                    <tbody id="competitorTable"></tbody>
                 </table>
             </div>
         </div>
 
-        <!-- Footer -->
-        <footer style="text-align:center; padding:3rem 0 1rem; font-size:0.7rem; color:var(--text-disabled); letter-spacing:0.1em; text-transform:uppercase;">
+        <!-- 90-Day Roadmap -->
+        <div class="rpt-panel">
+            <div class="rpt-panel-header">
+                <h2 style="font-family:var(--font-heading);font-size:0.85rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-primary);">
+                    <i class="ri-road-map-line" style="color:var(--brand-primary);margin-right:8px;"></i>90-Day SEO Roadmap
+                </h2>
+            </div>
+            <div class="rpt-panel-body">
+                <div class="roadmap-grid" id="roadmapGrid"><div style="color:var(--text-tertiary);font-size:0.875rem;text-align:center;padding:1rem;">Loading…</div></div>
+            </div>
+        </div>
+
+        <!-- AI Prompts Hub (no-print) -->
+        <div class="rpt-panel no-print" id="aiPromptsHub" style="display:none;">
+            <div class="rpt-panel-header">
+                <h2 style="font-family:var(--font-heading);font-size:0.85rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-primary);">
+                    <i class="ri-robot-line" style="color:var(--brand-primary);margin-right:8px;"></i>AI Prompts Hub
+                </h2>
+                <span style="font-size:0.65rem;color:var(--text-disabled);font-style:italic;">Copy → paste into ChatGPT, Claude, or Gemini</span>
+            </div>
+            <div class="rpt-panel-body" id="aiPromptsList"></div>
+        </div>
+
+        <!-- CTA -->
+        <div class="rpt-panel no-print" style="background:linear-gradient(135deg,rgba(93,140,93,0.1),rgba(93,140,93,0.03));border-color:rgba(93,140,93,0.3);">
+            <div class="rpt-panel-body" style="text-align:center;padding:2.5rem;">
+                <h2 style="font-family:var(--font-display);font-size:1.5rem;font-weight:700;color:var(--text-primary);margin-bottom:8px;">Want help implementing these fixes?</h2>
+                <p style="color:var(--text-secondary);margin-bottom:1.5rem;max-width:500px;margin-left:auto;margin-right:auto;">5 Cypress Automation handles the technical SEO, content, and automation work so you don't have to. Book a free 30-minute strategy call.</p>
+                <a href="https://calendly.com/jimmy-5cypress/30min" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:8px;padding:14px 32px;background:var(--brand-primary);color:var(--bg-void);font-weight:700;border-radius:12px;text-decoration:none;font-size:0.95rem;">
+                    <i class="ri-calendar-check-line"></i>Book a Free Strategy Call
+                </a>
+            </div>
+        </div>
+
+        <footer style="text-align:center;padding:3rem 0 1rem;font-size:0.7rem;color:var(--text-disabled);letter-spacing:0.1em;text-transform:uppercase;">
             5 Cypress Automation &mdash; SEO Intelligence Division &bull; Confidential &bull; &copy; 2026
         </footer>
     </div>
 
     <script>
-        document.addEventListener('DOMContentLoaded', async () => {
-            const urlParams = new URLSearchParams(window.location.search);
-            const sessionId = urlParams.get('session_id');
-            const domainFromUrl = urlParams.get('domain');
-            
-            let auditData;
+    const urlParams  = new URLSearchParams(window.location.search);
+    const SESSION_ID = urlParams.get('session_id');
+    const DOMAIN_P   = urlParams.get('domain');
+    let reportData   = null;
+    let allFindings  = [];
 
-            if (sessionId) {
-                try {
-                    const response = await fetch(`/api/seo/report/${sessionId}?domain=${domainFromUrl}`);
-                    if (response.ok) {
-                        auditData = await response.json();
-                        const tag = document.getElementById('auditStatusTag');
-                        tag.textContent = "Premium Audit";
-                        tag.className = 'badge badge-pass';
-                    }
-                } catch (err) {
-                    console.error("Report fetch error:", err);
-                }
-            }
+    document.addEventListener('DOMContentLoaded', boot);
 
-            // Fallback: try localStorage (set by seo-dashboard after scan)
-            if (!auditData) {
-                try {
-                    const stored = localStorage.getItem('latest_seo_audit');
-                    if (stored) auditData = JSON.parse(stored);
-                } catch(e) {}
-            }
-
-            if (!auditData) {
-                document.querySelector('.report-container').innerHTML = `
-                    <div style="text-align:center; padding:6rem 2rem;">
-                        <i class="ri-file-warning-line" style="font-size:3rem; color:var(--text-disabled); display:block; margin-bottom:1rem;"></i>
-                        <h2 style="font-family:var(--font-heading); font-size:1.5rem; color:var(--text-primary); margin-bottom:0.5rem;">No Report Data Found</h2>
-                        <p style="color:var(--text-tertiary); margin-bottom:2rem;">Run a scan from the SEO Console first, or check your report link.</p>
-                        <a href="/seo-dashboard" style="padding:10px 24px; background:var(--brand-primary); color:var(--bg-void); border-radius:8px; text-decoration:none; font-weight:700; font-size:0.875rem;">Go to SEO Console</a>
-                    </div>`;
-                return;
-            }
-
-            // Header
-            try {
-                const urlObj = new URL(auditData.url);
-                document.getElementById('targetDomain').textContent = `SUBJECT: ${urlObj.hostname.toUpperCase()}`;
-                document.title = `SEO Report | ${urlObj.hostname} | 5 Cypress Automation`;
-            } catch (e) {
-                document.getElementById('targetDomain').textContent = `SUBJECT: ${String(auditData.url).toUpperCase()}`;
-            }
-
-            // Gauges (r=56, circumference≈352)
-            setTimeout(() => {
-                const setGauge = (gaugeId, valId, score) => {
-                    const circle = document.getElementById(gaugeId);
-                    const text = document.getElementById(valId);
-                    const dash = Math.round((score / 100) * 352);
-                    circle.style.strokeDasharray = `${dash} 352`;
-                    text.textContent = Math.round(score);
-                    
-                    let color = 'var(--error)';
-                    if (score > 50) color = 'var(--warning)';
-                    if (score > 80) color = 'var(--success)';
-                    circle.style.stroke = color;
-                    text.style.color = color;
+    async function boot() {
+        if (SESSION_ID) { await pollReport(); return; }
+        try {
+            const stored = localStorage.getItem('latest_seo_audit');
+            if (stored) {
+                const parsed = JSON.parse(stored);
+                reportData = {
+                    domain: parsed.domain || DOMAIN_P || 'your-site.com',
+                    status: 'ready',
+                    enriched: {
+                        executive_summary: '(Free scan preview — upgrade for expert AI analysis.)',
+                        overall_grade: parsed.score >= 80 ? 'B' : parsed.score >= 60 ? 'C' : 'D',
+                        findings: buildFindingsFromRaw(parsed),
+                        quick_wins: buildQuickWins(parsed),
+                        roadmap: defaultRoadmap(),
+                        keyword_strategy: '',
+                        backlink_insight: '',
+                    },
+                    raw_audit: parsed,
                 };
-                setGauge('perfGauge', 'perfVal', (auditData.page_speed?.score || 0.85) * 100);
-                setGauge('searchGauge', 'searchVal', auditData.score || 0);
-            }, 400);
-
-            // Executive Summary
-            const assessment = document.getElementById('assessmentSummary');
-            if (auditData.improvements && auditData.improvements.length > 0) {
-                assessment.textContent = `"${auditData.improvements[0]} The site shows ${auditData.score < 70 ? 'significant' : 'minor'} technical issues that should be addressed to improve search visibility."`;
+                document.getElementById('sampleBanner').style.display = 'block';
+                document.getElementById('auditStatusTag').textContent = 'Free Preview';
+                renderReport(); return;
             }
+        } catch {}
+        showError('no_data');
+    }
 
-            // Issues
-            const inventory = document.getElementById('issueInventory');
-            inventory.innerHTML = '';
-            const issues = [];
-            if ((auditData.score || 0) < 80) issues.push({sev:'HIGH', title:'On-Page Optimization Gap', desc:'Core metadata (titles, descriptions) are underperforming. This directly impacts click-through rates from search results.'});
-            if ((auditData.page_speed?.score || 1) < 0.7) issues.push({sev:'MID', title:'Page Speed Below Threshold', desc:'Core Web Vitals indicate performance issues that hurt both rankings and user experience.'});
-            if (auditData.keyword_analysis?.missing_keywords?.length > 0) {
-                issues.push({sev:'HIGH', title:'Missing Target Keywords', desc:`Keywords [${auditData.keyword_analysis.missing_keywords.slice(0,3).join(', ')}] are absent from your page content.`});
-            }
-            if (!issues.length) issues.push({sev:'LOW', title:'No Critical Issues', desc:'Your site passed the basic structural checks. Consider a premium deep-dive for advanced optimization opportunities.'});
+    let pollAttempts = 0;
+    async function pollReport() {
+        pollAttempts++;
+        setLoadingMsg('Fetching your report' + (pollAttempts > 1 ? ' (' + (pollAttempts*5) + 's)' : '') + '...');
+        try {
+            const res  = await fetch('/api/seo/report?session_id=' + SESSION_ID + '&domain=' + encodeURIComponent(DOMAIN_P || ''), { headers: { 'Accept': 'application/json' } });
+            const json = await res.json();
+            if (res.ok && json.status === 'ready') { reportData = json; renderReport(); }
+            else if (res.status === 202 || json.status === 'processing') { if (pollAttempts < 24) setTimeout(pollReport, 5000); else showError('timeout'); }
+            else if (res.status === 402) { showError('unpaid'); }
+            else if (res.status === 404) { showError('not_found'); }
+            else { showError('unknown', json.message || json.error); }
+        } catch (e) { if (pollAttempts < 3) setTimeout(pollReport, 3000); else showError('network'); }
+    }
 
-            issues.forEach(issue => {
-                const cls = issue.sev === 'HIGH' ? 'badge-fail' : issue.sev === 'MID' ? 'badge-warn' : 'badge-info';
-                const div = document.createElement('div');
-                div.className = 'sev-row';
-                div.innerHTML = `
-                    <span class="badge ${cls}" style="text-align:center;">${issue.sev}</span>
-                    <div>
-                        <div style="font-weight:700; color:var(--text-primary); margin-bottom:4px;">${issue.title}</div>
-                        <div style="font-size:0.8rem; color:var(--text-tertiary); line-height:1.6;">${issue.desc}</div>
-                    </div>
-                    <span style="font-size:0.65rem; color:var(--text-disabled); text-transform:uppercase;">Action Required</span>
-                `;
-                inventory.appendChild(div);
-            });
+    function renderReport() {
+        const rich   = reportData.enriched || {};
+        const raw    = rich.raw_audit || reportData.raw_audit || {};
+        const domain = reportData.domain || DOMAIN_P || 'your-site.com';
+        const scores = raw.page_speed?.scores || {};
 
-            // Keywords
-            const kwTable = document.getElementById('keywordMatrix');
-            kwTable.innerHTML = '';
-            const addKw = (kw, vol, cpc, kd, status, statusCls) => {
-                const tr = document.createElement('tr');
-                tr.innerHTML = `
-                    <td style="font-weight:600; color:var(--text-primary);">${kw}</td>
-                    <td style="font-family:var(--font-mono);">${vol}</td>
-                    <td style="color:var(--success);">${cpc}</td>
-                    <td>${kd}</td>
-                    <td><span class="badge ${statusCls}">${status}</span></td>
-                `;
-                kwTable.appendChild(tr);
-            };
+        document.getElementById('targetDomain').textContent = 'SUBJECT: ' + domain.toUpperCase();
+        document.title = 'SEO Report | ' + domain + ' | 5 Cypress Automation';
+        if (document.getElementById('sampleBanner').style.display !== 'block') {
+            document.getElementById('auditStatusTag').textContent = reportData.admin ? 'Admin Report' : 'Premium Report';
+            document.getElementById('auditStatusTag').className = 'badge badge-pass';
+        }
+        if (reportData.paid_at) document.getElementById('reportDateTag').textContent = new Date(reportData.paid_at).toLocaleDateString('en-US', {month:'long',day:'numeric',year:'numeric'});
+        document.getElementById('reportRef').textContent = 'REF: 5CY-' + domain.replace(/\./g,'_').toUpperCase().slice(0,12) + '-' + Date.now().toString(36).toUpperCase();
 
-            if (auditData.keyword_analysis) {
-                Object.entries(auditData.keyword_analysis.primary_keywords || {}).forEach(([kw, count]) => {
-                    addKw(kw, count, '$79.42', '5/100', 'Found', 'badge-pass');
-                });
-                (auditData.keyword_analysis.missing_keywords || []).forEach(kw => {
-                    addKw(kw, '0', '$12.10', '--', 'Missing', 'badge-fail');
-                });
-            }
-            if (!kwTable.children.length) {
-                kwTable.innerHTML = '<tr><td colspan="5" style="text-align:center; padding:2rem; color:var(--text-tertiary);">No keyword data available. Run a scan with keywords selected.</td></tr>';
-            }
+        setTimeout(() => {
+            setGauge('perfGauge','perfVal', scores.performance||0);
+            setGauge('seoGauge','seoVal',   scores.seo||raw.score||0);
+            setGauge('a11yGauge','a11yVal', scores.accessibility||0);
+            setGauge('bpGauge','bpVal',     scores.bestPractices||0);
+        }, 300);
+
+        const grade = rich.overall_grade || 'C';
+        const gEl   = document.getElementById('gradeCircle');
+        gEl.textContent = grade; gEl.className = 'grade-badge grade-' + grade.replace(/[+-]/g,'');
+        document.getElementById('execSummary').textContent = rich.executive_summary || 'Analysis complete.';
+
+        renderQuickWins(rich.quick_wins || []);
+        allFindings = rich.findings || [];
+        renderFindings(allFindings);
+        renderVitals(raw.page_speed || {});
+
+        if (raw.keywords?.length) { document.getElementById('keywordsPanel').style.display=''; renderKeywords(raw.keywords, rich.keyword_strategy); }
+        if (raw.backlinks)         { document.getElementById('backlinksPanel').style.display=''; renderBacklinks(raw.backlinks, rich.backlink_insight); }
+        if (raw.competitors?.length) { document.getElementById('competitorsPanel').style.display=''; renderCompetitors(raw.competitors); }
+
+        renderRoadmap(rich.roadmap || defaultRoadmap());
+
+        const prompts = allFindings.filter(f => f.ai_prompt);
+        if (prompts.length) { document.getElementById('aiPromptsHub').style.display=''; renderAiPromptsHub(prompts); }
+
+        document.getElementById('reportLoading').style.display='none';
+        document.getElementById('reportBody').style.display='';
+    }
+
+    function renderQuickWins(wins) {
+        const el = document.getElementById('quickWinsList');
+        if (!wins.length) { el.innerHTML='<p style="color:var(--text-tertiary);text-align:center;font-size:0.875rem;">No quick wins data.</p>'; return; }
+        el.innerHTML = wins.map((w,i) => '<div class="quick-win"><div class="qw-num">'+(i+1)+'</div><div style="font-size:0.875rem;color:var(--text-secondary);line-height:1.6;">'+esc(w)+'</div></div>').join('');
+    }
+
+    function renderFindings(findings) {
+        const el = document.getElementById('findingsList');
+        if (!findings.length) { el.innerHTML='<div style="padding:2rem;text-align:center;color:var(--text-tertiary);">No issues found — great shape!</div>'; return; }
+        el.innerHTML = findings.map((f,idx) => {
+            const sc = f.status==='Pass'?'badge-pass':f.status==='Warning'?'badge-warn':'badge-fail';
+            const pc = (f.priority||'Medium').toLowerCase();
+            return '<details class="finding-card" data-priority="'+(f.priority||'Medium')+'">' +
+                '<summary class="finding-header">' +
+                '<span class="badge '+sc+'" style="min-width:54px;text-align:center;">'+esc(f.status||'Info')+'</span>' +
+                '<div style="flex:1;"><div style="font-weight:700;color:var(--text-primary);font-size:0.9rem;">'+esc(f.check||f.category||'Issue')+'</div>' +
+                '<div style="font-size:0.75rem;color:var(--text-tertiary);margin-top:2px;">'+esc(f.category||'')+(f.value?' — '+esc(String(f.value)):'')+'</div></div>' +
+                '<span class="badge badge-'+pc+'" style="white-space:nowrap;">'+esc(f.priority||'Medium')+'</span>' +
+                '<i class="ri-arrow-down-s-line finding-chevron" style="font-size:1.1rem;"></i>' +
+                '</summary>' +
+                '<div class="finding-body">' +
+                (f.expert_explanation?'<div style="font-size:0.875rem;color:var(--text-secondary);line-height:1.7;background:rgba(0,0,0,0.15);border-radius:8px;padding:1rem;">'+esc(f.expert_explanation)+'</div>':'') +
+                (f.fix_recommendation?'<div><div style="font-size:0.65rem;text-transform:uppercase;letter-spacing:0.1em;color:var(--text-tertiary);margin-bottom:6px;">Recommended Fix</div><div style="font-size:0.875rem;color:var(--success);line-height:1.65;">'+esc(f.fix_recommendation)+'</div></div>':'') +
+                (f.ai_prompt?'<div class="ai-prompt-box"><div class="ai-prompt-label"><i class="ri-robot-line"></i>AI Fix Prompt</div><div class="ai-prompt-text">'+esc(f.ai_prompt)+'</div><button class="copy-btn" onclick="copyPrompt(this,'+idx+','find')">Copy</button></div>':'') +
+                '</div></details>';
+        }).join('');
+    }
+
+    function filterFindings(p, btn) {
+        document.querySelectorAll('.flt-btn').forEach(b=>b.classList.remove('active'));
+        btn.classList.add('active');
+        renderFindings(p==='all'?allFindings:allFindings.filter(f=>(f.priority||'Medium')===p));
+    }
+
+    function renderVitals(ps) {
+        const m = ps.metrics || {};
+        const vitals = [
+            {lbl:'LCP', val:m.LCP||ps.vitals?.lcp||'N/A', good:2.5, bad:4},
+            {lbl:'TTFB',val:m.TTFB||ps.vitals?.ttfb||'N/A',good:0.8,bad:1.8},
+            {lbl:'CLS', val:m.CLS||ps.vitals?.cls||'N/A', good:0.1,bad:0.25},
+            {lbl:'FCP', val:m.FID||ps.vitals?.fcp||'N/A', good:1.8,bad:3},
+            {lbl:'TBT', val:m.TBT||ps.vitals?.tbt||'N/A', good:200,bad:600},
+            {lbl:'SI',  val:m.SI||ps.vitals?.si||'N/A',  good:3.4,bad:5.8},
+        ];
+        document.getElementById('vitalsGrid').innerHTML = vitals.map(v => {
+            const n = parseFloat(String(v.val));
+            const c = isNaN(n)?'var(--text-tertiary)':n<=v.good?'var(--success)':n<=v.bad?'var(--warning)':'var(--error)';
+            return '<div class="vital-card"><div class="vital-val" style="color:'+c+';">'+esc(String(v.val))+'</div><div class="vital-lbl">'+v.lbl+'</div></div>';
+        }).join('');
+        const opps = ps.opportunities||[];
+        if (opps.length) {
+            document.getElementById('speedOpportunities').style.display='';
+            document.getElementById('oppList').innerHTML = opps.slice(0,6).map(o =>
+                '<div class="opp-item"><div><div style="font-size:0.875rem;color:var(--text-secondary);font-weight:600;">'+esc(o.title||o.id||'Optimization')+'</div><div class="opp-bar"><div class="opp-bar-fill" style="width:'+Math.min(100,(o.score||0.5)*100)+'%;"></div></div></div><div style="font-size:0.75rem;color:var(--warning);font-family:var(--font-mono);white-space:nowrap;">'+esc(o.displayValue||o.savings||'')+'</div></div>'
+            ).join('');
+        }
+    }
+
+    function renderKeywords(kws, strategy) {
+        if (strategy) { const s=document.getElementById('kwInsightStrip'); s.textContent=strategy; s.style.display=''; }
+        const tbody = document.getElementById('keywordMatrix');
+        tbody.innerHTML = kws.slice(0,20).map(kw => {
+            const vol = kw.search_volume??kw.volume??'—';
+            const cpc = kw.cpc?'$'+parseFloat(kw.cpc).toFixed(2):'—';
+            const diff= kw.keyword_difficulty??kw.difficulty??'—';
+            const opp = diff!=='—'&&diff<40?'<span class="badge badge-pass">Opportunity</span>':diff>60?'<span class="badge badge-fail">Competitive</span>':'<span class="badge badge-warn">Moderate</span>';
+            return '<tr><td style="font-weight:600;color:var(--text-primary);">'+esc(String(kw.keyword||kw.kw||'—'))+'</td><td style="font-family:var(--font-mono);">'+(typeof vol==='number'?vol.toLocaleString():esc(String(vol)))+'</td><td style="color:var(--success);">'+esc(cpc)+'</td><td style="font-family:var(--font-mono);">'+esc(String(diff))+'</td><td>'+opp+'</td></tr>';
+        }).join('');
+        if (!tbody.children.length) tbody.innerHTML='<tr><td colspan="5" style="text-align:center;color:var(--text-tertiary);padding:2rem;">No keyword data available.</td></tr>';
+    }
+
+    function renderBacklinks(bl, insight) {
+        if (insight) { const s=document.getElementById('blInsightStrip'); s.textContent=insight; s.style.display=''; }
+        const items=[{lbl:'Total Backlinks',val:bl.total_count??bl.backlinks??'—'},{lbl:'Referring Domains',val:bl.referring_domains??bl.domains??'—'},{lbl:'Domain Rank',val:bl.rank??bl.domain_rank??'—'},{lbl:'Spam Score',val:bl.spam_score??'—'}];
+        document.getElementById('blStats').innerHTML = items.map(s=>'<div class="vital-card"><div class="vital-val" style="font-size:1.4rem;">'+(typeof s.val==='number'?s.val.toLocaleString():esc(String(s.val)))+'</div><div class="vital-lbl">'+esc(s.lbl)+'</div></div>').join('');
+    }
+
+    function renderCompetitors(comps) {
+        const tbody=document.getElementById('competitorTable');
+        if (!comps.length){tbody.innerHTML='<tr><td colspan="4" style="text-align:center;color:var(--text-tertiary);padding:1.5rem;">No competitor data.</td></tr>';return;}
+        tbody.innerHTML=comps.slice(0,8).map(c=>'<tr><td style="font-weight:600;color:var(--text-primary);">'+esc(String(c.domain||c.competitor||'—'))+'</td><td style="font-family:var(--font-mono);">'+esc(String(c.common_keywords||c.keywords||'—'))+'</td><td style="font-family:var(--font-mono);">'+esc(String(c.traffic_est||c.traffic||'—'))+'</td><td><span class="badge badge-info">'+esc(String(c.advantage||'Analyze'))+'</span></td></tr>').join('');
+    }
+
+    function renderRoadmap(rm) {
+        const phases=[1,2,3].map(n=>rm['phase'+n]||{label:'Phase '+n,focus:'TBD',tasks:[]});
+        document.getElementById('roadmapGrid').innerHTML=phases.map((p,i)=>'<div class="roadmap-phase"><div class="roadmap-num">'+(i+1)+'</div><div style="font-weight:700;color:var(--text-primary);margin:4px 0 2px;font-size:0.95rem;">'+esc(p.label||'Phase '+(i+1))+'</div><div style="font-size:0.75rem;color:var(--brand-primary);margin-bottom:12px;text-transform:uppercase;letter-spacing:0.08em;">'+esc(p.focus||'')+'</div><div>'+(p.tasks||[]).slice(0,6).map(t=>'<div class="roadmap-task">'+esc(t)+'</div>').join('')+'</div></div>').join('');
+    }
+
+    function renderAiPromptsHub(prompts) {
+        document.getElementById('aiPromptsList').innerHTML=prompts.map((f,i)=>'<div style="margin-bottom:1.5rem;"><div style="font-size:0.75rem;font-weight:700;color:var(--text-secondary);margin-bottom:6px;">'+esc(f.check||f.category||'Finding '+(i+1))+'</div><div class="ai-prompt-box"><div class="ai-prompt-label"><i class="ri-robot-line"></i>AI Fix Prompt</div><div class="ai-prompt-text">'+esc(f.ai_prompt)+'</div><button class="copy-btn" onclick="copyPrompt(this,'+i+',\'hub\')">Copy</button></div></div>').join('');
+    }
+
+    function setGauge(cId,vId,score) {
+        const c=document.getElementById(cId),t=document.getElementById(vId); if(!c||!t)return;
+        const s=Math.round(score),p=Math.round((s/100)*327);
+        c.style.strokeDasharray=p+' 327'; t.textContent=s;
+        const col=s>79?'var(--success)':s>49?'var(--warning)':'var(--error)';
+        c.style.stroke=col; t.style.color=col;
+    }
+
+    function copyPrompt(btn, idx, scope) {
+        const boxes = scope==='hub' ? document.querySelectorAll('#aiPromptsList .ai-prompt-text') : document.querySelectorAll('#findingsList .ai-prompt-text');
+        const text  = boxes[idx]?.textContent||'';
+        navigator.clipboard.writeText(text).then(()=>{btn.textContent='Copied!';btn.classList.add('copied');setTimeout(()=>{btn.textContent='Copy';btn.classList.remove('copied');},2000);}).catch(()=>{
+            const ta=document.createElement('textarea');ta.value=text;ta.style.cssText='position:fixed;opacity:0';document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);
+            btn.textContent='Copied!';btn.classList.add('copied');setTimeout(()=>{btn.textContent='Copy';btn.classList.remove('copied');},2000);
         });
+    }
+
+    function esc(s) { return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+    function setLoadingMsg(m) { const el=document.getElementById('loadingMsg'); if(el)el.textContent=m; }
+
+    function showError(type, extra) {
+        const msgs={no_data:{title:'No Report Data Found',body:'Run a scan from the SEO Console first.',cta:true},unpaid:{title:'Payment Required',body:'Complete payment to access your premium report.',cta:false},not_found:{title:'Report Not Found',body:'This link may have expired. Reports are available for 30 days.',cta:true},timeout:{title:'Report Still Generating',body:'Please refresh in 30 seconds.',cta:false},network:{title:'Connection Error',body:'Check your connection and try refreshing.',cta:true},unknown:{title:'Error Loading Report',body:extra||'Contact nick@5cypress.com for help.',cta:true}};
+        const m=msgs[type]||msgs.unknown;
+        document.getElementById('reportLoading').style.display='none';
+        document.getElementById('reportBody').style.display='';
+        document.querySelector('.report-container').innerHTML='<div style="text-align:center;padding:6rem 2rem;"><i class="ri-file-warning-line" style="font-size:3rem;color:var(--text-disabled);display:block;margin-bottom:1rem;"></i><h2 style="font-family:var(--font-heading);font-size:1.5rem;color:var(--text-primary);margin-bottom:0.5rem;">'+m.title+'</h2><p style="color:var(--text-tertiary);margin-bottom:2rem;max-width:400px;margin-left:auto;margin-right:auto;">'+m.body+'</p>'+(m.cta?'<a href="/seo-dashboard" style="padding:10px 24px;background:var(--brand-primary);color:var(--bg-void);border-radius:8px;text-decoration:none;font-weight:700;font-size:0.875rem;">Go to SEO Console</a>':'')+'</div>';
+    }
+
+    function buildFindingsFromRaw(raw) {
+        return (raw.full_report?.on_page||[]).filter(([,, status])=>status!=='Pass').slice(0,8).map(([check,val,status])=>({category:'On-Page',check,value:val,status,expert_explanation:'Your '+check+' needs attention: '+val+'.',priority:status==='Fail'?'High':'Medium',fix_recommendation:'Upgrade to premium for specific fix instructions.',ai_prompt:''}));
+    }
+    function buildQuickWins(raw) {
+        const wins=[];
+        if((raw.score||0)<80)wins.push('Optimize title tags and meta descriptions for your target keywords.');
+        if((raw.page_speed?.scores?.performance||100)<70)wins.push('Improve page load speed — enable compression and optimize images.');
+        wins.push('Add structured data (schema.org) to improve rich result eligibility.');
+        wins.push('Build 3–5 quality backlinks from industry publications this quarter.');
+        return wins;
+    }
+    function defaultRoadmap() {
+        return {phase1:{label:'Foundation',focus:'Technical fixes',tasks:['Fix critical on-page errors','Optimize Core Web Vitals','Submit updated sitemap']},phase2:{label:'Content & Authority',focus:'Growth',tasks:['Publish 4 keyword-targeted articles','Build 10 quality backlinks','Optimize internal linking']},phase3:{label:'Scale',focus:'Compound returns',tasks:['Launch programmatic SEO pages','Set up rank tracking','Monthly review cadence']}};
+    }
+
+    window.addEventListener('beforeprint', () => { document.querySelectorAll('details').forEach(d=>d.open=true); });
     </script>
 </body>
 </html>

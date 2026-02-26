@@ -103,7 +103,22 @@ export async function onRequest(context) {
     improvements: buildImprovements(onpage, pagespeed, blData),
   };
 
-  return new Response(JSON.stringify({ status: 'success', data }), {
+  // ── Save to KV (for premium report retrieval after Stripe payment) ──────────
+  let auditId = '';
+  if (env.SEO_AUDITS_KV) {
+    try {
+      auditId = `${domain}:${Date.now()}`;
+      await env.SEO_AUDITS_KV.put(
+        `audit:${auditId}`,
+        JSON.stringify({ data, url: href }),
+        { expirationTtl: 2592000 } // 30 days
+      );
+    } catch (e) {
+      console.warn('[analyze] KV write failed (non-fatal):', e.message);
+    }
+  }
+
+  return new Response(JSON.stringify({ status: 'success', data, audit_id: auditId }), {
     status: 200,
     headers: CORS,
   });
