@@ -166,6 +166,22 @@
     .rank-warn { color:#fbbf24; font-family:var(--font-mono); font-size:0.8rem; font-weight:700; }
     .rank-bad { color:#f87171; font-family:var(--font-mono); font-size:0.8rem; font-weight:700; }
 
+    /* Export buttons */
+    .export-btn { padding:9px 18px; border-radius:9px; border:1px solid var(--border-medium); background:rgba(255,255,255,0.03); color:var(--text-secondary); font-family:var(--font-mono); font-size:0.7rem; font-weight:600; letter-spacing:0.05em; cursor:pointer; display:inline-flex; align-items:center; gap:7px; transition:all 0.2s; }
+    .export-btn:hover { border-color:var(--brand-primary); color:var(--brand-primary); background:rgba(93,140,93,0.06); }
+    .export-btn.primary { background:rgba(93,140,93,0.1); border-color:rgba(93,140,93,0.3); color:var(--brand-primary); }
+    .export-btn.primary:hover { background:rgba(93,140,93,0.18); }
+    .export-btns { display:flex; gap:10px; }
+
+    /* Executive summary */
+    .exec-summary-box { background:rgba(93,140,93,0.05); border:1px solid rgba(93,140,93,0.2); border-radius:14px; padding:20px 24px; margin-bottom:20px; }
+    .exec-label { font-family:var(--font-mono); font-size:0.62rem; font-weight:700; text-transform:uppercase; letter-spacing:0.18em; color:var(--brand-primary); margin-bottom:10px; display:flex; align-items:center; gap:8px; }
+    .exec-summary-box p { color:var(--text-secondary); line-height:1.8; font-size:0.9rem; margin:0; }
+    .exec-metrics { display:grid; grid-template-columns:repeat(4,1fr); gap:10px; margin-top:16px; }
+    .exec-metric { text-align:center; padding:12px; background:rgba(255,255,255,0.02); border:1px solid var(--border-subtle); border-radius:10px; }
+    .exec-metric-val { font-family:var(--font-heading); font-size:1.3rem; font-weight:700; color:var(--text-primary); }
+    .exec-metric-lbl { font-family:var(--font-mono); font-size:0.62rem; text-transform:uppercase; letter-spacing:0.1em; color:var(--text-tertiary); margin-top:4px; }
+
     @media (max-width:900px) {
       .admin-layout { grid-template-columns:1fr; }
       .sidebar { position:relative; width:100%; height:auto; }
@@ -175,6 +191,14 @@
       .vitals-grid { grid-template-columns:repeat(2,1fr); }
       .gauge-grid { grid-template-columns:repeat(2,1fr); }
       .form-grid { grid-template-columns:1fr; }
+      .exec-metrics { grid-template-columns:repeat(2,1fr); }
+    }
+
+    @media print {
+      .sidebar, .top-bar, .audit-panel, .api-status-bar, .module-grid-wrapper,
+      #errBanner, .export-btns, .tabs-bar, .raw-panel, button { display:none !important; }
+      .main-content { margin-left:0 !important; }
+      .results-header { page-break-inside:avoid; }
     }
   </style>
 </head>
@@ -376,12 +400,19 @@
             </div>
             <div class="results-domain" id="resultDomain">domain.com</div>
           </div>
-          <div>
-            <div class="results-score-label">Overall Score</div>
-            <div class="results-score-num" id="overallScore">—</div>
+          <div style="display:flex;align-items:center;gap:20px;">
+            <div style="text-align:right;">
+              <div class="results-score-label">Overall Score</div>
+              <div class="results-score-num" id="overallScore">—</div>
+            </div>
+            <div class="export-btns">
+              <button class="export-btn" onclick="saveAsText()" title="Download full report as .txt"><i class="ri-file-text-line"></i> Save .txt</button>
+              <button class="export-btn primary" onclick="saveAsPdf()" title="Open print dialog for PDF export"><i class="ri-printer-line"></i> Save PDF</button>
+            </div>
           </div>
         </div>
 
+        <div id="execSummaryBox"></div>
         <div class="tabs-bar" id="tabsBar"></div>
         <div id="tabContent" style="min-height:300px;transition:opacity 0.15s;"></div>
 
@@ -595,6 +626,7 @@
     document.getElementById('resultTimestamp').textContent = new Date().toLocaleString();
     document.getElementById('sampleTag').style.display = isSample ? 'inline' : 'none';
     document.getElementById('rawPanel').textContent = JSON.stringify(state.rawJson, null, 2);
+    document.getElementById('execSummaryBox').innerHTML = renderExecSummary(data);
 
     const tabsBar = document.getElementById('tabsBar');
     tabsBar.innerHTML = '';
@@ -852,6 +884,134 @@
   function toggleRaw() {
     const p = document.getElementById('rawPanel');
     p.style.display = p.style.display === 'none' ? 'block' : 'none';
+  }
+
+  // ── Executive Summary Panel ─────────────────────────────────
+  function renderExecSummary(data) {
+    const recap = data.full_report?.recap || 'Audit complete. Review the tabs below for full findings.';
+    const improvements = data.improvements || [];
+    const score = data.score || '—';
+    const lcp = data.page_speed?.metrics?.LCP || '—';
+    const domains = data.backlinks?.referring_domains ?? '—';
+    const kwCount = (data.keywords || []).length || '—';
+    return `<div class="exec-summary-box">
+      <div class="exec-label"><i class="ri-sparkling-2-line"></i> Executive Summary</div>
+      <p>${recap}</p>
+      <div class="exec-metrics">
+        <div class="exec-metric"><div class="exec-metric-val" style="color:var(--brand-primary);">${score}</div><div class="exec-metric-lbl">SEO Score</div></div>
+        <div class="exec-metric"><div class="exec-metric-val">${lcp}</div><div class="exec-metric-lbl">LCP</div></div>
+        <div class="exec-metric"><div class="exec-metric-val">${domains}</div><div class="exec-metric-lbl">Referring Domains</div></div>
+        <div class="exec-metric"><div class="exec-metric-val">${kwCount}</div><div class="exec-metric-lbl">Keywords</div></div>
+      </div>
+      ${improvements.length ? `<div style="margin-top:16px;"><div style="font-family:var(--font-mono);font-size:0.62rem;font-weight:700;text-transform:uppercase;letter-spacing:0.15em;color:var(--text-tertiary);margin-bottom:10px;">Top Fixes</div><div style="display:flex;flex-direction:column;gap:6px;">${improvements.slice(0,3).map((imp,i)=>`<div style="display:flex;align-items:flex-start;gap:10px;font-size:0.85rem;color:var(--text-secondary);"><span style="font-family:var(--font-mono);font-size:0.65rem;color:var(--brand-primary);background:rgba(93,140,93,0.1);border-radius:5px;padding:1px 7px;flex-shrink:0;margin-top:2px;">${i+1}</span>${imp}</div>`).join('')}</div></div>` : ''}
+    </div>`;
+  }
+
+  // ── Export: Build plain text ────────────────────────────────
+  function buildExportText() {
+    const data = state.auditData || {};
+    const domain = data.domain || document.getElementById('resultDomain').textContent || 'Unknown';
+    const ts = new Date().toLocaleString();
+    const score = data.score || '—';
+    const recap = data.full_report?.recap || 'No summary available.';
+    const improvements = data.improvements || [];
+    const onPage = data.full_report?.on_page || [];
+    const technical = data.full_report?.technical || [];
+    const keywords = data.keywords || [];
+    const backlinks = data.backlinks || {};
+    const lcp = data.page_speed?.metrics?.LCP || '—';
+    const cls = data.page_speed?.metrics?.CLS || '—';
+    const ttfb = data.page_speed?.metrics?.TTFB || '—';
+    const sep  = '='.repeat(70);
+    const line = '-'.repeat(70);
+
+    const masterPrompt =
+`You are an expert SEO consultant. I just ran an SEO audit for ${domain} and got these results:
+
+OVERALL SCORE: ${score}/100
+SUMMARY: ${recap}
+
+TOP ISSUES:
+${improvements.map((imp, i) => `${i+1}. ${imp}`).join('\n')}
+
+ON-PAGE CHECKS:
+${onPage.map(r => `• ${r[0]}: ${r[1]} — ${r[2]}`).join('\n')}
+
+CORE WEB VITALS:
+• LCP: ${lcp} | CLS: ${cls} | TTFB: ${ttfb}
+
+BACKLINKS: ${backlinks.total || '—'} total | ${backlinks.referring_domains || '—'} referring domains | Domain Rank: ${backlinks.rank || '—'}
+
+TOP KEYWORDS:
+${keywords.slice(0, 10).map(k => `• ${k.keyword} — Vol: ${k.volume || '—'} | Rank: ${k.rank || 'Not ranked'}`).join('\n')}
+
+Please provide:
+1. A prioritized action plan (Critical / Important / Nice-to-Have)
+2. Step-by-step fixes for the top 3 issues
+3. Expected traffic impact for each fix
+4. A 90-day SEO roadmap with concrete milestones
+5. Quick wins achievable in under 1 hour without a developer`;
+
+    let txt = `${sep}\n5 CYPRESS AUTOMATION — SEO AUDIT REPORT\nGenerated: ${ts}\n${sep}\n\nDOMAIN:  ${domain}\nSCORE:   ${score}/100\n\n${line}\nEXECUTIVE SUMMARY\n${line}\n${recap}\n\n${line}\nKEY METRICS\n${line}\nLargest Contentful Paint (LCP): ${lcp}\nCumulative Layout Shift (CLS):  ${cls}\nTime to First Byte (TTFB):      ${ttfb}\nTotal Backlinks:                 ${backlinks.total || '—'}\nReferring Domains:               ${backlinks.referring_domains || '—'}\nDomain Rank:                     ${backlinks.rank || '—'}\nKeywords Analyzed:               ${keywords.length}\n`;
+
+    if (improvements.length) {
+      txt += `\n${line}\nRECOMMENDED FIXES (Priority Order)\n${line}\n`;
+      improvements.forEach((imp, i) => { txt += `${i+1}. ${imp}\n`; });
+    }
+    if (onPage.length) {
+      txt += `\n${line}\nON-PAGE SEO CHECKS\n${line}\n`;
+      onPage.forEach(r => { txt += `• ${r[0]}: ${r[1]} — ${r[2]}\n`; });
+    }
+    if (technical.length) {
+      txt += `\n${line}\nTECHNICAL HEALTH\n${line}\n`;
+      technical.forEach(t => { txt += `• ${t[0]}: ${t[1]}\n`; });
+    }
+    if (keywords.length) {
+      txt += `\n${line}\nKEYWORD ANALYSIS (Top ${Math.min(keywords.length,20)})\n${line}\n`;
+      txt += `${'Keyword'.padEnd(45)} ${'Volume'.padEnd(12)} Rank\n${'─'.repeat(70)}\n`;
+      keywords.slice(0,20).forEach(k => {
+        txt += `${(k.keyword||'').padEnd(45)} ${(String(k.volume||'—')).padEnd(12)} ${k.rank||'Not ranked'}\n`;
+      });
+    }
+    txt += `\n${sep}\nMASTER AI PROMPT — COPY & PASTE INTO CHATGPT OR CLAUDE\n${sep}\n\n${masterPrompt}\n\n${sep}\nReport by 5 Cypress Automation — www.5cypress.com\n${sep}`;
+    return txt;
+  }
+
+  // ── Export: Save as .txt ────────────────────────────────────
+  function saveAsText() {
+    if (!state.auditData) { alert('Run an audit first.'); return; }
+    const txt = buildExportText();
+    const domain = (state.auditData.domain || 'seo-report').replace(/[^a-z0-9.-]/gi,'_');
+    const dateStr = new Date().toISOString().slice(0,10);
+    const blob = new Blob([txt], { type:'text/plain;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url; a.download = `seo-audit-${domain}-${dateStr}.txt`;
+    document.body.appendChild(a); a.click();
+    document.body.removeChild(a); URL.revokeObjectURL(url);
+  }
+
+  // ── Export: Save as PDF ─────────────────────────────────────
+  function saveAsPdf() {
+    if (!state.auditData) { alert('Run an audit first.'); return; }
+    const data = state.auditData;
+    const domain = data.domain || document.getElementById('resultDomain').textContent || 'Unknown';
+    const score = data.score || '—';
+    const ts = new Date().toLocaleString();
+    const txt = buildExportText();
+    const htmlLines = txt.split('\n').map(l => {
+      if (/^[=]{10,}/.test(l)) return `<hr style="border:none;border-top:2px solid #2d5a2d;margin:12px 0;">`;
+      if (/^[-]{10,}/.test(l)) return `<hr style="border:none;border-top:1px solid #ccc;margin:8px 0;">`;
+      if (/^[A-Z \-—]{6,}$/.test(l.trim()) && l.trim().length>0 && !/^\d/.test(l)) return `<h3 style="font-size:10pt;font-weight:700;margin:14px 0 4px;">${l}</h3>`;
+      if (l.startsWith('•') || l.startsWith('-')) return `<p style="margin:3px 0 3px 16px;font-size:9pt;">${l}</p>`;
+      if (/^\d+\./.test(l)) return `<p style="margin:4px 0 4px 16px;font-size:9pt;">${l}</p>`;
+      if (l.trim()==='') return '<br>';
+      return `<p style="margin:2px 0;font-size:9pt;">${l}</p>`;
+    }).join('');
+    const win = window.open('','_blank');
+    win.document.write(`<!DOCTYPE html><html><head><meta charset="utf-8"><title>SEO Audit — ${domain}</title><style>body{font-family:'Courier New',monospace;margin:32px 40px;color:#1a1a1a;font-size:9.5pt;line-height:1.55;}h1{font-family:sans-serif;font-size:16pt;font-weight:700;color:#2d5a2d;margin-bottom:4px;}.meta{font-size:8.5pt;color:#555;margin-bottom:18px;border-bottom:1px solid #ccc;padding-bottom:12px;}@media print{body{margin:12px 20px;}}</style></head><body><h1>SEO Audit Report — ${domain}</h1><div class="meta">Score: <strong>${score}/100</strong> &nbsp;|&nbsp; ${ts} &nbsp;|&nbsp; 5 Cypress Automation &mdash; www.5cypress.com</div>${htmlLines}</body></html>`);
+    win.document.close();
+    setTimeout(() => { win.focus(); win.print(); }, 600);
   }
 </script>
 </body>
