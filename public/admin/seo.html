@@ -768,36 +768,107 @@
 
   function renderKeywords(data) {
     const kws = data.keywords || [];
-    if (!kws.length) return noDataMsg('Keyword Analysis', 'keywords');
-    return `<div class="section-label" style="margin-top:0;">Keyword Opportunities</div>
-      <table class="data-table"><thead><tr><th>Keyword</th><th>Volume</th><th>Rank</th><th>Opportunity</th></tr></thead><tbody>
-      ${kws.map(k=>{
-        const r=k.rank?parseInt(String(k.rank).replace('#','')):99;
-        const cls=r<=10?'rank-good':r<=30?'rank-warn':'rank-bad';
-        const opp=r<=10?'✅ Ranking':r<=30?'⚡ Quick Win':'🔥 High Opp';
-        return `<tr><td style="font-weight:600;color:var(--text-primary);">${k.keyword}</td><td style="font-family:var(--font-mono);font-size:0.8rem;">${k.volume||'—'}/mo</td><td><span class="${cls}">${k.rank||'Not ranked'}</span></td><td>${opp}</td></tr>`;
-      }).join('')}
-      </tbody></table>
-      <p style="font-size:0.78rem;color:var(--text-tertiary);margin-top:12px;"><i class="ri-lightbulb-line" style="color:var(--brand-accent);"></i> Terms ranked #11–30 are quick-win targets.</p>`;
+    const suggestions = data.keyword_suggestions || [];
+    const overview = data.domain_overview;
+
+    let html = '';
+
+    // Domain Overview traffic strip
+    if (overview) {
+      const traffic = (overview.traffic || 0).toLocaleString();
+      const total   = (overview.keywords_count || 0).toLocaleString();
+      const pos1_3  = (overview.pos_1_3 || 0).toLocaleString();
+      const pos4_10 = (overview.pos_4_10 || 0).toLocaleString();
+      html += `<div class="section-label" style="margin-top:0;">Organic Visibility Overview</div>
+        <div class="gauge-grid" style="margin-bottom:20px;">
+          <div class="metric-box"><div class="metric-val" style="color:var(--brand-primary);">${total}</div><div class="metric-lbl">Keywords Ranked</div></div>
+          <div class="metric-box"><div class="metric-val">${traffic}</div><div class="metric-lbl">Est. Monthly Traffic</div></div>
+          <div class="metric-box"><div class="metric-val" style="color:#4ade80;">${pos1_3}</div><div class="metric-lbl">Top 3 Positions</div></div>
+          <div class="metric-box"><div class="metric-val" style="color:#fbbf24;">${pos4_10}</div><div class="metric-lbl">Positions 4–10</div></div>
+        </div>`;
+    }
+
+    // Ranked keywords table
+    if (kws.length) {
+      html += `<div class="section-label">Keywords This Site Ranks For</div>
+        <table class="data-table"><thead><tr><th>Keyword</th><th>Volume</th><th>Rank</th><th>KD</th><th>Opportunity</th></tr></thead><tbody>
+        ${kws.map(k => {
+          const r = k.rank ? parseInt(String(k.rank).replace('#','')) : 99;
+          const cls = r <= 10 ? 'rank-good' : r <= 30 ? 'rank-warn' : 'rank-bad';
+          const opp = r <= 3 ? '🥇 Top 3' : r <= 10 ? '✅ Ranking' : r <= 30 ? '⚡ Quick Win' : '🔥 High Opp';
+          const diff = k.difficulty != null ? k.difficulty : '—';
+          return `<tr><td style="font-weight:600;color:var(--text-primary);">${k.keyword}</td><td style="font-family:var(--font-mono);font-size:0.8rem;">${k.volume || '—'}/mo</td><td><span class="${cls}">${k.rank || 'Not ranked'}</span></td><td style="font-family:var(--font-mono);font-size:0.8rem;">${diff}</td><td>${opp}</td></tr>`;
+        }).join('')}
+        </tbody></table>
+        <p style="font-size:0.78rem;color:var(--text-tertiary);margin-top:12px;"><i class="ri-lightbulb-line" style="color:var(--brand-accent);"></i> Terms ranked #11–30 are quick-win targets — page 1 is one optimization away.</p>`;
+    }
+
+    // Keyword suggestions (keywords_for_site)
+    if (suggestions.length) {
+      html += `<div class="section-label" style="margin-top:20px;">Keyword Opportunities for This Domain</div>
+        <table class="data-table"><thead><tr><th>Keyword</th><th>Volume</th><th>Difficulty</th><th>CPC</th></tr></thead><tbody>
+        ${suggestions.map(k => {
+          const diff = k.difficulty != null ? k.difficulty : '—';
+          const diffColor = k.difficulty > 70 ? '#f87171' : k.difficulty > 40 ? '#fbbf24' : '#4ade80';
+          return `<tr><td style="font-weight:600;color:var(--text-primary);">${k.keyword}</td><td style="font-family:var(--font-mono);font-size:0.8rem;">${k.volume || '—'}/mo</td><td style="font-family:var(--font-mono);font-size:0.8rem;color:${diffColor};">${diff}</td><td style="font-family:var(--font-mono);font-size:0.8rem;">${k.cpc ? '$' + Number(k.cpc).toFixed(2) : '—'}</td></tr>`;
+        }).join('')}
+        </tbody></table>
+        <p style="font-size:0.78rem;color:var(--text-tertiary);margin-top:12px;"><i class="ri-target-line" style="color:var(--brand-accent);"></i> Keyword Difficulty (KD) under 40 = easiest to rank for organically.</p>`;
+    }
+
+    if (!html) return noDataMsg('Keyword Analysis', 'keywords');
+    return html;
   }
 
   function renderBacklinks(data) {
     const bl = data.backlinks || {};
-    const total = bl.total || bl.backlinks_count || 0;
-    const domains = bl.referring_domains || bl.referring_domains_count || 0;
-    const rank = bl.rank || bl.domain_rank || 0;
-    const health = rank>40?'#4ade80':rank>20?'#fbbf24':'#f87171';
-    const reco = rank>40?'Strong authority — focus on niche-relevant high-DR links.':rank>20?'Moderate authority — prioritize 3–5 guest posts on industry publications.':'Low authority — start with press releases, directory submissions, and partner links.';
-    return `<div class="section-label" style="margin-top:0;">Backlink Profile</div>
+    const total   = bl.total   || 0;
+    const domains = bl.referring_domains || 0;
+    const rank    = bl.rank    || 0;
+    const spam    = bl.spam_score || 0;
+    const newBL   = bl.new_backlinks  || 0;
+    const lostBL  = bl.lost_backlinks || 0;
+    const health  = rank > 40 ? '#4ade80' : rank > 20 ? '#fbbf24' : '#f87171';
+    const spamColor = spam > 50 ? '#f87171' : spam > 25 ? '#fbbf24' : '#4ade80';
+    const reco = rank > 40 ? 'Strong authority — focus on niche-relevant high-DR links.'
+               : rank > 20 ? 'Moderate authority — prioritize 3–5 guest posts on industry publications.'
+               : 'Low authority — start with press releases, directory submissions, and partner links.';
+
+    const refDomains = data.referring_domains_list || [];
+    const anchors    = data.anchor_text || [];
+
+    let html = `<div class="section-label" style="margin-top:0;">Backlink Profile</div>
       <div class="gauge-grid" style="margin-bottom:20px;">
         <div class="metric-box"><div class="metric-val" style="color:var(--brand-primary);">${total.toLocaleString()}</div><div class="metric-lbl">Total Backlinks</div></div>
         <div class="metric-box"><div class="metric-val">${domains.toLocaleString()}</div><div class="metric-lbl">Referring Domains</div></div>
         <div class="metric-box"><div class="metric-val" style="color:${health};">${rank}</div><div class="metric-lbl">Domain Rank</div></div>
-        <div class="metric-box"><div class="metric-val">${domains>0?(total/domains).toFixed(1):'—'}</div><div class="metric-lbl">Links / Domain</div></div>
+        <div class="metric-box"><div class="metric-val" style="color:${spamColor};">${spam}</div><div class="metric-lbl">Spam Score</div></div>
       </div>
-      <div style="padding:14px 18px;background:rgba(93,140,93,0.05);border:1px solid rgba(93,140,93,0.2);border-radius:12px;font-size:0.875rem;">
+      <div class="gauge-grid" style="margin-bottom:20px;">
+        <div class="metric-box"><div class="metric-val" style="color:#4ade80;">+${newBL.toLocaleString()}</div><div class="metric-lbl">New Backlinks (30d)</div></div>
+        <div class="metric-box"><div class="metric-val" style="color:#f87171;">${lostBL>0?'-':''}${lostBL.toLocaleString()}</div><div class="metric-lbl">Lost Backlinks (30d)</div></div>
+        <div class="metric-box"><div class="metric-val">${domains > 0 ? (total / domains).toFixed(1) : '—'}</div><div class="metric-lbl">Links / Domain</div></div>
+      </div>
+      <div style="padding:14px 18px;background:rgba(93,140,93,0.05);border:1px solid rgba(93,140,93,0.2);border-radius:12px;font-size:0.875rem;margin-bottom:20px;">
         <strong style="color:var(--brand-primary);">Interpretation: </strong><span style="color:var(--text-secondary);">${reco}</span>
       </div>`;
+
+    if (refDomains.length) {
+      html += `<div class="section-label">Top Referring Domains</div>
+        <table class="data-table"><thead><tr><th>Domain</th><th>Domain Rank</th><th>Backlinks</th><th>First Seen</th></tr></thead><tbody>
+        ${refDomains.map(d => `<tr><td style="font-weight:600;color:var(--text-primary);">${d.domain}</td><td style="font-family:var(--font-mono);font-size:0.8rem;">${d.rank}</td><td style="font-family:var(--font-mono);font-size:0.8rem;">${d.backlinks.toLocaleString()}</td><td style="font-family:var(--font-mono);font-size:0.75rem;color:var(--text-tertiary);">${d.first_seen || '—'}</td></tr>`).join('')}
+        </tbody></table>`;
+    }
+
+    if (anchors.length) {
+      html += `<div class="section-label" style="margin-top:20px;">Anchor Text Profile</div>
+        <table class="data-table"><thead><tr><th>Anchor Text</th><th>Backlinks</th><th>Referring Domains</th></tr></thead><tbody>
+        ${anchors.map(a => `<tr><td style="font-family:var(--font-mono);font-size:0.8rem;">${a.anchor}</td><td style="font-family:var(--font-mono);font-size:0.8rem;">${a.backlinks.toLocaleString()}</td><td style="font-family:var(--font-mono);font-size:0.8rem;">${a.referring_domains.toLocaleString()}</td></tr>`).join('')}
+        </tbody></table>
+        <p style="font-size:0.78rem;color:var(--text-tertiary);margin-top:12px;"><i class="ri-links-line" style="color:var(--brand-accent);"></i> Over-optimized anchor text (exact-match keywords >60%) can trigger Google penalties.</p>`;
+    }
+
+    return html || `<div style="padding:14px;color:var(--text-tertiary);">No backlink data returned for this domain yet.</div>`;
   }
 
   function renderSERP(data) {
@@ -815,13 +886,23 @@
   }
 
   function renderCompetitor(data) {
-    const comps = state.competitorData;
-    if (!comps.length) return `<div style="text-align:center;padding:3rem;color:var(--text-tertiary);"><i class="ri-radar-line" style="font-size:2.5rem;display:block;margin-bottom:1rem;opacity:0.35;"></i><p>No competitor URLs provided. Add them in the form above and re-run.</p></div>`;
-    return `<div class="section-label" style="margin-top:0;">Competitive Intelligence</div>
-      <div class="banner info"><i class="ri-information-line"></i><div>Competitors analyzed: <strong>${comps.join(', ')}</strong>. Full head-to-head breakdown requires DataForSEO.</div></div>
-      ${(data.competitor_data||[]).length ? `<table class="data-table"><thead><tr><th>Domain</th><th>Domain Rank</th><th>Backlinks</th><th>Keywords</th></tr></thead><tbody>
-        ${(data.competitor_data||[]).map(c=>`<tr><td style="font-weight:600;">${c.domain||'—'}</td><td style="font-family:var(--font-mono);">${c.domain_rank||'—'}</td><td style="font-family:var(--font-mono);">${(c.backlinks||0).toLocaleString()}</td><td style="font-family:var(--font-mono);">${(c.keywords||0).toLocaleString()}</td></tr>`).join('')}
-      </tbody></table>` : '<p style="color:var(--text-tertiary);font-size:0.875rem;margin-top:12px;">No competitor data returned — check DataForSEO credentials.</p>'}`;
+    const comps = data.competitors || [];
+    if (!comps.length) return `<div style="text-align:center;padding:3rem;color:var(--text-tertiary);"><i class="ri-radar-line" style="font-size:2.5rem;display:block;margin-bottom:1rem;opacity:0.35;"></i><p>No competitor data returned. Ensure DataForSEO credentials are set and the domain has organic visibility.</p></div>`;
+    return `<div class="section-label" style="margin-top:0;">Organic Competitors</div>
+      <table class="data-table"><thead><tr><th>Competitor Domain</th><th>Relevance</th><th>Shared Keywords</th><th>Their Keywords</th><th>Est. Traffic</th></tr></thead><tbody>
+      ${comps.map(c => {
+        const relColor = c.relevance > 70 ? '#f87171' : c.relevance > 40 ? '#fbbf24' : '#4ade80';
+        return `<tr>
+          <td style="font-weight:600;color:var(--text-primary);">${c.domain}</td>
+          <td style="font-family:var(--font-mono);font-size:0.8rem;color:${relColor};">${c.relevance}%</td>
+          <td style="font-family:var(--font-mono);font-size:0.8rem;">${c.sharedKeywords.toLocaleString()}</td>
+          <td style="font-family:var(--font-mono);font-size:0.8rem;">${c.organicKeywords.toLocaleString()}</td>
+          <td style="font-family:var(--font-mono);font-size:0.8rem;">${c.organicTraffic ? c.organicTraffic.toLocaleString() : '—'}</td>
+        </tr>`;
+      }).join('')}
+      </tbody></table>
+      <p style="font-size:0.78rem;color:var(--text-tertiary);margin-top:12px;"><i class="ri-bar-chart-line" style="color:var(--brand-accent);"></i> These domains compete for the same organic search terms. Analyze their top-performing pages for content gaps.</p>`;
+  }
   }
 
   function noDataMsg(label, module) {
@@ -892,16 +973,19 @@
     const improvements = data.improvements || [];
     const score = data.score || '—';
     const lcp = data.page_speed?.metrics?.LCP || '—';
+    const ov = data.domain_overview;
     const domains = data.backlinks?.referring_domains ?? '—';
-    const kwCount = (data.keywords || []).length || '—';
+    const kwCount  = ov ? (ov.keywords_count || 0).toLocaleString() : ((data.keywords || []).length || '—');
+    const traffic  = ov && ov.traffic > 0 ? ov.traffic.toLocaleString() : null;
     return `<div class="exec-summary-box">
       <div class="exec-label"><i class="ri-sparkling-2-line"></i> Executive Summary</div>
       <p>${recap}</p>
       <div class="exec-metrics">
         <div class="exec-metric"><div class="exec-metric-val" style="color:var(--brand-primary);">${score}</div><div class="exec-metric-lbl">SEO Score</div></div>
         <div class="exec-metric"><div class="exec-metric-val">${lcp}</div><div class="exec-metric-lbl">LCP</div></div>
-        <div class="exec-metric"><div class="exec-metric-val">${domains}</div><div class="exec-metric-lbl">Referring Domains</div></div>
-        <div class="exec-metric"><div class="exec-metric-val">${kwCount}</div><div class="exec-metric-lbl">Keywords</div></div>
+        <div class="exec-metric"><div class="exec-metric-val">${typeof domains === 'number' ? domains.toLocaleString() : domains}</div><div class="exec-metric-lbl">Referring Domains</div></div>
+        <div class="exec-metric"><div class="exec-metric-val">${kwCount}</div><div class="exec-metric-lbl">Keywords Ranked</div></div>
+        ${traffic ? `<div class="exec-metric" style="grid-column:1/-1;"><div class="exec-metric-val" style="color:var(--brand-accent);">${traffic}</div><div class="exec-metric-lbl">Est. Monthly Organic Traffic</div></div>` : ''}
       </div>
       ${improvements.length ? `<div style="margin-top:16px;"><div style="font-family:var(--font-mono);font-size:0.62rem;font-weight:700;text-transform:uppercase;letter-spacing:0.15em;color:var(--text-tertiary);margin-bottom:10px;">Top Fixes</div><div style="display:flex;flex-direction:column;gap:6px;">${improvements.slice(0,3).map((imp,i)=>`<div style="display:flex;align-items:flex-start;gap:10px;font-size:0.85rem;color:var(--text-secondary);"><span style="font-family:var(--font-mono);font-size:0.65rem;color:var(--brand-primary);background:rgba(93,140,93,0.1);border-radius:5px;padding:1px 7px;flex-shrink:0;margin-top:2px;">${i+1}</span>${imp}</div>`).join('')}</div></div>` : ''}
     </div>`;
@@ -918,7 +1002,12 @@
     const onPage = data.full_report?.on_page || [];
     const technical = data.full_report?.technical || [];
     const keywords = data.keywords || [];
+    const suggestions = data.keyword_suggestions || [];
     const backlinks = data.backlinks || {};
+    const refDomains = data.referring_domains_list || [];
+    const anchors = data.anchor_text || [];
+    const competitors = data.competitors || [];
+    const ov = data.domain_overview;
     const lcp = data.page_speed?.metrics?.LCP || '—';
     const cls = data.page_speed?.metrics?.CLS || '—';
     const ttfb = data.page_speed?.metrics?.TTFB || '—';
@@ -942,17 +1031,26 @@ CORE WEB VITALS:
 
 BACKLINKS: ${backlinks.total || '—'} total | ${backlinks.referring_domains || '—'} referring domains | Domain Rank: ${backlinks.rank || '—'}
 
-TOP KEYWORDS:
+ORGANIC KEYWORD VISIBILITY: ${ov ? `${(ov.keywords_count||0).toLocaleString()} keywords | Est. ${(ov.traffic||0).toLocaleString()} monthly visits | Top 3 positions: ${ov.pos_1_3||0}` : 'Not available'}
+
+TOP RANKED KEYWORDS:
 ${keywords.slice(0, 10).map(k => `• ${k.keyword} — Vol: ${k.volume || '—'} | Rank: ${k.rank || 'Not ranked'}`).join('\n')}
+
+TOP COMPETITORS:
+${competitors.slice(0, 5).map(c => `• ${c.domain} — Shared keywords: ${c.sharedKeywords} | Their total keywords: ${c.organicKeywords}`).join('\n')}
 
 Please provide:
 1. A prioritized action plan (Critical / Important / Nice-to-Have)
 2. Step-by-step fixes for the top 3 issues
 3. Expected traffic impact for each fix
 4. A 90-day SEO roadmap with concrete milestones
-5. Quick wins achievable in under 1 hour without a developer`;
+5. Quick wins achievable in under 1 hour without a developer
+6. 3 content ideas targeting the keyword opportunities identified above`;
 
-    let txt = `${sep}\n5 CYPRESS AUTOMATION — SEO AUDIT REPORT\nGenerated: ${ts}\n${sep}\n\nDOMAIN:  ${domain}\nSCORE:   ${score}/100\n\n${line}\nEXECUTIVE SUMMARY\n${line}\n${recap}\n\n${line}\nKEY METRICS\n${line}\nLargest Contentful Paint (LCP): ${lcp}\nCumulative Layout Shift (CLS):  ${cls}\nTime to First Byte (TTFB):      ${ttfb}\nTotal Backlinks:                 ${backlinks.total || '—'}\nReferring Domains:               ${backlinks.referring_domains || '—'}\nDomain Rank:                     ${backlinks.rank || '—'}\nKeywords Analyzed:               ${keywords.length}\n`;
+    let txt = `${sep}\n5 CYPRESS AUTOMATION — SEO AUDIT REPORT\nGenerated: ${ts}\n${sep}\n\nDOMAIN:  ${domain}\nSCORE:   ${score}/100\n\n${line}\nEXECUTIVE SUMMARY\n${line}\n${recap}\n\n${line}\nKEY METRICS\n${line}\nLargest Contentful Paint (LCP): ${lcp}\nCumulative Layout Shift (CLS):  ${cls}\nTime to First Byte (TTFB):      ${ttfb}\nTotal Backlinks:                 ${backlinks.total || '—'}\nReferring Domains:               ${backlinks.referring_domains || '—'}\nDomain Rank:                     ${backlinks.rank || '—'}\nSpam Score:                      ${backlinks.spam_score ?? '—'}\n`;
+    if (ov) {
+      txt += `Keywords Ranked:                 ${(ov.keywords_count||0).toLocaleString()}\nEst. Monthly Organic Traffic:    ${(ov.traffic||0).toLocaleString()}\nTop 3 Positions:                 ${ov.pos_1_3||0}\nPositions 4-10:                  ${ov.pos_4_10||0}\n`;
+    }
 
     if (improvements.length) {
       txt += `\n${line}\nRECOMMENDED FIXES (Priority Order)\n${line}\n`;
@@ -967,10 +1065,38 @@ Please provide:
       technical.forEach(t => { txt += `• ${t[0]}: ${t[1]}\n`; });
     }
     if (keywords.length) {
-      txt += `\n${line}\nKEYWORD ANALYSIS (Top ${Math.min(keywords.length,20)})\n${line}\n`;
-      txt += `${'Keyword'.padEnd(45)} ${'Volume'.padEnd(12)} Rank\n${'─'.repeat(70)}\n`;
+      txt += `\n${line}\nRANKED KEYWORDS (Top ${Math.min(keywords.length,20)})\n${line}\n`;
+      txt += `${'Keyword'.padEnd(45)} ${'Volume'.padEnd(12)} ${'Rank'.padEnd(12)} KD\n${'─'.repeat(70)}\n`;
       keywords.slice(0,20).forEach(k => {
-        txt += `${(k.keyword||'').padEnd(45)} ${(String(k.volume||'—')).padEnd(12)} ${k.rank||'Not ranked'}\n`;
+        txt += `${(k.keyword||'').padEnd(45)} ${(String(k.volume||'—')).padEnd(12)} ${(String(k.rank||'Not ranked')).padEnd(12)} ${k.difficulty??'—'}\n`;
+      });
+    }
+    if (suggestions.length) {
+      txt += `\n${line}\nKEYWORD OPPORTUNITIES\n${line}\n`;
+      txt += `${'Keyword'.padEnd(45)} ${'Volume'.padEnd(12)} KD\n${'─'.repeat(70)}\n`;
+      suggestions.slice(0,20).forEach(k => {
+        txt += `${(k.keyword||'').padEnd(45)} ${(String(k.volume||'—')).padEnd(12)} ${k.difficulty??'—'}\n`;
+      });
+    }
+    if (refDomains.length) {
+      txt += `\n${line}\nTOP REFERRING DOMAINS\n${line}\n`;
+      txt += `${'Domain'.padEnd(40)} ${'DR'.padEnd(8)} Backlinks\n${'─'.repeat(60)}\n`;
+      refDomains.forEach(d => {
+        txt += `${(d.domain||'').padEnd(40)} ${(String(d.rank||'—')).padEnd(8)} ${d.backlinks||0}\n`;
+      });
+    }
+    if (anchors.length) {
+      txt += `\n${line}\nANCHOR TEXT PROFILE\n${line}\n`;
+      txt += `${'Anchor'.padEnd(40)} ${'Backlinks'.padEnd(12)} Referring Domains\n${'─'.repeat(65)}\n`;
+      anchors.forEach(a => {
+        txt += `${(a.anchor||'').padEnd(40)} ${(String(a.backlinks||0)).padEnd(12)} ${a.referring_domains||0}\n`;
+      });
+    }
+    if (competitors.length) {
+      txt += `\n${line}\nCOMPETITOR ANALYSIS\n${line}\n`;
+      txt += `${'Domain'.padEnd(35)} ${'Relevance'.padEnd(12)} ${'Shared KWs'.padEnd(14)} Their KWs\n${'─'.repeat(70)}\n`;
+      competitors.forEach(c => {
+        txt += `${(c.domain||'').padEnd(35)} ${(String(c.relevance||0)+'%').padEnd(12)} ${(String(c.sharedKeywords||0)).padEnd(14)} ${c.organicKeywords||0}\n`;
       });
     }
     txt += `\n${sep}\nMASTER AI PROMPT — COPY & PASTE INTO CHATGPT OR CLAUDE\n${sep}\n\n${masterPrompt}\n\n${sep}\nReport by 5 Cypress Automation — www.5cypress.com\n${sep}`;

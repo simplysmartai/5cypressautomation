@@ -60,13 +60,17 @@ export async function onRequest(context) {
   const href = targetUrl.href;
 
   // Run modules in parallel — failures are caught per-module, never fatal
-  const [pagespeed, onpage, kwData, blData, compData, serpData] = await Promise.all([
+  const [pagespeed, onpage, kwData, blData, compData, serpData, domainOverview, refDomains, anchors, kwSuggestions] = await Promise.all([
     safeRun(() => runPageSpeed(href, env)),
     safeRun(() => runOnPage(href, env)),
     isPremium ? safeRun(() => runKeywords(domain, keywords, env)) : null,
     isPremium ? safeRun(() => runBacklinks(domain, env)) : null,
     isPremium ? safeRun(() => runCompetitors(domain, env)) : null,
     isPremium ? safeRun(() => runRankings(domain, keywords, env)) : null,
+    isPremium ? safeRun(() => runDomainOverview(domain, env)) : null,
+    isPremium ? safeRun(() => runReferringDomains(domain, env)) : null,
+    isPremium ? safeRun(() => runAnchorText(domain, env)) : null,
+    isPremium ? safeRun(() => runKeywordSuggestions(domain, env)) : null,
   ]);
 
   // Build data in the shape seo-dashboard.html and admin/seo.html both expect
@@ -80,7 +84,7 @@ export async function onRequest(context) {
     domain,
     is_sample: false,
     full_report: {
-      recap: buildRecap(domain, onpage, pagespeed, isPremium),
+      recap: buildRecap(domain, onpage, pagespeed, isPremium, domainOverview),
       on_page: buildOnPageRows(onpage),
       technical: buildTechnicalRows(onpage, targetUrl),
     },
@@ -96,10 +100,14 @@ export async function onRequest(context) {
       },
       opportunities: pagespeed?.opportunities || [],
     },
-    keywords:    kwData    ? formatKeywords(kwData)    : [],
-    backlinks:   blData    ? formatBacklinks(blData)   : null,
-    competitors: compData  ? formatCompetitors(compData) : [],
-    serp:        serpData  ? serpData.rankings         : [],
+    keywords:         kwData    ? formatKeywords(kwData)              : [],
+    keyword_suggestions: kwSuggestions ? formatKeywordSuggestions(kwSuggestions) : [],
+    backlinks:        blData    ? formatBacklinks(blData)             : null,
+    referring_domains_list: refDomains ? formatReferringDomains(refDomains) : [],
+    anchor_text:      anchors   ? formatAnchorText(anchors)           : [],
+    competitors:      compData  ? formatCompetitors(compData)         : [],
+    serp:             serpData  ? serpData.rankings                   : [],
+    domain_overview:  domainOverview ? formatDomainOverview(domainOverview) : null,
     improvements: buildImprovements(onpage, pagespeed, blData),
   };
 
@@ -329,6 +337,44 @@ function formatCompetitors(raw) {
     relevance:       Math.round((c.competitor_relevance || 0) * 100),
     sharedKeywords:  c.intersections || 0,
     organicKeywords: c.metrics?.organic?.count || 0,
+    organicTraffic:  c.metrics?.organic?.etv || 0,
+  }));
+}
+
+function formatDomainOverview(raw) {
+  const m = raw?.metrics?.organic || {};
+  return {
+    keywords_count: m.count    || 0,
+    traffic:        m.etv      || 0,
+    pos_1_3:        (m.pos_1 || 0) + (m.pos_2_3 || 0),
+    pos_4_10:       m.pos_4_10  || 0,
+    pos_11_20:      m.pos_11_20 || 0,
+  };
+}
+
+function formatReferringDomains(raw) {
+  return (raw.items || []).slice(0, 12).map(d => ({
+    domain:    d.domain,
+    rank:      d.rank || 0,
+    backlinks: d.backlinks || 0,
+    first_seen: d.first_seen ? d.first_seen.slice(0, 10) : null,
+  }));
+}
+
+function formatAnchorText(raw) {
+  return (raw.items || []).slice(0, 10).map(a => ({
+    anchor:            a.anchor || '(no anchor)',
+    backlinks:         a.backlinks         || 0,
+    referring_domains: a.referring_domains || 0,
+  }));
+}
+
+function formatKeywordSuggestions(raw) {
+  return (raw.items || []).slice(0, 20).map(k => ({
+    keyword:    k.keyword_data?.keyword || k.keyword || '',
+    volume:     fmtNum(k.keyword_data?.keyword_info?.search_volume),
+    difficulty: k.keyword_data?.keyword_properties?.keyword_difficulty ?? null,
+    cpc:        k.keyword_data?.keyword_info?.cpc || null,
   }));
 }
 
@@ -377,7 +423,7 @@ function buildImprovements(op, ps, bl) {
   return fixes.slice(0, 6);
 }
 
-function buildRecap(domain, op, ps, isPremium) {
+function buildRecap(domain, op, ps, isPremium, domainOverview) {
   const parts = [];
   if (ps?.scores?.performance !== undefined) {
     const score = ps.scores.performance;
@@ -395,6 +441,16 @@ function buildRecap(domain, op, ps, isPremium) {
       parts.push(`${op.imagesMissingAlt} image${op.imagesMissingAlt > 1 ? 's are' : ' is'} missing alt text.`);
     }
   }
+  if (isPremium && domainOverview) {
+    const ov = domainOverview.metrics?.organic || {};
+    const traffic = ov.etv || 0;
+    const kwCount = ov.count || 0;
+    if (traffic > 0 || kwCount > 0) {
+      parts.push(`Domain ranks for approximately ${kwCount.toLocaleString()} keyword${kwCount !== 1 ? 's' : ''} with an estimated ${traffic.toLocaleString()} monthly organic visits.`);
+    } else {
+      parts.push('Domain has limited organic keyword visibility — see keyword suggestions for growth opportunities.');
+    }
+  }
   if (!isPremium) {
     parts.push('Upgrade to Premium for keyword rankings, backlink profile, competitor analysis, and SERP position tracking.');
   }
@@ -410,6 +466,84 @@ function computeOverall(scores) {
 function fmtNum(n) {
   if (!n) return '—';
   return n >= 1000 ? `${(n / 1000).toFixed(1)}k` : String(n);
+}
+
+// ── Domain Rank Overview ─────────────────────────────────────────────────────
+async function runDomainOverview(domain, env) {
+  const auth = dfsAuth(env);
+  const res = await fetch(
+    'https://api.dataforseo.com/v3/dataforseo_labs/google/domain_rank_overview/live',
+    {
+      method: 'POST',
+      headers: { Authorization: auth, 'Content-Type': 'application/json' },
+      body: JSON.stringify([{ target: domain, language_code: 'en', location_name: 'United States' }]),
+    }
+  );
+  if (!res.ok) throw new Error(`DataForSEO Domain Overview HTTP ${res.status}`);
+  const json = await res.json();
+  return json?.tasks?.[0]?.result?.[0] || {};
+}
+
+// ── Referring Domains ─────────────────────────────────────────────────────────
+async function runReferringDomains(domain, env) {
+  const auth = dfsAuth(env);
+  const res = await fetch(
+    'https://api.dataforseo.com/v3/backlinks/referring_domains/live',
+    {
+      method: 'POST',
+      headers: { Authorization: auth, 'Content-Type': 'application/json' },
+      body: JSON.stringify([{
+        target: domain,
+        limit: 12,
+        order_by: ['rank,desc'],
+        filters: ['backlinks', '>', 0],
+      }]),
+    }
+  );
+  if (!res.ok) throw new Error(`DataForSEO Referring Domains HTTP ${res.status}`);
+  const json = await res.json();
+  return json?.tasks?.[0]?.result?.[0] || {};
+}
+
+// ── Anchor Text ───────────────────────────────────────────────────────────────
+async function runAnchorText(domain, env) {
+  const auth = dfsAuth(env);
+  const res = await fetch(
+    'https://api.dataforseo.com/v3/backlinks/anchors/live',
+    {
+      method: 'POST',
+      headers: { Authorization: auth, 'Content-Type': 'application/json' },
+      body: JSON.stringify([{ target: domain, limit: 10, order_by: ['backlinks,desc'] }]),
+    }
+  );
+  if (!res.ok) throw new Error(`DataForSEO Anchors HTTP ${res.status}`);
+  const json = await res.json();
+  return json?.tasks?.[0]?.result?.[0] || {};
+}
+
+// ── Keyword Suggestions (fallback when domain has no ranked keywords) ─────────
+async function runKeywordSuggestions(domain, env) {
+  const auth = dfsAuth(env);
+  // Use the domain name (minus TLD) as seed term
+  const seed = domain.replace(/^www\./, '').split('.')[0].replace(/-/g, ' ');
+  const res = await fetch(
+    'https://api.dataforseo.com/v3/dataforseo_labs/google/keywords_for_site/live',
+    {
+      method: 'POST',
+      headers: { Authorization: auth, 'Content-Type': 'application/json' },
+      body: JSON.stringify([{
+        target: domain,
+        language_code: 'en',
+        location_name: 'United States',
+        limit: 20,
+        order_by: ['keyword_data.keyword_info.search_volume,desc'],
+      }]),
+    }
+  );
+  if (!res.ok) throw new Error(`DataForSEO Keywords For Site HTTP ${res.status}`);
+  const json = await res.json();
+  const result = json?.tasks?.[0]?.result?.[0] || {};
+  return { items: result.items || [] };
 }
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
