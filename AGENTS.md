@@ -87,17 +87,18 @@ When something breaks:
 
 ## Core Automation Workflows
 
-| Workflow | Directive | Scripts |
-|----------|-----------|---------|
-| Sales Form → QBO Invoice | `directives/sales-to-qbo.md` | `execution/create_qbo_invoice.py` |
-| QBO Invoice → ShipStation | `directives/form_to_invoice_shipping_inventory.md` | `execution/create_shipping_order.py` |
-| SEO outreach machine | `directives/seo_sales_machine.md` | `execution/seo_outreach_prepper.py` |
-| Lead research | `directives/lead_research_service.md` | `execution/lead_research_orchestrator.py` |
-| Missed-call text-back | `directives/workflow_packages.md` | — |
-| Monthly insights report | `directives/deliver_monthly_insights.md` | `execution/generate_monthly_insights.py` |
-| Client onboarding | `directives/onboard_client.md` | `execution/onboard_client.py` |
-| Proposal creation | `directives/create_proposal.md` | `execution/create_proposal.py` |
-| Invoice sending | `directives/send_invoice.md` | `execution/create_invoice.py` |
+| Workflow | Directive | Skill | Scripts |
+|----------|-----------|-------|---------|
+| Sales Form → QBO Invoice | `directives/sales-to-qbo.md` | — | `execution/create_qbo_invoice.py` |
+| QBO Invoice → ShipStation | `directives/form_to_invoice_shipping_inventory.md` | — | `execution/create_shipping_order.py` |
+| SEO Audit → Premium Report | `directives/one_time_seo_audit.md` | `skills/5-cypress-premium-seo/` | `functions/api/seo/*` |
+| SEO outreach machine | `directives/seo_sales_machine.md` | — | `execution/seo_outreach_prepper.py` |
+| Lead research | `directives/lead_research_service.md` | — | `execution/lead_research_orchestrator.py` |
+| Missed-call text-back | `directives/workflow_packages.md` | — | — |
+| Monthly insights report | `directives/deliver_monthly_insights.md` | — | `execution/generate_monthly_insights.py` |
+| Client onboarding | `directives/onboard_client.md` | — | `execution/onboard_client.py` |
+| Proposal creation | `directives/create_proposal.md` | — | `execution/create_proposal.py` |
+| Invoice sending | `directives/send_invoice.md` | — | `execution/create_invoice.py` |
 
 ---
 
@@ -149,6 +150,7 @@ Custom skills in `.claude/skills/` provide specialized patterns:
 
 | Skill | Use Case |
 |-------|----------|
+| `5-cypress-premium-seo` | Free SEO scan → $49 premium report (Cloudflare, Stripe, OpenAI) |
 | `backend-development` | API design for QBO/ShipStation integrations |
 | `payment-processing` | Stripe/PayPal, webhooks, PCI compliance |
 | `python-development` | FastAPI, async patterns, Pydantic |
@@ -157,10 +159,7 @@ Custom skills in `.claude/skills/` provide specialized patterns:
 | `code-documentation` | Client runbooks, deploy guides |
 | `api-scaffolding` | Spin up REST APIs quickly |
 
-For detailed agent patterns:
-- Backend architecture: `agents/plugins/backend-development/agents/backend-architect.md`
-- Python expertise: `agents/plugins/python-development/agents/python-pro.md`
-- Stripe integration: `agents/plugins/payment-processing/skills/stripe-integration/SKILL.md`
+For detailed patterns, see `.claude/skills/{skill-name}/` .
 
 ---
 

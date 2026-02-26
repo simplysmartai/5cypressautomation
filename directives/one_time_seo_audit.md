@@ -1,7 +1,11 @@
 # One-Time SEO Intelligence Report ($49)
 
+**Skill Location:** See `.claude/skills/5-cypress-premium-seo/` for complete technical documentation, setup guides, and revenue models.
+
 ## Overview
 A low-friction, high-value entry point for SMBs to receive a professional SEO audit. Serves as a "Tripwire" offer to convert prospects into long-term monthly retainers.
+
+This directive documents the **5 Cypress implementation** of the Premium SEO Skill. For white-label or self-serve deployments, refer to the skill's SETUP.md and PRICING_MODELS.md.
 
 **Architecture: Cloudflare Pages Functions only (no Railway/server.js)**
 
