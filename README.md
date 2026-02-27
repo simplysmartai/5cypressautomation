@@ -1,171 +1,174 @@
-# 5 Cypress Automation
+﻿# 5 Cypress Automation
 
-Resilient AI automation and scalable operations architecture. Rooted in reliability, built for limitless growth.
+> AI-powered marketing and business automation services for small B2B companies.
 
-**Live on GitHub:** [github.com/simplysmartai/5cypressautomation](https://github.com/simplysmartai/5cypressautomation)
-
----
-
-## 🚀 Deploy Now
-
-**Ready to go live?** Choose your deployment method:
-
-### **Option 1: Wrangler CLI (Fastest)**
-```bash
-npm install -g @cloudflare/wrangler
-wrangler login
-npm run deploy
-```
-
-**Site live in 60-90 seconds** at `https://5cypress.pages.dev`
-
-Full guide: [WRANGLER_SETUP.md](WRANGLER_SETUP.md)
-
-### **Option 2: Cloudflare Dashboard**
-1. Go to [dash.cloudflare.com](https://dash.cloudflare.com)
-2. Workers & Pages → Create → Connect Git
-3. Select: `simplysmartai/5cypressautomation`
-4. Deploy!
-
-Full guide: [CLOUDFLARE_DEPLOY.md](CLOUDFLARE_DEPLOY.md)
-
-### **Option 3: Railway (Full Stack)**
-See [DEPLOYMENT.md](DEPLOYMENT.md) for Railway + Modal setup.
-
-**Then deploy Modal webhooks:**
-```bash
-pip install modal
-modal token new
-modal deploy execution/modal_webhook.py
-```
+**Live site:** [https://www.5cypress.com](https://www.5cypress.com)
+**Contact:** nick@5cypress.com
 
 ---
 
-## 🚀 Quick Start (New? Start Here)
+## Production Infrastructure
 
-**Goal:** Close your first client in 7 days
-
-1. **Read:** [QUICK_START.md](QUICK_START.md) - Complete 7-day sprint guide
-2. **Test:** `python execution/live_demo_automation.py` - See the automation work
-3. **Deploy:** `modal deploy execution/modal_production.py` - Go live
-4. **Sell:** Use [clients/remy-lasers/pitch-deck-trial-program.md](clients/remy-lasers/pitch-deck-trial-program.md)
-
-**Key Resources:**
-- 📊 [BATTLE_PLAN.md](BATTLE_PLAN.md) - Strategic roadmap to first revenue
-- 🏗️ [HOSTING_ARCHITECTURE.md](HOSTING_ARCHITECTURE.md) - Why you don't need a VPS
-- 📦 [SERVICES_ROADMAP.md](SERVICES_ROADMAP.md) - All service packages & pricing
-- 🎯 [LAUNCH_READINESS.md](LAUNCH_READINESS.md) - What's ready, what's not
-
-**Current Status:**
-✅ Website rebranded to "5 Cypress Automation"  
-✅ Server running at http://localhost:3000  
-✅ Live demo tested and working  
-✅ Modal deployment ready  
-❌ First paying client (work in progress)
+| Component | Details |
+|-----------|---------|
+| **Host** | DigitalOcean Ubuntu 22.04 LTS |
+| **IP** | `134.199.192.11` |
+| **Process Manager** | PM2 (`pm2 status`) |
+| **Web Server** | Nginx (reverse proxy to port 8000) |
+| **SSL** | Let''s Encrypt via Certbot (auto-renews) |
+| **CDN** | Cloudflare (proxy active) |
+| **Database** | SQLite at `/home/jimmy/5cypress/platform.db` |
+| **Runtime** | Node.js v20, Python 3.10 (venv) |
 
 ---
 
-## Architecture Overview
-
-We operate on a 3-layer architecture designed for maximum endurance and scale:
-
-1. **Directives** (`directives/`) - The root system. Natural language SOPs that define deterministic goals.
-2. **Orchestration** (AI logic) - The branching layer. Intelligent routing and decision-making via agents.
-3. **Execution** (`execution/`) - The endurance layer. Deterministic Python scripts that perform the work.
-
-See [CLAUDE.md](CLAUDE.md), [AGENTS.md](AGENTS.md), or [GEMINI.md](GEMINI.md) for complete agent instructions.
-
-## Directory Structure
-
-```
-├── directives/          # Markdown SOPs defining workflows
-├── execution/           # Python scripts for deterministic operations
-├── .tmp/               # Temporary intermediate files (git-ignored)
-├── .env                # Environment variables and API keys (git-ignored)
-├── credentials.json    # Google OAuth credentials (git-ignored)
-└── token.json         # Google OAuth token (git-ignored)
-```
-
-## Getting Started
-
-### 1. Environment Setup
-
-Copy [.env](.env) and fill in your API keys:
+## Quick Reference - SSH & Deploy
 
 ```bash
-# Required API keys
-ANTHROPIC_API_KEY=your_key_here
-GOOGLE_CLIENT_ID=your_client_id
-GOOGLE_CLIENT_SECRET=your_client_secret
+# SSH into server
+ssh jimmy@134.199.192.11
+
+# Check app status
+pm2 status
+pm2 logs 5cypress --lines 50
+
+# Deploy new code
+git pull && pm2 restart 5cypress --update-env
+
+# Update environment variables only
+scp .env jimmy@134.199.192.11:/home/jimmy/5cypress/.env
+ssh jimmy@134.199.192.11 "pm2 restart 5cypress --update-env"
 ```
 
-### 2. Install Dependencies
+---
+
+## Project Structure
+
+```
+server.js              # Main Express app (all routes, API, webhooks)
+db.js                  # SQLite database helpers
+public/                # Static frontend (HTML, CSS, JS)
+  admin/               # Admin dashboard pages (Basic Auth protected)
+execution/             # Python automation scripts
+directives/            # SOP markdown files - workflow instructions
+config/                # pricing.json, clients.json
+clients/               # Per-client configs and history
+marketing-team/        # AI marketing team deliverables
+.claude/               # AI context, skills, commands
+```
+
+---
+
+## Services Live at 5cypress.com
+
+### Customer-Facing Pages
+- `/` - Homepage
+- `/seo-audit.html` - Free SEO scan + $49 premium report
+- `/booking.html` - Calendly booking page
+- `/services.html` - Services overview
+- `/pricing.html` - Pricing page
+
+### Admin Dashboard (Basic Auth required)
+- `/admin` - Main admin panel
+- `/admin/seo.html` - SEO audit management
+- `/admin/leads.html` - Lead pipeline
+
+### Key API Endpoints
+- `POST /api/seo/analyze` - Run free SEO scan
+- `POST /api/seo/checkout` - Stripe checkout for premium report
+- `POST /api/webhooks/stripe` - Stripe payment webhook
+- `POST /api/webhooks/calendly` - Calendly booking webhook
+
+---
+
+## Integrations
+
+| Service | Status | Purpose |
+|---------|--------|---------|
+| Stripe | Active (test mode) | Payment processing for SEO reports |
+| Calendly | Active | Booking webhooks |
+| OpenAI | Active | SEO report generation |
+| Resend | Active | Transactional email |
+| DataForSEO | Active | SEO data and SERP analysis |
+| Perplexity | Active | Web research for reports |
+| Telegram | Active | Internal notifications |
+
+**Before accepting real payments:** Switch Stripe keys from `sk_test_` to `sk_live_` in the Stripe Dashboard, then re-run `execution/register_stripe_webhook.py` to get a new webhook secret, and redeploy `.env`.
+
+---
+
+## Environment Variables
+
+Copy `.env.example` and fill in your values. Never commit `.env`.
+
+```
+PORT=8000
+ENVIRONMENT=production
+FRONTEND_URL=https://5cypress.com
+STRIPE_SECRET_KEY=sk_live_...
+STRIPE_PUBLISHER_KEY=pk_live_...
+STRIPE_WEBHOOK_SECRET=whsec_...
+OPENAI_API_KEY=sk-...
+RESEND_API_KEY=re_...
+CALENDLY_API_KEY=...
+```
+
+---
+
+## Automation Scripts (execution/)
+
+Activate the Python venv on the server, then run:
 
 ```bash
-pip install -r requirements.txt
+source /home/jimmy/5cypress/venv/bin/activate
+python execution/<script>.py
 ```
 
-### 3. Google Workspace Setup
+| Category | Scripts |
+|----------|---------|
+| SEO | seo_audit_runner.py, seo_outreach_prepper.py |
+| Invoicing | create_qbo_invoice.py, create_invoice.py |
+| Shipping | create_shipping_order.py |
+| Leads | lead_research_orchestrator.py |
+| Proposals | create_proposal.py |
+| Reports | generate_monthly_insights.py |
+| Onboarding | onboard_client.py |
 
-1. Create a project at [Google Cloud Console](https://console.cloud.google.com)
-2. Enable Google Sheets and Google Slides APIs
-3. Create OAuth 2.0 credentials
-4. Download `credentials.json` to the project root
+---
 
-### 4. Modal Setup (for webhooks)
+## Daily Backup
+
+SQLite database backed up nightly at 2am via cron:
 
 ```bash
-pip install modal
-modal token new
-modal deploy execution/modal_webhook.py
+# View schedule
+crontab -l
+
+# Manual backup
+cp /home/jimmy/5cypress/platform.db /home/jimmy/backups/platform_$(date +%F).db
 ```
 
-## Key Principles
+---
 
-**Deliverables vs Intermediates:**
-- Deliverables live in cloud services (Google Sheets, Slides, etc.)
-- Local files in `.tmp/` are temporary and can be regenerated
+## 3-Layer Architecture
 
-**Self-Annealing:**
-- When errors occur, fix the script, test it, and update the directive
-- The system improves over time through learning
+1. **Directives** (`directives/`) - Markdown SOPs that define workflow goals
+2. **Orchestration** (AI / Claude) - Intelligent routing and decision-making
+3. **Execution** (`execution/`) - Deterministic Python scripts that do the work
 
-**Tool-First Approach:**
-- Always check `execution/` for existing scripts before creating new ones
-- Push complexity into deterministic code, not AI decision-making
+See `CLAUDE.md` or `AGENTS.md` for full agent instructions.
 
-## Usage
+---
 
-Work with AI agents by referencing directives:
+## Maintenance
 
+```bash
+# Nginx
+sudo nginx -t && sudo systemctl reload nginx
+
+# SSL renewal (runs automatically, but manual test)
+sudo certbot renew --dry-run
+
+# View errors
+pm2 logs 5cypress --err --lines 100
 ```
-"Follow the directive in directives/scrape_website.md to scrape example.com"
-```
-
-Agents will:
-1. Read the directive
-2. Call execution scripts in the correct order
-3. Handle errors and edge cases
-4. Update directives with learnings
-
-## Webhooks
-
-Event-driven execution via Modal. See [directives/add_webhook.md](directives/add_webhook.md) for setup.
-
-Available endpoints:
-- List webhooks: `https://nick-90891--claude-orchestrator-list-webhooks.modal.run`
-- Execute directive: `https://nick-90891--claude-orchestrator-directive.modal.run?slug={slug}`
-
-All webhook activity streams to Slack in real-time.
-
-## Contributing
-
-When adding new workflows:
-1. Create a directive in `directives/`
-2. Build execution scripts in `execution/`
-3. Test thoroughly
-4. Update this README if needed
-
-## License
-
-Proprietary - Simply Smart Automation
