@@ -1,0 +1,16 @@
+# Cloudflare Pages — extensionless URL rewrites
+# Serves the .html file silently so the clean URL stays in the browser bar.
+
+/services        /services.html        200
+/about           /about.html           200
+/process         /process.html         200
+/case-studies    /case-studies.html    200
+/booking         /booking.html         200
+/privacy         /privacy.html         200
+/terms           /terms.html           200
+/security        /security.html        200
+/form            /form.html            200
+/login           /login.html           200
+/seo-report      /seo-report.html      200
+/dashboard       /dashboard.html       200
+/operations      /operations.html      200

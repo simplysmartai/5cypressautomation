@@ -48,6 +48,7 @@ let lastScrollY = window.scrollY;
 const navbar = document.querySelector('.navbar');
 
 const updateNavbar = () => {
+  if (!navbar) return; // guard: navbar may not exist on every page
   const currentScrollY = window.scrollY;
   
   // Add/remove scrolled class
@@ -75,6 +76,7 @@ window.addEventListener('scroll', updateNavbar);
 
 window.toggleMobileMenu = () => {
   const mobileMenu = document.getElementById('mobileMenu');
+  if (!mobileMenu) return; // guard: menu may not exist on every page
   const body = document.body;
   
   if (mobileMenu.classList.contains('active')) {
@@ -88,6 +90,7 @@ window.toggleMobileMenu = () => {
 
 window.closeMobileMenu = () => {
   const mobileMenu = document.getElementById('mobileMenu');
+  if (!mobileMenu) return; // guard: menu may not exist on every page
   mobileMenu.classList.remove('active');
   document.body.style.overflow = '';
 };

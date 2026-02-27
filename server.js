@@ -1441,6 +1441,36 @@ app.post('/api/contact', [
   res.json({ success: true, message: 'Received. We\'ll be in touch within one business day.' });
 });
 
+// ─── Public Vetting / Inquiry Form ────────────────────────────────────────────
+// Receives the modal contact form submitted from all public pages (dynamics.js → /submit-inquiry)
+app.post('/submit-inquiry', [
+  body('name').trim().notEmpty().isLength({ max: 150 }).escape(),
+  body('email').isEmail().normalizeEmail(),
+  body('company').optional({ checkFalsy: true }).trim().isLength({ max: 200 }).escape(),
+  body('details').optional({ checkFalsy: true }).trim().isLength({ max: 2000 }),
+], (req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
+
+  const { name, email, company, details } = req.body;
+  const timestamp = new Date().toISOString();
+
+  try {
+    db.prepare(`
+      INSERT INTO leads (name, email, company, source, challenge)
+      VALUES (?, ?, ?, ?, ?)
+    `).run(name, email, company || null, 'website-inquiry', details || null);
+  } catch (dbErr) {
+    console.error('[INQUIRY] DB log failed (non-fatal):', dbErr.message);
+  }
+
+  console.log(`[INQUIRY] New inquiry from ${name} <${email}> @ ${timestamp}`);
+
+  res.json({ success: true, message: "Application received. We'll be in touch within one business day." });
+});
+
 // Get cached SEO report
 app.get('/api/seo/:domain', (req, res) => {
   const { domain } = req.params;
@@ -1526,6 +1556,29 @@ app.post('/api/skills/:id/run', adminAuth, (req, res) => {
     console.log(`[SKILL OK] ${skill.name}`);
     res.json({ output: stdout, skill: skill.name });
   });
+});
+
+// ─── Catch-all: serve .html for clean/extensionless page URLs ───────────────
+// Handles requests like /services, /about, /process, /case-studies, /booking
+app.get('*', (req, res, next) => {
+  // Skip API paths, admin paths, and paths that already have a file extension
+  if (
+    req.path.startsWith('/api/') ||
+    req.path.startsWith('/admin/') ||
+    path.extname(req.path)
+  ) {
+    return next();
+  }
+
+  const cleanPath = req.path.replace(/\/$/, '') || '/index';
+  const htmlFile = path.join(__dirname, 'public', cleanPath + '.html');
+
+  if (fs.existsSync(htmlFile)) {
+    return res.sendFile(htmlFile);
+  }
+
+  // Nothing found — send the homepage rather than a bare Express 404
+  res.status(404).sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
 server.on('error', (e) => {
