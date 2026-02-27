@@ -8,6 +8,8 @@
     "dev": "nodemon server.js",
     "build": "npm install",
     "deploy": "npx wrangler pages deploy public",
+    "audit": "npx lighthouse https://5cypress.com --chrome-flags='--headless --no-sandbox' --output=html --output-path=./audits/lighthouse-$(date +%Y%m%d-%H%M%S).html",
+    "audit:ps": "PowerShell -ExecutionPolicy Bypass -File ./scripts/audit-lighthouse-weekly.ps1",
     "versions": "npx wrangler versions upload"
   },
   "keywords": [
