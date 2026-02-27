@@ -59,12 +59,16 @@
   <!-- Preconnect for performance -->
   <link rel="preconnect" href="https://assets.calendly.com">
   <link rel="preconnect" href="https://cdn.jsdelivr.net">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <!-- Google Fonts - loaded here (not via CSS @import) to allow parallel loading and avoid render-blocking waterfall -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,700&family=Space+Grotesk:wght@400;500;600;700&family=DM+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap">
   
   <!-- Calendly -->
   <link href="https://assets.calendly.com/assets/external/calendar-widget.css" rel="stylesheet">
   
-  <!-- Stylesheets - Load in order: design system → premium → mobile enhancements -->
-  <link rel="stylesheet" href="design-system.css">
+  <!-- Stylesheets - design-system is @imported by styles-premium.css; loading once here avoids duplicate HTTP request -->
   <link rel="stylesheet" href="styles-premium.css">
   <link rel="stylesheet" href="styles-mobile-enhanced.css">
   
@@ -89,7 +93,7 @@
     <div class="container nav-container">
       <a href="/" class="logo">
         <div class="logo-icon logo-pulse">
-          <img src="assets/brand/logo-5cypress.jpg" alt="5 Cypress Automation Logo">
+          <img src="assets/brand/logo-5cypress.jpg" alt="5 Cypress Automation Logo" width="52" height="52" loading="eager">
         </div>
         <div class="logo-text-group">
           <span class="logo-title text-gradient-special">5 Cypress</span>
@@ -112,7 +116,7 @@
         </button>
       </div>
 
-      <button class="mobile-toggle" onclick="toggleMobileMenu()" aria-label="Toggle mobile menu">
+      <button class="mobile-toggle" onclick="toggleMobileMenu()" aria-label="Toggle mobile menu" aria-expanded="false" aria-controls="mobileMenu">
         <i class="ri-menu-line"></i>
       </button>
     </div>
@@ -668,7 +672,7 @@
         <div style="grid-column: span 2;">
           <a href="/" class="logo" style="margin-bottom: 24px;">
             <div class="logo-icon logo-pulse">
-              <img src="assets/brand/logo-5cypress.jpg" alt="5 Cypress Automation Logo">
+              <img src="assets/brand/logo-5cypress.jpg" alt="5 Cypress Automation Logo" width="52" height="52" loading="lazy">
             </div>
             <div class="logo-text-group">
               <span class="logo-title text-gradient-special">5 Cypress</span>

@@ -79,12 +79,16 @@ window.handleVettingSubmit = async function(event) {
 
 window.toggleMobileMenu = function() {
     const mobileMenu = document.getElementById("mobileMenu");
+    const toggleBtn = document.querySelector(".mobile-toggle");
     const toggleIcon = document.querySelector(".mobile-toggle i");
     
     if (mobileMenu) {
         mobileMenu.classList.toggle("active");
         const isActive = mobileMenu.classList.contains("active");
         document.body.style.overflow = isActive ? "hidden" : "";
+        
+        // Keep aria-expanded in sync so screen readers announce state correctly
+        if (toggleBtn) toggleBtn.setAttribute("aria-expanded", String(isActive));
         
         if (toggleIcon) {
             toggleIcon.className = isActive ? "ri-close-line" : "ri-menu-line";
@@ -94,11 +98,13 @@ window.toggleMobileMenu = function() {
 
 window.closeMobileMenu = function() {
     const mobileMenu = document.getElementById("mobileMenu");
+    const toggleBtn = document.querySelector(".mobile-toggle");
     const toggleIcon = document.querySelector(".mobile-toggle i");
     
     if (mobileMenu) {
         mobileMenu.classList.remove("active");
         document.body.style.overflow = "";
+        if (toggleBtn) toggleBtn.setAttribute("aria-expanded", "false");
         if (toggleIcon) {
             toggleIcon.className = "ri-menu-line";
         }

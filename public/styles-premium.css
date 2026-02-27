@@ -3,7 +3,8 @@
    Bold, Distinctive, Unforgettable
    ============================================ */
 
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,700&family=Space+Grotesk:wght@400;500;600;700&family=DM+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
+/* Google Fonts are loaded via <link> in each page's <head> (with preconnects) for parallel loading.
+   design-system.css is either linked directly in HTML or remains importable from here for non-index pages. */
 @import 'design-system.css';
 
 /* ============================================

@@ -57,17 +57,7 @@ app.use(xss());
 // Prevent HTTP parameter pollution
 app.use(hpp());
 
-// Middleware
-// rawBody is stored so Calendly webhook signatures can be verified
-app.use(express.json({
-  limit: '10kb',
-  verify: (req, _res, buf) => { req.rawBody = buf; }
-})); // Body limit to prevent DOS
-app.use(express.urlencoded({ extended: true, limit: '10kb' }));
-app.use('/admin', adminAuth);
-app.use(express.static('public'));
-
-// Admin basic-auth middleware (protect admin pages)
+// Admin basic-auth middleware — defined here, before use, for readability
 function adminAuth(req, res, next) {
   // Require environment vars ADMIN_USER and ADMIN_PASS to be set
   const adminUser = process.env.ADMIN_USER;
@@ -95,6 +85,16 @@ function adminAuth(req, res, next) {
   res.set('WWW-Authenticate', 'Basic realm="5Cypress Admin"');
   return res.status(401).send('Invalid credentials');
 }
+
+// Middleware
+// rawBody is stored so Calendly webhook signatures can be verified
+app.use(express.json({
+  limit: '10kb',
+  verify: (req, _res, buf) => { req.rawBody = buf; }
+})); // Body limit to prevent DOS
+app.use(express.urlencoded({ extended: true, limit: '10kb' }));
+app.use('/admin', adminAuth);
+app.use(express.static('public'));
 
 // Structured Logging (Morgan)
 app.use(morgan(':remote-addr - :remote-user [:date[clf]] ":method :url HTTP/:http-version" :status :res[content-length] ":referrer" ":user-agent" - :response-time ms'));
