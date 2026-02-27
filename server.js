@@ -43,6 +43,7 @@ app.use(helmet({
       imgSrc: ["'self'", "data:", "https:"],
       connectSrc: ["'self'", "https://unpkg.com", "https://cdn.jsdelivr.net", "https://*.cloudflare.com", "https://cdnjs.cloudflare.com", "https://assets.calendly.com"],
       fontSrc: ["'self'", "https://fonts.gstatic.com", "https://cdn.jsdelivr.net", "https://cdnjs.cloudflare.com"],
+      scriptSrcAttr: ["'unsafe-inline'"],
       objectSrc: ["'none'"],
       frameSrc: ["https://calendly.com"],
       upgradeInsecureRequests: [],

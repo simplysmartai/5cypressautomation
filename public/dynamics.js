@@ -190,20 +190,56 @@ document.addEventListener("DOMContentLoaded", function() {
         });
     }
 
-    // ─── Programmatic button wiring (bulletproof backup to inline onclick) ───
-    // Attach click listeners directly so buttons work even if inline onclick
-    // evaluation is blocked by CSP, a DOM timing edge-case, or a script error.
+    // ─── Programmatic event wiring ───
+    // Helmet CSP + scriptSrcAttr cooperate now, but these listeners provide
+    // defense-in-depth: buttons work even if CSP ever tightens again.
+
+    // Open-modal buttons
     document.querySelectorAll(
         '[onclick*="openCalendly"], [data-action="open-modal"]'
     ).forEach(function(btn) {
         btn.addEventListener("click", function(e) {
-            // Only fire if the inline onclick didn't already handle it
-            // (openCalendly is idempotent — calling twice is safe)
             try { openCalendly(); } catch(err) {
                 console.error("[5Cypress] openCalendly error:", err);
-                // Ultimate fallback — send user to booking page
                 window.location.href = "/booking.html";
             }
+        });
+    });
+
+    // Close-modal button
+    document.querySelectorAll(
+        '.calendly-close, [onclick*="closeBookingModal"]'
+    ).forEach(function(btn) {
+        btn.addEventListener("click", function(e) {
+            e.stopPropagation();
+            closeBookingModal();
+        });
+    });
+
+    // Vetting form submit
+    var vettingForm = document.getElementById("vettingForm");
+    if (vettingForm) {
+        vettingForm.addEventListener("submit", function(e) {
+            e.preventDefault();
+            handleVettingSubmit(e);
+        });
+    }
+
+    // Mobile menu toggle
+    document.querySelectorAll(
+        '.mobile-toggle, [onclick*="toggleMobileMenu"]'
+    ).forEach(function(btn) {
+        btn.addEventListener("click", function() {
+            toggleMobileMenu();
+        });
+    });
+
+    // Mobile nav links close menu
+    document.querySelectorAll(
+        '.mobile-link, [onclick*="closeMobileMenu"]'
+    ).forEach(function(link) {
+        link.addEventListener("click", function() {
+            closeMobileMenu();
         });
     });
 
