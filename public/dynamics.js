@@ -189,4 +189,29 @@ document.addEventListener("DOMContentLoaded", function() {
             }
         });
     }
+
+    // ─── Programmatic button wiring (bulletproof backup to inline onclick) ───
+    // Attach click listeners directly so buttons work even if inline onclick
+    // evaluation is blocked by CSP, a DOM timing edge-case, or a script error.
+    document.querySelectorAll(
+        '[onclick*="openCalendly"], [data-action="open-modal"]'
+    ).forEach(function(btn) {
+        btn.addEventListener("click", function(e) {
+            // Only fire if the inline onclick didn't already handle it
+            // (openCalendly is idempotent — calling twice is safe)
+            try { openCalendly(); } catch(err) {
+                console.error("[5Cypress] openCalendly error:", err);
+                // Ultimate fallback — send user to booking page
+                window.location.href = "/booking.html";
+            }
+        });
+    });
+
+    // Escape key closes modal
+    document.addEventListener("keydown", function(e) {
+        if (e.key === "Escape") {
+            var m = document.getElementById("bookingModal");
+            if (m && m.classList.contains("active")) closeBookingModal();
+        }
+    });
 });

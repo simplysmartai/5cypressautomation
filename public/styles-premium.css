@@ -1217,43 +1217,22 @@ section {
 }
 
 /* ============================================
-   CALENDLY MODAL SYSTEM
+   BOOKING MODAL — entrance animations only
    ============================================ */
-
-.calendly-modal {
-  display: none;
-  position: fixed;
-  inset: 0;
-  z-index: 9999;
-  background: rgba(10, 10, 12, 0.95);
-  backdrop-filter: blur(12px);
-  align-items: center;
-  justify-content: center;
-  padding: 20px;
-  animation: fadeIn 0.3s ease-out;
-}
 
 @keyframes fadeIn {
   from { opacity: 0; }
-  to { opacity: 1; }
-}
-
-.calendly-modal-content {
-  background: var(--bg-surface);
-  width: 100%;
-  max-width: 1000px;
-  height: 90vh;
-  border-radius: var(--radius-2xl);
-  border: 1px solid var(--border-subtle);
-  position: relative;
-  overflow: hidden;
-  box-shadow: 0 40px 100px rgba(0,0,0,0.8);
-  transform: translateY(20px);
-  animation: slideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  to   { opacity: 1; }
 }
 
 @keyframes slideUp {
-  to { transform: translateY(0); }
+  from { transform: translateY(24px); opacity: 0; }
+  to   { transform: translateY(0);    opacity: 1; }
+}
+
+/* Active modal gets entrance animation on the content pane only */
+.calendly-modal.active .calendly-modal-content {
+  animation: slideUp 0.35s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
 .calendly-close {
@@ -1284,6 +1263,12 @@ section {
   width: 100%;
   height: 100%;
   background: transparent;
+}
+
+/* Ensure buttons are safe positioning parents for ripple spans */
+.btn {
+  position: relative;
+  overflow: hidden;
 }
 
 /* ============================================

@@ -137,7 +137,10 @@ document.querySelectorAll('.reveal, [data-reveal]').forEach((el) => {
 // MAGNETIC BUTTON EFFECT
 // ===================================
 
-const magneticButtons = document.querySelectorAll('.btn-magnetic, .btn-primary');
+// Magnetic effect only on elements explicitly marked .btn-magnetic
+// Removing .btn-primary from this selector prevents transform-based click
+// hit-box drift that silently swallows clicks on some browsers / zoom levels.
+const magneticButtons = document.querySelectorAll('.btn-magnetic');
 
 magneticButtons.forEach(button => {
   button.addEventListener('mousemove', (e) => {
@@ -145,15 +148,20 @@ magneticButtons.forEach(button => {
     const x = e.clientX - rect.left - rect.width / 2;
     const y = e.clientY - rect.top - rect.height / 2;
     
-    // Limit the effect to 20px movement
-    const moveX = clamp(x * 0.3, -20, 20);
-    const moveY = clamp(y * 0.3, -20, 20);
+    // Limit effect to 8px — tight enough to look premium, safe for click area
+    const moveX = clamp(x * 0.15, -8, 8);
+    const moveY = clamp(y * 0.15, -8, 8);
     
-    button.style.transform = `translate(${moveX}px, ${moveY}px) scale(1.02)`;
+    button.style.transform = `translate(${moveX}px, ${moveY}px)`;
   });
   
+  // Reset immediately on mousedown so click always lands on the real element
+  button.addEventListener('mousedown', () => {
+    button.style.transform = 'translate(0, 0)';
+  });
+
   button.addEventListener('mouseleave', () => {
-    button.style.transform = 'translate(0, 0) scale(1)';
+    button.style.transform = 'translate(0, 0)';
   });
 });
 
