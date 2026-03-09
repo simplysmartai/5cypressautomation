@@ -238,20 +238,27 @@ function isSpam(data) {
   return { flagged: false, reason: null };
 }
 
-// ── Check for duplicate submissions within 1 hour ──────────────────────────
-function isDuplicateSubmission(db, email) {
-  const oneHourAgo = new Date(Date.now() - 60 * 60 * 1000).toISOString();
-  try {
-    const recent = db.prepare(
-      "SELECT COUNT(*) as count FROM leads WHERE email = ? AND source LIKE 'website-inquiry%' AND createdAt >= ?"
-    ).get(email, oneHourAgo);
-    const isDupe = recent.count > 0;
-    console.log(`[INQUIRY-DUP-CHECK] email=${email}, count=${recent.count}, isDupe=${isDupe}`);
-    return isDupe;
-  } catch (err) {
-    console.error('[INQUIRY-DUP-CHECK] Error:', err.message);
-    return false;
+// ── In-memory recent submissions tracker (last 24 hours) ──────────────────────
+const recentSubmissions = new Map(); // email -> timestamp
+setInterval(() => {
+  const oneHourAgo = Date.now() - 60 * 60 * 1000;
+  for (const [email, timestamp] of recentSubmissions.entries()) {
+    if (timestamp < oneHourAgo) {
+      recentSubmissions.delete(email);
+    }
   }
+}, 60000); // Cleanup every minute
+
+// ── Check for duplicate submissions within 1 hour ──────────────────────────
+function isDuplicateSubmission(email) {
+  const lastSubmission = recentSubmissions.get(email);
+  if (lastSubmission) {
+    const timeSinceLastSubmission = Date.now() - lastSubmission;
+    console.log(`[INQUIRY-DUP-CHECK] email=${email}, timeSince=${timeSinceLastSubmission}ms, isDupe=true`);
+    return true;
+  }
+  console.log(`[INQUIRY-DUP-CHECK] email=${email}, isDupe=false`);
+  return false;
 }
 
 // ── Send notification email to team ──────────────────────────────────────────
@@ -315,7 +322,7 @@ router.post('/submit-inquiry', [
   const { name, email, company, details, timeline } = req.body;
   const db = req.app.get('db');
 
-  if (isDuplicateSubmission(db, email)) {
+  if (isDuplicateSubmission(email)) {
     console.log(`[INQUIRY] Duplicate from ${email} — blocked`);
     return res.status(429).json({ success: false, message: "We already have your inquiry. We'll be in touch shortly." });
   }
@@ -337,6 +344,8 @@ router.post('/submit-inquiry', [
     const info = db.prepare(`INSERT INTO leads (name, email, company, source, challenge, timeline) VALUES (?, ?, ?, ?, ?, ?)`)
       .run(name, email, company || null, 'website-inquiry', details || null, timeline || null);
     leadId = info.lastInsertRowid;
+    // Track this submission to prevent duplicates within 1 hour
+    recentSubmissions.set(email, Date.now());
   } catch (dbErr) {
     console.error('[INQUIRY] DB insert failed:', dbErr.message);
     return res.status(500).json({ error: 'Failed to save' });
