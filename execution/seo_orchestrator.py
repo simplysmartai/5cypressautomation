@@ -295,8 +295,8 @@ class SEOOrchestrator:
             sitemap_url = f"{self.website_url.rstrip('/')}/sitemap.xml"
             sitemap_response = requests.get(sitemap_url, timeout=5)
             metrics['has_sitemap'] = sitemap_response.status_code == 200
-        except:
-            pass
+        except Exception as e:
+            logger.debug("robots.txt / sitemap fetch failed (non-fatal)", extra={"error": str(e)})
         
         # Google PageSpeed Insights (if API key provided)
         if self.pagespeed_api_key:

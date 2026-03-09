@@ -10,6 +10,15 @@ Generates a real-time performance dashboard for clients showing:
 Output: Google Sheets dashboard with auto-updating data
 """
 
+# ============================================================
+# SCRIPT_STATUS: PLACEHOLDER
+# REASON: Google Sheets integration is commented as
+#         "placeholder for now – integrate with Google Sheets
+#         API later". Returns hardcoded metric structures.
+# BLOCKS:  Google Sheets API OAuth + service account setup
+# OWNER:   @nick
+# ============================================================
+
 import os
 import json
 from datetime import datetime, timedelta

@@ -62,6 +62,29 @@ Before writing a script, check `execution/` per your directive. Only create new 
 **3. Update directives as you learn**
 Directives are living documents. Update them when you discover API constraints, better approaches, or common errors. Do not create or overwrite directives without asking unless explicitly instructed.
 
+**4. Run the agent loop on multi-step tasks**
+For any workflow with 3+ steps, iterate through this loop — do not skip steps or batch actions:
+1. **Analyze** — understand current state, user intent, and latest execution output
+2. **Select** — choose the single next tool or script based on the task plan
+3. **Execute** — run one action; wait for real output before proceeding
+4. **Iterate** — repeat until all steps are complete
+5. **Deliver** — surface results and deliverables to the user
+6. **Standby** — enter idle once all tasks are confirmed complete
+
+**5. Use task checkpoints for complex workflows**
+When running a directive with 3+ distinct steps, maintain a task list:
+- States: `pending` | `in_progress` | `completed` | `cancelled`
+- Only **ONE task `in_progress`** at a time
+- Mark `completed` **immediately** after finishing — do not batch completions
+- Skip tracking for: single commands, lint/test runs, pure file reads
+
+**6. Reason before acting on critical operations**
+Before any action that touches money, external APIs, or external data (QBO, ShipStation, Stripe), stop and reason through:
+- Do I have all required inputs and credentials?
+- What is the exact execution path?
+- What could go wrong, and is the dry-run done?
+If anything is unclear, surface it to the user before proceeding.
+
 ---
 
 ## Safety Rules (NON-NEGOTIABLE)
@@ -142,6 +165,22 @@ documents/            # Templates, contracts, static docs
 - **Builder (Execution scripts):** Code + tests per directive
 - **Reviewer (Claude):** Validate output, write docs, produce deploy guide
 
+### Agent Mode Protocol
+
+All agents operating on a directive with 3+ steps must declare and track mode explicitly:
+
+**MODE: PLANNING** (do not touch scripts or APIs until complete)
+- Confirm all required inputs are present
+- Map every step, file, and script that will be touched
+- Identify missing credentials, edge cases, or ambiguities
+- Reason through the full execution path end-to-end
+
+**MODE: EXECUTION** (after planning is confirmed)
+- Work through steps sequentially using the agent loop (see Operating Principle #4)
+- Maintain task checkpoint list with `pending` / `in_progress` / `completed` states
+- Surface errors immediately — do not retry silently; escalate to user after 3 attempts
+- Update the directive when new constraints are discovered
+
 ---
 
 ## Skills & Automation Agent Knowledge
@@ -150,6 +189,7 @@ Custom skills in `.claude/skills/` provide specialized patterns:
 
 | Skill | Use Case |
 |-------|----------|
+| `skill-creator` | Create, test, evaluate, and iterate on new skills systematically |
 | `5-cypress-premium-seo` | Free SEO scan → $49 premium report (Cloudflare, Stripe, OpenAI) |
 | `backend-development` | API design for QBO/ShipStation integrations |
 | `payment-processing` | Stripe/PayPal, webhooks, PCI compliance |

@@ -12,6 +12,15 @@ This script registers webhooks for all employee calendars.
 Zoho will POST to your Modal endpoint when events change.
 """
 
+# ============================================================
+# SCRIPT_STATUS: NEEDS_CONFIG
+# REASON: Line 75 has TODO – webhook callback URL must be set
+#         to the deployed Modal endpoint before this script
+#         will function. Zoho OAuth tokens also required.
+# BLOCKS:  Modal deploy URL + Zoho Calendar API token
+# OWNER:   @nick
+# ============================================================
+
 import requests
 import json
 import os
@@ -167,7 +176,11 @@ def get_all_users(access_token, dc):
         if response.status_code == 200:
             return response.json().get('users', [])
         return []
-    except:
+    except Exception as e:
+        import logging as _logging
+        _logging.getLogger(__name__).warning(
+            "setup: get_zoho_users failed", extra={"error": str(e)}
+        )
         return []
 
 def get_user_calendars(access_token, user_email, dc):
@@ -182,7 +195,11 @@ def get_user_calendars(access_token, user_email, dc):
         if response.status_code == 200:
             return response.json().get('calendars', [])
         return []
-    except:
+    except Exception as e:
+        import logging as _logging
+        _logging.getLogger(__name__).warning(
+            "setup: get_user_calendars failed", extra={"error": str(e)}
+        )
         return []
 
 def refresh_access_token(refresh_token, dc):
@@ -203,7 +220,11 @@ def refresh_access_token(refresh_token, dc):
         
         tokens = response.json()
         return tokens.get('access_token')
-    except:
+    except Exception as e:
+        import logging as _logging
+        _logging.getLogger(__name__).error(
+            "setup: Zoho token refresh failed", extra={"error": str(e)}
+        )
         return None
 
 if __name__ == '__main__':

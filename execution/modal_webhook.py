@@ -98,7 +98,7 @@ def directive(data: dict):
         # Try to parse output as JSON, fallback to raw text
         try:
             output_data = json.loads(result.stdout)
-        except:
+        except (json.JSONDecodeError, ValueError):
             output_data = {"raw_output": result.stdout}
         
         return {

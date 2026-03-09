@@ -222,6 +222,80 @@
     }
   },
 
+  "dashboard_analytics_service": {
+    "note": "Dashboard-as-a-Service — custom BI dashboards (Power BI, Tableau, or Web/HTML). Setup fee + monthly maintenance.",
+    "setup_fees": {
+      "simple": {
+        "name": "Simple Dashboard Build",
+        "price": 1500,
+        "description": "1–2 data sources, up to 8 KPIs, 1 dashboard page",
+        "turnaround": "3–5 business days from data receipt"
+      },
+      "standard": {
+        "name": "Standard Dashboard Build",
+        "price": 2000,
+        "description": "2–3 data sources, 8–15 KPIs, 2–3 dashboard pages",
+        "turnaround": "5–7 business days from data receipt"
+      },
+      "complex": {
+        "name": "Complex Dashboard Build",
+        "price": 2500,
+        "description": "3+ data sources, 15+ KPIs, 4+ pages, advanced calculations",
+        "turnaround": "7–10 business days from data receipt"
+      }
+    },
+    "monthly_maintenance": {
+      "monitor": {
+        "name": "Monitor Tier",
+        "price": 125,
+        "price_range": "100-150",
+        "frequency": "monthly",
+        "includes": [
+          "Data refresh verification",
+          "Break-fix support",
+          "1 minor tweak per month"
+        ],
+        "overage_rate": 150
+      },
+      "maintain": {
+        "name": "Maintain Tier",
+        "price": 250,
+        "price_range": "200-300",
+        "frequency": "monthly",
+        "includes": [
+          "Everything in Monitor",
+          "2–3 metric or view changes per month",
+          "Up to 2 hours of changes included",
+          "Quarterly review call"
+        ],
+        "overage_rate": 150
+      },
+      "evolve": {
+        "name": "Evolve Tier",
+        "price": 450,
+        "price_range": "400-500",
+        "frequency": "monthly",
+        "includes": [
+          "Everything in Maintain",
+          "New dashboard pages or sections",
+          "Advanced analytics additions",
+          "Monthly insight summary (3–5 key trends)",
+          "Up to 4 hours of changes included"
+        ],
+        "overage_rate": 150
+      }
+    },
+    "licensing_notes": {
+      "our_cost_power_bi": "Free (Power BI Desktop)",
+      "our_cost_tableau": "$75/mo (Tableau Creator — only when client requires Tableau)",
+      "our_cost_web": "Free (Chart.js/Plotly.js open source)",
+      "client_cost_power_bi_local": "$0 (Power BI Desktop free)",
+      "client_cost_power_bi_cloud": "~$10/user/mo (Power BI Pro)",
+      "client_cost_tableau_view": "~$15/user/mo (Tableau Viewer)",
+      "client_cost_web": "$0"
+    }
+  },
+
   "common_addons": {
     "additional_integration": {
       "name": "Additional System Integration",
@@ -229,9 +303,10 @@
       "per": "system"
     },
     "custom_dashboard": {
-      "name": "Custom Reporting Dashboard",
+      "name": "Custom Reporting Dashboard (Legacy Add-On)",
       "price": 1500,
-      "per": "dashboard"
+      "per": "dashboard",
+      "note": "Use dashboard_analytics_service tiers for new dashboard engagements"
     },
     "training_session": {
       "name": "Team Training Session",

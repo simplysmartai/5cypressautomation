@@ -1,359 +1,101 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="robots" content="noindex, nofollow">
-  <title>Leads — Admin | 5 Cypress</title>
+  <title>Leads — 5 Cypress Admin</title>
   <link href="https://cdn.jsdelivr.net/npm/remixicon@4.0.0/fonts/remixicon.css" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700;800&family=DM+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/design-system.css">
-  <link rel="stylesheet" href="/styles-premium.css">
-  <style>
-    :root { --admin-sidebar: 240px; }
-    .admin-layout { display:grid; grid-template-columns:var(--admin-sidebar) 1fr; min-height:100vh; }
-
-    .sidebar { background:var(--bg-void); border-right:1px solid var(--border-subtle); position:fixed; top:0; left:0; width:var(--admin-sidebar); height:100vh; display:flex; flex-direction:column; z-index:100; overflow-y:auto; }
-    .sidebar-logo { padding:24px 20px; border-bottom:1px solid var(--border-subtle); display:flex; align-items:center; gap:12px; text-decoration:none; }
-    .sidebar-logo img { width:32px; height:32px; border-radius:8px; }
-    .sidebar-logo-text { font-family:var(--font-heading); font-size:0.95rem; font-weight:800; color:var(--text-primary); line-height:1.2; }
-    .sidebar-logo-sub { font-family:var(--font-mono); font-size:0.6rem; color:var(--brand-primary); text-transform:uppercase; letter-spacing:0.15em; }
-    .sidebar-nav { flex:1; padding:16px 12px; }
-    .nav-group-label { font-family:var(--font-mono); font-size:0.62rem; font-weight:700; text-transform:uppercase; letter-spacing:0.2em; color:var(--text-tertiary); padding:16px 8px 8px; }
-    .nav-item { display:flex; align-items:center; gap:10px; padding:10px; border-radius:10px; color:var(--text-secondary); text-decoration:none; font-size:0.875rem; font-weight:500; transition:all 0.2s; margin-bottom:2px; }
-    .nav-item:hover { background:rgba(255,255,255,0.05); color:var(--text-primary); }
-    .nav-item.active { background:rgba(93,140,93,0.12); color:var(--brand-primary); }
-    .nav-item i { font-size:1.1rem; width:20px; text-align:center; flex-shrink:0; }
-    .nav-badge { margin-left:auto; font-family:var(--font-mono); font-size:0.65rem; background:rgba(93,140,93,0.2); color:var(--brand-primary); padding:2px 7px; border-radius:100px; }
-    .nav-badge.accent { background:rgba(251,191,36,0.15); color:var(--brand-accent); }
-    .sidebar-footer { padding:16px 12px; border-top:1px solid var(--border-subtle); }
-    .sidebar-status { display:flex; align-items:center; gap:8px; font-family:var(--font-mono); font-size:0.7rem; color:var(--text-tertiary); }
-    .status-dot { width:7px; height:7px; border-radius:50%; background:#4ade80; box-shadow:0 0 6px rgba(74,222,128,0.6); flex-shrink:0; }
-    .status-dot.offline { background:#f87171; box-shadow:0 0 6px rgba(248,113,113,0.6); }
-
-    .main-content { margin-left:var(--admin-sidebar); background:var(--bg-main); min-height:100vh; }
-    .top-bar { background:var(--bg-void); border-bottom:1px solid var(--border-subtle); padding:16px 32px; display:flex; align-items:center; justify-content:space-between; position:sticky; top:0; z-index:50; }
-    .page-title { font-family:var(--font-heading); font-size:1.1rem; font-weight:700; color:var(--text-primary); display:flex; align-items:center; gap:10px; }
-    .page-title i { color:var(--brand-primary); }
-    .admin-badge { font-family:var(--font-mono); font-size:0.65rem; font-weight:700; text-transform:uppercase; letter-spacing:0.12em; padding:5px 12px; border-radius:100px; background:rgba(93,140,93,0.1); border:1px solid rgba(93,140,93,0.25); color:var(--brand-primary); }
-    .content-area { padding:32px; }
-
-    /* Summary bar */
-    .summary-bar { display:flex; gap:16px; margin-bottom:24px; flex-wrap:wrap; align-items:center; }
-    .summary-chip { font-family:var(--font-mono); font-size:0.78rem; padding:8px 16px; border-radius:100px; background:var(--bg-surface); border:1px solid var(--border-subtle); color:var(--text-secondary); display:flex; align-items:center; gap:8px; }
-    .summary-chip strong { color:var(--text-primary); }
-    .summary-chip .dot { width:8px; height:8px; border-radius:50%; }
-    .dot.green { background:#4ade80; }
-    .dot.yellow { background:var(--brand-accent); }
-
-    /* Search / filter bar */
-    .filter-bar { display:flex; gap:12px; margin-bottom:20px; flex-wrap:wrap; }
-    .search-input { flex:1; min-width:200px; background:var(--bg-surface); border:1px solid var(--border-subtle); border-radius:10px; padding:10px 16px; color:var(--text-primary); font-size:0.875rem; outline:none; font-family:var(--font-body); transition:border-color 0.2s; }
-    .search-input:focus { border-color:var(--brand-primary); }
-    .search-input::placeholder { color:var(--text-tertiary); }
-    .filter-select { background:var(--bg-surface); border:1px solid var(--border-subtle); border-radius:10px; padding:10px 16px; color:var(--text-primary); font-size:0.875rem; font-family:var(--font-body); cursor:pointer; outline:none; }
-
-    /* Table */
-    .table-wrap { background:var(--bg-surface); border:1px solid var(--border-subtle); border-radius:16px; overflow:hidden; }
-    .leads-table { width:100%; border-collapse:collapse; }
-    .leads-table thead tr { border-bottom:1px solid var(--border-subtle); }
-    .leads-table th { padding:14px 20px; text-align:left; font-family:var(--font-mono); font-size:0.7rem; font-weight:700; text-transform:uppercase; letter-spacing:0.12em; color:var(--text-tertiary); white-space:nowrap; }
-    .leads-table tbody tr { border-bottom:1px solid rgba(255,255,255,0.04); transition:background 0.15s; }
-    .leads-table tbody tr:last-child { border-bottom:none; }
-    .leads-table tbody tr:hover { background:rgba(255,255,255,0.025); }
-    .leads-table td { padding:14px 20px; font-size:0.875rem; color:var(--text-primary); vertical-align:middle; }
-
-    /* Cell types */
-    .cell-name { font-weight:600; display:flex; align-items:center; gap:10px; }
-    .lead-avatar { width:32px; height:32px; border-radius:50%; background:linear-gradient(135deg,rgba(93,140,93,0.3),rgba(251,191,36,0.2)); display:flex; align-items:center; justify-content:center; font-weight:700; font-size:0.8rem; color:var(--text-primary); flex-shrink:0; }
-    .cell-email a { color:var(--brand-primary); text-decoration:none; font-family:var(--font-mono); font-size:0.8rem; }
-    .cell-email a:hover { text-decoration:underline; }
-    .cell-challenge { max-width:200px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; color:var(--text-secondary); font-size:0.82rem; }
-    .cell-date { font-family:var(--font-mono); font-size:0.78rem; color:var(--text-tertiary); white-space:nowrap; }
-
-    .source-badge { font-family:var(--font-mono); font-size:0.65rem; text-transform:uppercase; letter-spacing:0.1em; padding:3px 8px; border-radius:100px; background:rgba(255,255,255,0.04); border:1px solid var(--border-subtle); color:var(--text-tertiary); }
-    .source-badge.seo { color:var(--brand-primary); border-color:rgba(93,140,93,0.25); background:rgba(93,140,93,0.06); }
-    .source-badge.mktg { color:var(--brand-accent); border-color:rgba(251,191,36,0.25); background:rgba(251,191,36,0.06); }
-    .source-badge.contact { color:#818cf8; border-color:rgba(129,140,248,0.25); background:rgba(129,140,248,0.06); }
-
-    .status-pill { font-family:var(--font-mono); font-size:0.65rem; text-transform:uppercase; letter-spacing:0.1em; padding:4px 10px; border-radius:100px; }
-    .status-pill.new { background:rgba(74,222,128,0.1); color:#4ade80; }
-    .status-pill.contacted { background:rgba(251,191,36,0.1); color:var(--brand-accent); }
-    .status-pill.closed { background:rgba(255,255,255,0.05); color:var(--text-tertiary); }
-
-    /* Pagination */
-    .pagination { display:flex; align-items:center; justify-content:space-between; padding:16px 24px; border-top:1px solid var(--border-subtle); font-size:0.85rem; color:var(--text-tertiary); }
-    .page-btns { display:flex; gap:8px; }
-    .page-btn { background:transparent; border:1px solid var(--border-subtle); border-radius:8px; padding:6px 14px; color:var(--text-secondary); cursor:pointer; font-size:0.8rem; transition:all 0.2s; font-family:var(--font-body); }
-    .page-btn:hover:not(:disabled) { border-color:var(--brand-primary); color:var(--brand-primary); }
-    .page-btn:disabled { opacity:0.3; cursor:not-allowed; }
-
-    /* Lead detail modal */
-    .modal-overlay { position:fixed; inset:0; background:rgba(0,0,0,0.8); z-index:200; display:none; align-items:center; justify-content:center; padding:24px; }
-    .modal-overlay.open { display:flex; }
-    .modal { background:var(--bg-surface); border:1px solid var(--border-subtle); border-radius:16px; width:100%; max-width:560px; overflow:hidden; }
-    .modal-header { padding:20px 24px; border-bottom:1px solid var(--border-subtle); display:flex; align-items:center; justify-content:space-between; }
-    .modal-title { font-family:var(--font-heading); font-size:1rem; font-weight:700; }
-    .modal-close { background:transparent; border:none; color:var(--text-tertiary); font-size:1.4rem; cursor:pointer; padding:4px; line-height:1; }
-    .modal-close:hover { color:var(--text-primary); }
-    .detail-row { display:flex; padding:14px 24px; border-bottom:1px solid rgba(255,255,255,0.04); gap:16px; align-items:flex-start; }
-    .detail-row:last-child { border-bottom:none; }
-    .detail-key { font-family:var(--font-mono); font-size:0.72rem; text-transform:uppercase; letter-spacing:0.1em; color:var(--text-tertiary); width:120px; flex-shrink:0; padding-top:2px; }
-    .detail-val { font-size:0.875rem; color:var(--text-primary); flex:1; word-break:break-word; }
-
-    /* Empty / Loading */
-    @keyframes spin { to {transform:rotate(360deg);} }
-    .spinner { width:32px; height:32px; border:3px solid rgba(93,140,93,0.2); border-top-color:var(--brand-primary); border-radius:50%; animation:spin 0.8s linear infinite; margin:40px auto; }
-    .empty-state { text-align:center; padding:64px 32px; color:var(--text-tertiary); }
-    .empty-icon { font-size:3rem; margin-bottom:16px; color:var(--brand-primary); opacity:0.4; }
-    .empty-title { font-family:var(--font-heading); font-size:1.1rem; color:var(--text-secondary); margin-bottom:8px; }
-
-    @media (max-width:900px) { .admin-layout{grid-template-columns:1fr;} .sidebar{position:relative;width:100%;height:auto;} .main-content{margin-left:0;} }
-    @media (max-width:700px) { .content-area{padding:20px;} th.hide-sm,td.hide-sm{display:none;} }
-  </style>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/admin/admin-light.css">
 </head>
 <body>
-<div class="admin-layout">
-  <aside class="sidebar">
-    <a href="/" class="sidebar-logo">
-      <img src="/assets/brand/logo-5cypress.jpg" alt="5 Cypress" onerror="this.style.display='none'">
-      <div>
-        <div class="sidebar-logo-text">5 Cypress</div>
-        <div class="sidebar-logo-sub">Admin Hub</div>
+<div id="admin-sidebar"></div>
+<div class="a-main">
+  <div class="a-topbar">
+    <div class="a-page-title">Leads</div>
+    <span class="a-topbar-badge" id="topBadge">Loading…</span>
+    <button class="btn btn-ghost" onclick="exportCSV()"><i class="ri-download-2-line"></i> Export CSV</button>
+  </div>
+  <div class="a-content">
+    <div class="a-filter-bar">
+      <div class="a-search-wrap">
+        <i class="ri-search-line"></i>
+        <input class="a-search" type="search" id="searchInput" placeholder="Search name, email, company…" oninput="applyFilter()">
       </div>
-    </a>
-    <nav class="sidebar-nav">
-      <div class="nav-group-label">Overview</div>
-      <a href="/admin" class="nav-item"><i class="ri-dashboard-line"></i>Dashboard</a>
-      <a href="/admin/leads" class="nav-item active"><i class="ri-user-add-line"></i>Leads<span class="nav-badge accent" id="sidebarLeadCount">—</span></a>
-      <a href="/admin/clients" class="nav-item"><i class="ri-briefcase-line"></i>Clients</a>
-      <div class="nav-group-label">Marketing Team</div>
-      <a href="/admin/marketing" class="nav-item"><i class="ri-robot-line"></i>AI Marketing</a>
-      <a href="/marketing" class="nav-item" target="_blank"><i class="ri-external-link-line"></i>Marketing Page</a>
-      <div class="nav-group-label">SEO</div>
-      <a href="/admin/seo" class="nav-item"><i class="ri-search-eye-line"></i>SEO Audit Tool</a>
-      <div class="nav-group-label">Site</div>
-      <a href="/" class="nav-item" target="_blank"><i class="ri-home-line"></i>Homepage</a>
-      <a href="/admin/newclient" class="nav-item"><i class="ri-user-star-line"></i>New Client Intake</a>
-    </nav>
-    <div class="sidebar-footer">
-      <div class="sidebar-status">
-        <span class="status-dot" id="sidebarStatus"></span>
-        <span id="sidebarStatusText">Checking…</span>
-      </div>
+      <select class="a-select" id="sourceFilter" onchange="applyFilter()"><option value="">All Sources</option></select>
+      <select class="a-select" id="statusFilter" onchange="applyFilter()">
+        <option value="">All Statuses</option>
+        <option value="new">New</option>
+        <option value="contacted">Contacted</option>
+        <option value="closed">Closed</option>
+        <option value="booked">Booked</option>
+      </select>
     </div>
-  </aside>
-
-  <div class="main-content">
-    <div class="top-bar">
-      <div class="page-title"><i class="ri-user-add-line"></i>Leads</div>
-      <div style="display:flex;align-items:center;gap:12px;">
-        <span class="admin-badge" id="topLeadCount">Loading…</span>
+    <div class="a-card" id="tableCard">
+      <div class="a-table-wrap">
+        <table class="a-table" id="leadsTable" style="display:none">
+          <thead><tr><th>Lead</th><th class="hide-sm">Company</th><th>Source</th><th>Status</th><th class="text-right hide-sm">Date</th></tr></thead>
+          <tbody id="leadsBody"></tbody>
+        </table>
       </div>
-    </div>
-
-    <div class="content-area">
-      <!-- Summary -->
-      <div class="summary-bar" id="summaryBar">
-        <div class="summary-chip"><span class="dot green"></span>Total: <strong id="sumTotal">—</strong></div>
-        <div class="summary-chip"><span class="dot yellow"></span>This week: <strong id="sumNew">—</strong></div>
-        <div class="summary-chip"><strong id="sumSources">—</strong> sources</div>
+      <div id="loadingState"><div class="a-spinner"></div></div>
+      <div id="emptyState" class="a-empty" style="display:none">
+        <i class="ri-user-search-line"></i>
+        <div class="a-empty-title">No leads match your filters</div>
+        <p>Try adjusting the search or filters above.</p>
       </div>
-
-      <!-- Filter -->
-      <div class="filter-bar">
-        <input type="search" class="search-input" id="searchInput" placeholder="Search by name, email, company…" oninput="applyFilter()">
-        <select class="filter-select" id="sourceFilter" onchange="applyFilter()">
-          <option value="">All sources</option>
-        </select>
-        <select class="filter-select" id="statusFilter" onchange="applyFilter()">
-          <option value="">All statuses</option>
-          <option value="new">New</option>
-          <option value="contacted">Contacted</option>
-          <option value="closed">Closed</option>
-        </select>
-      </div>
-
-      <!-- Table -->
-      <div class="table-wrap" id="tableWrap">
-        <div class="spinner"></div>
+      <div class="a-pagination" id="paginationBar" style="display:none">
+        <span class="a-pg-meta" id="pgMeta"></span>
+        <div class="a-pg-btns">
+          <button class="a-pg-btn" id="pgPrev" onclick="changePage(-1)" disabled>← Prev</button>
+          <button class="a-pg-btn" id="pgNext" onclick="changePage(1)">Next →</button>
+        </div>
       </div>
     </div>
   </div>
 </div>
-
-<!-- Lead Detail Modal -->
-<div class="modal-overlay" id="detailModal">
-  <div class="modal">
-    <div class="modal-header">
-      <div class="modal-title" id="detailName">Lead Detail</div>
-      <button class="modal-close" onclick="closeDetail()"><i class="ri-close-line"></i></button>
+<div class="a-modal-overlay" id="detailModal">
+  <div class="a-modal">
+    <div class="a-modal-header">
+      <div class="a-modal-title" id="modalTitle">Lead Detail</div>
+      <button class="a-modal-close" onclick="closeModal()"><i class="ri-close-line"></i></button>
     </div>
-    <div id="detailBody"></div>
+    <div class="a-detail-grid" id="modalBody"></div>
+    <div class="a-modal-footer">
+      <label style="font-size:12px;font-weight:600;color:var(--tx-2);font-family:var(--fm);margin-right:4px">Status:</label>
+      <select class="a-status-select" id="statusSelect" onchange="updateStatus()">
+        <option value="new">New</option>
+        <option value="contacted">Contacted</option>
+        <option value="closed">Closed</option>
+        <option value="booked">Booked</option>
+      </select>
+      <div style="flex:1"></div>
+      <button class="btn btn-danger btn-sm" onclick="deleteLead()"><i class="ri-delete-bin-line"></i> Delete</button>
+    </div>
   </div>
 </div>
-
 <script>
-  let allLeads = [];
-  let filtered = [];
-  const PAGE_SIZE = 25;
-  let currentPage = 0;
-
-  function esc(s) { return String(s||'').replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
-
-  function srcClass(s) {
-    if (!s) return '';
-    if (s.includes('seo')) return 'seo';
-    if (s.includes('market')) return 'mktg';
-    if (s.includes('contact')) return 'contact';
-    return '';
-  }
-
-  function statusPillClass(s) {
-    if (!s || s === 'new') return 'new';
-    if (s === 'contacted') return 'contacted';
-    return 'closed';
-  }
-
-  function formatDate(d) {
-    if (!d) return '—';
-    return new Date(d).toLocaleDateString('en-US', {month:'short',day:'numeric',year:'numeric'});
-  }
-
-  function initials(name) {
-    return (name||'?').split(' ').map(w=>w[0]).join('').substring(0,2).toUpperCase();
-  }
-
-  async function loadLeads() {
-    try {
-      const r = await fetch('/admin/api/leads?limit=200');
-      if (!r.ok) throw new Error(`HTTP ${r.status}`);
-      const data = await r.json();
-      allLeads = data.leads || [];
-
-      // Summary
-      document.getElementById('sumTotal').textContent = allLeads.length;
-      document.getElementById('topLeadCount').textContent = `${allLeads.length} lead${allLeads.length !== 1 ? 's' : ''}`;
-      document.getElementById('sidebarLeadCount').textContent = allLeads.length;
-      const week = Date.now() - 7*24*60*60*1000;
-      const newCount = allLeads.filter(l => l.createdAt && new Date(l.createdAt) > week).length;
-      document.getElementById('sumNew').textContent = newCount;
-
-      // Build source filter
-      const sources = [...new Set(allLeads.map(l => l.source).filter(Boolean))];
-      document.getElementById('sumSources').textContent = sources.length;
-      const sel = document.getElementById('sourceFilter');
-      sources.forEach(s => {
-        const o = document.createElement('option');
-        o.value = s; o.textContent = s; sel.appendChild(o);
-      });
-
-      applyFilter();
-    } catch(e) {
-      document.getElementById('tableWrap').innerHTML = `<div class="empty-state"><div class="empty-icon"><i class="ri-error-warning-line"></i></div><div class="empty-title">Failed to load leads</div><p>${esc(e.message)}</p></div>`;
-    }
-  }
-
-  function applyFilter() {
-    const q = document.getElementById('searchInput').value.toLowerCase();
-    const src = document.getElementById('sourceFilter').value;
-    const status = document.getElementById('statusFilter').value;
-    filtered = allLeads.filter(l => {
-      const match = !q || [l.name,l.email,l.company,l.website].some(f=>f&&f.toLowerCase().includes(q));
-      const matchSrc = !src || l.source === src;
-      const matchStatus = !status || (l.status||'new') === status;
-      return match && matchSrc && matchStatus;
-    });
-    currentPage = 0;
-    renderTable();
-  }
-
-  function renderTable() {
-    const wrap = document.getElementById('tableWrap');
-    if (!filtered.length) {
-      wrap.innerHTML = `<div class="empty-state"><div class="empty-icon"><i class="ri-user-search-line"></i></div><div class="empty-title">No leads match your filters</div><p>Try adjusting the search or filters above.</p></div>`;
-      return;
-    }
-
-    const start = currentPage * PAGE_SIZE;
-    const page = filtered.slice(start, start + PAGE_SIZE);
-
-    const rows = page.map(l => {
-      const sc = srcClass(l.source);
-      const stCls = statusPillClass(l.status);
-      return `<tr onclick="showDetail(${l.id})" style="cursor:pointer;">
-        <td><div class="cell-name"><div class="lead-avatar">${esc(initials(l.name))}</div>${esc(l.name||'—')}</div></td>
-        <td class="cell-email"><a href="mailto:${esc(l.email)}" onclick="event.stopPropagation()">${esc(l.email||'—')}</a></td>
-        <td class="hide-sm">${esc(l.company||'—')}</td>
-        <td><span class="source-badge ${sc}">${esc(l.source||'web')}</span></td>
-        <td><span class="status-pill ${stCls}">${esc(l.status||'new')}</span></td>
-        <td class="cell-date hide-sm">${formatDate(l.createdAt)}</td>
-      </tr>`;
-    }).join('');
-
-    wrap.innerHTML = `<table class="leads-table">
-      <thead><tr>
-        <th>Name</th>
-        <th>Email</th>
-        <th class="hide-sm">Company</th>
-        <th>Source</th>
-        <th>Status</th>
-        <th class="hide-sm">Date</th>
-      </tr></thead>
-      <tbody>${rows}</tbody>
-    </table>
-    <div class="pagination">
-      <span>Showing ${start+1}–${Math.min(start+PAGE_SIZE, filtered.length)} of ${filtered.length}</span>
-      <div class="page-btns">
-        <button class="page-btn" onclick="changePage(-1)" ${currentPage===0?'disabled':''}>← Prev</button>
-        <button class="page-btn" onclick="changePage(1)" ${start+PAGE_SIZE>=filtered.length?'disabled':''}>Next →</button>
-      </div>
-    </div>`;
-  }
-
-  function changePage(dir) {
-    currentPage += dir;
-    renderTable();
-    document.querySelector('.table-wrap').scrollIntoView({behavior:'smooth',block:'start'});
-  }
-
-  function showDetail(id) {
-    const l = allLeads.find(x => x.id === id);
-    if (!l) return;
-    document.getElementById('detailName').textContent = l.name || 'Lead Detail';
-    const fields = [
-      ['Name', l.name],
-      ['Email', l.email ? `<a href="mailto:${esc(l.email)}" style="color:var(--brand-primary)">${esc(l.email)}</a>` : '—'],
-      ['Company', l.company],
-      ['Website', l.website ? `<a href="${esc(l.website)}" target="_blank" style="color:var(--brand-primary)">${esc(l.website)}</a>` : '—'],
-      ['Source', l.source],
-      ['Scanned domain', l.scanned_domain],
-      ['Challenge', l.challenge],
-      ['Timeline', l.timeline],
-      ['Status', `<span class="status-pill ${statusPillClass(l.status)}">${esc(l.status||'new')}</span>`],
-      ['Date', formatDate(l.createdAt)],
-    ];
-    document.getElementById('detailBody').innerHTML = fields
-      .filter(([,v]) => v)
-      .map(([k,v]) => `<div class="detail-row"><span class="detail-key">${k}</span><span class="detail-val">${typeof v === 'string' && !v.includes('<') ? esc(v) : v}</span></div>`)
-      .join('');
-    document.getElementById('detailModal').classList.add('open');
-  }
-
-  function closeDetail() { document.getElementById('detailModal').classList.remove('open'); }
-  document.getElementById('detailModal').addEventListener('click', function(e) { if (e.target===this) closeDetail(); });
-  document.addEventListener('keydown', e => { if (e.key==='Escape') closeDetail(); });
-
-  async function checkHealth() {
-    try {
-      const r = await fetch('/health');
-      document.getElementById('sidebarStatus').className = r.ok ? 'status-dot' : 'status-dot offline';
-      document.getElementById('sidebarStatusText').textContent = r.ok ? `Online · ${new Date().toLocaleTimeString()}` : 'API error';
-    } catch { document.getElementById('sidebarStatus').className = 'status-dot offline'; }
-  }
-
+  let allLeads=[],filtered=[],activeId=null,page=0;
+  const PAGE=25;
+  function esc(s){return String(s||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+  function avatarColor(n){const c=['g','b','p','au'];let h=0;for(let i=0;i<(n||'').length;i++)h=(h*31+n.charCodeAt(i))&0xffff;return c[h%c.length];}
+  function initials(n){return(n||'?').split(' ').map(w=>w[0]).join('').substring(0,2).toUpperCase();}
+  function fmtDate(d){if(!d)return'—';return new Date(d).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});}
+  function pill(s){const cls={contacted:'contacted',closed:'closed',booked:'booked'}[s]||'new';return`<span class="pill ${cls}"><span class="pill-dot"></span>${esc(s||'new')}</span>`;}
+  async function loadLeads(){try{const data=await fetch('/admin/api/leads?limit=500').then(r=>r.json());allLeads=data.leads||[];const week=Date.now()-7*86400000;const nw=allLeads.filter(l=>l.createdAt&&new Date(l.createdAt)>week).length;document.getElementById('topBadge').textContent=`${allLeads.length} total · ${nw} this week`;const sources=[...new Set(allLeads.map(l=>l.source).filter(Boolean))].sort();const sel=document.getElementById('sourceFilter');sources.forEach(s=>{const o=document.createElement('option');o.value=s;o.textContent=s;sel.appendChild(o);});applyFilter();}catch(e){document.getElementById('loadingState').innerHTML=`<div class="a-empty"><i class="ri-error-warning-line"></i><div class="a-empty-title">Failed to load leads</div><p>${esc(e.message)}</p></div>`;}}
+  function applyFilter(){const q=document.getElementById('searchInput').value.toLowerCase();const src=document.getElementById('sourceFilter').value;const st=document.getElementById('statusFilter').value;filtered=allLeads.filter(l=>{const mq=!q||[l.name,l.email,l.company,l.website].some(f=>f&&f.toLowerCase().includes(q));const ms=!src||l.source===src;const mst=!st||(l.status||'new')===st;return mq&&ms&&mst;});page=0;render();}
+  function render(){const loading=document.getElementById('loadingState');const empty=document.getElementById('emptyState');const table=document.getElementById('leadsTable');const pgBar=document.getElementById('paginationBar');loading.style.display='none';if(!filtered.length){empty.style.display='block';table.style.display='none';pgBar.style.display='none';return;}empty.style.display='none';table.style.display='table';const start=page*PAGE;const slice=filtered.slice(start,start+PAGE);document.getElementById('leadsBody').innerHTML=slice.map(l=>`<tr onclick="openModal(${l.id})"><td><div class="a-lead-cell"><div class="a-avatar ${avatarColor(l.name)}">${esc(initials(l.name))}</div><div><div class="a-lead-name">${esc(l.name||'—')}</div><div class="a-lead-email">${esc(l.email||'')}</div></div></div></td><td class="tx-sm hide-sm">${esc(l.company||'—')}</td><td><span class="src-badge">${esc(l.source||'web')}</span></td><td>${pill(l.status)}</td><td class="tx-sm mono text-right hide-sm">${fmtDate(l.createdAt)}</td></tr>`).join('');const total=filtered.length;const end=Math.min(start+PAGE,total);document.getElementById('pgMeta').textContent=`Showing ${start+1}–${end} of ${total}`;document.getElementById('pgPrev').disabled=page===0;document.getElementById('pgNext').disabled=end>=total;pgBar.style.display='flex';}
+  function changePage(dir){page+=dir;render();document.getElementById('tableCard').scrollIntoView({behavior:'smooth',block:'start'});}
+  function openModal(id){const l=allLeads.find(x=>x.id===id);if(!l)return;activeId=id;document.getElementById('modalTitle').textContent=l.name||'Lead Detail';const fields=[['Name',l.name],['Email',l.email?`<a href="mailto:${esc(l.email)}" style="color:var(--green)">${esc(l.email)}</a>`:null],['Company',l.company],['Website',l.website?`<a href="${esc(l.website)}" target="_blank" style="color:var(--green)">${esc(l.website)}</a>`:null],['Source',l.source],['Scanned',l.scanned_domain],['Challenge',l.challenge],['Timeline',l.timeline],['Date',fmtDate(l.createdAt)]].filter(([,v])=>v);document.getElementById('modalBody').innerHTML=fields.map(([k,v])=>`<span class="a-detail-key">${k}</span><span class="a-detail-val">${(v&&v.includes('<'))?v:esc(v)}</span>`).join('');document.getElementById('statusSelect').value=l.status||'new';document.getElementById('detailModal').classList.add('open');}
+  function closeModal(){document.getElementById('detailModal').classList.remove('open');activeId=null;}
+  async function updateStatus(){if(!activeId)return;const status=document.getElementById('statusSelect').value;try{const r=await fetch(`/admin/api/leads/${activeId}`,{method:'PATCH',headers:{'Content-Type':'application/json'},body:JSON.stringify({status})});if(!r.ok)throw new Error('Update failed');const lead=allLeads.find(l=>l.id===activeId);if(lead)lead.status=status;applyFilter();}catch(e){alert('Failed to update status: '+e.message);}}
+  async function deleteLead(){if(!activeId)return;const lead=allLeads.find(l=>l.id===activeId);if(!confirm(`Delete lead for ${lead?.name||'this lead'}? This cannot be undone.`))return;try{const r=await fetch(`/admin/api/leads/${activeId}`,{method:'DELETE'});if(!r.ok)throw new Error('Delete failed');allLeads=allLeads.filter(l=>l.id!==activeId);document.getElementById('topBadge').textContent=`${allLeads.length} total`;closeModal();applyFilter();}catch(e){alert('Failed to delete: '+e.message);}}
+  function exportCSV(){const cols=['id','name','email','company','website','source','scanned_domain','challenge','timeline','status','createdAt'];const header=cols.join(',');const rows=filtered.map(l=>cols.map(c=>{const v=String(l[c]??'').replace(/"/g,'""');return(v.includes(',')||v.includes('"')||v.includes('\n'))?`"${v}"`:v;}).join(','));const blob=new Blob([header+'\n'+rows.join('\n')],{type:'text/csv'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=`leads-${new Date().toISOString().split('T')[0]}.csv`;a.click();}
+  document.getElementById('detailModal').addEventListener('click',function(e){if(e.target===this)closeModal();});
+  document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal();});
   loadLeads();
-  checkHealth();
 </script>
+<script src="/admin/admin-shell.js"></script>
 </body>
 </html>

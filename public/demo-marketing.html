@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Marketing ROI Dashboard</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --primary: #1B4332;
+    --primary-mid: #2D6A4F;
+    --primary-light: #52B788;
+    --accent: #74C69D;
+    --bg: #0A1628;
+    --bg-card: #111827;
+    --bg-card2: #1F2937;
+    --text: #F9FAFB;
+    --text-sub: #9CA3AF;
+    --text-muted: #6B7280;
+    --success: #10B981;
+    --warning: #F59E0B;
+    --danger: #EF4444;
+  }
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+  }
+  header {
+    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-mid) 100%);
+    padding: 24px 32px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--primary-light)30;
+  }
+  header h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: #fff;
+  }
+  header .meta {
+    font-size: 0.8rem;
+    color: var(--accent);
+    text-align: right;
+  }
+  .container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 28px 24px;
+  }
+  .kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 16px;
+    margin-bottom: 24px;
+  }
+  .kpi-card {
+    background: var(--bg-card);
+    border: 1px solid var(--primary-mid)40;
+    border-radius: 12px;
+    padding: 20px 24px;
+    border-top: 3px solid var(--primary-light);
+  }
+  .kpi-label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--text-sub);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 8px;
+  }
+  .kpi-value {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 4px;
+    font-variant-numeric: tabular-nums;
+  }
+  .kpi-sub {
+    font-size: 0.72rem;
+    color: var(--text-muted);
+  }
+  .charts-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(420px, 1fr));
+    gap: 16px;
+    margin-bottom: 24px;
+  }
+  .chart-card {
+    background: var(--bg-card);
+    border: 1px solid var(--primary-mid)40;
+    border-radius: 12px;
+    padding: 20px 24px;
+  }
+  .chart-card.full-width {
+    grid-column: 1 / -1;
+  }
+  .chart-title {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--text-sub);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 16px;
+  }
+  .chart-container {
+    height: 280px;
+  }
+  .data-table-card {
+    background: var(--bg-card);
+    border: 1px solid var(--primary-mid)40;
+    border-radius: 12px;
+    padding: 20px 24px;
+    overflow-x: auto;
+    margin-bottom: 24px;
+  }
+  .data-table-card h3 {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--text-sub);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 16px;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.82rem;
+  }
+  th {
+    background: var(--bg-card2);
+    padding: 10px 14px;
+    text-align: left;
+    color: var(--text-sub);
+    font-weight: 600;
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    border-bottom: 1px solid var(--primary-mid)30;
+  }
+  td {
+    padding: 10px 14px;
+    border-bottom: 1px solid #ffffff08;
+    color: var(--text);
+  }
+  tr:hover td { background: var(--bg-card2); }
+  footer {
+    border-top: 1px solid var(--primary-mid)30;
+    padding: 16px 24px;
+    text-align: center;
+    font-size: 0.72rem;
+    color: var(--text-muted);
+  }
+  footer a { color: var(--primary-light); text-decoration: none; }
+  @media (max-width: 768px) {
+    header { flex-direction: column; gap: 12px; text-align: center; }
+    .charts-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div>
+    <div style="font-size:0.7rem;color:var(--accent);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:4px;">5 Cypress Automation</div>
+    <h1>Marketing ROI Dashboard</h1>
+  </div>
+  <div class="meta">
+    <div>March 2026</div>
+    <div style="margin-top:4px">250 records</div>
+  </div>
+</header>
+
+<div class="container">
+
+  <!-- KPI Cards -->
+  <div class="kpi-grid">
+    
+            <div class="kpi-card">
+                <div class="kpi-label">Impressions</div>
+                <div class="kpi-value">6.2M</div>
+                <div class="kpi-sub">Avg: 24.9K | Max: 49.9K</div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-label">Clicks</div>
+                <div class="kpi-value">251.5K</div>
+                <div class="kpi-sub">Avg: 1.0K | Max: 2.0K</div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-label">Leads</div>
+                <div class="kpi-value">10.3K</div>
+                <div class="kpi-sub">Avg: 41.3 | Max: 79.0</div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-label">Spend</div>
+                <div class="kpi-value">$630.1K</div>
+                <div class="kpi-sub">Avg: $2.5K | Max: $5.0K</div>
+            </div>
+  </div>
+
+  <!-- Charts -->
+  <div class="charts-grid">
+    
+    
+  </div>
+
+  <!-- Data Preview Table -->
+  <div class="data-table-card">
+    <h3>Data Preview (first 25 rows)</h3>
+    <table class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>date</th>
+      <th>channel</th>
+      <th>campaign</th>
+      <th>content_type</th>
+      <th>impressions</th>
+      <th>clicks</th>
+      <th>leads</th>
+      <th>spend</th>
+      <th>revenue_attributed</th>
+      <th>ctr</th>
+      <th>cpl</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>2025-12-14</td>
+      <td>Organic SEO</td>
+      <td>Q2 Lead Gen</td>
+      <td>Video</td>
+      <td>31325</td>
+      <td>1138</td>
+      <td>46</td>
+      <td>3538.10</td>
+      <td>4369.53</td>
+      <td>0.0363</td>
+      <td>76.92</td>
+    </tr>
+    <tr>
+      <td>2025-07-27</td>
+      <td>Email</td>
+      <td>Always-On</td>
+      <td>Blog Post</td>
+      <td>5704</td>
+      <td>1233</td>
+      <td>69</td>
+      <td>531.07</td>
+      <td>21868.59</td>
+      <td>0.2162</td>
+      <td>7.70</td>
+    </tr>
+    <tr>
+      <td>2025-03-26</td>
+      <td>Organic SEO</td>
+      <td>Q1 Brand Awareness</td>
+      <td>Webinar</td>
+      <td>29385</td>
+      <td>1134</td>
+      <td>56</td>
+      <td>3879.39</td>
+      <td>18435.79</td>
+      <td>0.0386</td>
+      <td>69.27</td>
+    </tr>
+    <tr>
+      <td>2025-08-28</td>
+      <td>Events</td>
+      <td>Q1 Brand Awareness</td>
+      <td>Video</td>
+      <td>40556</td>
+      <td>777</td>
+      <td>18</td>
+      <td>4039.79</td>
+      <td>6320.94</td>
+      <td>0.0192</td>
+      <td>224.43</td>
+    </tr>
+    <tr>
+      <td>2025-03-07</td>
+      <td>Referral</td>
+      <td>Q3 Nurture</td>
+      <td>White Paper</td>
+      <td>3703</td>
+      <td>316</td>
+      <td>64</td>
+      <td>3838.82</td>
+      <td>1682.12</td>
+      <td>0.0853</td>
+      <td>59.98</td>
+    </tr>
+    <tr>
+      <td>2025-11-15</td>
+      <td>Google Ads</td>
+      <td>Q2 Lead Gen</td>
+      <td>Case Study</td>
+      <td>2744</td>
+      <td>1619</td>
+      <td>2</td>
+      <td>569.83</td>
+      <td>6699.93</td>
+      <td>0.5900</td>
+      <td>284.92</td>
+    </tr>
+    <tr>
+      <td>2025-10-01</td>
+      <td>Events</td>
+      <td>Q3 Nurture</td>
+      <td>Webinar</td>
+      <td>33286</td>
+      <td>1716</td>
+      <td>41</td>
+      <td>3219.54</td>
+      <td>22805.21</td>
+      <td>0.0516</td>
+      <td>78.53</td>
+    </tr>
+    <tr>
+      <td>2025-01-14</td>
+      <td>LinkedIn</td>
+      <td>Q2 Lead Gen</td>
+      <td>Blog Post</td>
+      <td>3583</td>
+      <td>386</td>
+      <td>20</td>
+      <td>4171.62</td>
+      <td>15829.47</td>
+      <td>0.1077</td>
+      <td>208.58</td>
+    </tr>
+    <tr>
+      <td>2025-07-21</td>
+      <td>Email</td>
+      <td>Q4 Retargeting</td>
+      <td>White Paper</td>
+      <td>22084</td>
+      <td>664</td>
+      <td>39</td>
+      <td>2886.77</td>
+      <td>18026.37</td>
+      <td>0.0301</td>
+      <td>74.02</td>
+    </tr>
+    <tr>
+      <td>2025-10-31</td>
+      <td>LinkedIn</td>
+      <td>Q3 Nurture</td>
+      <td>Video</td>
+      <td>9021</td>
+      <td>687</td>
+      <td>66</td>
+      <td>3232.04</td>
+      <td>6428.81</td>
+      <td>0.0762</td>
+      <td>48.97</td>
+    </tr>
+    <tr>
+      <td>2025-10-16</td>
+      <td>Email</td>
+      <td>Q3 Nurture</td>
+      <td>Case Study</td>
+      <td>34041</td>
+      <td>408</td>
+      <td>24</td>
+      <td>2291.82</td>
+      <td>17984.70</td>
+      <td>0.0120</td>
+      <td>95.49</td>
+    </tr>
+    <tr>
+      <td>2025-12-06</td>
+      <td>Referral</td>
+      <td>Always-On</td>
+      <td>Blog Post</td>
+      <td>29563</td>
+      <td>1806</td>
+      <td>54</td>
+      <td>2643.54</td>
+      <td>703.04</td>
+      <td>0.0611</td>
+      <td>48.95</td>
+    </tr>
+    <tr>
+      <td>2025-01-14</td>
+      <td>Events</td>
+      <td>Q3 Nurture</td>
+      <td>Video</td>
+      <td>5232</td>
+      <td>230</td>
+      <td>51</td>
+      <td>171.88</td>
+      <td>9383.03</td>
+      <td>0.0440</td>
+      <td>3.37</td>
+    </tr>
+    <tr>
+      <td>2025-02-12</td>
+      <td>Referral</td>
+      <td>Q2 Lead Gen</td>
+      <td>Video</td>
+      <td>28018</td>
+      <td>1628</td>
+      <td>43</td>
+      <td>3194.82</td>
+      <td>15668.83</td>
+      <td>0.0581</td>
+      <td>74.30</td>
+    </tr>
+    <tr>
+      <td>2025-11-26</td>
+      <td>Organic SEO</td>
+      <td>Always-On</td>
+      <td>Webinar</td>
+      <td>40063</td>
+      <td>191</td>
+      <td>55</td>
+      <td>407.24</td>
+      <td>3652.41</td>
+      <td>0.0048</td>
+      <td>7.40</td>
+    </tr>
+    <tr>
+      <td>2025-08-08</td>
+      <td>Referral</td>
+      <td>Q3 Nurture</td>
+      <td>Webinar</td>
+      <td>40252</td>
+      <td>316</td>
+      <td>54</td>
+      <td>2175.07</td>
+      <td>20575.09</td>
+      <td>0.0079</td>
+      <td>40.28</td>
+    </tr>
+    <tr>
+      <td>2025-03-11</td>
+      <td>Referral</td>
+      <td>Q3 Nurture</td>
+      <td>Blog Post</td>
+      <td>30197</td>
+      <td>531</td>
+      <td>69</td>
+      <td>1463.28</td>
+      <td>5875.78</td>
+      <td>0.0176</td>
+      <td>21.21</td>
+    </tr>
+    <tr>
+      <td>2025-08-25</td>
+      <td>Organic SEO</td>
+      <td>Q4 Retargeting</td>
+      <td>Video</td>
+      <td>3067</td>
+      <td>1429</td>
+      <td>76</td>
+      <td>2727.14</td>
+      <td>16307.03</td>
+      <td>0.4659</td>
+      <td>35.88</td>
+    </tr>
+    <tr>
+      <td>2025-04-04</td>
+      <td>Email</td>
+      <td>Q3 Nurture</td>
+      <td>Webinar</td>
+      <td>16621</td>
+      <td>1023</td>
+      <td>72</td>
+      <td>667.08</td>
+      <td>10129.93</td>
+      <td>0.0615</td>
+      <td>9.26</td>
+    </tr>
+    <tr>
+      <td>2025-01-26</td>
+      <td>Organic SEO</td>
+      <td>Q1 Brand Awareness</td>
+      <td>Case Study</td>
+      <td>2174</td>
+      <td>13</td>
+      <td>65</td>
+      <td>3458.22</td>
+      <td>14901.09</td>
+      <td>0.0060</td>
+      <td>53.20</td>
+    </tr>
+    <tr>
+      <td>2025-05-14</td>
+      <td>Events</td>
+      <td>Always-On</td>
+      <td>Case Study</td>
+      <td>11375</td>
+      <td>872</td>
+      <td>18</td>
+      <td>3975.06</td>
+      <td>2686.26</td>
+      <td>0.0767</td>
+      <td>220.84</td>
+    </tr>
+    <tr>
+      <td>2025-07-14</td>
+      <td>Referral</td>
+      <td>Q1 Brand Awareness</td>
+      <td>Video</td>
+      <td>44840</td>
+      <td>1947</td>
+      <td>6</td>
+      <td>816.77</td>
+      <td>422.82</td>
+      <td>0.0434</td>
+      <td>136.13</td>
+    </tr>
+    <tr>
+      <td>2025-06-17</td>
+      <td>Organic SEO</td>
+      <td>Always-On</td>
+      <td>Webinar</td>
+      <td>1239</td>
+      <td>857</td>
+      <td>62</td>
+      <td>521.57</td>
+      <td>22739.11</td>
+      <td>0.6917</td>
+      <td>8.41</td>
+    </tr>
+    <tr>
+      <td>2025-04-19</td>
+      <td>Referral</td>
+      <td>Q4 Retargeting</td>
+      <td>Blog Post</td>
+      <td>2045</td>
+      <td>813</td>
+      <td>41</td>
+      <td>727.58</td>
+      <td>6740.75</td>
+      <td>0.3976</td>
+      <td>17.75</td>
+    </tr>
+    <tr>
+      <td>2025-08-21</td>
+      <td>Events</td>
+      <td>Q3 Nurture</td>
+      <td>Blog Post</td>
+      <td>29640</td>
+      <td>1314</td>
+      <td>41</td>
+      <td>4385.64</td>
+      <td>20491.93</td>
+      <td>0.0443</td>
+      <td>106.97</td>
+    </tr>
+  </tbody>
+</table>
+  </div>
+
+</div>
+
+<footer>
+  Built by <a href="https://www.5cypress.com" target="_blank">5 Cypress Automation</a>
+  &nbsp;·&nbsp; March 2026 &nbsp;·&nbsp; 250 records processed
+</footer>
+
+<script>
+
+
+</script>
+
+</body>
+</html>

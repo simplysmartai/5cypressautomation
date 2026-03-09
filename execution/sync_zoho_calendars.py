@@ -153,7 +153,11 @@ def get_all_users(access_token, dc):
         if response.status_code == 200:
             return response.json().get('users', [])
         return []
-    except:
+    except Exception as e:
+        import logging as _logging
+        _logging.getLogger(__name__).warning(
+            "get_zoho_users failed", extra={"error": str(e)}
+        )
         return []
 
 def get_user_calendars(access_token, user_email, dc):
@@ -168,7 +172,11 @@ def get_user_calendars(access_token, user_email, dc):
         if response.status_code == 200:
             return response.json().get('calendars', [])
         return []
-    except:
+    except Exception as e:
+        import logging as _logging
+        _logging.getLogger(__name__).warning(
+            "get_user_calendars failed", extra={"error": str(e)}
+        )
         return []
 
 def get_calendar_events(access_token, calendar_id, start_date, end_date, dc):
@@ -269,7 +277,12 @@ def calculate_availability_slots(events, start_date, end_date):
                     is_busy = True
                     event_name = event['title']
                     break
-            except:
+            except Exception as e:
+                import logging as _logging
+                _logging.getLogger(__name__).debug(
+                    "Skipping malformed event in availability check",
+                    extra={"error": str(e)}
+                )
                 continue
         
         availability.append({
@@ -300,7 +313,11 @@ def refresh_access_token(refresh_token, dc):
         
         tokens = response.json()
         return tokens.get('access_token')
-    except:
+    except Exception as e:
+        import logging as _logging
+        _logging.getLogger(__name__).error(
+            "Zoho token refresh failed", extra={"error": str(e)}
+        )
         return None
 
 if __name__ == '__main__':

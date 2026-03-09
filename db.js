@@ -56,6 +56,11 @@ db.exec(`
   );
 `);
 
+// ── Migrate leads table — add columns that may not exist in older DBs ────────
+['followUpDate TEXT', 'service TEXT', 'calendlyEventUri TEXT', 'startTime TEXT', 'timezone TEXT'].forEach(col => {
+  try { db.exec(`ALTER TABLE leads ADD COLUMN ${col}`); } catch (_) { /* column already exists — safe to ignore */ }
+});
+
 // Seed data if empty
 const clientCount = db.prepare('SELECT count(*) as count FROM clients').get().count;
 if (clientCount === 0) {

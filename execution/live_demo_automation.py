@@ -15,6 +15,15 @@ Demo Flow:
 This proves the full Form → Invoice → Ship → Notify → Track workflow.
 """
 
+# ============================================================
+# SCRIPT_STATUS: PARTIAL
+# REASON: QBO invoice step uses QBO sandbox (real creds needed).
+#         Shipping step generates a mock label, not ShipStation.
+#         Sheets logging is real but requires Google OAuth.
+# BLOCKS:  QBO sandbox creds + ShipStation API keys
+# OWNER:   @nick
+# ============================================================
+
 import os
 import json
 import logging

@@ -199,7 +199,12 @@ def calculate_availability_slots(events, start_date, end_date):
                     is_busy = True
                     event_name = event['title']
                     break
-            except:
+            except Exception as e:
+                import logging as _logging
+                _logging.getLogger(__name__).debug(
+                    "Skipping malformed event in availability check",
+                    extra={"error": str(e)}
+                )
                 continue
         
         availability.append({
@@ -229,7 +234,11 @@ def list_webhooks():
             "success": True,
             "webhooks": webhooks
         }
-    except:
+    except Exception as e:
+        import logging as _logging
+        _logging.getLogger(__name__).warning(
+            "Could not load webhook list", extra={"error": str(e)}
+        )
         return {
             "success": False,
             "error": "Webhooks not found. Run: python execution/setup_zoho_calendar_webhook.py"

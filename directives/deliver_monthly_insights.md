@@ -15,6 +15,23 @@ This directive governs the ongoing relationship with clients after initial imple
 
 ---
 
+## Agent Mode
+
+> This directive spans 4 weeks and touches multiple client systems. Follow the two-phase protocol.
+
+**MODE: PLANNING** — Before running any script, confirm:
+- [ ] Client slug and service tier are identified
+- [ ] Access to client CRM, automation logs, and cost metric sources is confirmed
+- [ ] All execution scripts exist and have valid credentials in `.env`
+- [ ] Output directories (`.tmp/client_insights/`) are writable
+- [ ] Identify which optional sections apply (Slack alerts, dashboard, PDF)
+
+**MODE: EXECUTION** — Once planning is confirmed:
+- Track each Week's steps as discrete tasks (`pending` → `in_progress` → `completed`)
+- Only one task `in_progress` at a time; do not run Week 3 before Week 2 outputs exist
+- On any script failure: log error, surface to user, do not retry more than 3 times silently
+- Update this directive when new data sources or client-specific constraints are discovered
+
 ## Process
 
 ### Step 1: Data Collection (Week 1)

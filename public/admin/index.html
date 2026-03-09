@@ -1,397 +1,72 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="robots" content="noindex, nofollow">
-  <title>Admin Hub — 5 Cypress Automation</title>
+  <title>Dashboard — 5 Cypress Admin</title>
   <link href="https://cdn.jsdelivr.net/npm/remixicon@4.0.0/fonts/remixicon.css" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700;800&family=DM+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/design-system.css">
-  <link rel="stylesheet" href="/styles-premium.css">
-  <style>
-    :root { --admin-sidebar: 240px; }
-
-    .admin-layout {
-      display: grid;
-      grid-template-columns: var(--admin-sidebar) 1fr;
-      min-height: 100vh;
-    }
-
-    /* Sidebar */
-    .sidebar {
-      background: var(--bg-void);
-      border-right: 1px solid var(--border-subtle);
-      position: fixed;
-      top: 0; left: 0;
-      width: var(--admin-sidebar);
-      height: 100vh;
-      display: flex;
-      flex-direction: column;
-      z-index: 100;
-      overflow-y: auto;
-    }
-    .sidebar-logo {
-      padding: 24px 20px;
-      border-bottom: 1px solid var(--border-subtle);
-      display: flex; align-items: center; gap: 12px;
-      text-decoration: none;
-    }
-    .sidebar-logo img { width: 32px; height: 32px; border-radius: 8px; }
-    .sidebar-logo-text { font-family: var(--font-heading); font-size: 0.95rem; font-weight: 800; color: var(--text-primary); line-height: 1.2; }
-    .sidebar-logo-sub { font-family: var(--font-mono); font-size: 0.6rem; color: var(--brand-primary); text-transform: uppercase; letter-spacing: 0.15em; }
-
-    .sidebar-nav { flex: 1; padding: 16px 12px; }
-    .nav-group-label {
-      font-family: var(--font-mono); font-size: 0.62rem; font-weight: 700;
-      text-transform: uppercase; letter-spacing: 0.2em;
-      color: var(--text-tertiary); padding: 16px 8px 8px;
-    }
-    .nav-item {
-      display: flex; align-items: center; gap: 10px;
-      padding: 10px; border-radius: 10px;
-      color: var(--text-secondary); text-decoration: none;
-      font-size: 0.875rem; font-weight: 500;
-      transition: all 0.2s; margin-bottom: 2px;
-    }
-    .nav-item:hover { background: rgba(255,255,255,0.05); color: var(--text-primary); }
-    .nav-item.active { background: rgba(93,140,93,0.12); color: var(--brand-primary); }
-    .nav-item i { font-size: 1.1rem; width: 20px; text-align: center; flex-shrink: 0; }
-    .nav-badge {
-      margin-left: auto; font-family: var(--font-mono); font-size: 0.65rem;
-      background: rgba(93,140,93,0.2); color: var(--brand-primary);
-      padding: 2px 7px; border-radius: 100px;
-    }
-    .nav-badge.accent { background: rgba(251,191,36,0.15); color: var(--brand-accent); }
-
-    .sidebar-footer { padding: 16px 12px; border-top: 1px solid var(--border-subtle); }
-    .sidebar-status { display: flex; align-items: center; gap: 8px; font-family: var(--font-mono); font-size: 0.7rem; color: var(--text-tertiary); }
-    .status-dot { width: 7px; height: 7px; border-radius: 50%; background: #4ade80; box-shadow: 0 0 6px rgba(74,222,128,0.6); flex-shrink: 0; }
-    .status-dot.offline { background: #f87171; box-shadow: 0 0 6px rgba(248,113,113,0.6); }
-
-    /* Main */
-    .main-content { margin-left: var(--admin-sidebar); background: var(--bg-main); min-height: 100vh; }
-    .top-bar {
-      background: var(--bg-void); border-bottom: 1px solid var(--border-subtle);
-      padding: 16px 32px; display: flex; align-items: center;
-      justify-content: space-between; position: sticky; top: 0; z-index: 50;
-    }
-    .page-title { font-family: var(--font-heading); font-size: 1.1rem; font-weight: 700; color: var(--text-primary); display: flex; align-items: center; gap: 10px; }
-    .page-title i { color: var(--brand-primary); }
-    .top-bar-actions { display: flex; align-items: center; gap: 12px; }
-    .admin-badge {
-      font-family: var(--font-mono); font-size: 0.65rem; font-weight: 700;
-      text-transform: uppercase; letter-spacing: 0.12em; padding: 5px 12px;
-      border-radius: 100px; background: rgba(93,140,93,0.1);
-      border: 1px solid rgba(93,140,93,0.25); color: var(--brand-primary);
-    }
-    .content-area { padding: 32px; }
-
-    /* Stats */
-    .stats-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-bottom: 32px; }
-    .stat-card {
-      background: var(--bg-surface); border: 1px solid var(--border-subtle);
-      border-radius: 16px; padding: 24px; position: relative; overflow: hidden;
-      transition: border-color 0.2s;
-    }
-    .stat-card:hover { border-color: var(--border-medium); }
-    .stat-card::before { content:''; position:absolute; top:0; left:0; right:0; height:2px; background:linear-gradient(90deg, var(--brand-primary), transparent); opacity:0.5; }
-    .stat-icon { width:40px; height:40px; border-radius:10px; background:rgba(93,140,93,0.1); display:flex; align-items:center; justify-content:center; font-size:1.2rem; color:var(--brand-primary); margin-bottom:16px; }
-    .stat-icon.accent { background:rgba(251,191,36,0.1); color:var(--brand-accent); }
-    .stat-icon.info { background:rgba(99,102,241,0.1); color:#818cf8; }
-    .stat-value { font-family:var(--font-heading); font-size:2rem; font-weight:800; color:var(--text-primary); margin-bottom:4px; }
-    .stat-label { font-size:0.8rem; color:var(--text-tertiary); }
-    .stat-delta { font-family:var(--font-mono); font-size:0.7rem; color:#4ade80; margin-top:8px; }
-
-    /* Panels */
-    .panel-grid { display:grid; grid-template-columns:1fr 1fr; gap:24px; margin-bottom:24px; }
-    .panel { background:var(--bg-surface); border:1px solid var(--border-subtle); border-radius:16px; overflow:hidden; }
-    .panel-header { padding:20px 24px; border-bottom:1px solid var(--border-subtle); display:flex; align-items:center; justify-content:space-between; }
-    .panel-title { font-family:var(--font-heading); font-size:0.95rem; font-weight:700; display:flex; align-items:center; gap:8px; }
-    .panel-title i { color:var(--brand-primary); }
-    .panel-link { font-family:var(--font-mono); font-size:0.68rem; color:var(--brand-primary); text-decoration:none; text-transform:uppercase; letter-spacing:0.1em; }
-    .panel-link:hover { opacity:0.7; }
-
-    /* Lead rows */
-    .lead-row { display:flex; align-items:center; gap:12px; padding:14px 24px; border-bottom:1px solid var(--border-subtle); transition:background 0.15s; }
-    .lead-row:last-child { border-bottom:none; }
-    .lead-row:hover { background:rgba(255,255,255,0.02); }
-    .lead-avatar { width:36px; height:36px; border-radius:50%; background:linear-gradient(135deg,rgba(93,140,93,0.3),rgba(251,191,36,0.2)); display:flex; align-items:center; justify-content:center; font-weight:700; font-size:0.85rem; color:var(--text-primary); flex-shrink:0; }
-    .lead-info { flex:1; min-width:0; }
-    .lead-name { font-size:0.875rem; font-weight:600; color:var(--text-primary); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
-    .lead-meta { font-size:0.75rem; color:var(--text-tertiary); }
-    .lead-source { font-family:var(--font-mono); font-size:0.65rem; text-transform:uppercase; letter-spacing:0.1em; padding:3px 8px; border-radius:100px; background:rgba(255,255,255,0.04); border:1px solid var(--border-subtle); color:var(--text-tertiary); flex-shrink:0; }
-    .lead-source.seo { color:var(--brand-primary); border-color:rgba(93,140,93,0.25); background:rgba(93,140,93,0.06); }
-    .lead-source.mktg { color:var(--brand-accent); border-color:rgba(251,191,36,0.25); background:rgba(251,191,36,0.06); }
-
-    /* Marketing rows */
-    .client-row { display:grid; grid-template-columns:1fr auto; align-items:center; padding:16px 24px; border-bottom:1px solid var(--border-subtle); gap:16px; transition:background 0.15s; text-decoration:none; color:inherit; }
-    .client-row:last-child { border-bottom:none; }
-    .client-row:hover { background:rgba(255,255,255,0.02); }
-    .client-slug { font-weight:600; font-size:0.9rem; color:var(--text-primary); text-transform:capitalize; }
-    .client-files { font-size:0.75rem; color:var(--text-tertiary); margin-top:3px; }
-    .file-count-badge { font-family:var(--font-mono); font-size:0.65rem; padding:4px 10px; border-radius:100px; background:rgba(93,140,93,0.08); border:1px solid rgba(93,140,93,0.2); color:var(--brand-primary); }
-
-    /* Quick actions */
-    .quick-actions { display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:12px; margin-bottom:24px; }
-    .quick-action { display:flex; flex-direction:column; align-items:flex-start; gap:8px; padding:20px; background:var(--bg-surface); border:1px solid var(--border-subtle); border-radius:14px; text-decoration:none; color:var(--text-primary); transition:all 0.2s; }
-    .quick-action:hover { border-color:var(--border-medium); transform:translateY(-2px); }
-    .qa-icon { font-size:1.4rem; color:var(--brand-primary); }
-    .qa-icon.accent { color:var(--brand-accent); }
-    .qa-label { font-size:0.85rem; font-weight:600; }
-    .qa-sub { font-size:0.75rem; color:var(--text-tertiary); }
-
-    /* Health */
-    .health-row { display:flex; padding:12px 24px; border-bottom:1px solid rgba(255,255,255,0.04); align-items:center; gap:12px; font-size:0.85rem; }
-    .health-row:last-child { border-bottom:none; }
-    .health-key { color:var(--text-tertiary); width:180px; flex-shrink:0; font-family:var(--font-mono); font-size:0.78rem; }
-    .health-val { color:var(--text-primary); }
-    .health-dot { width:8px; height:8px; border-radius:50%; flex-shrink:0; }
-    .health-dot.ok { background:#4ade80; }
-    .health-dot.warn { background:var(--brand-accent); }
-    .health-dot.err { background:#f87171; }
-
-    @media (max-width: 900px) {
-      .admin-layout { grid-template-columns:1fr; }
-      .sidebar { position:relative; width:100%; height:auto; }
-      .main-content { margin-left:0; }
-      .panel-grid { grid-template-columns:1fr; }
-    }
-    @media (max-width: 600px) {
-      .stats-row { grid-template-columns:repeat(2,1fr); }
-      .content-area { padding:20px; }
-    }
-  </style>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/admin/admin-light.css">
 </head>
 <body>
-<div class="admin-layout">
-
-  <!-- Sidebar -->
-  <aside class="sidebar">
-    <a href="/" class="sidebar-logo">
-      <img src="/assets/brand/logo-5cypress.jpg" alt="5 Cypress" onerror="this.style.display='none'">
-      <div>
-        <div class="sidebar-logo-text">5 Cypress</div>
-        <div class="sidebar-logo-sub">Admin Hub</div>
+<div id="admin-sidebar"></div>
+<div class="a-main">
+  <div class="a-topbar">
+    <div class="a-page-title">Dashboard</div>
+    <span class="a-topbar-badge"><i class="ri-shield-check-line"></i> Authenticated</span>
+    <a href="/admin/newclient" class="btn btn-primary"><i class="ri-user-star-line"></i> New Client</a>
+  </div>
+  <div class="a-content">
+    <div class="a-stats">
+      <div class="a-stat c-green"><div class="a-stat-icon"><i class="ri-user-add-line"></i></div><div class="a-stat-val" id="statLeads">—</div><div class="a-stat-lbl">Total Leads</div><div class="a-stat-delta" id="statLeadsDelta"></div></div>
+      <div class="a-stat c-gold"><div class="a-stat-icon"><i class="ri-briefcase-line"></i></div><div class="a-stat-val" id="statClients">—</div><div class="a-stat-lbl">Tracked Clients</div></div>
+      <div class="a-stat c-blue"><div class="a-stat-icon"><i class="ri-robot-line"></i></div><div class="a-stat-val" id="statMktg">—</div><div class="a-stat-lbl">Marketing Clients</div></div>
+      <div class="a-stat c-purple"><div class="a-stat-icon"><i class="ri-search-eye-line"></i></div><div class="a-stat-val" id="statAudits">—</div><div class="a-stat-lbl">SEO Audits Run</div></div>
+    </div>
+    <div class="a-section-lbl">Quick Actions</div>
+    <div class="a-quick-actions">
+      <a class="a-qa" href="/admin/newclient"><div class="a-qa-icon"><i class="ri-user-star-line"></i></div><div><div class="a-qa-label">New Client</div><div class="a-qa-sub">Scaffold context + folders</div></div></a>
+      <a class="a-qa" href="/admin/leads"><div class="a-qa-icon"><i class="ri-user-add-line"></i></div><div><div class="a-qa-label">View Leads</div><div class="a-qa-sub">Inbound submissions</div></div></a>
+      <a class="a-qa" href="/admin/marketing"><div class="a-qa-icon gold"><i class="ri-robot-line"></i></div><div><div class="a-qa-label">AI Marketing</div><div class="a-qa-sub">Strategy &amp; campaigns</div></div></a>
+      <a class="a-qa" href="/admin/seo"><div class="a-qa-icon"><i class="ri-search-eye-line"></i></div><div><div class="a-qa-label">SEO Audit</div><div class="a-qa-sub">Admin bypass active</div></div></a>
+      <a class="a-qa" href="/admin/clients"><div class="a-qa-icon"><i class="ri-briefcase-line"></i></div><div><div class="a-qa-label">Clients</div><div class="a-qa-sub">Full directory</div></div></a>
+    </div>
+    <div class="a-panel-grid">
+      <div class="a-card">
+        <div class="a-card-header"><i class="ri-user-add-line" style="color:var(--green)"></i><h3>Recent Leads</h3><span class="a-card-meta" id="leadsTotal"></span><a class="a-card-link" href="/admin/leads">View all &rarr;</a></div>
+        <div class="a-table-wrap"><table class="a-table"><thead><tr><th>Lead</th><th>Source</th><th>Status</th><th class="text-right">Date</th></tr></thead><tbody id="leadsBody"><tr><td colspan="4"><div class="a-spinner"></div></td></tr></tbody></table></div>
       </div>
-    </a>
-    <nav class="sidebar-nav">
-      <div class="nav-group-label">Overview</div>
-      <a href="/admin" class="nav-item active"><i class="ri-dashboard-line"></i>Dashboard</a>
-      <a href="/admin/leads" class="nav-item"><i class="ri-user-add-line"></i>Leads<span class="nav-badge accent" id="sidebarLeadCount">—</span></a>
-      <a href="/admin/clients" class="nav-item"><i class="ri-briefcase-line"></i>Clients</a>
-
-      <div class="nav-group-label">Marketing Team</div>
-      <a href="/admin/marketing" class="nav-item"><i class="ri-robot-line"></i>AI Marketing<span class="nav-badge" id="sidebarMktgCount">—</span></a>
-      <a href="/marketing" class="nav-item" target="_blank"><i class="ri-external-link-line"></i>Marketing Page</a>
-
-      <div class="nav-group-label">SEO</div>
-      <a href="/admin/seo" class="nav-item"><i class="ri-search-eye-line"></i>SEO Audit Tool</a>
-
-      <div class="nav-group-label">Site</div>
-      <a href="/" class="nav-item" target="_blank"><i class="ri-home-line"></i>Homepage</a>
-      <a href="/admin/newclient" class="nav-item"><i class="ri-user-star-line"></i>New Client Intake</a>
-    </nav>
-    <div class="sidebar-footer">
-      <div class="sidebar-status">
-        <span class="status-dot" id="sidebarStatus"></span>
-        <span id="sidebarStatusText">Checking…</span>
+      <div class="a-card">
+        <div class="a-card-header"><i class="ri-briefcase-line" style="color:var(--gold)"></i><h3>Active Clients</h3><span class="a-card-meta" id="clientsTotal"></span><a class="a-card-link" href="/admin/clients">View all &rarr;</a></div>
+        <div class="a-table-wrap"><table class="a-table"><thead><tr><th>Client</th><th>Industry</th><th>Status</th></tr></thead><tbody id="clientsBody"><tr><td colspan="3"><div class="a-spinner"></div></td></tr></tbody></table></div>
       </div>
     </div>
-  </aside>
-
-  <!-- Main -->
-  <div class="main-content">
-    <div class="top-bar">
-      <div class="page-title"><i class="ri-dashboard-line"></i>Admin Dashboard</div>
-      <div class="top-bar-actions">
-        <span class="admin-badge">Authenticated</span>
-        <a href="/admin/newclient" class="btn btn-primary" style="padding:8px 20px;font-size:0.85rem;"><i class="ri-user-add-line"></i> New Client</a>
-      </div>
-    </div>
-
-    <div class="content-area">
-
-      <!-- Stats -->
-      <div class="stats-row">
-        <div class="stat-card">
-          <div class="stat-icon"><i class="ri-user-add-line"></i></div>
-          <div class="stat-value" id="statLeads">—</div>
-          <div class="stat-label">Total Leads</div>
-          <div class="stat-delta" id="statLeadsNew"></div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-icon"><i class="ri-briefcase-line"></i></div>
-          <div class="stat-value" id="statClients">—</div>
-          <div class="stat-label">Tracked Clients</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-icon accent"><i class="ri-robot-line"></i></div>
-          <div class="stat-value" id="statMktg">—</div>
-          <div class="stat-label">Marketing Clients</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-icon info"><i class="ri-search-eye-line"></i></div>
-          <div class="stat-value" id="statAudits">—</div>
-          <div class="stat-label">SEO Audits Run</div>
-        </div>
-      </div>
-
-      <!-- Quick Actions -->
-      <div class="quick-actions">
-        <a href="/admin/newclient" class="quick-action"><i class="ri-user-star-line qa-icon"></i><span class="qa-label">New Client Intake</span><span class="qa-sub">Scaffold context + folders</span></a>
-        <a href="/admin/leads" class="quick-action"><i class="ri-user-add-line qa-icon accent"></i><span class="qa-label">View Leads</span><span class="qa-sub">Inbound form submissions</span></a>
-        <a href="/admin/marketing" class="quick-action"><i class="ri-robot-line qa-icon"></i><span class="qa-label">Marketing Team</span><span class="qa-sub">Strategy briefs &amp; campaigns</span></a>
-        <a href="/admin/seo" class="quick-action"><i class="ri-search-eye-line qa-icon"></i><span class="qa-label">SEO Audit</span><span class="qa-sub">Free admin bypass</span></a>
-        <a href="/admin/clients" class="quick-action"><i class="ri-briefcase-line qa-icon"></i><span class="qa-label">Client Directory</span><span class="qa-sub">View all tracked clients</span></a>
-      </div>
-
-      <!-- Panels -->
-      <div class="panel-grid">
-        <div class="panel">
-          <div class="panel-header">
-            <div class="panel-title"><i class="ri-user-add-line"></i> Recent Leads</div>
-            <a href="/admin/leads" class="panel-link">View all →</a>
-          </div>
-          <div id="leadsPanel" style="padding:24px;text-align:center;color:var(--text-tertiary);font-size:0.85rem;">Loading…</div>
-        </div>
-
-        <div class="panel">
-          <div class="panel-header">
-            <div class="panel-title"><i class="ri-robot-line"></i> Marketing Team Clients</div>
-            <a href="/admin/marketing" class="panel-link">View all →</a>
-          </div>
-          <div id="marketingPanel" style="padding:24px;text-align:center;color:var(--text-tertiary);font-size:0.85rem;">Loading…</div>
-        </div>
-      </div>
-
-      <!-- Health -->
-      <div class="panel">
-        <div class="panel-header">
-          <div class="panel-title"><i class="ri-pulse-line"></i> System Health</div>
-          <span style="font-family:var(--font-mono);font-size:0.68rem;color:var(--text-tertiary);" id="healthTimestamp">—</span>
-        </div>
-        <div class="health-row"><span class="health-key">API Server</span><span class="health-dot ok"></span><span class="health-val">Online</span></div>
-        <div class="health-row"><span class="health-key">Admin Auth</span><span class="health-dot ok"></span><span class="health-val">HTTP Basic Auth — active</span></div>
-        <div class="health-row"><span class="health-key">Database</span><span class="health-dot" id="hdDbDot"></span><span class="health-val" id="hdDb">Checking…</span></div>
-        <div class="health-row"><span class="health-key">Stripe</span><span class="health-dot warn"></span><span class="health-val">Not configured — Calendly fallback active</span></div>
-        <div class="health-row"><span class="health-key">DataForSEO</span><span class="health-dot" id="hdSEODot"></span><span class="health-val" id="hdSEO">Checking…</span></div>
-        <div class="health-row"><span class="health-key">Marketing Team Path</span><span class="health-dot" id="hdMktgDot"></span><span class="health-val" id="hdMktg">Checking…</span></div>
-      </div>
-
+    <div class="a-card">
+      <div class="a-card-header"><i class="ri-pulse-line" style="color:var(--green)"></i><h3>System Health</h3><span class="a-card-meta mono" id="healthTs">—</span></div>
+      <div class="a-health-row"><span class="a-health-key">API Server</span><span class="a-hdot ok"></span><span>Online</span></div>
+      <div class="a-health-row"><span class="a-health-key">Admin Auth</span><span class="a-hdot ok"></span><span>HTTP Basic Auth — active</span></div>
+      <div class="a-health-row"><span class="a-health-key">Database</span><span class="a-hdot" id="hdDbDot"></span><span id="hdDb">Checking…</span></div>
+      <div class="a-health-row"><span class="a-health-key">Stripe</span><span class="a-hdot warn"></span><span>Not configured — Calendly fallback active</span></div>
+      <div class="a-health-row"><span class="a-health-key">DataForSEO</span><span class="a-hdot" id="hdSeoDot"></span><span id="hdSeo">Checking…</span></div>
+      <div class="a-health-row"><span class="a-health-key">Marketing Path</span><span class="a-hdot" id="hdMktgDot"></span><span id="hdMktg">Checking…</span></div>
     </div>
   </div>
-
 </div>
-
 <script>
-  async function api(path) {
-    const r = await fetch(path);
-    if (!r.ok) { const e = await r.json().catch(()=>({error:`HTTP ${r.status}`})); throw e; }
-    return r.json();
-  }
-
-  function esc(s) {
-    return String(s||'').replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-  }
-
-  async function loadStats() {
-    try {
-      const s = await api('/admin/api/stats');
-      document.getElementById('statLeads').textContent   = s.leadCount ?? 0;
-      document.getElementById('statClients').textContent = s.clientCount ?? 0;
-      document.getElementById('statAudits').textContent  = s.auditCount ?? 0;
-      if (s.newLeads > 0) document.getElementById('statLeadsNew').textContent = `+${s.newLeads} this week`;
-      document.getElementById('sidebarLeadCount').textContent = s.leadCount ?? '—';
-      document.getElementById('healthTimestamp').textContent = new Date(s.serverTime).toLocaleString();
-      document.getElementById('hdDb').textContent = `SQLite — ${s.leadCount} leads, ${s.clientCount} clients, ${s.auditCount} audits`;
-      document.getElementById('hdDbDot').className = 'health-dot ok';
-    } catch(e) {
-      document.getElementById('hdDbDot').className = 'health-dot err';
-      document.getElementById('hdDb').textContent = 'Error: ' + (e.error || e.message || e);
-    }
-  }
-
-  async function loadLeads() {
-    const panel = document.getElementById('leadsPanel');
-    try {
-      const data = await api('/admin/api/leads?limit=8');
-      if (!data.leads || !data.leads.length) {
-        panel.innerHTML = '<div style="padding:24px;text-align:center;color:var(--text-tertiary);font-size:0.85rem;">No leads yet. Submissions from the contact form will appear here.</div>';
-        return;
-      }
-      panel.innerHTML = data.leads.map(l => {
-        const initials = (l.name||'?').split(' ').map(w=>w[0]).join('').substring(0,2).toUpperCase();
-        const srcCls = l.source?.includes('seo') ? 'seo' : (l.source?.includes('market') ? 'mktg' : '');
-        const when = l.createdAt ? new Date(l.createdAt).toLocaleDateString('en-US',{month:'short',day:'numeric'}) : '';
-        return `<div class="lead-row">
-          <div class="lead-avatar">${esc(initials)}</div>
-          <div class="lead-info">
-            <div class="lead-name">${esc(l.name||'—')}</div>
-            <div class="lead-meta">${esc(l.email||'')}${l.company?' · '+esc(l.company):''}</div>
-          </div>
-          <span class="lead-source ${srcCls}">${esc(l.source||'web')}</span>
-          <span style="font-size:0.75rem;color:var(--text-tertiary);flex-shrink:0;">${when}</span>
-        </div>`;
-      }).join('');
-    } catch(e) {
-      panel.innerHTML = `<div style="padding:24px;font-size:0.85rem;color:#f87171;">Failed to load leads: ${esc(e.error||e.message||String(e))}</div>`;
-    }
-  }
-
-  async function loadMarketing() {
-    const panel = document.getElementById('marketingPanel');
-    try {
-      const data = await api('/admin/api/marketing');
-      document.getElementById('statMktg').textContent = data.clientCount ?? 0;
-      document.getElementById('sidebarMktgCount').textContent = data.clientCount ?? '—';
-      document.getElementById('hdMktgDot').className = 'health-dot ok';
-      document.getElementById('hdMktg').textContent = data.mktgPath || 'Resolved';
-      if (!data.clients || !data.clients.length) {
-        panel.innerHTML = '<div style="padding:24px;text-align:center;color:var(--text-tertiary);font-size:0.85rem;">No marketing clients found. Add context files to the marketing-team/context/ folder.</div>';
-        return;
-      }
-      panel.innerHTML = data.clients.map(c => {
-        const name = c.slug.replace(/-/g,' ').replace(/\b\w/g,x=>x.toUpperCase());
-        const filePreview = c.outputs && c.outputs.length ? c.outputs.map(o=>o.name).join(', ').substring(0,80) : 'No output files yet';
-        return `<a href="/admin/marketing#${esc(c.slug)}" class="client-row">
-          <div>
-            <div class="client-slug">${esc(name)}</div>
-            <div class="client-files">${esc(filePreview)}</div>
-          </div>
-          <span class="file-count-badge">${c.outputCount||0} files</span>
-        </a>`;
-      }).join('');
-    } catch(e) {
-      document.getElementById('hdMktgDot').className = 'health-dot warn';
-      document.getElementById('hdMktg').textContent = 'Path not found — set MARKETING_TEAM_PATH env var';
-      panel.innerHTML = `<div style="padding:24px;font-size:0.85rem;color:var(--text-tertiary);">Marketing team path not accessible. Set MARKETING_TEAM_PATH in your environment.</div>`;
-    }
-  }
-
-  async function checkSEO() {
-    try {
-      const d = await api('/api/seo/config');
-      document.getElementById('hdSEO').textContent = d.stripe_enabled ? 'Configured + Stripe active' : 'Configured — Calendly fallback';
-      document.getElementById('hdSEODot').className = 'health-dot ok';
-    } catch {
-      document.getElementById('hdSEO').textContent = 'Check DATAFORSEO env vars';
-      document.getElementById('hdSEODot').className = 'health-dot warn';
-    }
-  }
-
-  async function checkHealth() {
-    try {
-      const r = await fetch('/health');
-      document.getElementById('sidebarStatus').className = r.ok ? 'status-dot' : 'status-dot offline';
-      document.getElementById('sidebarStatusText').textContent = r.ok ? `Online · ${new Date().toLocaleTimeString()}` : 'API error';
-    } catch {
-      document.getElementById('sidebarStatus').className = 'status-dot offline';
-      document.getElementById('sidebarStatusText').textContent = 'Unreachable';
-    }
-  }
-
-  Promise.all([loadStats(), loadLeads(), loadMarketing(), checkSEO(), checkHealth()]);
+  function esc(s){return String(s||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+  function avatarColor(n){const c=['g','b','p','au'];let h=0;for(let i=0;i<(n||'').length;i++)h=(h*31+n.charCodeAt(i))&0xffff;return c[h%c.length];}
+  function initials(n){return(n||'?').split(' ').map(w=>w[0]).join('').substring(0,2).toUpperCase();}
+  function dateShort(d){if(!d)return'—';return new Date(d).toLocaleDateString('en-US',{month:'short',day:'numeric'});}
+  function statusPill(s){const cls=s==='contacted'?'contacted':s==='closed'?'closed':'new';return`<span class="pill ${cls}"><span class="pill-dot"></span>${esc(s||'new')}</span>`;}
+  function clientStatusPill(s){const cls={active:'active',paused:'paused',trial:'trial',prospecting:'prospecting'}[s]||'active';return`<span class="client-status ${cls}">${esc(s||'active')}</span>`;}
+  async function loadStats(){try{const s=await fetch('/admin/api/stats').then(r=>r.json());document.getElementById('statLeads').textContent=s.leadCount??0;document.getElementById('statClients').textContent=s.clientCount??0;document.getElementById('statAudits').textContent=s.auditCount??0;if(s.newLeads>0)document.getElementById('statLeadsDelta').textContent=`↑ ${s.newLeads} this week`;if(s.serverTime)document.getElementById('healthTs').textContent=new Date(s.serverTime).toLocaleString();document.getElementById('hdDb').textContent=`SQLite — ${s.leadCount} leads, ${s.clientCount} clients, ${s.auditCount} audits`;document.getElementById('hdDbDot').className='a-hdot ok';}catch(e){document.getElementById('hdDbDot').className='a-hdot err';document.getElementById('hdDb').textContent='Error — '+(e.message||e);}}
+  async function loadLeads(){const tbody=document.getElementById('leadsBody');try{const data=await fetch('/admin/api/leads?limit=8').then(r=>r.json());const leads=data.leads||[];document.getElementById('leadsTotal').textContent=`${data.total??leads.length} total`;if(!leads.length){tbody.innerHTML='<tr><td colspan="4"><div class="a-empty"><i class="ri-user-add-line"></i><div class="a-empty-title">No leads yet</div></div></td></tr>';return;}tbody.innerHTML=leads.map(l=>`<tr onclick="location.href='/admin/leads'" style="cursor:pointer"><td><div class="a-lead-cell"><div class="a-avatar ${avatarColor(l.name)}">${esc(initials(l.name))}</div><div><div class="a-lead-name">${esc(l.name||'—')}</div><div class="a-lead-email">${esc(l.email||'')}</div></div></div></td><td><span class="src-badge">${esc(l.source||'web')}</span></td><td>${statusPill(l.status)}</td><td class="tx-sm mono text-right">${dateShort(l.createdAt)}</td></tr>`).join('');}catch(e){tbody.innerHTML='<tr><td colspan="4" class="tx-2" style="padding:16px;font-size:12px">Failed to load leads</td></tr>';}}
+  async function loadClients(){const tbody=document.getElementById('clientsBody');try{const data=await fetch('/admin/api/clients').then(r=>r.json());const clients=data.clients||[];document.getElementById('clientsTotal').textContent=`${clients.length} clients`;if(!clients.length){tbody.innerHTML='<tr><td colspan="3"><div class="a-empty"><i class="ri-briefcase-line"></i><div class="a-empty-title">No clients yet</div></div></td></tr>';return;}tbody.innerHTML=clients.slice(0,8).map(c=>`<tr onclick="location.href='/admin/clients'" style="cursor:pointer"><td class="fw6">${esc(c.name||c.id||'—')}</td><td class="tx-sm">${esc(c.industry||'—')}</td><td>${clientStatusPill(c.status)}</td></tr>`).join('');}catch{tbody.innerHTML='<tr><td colspan="3" class="tx-2" style="padding:16px;font-size:12px">Failed to load clients</td></tr>';}}
+  async function loadMarketing(){try{const data=await fetch('/admin/api/marketing').then(r=>r.json());document.getElementById('statMktg').textContent=data.clientCount??0;document.getElementById('hdMktgDot').className='a-hdot ok';document.getElementById('hdMktg').textContent=data.mktgPath||'Resolved';}catch{document.getElementById('hdMktgDot').className='a-hdot warn';document.getElementById('hdMktg').textContent='Path not found — set MARKETING_TEAM_PATH';}}
+  async function checkSEO(){try{await fetch('/api/seo/config').then(r=>{if(!r.ok)throw new Error();});document.getElementById('hdSeoDot').className='a-hdot ok';document.getElementById('hdSeo').textContent='Configured';}catch{document.getElementById('hdSeoDot').className='a-hdot warn';document.getElementById('hdSeo').textContent='Check DataForSEO env vars';}}
+  Promise.all([loadStats(),loadLeads(),loadClients(),loadMarketing(),checkSEO()]);
 </script>
+<script src="/admin/admin-shell.js"></script>
 </body>
 </html>

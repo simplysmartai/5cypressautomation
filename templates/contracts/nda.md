@@ -3,8 +3,8 @@
 **Effective Date:** {{effective_date}}
 
 **Between:**  
-Simply Smart Automation LLC ("Receiving Party")  
-{{agency_address}}
+5 Cypress Automation ("Receiving Party")  
+www.5cypress.com | nick@5cypress.com
 
 **And:**  
 {{client_name}} ("Disclosing Party")  
@@ -46,6 +46,10 @@ Receiving Party agrees to:
 - Limit access to personnel with a need to know
 - Not disclose to third parties without prior written consent
 - Promptly notify Disclosing Party of any unauthorized disclosure
+- Never upload Client data to third-party AI platforms or unauthorized cloud services
+- Store received data files in access-controlled local storage only
+- Delete raw sensitive files after processing is complete, retaining only cleaned outputs
+- Notify Client within 72 hours of discovering any unauthorized access to Client data
 
 ## 5. Required Disclosures
 
@@ -95,11 +99,11 @@ Invalid provisions do not affect remaining provisions.
 
 ## Signatures
 
-**Simply Smart Automation LLC**
+**5 Cypress Automation**
 
 Signature: _________________________  
-Name: {{agency_signer_name}}  
-Title: {{agency_signer_title}}  
+Name: Nick  
+Title: Owner / Principal  
 Date: _________________________
 
 **{{client_name}}**

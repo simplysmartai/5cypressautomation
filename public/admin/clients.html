@@ -1,102 +1,110 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
   <title>Clients — 5 Cypress Admin</title>
-  <link rel="stylesheet" href="/design-system.css" />
-  <link rel="stylesheet" href="/styles-premium.css" />
-  <style>
-    body { background: var(--bg-main); color: var(--text-primary); font-family: var(--font-body); }
-    .wrap { max-width: 1200px; margin: 48px auto; padding: 24px; }
-    .header { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 14px; }
-    .title { font-family: var(--font-heading); margin: 0; }
-    .btn { display: inline-block; padding: 10px 14px; border-radius: var(--radius-sm); border: 1px solid var(--border-subtle); text-decoration: none; color: var(--text-primary); }
-    .table-wrap { border: 1px solid var(--border-subtle); border-radius: var(--radius-md); overflow: auto; background: var(--bg-card); }
-    table { width: 100%; border-collapse: collapse; min-width: 900px; }
-    th, td { text-align: left; padding: 12px; border-bottom: 1px solid var(--border-subtle); }
-    th { color: var(--text-secondary); font-weight: 600; }
-    .muted { color: var(--text-secondary); }
-    .notice { margin-top: 16px; border: 1px solid var(--border-subtle); border-radius: var(--radius-sm); padding: 12px; }
-  </style>
+  <link href="https://cdn.jsdelivr.net/npm/remixicon@4.0.0/fonts/remixicon.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/admin/admin-light.css">
 </head>
 <body>
-  <main class="wrap">
-    <div class="header">
-      <h1 class="title">Client Directory</h1>
-      <div>
-        <a class="btn" href="/admin/newclient">New client</a>
-        <a class="btn" href="/admin">Admin hub</a>
+<div id="admin-sidebar"></div>
+<div class="a-main">
+  <div class="a-topbar">
+    <div class="a-page-title">Clients</div>
+    <span class="a-topbar-badge" id="topBadge">Loading…</span>
+    <a href="/admin/newclient" class="btn btn-primary"><i class="ri-add-line"></i> New Client</a>
+  </div>
+  <div class="a-content">
+    <div class="a-card">
+      <div class="a-card-header">
+        <div class="a-card-title">Client Directory</div>
+        <span class="a-card-sub" id="clientCount">Loading…</span>
+      </div>
+      <div class="a-table-wrap">
+        <table class="a-table" id="clientsTable" style="display:none">
+          <thead>
+            <tr>
+              <th style="width:40px">#</th>
+              <th>Client</th>
+              <th class="hide-sm">Industry</th>
+              <th class="hide-sm">Contact</th>
+              <th class="hide-sm">Website</th>
+              <th class="hide-sm">Onboarded</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody id="clientsBody"></tbody>
+        </table>
+      </div>
+      <div id="loadingState"><div class="a-spinner"></div></div>
+      <div id="emptyState" class="a-empty" style="display:none">
+        <i class="ri-building-line"></i>
+        <div class="a-empty-title">No clients found</div>
+        <p>Add a client to get started.</p>
+        <a href="/admin/newclient" class="btn btn-primary" style="margin-top:12px">New Client</a>
       </div>
     </div>
-    <p class="muted">Source: <span id="sourcePath">Loading…</span></p>
+  </div>
+</div>
+<script>
+  function esc(s){return String(s||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+  function safe(v){return v||'—';}
 
-    <div class="table-wrap">
-      <table>
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Name</th>
-            <th>Status</th>
-            <th>Industry</th>
-            <th>Contact</th>
-            <th>Website</th>
-            <th>Onboarded</th>
-          </tr>
-        </thead>
-        <tbody id="clientsBody">
-          <tr><td colspan="7" class="muted">Loading clients…</td></tr>
-        </tbody>
-      </table>
-    </div>
+  function statusPill(s){
+    const map={active:'active',paused:'paused',trial:'trial',prospecting:'trial',proposal:'trial'};
+    const cls=map[(s||'').toLowerCase()]||'paused';
+    const label=s||'unknown';
+    return `<span class="client-status ${cls}">${esc(label)}</span>`;
+  }
 
-    <div class="notice" id="stats">Loading stats…</div>
-  </main>
+  async function loadClients(){
+    try{
+      const res=await fetch('/admin/api/clients');
+      const data=await res.json();
+      if(!res.ok)throw new Error(data.error||'Failed to load clients');
 
-  <script>
-    function safe(value) {
-      if (value === undefined || value === null || value === '') return '—';
-      return String(value);
-    }
+      const clients=data.clients||[];
+      document.getElementById('topBadge').textContent=`${clients.length} client${clients.length!==1?'s':''}`;
+      document.getElementById('clientCount').textContent=`${clients.length} total`;
 
-    async function loadClients() {
-      const body = document.getElementById('clientsBody');
-      const stats = document.getElementById('stats');
-      const sourcePath = document.getElementById('sourcePath');
+      document.getElementById('loadingState').style.display='none';
 
-      try {
-        const res = await fetch('/admin/api/clients');
-        const data = await res.json();
-        if (!res.ok) throw new Error(data.error || 'Failed to load clients');
-
-        sourcePath.textContent = data.source || 'unknown';
-
-        if (!data.clients || data.clients.length === 0) {
-          body.innerHTML = '<tr><td colspan="7" class="muted">No clients found.</td></tr>';
-          stats.textContent = '0 clients currently in config.';
-          return;
-        }
-
-        body.innerHTML = data.clients.map((client) => `
-          <tr>
-            <td>${safe(client.id)}</td>
-            <td>${safe(client.name)}</td>
-            <td>${safe(client.status)}</td>
-            <td>${safe(client.industry)}</td>
-            <td>${safe(client.contact_name)}</td>
-            <td>${safe(client.website)}</td>
-            <td>${safe(client.onboarded)}</td>
-          </tr>
-        `).join('');
-
-        stats.textContent = `${data.count} clients loaded.`;
-      } catch (error) {
-        body.innerHTML = `<tr><td colspan="7">${error.message}</td></tr>`;
-        stats.textContent = 'Could not load clients.';
+      if(!clients.length){
+        document.getElementById('emptyState').style.display='block';
+        return;
       }
-    }
 
-    loadClients();
-  </script>
+      document.getElementById('clientsTable').style.display='table';
+      document.getElementById('clientsBody').innerHTML=clients.map((c,i)=>{
+        const emailLink=c.contact_email
+          ?`<a href="mailto:${esc(c.contact_email)}" style="color:var(--green)">${esc(c.contact_email)}</a>`
+          :(c.contact_name?esc(c.contact_name):'—');
+        const websiteLink=c.website
+          ?`<a href="${esc(c.website)}" target="_blank" rel="noopener" style="color:var(--green)">${esc(c.website.replace(/^https?:\/\//,''))}</a>`
+          :'—';
+        const onboarded=c.onboarded
+          ?new Date(c.onboarded).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'})
+          :(c.createdAt?new Date(c.createdAt).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}):'—');
+        return `<tr>
+          <td class="mono tx-sm" style="color:var(--tx-3)">${i+1}</td>
+          <td><strong style="font-weight:600">${esc(safe(c.name))}</strong><div class="a-lead-email">${esc(c.slug||'')}</div></td>
+          <td class="tx-sm hide-sm">${esc(safe(c.industry))}</td>
+          <td class="tx-sm hide-sm">${emailLink}</td>
+          <td class="tx-sm hide-sm">${websiteLink}</td>
+          <td class="tx-sm mono hide-sm">${onboarded}</td>
+          <td>${statusPill(c.status)}</td>
+        </tr>`;
+      }).join('');
+    }catch(e){
+      document.getElementById('loadingState').innerHTML=`<div class="a-empty"><i class="ri-error-warning-line"></i><div class="a-empty-title">Failed to load clients</div><p>${esc(e.message)}</p></div>`;
+    }
+  }
+
+  loadClients();
+</script>
+<script src="/admin/admin-shell.js"></script>
 </body>
 </html>

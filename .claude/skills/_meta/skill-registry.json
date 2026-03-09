@@ -1,0 +1,465 @@
+{
+  "generated": "2026-02-27",
+  "total_skills": 50,
+  "domains": [
+    "conversion",
+    "development",
+    "marketing",
+    "sales",
+    "seo"
+  ],
+  "needs_versioning": [],
+  "stale_review": [],
+  "skills": [
+    {
+      "skill_id": "form-cro",
+      "domain": "conversion",
+      "version": "1.0.0",
+      "status": "READY",
+      "reviewed": "2026-02-27",
+      "has_skill_md": true,
+      "description": ""
+    },
+    {
+      "skill_id": "onboarding-cro",
+      "domain": "conversion",
+      "version": "1.0.0",
+      "status": "READY",
+      "reviewed": "2026-02-27",
+      "has_skill_md": true,
+      "description": ""
+    },
+    {
+      "skill_id": "page-cro",
+      "domain": "conversion",
+      "version": "1.0.0",
+      "status": "READY",
+      "reviewed": "2026-02-27",
+      "has_skill_md": true,
+      "description": ""
+    },
+    {
+      "skill_id": "paywall-upgrade-cro",
+      "domain": "conversion",
+      "version": "1.0.0",
+      "status": "READY",
+      "reviewed": "2026-02-27",
+      "has_skill_md": true,
+      "description": ""
+    },
+    {
+      "skill_id": "popup-cro",
+      "domain": "conversion",
+      "version": "1.0.0",
+      "status": "READY",
+      "reviewed": "2026-02-27",
+      "has_skill_md": true,
+      "description": ""
+    },
+    {
+      "skill_id": "signup-flow-cro",
+      "domain": "conversion",
+      "version": "1.0.0",
+      "status": "READY",
+      "reviewed": "2026-02-27",
+      "has_skill_md": true,
+      "description": ""
+    },
+    {
+      "skill_id": "3d-web-experience",
+      "domain": "development",
+      "version": "1.0.0",
+      "status": "READY",
+      "reviewed": "2026-02-27",
+      "has_skill_md": true,
+      "description": ""
+    },
+    {
+      "skill_id": "api-scaffolding",
+      "domain": "development",
+      "version": "1.0.0",
+      "status": "READY",
+      "reviewed": "2026-02-27",
+      "has_skill_md": true,
+      "description": ""
+    },
+    {
+      "skill_id": "backend-development",
+      "domain": "development",
+      "version": "1.0.0",
+      "status": "READY",
+      "reviewed": "2026-02-27",
+      "has_skill_md": true,
+      "description": ""
+    },
+    {
+      "skill_id": "blockrun",
+      "domain": "development",
+      "version": "1.0.0",
+      "status": "READY",
+      "reviewed": "2026-02-27",
+      "has_skill_md": true,
+      "description": ""
+    },
+    {
+      "skill_id": "code-documentation",
+      "domain": "development",
+      "version": "1.0.0",
+      "status": "READY",
+      "reviewed": "2026-02-27",
+      "has_skill_md": true,
+      "description": ""
+    },
+    {
+      "skill_id": "data-validation",
+      "domain": "development",
+      "version": "1.0.0",
+      "status": "READY",
+      "reviewed": "2026-02-27",
+      "has_skill_md": true,
+      "description": ""
+    },
+    {
+      "skill_id": "development",
+      "domain": "development",
+      "version": "1.0.0",
+      "status": "READY",
+      "reviewed": "2026-02-27",
+      "has_skill_md": true,
+      "description": "<!-- SKILL METADATA skill_id:  development version:   1.0.0 domain:    development reviewed:  2026-02-27 status:    READY changelog: 1.0.0 - Created domain index to group sub-skills --> This folder gr"
+    },
+    {
+      "skill_id": "exploratory-data-analysis",
+      "domain": "development",
+      "version": "1.0.0",
+      "status": "READY",
+      "reviewed": "2026-02-27",
+      "has_skill_md": true,
+      "description": ""
+    },
+    {
+      "skill_id": "frontend-design",
+      "domain": "development",
+      "version": "1.0.0",
+      "status": "READY",
+      "reviewed": "2026-02-27",
+      "has_skill_md": true,
+      "description": ""
+    },
+    {
+      "skill_id": "mobile-design",
+      "domain": "development",
+      "version": "1.0.0",
+      "status": "READY",
+      "reviewed": "2026-02-27",
+      "has_skill_md": true,
+      "description": ""
+    },
+    {
+      "skill_id": "payment-processing",
+      "domain": "development",
+      "version": "1.0.0",
+      "status": "READY",
+      "reviewed": "2026-02-27",
+      "has_skill_md": true,
+      "description": ""
+    },
+    {
+      "skill_id": "python-development",
+      "domain": "development",
+      "version": "1.0.0",
+      "status": "READY",
+      "reviewed": "2026-02-27",
+      "has_skill_md": true,
+      "description": ""
+    },
+    {
+      "skill_id": "schema-markup",
+      "domain": "development",
+      "version": "1.0.0",
+      "status": "READY",
+      "reviewed": "2026-02-27",
+      "has_skill_md": true,
+      "description": ""
+    },
+    {
+      "skill_id": "senior-backend",
+      "domain": "development",
+      "version": "1.0.0",
+      "status": "READY",
+      "reviewed": "2026-02-27",
+      "has_skill_md": true,
+      "description": ""
+    },
+    {
+      "skill_id": "ui-design-system",
+      "domain": "development",
+      "version": "1.0.0",
+      "status": "READY",
+      "reviewed": "2026-02-27",
+      "has_skill_md": true,
+      "description": ""
+    },
+    {
+      "skill_id": "website-builder",
+      "domain": "development",
+      "version": "1.0.0",
+      "status": "READY",
+      "reviewed": "2026-02-27",
+      "has_skill_md": true,
+      "description": "Load this skill when the user asks to **build a website, landing page, or marketing site** for 5 Cypress Automation or any client. Keywords: \"build a site\", \"landing page\", \"website for\", \"cinematic s"
+    },
+    {
+      "skill_id": "ab-test-setup",
+      "domain": "marketing",
+      "version": "1.0.0",
+      "status": "READY",
+      "reviewed": "2026-02-27",
+      "has_skill_md": true,
+      "description": ""
+    },
+    {
+      "skill_id": "analytics-tracking",
+      "domain": "marketing",
+      "version": "1.0.0",
+      "status": "READY",
+      "reviewed": "2026-02-27",
+      "has_skill_md": true,
+      "description": ""
+    },
+    {
+      "skill_id": "campaign-presenter",
+      "domain": "marketing",
+      "version": "1.0.0",
+      "status": "READY",
+      "reviewed": "2026-02-27",
+      "has_skill_md": true,
+      "description": ""
+    },
+    {
+      "skill_id": "competitor-alternatives",
+      "domain": "marketing",
+      "version": "1.0.0",
+      "status": "READY",
+      "reviewed": "2026-02-27",
+      "has_skill_md": true,
+      "description": ""
+    },
+    {
+      "skill_id": "content-strategy",
+      "domain": "marketing",
+      "version": "1.0.0",
+      "status": "READY",
+      "reviewed": "2026-02-27",
+      "has_skill_md": true,
+      "description": ""
+    },
+    {
+      "skill_id": "copy-editing",
+      "domain": "marketing",
+      "version": "1.0.0",
+      "status": "READY",
+      "reviewed": "2026-02-27",
+      "has_skill_md": true,
+      "description": ""
+    },
+    {
+      "skill_id": "copywriting",
+      "domain": "marketing",
+      "version": "1.0.0",
+      "status": "READY",
+      "reviewed": "2026-02-27",
+      "has_skill_md": true,
+      "description": ""
+    },
+    {
+      "skill_id": "data-analysis-reporting",
+      "domain": "marketing",
+      "version": "1.0.0",
+      "status": "READY",
+      "reviewed": "2026-02-27",
+      "has_skill_md": true,
+      "description": ""
+    },
+    {
+      "skill_id": "email-campaign",
+      "domain": "marketing",
+      "version": "1.0.0",
+      "status": "READY",
+      "reviewed": "2026-02-27",
+      "has_skill_md": true,
+      "description": ""
+    },
+    {
+      "skill_id": "email-sequence",
+      "domain": "marketing",
+      "version": "1.0.0",
+      "status": "READY",
+      "reviewed": "2026-02-27",
+      "has_skill_md": true,
+      "description": ""
+    },
+    {
+      "skill_id": "executing-marketing-campaigns",
+      "domain": "marketing",
+      "version": "1.0.0",
+      "status": "READY",
+      "reviewed": "2026-02-27",
+      "has_skill_md": true,
+      "description": ""
+    },
+    {
+      "skill_id": "free-tool-strategy",
+      "domain": "marketing",
+      "version": "1.0.0",
+      "status": "READY",
+      "reviewed": "2026-02-27",
+      "has_skill_md": true,
+      "description": ""
+    },
+    {
+      "skill_id": "launch-strategy",
+      "domain": "marketing",
+      "version": "1.0.0",
+      "status": "READY",
+      "reviewed": "2026-02-27",
+      "has_skill_md": true,
+      "description": ""
+    },
+    {
+      "skill_id": "marketing-ideas",
+      "domain": "marketing",
+      "version": "1.0.0",
+      "status": "READY",
+      "reviewed": "2026-02-27",
+      "has_skill_md": true,
+      "description": ""
+    },
+    {
+      "skill_id": "marketing-psychology",
+      "domain": "marketing",
+      "version": "1.0.0",
+      "status": "READY",
+      "reviewed": "2026-02-27",
+      "has_skill_md": true,
+      "description": ""
+    },
+    {
+      "skill_id": "marketing-research-strategy",
+      "domain": "marketing",
+      "version": "1.0.0",
+      "status": "READY",
+      "reviewed": "2026-02-27",
+      "has_skill_md": true,
+      "description": ""
+    },
+    {
+      "skill_id": "paid-ads",
+      "domain": "marketing",
+      "version": "1.0.0",
+      "status": "READY",
+      "reviewed": "2026-02-27",
+      "has_skill_md": true,
+      "description": ""
+    },
+    {
+      "skill_id": "product-marketing-context",
+      "domain": "marketing",
+      "version": "1.0.0",
+      "status": "READY",
+      "reviewed": "2026-02-27",
+      "has_skill_md": true,
+      "description": ""
+    },
+    {
+      "skill_id": "referral-program",
+      "domain": "marketing",
+      "version": "1.0.0",
+      "status": "READY",
+      "reviewed": "2026-02-27",
+      "has_skill_md": true,
+      "description": ""
+    },
+    {
+      "skill_id": "social-content",
+      "domain": "marketing",
+      "version": "1.0.0",
+      "status": "READY",
+      "reviewed": "2026-02-27",
+      "has_skill_md": true,
+      "description": ""
+    },
+    {
+      "skill_id": "social-media-content",
+      "domain": "marketing",
+      "version": "1.0.0",
+      "status": "READY",
+      "reviewed": "2026-02-27",
+      "has_skill_md": true,
+      "description": ""
+    },
+    {
+      "skill_id": "cto-advisor",
+      "domain": "sales",
+      "version": "1.0.0",
+      "status": "READY",
+      "reviewed": "2026-02-27",
+      "has_skill_md": true,
+      "description": ""
+    },
+    {
+      "skill_id": "customer-sales",
+      "domain": "sales",
+      "version": "1.0.0",
+      "status": "READY",
+      "reviewed": "2026-02-27",
+      "has_skill_md": true,
+      "description": ""
+    },
+    {
+      "skill_id": "game-changing-features",
+      "domain": "sales",
+      "version": "1.0.0",
+      "status": "READY",
+      "reviewed": "2026-02-27",
+      "has_skill_md": true,
+      "description": ""
+    },
+    {
+      "skill_id": "pricing-strategy",
+      "domain": "sales",
+      "version": "1.0.0",
+      "status": "READY",
+      "reviewed": "2026-02-27",
+      "has_skill_md": true,
+      "description": ""
+    },
+    {
+      "skill_id": "5-cypress-premium-seo",
+      "domain": "seo",
+      "version": "1.0.0",
+      "status": "READY",
+      "reviewed": "2026-02-27",
+      "has_skill_md": true,
+      "description": "<!-- SKILL METADATA skill_id:  5-cypress-premium-seo version:   1.0.0 domain:    seo reviewed:  2026-02-27 status:    READY changelog: 1.0.0 - Initial version stamp (auto-generated by stamp_skill_head"
+    },
+    {
+      "skill_id": "programmatic-seo",
+      "domain": "seo",
+      "version": "1.0.0",
+      "status": "READY",
+      "reviewed": "2026-02-27",
+      "has_skill_md": true,
+      "description": ""
+    },
+    {
+      "skill_id": "seo-audit",
+      "domain": "seo",
+      "version": "1.0.0",
+      "status": "READY",
+      "reviewed": "2026-02-27",
+      "has_skill_md": true,
+      "description": ""
+    }
+  ]
+}

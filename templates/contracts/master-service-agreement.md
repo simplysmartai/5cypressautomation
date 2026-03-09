@@ -1,6 +1,6 @@
 # Master Service Agreement
 
-**Between:** Simply Smart Automation LLC ("Agency")  
+**Between:** 5 Cypress Automation ("Agency")  
 **And:** {{client_name}} ("Client")  
 **Effective Date:** {{effective_date}}
 
@@ -59,7 +59,7 @@ Agency grants Client a perpetual license to use any Agency tools incorporated in
 ### 5.3 Portfolio Rights
 Agency may reference the project in marketing materials unless Client requests confidentiality.
 
-## 6. Confidentiality
+## 6. Confidentiality & Data Security
 
 Both parties agree to protect confidential information disclosed during the engagement. This includes:
 - Business processes and strategies
@@ -68,6 +68,15 @@ Both parties agree to protect confidential information disclosed during the enga
 - Customer data
 
 Confidentiality survives termination for three (3) years.
+
+5 Cypress Automation specifically agrees to:
+- Handle Client data per the 5 Cypress Data Handling Policy
+- Use only approved secure transfer methods (Copilot portal, encrypted email, ShareFile, or API)
+- Store data in access-controlled environments; never on unencrypted portable media
+- Delete raw sensitive files within 30 days of project completion
+- Notify Client within 72 hours of any confirmed or suspected data breach
+
+Clients providing financial, health, or personal data must also execute a Data Processing Agreement (DPA) before any data transfer.
 
 ## 7. Warranties and Limitations
 
@@ -116,11 +125,11 @@ Disputes will be resolved through good-faith negotiation, then mediation, before
 
 ## Signatures
 
-**Simply Smart Automation LLC**
+**5 Cypress Automation**
 
 Signature: _________________________  
-Name: {{agency_signer_name}}  
-Title: {{agency_signer_title}}  
+Name: Nick  
+Title: Owner / Principal  
 Date: _________________________
 
 **{{client_name}}**
