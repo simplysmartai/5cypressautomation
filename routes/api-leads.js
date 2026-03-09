@@ -208,27 +208,138 @@ router.post('/contact', [
   res.json({ success: true, message: "We'll be in touch within one business day." });
 });
 
+// ── Spam detection helper ────────────────────────────────────────────────────
+function isSpam(data) {
+  const spamKeywords = [
+    'casino', 'poker', 'viagra', 'cialis', 'pharmacy', 'bitcoin', 'crypto',
+    'forex', 'trading', 'loan', 'mortgage', 'weight loss', 'diet', 'pill',
+    'xxx', 'adult', 'gambling', 'replica', 'counterfeit', 'fake', 'discount',
+    'wholesale', 'dropship', 'seo', 'backlink'
+  ];
+  
+  const content = ((data.name || '') + ' ' + (data.details || '') + ' ' + (data.company || '')).toLowerCase();
+  
+  for (const keyword of spamKeywords) {
+    if (content.includes(keyword)) {
+      return { flagged: true, reason: `Spam keyword: "${keyword}"` };
+    }
+  }
+  
+  const urlPattern = /(https?:\/\/|www\.)/gi;
+  const urlCount = (data.details || '').match(urlPattern)?.length || 0;
+  if (urlCount > 3) {
+    return { flagged: true, reason: 'Too many URLs' };
+  }
+  
+  if (data.details && data.details.length < 10) {
+    return { flagged: true, reason: 'Details too short' };
+  }
+  
+  return { flagged: false, reason: null };
+}
+
+// ── Check for duplicate submissions within 1 hour ──────────────────────────
+function isDuplicateSubmission(db, email) {
+  const oneHourAgo = new Date(Date.now() - 60 * 60 * 1000).toISOString();
+  const recent = db.prepare(
+    "SELECT COUNT(*) as count FROM leads WHERE email = ? AND source = 'website-inquiry' AND createdAt >= ?"
+  ).get(email, oneHourAgo);
+  return recent.count > 0;
+}
+
+// ── Send notification email to team ──────────────────────────────────────────
+async function notifyTeamOfLead(leadData) {
+  if (!process.env.RESEND_API_KEY) {
+    console.warn('[LEAD-EMAIL] RESEND_API_KEY not set');
+    return false;
+  }
+
+  try {
+    const { Resend } = require('resend');
+    const resend = new Resend(process.env.RESEND_API_KEY);
+    
+    const emailHtml = `
+      <div style="font-family:sans-serif;max-width:600px;margin:auto;border:1px solid #ddd;border-radius:8px;padding:20px">
+        <h2 style="color:#5d8c5d;margin-top:0">New Lead Assessment Inquiry</h2>
+        <table style="width:100%;border-collapse:collapse">
+          <tr style="background:#f5f5f5"><td style="padding:10px;font-weight:600;color:#333;width:150px">Name</td><td style="padding:10px">${leadData.name}</td></tr>
+          <tr><td style="padding:10px;font-weight:600;color:#333">Email</td><td style="padding:10px"><a href="mailto:${leadData.email}" style="color:#5d8c5d">${leadData.email}</a></td></tr>
+          <tr style="background:#f5f5f5"><td style="padding:10px;font-weight:600;color:#333">Website</td><td style="padding:10px">${leadData.company || '—'}</td></tr>
+          <tr><td style="padding:10px;font-weight:600;color:#333">Timeline</td><td style="padding:10px">${leadData.timeline || '—'}</td></tr>
+          <tr style="background:#f5f5f5"><td style="padding:10px;font-weight:600;color:#333;vertical-align:top">Challenge</td><td style="padding:10px">${(leadData.details || '—').replace(/\n/g, '<br>')}</td></tr>
+        </table>
+        <hr style="border:none;border-top:1px solid #ddd;margin:20px 0"/>
+        <p style="color:#666;font-size:0.85em">View in <a href="https://5cypress.com/admin/leads" style="color:#5d8c5d">admin/leads</a></p>
+      </div>
+    `;
+
+    const recipients = ['nick@5cypress.com', 'jimmy@5cypress.com'];
+    const replyTo = process.env.DEFAULT_FROM || 'nick@5cypress.com';
+    
+    for (const recipient of recipients) {
+      await resend.emails.send({
+        from: `5 Cypress <${replyTo}>`,
+        to: recipient,
+        replyTo: replyTo,
+        subject: `New Lead: ${leadData.name}`,
+        html: emailHtml
+      });
+    }
+    
+    console.log('[LEAD-EMAIL] Notification sent to nick@ and jimmy@');
+    return true;
+  } catch (err) {
+    console.error('[LEAD-EMAIL] Error:', err.message);
+    return false;
+  }
+}
+
 // ── Public inquiry / vetting form (submit-inquiry) ───────────────────────────
 router.post('/submit-inquiry', [
   body('name').trim().notEmpty().isLength({ max: 150 }).escape(),
   body('email').isEmail().normalizeEmail(),
   body('company').optional({ checkFalsy: true }).trim().isLength({ max: 200 }).escape(),
-  body('details').optional({ checkFalsy: true }).trim().isLength({ max: 2000 })
-], (req, res) => {
+  body('details').optional({ checkFalsy: true }).trim().isLength({ max: 2000 }),
+  body('timeline').optional({ checkFalsy: true }).trim().escape()
+], async (req, res) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) return res.status(400).json({ errors: errors.array() });
 
-  const { name, email, company, details } = req.body;
+  const { name, email, company, details, timeline } = req.body;
   const db = req.app.get('db');
 
-  try {
-    db.prepare(`INSERT INTO leads (name, email, company, source, challenge) VALUES (?, ?, ?, ?, ?)`)
-      .run(name, email, company || null, 'website-inquiry', details || null);
-  } catch (dbErr) {
-    console.error('[INQUIRY] DB log failed (non-fatal):', dbErr.message);
+  if (isDuplicateSubmission(db, email)) {
+    console.log(`[INQUIRY] Duplicate from ${email} — blocked`);
+    return res.status(429).json({ success: false, message: "We already have your inquiry. We'll be in touch shortly." });
   }
 
-  console.log(`[INQUIRY] New inquiry from ${name} <${email}> @ ${new Date().toISOString()}`);
+  const spamCheck = isSpam({ name, company, details });
+  if (spamCheck.flagged) {
+    console.warn(`[INQUIRY] SPAM: ${email} — ${spamCheck.reason}`);
+    try {
+      db.prepare(`INSERT INTO leads (name, email, company, source, challenge, timeline) VALUES (?, ?, ?, ?, ?, ?)`)
+        .run(name, email, company || null, 'website-inquiry-spam', details || null, timeline || null);
+    } catch (dbErr) {
+      console.error('[INQUIRY] DB insert failed:', dbErr.message);
+    }
+    return res.json({ success: true, message: "Application received. We'll be in touch within one business day." });
+  }
+
+  let leadId;
+  try {
+    const info = db.prepare(`INSERT INTO leads (name, email, company, source, challenge, timeline) VALUES (?, ?, ?, ?, ?, ?)`)
+      .run(name, email, company || null, 'website-inquiry', details || null, timeline || null);
+    leadId = info.lastInsertRowid;
+  } catch (dbErr) {
+    console.error('[INQUIRY] DB insert failed:', dbErr.message);
+    return res.status(500).json({ error: 'Failed to save' });
+  }
+
+  notifyTeamOfLead({ name, email, company, details, timeline }).catch(err => {
+    console.error('[INQUIRY] Email error:', err.message);
+  });
+
+  console.log(`[INQUIRY] NEW #${leadId}: ${name} <${email}> @ ${new Date().toISOString()}`);
   res.json({ success: true, message: "Application received. We'll be in touch within one business day." });
 });
 
