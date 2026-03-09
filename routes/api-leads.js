@@ -243,10 +243,10 @@ function isDuplicateSubmission(db, email) {
   const oneHourAgo = new Date(Date.now() - 60 * 60 * 1000).toISOString();
   try {
     const recent = db.prepare(
-      "SELECT COUNT(*) as count FROM leads WHERE email = ? AND source = 'website-inquiry' AND createdAt >= ?"
+      "SELECT COUNT(*) as count FROM leads WHERE email = ? AND source LIKE 'website-inquiry%' AND createdAt >= ?"
     ).get(email, oneHourAgo);
     const isDupe = recent.count > 0;
-    console.log(`[INQUIRY-DUP-CHECK] email=${email}, oneHourAgo=${oneHourAgo}, count=${recent.count}, isDupe=${isDupe}`);
+    console.log(`[INQUIRY-DUP-CHECK] email=${email}, count=${recent.count}, isDupe=${isDupe}`);
     return isDupe;
   } catch (err) {
     console.error('[INQUIRY-DUP-CHECK] Error:', err.message);
