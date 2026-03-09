@@ -69,8 +69,8 @@
   <link href="https://assets.calendly.com/assets/external/calendar-widget.css" rel="stylesheet">
   
   <!-- Stylesheets - design-system is @imported by styles-premium.css; loading once here avoids duplicate HTTP request -->
-  <link rel="stylesheet" href="styles-premium.css">
-  <link rel="stylesheet" href="styles-mobile-enhanced.css">
+  <link rel="stylesheet" href="styles-premium.css?v=20260309-paths">
+  <link rel="stylesheet" href="styles-mobile-enhanced.css?v=20260309-paths">
   
   <script type="importmap">
     {
@@ -85,8 +85,8 @@
   <!-- Skip to Content (Accessibility) -->
   <a href="#main-content" class="skip-to-content">Skip to content</a>
 
-  <!-- Atmospheric Background -->
-  <div class="atmosphere"></div>
+  <!-- Animated Background Paths -->
+  <div id="background-paths" class="background-paths-container" aria-hidden="true"></div>
 
   <!-- Navigation -->
   <nav class="navbar">
@@ -852,6 +852,9 @@
       </div>
     </div>
   </div>
+
+  <!-- Background Paths Animation -->
+  <script src="background-paths.js?v=20260309-paths"></script>
 </body>
 </html>
 
