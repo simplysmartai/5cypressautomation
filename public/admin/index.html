@@ -13,9 +13,19 @@
 <div id="admin-sidebar"></div>
 <div class="a-main">
   <div class="a-topbar">
-    <div class="a-page-title">Dashboard</div>
-    <span class="a-topbar-badge"><i class="ri-shield-check-line"></i> Authenticated</span>
-    <a href="/admin/newclient" class="btn btn-primary"><i class="ri-user-star-line"></i> New Client</a>
+    <div class="a-topbar-left">
+      <i class="a-topbar-icon ri-dashboard-2-line"></i>
+      <div class="a-page-title">Dashboard</div>
+    </div>
+    <div class="a-topbar-tabs">
+      <a class="a-tab active" href="/admin"><i class="ri-dashboard-line"></i> Dashboard</a>
+      <a class="a-tab" href="/admin/leads"><i class="ri-user-add-line"></i> Leads</a>
+      <a class="a-tab" href="/admin/clients"><i class="ri-briefcase-line"></i> Clients</a>
+    </div>
+    <div class="a-topbar-right">
+      <span class="a-topbar-badge"><i class="ri-shield-check-line"></i> Authenticated</span>
+      <a href="/admin/newclient" class="btn btn-primary btn-sm"><i class="ri-user-star-line"></i> New Client</a>
+    </div>
   </div>
   <div class="a-content">
     <div class="a-stats">

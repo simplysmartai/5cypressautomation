@@ -205,27 +205,101 @@ body {
   display: flex;
   align-items: center;
   padding: 0 26px;
-  gap: 10px;
+  gap: 20px;
   position: sticky;
   top: 0;
   z-index: 50;
 }
+
+.a-topbar-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 240px;
+}
+
+.a-topbar-icon {
+  font-size: 18px;
+  color: var(--green);
+  flex-shrink: 0;
+}
+
 .a-page-title {
   font-family: var(--fh);
   font-size: 18px;
   font-weight: 700;
   color: var(--tx-1);
-  flex: 1;
+  white-space: nowrap;
 }
+
+.a-topbar-tabs {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  flex: 1;
+  border-left: 1px solid var(--border);
+  padding-left: 20px;
+}
+
+.a-tab {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--tx-3);
+  text-decoration: none;
+  position: relative;
+  cursor: pointer;
+  transition: color 0.2s, background 0.2s;
+  border: none;
+  background: none;
+  white-space: nowrap;
+}
+
+.a-tab:hover {
+  color: var(--tx-2);
+  background: rgba(74,124,89,0.04);
+}
+
+.a-tab.active {
+  color: var(--green);
+  font-weight: 600;
+}
+
+.a-tab.active::after {
+  content: '';
+  position: absolute;
+  bottom: -1px;
+  left: 16px;
+  right: 16px;
+  height: 3px;
+  background: var(--green);
+  border-radius: 2px 2px 0 0;
+  transition: all 0.2s;
+}
+
+.a-topbar-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-left: auto;
+  flex-shrink: 0;
+}
+
 .a-topbar-badge {
   font-family: var(--fm);
-  font-size: 10px;
+  font-size: 11px;
   font-weight: 600;
   color: var(--green);
   background: var(--green-lt);
   border: 1px solid rgba(74,124,89,0.2);
-  padding: 3px 9px;
+  padding: 4px 10px;
   border-radius: 20px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
 }
 
 /* ── CONTENT AREA ─────────────────────────────────────────────────────────── */

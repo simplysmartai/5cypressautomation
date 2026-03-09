@@ -13,9 +13,19 @@
 <div id="admin-sidebar"></div>
 <div class="a-main">
   <div class="a-topbar">
-    <div class="a-page-title">Leads</div>
-    <span class="a-topbar-badge" id="topBadge">Loading…</span>
-    <button class="btn btn-ghost" onclick="exportCSV()"><i class="ri-download-2-line"></i> Export CSV</button>
+    <div class="a-topbar-left">
+      <i class="a-topbar-icon ri-user-add-line"></i>
+      <div class="a-page-title">Leads</div>
+    </div>
+    <div class="a-topbar-tabs">
+      <a class="a-tab" href="/admin"><i class="ri-dashboard-line"></i> Dashboard</a>
+      <a class="a-tab active" href="/admin/leads"><i class="ri-user-add-line"></i> Leads</a>
+      <a class="a-tab" href="/admin/clients"><i class="ri-briefcase-line"></i> Clients</a>
+    </div>
+    <div class="a-topbar-right">
+      <span class="a-topbar-badge" id="topBadge">Loading…</span>
+      <button class="btn btn-ghost btn-sm" onclick="exportCSV()"><i class="ri-download-2-line"></i> Export CSV</button>
+    </div>
   </div>
   <div class="a-content">
     <div class="a-filter-bar">
