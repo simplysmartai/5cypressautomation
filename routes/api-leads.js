@@ -241,10 +241,17 @@ function isSpam(data) {
 // ── Check for duplicate submissions within 1 hour ──────────────────────────
 function isDuplicateSubmission(db, email) {
   const oneHourAgo = new Date(Date.now() - 60 * 60 * 1000).toISOString();
-  const recent = db.prepare(
-    "SELECT COUNT(*) as count FROM leads WHERE email = ? AND source = 'website-inquiry' AND createdAt >= ?"
-  ).get(email, oneHourAgo);
-  return recent.count > 0;
+  try {
+    const recent = db.prepare(
+      "SELECT COUNT(*) as count FROM leads WHERE email = ? AND source = 'website-inquiry' AND createdAt >= ?"
+    ).get(email, oneHourAgo);
+    const isDupe = recent.count > 0;
+    console.log(`[INQUIRY-DUP-CHECK] email=${email}, oneHourAgo=${oneHourAgo}, count=${recent.count}, isDupe=${isDupe}`);
+    return isDupe;
+  } catch (err) {
+    console.error('[INQUIRY-DUP-CHECK] Error:', err.message);
+    return false;
+  }
 }
 
 // ── Send notification email to team ──────────────────────────────────────────
