@@ -47,7 +47,7 @@ window.handleVettingSubmit = async function(event) {
     
     try {
         // Send to Cloudflare Function (or backend endpoint)
-        const response = await fetch("/submit-inquiry", {
+        const response = await fetch("/api/submit-inquiry", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(data)
