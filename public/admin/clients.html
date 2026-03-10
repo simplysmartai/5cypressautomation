@@ -252,6 +252,16 @@
   <div class="a-drawer-content">
     <!-- Overview Tab -->
     <div class="a-drawer-pane active" id="overviewPane">
+      <!-- Skill Integration Buttons -->
+      <div style="display:flex; gap:8px; margin-bottom:16px; flex-wrap:wrap;">
+        <button class="a-btn a-btn-secondary" onclick="runClientDiscovery()" title="Generate intelligence brief based on company research">
+          <i class="ri-search-line"></i> Intelligence Brief
+        </button>
+        <button class="a-btn a-btn-secondary" onclick="runAccountReview()" title="Generate QBR with project status, wins, and expansion ideas">
+          <i class="ri-line-chart-line"></i> Account Review
+        </button>
+      </div>
+
       <div class="a-contact-card" id="contactCard"></div>
       <div class="a-overview-section">
         <label class="a-overview-label">Engagement Type</label>
@@ -656,6 +666,56 @@
     document.getElementById('fileInput').files = e.dataTransfer.files;
     handleFileUpload({ target: { files: e.dataTransfer.files } });
   });
+
+  // Skill integration functions
+  function runClientDiscovery() {
+    if (!currentClient) return alert('No client selected');
+    const msg = `
+📊 Client Discovery Brief
+
+Ready to generate an intelligence brief for: ${currentClient.name}
+
+This will:
+• Research the company's business model
+• Map pain points to 5 Cypress services  
+• Provide engagement hooks & talking points
+• Pre-populate client profile fields
+
+→ Use the client-discovery skill in Claude
+→ Input: company_name="${currentClient.name}", website="${currentClient.website || ''}"
+→ Paste the output back into this client's form
+
+Would you like to open Claude Claude to run this skill?`;
+    
+    if (confirm(msg)) {
+      window.open('https://claude.ai', '_blank');
+    }
+  }
+
+  function runAccountReview() {
+    if (!currentClient) return alert('No client selected');
+    const msg = `
+📈 Account Review (QBR)
+
+Ready to generate a quarterly business review for: ${currentClient.name}
+
+This will:
+• Summarize project status and wins
+• Identify risks and blockers
+• Recommend next 30-day priorities
+• Surface expansion opportunities
+• Generate call talking points
+
+→ Use the account-review skill in Claude
+→ Input: client_slug="${currentClient.slug}"
+→ Review the output for upcoming client conversations
+
+Would you like to open Claude to run this skill?`;
+    
+    if (confirm(msg)) {
+      window.open('https://claude.ai', '_blank');
+    }
+  }
 
   loadClients();
 </script>

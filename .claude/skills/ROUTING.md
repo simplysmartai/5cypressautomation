@@ -64,6 +64,22 @@ Covers: LinkedIn posts, content calendars, thought leadership. Applies 40/30/20/
 
 ---
 
+## Client Management & Sales
+
+| Skill | When to Use |
+|-------|-------------|
+| `client-discovery` | New client/prospect added to system — generate intelligence brief + pre-populate admin form fields |
+| `account-review` | Prepare for client check-in call — lightweight QBR with project status, wins, risks, expansion hooks |
+| `customer-sales` | Cold outreach, discovery calls, proposals, objection handling, closing deals |
+
+**Workflow:**
+1. **New prospect enters pipeline** → Use `client-discovery` to generate brief + admin profile
+2. **Preparing outreach email** → Use `customer-sales` with the discovery brief as context
+3. **90-day check-in approaching** → Use `account-review` for talking points and health assessment
+4. **Sales conversation needed** → Use `customer-sales` for negotiation/proposal support
+
+---
+
 ## Reporting & Presentation
 
 | Skill | When to Use |
