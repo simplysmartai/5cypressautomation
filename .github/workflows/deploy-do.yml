@@ -1,0 +1,27 @@
+name: Deploy to DigitalOcean
+
+on:
+  push:
+    branches: [ main, master ]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Deploy to DigitalOcean
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.DO_HOST }}
+        username: ${{ secrets.DO_USER }}
+        key: ${{ secrets.DO_SSH_KEY }}
+        port: 22
+        script: |
+          cd /home/jimmy/5cypress
+          git pull origin main
+          npm install --production
+          python3 -m venv venv || true
+          source venv/bin/activate
+          pip install -r requirements.txt
+          deactivate
+          pm2 restart 5cypress
+          pm2 save
