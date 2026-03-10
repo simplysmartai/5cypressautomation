@@ -8,6 +8,120 @@
   <link href="https://cdn.jsdelivr.net/npm/remixicon@4.0.0/fonts/remixicon.css" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/admin/admin-light.css">
+  <style>
+    /* Modal styles */
+    .a-modal-overlay { display:none; position:fixed; top:0; left:0; right:0; bottom:0; background:rgba(0,0,0,0.5); z-index:200; }
+    .a-modal-overlay.show { display:flex; align-items:center; justify-content:center; padding:20px; }
+    .a-modal-box { background:var(--bg-card); border-radius:16px; box-shadow:var(--shadow-md); width:100%; max-width:600px; max-height:90vh; overflow-y:auto; padding:32px; }
+    .a-modal-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:24px; }
+    .a-modal-title { font-family:var(--fh); font-size:20px; font-weight:700; color:var(--tx-1); }
+    .a-modal-close { background:none; border:none; font-size:24px; color:var(--tx-3); cursor:pointer; padding:0; width:30px; height:30px; display:flex; align-items:center; justify-content:center; }
+    .a-modal-close:hover { color:var(--tx-1); }
+
+    /* Drawer styles */
+    .a-drawer-overlay { display:none; position:fixed; top:0; left:0; right:0; bottom:0; background:rgba(0,0,0,0.3); z-index:190; }
+    .a-drawer-overlay.show { display:block; }
+    .a-drawer { position:fixed; top:0; right:0; bottom:0; width:700px; background:var(--bg-card); box-shadow:-4px 0 16px rgba(0,0,0,0.15); z-index:199; transform:translateX(100%); transition:transform 0.3s ease; overflow-y:auto; }
+    .a-drawer.show { transform:translateX(0); }
+    @media (max-width:1000px) { .a-drawer { width:100%; } }
+
+    .a-drawer-header { padding:24px; border-bottom:1px solid var(--border); display:flex; align-items:center; justify-content:space-between; gap:12px; }
+    .a-drawer-title { font-family:var(--fh); font-size:18px; font-weight:700; color:var(--tx-1); }
+    .a-drawer-close { background:none; border:none; font-size:24px; color:var(--tx-3); cursor:pointer; padding:0; width:30px; height:30px; display:flex; align-items:center; justify-content:center; }
+    .a-drawer-close:hover { color:var(--tx-1); }
+
+    .a-drawer-tabs { display:flex; border-bottom:1px solid var(--border); background:var(--bg-card); sticky; top:0; z-index:10; }
+    .a-drawer-tab { flex:1; padding:12px 16px; border:none; background:none; color:var(--tx-3); font-size:14px; font-weight:500; cursor:pointer; text-align:center; transition:all 0.2s; }
+    .a-drawer-tab:hover { color:var(--tx-1); background:rgba(74,124,89,0.04); }
+    .a-drawer-tab.active { color:var(--green); border-bottom:3px solid var(--green); }
+
+    .a-drawer-content { padding:24px; }
+    .a-drawer-pane { display:none; }
+    .a-drawer-pane.active { display:block; }
+
+    /* Form styles */
+    .a-form-group { margin-bottom:16px; }
+    .a-form-label { display:block; font-family:var(--fm); font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:0.1em; color:var(--tx-3); margin-bottom:6px; }
+    .a-form-input, .a-form-select, .a-form-textarea { width:100%; padding:10px 12px; border:1px solid var(--border); border-radius:6px; font-family:var(--fb); font-size:14px; color:var(--tx-1); background:var(--bg-app); transition:border-color 0.2s; }
+    .a-form-input:focus, .a-form-select:focus, .a-form-textarea:focus { outline:none; border-color:var(--green); background:#fff; }
+    .a-form-textarea { min-height:80px; resize:vertical; }
+    .a-form-row { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+
+    /* Projects list */
+    .a-projects-list { }
+    .a-project-item { display:flex; align-items:flex-start; gap:12px; padding:12px; background:var(--bg-app); border-radius:8px; margin-bottom:8px; }
+    .a-project-icon { width:32px; height:32px; border-radius:6px; background:rgba(74,124,89,0.1); display:flex; align-items:center; justify-content:center; color:var(--green); font-size:14px; flex-shrink:0; margin-top:2px; }
+    .a-project-content { flex:1; }
+    .a-project-title { font-weight:600; color:var(--tx-1); margin-bottom:4px; }
+    .a-project-meta { display:flex; align-items:center; gap:8px; font-size:12px; color:var(--tx-3); }
+    .a-project-meta .a-badge { padding:2px 8px; border-radius:4px; font-size:11px; font-weight:600; }
+    .a-project-actions { display:flex; gap:6px; flex-shrink:0; }
+    .a-btn-icon { background:none; border:none; color:var(--tx-3); cursor:pointer; font-size:16px; padding:4px; }
+    .a-btn-icon:hover { color:var(--tx-1); }
+
+    /* Upload zone */
+    .a-upload-zone { border:2px dashed var(--border); border-radius:8px; padding:24px; text-align:center; cursor:pointer; transition:all 0.2s; background:var(--bg-app); }
+    .a-upload-zone:hover { border-color:var(--green); background:rgba(74,124,89,0.04); }
+    .a-upload-zone.drag { border-color:var(--green); background:rgba(74,124,89,0.1); }
+    .a-upload-icon { font-size:32px; color:var(--green); margin-bottom:8px; }
+    .a-upload-text { color:var(--tx-1); font-weight:600; margin-bottom:4px; }
+    .a-upload-hint { font-size:12px; color:var(--tx-3); }
+
+    /* Files list */
+    .a-files-list { }
+    .a-file-item { display:flex; align-items:center; gap:12px; padding:10px; background:var(--bg-app); border-radius:8px; margin-bottom:6px; }
+    .a-file-icon { font-size:18px; color:var(--green); }
+    .a-file-main { flex:1; }
+    .a-file-name { font-weight:500; color:var(--tx-1); word-break:break-all; }
+    .a-file-meta { font-size:11px; color:var(--tx-3); margin-top:2px; }
+    .a-file-actions { display:flex; gap:6px; }
+    .a-btn-download { background:none; border:none; color:var(--green); cursor:pointer; font-size:16px; padding:4px; }
+    .a-btn-download:hover { opacity:0.7; }
+
+    /* Badges */
+    .a-badge { display:inline-block; padding:2px 8px; border-radius:4px; font-size:11px; font-weight:600; }
+    .a-badge.automation { background:#D1FAE5; color:#047857; }
+    .a-badge.marketing { background:#DBEAFE; color:#0D47A1; }
+    .a-badge.consulting { background:#FEE2E2; color:#7F1D1D; }
+    .a-badge.other { background:#F3F4F6; color:#4B5563; }
+    .a-badge.planning { background:#FEF3C7; color:#92400E; }
+    .a-badge.active { background:#DCFCE7; color:#15803D; }
+    .a-badge.complete { background:#F0F0F0; color:#374151; }
+
+    .client-status { display:inline-block; padding:4px 10px; border-radius:20px; font-size:12px; font-weight:600; }
+    .client-status.active { background:var(--green-lt); color:var(--green); }
+    .client-status.trial { background:var(--gold-lt); color:var(--gold); }
+    .client-status.paused { background:#F3F4F6; color:#6B7280; }
+
+    /* Buttons */
+    .a-btn { display:inline-flex; align-items:center; gap:6px; padding:9px 14px; border:none; border-radius:8px; font-family:var(--fb); font-size:13px; font-weight:600; cursor:pointer; transition:all 0.2s; }
+    .a-btn-primary { background:var(--green); color:#fff; }
+    .a-btn-primary:hover { background:var(--green-dk); }
+    .a-btn-secondary { background:var(--border); color:var(--tx-1); }
+    .a-btn-secondary:hover { background:var(--border-md); }
+    .a-btn-sm { padding:6px 10px; font-size:12px; }
+
+    /* Spinner */
+    @keyframes spin { to { transform:rotate(360deg); } }
+    .a-spinner { display:inline-block; width:16px; height:16px; border:2px solid var(--border); border-top-color:var(--green); border-radius:50%; animation:spin 0.8s linear infinite; }
+
+    /* Contact card */
+    .a-contact-card { background:var(--bg-app); border-radius:8px; padding:16px; margin-bottom:16px; }
+    .a-contact-item { display:flex; align-items:center; gap:10px; margin-bottom:8px; }
+    .a-contact-item:last-child { margin-bottom:0; }
+    .a-contact-label { color:var(--tx-3); font-size:12px; width:80px; }
+    .a-contact-value { color:var(--tx-1); font-weight:500; }
+    .a-contact-value a { color:var(--green); text-decoration:none; }
+    .a-contact-value a:hover { text-decoration:underline; }
+
+    /* Overview details */
+    .a-overview-section { margin-bottom:20px; }
+    .a-overview-label { font-family:var(--fm); font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:0.1em; color:var(--tx-3); margin-bottom:8px; display:block; }
+    .a-overview-value { color:var(--tx-1); font-size:14px; }
+
+    /* Engagement badge */
+    .a-engagement { display:inline-block; padding:6px 12px; background:rgba(74,124,89,0.1); color:var(--green); border-radius:6px; font-size:12px; font-weight:600; }
+  </style>
 </head>
 <body>
 <div id="admin-sidebar"></div>
@@ -24,7 +138,7 @@
     </div>
     <div class="a-topbar-right">
       <span class="a-topbar-badge" id="topBadge">Loading…</span>
-      <a href="/admin/newclient" class="btn btn-primary btn-sm"><i class="ri-add-line"></i> New Client</a>
+      <button class="btn btn-primary btn-sm" onclick="openNewClientModal()"><i class="ri-add-line"></i> New Client</button>
     </div>
   </div>
   <div class="a-content">
@@ -54,53 +168,213 @@
         <i class="ri-building-line"></i>
         <div class="a-empty-title">No clients found</div>
         <p>Add a client to get started.</p>
-        <a href="/admin/newclient" class="btn btn-primary" style="margin-top:12px">New Client</a>
+        <button class="btn btn-primary" onclick="openNewClientModal()" style="margin-top:12px">New Client</button>
       </div>
     </div>
   </div>
 </div>
-<script>
-  function esc(s){return String(s||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
-  function safe(v){return v||'—';}
 
-  function statusPill(s){
-    const map={active:'active',paused:'paused',trial:'trial',prospecting:'trial',proposal:'trial'};
-    const cls=map[(s||'').toLowerCase()]||'paused';
-    const label=s||'unknown';
+<!-- New Client Modal -->
+<div class="a-modal-overlay" id="newClientModal">
+  <div class="a-modal-box">
+    <div class="a-modal-header">
+      <div class="a-modal-title">Add New Client</div>
+      <button class="a-modal-close" onclick="closeNewClientModal()"><i class="ri-close-line"></i></button>
+    </div>
+    <form id="newClientForm" onsubmit="submitNewClient(event)">
+      <div class="a-form-group">
+        <label class="a-form-label">Client Name *</label>
+        <input type="text" name="name" class="a-form-input" required>
+      </div>
+      <div class="a-form-row">
+        <div class="a-form-group">
+          <label class="a-form-label">Status</label>
+          <select name="status" class="a-form-select">
+            <option value="prospect">Prospect</option>
+            <option value="trial">Trial</option>
+            <option value="active">Active</option>
+            <option value="paused">Paused</option>
+          </select>
+        </div>
+        <div class="a-form-group">
+          <label class="a-form-label">Engagement Type</label>
+          <input type="text" name="engagement_type" class="a-form-input" placeholder="e.g. Retainer">
+        </div>
+      </div>
+      <div class="a-form-row">
+        <div class="a-form-group">
+          <label class="a-form-label">Industry</label>
+          <input type="text" name="industry" class="a-form-input" placeholder="e.g. Technology">
+        </div>
+        <div class="a-form-group">
+          <label class="a-form-label">Website</label>
+          <input type="text" name="website" class="a-form-input" placeholder="https://example.com">
+        </div>
+      </div>
+      <div class="a-form-row">
+        <div class="a-form-group">
+          <label class="a-form-label">Contact Name</label>
+          <input type="text" name="contact_name" class="a-form-input">
+        </div>
+        <div class="a-form-group">
+          <label class="a-form-label">Contact Email</label>
+          <input type="email" name="contact_email" class="a-form-input">
+        </div>
+      </div>
+      <div class="a-form-group">
+        <label class="a-form-label">Notes</label>
+        <textarea name="notes" class="a-form-textarea" placeholder="Background, goals, notes..."></textarea>
+      </div>
+      <div class="a-form-group">
+        <label class="a-form-label">Tags (comma-separated)</label>
+        <input type="text" name="tags" class="a-form-input" placeholder="tag1, tag2, tag3">
+      </div>
+      <div style="display:flex; gap:8px; margin-top:24px;">
+        <button type="submit" class="a-btn a-btn-primary">Create Client</button>
+        <button type="button" class="a-btn a-btn-secondary" onclick="closeNewClientModal()">Cancel</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- Client Detail Drawer -->
+<div class="a-drawer-overlay" id="drawerOverlay" onclick="closeDrawer()"></div>
+<div class="a-drawer" id="clientDrawer">
+  <div class="a-drawer-header">
+    <div class="a-drawer-title" id="drawerTitle">Loading...</div>
+    <button class="a-drawer-close" onclick="closeDrawer()"><i class="ri-close-line"></i></button>
+  </div>
+  <div class="a-drawer-tabs">
+    <button class="a-drawer-tab active" onclick="switchTab('overview')">Overview</button>
+    <button class="a-drawer-tab" onclick="switchTab('projects')">Projects</button>
+    <button class="a-drawer-tab" onclick="switchTab('documents')">Documents</button>
+  </div>
+  <div class="a-drawer-content">
+    <!-- Overview Tab -->
+    <div class="a-drawer-pane active" id="overviewPane">
+      <div class="a-contact-card" id="contactCard"></div>
+      <div class="a-overview-section">
+        <label class="a-overview-label">Engagement Type</label>
+        <div id="engagementValue" class="a-overview-value">—</div>
+      </div>
+      <div class="a-overview-section">
+        <label class="a-overview-label">Onboarded</label>
+        <div id="onboardedValue" class="a-overview-value">—</div>
+      </div>
+      <div class="a-overview-section">
+        <label class="a-overview-label">Tags</label>
+        <div id="tagsValue" class="a-overview-value">—</div>
+      </div>
+      <div class="a-overview-section">
+        <label class="a-overview-label">Notes</label>
+        <div id="notesValue" class="a-overview-value">—</div>
+      </div>
+    </div>
+
+    <!-- Projects Tab -->
+    <div class="a-drawer-pane" id="projectsPane">
+      <button class="a-btn a-btn-primary" onclick="toggleAddProjectForm()" style="margin-bottom:16px;">
+        <i class="ri-add-line"></i> Add Project
+      </button>
+      
+      <div id="addProjectForm" style="display:none; background:var(--bg-app); padding:16px; border-radius:8px; margin-bottom:16px;">
+        <div class="a-form-group">
+          <label class="a-form-label">Project Title *</label>
+          <input type="text" class="a-form-input" id="projectTitle" required>
+        </div>
+        <div class="a-form-row">
+          <div class="a-form-group">
+            <label class="a-form-label">Type</label>
+            <select class="a-form-select" id="projectType">
+              <option value="other">Other</option>
+              <option value="automation">Automation</option>
+              <option value="marketing">Marketing</option>
+              <option value="consulting">Consulting</option>
+            </select>
+          </div>
+          <div class="a-form-group">
+            <label class="a-form-label">Status</label>
+            <select class="a-form-select" id="projectStatus">
+              <option value="planning">Planning</option>
+              <option value="active">Active</option>
+              <option value="complete">Complete</option>
+            </select>
+          </div>
+        </div>
+        <div class="a-form-group">
+          <label class="a-form-label">Notes</label>
+          <textarea class="a-form-textarea" id="projectNotes" style="min-height:60px;"></textarea>
+        </div>
+        <div style="display:flex; gap:8px;">
+          <button class="a-btn a-btn-primary" onclick="saveAddProject()">Save Project</button>
+          <button class="a-btn a-btn-secondary" onclick="toggleAddProjectForm()">Cancel</button>
+        </div>
+      </div>
+
+      <div class="a-projects-list" id="projectsList"></div>
+      <div id="noProjectsMsg" class="a-empty-title" style="text-align:center; padding:20px; color:var(--tx-3);">No projects yet</div>
+    </div>
+
+    <!-- Documents Tab -->
+    <div class="a-drawer-pane" id="documentsPane">
+      <div class="a-upload-zone" id="uploadZone" onclick="triggerFileInput()">
+        <div class="a-upload-icon"><i class="ri-upload-cloud-2-line"></i></div>
+        <div class="a-upload-text">Drop files here or click to upload</div>
+        <div class="a-upload-hint">Up to 50MB per file</div>
+      </div>
+      <input type="file" id="fileInput" style="display:none" onchange="handleFileUpload(event)">
+      
+      <div style="margin-top:20px;">
+        <div class="a-files-list" id="filesList"></div>
+        <div id="noFilesMsg" class="a-empty-title" style="text-align:center; padding:20px; color:var(--tx-3);">No documents yet</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  function esc(s) { return String(s || '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c])); }
+  function safe(v) { return v || '—'; }
+
+  let currentClient = null;
+
+  function statusPill(s) {
+    const map = { active: 'active', paused: 'paused', trial: 'trial', prospecting: 'trial', prospect: 'trial', proposal: 'trial' };
+    const cls = map[(s || '').toLowerCase()] || 'paused';
+    const label = s || 'unknown';
     return `<span class="client-status ${cls}">${esc(label)}</span>`;
   }
 
-  async function loadClients(){
-    try{
-      const res=await fetch('/admin/api/clients');
-      const data=await res.json();
-      if(!res.ok)throw new Error(data.error||'Failed to load clients');
+  async function loadClients() {
+    try {
+      const res = await fetch('/admin/api/clients');
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || 'Failed to load clients');
 
-      const clients=data.clients||[];
-      document.getElementById('topBadge').textContent=`${clients.length} client${clients.length!==1?'s':''}`;
-      document.getElementById('clientCount').textContent=`${clients.length} total`;
+      const clients = data.clients || [];
+      document.getElementById('topBadge').textContent = `${clients.length} client${clients.length !== 1 ? 's' : ''}`;
+      document.getElementById('clientCount').textContent = `${clients.length} total`;
+      document.getElementById('loadingState').style.display = 'none';
 
-      document.getElementById('loadingState').style.display='none';
-
-      if(!clients.length){
-        document.getElementById('emptyState').style.display='block';
+      if (!clients.length) {
+        document.getElementById('emptyState').style.display = 'block';
         return;
       }
 
-      document.getElementById('clientsTable').style.display='table';
-      document.getElementById('clientsBody').innerHTML=clients.map((c,i)=>{
-        const emailLink=c.contact_email
-          ?`<a href="mailto:${esc(c.contact_email)}" style="color:var(--green)">${esc(c.contact_email)}</a>`
-          :(c.contact_name?esc(c.contact_name):'—');
-        const websiteLink=c.website
-          ?`<a href="${esc(c.website)}" target="_blank" rel="noopener" style="color:var(--green)">${esc(c.website.replace(/^https?:\/\//,''))}</a>`
-          :'—';
-        const onboarded=c.onboarded
-          ?new Date(c.onboarded).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'})
-          :(c.createdAt?new Date(c.createdAt).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}):'—');
-        return `<tr>
-          <td class="mono tx-sm" style="color:var(--tx-3)">${i+1}</td>
-          <td><strong style="font-weight:600">${esc(safe(c.name))}</strong><div class="a-lead-email">${esc(c.slug||'')}</div></td>
+      document.getElementById('clientsTable').style.display = 'table';
+      document.getElementById('clientsBody').innerHTML = clients.map((c, i) => {
+        const emailLink = c.contact_email
+          ? `<a href="mailto:${esc(c.contact_email)}" style="color:var(--green)">${esc(c.contact_email)}</a>`
+          : (c.contact_name ? esc(c.contact_name) : '—');
+        const websiteLink = c.website
+          ? `<a href="${esc(c.website)}" target="_blank" rel="noopener" style="color:var(--green)">${esc(c.website.replace(/^https?:\/\//, ''))}</a>`
+          : '—';
+        const onboarded = c.onboarded
+          ? new Date(c.onboarded).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
+          : '—';
+        return `<tr style="cursor:pointer;" onclick="openClientDrawer('${esc(c.slug)}')">
+          <td class="mono tx-sm" style="color:var(--tx-3)">${i + 1}</td>
+          <td><strong style="font-weight:600">${esc(safe(c.name))}</strong><div class="a-lead-email">${esc(c.engagement_type || '')}</div></td>
           <td class="tx-sm hide-sm">${esc(safe(c.industry))}</td>
           <td class="tx-sm hide-sm">${emailLink}</td>
           <td class="tx-sm hide-sm">${websiteLink}</td>
@@ -108,10 +382,280 @@
           <td>${statusPill(c.status)}</td>
         </tr>`;
       }).join('');
-    }catch(e){
-      document.getElementById('loadingState').innerHTML=`<div class="a-empty"><i class="ri-error-warning-line"></i><div class="a-empty-title">Failed to load clients</div><p>${esc(e.message)}</p></div>`;
+    } catch (e) {
+      document.getElementById('loadingState').innerHTML = `<div class="a-empty"><i class="ri-error-warning-line"></i><div class="a-empty-title">Failed to load clients</div><p>${esc(e.message)}</p></div>`;
     }
   }
+
+  function openNewClientModal() {
+    document.getElementById('newClientModal').classList.add('show');
+  }
+
+  function closeNewClientModal() {
+    document.getElementById('newClientModal').classList.remove('show');
+    document.getElementById('newClientForm').reset();
+  }
+
+  async function submitNewClient(e) {
+    e.preventDefault();
+    const formData = new FormData(document.getElementById('newClientForm'));
+    const data = Object.fromEntries(formData);
+
+    try {
+      const res = await fetch('/admin/api/clients', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      });
+      const result = await res.json();
+      if (!res.ok) throw new Error(result.error || 'Failed to create client');
+
+      closeNewClientModal();
+      loadClients();
+    } catch (e) {
+      alert(`Error: ${e.message}`);
+    }
+  }
+
+  async function openClientDrawer(slug) {
+    try {
+      const res = await fetch(`/admin/api/clients/${slug}`);
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || 'Failed to load client');
+
+      currentClient = data;
+      document.getElementById('drawerTitle').textContent = data.name;
+
+      // Overview tab
+      const contact = data.contact || {};
+      const contactHtml = [];
+      if (contact.name) contactHtml.push(`<div class="a-contact-item"><span class="a-contact-label">Name</span><span class="a-contact-value">${esc(contact.name)}</span></div>`);
+      if (contact.email) contactHtml.push(`<div class="a-contact-item"><span class="a-contact-label">Email</span><span class="a-contact-value"><a href="mailto:${esc(contact.email)}">${esc(contact.email)}</a></span></div>`);
+      if (data.website) contactHtml.push(`<div class="a-contact-item"><span class="a-contact-label">Website</span><span class="a-contact-value"><a href="${esc(data.website)}" target="_blank">${esc(data.website)}</a></span></div>`);
+      
+      document.getElementById('contactCard').innerHTML = contactHtml.length ? contactHtml.join('') : '<p style="color:var(--tx-3);">No contact info</p>';
+      document.getElementById('engagementValue').innerHTML = data.engagement_type ? `<span class="a-engagement">${esc(data.engagement_type)}</span>` : '—';
+      document.getElementById('onboardedValue').textContent = data.created_at ? new Date(data.created_at).toLocaleDateString() : '—';
+      document.getElementById('tagsValue').innerHTML = data.tags && data.tags.length ? data.tags.map(t => `<span style="display:inline-block; margin-right:6px; padding:2px 8px; background:var(--green-lt); color:var(--green); border-radius:4px; font-size:11px;">${esc(t)}</span>`).join('') : '—';
+      document.getElementById('notesValue').textContent = data.notes || '—';
+
+      // Projects tab
+      await loadProjects();
+
+      // Documents tab
+      await loadFiles();
+
+      // Show drawer
+      document.getElementById('drawerOverlay').classList.add('show');
+      document.getElementById('clientDrawer').classList.add('show');
+    } catch (e) {
+      alert(`Error: ${e.message}`);
+    }
+  }
+
+  function closeDrawer() {
+    document.getElementById('drawerOverlay').classList.remove('show');
+    document.getElementById('clientDrawer').classList.remove('show');
+    currentClient = null;
+  }
+
+  function switchTab(tab) {
+    document.querySelectorAll('.a-drawer-tab').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.a-drawer-pane').forEach(p => p.classList.remove('active'));
+
+    document.querySelector(`[onclick="switchTab('${tab}')"]`).classList.add('active');
+    document.getElementById(`${tab}Pane`).classList.add('active');
+  }
+
+  async function loadProjects() {
+    if (!currentClient) return;
+
+    const projects = currentClient.projects || [];
+    const list = document.getElementById('projectsList');
+
+    if (!projects.length) {
+      list.innerHTML = '';
+      document.getElementById('noProjectsMsg').style.display = 'block';
+      return;
+    }
+
+    document.getElementById('noProjectsMsg').style.display = 'none';
+    list.innerHTML = projects.map(p => {
+      const typeIcon = { automation: 'ri-cog-line', marketing: 'ri-megaphone-line', consulting: 'ri-lightbulb-line', other: 'ri-briefcase-line' }[p.type] || 'ri-briefcase-line';
+      return `<div class="a-project-item">
+        <div class="a-project-icon"><i class="${typeIcon}"></i></div>
+        <div class="a-project-content">
+          <div class="a-project-title">${esc(p.title)}</div>
+          <div class="a-project-meta">
+            <span class="a-badge ${p.type}">${esc(p.type)}</span>
+            <select class="a-badge ${p.status}" onchange="updateProjectStatus('${p.id}', this.value)" style="border:none; background:none; padding:0; cursor:pointer; font-weight:600;">
+              <option value="planning" ${p.status === 'planning' ? 'selected' : ''}>Planning</option>
+              <option value="active" ${p.status === 'active' ? 'selected' : ''}>Active</option>
+              <option value="complete" ${p.status === 'complete' ? 'selected' : ''}>Complete</option>
+            </select>
+          </div>
+          ${p.notes ? `<div style="margin-top:6px; font-size:12px; color:var(--tx-2);">${esc(p.notes)}</div>` : ''}
+        </div>
+        <div class="a-project-actions">
+          <button class="a-btn-icon" onclick="deleteProject('${p.id}')" title="Delete"><i class="ri-delete-bin-line"></i></button>
+        </div>
+      </div>`;
+    }).join('');
+  }
+
+  function toggleAddProjectForm() {
+    document.getElementById('addProjectForm').style.display = document.getElementById('addProjectForm').style.display === 'none' ? 'block' : 'none';
+  }
+
+  async function saveAddProject() {
+    if (!currentClient) return;
+
+    const title = document.getElementById('projectTitle').value.trim();
+    if (!title) { alert('Project title required'); return; }
+
+    try {
+      const res = await fetch(`/admin/api/clients/${currentClient.slug}/projects`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          title,
+          type: document.getElementById('projectType').value,
+          status: document.getElementById('projectStatus').value,
+          notes: document.getElementById('projectNotes').value
+        })
+      });
+      const result = await res.json();
+      if (!res.ok) throw new Error(result.error);
+
+      currentClient.projects.push(result.project);
+      document.getElementById('addProjectForm').style.display = 'none';
+      document.getElementById('projectTitle').value = '';
+      await loadProjects();
+    } catch (e) {
+      alert(`Error: ${e.message}`);
+    }
+  }
+
+  async function updateProjectStatus(projectId, status) {
+    if (!currentClient) return;
+
+    try {
+      const res = await fetch(`/admin/api/clients/${currentClient.slug}/projects/${projectId}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ status })
+      });
+      const result = await res.json();
+      if (!res.ok) throw new Error(result.error);
+
+      const proj = currentClient.projects.find(p => p.id === projectId);
+      if (proj) proj.status = status;
+      await loadProjects();
+    } catch (e) {
+      alert(`Error: ${e.message}`);
+    }
+  }
+
+  async function deleteProject(projectId) {
+    if (!currentClient) return;
+    if (!confirm('Delete this project?')) return;
+
+    try {
+      const res = await fetch(`/admin/api/clients/${currentClient.slug}/projects/${projectId}`, {
+        method: 'DELETE'
+      });
+      if (!res.ok) {
+        const result = await res.json();
+        throw new Error(result.error);
+      }
+
+      currentClient.projects = currentClient.projects.filter(p => p.id !== projectId);
+      await loadProjects();
+    } catch (e) {
+      alert(`Error: ${e.message}`);
+    }
+  }
+
+  async function loadFiles() {
+    if (!currentClient) return;
+
+    try {
+      const res = await fetch(`/admin/api/clients/${currentClient.slug}/files`);
+      const data = await res.json();
+
+      const list = document.getElementById('filesList');
+      const files = data.files || [];
+
+      if (!files.length) {
+        list.innerHTML = '';
+        document.getElementById('noFilesMsg').style.display = 'block';
+        return;
+      }
+
+      document.getElementById('noFilesMsg').style.display = 'none';
+      list.innerHTML = files.map(f => {
+        const sizeKB = (f.size / 1024).toFixed(1);
+        const modified = new Date(f.modified).toLocaleDateString();
+        return `<div class="a-file-item">
+          <div class="a-file-icon"><i class="ri-file-line"></i></div>
+          <div class="a-file-main">
+            <div class="a-file-name">${esc(f.name)}</div>
+            <div class="a-file-meta">${sizeKB} KB • ${modified}</div>
+          </div>
+          <div class="a-file-actions">
+            <a href="${f.url}" class="a-btn-download" title="Download"><i class="ri-download-2-line"></i></a>
+          </div>
+        </div>`;
+      }).join('');
+    } catch (e) {
+      console.error('Error loading files:', e);
+    }
+  }
+
+  function triggerFileInput() {
+    document.getElementById('fileInput').click();
+  }
+
+  async function handleFileUpload(e) {
+    if (!currentClient) return;
+
+    const files = e.target.files;
+    if (!files.length) return;
+
+    for (const file of files) {
+      const formData = new FormData();
+      formData.append('file', file);
+
+      try {
+        const res = await fetch(`/admin/api/clients/${currentClient.slug}/upload`, {
+          method: 'POST',
+          body: formData
+        });
+        const result = await res.json();
+        if (!res.ok) throw new Error(result.error);
+
+        await loadFiles();
+      } catch (e) {
+        alert(`Error uploading ${file.name}: ${e.message}`);
+      }
+    }
+
+    document.getElementById('fileInput').value = '';
+  }
+
+  // Drag and drop
+  const uploadZone = document.getElementById('uploadZone');
+  uploadZone.addEventListener('dragover', (e) => {
+    e.preventDefault();
+    uploadZone.classList.add('drag');
+  });
+  uploadZone.addEventListener('dragleave', () => uploadZone.classList.remove('drag'));
+  uploadZone.addEventListener('drop', (e) => {
+    e.preventDefault();
+    uploadZone.classList.remove('drag');
+    document.getElementById('fileInput').files = e.dataTransfer.files;
+    handleFileUpload({ target: { files: e.dataTransfer.files } });
+  });
 
   loadClients();
 </script>
