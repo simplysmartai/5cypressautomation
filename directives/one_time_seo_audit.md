@@ -78,7 +78,7 @@ This directive documents the **5 Cypress implementation** of the Premium SEO Ski
 | `ADMIN_USER` | Admin username for bypass |
 | `ADMIN_PASS` | Admin password for bypass |
 | `GOOGLE_PAGESPEED_API_KEY` | Google PageSpeed API |
-| `DATAFORSEO_LOGIN` | DataForSEO API login |
+| `DATAFORSEO_USERNAME` | DataForSEO API username/email |
 | `DATAFORSEO_PASSWORD` | DataForSEO API password |
 | `CALENDLY_URL` | (Optional) Fallback if Stripe not configured |
 

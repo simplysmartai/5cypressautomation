@@ -6,6 +6,13 @@ import requests
 import base64
 import time
 from typing import Dict, List, Any, Optional
+from concurrent.futures import ThreadPoolExecutor, as_completed
+
+try:
+    from openai import OpenAI
+    HAS_OPENAI = True
+except ImportError:
+    HAS_OPENAI = False
 
 
 class DataForSEOClient:
@@ -42,6 +49,70 @@ class DataForSEOClient:
         result = self.get(get_endpoint_tpl.replace("{task_id}", task_id))
         items = result.get("tasks", [{}])[0].get("result", [])
         return items[0] if items else None
+
+
+def enrich_with_ai(module_name: str, data: Dict[str, Any]) -> Optional[Dict[str, Any]]:
+    """
+    Use OpenAI to generate AI insights for a specific audit module.
+    Returns a dict with 'summary', 'top_issues', 'quick_wins', 'estimated_impact'.
+    Returns None if OpenAI is not available or API key is missing.
+    """
+    if not HAS_OPENAI:
+        return None
+
+    api_key = os.environ.get("OPENAI_API_KEY")
+    if not api_key:
+        return None
+
+    try:
+        client = OpenAI(api_key=api_key)
+
+        # Create a concise data summary for the prompt
+        data_summary = json.dumps(data, indent=2)[:1000]  # First 1000 chars
+
+        prompts = {
+            "overview": f"Analyze this SEO audit overview data and provide 2-3 sentence summary of the site's SEO health, top 3 critical issues, and 2 quick wins:\n{data_summary}",
+            "lighthouse": f"Analyze these Lighthouse scores and provide a brief insight summary, key performance issues, and recommended optimizations:\n{data_summary}",
+            "on_page": f"Analyze these on-page SEO findings and provide: (1) brief summary of on-page health, (2) 3-4 critical issues, (3) 2-3 quick fixes:\n{data_summary}",
+            "speed": f"Analyze these page speed metrics and provide: (1) summary of performance, (2) slowest components, (3) quick optimization wins:\n{data_summary}",
+            "keywords": f"Analyze these keyword findings and provide: (1) summary of keyword gaps, (2) top 3 missed opportunities, (3) recommended target keywords:\n{data_summary}",
+            "backlinks": f"Analyze this backlink profile and provide: (1) summary of link health, (2) key risks, (3) link building opportunities:\n{data_summary}",
+            "serp": f"Analyze these SERP rankings and provide: (1) ranking summary, (2) positions to improve, (3) keywords worth targeting:\n{data_summary}",
+            "competitor": f"Analyze this competitor comparison and provide: (1) competitive positioning summary, (2) gaps vs competitors, (3) areas to improve:\n{data_summary}",
+        }
+
+        prompt = prompts.get(module_name, f"Generate insights for {module_name}:\n{data_summary}")
+
+        response = client.chat.completions.create(
+            model="gpt-4o-mini",
+            messages=[
+                {"role": "system", "content": "You are an expert SEO analyst. Provide concise, actionable insights."},
+                {"role": "user", "content": prompt}
+            ],
+            temperature=0.7,
+            max_tokens=150
+        )
+
+        insight_text = response.choices[0].message.content
+
+        # Parse the response into structured format
+        # This is a simple heuristic; you can make it more sophisticated
+        lines = insight_text.split('\n')
+        summary = lines[0] if lines else insight_text[:100]
+
+        issues = [l.strip().lstrip('- •* ') for l in lines if any(k in l.lower() for k in ['issue', 'problem', 'critical', 'error', '✗'])][:3]
+        wins = [l.strip().lstrip('- •* ') for l in lines if any(k in l.lower() for k in ['win', 'opportunity', 'improve', 'quick', '✓'])][:2]
+
+        return {
+            "summary": summary[:200],
+            "top_issues": issues,
+            "quick_wins": wins,
+            "estimated_impact": "High" if issues else "Medium"
+        }
+
+    except Exception as e:
+        print(f"[!] AI enrichment failed for {module_name}: {str(e)}", file=sys.stderr)
+        return None
 
 
 def run_audit(url: str, keywords: List[str] = None, modules: List[str] = None, competitors: List[str] = None) -> Dict:
@@ -213,7 +284,40 @@ def run_audit(url: str, keywords: List[str] = None, modules: List[str] = None, c
         else:
             results["data"]["full_report"]["technical"].append(["Keywords", "No target keywords provided", "Info"])
 
-    # 5. Final Score Weighting
+    # 5. AI Enrichment (parallel)
+    print(f"[*] Enriching insights with AI...")
+    if HAS_OPENAI and os.environ.get("OPENAI_API_KEY"):
+        ai_insights = {}
+        # Map module names to data keys
+        module_data_map = {
+            "overview": results["data"],
+            "lighthouse": results["data"].get("lighthouse", {}),
+            "on_page": results["data"].get("on_page", {}),
+            "speed": results["data"].get("page_speed", {}),
+            "keywords": results["data"].get("keywords", {}),
+            "backlinks": results["data"].get("backlinks", {}),
+            "serp": results["data"].get("serp", {}),
+            "competitor": results["data"].get("competitor", {}),
+        }
+
+        with ThreadPoolExecutor(max_workers=4) as executor:
+            futures = {
+                executor.submit(enrich_with_ai, mod, module_data_map.get(mod, {})): mod
+                for mod in modules if mod in module_data_map
+            }
+            for future in as_completed(futures):
+                mod = futures[future]
+                try:
+                    insight = future.result(timeout=10)
+                    if insight:
+                        ai_insights[mod] = insight
+                        print(f"[✓] AI insights enriched for {mod}")
+                except Exception as e:
+                    print(f"[!] AI enrichment timeout/error for {mod}: {str(e)}", file=sys.stderr)
+
+        results["data"]["ai_insights"] = ai_insights
+
+    # 6. Final Score Weighting
     if results["data"]["score"] == 0:
         results["data"]["score"] = 65
 
