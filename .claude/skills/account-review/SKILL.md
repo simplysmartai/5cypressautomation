@@ -315,13 +315,13 @@ client_slug: "nexairi-mentis"
 
 **Input:**
 ```
-client_slug: "remy-lasers"
+client_slug: "acme-manufacturing"
 ```
 
 **Client data:**
 ```json
 {
-  "name": "Remy Lasers",
+  "name": "Acme Manufacturing",
   "status": "active",
   "engagement_type": "trial_program",
   "created_at": "2026-02-03",
@@ -341,7 +341,7 @@ client_slug: "remy-lasers"
 **Output:**
 
 ```markdown
-# Quarterly Account Review: Remy Lasers
+# Quarterly Account Review: Acme Manufacturing
 **Engagement Date**: Feb 3, 2026 | **Duration**: 5 weeks | **Status**: active
 **Engagement Type**: trial_program (PROOF-OF-VALUE PHASE)
 

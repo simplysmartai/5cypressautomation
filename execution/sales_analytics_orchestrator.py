@@ -12,15 +12,6 @@ Usage:
         --output-sheet dashboard_sheet_id
 """
 
-# ============================================================
-# SCRIPT_STATUS: PLACEHOLDER
-# REASON: All CRM connectors (HubSpot, Salesforce, Pipedrive)
-#         call _generate_mock_data() instead of real APIs.
-#         Google Sheets export is also a stub.
-# BLOCKS:  CRM API credentials per client + Sheets OAuth
-# OWNER:   @nick
-# ============================================================
-
 import json
 import logging
 from datetime import datetime, timedelta

@@ -96,7 +96,7 @@ python execution/setup_zoho_calendar_admin.py
 
 **Expected output:**
 ```
-📧 Send this URL to Remy Lasers admin:
+📧 Send this URL to client admin:
 https://accounts.zoho.com/oauth/v2/auth?scope=ZohoCalendar...
 
 After they authorize, they'll see authorization code. Paste it here:
@@ -105,9 +105,9 @@ Authorization code: 1000.abc123...
 ✅ Refresh token saved to .env
 
 ✅ Found 12 users in organization:
-   - Sarah Johnson (sarah@remylasers.com)
-   - John Smith (john@remylasers.com)
-   - Mike Chen (mike@remylasers.com)
+   - Sarah Johnson (sarah@example.com)
+   - John Smith (john@example.com)
+   - Mike Chen (mike@example.com)
    ...
 
 ✅ Sarah Johnson: 2 calendars
@@ -131,9 +131,9 @@ python execution/setup_zoho_calendar_webhook.py
 
 **Expected output:**
 ```
-✅ Registered webhook for sarah@remylasers.com
-✅ Registered webhook for john@remylasers.com
-✅ Registered webhook for mike@remylasers.com
+✅ Registered webhook for sarah@example.com
+✅ Registered webhook for john@example.com
+✅ Registered webhook for mike@example.com
 ...
 ✅ 12 webhooks registered successfully
 ```

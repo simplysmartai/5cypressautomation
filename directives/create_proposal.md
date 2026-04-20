@@ -16,24 +16,6 @@ Before creating a proposal, ensure you have:
 - [ ] Timeline estimate
 - [ ] Any special requirements
 
-## Agent Mode
-
-> This directive generates a client-facing document and runs a script. Follow the two-phase protocol.
-
-**MODE: PLANNING** — Before running any script, confirm:
-- [ ] All inputs above are present (block if any are missing)
-- [ ] Client slug exists in `clients/` folder with a `discovery.md` file
-- [ ] Package choice is confirmed or custom price is defined
-- [ ] `config/pricing.json` is accessible and up to date
-- [ ] Output format is specified (`google-doc`, `pdf`, or `markdown`)
-- [ ] Discount (if any) does not exceed 15% without explicit approval
-
-**MODE: EXECUTION** — Once planning is confirmed:
-- Run `execution/create_proposal.py` with validated parameters
-- Verify output file was created at `clients/[slug]/proposals/`
-- Log the activity and update pipeline status
-- Surface the proposal file path or link to the user before closing
-
 ## Proposal Structure
 
 ### 1. Executive Summary
@@ -69,7 +51,7 @@ Before creating a proposal, ensure you have:
 - Payment terms (50% deposit, 50% on completion)
 - Optional add-ons if relevant
 
-### 7. Why 5 Cypress Automation
+### 7. Why 5 Cypress Labs
 - Resilient systems narrative
 - Scaling capability
 - Technical excellence and reliability

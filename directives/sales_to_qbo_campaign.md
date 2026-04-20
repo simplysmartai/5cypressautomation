@@ -17,7 +17,7 @@
 ### 2. Multi-Channel Execution
 
 #### A. Direct Outreach (LinkedIn/Email)
-*Focus: High-touch personalization for the existing pipeline (e.g., Remy Lasers CFO).*
+*Focus: High-touch personalization for the existing pipeline.*
 - **Tactic:** Send a Loom video of the `live_demo_automation.py` output. 
 - **Message:** "I noticed [Company] is processing manual invoices. I built a 60-second proof showing how we auto-generate your QBO invoices and shipping labels from a single form. Can I show you the results?"
 

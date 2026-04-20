@@ -27,27 +27,6 @@ router.get('/health', (_req, res) =>
 );
 
 // ── Client dashboard routes ──────────────────────────────────────────────────
-router.get('/clients/remy-lasers', (_req, res) =>
-  res.sendFile(path.join(ROOT, 'public', 'client-remy-lasers.html'))
-);
-router.get('/clients/remy-lasers/prototypes/roi-calculator', (_req, res) =>
-  res.sendFile(path.join(ROOT, 'public', 'client-remy-lasers-roi.html'))
-);
-router.get('/clients/remy-lasers/prototypes/qbo-invoice', (_req, res) =>
-  res.sendFile(path.join(ROOT, 'clients', 'remy-lasers', 'prototypes', 'qbo-invoice-preview.html'))
-);
-router.get('/clients/remy-lasers/prototypes/shipping-label', (_req, res) =>
-  res.sendFile(path.join(ROOT, 'clients', 'remy-lasers', 'prototypes', 'shipping-label-preview.html'))
-);
-router.get('/clients/remy-lasers/prototypes/calendar-dashboard', (_req, res) =>
-  res.sendFile(path.join(ROOT, 'clients', 'remy-lasers', 'prototypes', 'calendar-dashboard-preview.html'))
-);
-router.get('/clients/remy-lasers/documents/presentation', (_req, res) =>
-  res.sendFile(path.join(ROOT, 'public', 'client-remy-lasers-presentation.html'))
-);
-router.get('/clients/remy-lasers/documents/:docType', (req, res) => {
-  res.send(`Document viewer for: ${req.params.docType} - Coming soon!`);
-});
 router.get('/clients/:clientSlug', (req, res) => {
   const clientFile = path.join(ROOT, 'public', `client-${req.params.clientSlug}.html`);
   if (fs.existsSync(clientFile)) {

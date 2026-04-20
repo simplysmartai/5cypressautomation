@@ -91,7 +91,7 @@ def _map_info_json(slug: str, raw: dict) -> dict:
 
 def _map_client_config(slug: str, raw: dict) -> dict:
     """
-    Map the 'remy-lasers-style' client-config.json (hierarchical) to canonical layout.
+    Map the legacy client-config.json (hierarchical) format to canonical layout.
     Fields: client_name, status, engagement_type, trial_program, contact,
             business_info, roi_estimate, next_steps, documents, created_at, updated_at
     """

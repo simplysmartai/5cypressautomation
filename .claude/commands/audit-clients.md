@@ -57,7 +57,6 @@ For each folder in `clients/`:
 | Old format | Location | Action |
 |------------|----------|--------|
 | `info.json` | nexairi, nexairi-mentis, simply-smart-consulting | `load_client()` merges automatically |
-| `client-config.json` | remy-lasers | `load_client()` merges automatically |
 | `.md` context files | marketing-team/context/ | Manual: copy relevant fields to `client.json` |
 
 ## Client schema reference

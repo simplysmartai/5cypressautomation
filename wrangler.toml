@@ -1,0 +1,8 @@
+name = "5cypress"
+
+# Cloudflare Pages configuration
+pages_build_output_dir = "public"
+
+# Note: Cron triggers (_scheduled.js) are not supported in Pages directly.
+# To enable scheduled skills, deploy _scheduled.js as a separate Cloudflare Worker.
+# See PHASE_3_COMPLETE.md for worker deployment instructions.

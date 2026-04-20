@@ -113,7 +113,7 @@ def generate_monthly_insights(client_id: str):
     Run via cron: @modal.cron("0 6 1 * *")  # First of month at 6 AM
     
     Args:
-        client_id: Client slug (e.g., "remy-lasers")
+        client_id: Client slug (e.g., "nexairi") — matches folder name under clients/
     
     Returns:
         Path to generated PDF report
@@ -247,8 +247,7 @@ def monthly_insights_all_clients():
     """Run monthly insights for all active clients."""
     # List of active clients (could be pulled from database)
     active_clients = [
-        "remy-lasers",
-        # Add more as you onboard clients
+        # Add active client slugs here as you onboard clients
     ]
     
     print(f"📅 Running monthly insights for {len(active_clients)} clients")
@@ -269,10 +268,10 @@ def main():
     test_order = {
         "customer_name": "Test Customer",
         "customer_email": "test@example.com",
-        "product": "Laser Engraver XL",
+        "product": "Demo Product",
         "quantity": 1,
         "price": 2499.00,
-        "client_id": "remy-lasers",
+        "client_id": "demo-client",
         "shipping_address": {
             "street": "123 Main St",
             "city": "San Francisco",

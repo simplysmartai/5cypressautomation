@@ -160,7 +160,7 @@ If a breach, unauthorized access, or accidental disclosure is suspected:
 - Final dashboard files retained in `clients/{id}/deliverables/`
 - DPA required for financial or customer data
 
-### Bookkeeping / CFO Support (Remy Lasers + future clients)
+### Bookkeeping / CFO Support
 - Connect to QuickBooks Online via OAuth API — no raw file transfer needed for QBO data
 - Bank statements / receipts accepted via Copilot portal (password-protected)
 - Financial data is the most sensitive category — DPA always required

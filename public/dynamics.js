@@ -47,7 +47,7 @@ window.handleVettingSubmit = async function(event) {
     
     try {
         // Send to Cloudflare Function (or backend endpoint)
-        const response = await fetch("/api/submit-inquiry", {
+        const response = await fetch("/submit-inquiry", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(data)
@@ -79,16 +79,12 @@ window.handleVettingSubmit = async function(event) {
 
 window.toggleMobileMenu = function() {
     const mobileMenu = document.getElementById("mobileMenu");
-    const toggleBtn = document.querySelector(".mobile-toggle");
     const toggleIcon = document.querySelector(".mobile-toggle i");
     
     if (mobileMenu) {
         mobileMenu.classList.toggle("active");
         const isActive = mobileMenu.classList.contains("active");
         document.body.style.overflow = isActive ? "hidden" : "";
-        
-        // Keep aria-expanded in sync so screen readers announce state correctly
-        if (toggleBtn) toggleBtn.setAttribute("aria-expanded", String(isActive));
         
         if (toggleIcon) {
             toggleIcon.className = isActive ? "ri-close-line" : "ri-menu-line";
@@ -98,13 +94,11 @@ window.toggleMobileMenu = function() {
 
 window.closeMobileMenu = function() {
     const mobileMenu = document.getElementById("mobileMenu");
-    const toggleBtn = document.querySelector(".mobile-toggle");
     const toggleIcon = document.querySelector(".mobile-toggle i");
     
     if (mobileMenu) {
         mobileMenu.classList.remove("active");
         document.body.style.overflow = "";
-        if (toggleBtn) toggleBtn.setAttribute("aria-expanded", "false");
         if (toggleIcon) {
             toggleIcon.className = "ri-menu-line";
         }
@@ -195,65 +189,4 @@ document.addEventListener("DOMContentLoaded", function() {
             }
         });
     }
-
-    // ─── Programmatic event wiring ───
-    // Helmet CSP + scriptSrcAttr cooperate now, but these listeners provide
-    // defense-in-depth: buttons work even if CSP ever tightens again.
-
-    // Open-modal buttons
-    document.querySelectorAll(
-        '[onclick*="openCalendly"], [data-action="open-modal"]'
-    ).forEach(function(btn) {
-        btn.addEventListener("click", function(e) {
-            try { openCalendly(); } catch(err) {
-                console.error("[5Cypress] openCalendly error:", err);
-                window.location.href = "/booking.html";
-            }
-        });
-    });
-
-    // Close-modal button
-    document.querySelectorAll(
-        '.calendly-close, [onclick*="closeBookingModal"]'
-    ).forEach(function(btn) {
-        btn.addEventListener("click", function(e) {
-            e.stopPropagation();
-            closeBookingModal();
-        });
-    });
-
-    // Vetting form submit
-    var vettingForm = document.getElementById("vettingForm");
-    if (vettingForm) {
-        vettingForm.addEventListener("submit", function(e) {
-            e.preventDefault();
-            handleVettingSubmit(e);
-        });
-    }
-
-    // Mobile menu toggle
-    document.querySelectorAll(
-        '.mobile-toggle, [onclick*="toggleMobileMenu"]'
-    ).forEach(function(btn) {
-        btn.addEventListener("click", function() {
-            toggleMobileMenu();
-        });
-    });
-
-    // Mobile nav links close menu
-    document.querySelectorAll(
-        '.mobile-link, [onclick*="closeMobileMenu"]'
-    ).forEach(function(link) {
-        link.addEventListener("click", function() {
-            closeMobileMenu();
-        });
-    });
-
-    // Escape key closes modal
-    document.addEventListener("keydown", function(e) {
-        if (e.key === "Escape") {
-            var m = document.getElementById("bookingModal");
-            if (m && m.classList.contains("active")) closeBookingModal();
-        }
-    });
 });

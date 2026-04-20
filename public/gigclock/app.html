@@ -1,0 +1,780 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GigClock Dashboard</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #f5f5f0; --surface: #fff; --surface2: #fafaf8; --border: #e5e5e0;
+      --text: #1a1a1a; --muted: #6b7280; --faint: #9ca3af;
+      --accent: #f97316; --accent-dim: rgba(249,115,22,0.1);
+      --green: #16a34a; --green-bg: #f0fdf4;
+      --red: #dc2626; --red-bg: #fef2f2;
+      --mono: 'Space Mono', monospace; --sans: 'DM Sans', sans-serif;
+      --sidebar-w: 260px;
+    }
+    body { font-family: var(--sans); background: var(--bg); color: var(--text); min-height: 100vh; }
+
+    /* ─── Layout ─────────────────────────────────────────────────────────── */
+    .app { display: flex; min-height: 100vh; }
+
+    /* Sidebar */
+    .sidebar {
+      width: var(--sidebar-w); background: var(--surface); border-right: 1px solid var(--border);
+      display: flex; flex-direction: column; position: fixed; top: 0; left: 0; height: 100vh; z-index: 20;
+      overflow-y: auto;
+    }
+    .sidebar-header { padding: 20px 20px 16px; border-bottom: 1px solid var(--border); }
+    .sidebar-logo { display: flex; align-items: center; gap: 9px; }
+    .logo-mark {
+      width: 30px; height: 30px; border-radius: 8px;
+      background: linear-gradient(135deg, #f97316, #fb923c);
+      display: flex; align-items: center; justify-content: center;
+      font-family: var(--mono); font-weight: 700; font-size: 13px; color: #fff;
+    }
+    .logo-text { font-weight: 700; font-size: 17px; letter-spacing: -0.02em; }
+    .sidebar-user { padding: 14px 20px; border-bottom: 1px solid var(--border); }
+    .user-name { font-weight: 600; font-size: 14px; }
+    .user-plan {
+      display: inline-flex; align-items: center; gap: 4px;
+      font-size: 11px; font-weight: 600; margin-top: 3px;
+      padding: 2px 8px; border-radius: 100px;
+    }
+    .user-plan.free { background: #f3f4f6; color: var(--muted); }
+    .user-plan.pro { background: rgba(249,115,22,0.1); color: var(--accent); }
+    .sidebar-projects { flex: 1; padding: 12px 0; }
+    .sidebar-label { font-size: 11px; font-weight: 600; color: var(--faint); text-transform: uppercase; letter-spacing: 0.08em; padding: 0 20px; margin-bottom: 6px; }
+    .project-item {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 9px 20px; cursor: pointer; font-size: 13px; font-weight: 500;
+      color: var(--muted); transition: background 0.15s;
+      border-left: 3px solid transparent;
+    }
+    .project-item:hover { background: var(--bg); color: var(--text); }
+    .project-item.active { background: var(--bg); color: var(--text); border-left-color: var(--accent); }
+    .project-item-name { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .project-running-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--accent); flex-shrink: 0; animation: pulse 2s ease-in-out infinite; }
+    .sidebar-new {
+      margin: 4px 16px; padding: 9px 14px; border-radius: 8px;
+      background: var(--bg); border: 1px dashed var(--border);
+      font-size: 13px; color: var(--muted); cursor: pointer; text-align: center;
+      transition: all 0.15s;
+    }
+    .sidebar-new:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-dim); }
+    .sidebar-footer { padding: 16px 20px; border-top: 1px solid var(--border); }
+    .btn-upgrade {
+      display: block; text-align: center; padding: 10px;
+      background: linear-gradient(135deg, #f97316, #ea580c); color: #fff;
+      border-radius: 8px; font-weight: 600; font-size: 13px;
+      cursor: pointer; border: none; width: 100%; text-decoration: none;
+      margin-bottom: 8px; transition: opacity 0.2s;
+    }
+    .btn-upgrade:hover { opacity: 0.9; }
+    .sidebar-signout { display: block; text-align: center; font-size: 12px; color: var(--faint); cursor: pointer; }
+    .sidebar-signout:hover { color: var(--text); }
+
+    /* Main panel */
+    .main { margin-left: var(--sidebar-w); flex: 1; padding: 40px; max-width: 820px; }
+
+    /* Empty state */
+    .empty-state { text-align: center; padding: 80px 20px; color: var(--muted); }
+    .empty-state h2 { font-size: 22px; font-weight: 700; color: var(--text); margin-bottom: 12px; }
+    .empty-state p { font-size: 15px; margin-bottom: 28px; }
+
+    /* Timer card */
+    .timer-card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 16px; padding: 28px 32px; margin-bottom: 28px;
+    }
+    .timer-card.running { border-color: rgba(249,115,22,0.3); background: linear-gradient(135deg, rgba(249,115,22,0.03), rgba(251,146,60,0.01)); }
+    .timer-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; margin-bottom: 20px; }
+    .timer-project-name { font-size: 20px; font-weight: 700; letter-spacing: -0.01em; }
+    .timer-client { font-size: 13px; color: var(--muted); margin-top: 3px; }
+    .timer-display { font-family: var(--mono); font-size: 48px; font-weight: 700; letter-spacing: -0.02em; margin: 16px 0; }
+    .timer-display.running { color: var(--accent); }
+    .timer-desc-input {
+      width: 100%; padding: 10px 14px; border: 1px solid var(--border); border-radius: 8px;
+      font-family: var(--sans); font-size: 14px; background: var(--bg); color: var(--text);
+      outline: none; margin-bottom: 16px;
+    }
+    .timer-desc-input:focus { border-color: var(--accent); }
+    .timer-controls { display: flex; gap: 10px; }
+    .btn-start {
+      flex: 1; padding: 14px; background: linear-gradient(135deg, #f97316, #ea580c);
+      color: #fff; border: none; border-radius: 10px; font-weight: 700; font-size: 16px;
+      cursor: pointer; transition: opacity 0.2s;
+    }
+    .btn-start:hover { opacity: 0.9; }
+    .btn-stop {
+      flex: 1; padding: 14px; background: #1a1a1a; color: #fff;
+      border: none; border-radius: 10px; font-weight: 700; font-size: 16px; cursor: pointer;
+      transition: opacity 0.2s;
+    }
+    .btn-stop:hover { opacity: 0.85; }
+    .btn-disabled { opacity: 0.4; pointer-events: none; }
+
+    /* Summary cards */
+    .summary-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-bottom: 28px; }
+    .sum-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 18px 16px; }
+    .sum-label { font-size: 12px; color: var(--faint); font-weight: 500; margin-bottom: 6px; }
+    .sum-value { font-family: var(--mono); font-size: 24px; font-weight: 700; }
+
+    /* Entries */
+    .entries-section { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; overflow: hidden; margin-bottom: 28px; }
+    .entries-header { display: flex; align-items: center; justify-content: space-between; padding: 16px 20px; border-bottom: 1px solid var(--border); }
+    .entries-title { font-weight: 700; font-size: 15px; }
+    .btn-export {
+      padding: 7px 14px; border: 1px solid var(--border); border-radius: 7px;
+      font-size: 13px; font-weight: 600; color: var(--muted); cursor: pointer;
+      background: transparent; transition: all 0.15s;
+    }
+    .btn-export:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-dim); }
+    .btn-export.locked { opacity: 0.5; cursor: default; }
+    .btn-export.locked:hover { border-color: var(--border); color: var(--muted); background: transparent; }
+    .entry-head { display: grid; grid-template-columns: 1fr 90px 80px 36px; gap: 8px; padding: 10px 20px; font-size: 11px; font-weight: 600; color: var(--faint); text-transform: uppercase; letter-spacing: 0.08em; border-bottom: 1px solid #f5f5f0; }
+    .entry-row { display: grid; grid-template-columns: 1fr 90px 80px 36px; gap: 8px; padding: 14px 20px; align-items: center; border-bottom: 1px solid #f5f5f0; }
+    .entry-row:last-child { border-bottom: none; }
+    .entry-desc { font-weight: 600; font-size: 14px; }
+    .entry-date { font-size: 12px; color: var(--faint); margin-top: 2px; }
+    .entry-hrs { font-family: var(--mono); font-weight: 700; font-size: 14px; }
+    .entry-hrs.live { color: var(--accent); }
+    .entry-cost { font-size: 13px; color: var(--muted); }
+    .entry-del { background: none; border: none; cursor: pointer; color: var(--faint); font-size: 16px; padding: 4px; border-radius: 4px; transition: color 0.15s; }
+    .entry-del:hover { color: var(--red); }
+    .entries-empty { padding: 32px 20px; text-align: center; color: var(--faint); font-size: 14px; }
+
+    /* Share link */
+    .share-card { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 20px 24px; margin-bottom: 28px; }
+    .share-label { font-size: 13px; font-weight: 600; margin-bottom: 10px; display: flex; align-items: center; gap: 6px; }
+    .share-row { display: flex; gap: 8px; }
+    .share-input {
+      flex: 1; padding: 9px 12px; border: 1px solid var(--border); border-radius: 7px;
+      font-size: 13px; background: var(--bg); color: var(--text);
+      font-family: var(--mono); outline: none; overflow: hidden; text-overflow: ellipsis;
+    }
+    .btn-copy {
+      padding: 9px 14px; background: var(--text); color: var(--bg);
+      border: none; border-radius: 7px; font-size: 13px; font-weight: 600; cursor: pointer;
+      white-space: nowrap; transition: opacity 0.2s;
+    }
+    .btn-copy:hover { opacity: 0.8; }
+
+    /* Toast */
+    .toast {
+      position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(80px);
+      background: #1a1a1a; color: #fff; padding: 12px 20px; border-radius: 10px;
+      font-size: 14px; font-weight: 500; z-index: 1000;
+      transition: transform 0.3s ease; pointer-events: none;
+    }
+    .toast.show { transform: translateX(-50%) translateY(0); }
+    .toast.error { background: var(--red); }
+    .toast.success { background: var(--green); }
+
+    /* Modal overlay */
+    .modal-overlay {
+      display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5);
+      z-index: 100; align-items: center; justify-content: center; padding: 20px;
+    }
+    .modal-overlay.show { display: flex; }
+    .modal {
+      background: var(--surface); border-radius: 20px; padding: 40px;
+      width: 100%; max-width: 420px; box-shadow: 0 24px 80px rgba(0,0,0,0.2);
+    }
+    .modal h2 { font-size: 22px; font-weight: 700; margin-bottom: 6px; }
+    .modal-sub { color: var(--muted); font-size: 14px; margin-bottom: 28px; }
+    .modal-tabs { display: flex; gap: 0; margin-bottom: 24px; border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
+    .modal-tab { flex: 1; padding: 10px; text-align: center; font-size: 14px; font-weight: 600; cursor: pointer; background: transparent; border: none; color: var(--muted); transition: all 0.15s; }
+    .modal-tab.active { background: var(--text); color: var(--bg); }
+    .form-group { margin-bottom: 16px; }
+    .form-label { display: block; font-size: 13px; font-weight: 600; margin-bottom: 6px; }
+    .form-input {
+      width: 100%; padding: 11px 14px; border: 1px solid var(--border); border-radius: 8px;
+      font-family: var(--sans); font-size: 14px; background: var(--bg); color: var(--text);
+      outline: none; transition: border-color 0.15s;
+    }
+    .form-input:focus { border-color: var(--accent); }
+    .btn-submit {
+      width: 100%; padding: 13px; background: linear-gradient(135deg, #f97316, #ea580c);
+      color: #fff; border: none; border-radius: 10px; font-weight: 700; font-size: 16px;
+      cursor: pointer; margin-top: 4px; transition: opacity 0.2s;
+    }
+    .btn-submit:hover { opacity: 0.9; }
+    .btn-submit:disabled { opacity: 0.5; cursor: default; }
+    .form-error { color: var(--red); font-size: 13px; margin-top: 12px; display: none; }
+
+    /* New project modal */
+    #new-project-modal .modal { max-width: 380px; }
+
+    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
+    @keyframes fadeIn { from{opacity:0;transform:scale(0.96)} to{opacity:1;transform:scale(1)} }
+    .modal.anim { animation: fadeIn 0.2s ease-out; }
+
+    @media (max-width: 700px) {
+      .sidebar { width: 100%; height: auto; position: relative; }
+      .app { flex-direction: column; }
+      .main { margin-left: 0; padding: 20px; }
+      .summary-cards { grid-template-columns: repeat(2, 1fr); }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Auth Modal -->
+<div class="modal-overlay show" id="auth-modal">
+  <div class="modal anim">
+    <div style="display:flex;align-items:center;gap:9px;margin-bottom:20px">
+      <div class="logo-mark" style="width:36px;height:36px;font-size:16px">G</div>
+      <span style="font-weight:700;font-size:20px;letter-spacing:-0.02em">GigClock</span>
+    </div>
+    <div class="modal-tabs">
+      <button class="modal-tab active" id="tab-login" onclick="switchTab('login')">Sign in</button>
+      <button class="modal-tab" id="tab-register" onclick="switchTab('register')">Create account</button>
+    </div>
+
+    <!-- Login form -->
+    <div id="form-login">
+      <div class="form-group">
+        <label class="form-label">Email</label>
+        <input class="form-input" type="email" id="login-email" placeholder="you@example.com" autocomplete="email">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Password</label>
+        <input class="form-input" type="password" id="login-password" placeholder="••••••••" autocomplete="current-password">
+      </div>
+      <div class="form-error" id="login-error"></div>
+      <button class="btn-submit" id="login-btn" onclick="doLogin()">Sign in</button>
+    </div>
+
+    <!-- Register form -->
+    <div id="form-register" style="display:none">
+      <div class="form-group">
+        <label class="form-label">Your name</label>
+        <input class="form-input" type="text" id="reg-name" placeholder="Sarah Chen" autocomplete="name">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Email</label>
+        <input class="form-input" type="email" id="reg-email" placeholder="you@example.com" autocomplete="email">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Password <span style="color:var(--faint);font-weight:400">(min 8 chars)</span></label>
+        <input class="form-input" type="password" id="reg-password" placeholder="••••••••" autocomplete="new-password">
+      </div>
+      <div class="form-error" id="reg-error"></div>
+      <button class="btn-submit" id="reg-btn" onclick="doRegister()">Create free account</button>
+    </div>
+  </div>
+</div>
+
+<!-- New Project Modal -->
+<div class="modal-overlay" id="new-project-modal">
+  <div class="modal anim" style="max-width:380px">
+    <h2>New Project</h2>
+    <p class="modal-sub">Set up a project to start tracking time.</p>
+    <div class="form-group">
+      <label class="form-label">Project name</label>
+      <input class="form-input" type="text" id="np-name" placeholder="Brand Identity Redesign">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Client name <span style="color:var(--faint);font-weight:400">(optional)</span></label>
+      <input class="form-input" type="text" id="np-client" placeholder="Acme Corp">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Hourly rate ($)</label>
+      <input class="form-input" type="number" id="np-rate" placeholder="100" value="75" min="0">
+    </div>
+    <div class="form-error" id="np-error"></div>
+    <div style="display:flex;gap:10px;margin-top:4px">
+      <button class="form-input" style="cursor:pointer;font-weight:600;color:var(--muted)" onclick="closeNewProject()">Cancel</button>
+      <button class="btn-submit" style="margin-top:0" onclick="createProject()">Create project</button>
+    </div>
+  </div>
+</div>
+
+<!-- App -->
+<div class="app" id="app" style="display:none">
+  <div class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <div class="sidebar-logo">
+        <div class="logo-mark">G</div>
+        <span class="logo-text">GigClock</span>
+      </div>
+    </div>
+    <div class="sidebar-user">
+      <div class="user-name" id="sidebar-name">—</div>
+      <span class="user-plan free" id="sidebar-plan">Free</span>
+    </div>
+    <div class="sidebar-projects">
+      <div class="sidebar-label">Projects</div>
+      <div id="project-list"></div>
+      <div class="sidebar-new" onclick="openNewProject()">+ New project</div>
+    </div>
+    <div class="sidebar-footer">
+      <div id="upgrade-btn-wrap">
+        <button class="btn-upgrade" id="upgrade-btn" onclick="upgradeToPro()">⚡ Upgrade to Pro — $3/mo</button>
+      </div>
+      <span class="sidebar-signout" onclick="signOut()">Sign out</span>
+    </div>
+  </div>
+
+  <div class="main" id="main-panel">
+    <!-- Content injected by JS -->
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ─── State ────────────────────────────────────────────────────────────────────
+let token = localStorage.getItem('gc_token');
+let currentUser = null;
+let projects = [];
+let selectedProjectId = null;
+let entries = [];
+let timerInterval = null;
+let timerStartTime = null;
+let runningEntryId = null;
+let syncing = false;
+
+// ─── Utilities ────────────────────────────────────────────────────────────────
+
+function fmtSeconds(s) {
+  const h = Math.floor(s / 3600);
+  const m = Math.floor((s % 3600) / 60);
+  const sec = s % 60;
+  return String(h).padStart(2,'0') + ':' + String(m).padStart(2,'0') + ':' + String(sec).padStart(2,'0');
+}
+function fmtHours(secs) { return (Math.round(secs / 36) / 100).toFixed(2) + 'h'; }
+function fmtCost(hours, rate) { return '$' + (Math.round(hours * rate * 100) / 100).toFixed(2); }
+function fmtDate(iso) { return new Date(iso).toLocaleDateString('en-US', { month:'short', day:'numeric' }); }
+function isPro(user) { return user && user.plan === 'pro' && user.plan_expires_at && new Date(user.plan_expires_at) > new Date(); }
+
+function showToast(msg, type='') {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = 'toast show' + (type ? ' '+type : '');
+  clearTimeout(t._timer);
+  t._timer = setTimeout(() => { t.className = 'toast'; }, 3000);
+}
+
+async function apiFetch(path, opts={}) {
+  const headers = { 'Content-Type': 'application/json', ...(opts.headers||{}) };
+  if (token) headers['Authorization'] = 'Bearer ' + token;
+  const res = await fetch('/api/gigclock' + path, { ...opts, headers });
+  if (res.status === 401) { signOut(); return null; }
+  return res;
+}
+
+// ─── Auth ─────────────────────────────────────────────────────────────────────
+
+function switchTab(tab) {
+  document.getElementById('form-login').style.display = tab==='login' ? '' : 'none';
+  document.getElementById('form-register').style.display = tab==='register' ? '' : 'none';
+  document.getElementById('tab-login').className = 'modal-tab' + (tab==='login'?' active':'');
+  document.getElementById('tab-register').className = 'modal-tab' + (tab==='register'?' active':'');
+}
+
+async function doLogin() {
+  const btn = document.getElementById('login-btn');
+  const errEl = document.getElementById('login-error');
+  errEl.style.display = 'none';
+  btn.disabled = true; btn.textContent = 'Signing in…';
+  const res = await fetch('/api/gigclock/login', {
+    method:'POST', headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({ email: document.getElementById('login-email').value, password: document.getElementById('login-password').value })
+  });
+  const data = await res.json();
+  btn.disabled = false; btn.textContent = 'Sign in';
+  if (!res.ok) { errEl.textContent = data.error || 'Login failed'; errEl.style.display = 'block'; return; }
+  onAuth(data.token, data.user);
+}
+
+async function doRegister() {
+  const btn = document.getElementById('reg-btn');
+  const errEl = document.getElementById('reg-error');
+  errEl.style.display = 'none';
+  btn.disabled = true; btn.textContent = 'Creating account…';
+  const res = await fetch('/api/gigclock/register', {
+    method:'POST', headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({
+      name: document.getElementById('reg-name').value,
+      email: document.getElementById('reg-email').value,
+      password: document.getElementById('reg-password').value
+    })
+  });
+  const data = await res.json();
+  btn.disabled = false; btn.textContent = 'Create free account';
+  if (!res.ok) { errEl.textContent = data.error || 'Registration failed'; errEl.style.display = 'block'; return; }
+  onAuth(data.token, data.user);
+}
+
+function onAuth(tok, user) {
+  token = tok;
+  currentUser = user;
+  localStorage.setItem('gc_token', tok);
+  document.getElementById('auth-modal').classList.remove('show');
+  document.getElementById('app').style.display = 'flex';
+  renderSidebar();
+  loadProjects();
+  // Handle post-upgrade redirect
+  const params = new URLSearchParams(location.search);
+  if (params.get('upgraded') && params.get('session_id')) {
+    verifyUpgrade(params.get('session_id'));
+  }
+}
+
+function signOut() {
+  token = null; currentUser = null; projects = []; selectedProjectId = null;
+  localStorage.removeItem('gc_token');
+  stopLocalTimer();
+  document.getElementById('app').style.display = 'none';
+  document.getElementById('auth-modal').classList.add('show');
+}
+
+// ─── Sidebar ──────────────────────────────────────────────────────────────────
+
+function renderSidebar() {
+  if (!currentUser) return;
+  document.getElementById('sidebar-name').textContent = currentUser.name;
+  const planEl = document.getElementById('sidebar-plan');
+  if (isPro(currentUser)) {
+    planEl.textContent = '⚡ Pro'; planEl.className = 'user-plan pro';
+    document.getElementById('upgrade-btn-wrap').style.display = 'none';
+  } else {
+    planEl.textContent = 'Free'; planEl.className = 'user-plan free';
+    document.getElementById('upgrade-btn-wrap').style.display = '';
+  }
+}
+
+function renderProjectList() {
+  const el = document.getElementById('project-list');
+  if (!projects.length) { el.innerHTML = '<div style="padding:8px 20px;font-size:13px;color:var(--faint)">No projects yet</div>'; return; }
+  el.innerHTML = projects.map(p => `
+    <div class="project-item${p.id===selectedProjectId?' active':''}" onclick="selectProject(${p.id})">
+      <span class="project-item-name">${escHtml(p.name)}</span>
+      ${p.running_entry_id ? '<span class="project-running-dot"></span>' : ''}
+    </div>
+  `).join('');
+}
+
+function escHtml(s) { const d=document.createElement('div'); d.textContent=s; return d.innerHTML; }
+
+// ─── Projects ─────────────────────────────────────────────────────────────────
+
+async function loadProjects() {
+  const res = await apiFetch('/projects');
+  if (!res || !res.ok) return;
+  projects = await res.json();
+  renderProjectList();
+  if (!selectedProjectId && projects.length) selectProject(projects[0].id);
+  else if (selectedProjectId) renderMain();
+}
+
+function selectProject(id) {
+  selectedProjectId = id;
+  renderProjectList();
+  renderMain();
+  loadEntries();
+}
+
+// ─── Main panel ──────────────────────────────────────────────────────────────
+
+function renderMain() {
+  const project = projects.find(p => p.id === selectedProjectId);
+  if (!project) {
+    document.getElementById('main-panel').innerHTML = `
+      <div class="empty-state">
+        <h2>Welcome to GigClock</h2>
+        <p>Create a project to start tracking time and sharing live dashboards with your clients.</p>
+        <button class="btn-start" style="display:inline-block;padding:14px 28px;font-size:15px;border-radius:10px" onclick="openNewProject()">Create your first project</button>
+      </div>`;
+    return;
+  }
+  const isRunning = !!project.running_entry_id;
+  const shareUrl = window.location.origin + '/gigclock/c/' + project.share_token;
+  const canExport = isPro(currentUser);
+
+  document.getElementById('main-panel').innerHTML = `
+    <div class="timer-card${isRunning?' running':''}">
+      <div class="timer-top">
+        <div>
+          <div class="timer-project-name">${escHtml(project.name)}</div>
+          ${project.client_name ? `<div class="timer-client">For ${escHtml(project.client_name)}</div>` : ''}
+        </div>
+        <div style="font-size:13px;color:var(--muted)">$${project.hourly_rate}/hr</div>
+      </div>
+      <div class="timer-display${isRunning?' running':''}" id="timer-display">${isRunning ? fmtSeconds(0) : '00:00:00'}</div>
+      ${!isRunning ? `<input class="timer-desc-input" type="text" id="timer-desc" placeholder="What are you working on?" maxlength="200">` : `<div style="font-size:14px;color:var(--muted);margin-bottom:16px" id="running-desc">${escHtml(project.running_description || 'Timer running…')}</div>`}
+      <div class="timer-controls">
+        ${isRunning
+          ? `<button class="btn-stop" onclick="stopTimer(${project.id})">■ Stop timer</button>`
+          : `<button class="btn-start" onclick="startTimer(${project.id})">▶ Start timer</button>`
+        }
+      </div>
+    </div>
+
+    <div class="summary-cards" id="summary-cards">
+      <div class="sum-card"><div class="sum-label">Total hours</div><div class="sum-value" id="sum-hours">—</div></div>
+      <div class="sum-card"><div class="sum-label">Running total</div><div class="sum-value" id="sum-cost">—</div></div>
+      <div class="sum-card"><div class="sum-label">Tasks</div><div class="sum-value" id="sum-tasks">—</div></div>
+    </div>
+
+    <div class="share-card">
+      <div class="share-label">📎 Share this link with your client</div>
+      <div class="share-row">
+        <input class="share-input" type="text" id="share-url" value="${escHtml(shareUrl)}" readonly>
+        <button class="btn-copy" onclick="copyShare()">Copy</button>
+        <a href="${escHtml(shareUrl)}" target="_blank" style="padding:9px 12px;background:var(--bg);border:1px solid var(--border);border-radius:7px;text-decoration:none;color:var(--muted);font-size:13px;white-space:nowrap">Open →</a>
+      </div>
+    </div>
+
+    <div class="entries-section">
+      <div class="entries-header">
+        <div class="entries-title">Time entries</div>
+        <button class="btn-export${canExport?'':' locked'}" onclick="${canExport?'exportPdf('+project.id+')':'showToast(\'PDF export requires Pro plan\',\'error\')'}" title="${canExport?'Download PDF':'Pro plan required'}">
+          ${canExport ? '↓ Export PDF' : '🔒 Export PDF'}
+        </button>
+      </div>
+      <div class="entry-head"><span>Task</span><span>Hours</span><span>Cost</span><span></span></div>
+      <div id="entries-list"><div class="entries-empty">Loading…</div></div>
+    </div>
+  `;
+
+  // Set up local timer if running
+  if (isRunning) {
+    runningEntryId = project.running_entry_id;
+    timerStartTime = new Date(project.running_since).getTime();
+    startLocalTimer();
+  }
+
+  loadSummary(project.id);
+}
+
+// ─── Timer ────────────────────────────────────────────────────────────────────
+
+function startLocalTimer() {
+  stopLocalTimer();
+  timerInterval = setInterval(() => {
+    if (!timerStartTime) return;
+    const elapsed = Math.floor((Date.now() - timerStartTime) / 1000);
+    const el = document.getElementById('timer-display');
+    if (el) el.textContent = fmtSeconds(elapsed);
+  }, 1000);
+}
+function stopLocalTimer() {
+  if (timerInterval) { clearInterval(timerInterval); timerInterval = null; }
+  timerStartTime = null; runningEntryId = null;
+}
+
+async function startTimer(projectId) {
+  const desc = document.getElementById('timer-desc')?.value?.trim() || '';
+  const res = await apiFetch('/projects/'+projectId+'/timer/start', {
+    method:'POST', body: JSON.stringify({ description: desc })
+  });
+  if (!res) return;
+  const data = await res.json();
+  if (!res.ok) {
+    if (data.error === 'timer_already_running') showToast('Stop your current timer first', 'error');
+    else showToast(data.error || 'Could not start timer', 'error');
+    return;
+  }
+  showToast('Timer started', 'success');
+  await loadProjects();
+}
+
+async function stopTimer(projectId) {
+  const res = await apiFetch('/projects/'+projectId+'/timer/stop', { method:'POST' });
+  if (!res) return;
+  const data = await res.json();
+  if (!res.ok) { showToast(data.error || 'Could not stop timer', 'error'); return; }
+  stopLocalTimer();
+  showToast('Timer stopped — ' + (data.duration_seconds ? fmtSeconds(data.duration_seconds) : 'logged'), 'success');
+  await loadProjects();
+}
+
+// ─── Entries ──────────────────────────────────────────────────────────────────
+
+async function loadEntries() {
+  const res = await apiFetch('/projects/'+selectedProjectId+'/entries');
+  if (!res || !res.ok) return;
+  entries = await res.json();
+  renderEntries();
+}
+
+function renderEntries() {
+  const el = document.getElementById('entries-list');
+  if (!el) return;
+  const project = projects.find(p => p.id === selectedProjectId);
+  if (!project) return;
+  if (!entries.length && !project.running_entry_id) {
+    el.innerHTML = '<div class="entries-empty">No time entries yet. Start the timer to begin tracking.</div>';
+    return;
+  }
+  el.innerHTML = entries.map(e => {
+    const hrs = e.stopped_at ? e.duration_seconds / 3600 : (e.elapsed_seconds || 0) / 3600;
+    const cost = Math.round(hrs * project.hourly_rate * 100) / 100;
+    const isRunning = !e.stopped_at;
+    return `<div class="entry-row">
+      <div>
+        <div class="entry-desc">${escHtml(e.description||'Task')}</div>
+        <div class="entry-date">${fmtDate(e.started_at)}</div>
+      </div>
+      <div class="entry-hrs${isRunning?' live':''}">
+        ${isRunning ? fmtSeconds(e.elapsed_seconds||0) : hrs.toFixed(2)+'h'}
+      </div>
+      <div class="entry-cost">$${cost.toFixed(0)}</div>
+      <button class="entry-del" onclick="deleteEntry(${e.id})" title="Delete" ${isRunning?'style="opacity:0.3;pointer-events:none"':''}>×</button>
+    </div>`;
+  }).join('');
+}
+
+async function deleteEntry(entryId) {
+  if (!confirm('Delete this time entry?')) return;
+  const res = await apiFetch('/entries/'+entryId, { method:'DELETE' });
+  if (!res || !res.ok) { showToast('Could not delete entry', 'error'); return; }
+  showToast('Entry deleted');
+  await loadEntries();
+  await loadSummary(selectedProjectId);
+}
+
+// ─── Summary ─────────────────────────────────────────────────────────────────
+
+async function loadSummary(projectId) {
+  const res = await apiFetch('/projects/'+projectId+'/summary');
+  if (!res || !res.ok) return;
+  const s = await res.json();
+  const hEl = document.getElementById('sum-hours');
+  const cEl = document.getElementById('sum-cost');
+  const tEl = document.getElementById('sum-tasks');
+  if (hEl) hEl.textContent = s.total_hours.toFixed(2) + 'h';
+  if (cEl) {
+    const project = projects.find(p => p.id === projectId);
+    cEl.textContent = '$' + s.total_cost.toFixed(2);
+  }
+  if (tEl) tEl.textContent = s.entry_count + (s.running ? '+' : '');
+}
+
+// ─── Share ────────────────────────────────────────────────────────────────────
+
+function copyShare() {
+  const url = document.getElementById('share-url')?.value;
+  if (!url) return;
+  navigator.clipboard.writeText(url).then(() => showToast('Link copied!', 'success')).catch(() => {
+    document.getElementById('share-url').select();
+    document.execCommand('copy');
+    showToast('Link copied!', 'success');
+  });
+}
+
+// ─── PDF Export ──────────────────────────────────────────────────────────────
+
+async function exportPdf(projectId) {
+  showToast('Generating PDF…');
+  const link = document.createElement('a');
+  link.href = '/api/gigclock/projects/'+projectId+'/export/pdf';
+  link.setAttribute('download', '');
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+}
+
+// ─── New Project ──────────────────────────────────────────────────────────────
+
+function openNewProject() { document.getElementById('new-project-modal').classList.add('show'); }
+function closeNewProject() { document.getElementById('new-project-modal').classList.remove('show'); }
+
+async function createProject() {
+  const errEl = document.getElementById('np-error');
+  errEl.style.display = 'none';
+  const name = document.getElementById('np-name').value.trim();
+  if (!name) { errEl.textContent = 'Project name is required'; errEl.style.display = 'block'; return; }
+  const res = await apiFetch('/projects', {
+    method:'POST', body: JSON.stringify({
+      name, client_name: document.getElementById('np-client').value.trim(),
+      hourly_rate: parseFloat(document.getElementById('np-rate').value) || 0
+    })
+  });
+  const data = await res.json();
+  if (!res.ok) {
+    if (data.error === 'free_tier_limit') {
+      errEl.textContent = 'Free plan: 1 active project max. Upgrade to Pro for unlimited.';
+    } else {
+      errEl.textContent = data.error || 'Could not create project';
+    }
+    errEl.style.display = 'block';
+    return;
+  }
+  closeNewProject();
+  document.getElementById('np-name').value = '';
+  document.getElementById('np-client').value = '';
+  document.getElementById('np-rate').value = '75';
+  showToast('Project created!', 'success');
+  await loadProjects();
+  selectProject(data.id);
+}
+
+// ─── Billing ─────────────────────────────────────────────────────────────────
+
+async function upgradeToPro() {
+  const btn = document.getElementById('upgrade-btn');
+  btn.textContent = 'Loading…'; btn.disabled = true;
+  const res = await apiFetch('/billing/subscribe', { method:'POST' });
+  btn.textContent = '⚡ Upgrade to Pro — $3/mo'; btn.disabled = false;
+  if (!res || !res.ok) {
+    const d = await res?.json();
+    showToast(d?.error || 'Billing not available', 'error');
+    return;
+  }
+  const { url } = await res.json();
+  window.location.href = url;
+}
+
+async function verifyUpgrade(sessionId) {
+  const res = await apiFetch('/billing/verify?session_id='+encodeURIComponent(sessionId));
+  if (!res || !res.ok) return;
+  const data = await res.json();
+  if (data.upgraded && data.token) {
+    token = data.token; currentUser = data.user;
+    localStorage.setItem('gc_token', token);
+    showToast('🎉 Welcome to Pro!', 'success');
+    renderSidebar();
+    history.replaceState({}, '', '/gigclock/app.html');
+  }
+}
+
+// ─── Init ─────────────────────────────────────────────────────────────────────
+
+// Keyboard shortcuts
+document.addEventListener('keydown', e => {
+  if (e.key === 'Enter' && document.getElementById('auth-modal').classList.contains('show')) {
+    const isLogin = document.getElementById('form-login').style.display !== 'none';
+    isLogin ? doLogin() : doRegister();
+  }
+});
+
+// Auto-sync every 30s
+setInterval(async () => {
+  if (!token || !selectedProjectId) return;
+  await loadProjects();
+  await loadEntries();
+  await loadSummary(selectedProjectId);
+}, 30000);
+
+// Boot
+if (token) {
+  // Try to use stored token
+  apiFetch('/me').then(async res => {
+    if (!res || !res.ok) { signOut(); return; }
+    const data = await res.json();
+    // Store fresh token with updated plan
+    if (data.token) { token = data.token; localStorage.setItem('gc_token', token); }
+    onAuth(token, data.user);
+  });
+} else {
+  document.getElementById('app').style.display = 'none';
+}
+</script>
+</body>
+</html>

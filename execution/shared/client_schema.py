@@ -3,7 +3,7 @@ Canonical client data schema for 5 Cypress Automation.
 
 Merges all existing client data formats into a single validated model:
   - clients/nexairi/info.json            (info.json format)
-  - clients/remy-lasers/client-config.json (client-config.json format)
+  - clients/nexairi-mentis/client.json   (client.json format)
   - marketing-team/context/*.md           (Markdown context files)
   - config/clients.json                   (API tier management)
 
@@ -95,7 +95,7 @@ class ClientData(BaseModel):
     """
 
     # Identity
-    slug: str  # e.g. "nexairi", "remy-lasers" — matches folder name
+    slug: str  # e.g. "nexairi", "nexairi-mentis" — matches folder name
     name: str
     website: str = ""
     status: str = "prospect"

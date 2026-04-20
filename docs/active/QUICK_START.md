@@ -1,7 +1,7 @@
 # Quick Start Guide: Go From Planning to Shipping
 
 **Date:** February 5, 2026  
-**Goal:** Close Remy Lasers and ship your first client automation in 7 days
+**Goal:** Close your first client and ship their automation in 7 days
 
 ---
 
@@ -12,13 +12,12 @@
 ✅ **Architecture documented** (3-layer system)  
 ✅ **Modal configured** for serverless deployment  
 ✅ **67 agent plugins** ready to use  
-✅ **Live demo script** created  
-✅ **Remy Lasers pitch deck** ready to present
+✅ **Live demo script** created
 
 ❌ **No paying clients yet**  
 ❌ **Live demo not tested with real credentials**  
 ❌ **Modal not deployed to production**  
-❌ **Remy Lasers CFO meeting not scheduled**
+❌ **First discovery call not scheduled**
 
 ---
 
@@ -54,24 +53,24 @@
      -d '{
        "customer_name": "Test",
        "customer_email": "test@example.com",
-       "product": "Laser XL",
+       "product": "Demo Product",
        "quantity": 1,
        "price": 2499,
-       "client_id": "remy-lasers"
+       "client_id": "demo-client"
      }'
    ```
 3. Verify Slack notification works (if configured)
 
-### Day 2: Schedule Remy Lasers
+### Day 2: Schedule Your First Prospect
 
-**Email to send:**
+**Email template to send:**
 
 ```
 Subject: Let's Get Your Automation Built - 30-Day Trial
 
 Hi [CFO Name],
 
-I've put together a detailed proposal for Remy Lasers' order automation system. 
+I've put together a detailed proposal for [Company]'s order automation system. 
 
 The 30-day trial program I mentioned is ready to go:
 - $2,500 investment (applies to any future work)
@@ -85,12 +84,10 @@ Are you available Thursday or Friday for a 30-minute call?
 Best,
 [Your Name]
 5 Cypress Automation
-hello@5cypressautomation.com
+nick@5cypress.com
 
 P.S. I've attached a detailed deck that walks through everything. But honestly, seeing it work live is way more impressive than slides.
 ```
-
-**Attachment:** `clients/remy-lasers/pitch-deck-trial-program.md` (convert to PDF first)
 
 ### Day 3: Prep for Demo Call
 
@@ -147,11 +144,11 @@ P.S. I've attached a detailed deck that walks through everything. But honestly, 
 
 ## The Next 10 Clients
 
-Once Remy Lasers is signed, repeat this exact process:
+Once your first client is signed, repeat this exact process:
 
 **Lead Sources:**
 1. LinkedIn outreach (manufacturing companies setting up systems)
-2. Referrals from Remy Lasers
+2. Referrals from happy clients
 3. Local business groups (Chamber of Commerce)
 4. Your network (former colleagues, friends running businesses)
 
@@ -161,7 +158,7 @@ Once Remy Lasers is signed, repeat this exact process:
 - "I built a 30-day trial program that proves ROI before you commit long-term"
 - "Want to see a 60-second demo?"
 
-**Target Profile (Same as Remy):**
+**Target Profile:**
 - 5-50 employees
 - Setting up new systems or scaling rapidly
 - Using QuickBooks, Microsoft 365, basic tooling
@@ -182,16 +179,16 @@ Once Remy Lasers is signed, repeat this exact process:
 **Goal:** 5 trial clients in 90 days = $50K revenue
 
 **Timeline:**
-- Month 1: 1 trial client (Remy Lasers)
+- Month 1: 1 trial client
 - Month 2: 2 trial clients
 - Month 3: 2 trial clients
 - Month 4: Start seeing full project conversions
 
 ---
 
-## What Opus 4.5 Does for You
+## What Claude Does for You
 
-Use me to **10x your execution speed:**
+Use Claude to **10x your execution speed:**
 
 ### Client-Specific Work
 - "Build the n8n workflow for [client]'s order form"
@@ -205,7 +202,7 @@ Use me to **10x your execution speed:**
 - "How do I handle QuickBooks rate limits?"
 
 ### Content
-- "Generate a case study from the Remy Lasers engagement"
+- "Generate a case study from the [client] engagement"
 - "Write 10 LinkedIn posts about order automation"
 - "Create a PDF proposal for [prospect]"
 
@@ -214,7 +211,7 @@ Use me to **10x your execution speed:**
 - "Add this API workaround to the universal workflow builder"
 - "Document the edge case we hit with QuickBooks"
 
-**Key insight:** I write code, you sell. That's the force multiplier.
+**Key insight:** Claude writes code, you sell. That's the force multiplier.
 
 ---
 
@@ -224,10 +221,10 @@ Use me to **10x your execution speed:**
 ✅ **Sell one package, build it, repeat**
 
 ❌ **"I need to learn every API before starting"**  
-✅ **Learn as you go, with Opus 4.5 support**
+✅ **Learn as you go, with AI support**
 
 ❌ **"What if I can't deliver?"**  
-✅ **You have 67 agent plugins, Modal, and me. You'll figure it out.**
+✅ **You have 67 agent plugins, Modal, and Claude. You'll figure it out.**
 
 ❌ **"I should charge less because I'm new"**  
 ✅ **$2,500 for 30 days is cheap. Their alternative is hiring full-time.**
@@ -273,7 +270,7 @@ Track these weekly:
 
 ## The Only Thing That Matters Right Now
 
-**Email Remy Lasers today.**
+**Send the outreach email today.**
 
 That's it. Everything else is preparation for that one action.
 
@@ -283,13 +280,13 @@ The rest will figure itself out.
 
 ---
 
-## Resources Created for You
+## Resources
 
-1. **Pitch Deck:** `clients/remy-lasers/pitch-deck-trial-program.md`
-2. **Live Demo:** `execution/live_demo_automation.py`
-3. **Modal Deployment:** `execution/modal_production.py`
-4. **Hosting Guide:** `HOSTING_ARCHITECTURE.md`
-5. **Battle Plan:** `BATTLE_PLAN.md`
-6. **This Guide:** You're reading it
+1. **Live Demo:** `execution/live_demo_automation.py`
+2. **Modal Deployment:** `execution/modal_production.py`
+3. **Directives:** `directives/` folder
+4. **This Guide:** You're reading it
 
 Everything is ready. Just press send on that email.
+
+

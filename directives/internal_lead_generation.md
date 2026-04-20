@@ -16,7 +16,7 @@ Both tracks use the same Lead Research Service orchestration framework.
 
 ---
 
-## Target ICP (5 Cypress Automation)
+## Target ICP (5 Cypress Labs)
 
 ### Industries
 - SaaS companies (5-500 employees)
@@ -112,7 +112,7 @@ Every Monday 10am:
 
 ```json
 {
-  "client_name": "5 Cypress Automation",
+  "client_name": "Simply Smart Automation",
   "icp": {
     "industries": [
       "SaaS",
@@ -168,7 +168,7 @@ Every Monday 10am:
 
 ## Google Sheet Structure
 
-**Master Lead Database:** `5 Cypress Automation - Lead Gen`
+**Master Lead Database:** `Simply Smart Automation - Lead Gen`
 
 ### Sheet 1: Weekly Leads (Latest)
 Filtered to last 7 days, sorted by score descending

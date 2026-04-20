@@ -53,7 +53,6 @@
 - Deploy command: `modal deploy execution/modal_production.py`
 
 ### 4. ✅ Sales Materials
-- **Pitch deck** for Remy Lasers: `clients/remy-lasers/pitch-deck-trial-program.md`
 - **Contract template**: `templates/contracts/trial-program-agreement.md`
 - **Email templates** for outreach (in QUICK_START.md)
 - **Objection handlers** documented
@@ -79,7 +78,7 @@
 3. Read [QUICK_START.md](QUICK_START.md) - understand the 7-day plan
 
 ### Today
-1. **Email Remy Lasers** using the template in QUICK_START.md
+1. **Send outreach email** using the template in QUICK_START.md
 2. Add real credentials to `.env`:
    ```
    SMTP_SERVER=smtp.gmail.com
@@ -95,15 +94,15 @@
    modal token status
    modal deploy execution/modal_production.py
    ```
-2. **Schedule Remy Lasers demo call**
+2. **Schedule first prospect demo call**
 3. **Practice the 60-second demo** (screen share + terminal)
 4. **Prepare contract** (fill in your details in the template)
 
 ### Next 7 Days
-1. **Close Remy Lasers** ($2,500 trial)
+1. **Close first trial client** ($2,500 trial)
 2. **Start building** their automation (Week 1 of trial)
 3. **Find 2-3 more prospects** (LinkedIn, referrals, network)
-4. **Ship working automation** for Remy in 14 days
+4. **Ship working automation** in 14 days
 
 ---
 
@@ -113,7 +112,7 @@
 ❌ Brand confusion (2-3 different names)  
 ❌ No working demo  
 ❌ No production deployment plan  
-❌ No sales materials for Remy Lasers  
+❌ No outreach sent yet  
 ❌ Unclear hosting architecture  
 ❌ Analysis paralysis (too many options)
 
@@ -131,14 +130,13 @@
 
 ### Month 1 (February 2026)
 - **Goal:** 1 trial client
-- **Target:** Remy Lasers
 - **Revenue:** $2,500
 - **Action:** Email today, demo this week, close by Feb 15
 
 ### Month 2 (March 2026)
 - **Goal:** 2 trial clients
-- **Sources:** LinkedIn outreach, Remy referrals
-- **Revenue:** $5,000 trials + $7,500 full (Remy converts)
+- **Sources:** LinkedIn outreach, client referrals
+- **Revenue:** $5,000 trials + $7,500 full (first client converts)
 - **Total:** $12,500
 
 ### Month 3 (April 2026)
@@ -184,26 +182,22 @@
 ├── 📁 execution/
 │   ├── live_demo_automation.py ⭐ DEMO THIS
 │   ├── modal_production.py ⭐ DEPLOY THIS
-│   ├── create_invoice.py (rebranded)
-│   ├── create_proposal.py (rebranded)
+│   ├── create_invoice.py
+│   ├── create_proposal.py
 │   └── [25 other scripts]
-│
-├── 📁 clients/remy-lasers/
-│   ├── pitch-deck-trial-program.md ⭐ PRESENT THIS
-│   └── client-config.json
 │
 ├── 📁 templates/contracts/
 │   └── trial-program-agreement.md ⭐ SIGN THIS
 │
 └── 📁 public/
-    └── index.html (rebranded to 5 Cypress Automation)
+    └── index.html (5 Cypress Automation)
 ```
 
 ---
 
 ## The Only 3 Things That Matter
 
-1. **Email Remy Lasers** (template in QUICK_START.md)
+1. **Send outreach email** (template in QUICK_START.md)
 2. **Book the demo call** (show live_demo_automation.py)
 3. **Close the trial** (sign contract, collect $2,500)
 
@@ -227,7 +221,7 @@ Everything else is support for these 3 actions.
 ✅ Tested the demo (it works!)
 
 ### What You Do Next
-🎯 Send the email to Remy Lasers  
+🎯 Send outreach email  
 🎯 Book the demo call  
 🎯 Show them the working automation  
 🎯 Close the $2,500 trial  
@@ -257,7 +251,7 @@ Everything is ready. Just ship it.
 **Stuck?** Check [HOSTING_ARCHITECTURE.md](HOSTING_ARCHITECTURE.md)  
 **Need confidence?** Run `python execution/live_demo_automation.py` and watch it work
 
-**Ready to go?** Email Remy Lasers. Right now. Today.
+**Ready to go?** Send the outreach email. Right now. Today.
 
 The project isn't at the "next level" until you have a paying client.
 

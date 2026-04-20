@@ -1,6 +1,6 @@
 # Architecture Audit (Discovery) Directive
 
-> Structured process for the 5 Cypress Automation "Root Audit" to identify high-leverage automation opportunities.
+> Structured process for the 5 Cypress Labs "Root Audit" to identify high-leverage automation opportunities.
 
 ## Mission
 

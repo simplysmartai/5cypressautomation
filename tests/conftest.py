@@ -83,7 +83,7 @@ def sample_info_json() -> dict:
 
 @pytest.fixture
 def sample_client_config() -> dict:
-    """Remy-lasers-style hierarchical client-config.json structure."""
+    """Sample hierarchical client-config.json structure for trial program clients."""
     return {
         "client_name":    "Laser Corp",
         "status":         "prospecting",

@@ -35,14 +35,14 @@ def handle_zoho_webhook(request_body: dict):
         "event": "event.created",  # or event.updated, event.deleted
         "calendar_id": "abc123",
         "event_id": "def456",
-        "user_email": "sarah@remylasers.com",
+        "user_email": "sarah@example.com",
         "event_data": {
             "id": "def456",
             "title": "Focus Time",
             "start": "2026-02-04T14:00:00Z",
             "end": "2026-02-04T16:00:00Z",
             "location": "Conference Room A",
-            "attendees": ["john@remylasers.com"]
+            "attendees": ["john@example.com"]
         }
     }
     
@@ -257,14 +257,14 @@ def test_webhook():
         "event": "event.created",
         "calendar_id": "test_cal_123",
         "event_id": "test_event_456",
-        "user_email": "test@remylasers.com",
+        "user_email": "test@example.com",
         "event_data": {
             "id": "test_event_456",
             "title": "Test Meeting",
             "start": datetime.now().isoformat(),
             "end": (datetime.now() + timedelta(hours=1)).isoformat(),
             "location": "Conference Room",
-            "attendees": ["jane@remylasers.com"]
+            "attendees": ["jane@example.com"]
         }
     }
     

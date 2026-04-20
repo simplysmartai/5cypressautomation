@@ -6,8 +6,8 @@
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <title>5 Cypress | Automation &amp; Marketing for Growing B2B Businesses</title>
-  <meta name="description" content="We help small B2B businesses eliminate manual work and build real marketing pipelines. Automation + marketing from one partner. Results in 14 days. From $997.">
+  <title>5 Cypress | Elite Business Automation & AI Integration</title>
+  <meta name="description" content="Business automation for growing small businesses. We integrate your tools, eliminate manual data entry, and build custom workflows. Order processing, lead capture, inventory syncing, invoicing, and calendar integration.">
   
   <!-- Enhanced SEO -->
   <meta name="robots" content="index, follow">
@@ -15,22 +15,20 @@
   <link rel="canonical" href="https://5cypress.com/">
   
   <!-- Open Graph -->
-  <meta property="og:title" content="5 Cypress | Automation &amp; Marketing for Growing B2B Businesses">
-  <meta property="og:description" content="Eliminate manual work and build a real marketing pipeline. Built for small B2B businesses ready to grow. Starting at $997.">
+  <meta property="og:title" content="5 Cypress | Elite Business Automation">
+  <meta property="og:description" content="Transform operations with precision automation. Save 15+ hours weekly.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://5cypress.com">
   <meta property="og:image" content="https://5cypress.com/assets/brand/logo-5cypress.jpg">
   
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="5 Cypress | Automation &amp; Marketing for Growing B2B Businesses">
-  <meta name="twitter:description" content="Eliminate manual work. Build a real marketing pipeline. One partner. Results in 14 days.">
+  <meta name="twitter:title" content="5 Cypress | Elite Business Automation">
+  <meta name="twitter:description" content="Transform operations with precision automation.">
   <meta name="twitter:image" content="https://5cypress.com/assets/brand/logo-5cypress.jpg">
   
   <!-- PWA Support -->
   <meta name="theme-color" content="#0a0a0c">
-  <link rel="manifest" href="/manifest.json">
-  
   <!-- Structured Data -->
   <script type="application/ld+json">
   {
@@ -57,21 +55,16 @@
   <link rel="icon" type="image/svg+xml" href="assets/brand/favicon.svg">
   
   <!-- Preconnect for performance -->
-  <link rel="preconnect" href="https://assets.calendly.com">
   <link rel="preconnect" href="https://cdn.jsdelivr.net">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  
+  <!-- Stylesheets - Load in order: design system → premium → mobile enhancements -->
+  <link rel="stylesheet" href="design-system.css">
+  <link rel="stylesheet" href="styles-premium.css">
+  <link rel="stylesheet" href="styles-mobile-enhanced.css">
+  
+  <!-- Preload critical scripts -->
+  <link rel="modulepreload" href="dashboard-3d.js">
 
-  <!-- Google Fonts - loaded here (not via CSS @import) to allow parallel loading and avoid render-blocking waterfall -->
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,700&family=Space+Grotesk:wght@400;500;600;700&family=DM+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap">
-  
-  <!-- Calendly -->
-  <link href="https://assets.calendly.com/assets/external/calendar-widget.css" rel="stylesheet">
-  
-  <!-- Stylesheets - design-system is @imported by styles-premium.css; loading once here avoids duplicate HTTP request -->
-  <link rel="stylesheet" href="styles-premium.css?v=20260309-paths">
-  <link rel="stylesheet" href="styles-mobile-enhanced.css?v=20260309-paths">
-  
   <script type="importmap">
     {
       "imports": {
@@ -85,15 +78,15 @@
   <!-- Skip to Content (Accessibility) -->
   <a href="#main-content" class="skip-to-content">Skip to content</a>
 
-  <!-- Animated Background Paths -->
-  <div id="background-paths" class="background-paths-container" aria-hidden="true"></div>
+  <!-- Atmospheric Background -->
+  <div class="atmosphere"></div>
 
   <!-- Navigation -->
   <nav class="navbar">
     <div class="container nav-container">
       <a href="/" class="logo">
         <div class="logo-icon logo-pulse">
-          <img src="assets/brand/logo-5cypress.jpg" alt="5 Cypress Automation Logo" width="52" height="52" loading="eager">
+          <img src="assets/brand/logo-5cypress.jpg" alt="5 Cypress Automation Logo">
         </div>
         <div class="logo-text-group">
           <span class="logo-title text-gradient-special">5 Cypress</span>
@@ -108,15 +101,16 @@
         <a href="/process.html" class="nav-link">Process</a>
         <a href="/case-studies.html" class="nav-link">Case Studies</a>
         <a href="/about.html" class="nav-link">About</a>
+        <a href="/seo-dashboard.html" class="nav-link" style="color: var(--brand-accent); font-weight: 600;">Free SEO Scan</a>
       </div>
 
       <div class="nav-actions">
         <button onclick="openCalendly()" class="btn btn-primary btn-lg ripple">
-          Get Started <i class="ri-arrow-right-up-line"></i>
+          Free Fit Call <i class="ri-arrow-right-up-line"></i>
         </button>
       </div>
 
-      <button class="mobile-toggle" onclick="toggleMobileMenu()" aria-label="Toggle mobile menu" aria-expanded="false" aria-controls="mobileMenu">
+      <button class="mobile-toggle" onclick="toggleMobileMenu()" aria-label="Toggle mobile menu">
         <i class="ri-menu-line"></i>
       </button>
     </div>
@@ -131,8 +125,9 @@
     <a href="/process.html" class="mobile-link" onclick="closeMobileMenu()">Process</a>
     <a href="/case-studies.html" class="mobile-link" onclick="closeMobileMenu()">Case Studies</a>
     <a href="/about.html" class="mobile-link" onclick="closeMobileMenu()">About</a>
+    <a href="/seo-dashboard.html" class="mobile-link" onclick="closeMobileMenu()" style="color: var(--brand-accent);">Free SEO Scan</a>
     <button onclick="openCalendly(); closeMobileMenu();" class="btn btn-primary btn-lg btn-block ripple" style="margin-top: 24px;">
-      Get Started <i class="ri-arrow-right-up-line"></i>
+      Free Fit Call <i class="ri-arrow-right-up-line"></i>
     </button>
   </div>
 
@@ -142,17 +137,17 @@
     <section class="hero-section">
       <div class="container">
         <div class="hero-content reveal">
+          <p style="display: block; font-size: 0.85rem; font-style: normal; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--brand-primary); margin-bottom: 16px;">Precision Engineering</p>
           <h1>
-            <span style="display: block; font-size: 0.5em; font-style: normal; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--brand-primary); margin-bottom: 16px;">Your Operations. Automated.</span>
-            <em class="text-gradient">Automation + Marketing</em><br>
-            that drives real growth
+            <em class="text-gradient">Business automation</em><br>
+            that actually works
           </h1>
           <p class="lead" style="max-width: 800px; margin: 0 auto 48px; font-size: clamp(1.1rem, 2vw, 1.35rem); color: var(--text-secondary); line-height: 1.7;">
-            We help small B2B businesses eliminate manual work and build real marketing pipelines. Your team stops firefighting. Your pipeline stops depending on referrals. Two services. One partner. Results in 14 days.
+            We build automation systems that eliminate manual work. Stop copying data between systems, start syncing automatically.
           </p>
           <div class="hero-cta">
             <button onclick="openCalendly()" class="btn btn-primary btn-lg btn-magnetic ripple">
-              <span>Schedule your free assessment</span>
+              <span>Book a Free Fit Call</span>
               <i class="ri-send-plane-line"></i>
             </button>
             <a href="/case-studies.html" class="btn btn-secondary btn-lg btn-magnetic">
@@ -384,283 +379,252 @@
       </div>
     </section>
 
-    <!-- Stats Bar -->
-    <section style="background: var(--bg-surface); padding: 48px 0; border-top: 1px solid var(--border-subtle); border-bottom: 1px solid var(--border-subtle);">
-      <div class="container">
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 48px; text-align: center;">
-          <div class="reveal">
-            <div style="font-size: 3rem; font-weight: 900; font-family: var(--font-display); font-style: italic;" class="text-gradient">15+</div>
-            <div style="color: var(--text-secondary); margin-top: 8px;">Hours Saved Weekly</div>
-          </div>
-          <div class="reveal">
-            <div style="font-size: 3rem; font-weight: 900; font-family: var(--font-display); font-style: italic;" class="text-gradient">14</div>
-            <div style="color: var(--text-secondary); margin-top: 8px;">Days to Go Live</div>
-          </div>
-          <div class="reveal">
-            <div style="font-size: 3rem; font-weight: 900; font-family: var(--font-display); font-style: italic;" class="text-gradient">2</div>
-            <div style="color: var(--text-secondary); margin-top: 8px;">Core Service Lines</div>
-          </div>
-          <div class="reveal">
-            <div style="font-size: 3rem; font-weight: 900; font-family: var(--font-display); font-style: italic;" class="text-gradient">$997</div>
-            <div style="color: var(--text-secondary); margin-top: 8px;">Starting Investment</div>
-          </div>
-        </div>
-      </div>
-    </section>
-
     <!-- Pain Points Section -->
-    <section style="padding: 120px 0; position: relative;">
+    <section style="padding: 120px 0;">
       <div class="container">
-        <div style="max-width: 900px; margin: 0 auto 80px; text-align: center;">
-          <h2 class="reveal" style="font-size: clamp(2rem, 4vw, 3.5rem); font-weight: 900; margin-bottom: 24px;">
-            Your Business Shouldn't Run on Manual Work and Referrals
+        <div style="text-align: center; margin-bottom: 80px;">
+          <span class="tag reveal" style="display: inline-block; margin-bottom: 24px;">SOUND FAMILIAR?</span>
+          <h2 class="reveal" style="font-size: clamp(2rem, 4vw, 3rem); font-weight: 800; max-width: 700px; margin: 0 auto;">
+            Every hour on manual work is an hour <em class="text-gradient">not growing your business.</em>
           </h2>
-          <p class="reveal" style="font-size: 1.25rem; color: var(--text-secondary); line-height: 1.7;">
-            Your team is doing manually what should happen automatically. Your pipeline depends entirely on referrals. Both problems have the same fix: the right systems.
-          </p>
         </div>
-
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 32px;">
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 32px;">
           <div class="reveal" style="background: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: 20px; padding: 40px;">
-            <div style="width: 64px; height: 64px; margin-bottom: 24px; background: rgba(239, 68, 68, 0.1); border-radius: 16px; display: flex; align-items: center; justify-content: center;">
-              <i class="ri-time-line" style="font-size: 2rem; color: #ef4444;"></i>
-            </div>
-            <h3 style="font-size: 1.35rem; font-weight: 700; margin-bottom: 16px;">Drowning in Data Entry?</h3>
-            <p style="color: var(--text-secondary); line-height: 1.7;">
-              Your team copies data between Calendly, QuickBooks, and your CRM by hand. Every minute spent on that is a minute not spent closing deals.
-            </p>
+            <i class="ri-file-copy-line" style="font-size: 2rem; color: var(--brand-primary); margin-bottom: 20px; display: block;"></i>
+            <h3 style="font-size: 1.3rem; margin-bottom: 12px;">Data copied between systems by hand</h3>
+            <p style="color: var(--text-tertiary); line-height: 1.7;">Your team is re-entering the same information across 3 different platforms every day. Mistakes happen, time disappears, and nobody's job is that.</p>
           </div>
-
           <div class="reveal" style="background: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: 20px; padding: 40px;">
-            <div style="width: 64px; height: 64px; margin-bottom: 24px; background: rgba(239, 68, 68, 0.1); border-radius: 16px; display: flex; align-items: center; justify-content: center;">
-              <i class="ri-bar-chart-line" style="font-size: 2rem; color: #ef4444;"></i>
-            </div>
-            <h3 style="font-size: 1.35rem; font-weight: 700; margin-bottom: 16px;">No Real Marketing Engine?</h3>
-            <p style="color: var(--text-secondary); line-height: 1.7;">
-              Your pipeline runs on referrals and relationship selling. Without a marketing system, every slow quarter is a crisis waiting to happen.
-            </p>
+            <i class="ri-alarm-warning-line" style="font-size: 2rem; color: var(--brand-accent); margin-bottom: 20px; display: block;"></i>
+            <h3 style="font-size: 1.3rem; margin-bottom: 12px;">High-value staff doing $15/hr admin work</h3>
+            <p style="color: var(--text-tertiary); line-height: 1.7;">You hired smart people to do smart work. Instead they're pulling reports, chasing approvals, and formatting spreadsheets. That's expensive mediocrity.</p>
           </div>
-
           <div class="reveal" style="background: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: 20px; padding: 40px;">
-            <div style="width: 64px; height: 64px; margin-bottom: 24px; background: rgba(239, 68, 68, 0.1); border-radius: 16px; display: flex; align-items: center; justify-content: center;">
-              <i class="ri-tools-line" style="font-size: 2rem; color: #ef4444;"></i>
-            </div>
-            <h3 style="font-size: 1.35rem; font-weight: 700; margin-bottom: 16px;">Tools That Don't Talk?</h3>
-            <p style="color: var(--text-secondary); line-height: 1.7;">
-              You pay for CRM, billing software, and email tools that operate in silos. You're getting 50% of the value at 100% of the cost.
-            </p>
-          </div>
-        </div>
-
-        <div style="text-align: center; margin-top: 64px;">
-          <div style="display: inline-flex; align-items: center; gap: 16px; padding: 24px 40px; background: var(--bg-surface); border: 1px solid var(--brand-primary); border-radius: 100px; box-shadow: 0 0 40px rgba(93,140,93,0.15);">
-            <div style="width: 48px; height: 48px; background: var(--brand-primary); border-radius: 50%; display: flex; align-items: center; justify-content: center;">
-              <i class="ri-lightbulb-flash-line" style="font-size: 1.5rem; color: #000;"></i>
-            </div>
-            <div style="text-align: left;">
-              <div style="font-size: 0.8rem; color: var(--text-tertiary); margin-bottom: 4px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em;">The Fix</div>
-              <div style="font-size: 1.15rem; font-weight: 700;">Automation + Marketing. Built for B2B. Running in 14 days.</div>
-            </div>
+            <i class="ri-eye-off-line" style="font-size: 2rem; color: var(--brand-primary); margin-bottom: 20px; display: block;"></i>
+            <h3 style="font-size: 1.3rem; margin-bottom: 12px;">No real-time view of what's happening</h3>
+            <p style="color: var(--text-tertiary); line-height: 1.7;">You're running blind between meetings. No dashboard, no alerts, no single source of truth. Decisions made on outdated data aren't really decisions.</p>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- Two Service Pillars -->
-    <section style="padding: 120px 0; background: var(--bg-surface); border-top: 1px solid var(--border-subtle);">
+    <!-- What We Build — Services Grid -->
+    <section style="padding: 80px 0 120px; background: var(--bg-surface); border-top: 1px solid var(--border-subtle);">
       <div class="container">
         <div style="text-align: center; margin-bottom: 80px;">
-          <h2 class="reveal" style="font-size: clamp(2rem, 4vw, 3.5rem); font-weight: 900; margin-bottom: 24px;">
-            Two Services. One Mission.
-          </h2>
-          <p class="reveal" style="font-size: 1.25rem; color: var(--text-secondary); max-width: 700px; margin: 0 auto;">
-            We build both sides of the B2B growth engine — the systems that run your operations and the marketing that fills your pipeline.
-          </p>
+          <span class="tag reveal" style="display: inline-block; margin-bottom: 24px;">WHAT WE BUILD</span>
+          <h2 class="reveal" style="font-size: clamp(2rem, 4vw, 3rem); font-weight: 800;">Five systems. One smooth operation.</h2>
+          <p class="reveal" style="color: var(--text-secondary); font-size: 1.15rem; max-width: 600px; margin: 16px auto 0;">Each one is a standalone win. Together, they transform your back-office into something that runs itself.</p>
         </div>
-
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 32px; max-width: 1100px; margin: 0 auto;">
-          <!-- Automation Pillar -->
-          <div class="reveal" style="background: var(--bg-void); border: 1px solid var(--border-subtle); border-radius: 24px; padding: 56px; position: relative; overflow: hidden;">
-            <div style="position: absolute; top: 0; right: 0; width: 200px; height: 200px; background: radial-gradient(circle at top right, rgba(93,140,93,0.08) 0%, transparent 70%); pointer-events: none;"></div>
-            <div style="position: relative; z-index: 1;">
-              <div style="width: 64px; height: 64px; background: rgba(93,140,93,0.1); border-radius: 16px; display: flex; align-items: center; justify-content: center; margin-bottom: 32px;">
-                <i class="ri-settings-3-line" style="font-size: 2rem; color: var(--brand-primary);"></i>
-              </div>
-              <h3 style="font-size: 2rem; font-weight: 800; margin-bottom: 16px;">Automation Services</h3>
-              <p style="color: var(--text-secondary); line-height: 1.7; margin-bottom: 32px;">
-                We connect your tools and eliminate manual work. QuickBooks invoicing, ShipStation, CRM syncing, lead capture, calendar integration, and missed-call text-back. Built once. Runs forever.
-              </p>
-              <ul style="list-style: none; padding: 0; margin: 0 0 40px; display: flex; flex-direction: column; gap: 14px;">
-                <li style="display: flex; align-items: center; gap: 12px; color: var(--text-secondary);"><i class="ri-checkbox-circle-fill" style="color: var(--brand-primary);"></i>Order processing &amp; invoice automation</li>
-                <li style="display: flex; align-items: center; gap: 12px; color: var(--text-secondary);"><i class="ri-checkbox-circle-fill" style="color: var(--brand-primary);"></i>Lead capture &amp; CRM syncing</li>
-                <li style="display: flex; align-items: center; gap: 12px; color: var(--text-secondary);"><i class="ri-checkbox-circle-fill" style="color: var(--brand-primary);"></i>Inventory management &amp; ShipStation</li>
-                <li style="display: flex; align-items: center; gap: 12px; color: var(--text-secondary);"><i class="ri-checkbox-circle-fill" style="color: var(--brand-primary);"></i>Missed-call text-back &amp; lead gen</li>
-              </ul>
-              <a href="/services.html" class="btn btn-secondary"><span>View Automation Services</span><i class="ri-arrow-right-line"></i></a>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; margin-bottom: 48px;">
+          <a href="/services.html" style="text-decoration: none;" class="reveal">
+            <div style="background: var(--bg-void); border: 1px solid var(--border-subtle); border-radius: 20px; padding: 36px; transition: all 0.3s ease; cursor: pointer;" onmouseover="this.style.borderColor='var(--brand-primary)'; this.style.transform='translateY(-4px)'" onmouseout="this.style.borderColor='var(--border-subtle)'; this.style.transform='translateY(0)'">
+              <i class="ri-box-3-line" style="font-size: 2rem; color: var(--brand-primary); margin-bottom: 20px; display: block;"></i>
+              <h3 style="font-size: 1.15rem; font-weight: 700; margin-bottom: 10px; color: var(--text-primary);">Lead Capture & CRM</h3>
+              <p style="color: var(--text-tertiary); font-size: 0.95rem; line-height: 1.6;">Every inquiry, form submission, and ad click lands straight in your CRM — automatically, with full attribution.</p>
             </div>
-          </div>
-
-          <!-- Marketing Pillar -->
-          <div class="reveal" style="background: var(--bg-void); border: 1px solid var(--border-subtle); border-radius: 24px; padding: 56px; position: relative; overflow: hidden;">
-            <div style="position: absolute; top: 0; right: 0; width: 200px; height: 200px; background: radial-gradient(circle at top right, rgba(251,191,36,0.06) 0%, transparent 70%); pointer-events: none;"></div>
-            <div style="position: relative; z-index: 1;">
-              <div style="width: 64px; height: 64px; background: rgba(251,191,36,0.1); border-radius: 16px; display: flex; align-items: center; justify-content: center; margin-bottom: 32px;">
-                <i class="ri-bar-chart-box-line" style="font-size: 2rem; color: var(--brand-accent);"></i>
-              </div>
-              <h3 style="font-size: 2rem; font-weight: 800; margin-bottom: 16px;">Marketing Services</h3>
-              <p style="color: var(--text-secondary); line-height: 1.7; margin-bottom: 32px;">
-                Strategy, email campaigns, performance reporting, and social content — built for B2B businesses with longer sales cycles and real decision-makers who need more than a cold email.
-              </p>
-              <ul style="list-style: none; padding: 0; margin: 0 0 40px; display: flex; flex-direction: column; gap: 14px;">
-                <li style="display: flex; align-items: center; gap: 12px; color: var(--text-secondary);"><i class="ri-checkbox-circle-fill" style="color: var(--brand-accent);"></i>90-day strategy briefs &amp; roadmaps</li>
-                <li style="display: flex; align-items: center; gap: 12px; color: var(--text-secondary);"><i class="ri-checkbox-circle-fill" style="color: var(--brand-accent);"></i>Email nurture &amp; outreach campaigns</li>
-                <li style="display: flex; align-items: center; gap: 12px; color: var(--text-secondary);"><i class="ri-checkbox-circle-fill" style="color: var(--brand-accent);"></i>Performance dashboards &amp; reporting</li>
-                <li style="display: flex; align-items: center; gap: 12px; color: var(--text-secondary);"><i class="ri-checkbox-circle-fill" style="color: var(--brand-accent);"></i>LinkedIn content &amp; social strategy</li>
-              </ul>
-              <a href="/services.html" class="btn btn-secondary"><span>View Marketing Services</span><i class="ri-arrow-right-line"></i></a>
+          </a>
+          <a href="/services.html" style="text-decoration: none;" class="reveal">
+            <div style="background: var(--bg-void); border: 1px solid var(--border-subtle); border-radius: 20px; padding: 36px; transition: all 0.3s ease; cursor: pointer;" onmouseover="this.style.borderColor='var(--brand-primary)'; this.style.transform='translateY(-4px)'" onmouseout="this.style.borderColor='var(--border-subtle)'; this.style.transform='translateY(0)'">
+              <i class="ri-file-text-line" style="font-size: 2rem; color: var(--brand-primary); margin-bottom: 20px; display: block;"></i>
+              <h3 style="font-size: 1.15rem; font-weight: 700; margin-bottom: 10px; color: var(--text-primary);">Document Automation</h3>
+              <p style="color: var(--text-tertiary); font-size: 0.95rem; line-height: 1.6;">Proposals, contracts, and reports generated on trigger — no templates to fill, no files to email manually.</p>
             </div>
-          </div>
+          </a>
+          <a href="/services.html" style="text-decoration: none;" class="reveal">
+            <div style="background: var(--bg-void); border: 1px solid var(--border-subtle); border-radius: 20px; padding: 36px; transition: all 0.3s ease; cursor: pointer;" onmouseover="this.style.borderColor='var(--brand-primary)'; this.style.transform='translateY(-4px)'" onmouseout="this.style.borderColor='var(--border-subtle)'; this.style.transform='translateY(0)'">
+              <i class="ri-dashboard-3-line" style="font-size: 2rem; color: var(--brand-primary); margin-bottom: 20px; display: block;"></i>
+              <h3 style="font-size: 1.15rem; font-weight: 700; margin-bottom: 10px; color: var(--text-primary);">Client Portals & Dashboards</h3>
+              <p style="color: var(--text-tertiary); font-size: 0.95rem; line-height: 1.6;">Real-time views of what matters — pipeline, project status, revenue — in one place that updates itself.</p>
+            </div>
+          </a>
+          <a href="/services.html" style="text-decoration: none;" class="reveal">
+            <div style="background: var(--bg-void); border: 1px solid var(--border-subtle); border-radius: 20px; padding: 36px; transition: all 0.3s ease; cursor: pointer;" onmouseover="this.style.borderColor='var(--brand-primary)'; this.style.transform='translateY(-4px)'" onmouseout="this.style.borderColor='var(--border-subtle)'; this.style.transform='translateY(0)'">
+              <i class="ri-bank-card-line" style="font-size: 2rem; color: var(--brand-primary); margin-bottom: 20px; display: block;"></i>
+              <h3 style="font-size: 1.15rem; font-weight: 700; margin-bottom: 10px; color: var(--text-primary);">Invoice & Payment Sync</h3>
+              <p style="color: var(--text-tertiary); font-size: 0.95rem; line-height: 1.6;">Work completes → invoice fires → QuickBooks updates. Cash flow improves when billing is instant and accurate.</p>
+            </div>
+          </a>
+          <a href="/services.html" style="text-decoration: none;" class="reveal">
+            <div style="background: var(--bg-void); border: 1px solid var(--border-subtle); border-radius: 20px; padding: 36px; transition: all 0.3s ease; cursor: pointer;" onmouseover="this.style.borderColor='var(--brand-primary)'; this.style.transform='translateY(-4px)'" onmouseout="this.style.borderColor='var(--border-subtle)'; this.style.transform='translateY(0)'">
+              <i class="ri-calendar-check-line" style="font-size: 2rem; color: var(--brand-primary); margin-bottom: 20px; display: block;"></i>
+              <h3 style="font-size: 1.15rem; font-weight: 700; margin-bottom: 10px; color: var(--text-primary);">Calendar & Scheduling</h3>
+              <p style="color: var(--text-tertiary); font-size: 0.95rem; line-height: 1.6;">Appointments sync across your calendar, CRM, and project tool. Your team shows up prepared — automatically.</p>
+            </div>
+          </a>
         </div>
-
-        <p class="reveal" style="text-align: center; color: var(--text-tertiary); margin-top: 40px; font-size: 0.95rem;">Use one service or both. Either way, you get one team that understands how B2B businesses actually grow.</p>
+        <div style="text-align: center;">
+          <a href="/services.html" class="btn btn-secondary btn-lg btn-magnetic reveal">
+            <span>See All Services</span>
+            <i class="ri-arrow-right-line"></i>
+          </a>
+        </div>
       </div>
     </section>
 
-    <!-- How It Works Section -->
-    <section style="padding: 120px 0; position: relative;">
+    <!-- How We Work — Engagement Model -->
+    <section style="padding: 120px 0;">
       <div class="container">
         <div style="text-align: center; margin-bottom: 80px;">
-          <h2 class="reveal" style="font-size: clamp(2rem, 4vw, 3.5rem); font-weight: 900; margin-bottom: 24px;">Simple Process. Serious Results.</h2>
-          <p class="reveal" style="font-size: 1.25rem; color: var(--text-secondary); max-width: 700px; margin: 0 auto;">We build it. You own it. Your team gets hours back — every single week.</p>
+          <span class="tag reveal" style="display: inline-block; margin-bottom: 24px;">HOW IT WORKS</span>
+          <h2 class="reveal" style="font-size: clamp(2rem, 4vw, 3rem); font-weight: 800;">From first call to live system in weeks, not months.</h2>
         </div>
-
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 48px; max-width: 1100px; margin: 0 auto;">
-          <div class="reveal" style="position: relative;">
-            <div style="position: absolute; top: 0; left: 24px; width: 52px; height: 52px; background: var(--brand-primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; font-weight: 900; color: #000; box-shadow: 0 0 30px rgba(93,140,93,0.4);">1</div>
-            <div style="padding: 32px; padding-top: 84px; background: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: 24px; height: 100%;">
-              <h3 style="font-size: 1.6rem; font-weight: 800; margin-bottom: 16px;">30-Minute Discovery Call</h3>
-              <p style="color: var(--text-secondary); line-height: 1.7; margin-bottom: 20px;">We audit your tools, workflows, and marketing situation. You show us where time is wasted. We identify the highest-impact opportunities.</p>
-              <div style="padding: 14px; background: rgba(93,140,93,0.05); border-radius: 12px; font-size: 0.9rem; color: var(--text-tertiary);"><strong style="color: var(--brand-primary);">Outcome:</strong> Clear roadmap + fixed-price quote</div>
-            </div>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 0; position: relative;">
+          <div class="reveal" style="padding: 40px; border-right: 1px solid var(--border-subtle); position: relative;">
+            <div style="font-family: var(--font-mono); font-size: 2rem; font-weight: 800; color: var(--brand-primary); margin-bottom: 20px;">01</div>
+            <h3 style="font-size: 1.2rem; margin-bottom: 12px;">Free Fit Call</h3>
+            <p style="color: var(--text-tertiary); line-height: 1.7; font-size: 0.95rem;">20 minutes. Tell us your biggest bottleneck. We'll tell you honestly if automation can fix it and what that looks like.</p>
           </div>
-
-          <div class="reveal" style="position: relative;">
-            <div style="position: absolute; top: 0; left: 24px; width: 52px; height: 52px; background: var(--brand-primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; font-weight: 900; color: #000; box-shadow: 0 0 30px rgba(93,140,93,0.4);">2</div>
-            <div style="padding: 32px; padding-top: 84px; background: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: 24px; height: 100%;">
-              <h3 style="font-size: 1.6rem; font-weight: 800; margin-bottom: 16px;">We Build It (7–14 Days)</h3>
-              <p style="color: var(--text-secondary); line-height: 1.7; margin-bottom: 20px;">Our team builds your automation workflows or marketing deliverable, tests everything, and hands you the keys. Zero coding from your team.</p>
-              <div style="padding: 14px; background: rgba(93,140,93,0.05); border-radius: 12px; font-size: 0.9rem; color: var(--text-tertiary);"><strong style="color: var(--brand-primary);">Outcome:</strong> Production-ready system + runbook</div>
-            </div>
+          <div class="reveal" style="padding: 40px; border-right: 1px solid var(--border-subtle);">
+            <div style="font-family: var(--font-mono); font-size: 2rem; font-weight: 800; color: var(--brand-primary); margin-bottom: 20px;">02</div>
+            <h3 style="font-size: 1.2rem; margin-bottom: 12px;">Fixed-Scope Proposal</h3>
+            <p style="color: var(--text-tertiary); line-height: 1.7; font-size: 0.95rem;">No hourly billing surprises. You get a clear deliverable, clear timeline, and a fixed price before any work begins.</p>
           </div>
-
-          <div class="reveal" style="position: relative;">
-            <div style="position: absolute; top: 0; left: 24px; width: 52px; height: 52px; background: var(--brand-primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; font-weight: 900; color: #000; box-shadow: 0 0 30px rgba(93,140,93,0.4);">3</div>
-            <div style="padding: 32px; padding-top: 84px; background: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: 24px; height: 100%;">
-              <h3 style="font-size: 1.6rem; font-weight: 800; margin-bottom: 16px;">Launch &amp; Compound</h3>
-              <p style="color: var(--text-secondary); line-height: 1.7; margin-bottom: 20px;">Your automation runs 24/7. Your marketing strategy compounds over time. Both services get stronger the longer they run.</p>
-              <div style="padding: 14px; background: rgba(93,140,93,0.05); border-radius: 12px; font-size: 0.9rem; color: var(--text-tertiary);"><strong style="color: var(--brand-primary);">Outcome:</strong> 15+ hours saved weekly, real pipeline</div>
-            </div>
+          <div class="reveal" style="padding: 40px; border-right: 1px solid var(--border-subtle);">
+            <div style="font-family: var(--font-mono); font-size: 2rem; font-weight: 800; color: var(--brand-primary); margin-bottom: 20px;">03</div>
+            <h3 style="font-size: 1.2rem; margin-bottom: 12px;">Build & Test</h3>
+            <p style="color: var(--text-tertiary); line-height: 1.7; font-size: 0.95rem;">We build, document, and stress-test your system. You see it working in a sandbox before it touches your live data.</p>
           </div>
-        </div>
-
-        <div style="text-align: center; margin-top: 64px;">
-          <button onclick="openCalendly()" class="btn btn-primary btn-lg btn-magnetic ripple reveal">
-            <span>Book Your Free Assessment</span>
-            <i class="ri-calendar-check-line"></i>
-          </button>
-          <p style="margin-top: 16px; font-size: 0.9rem; color: var(--text-tertiary);">30-minute call. Zero obligation. See exactly what we'd build.</p>
+          <div class="reveal" style="padding: 40px;">
+            <div style="font-family: var(--font-mono); font-size: 2rem; font-weight: 800; color: var(--brand-primary); margin-bottom: 20px;">04</div>
+            <h3 style="font-size: 1.2rem; margin-bottom: 12px;">Handoff + Support</h3>
+            <p style="color: var(--text-tertiary); line-height: 1.7; font-size: 0.95rem;">We train your team, hand over the keys, and stay on call for 30 days. You're never left with a black box.</p>
+          </div>
         </div>
       </div>
     </section>
 
-    <!-- Testimonials Section -->
-    <section style="padding: 120px 0; background: linear-gradient(135deg, rgba(93, 140, 93, 0.03) 0%, rgba(251, 191, 36, 0.03) 100%); border-top: 1px solid var(--border-subtle);">
+    <!-- Social Proof / Results -->
+    <section style="padding: 80px 0 120px; background: var(--bg-surface); border-top: 1px solid var(--border-subtle);">
       <div class="container">
         <div style="text-align: center; margin-bottom: 80px;">
-          <h2 class="reveal" style="font-size: clamp(2rem, 4vw, 3.5rem); font-weight: 900; margin-bottom: 24px;">Real Work. Real Results.</h2>
-          <p class="reveal" style="font-size: 1.25rem; color: var(--text-secondary);">Real businesses. Real results. Here's what our clients say.</p>
+          <span class="tag reveal" style="display: inline-block; margin-bottom: 24px;">REAL RESULTS</span>
+          <h2 class="reveal" style="font-size: clamp(2rem, 4vw, 3rem); font-weight: 800;">What clients got back.</h2>
         </div>
-
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 32px;">
-          <div class="reveal" style="background: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: 20px; padding: 40px;">
-            <div style="display: flex; align-items: flex-start; gap: 16px; margin-bottom: 24px;">
-              <div style="width: 52px; height: 52px; background: var(--brand-primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-weight: 800; color: #000;">MM</div>
-              <div>
-                <div style="font-weight: 700; font-size: 1rem; margin-bottom: 4px;">Logistics Manager</div>
-                <div style="font-size: 0.875rem; color: var(--text-tertiary);">Medical Equipment Manufacturer</div>
-              </div>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 32px; margin-bottom: 48px;">
+          <div class="reveal" style="background: var(--bg-void); border: 1px solid var(--border-subtle); border-radius: 20px; padding: 40px;">
+            <span style="font-family: var(--font-mono); font-size: 0.7rem; font-weight: 700; color: var(--brand-primary); background: rgba(93,140,93,0.1); padding: 4px 12px; border-radius: 100px; text-transform: uppercase; letter-spacing: 0.1em;">Professional Services</span>
+            <div style="margin-top: 32px;">
+              <div style="font-size: 3rem; font-weight: 900; font-family: var(--font-display); font-style: italic;" class="text-gradient">18 hrs</div>
+              <div style="color: var(--text-secondary); margin-top: 8px; font-size: 1rem;">reclaimed per week — staff refocused on client-facing work</div>
             </div>
-            <p style="color: var(--text-secondary); line-height: 1.7; margin-bottom: 24px;">"We went from <strong style="color: var(--text-primary);">20 minutes per order to 30 seconds</strong>. The system handles form submission, QuickBooks invoice, ShipStation label, and inventory sync. <strong style="color: var(--text-primary);">12–16 hours saved every month.</strong>"</p>
-            <div style="display: flex; gap: 32px; padding-top: 20px; border-top: 1px solid var(--border-subtle);">
-              <div><div style="color: var(--text-tertiary); font-size: 0.8rem; margin-bottom: 4px;">Time Saved</div><div style="font-size: 1.4rem; font-weight: 800; color: var(--brand-primary);">95%</div></div>
-              <div><div style="color: var(--text-tertiary); font-size: 0.8rem; margin-bottom: 4px;">Monthly Value</div><div style="font-size: 1.4rem; font-weight: 800; color: var(--brand-primary);">$2,400</div></div>
-            </div>
+            <p style="margin-top: 24px; color: var(--text-tertiary); font-size: 0.9rem; line-height: 1.7; border-top: 1px solid var(--border-subtle); padding-top: 24px;">Manual data entry between CRM, project tool, and invoicing system eliminated entirely. One workflow, zero re-entry.</p>
           </div>
-
-          <div class="reveal" style="background: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: 20px; padding: 40px;">
-            <div style="display: flex; align-items: flex-start; gap: 16px; margin-bottom: 24px;">
-              <div style="width: 52px; height: 52px; background: var(--brand-primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-weight: 800; color: #000;">SA</div>
-              <div>
-                <div style="font-weight: 700; font-size: 1rem; margin-bottom: 4px;">Sales Director</div>
-                <div style="font-size: 0.875rem; color: var(--text-tertiary);">B2B SaaS Company, 22 Employees</div>
-              </div>
+          <div class="reveal" style="background: var(--bg-void); border: 1px solid var(--border-subtle); border-radius: 20px; padding: 40px;">
+            <span style="font-family: var(--font-mono); font-size: 0.7rem; font-weight: 700; color: var(--brand-primary); background: rgba(93,140,93,0.1); padding: 4px 12px; border-radius: 100px; text-transform: uppercase; letter-spacing: 0.1em;">Financial Services</span>
+            <div style="margin-top: 32px;">
+              <div style="font-size: 3rem; font-weight: 900; font-family: var(--font-display); font-style: italic;" class="text-gradient">4x</div>
+              <div style="color: var(--text-secondary); margin-top: 8px; font-size: 1rem;">client onboarding capacity without adding headcount</div>
             </div>
-            <p style="color: var(--text-secondary); line-height: 1.7; margin-bottom: 24px;">"Their email nurture sequence alone brought us <strong style="color: var(--text-primary);">6 qualified demos in the first 30 days</strong>. The strategy brief gave us clarity we hadn't had in 2 years. This is what a real marketing partner looks like."</p>
-            <div style="display: flex; gap: 32px; padding-top: 20px; border-top: 1px solid var(--border-subtle);">
-              <div><div style="color: var(--text-tertiary); font-size: 0.8rem; margin-bottom: 4px;">New Demos/Month</div><div style="font-size: 1.4rem; font-weight: 800; color: var(--brand-primary);">+6</div></div>
-              <div><div style="color: var(--text-tertiary); font-size: 0.8rem; margin-bottom: 4px;">Time to Results</div><div style="font-size: 1.4rem; font-weight: 800; color: var(--brand-primary);">30 days</div></div>
-            </div>
+            <p style="margin-top: 24px; color: var(--text-tertiary); font-size: 0.9rem; line-height: 1.7; border-top: 1px solid var(--border-subtle); padding-top: 24px;">Document generation, folder creation, and intake data routing fully automated. New clients onboarded in minutes, not hours.</p>
           </div>
-
-          <div class="reveal" style="background: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: 20px; padding: 40px;">
-            <div style="display: flex; align-items: flex-start; gap: 16px; margin-bottom: 24px;">
-              <div style="width: 52px; height: 52px; background: var(--brand-primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-weight: 800; color: #000;">HT</div>
-              <div>
-                <div style="font-weight: 700; font-size: 1rem; margin-bottom: 4px;">Operations Lead</div>
-                <div style="font-size: 0.875rem; color: var(--text-tertiary);">Health Tech Company, 35 Employees</div>
-              </div>
+          <div class="reveal" style="background: var(--bg-void); border: 1px solid var(--border-subtle); border-radius: 20px; padding: 40px;">
+            <span style="font-family: var(--font-mono); font-size: 0.7rem; font-weight: 700; color: var(--brand-primary); background: rgba(93,140,93,0.1); padding: 4px 12px; border-radius: 100px; text-transform: uppercase; letter-spacing: 0.1em;">Medical Equipment</span>
+            <div style="margin-top: 32px;">
+              <div style="font-size: 3rem; font-weight: 900; font-family: var(--font-display); font-style: italic;" class="text-gradient">97%</div>
+              <div style="color: var(--text-secondary); margin-top: 8px; font-size: 1rem;">reduction in time spent per order — from 45 min to under 90 sec</div>
             </div>
-            <p style="color: var(--text-secondary); line-height: 1.7; margin-bottom: 24px;">"Job data now flows straight from the field to QuickBooks and our CRM. <strong style="color: var(--text-primary);">No more weekend data entry.</strong> Got a full SEO and LinkedIn strategy from them too — one team handling both sides."</p>
-            <div style="display: flex; gap: 32px; padding-top: 20px; border-top: 1px solid var(--border-subtle);">
-              <div><div style="color: var(--text-tertiary); font-size: 0.8rem; margin-bottom: 4px;">Hours Reclaimed</div><div style="font-size: 1.4rem; font-weight: 800; color: var(--brand-primary);">12/wk</div></div>
-              <div><div style="color: var(--text-tertiary); font-size: 0.8rem; margin-bottom: 4px;">Data Accuracy</div><div style="font-size: 1.4rem; font-weight: 800; color: var(--brand-primary);">100%</div></div>
+            <p style="margin-top: 24px; color: var(--text-tertiary); font-size: 0.9rem; line-height: 1.7; border-top: 1px solid var(--border-subtle); padding-top: 24px;">Equipment trial logistics synced end-to-end across CRM, fulfillment, and billing. Three spreadsheets replaced by one automated flow.</p>
+          </div>
+        </div>
+        <div style="text-align: center;">
+          <a href="/case-studies.html" class="btn btn-secondary btn-lg btn-magnetic reveal">
+            <span>Read Full Case Studies</span>
+            <i class="ri-arrow-right-line"></i>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section style="padding: 120px 0;">
+      <div class="container">
+        <div style="max-width: 800px; margin: 0 auto;">
+          <div style="text-align: center; margin-bottom: 80px;">
+            <span class="tag reveal" style="display: inline-block; margin-bottom: 24px;">COMMON QUESTIONS</span>
+            <h2 class="reveal" style="font-size: clamp(2rem, 4vw, 3rem); font-weight: 800;">Everything you're wondering.</h2>
+          </div>
+          <div class="reveal faq-list">
+            <div class="faq-item" style="border-bottom: 1px solid var(--border-subtle); padding: 32px 0; cursor: pointer;" onclick="this.classList.toggle('open')">
+              <div style="display: flex; justify-content: space-between; align-items: center;">
+                <h3 style="font-size: 1.15rem; font-weight: 600;">How much does it cost?</h3>
+                <i class="ri-add-line faq-icon" style="font-size: 1.5rem; color: var(--brand-primary); transition: transform 0.3s; flex-shrink: 0;"></i>
+              </div>
+              <p class="faq-answer" style="margin-top: 20px; color: var(--text-secondary); line-height: 1.7; display: none;">Every project is scoped based on complexity and integrations. We don't use hourly billing — you get a fixed price before work starts so there are no surprises. Most projects for small businesses land in the range most SMBs spend on a single bad hire's first week of inefficiency.</p>
+            </div>
+            <div class="faq-item" style="border-bottom: 1px solid var(--border-subtle); padding: 32px 0; cursor: pointer;" onclick="this.classList.toggle('open')">
+              <div style="display: flex; justify-content: space-between; align-items: center;">
+                <h3 style="font-size: 1.15rem; font-weight: 600;">How long does it take to build?</h3>
+                <i class="ri-add-line faq-icon" style="font-size: 1.5rem; color: var(--brand-primary); transition: transform 0.3s; flex-shrink: 0;"></i>
+              </div>
+              <p class="faq-answer" style="margin-top: 20px; color: var(--text-secondary); line-height: 1.7; display: none;">Most single-workflow projects are live in 2–4 weeks. Multi-system builds take 4–8 weeks. We scope it clearly upfront so you know the timeline before anything starts.</p>
+            </div>
+            <div class="faq-item" style="border-bottom: 1px solid var(--border-subtle); padding: 32px 0; cursor: pointer;" onclick="this.classList.toggle('open')">
+              <div style="display: flex; justify-content: space-between; align-items: center;">
+                <h3 style="font-size: 1.15rem; font-weight: 600;">What tools and software do you work with?</h3>
+                <i class="ri-add-line faq-icon" style="font-size: 1.5rem; color: var(--brand-primary); transition: transform 0.3s; flex-shrink: 0;"></i>
+              </div>
+              <p class="faq-answer" style="margin-top: 20px; color: var(--text-secondary); line-height: 1.7; display: none;">We build on top of what you already use. Common integrations include QuickBooks, Stripe, Zoho CRM, Clio, HubSpot, Google Workspace, Calendly, Slack, and virtually any platform with an API. If you're not sure — bring it up on the fit call and we'll tell you.</p>
+            </div>
+            <div class="faq-item" style="border-bottom: 1px solid var(--border-subtle); padding: 32px 0; cursor: pointer;" onclick="this.classList.toggle('open')">
+              <div style="display: flex; justify-content: space-between; align-items: center;">
+                <h3 style="font-size: 1.15rem; font-weight: 600;">Will this replace my staff?</h3>
+                <i class="ri-add-line faq-icon" style="font-size: 1.5rem; color: var(--brand-primary); transition: transform 0.3s; flex-shrink: 0;"></i>
+              </div>
+              <p class="faq-answer" style="margin-top: 20px; color: var(--text-secondary); line-height: 1.7; display: none;">No — it frees them. Automation takes over the repetitive, error-prone tasks so your team can focus on higher-value work. Our clients don't let staff go; they grow without needing to hire more.</p>
+            </div>
+            <div class="faq-item" style="border-bottom: 1px solid var(--border-subtle); padding: 32px 0; cursor: pointer;" onclick="this.classList.toggle('open')">
+              <div style="display: flex; justify-content: space-between; align-items: center;">
+                <h3 style="font-size: 1.15rem; font-weight: 600;">What happens if something breaks?</h3>
+                <i class="ri-add-line faq-icon" style="font-size: 1.5rem; color: var(--brand-primary); transition: transform 0.3s; flex-shrink: 0;"></i>
+              </div>
+              <p class="faq-answer" style="margin-top: 20px; color: var(--text-secondary); line-height: 1.7; display: none;">Every system ships with a 30-day support window. We monitor for errors, and you have a direct line to us — not a ticket queue. We also document everything so you understand your own system and aren't dependent on us forever.</p>
+            </div>
+            <div class="faq-item" style="padding: 32px 0; cursor: pointer;" onclick="this.classList.toggle('open')">
+              <div style="display: flex; justify-content: space-between; align-items: center;">
+                <h3 style="font-size: 1.15rem; font-weight: 600;">Do we own the code when it's done?</h3>
+                <i class="ri-add-line faq-icon" style="font-size: 1.5rem; color: var(--brand-primary); transition: transform 0.3s; flex-shrink: 0;"></i>
+              </div>
+              <p class="faq-answer" style="margin-top: 20px; color: var(--text-secondary); line-height: 1.7; display: none;">Yes. Full code ownership, full documentation, full handoff. We don't lock you into a subscription you can't escape. When the project is done, it's yours.</p>
             </div>
           </div>
         </div>
       </div>
     </section>
+
+    <style>
+      .faq-item.open .faq-icon { transform: rotate(45deg); }
+      .faq-item.open .faq-answer { display: block !important; }
+      .tag {
+        font-family: var(--font-mono);
+        font-size: 0.7rem;
+        font-weight: 700;
+        color: var(--brand-primary);
+        background: rgba(93,140,93,0.1);
+        padding: 6px 14px;
+        border-radius: 100px;
+        text-transform: uppercase;
+        letter-spacing: 0.15em;
+      }
+    </style>
 
     <!-- Final CTA Section -->
-    <section style="padding: 120px 0; position: relative; overflow: hidden;">
+    <section style="padding: 120px 0; text-align: center; position: relative; overflow: hidden; background: var(--bg-surface); border-top: 1px solid var(--border-subtle);">
       <div class="atmosphere" style="opacity: 0.3;"></div>
       <div class="container" style="position: relative; z-index: 10;">
-        <div style="max-width: 900px; margin: 0 auto; padding: 80px 60px; background: var(--bg-surface); border: 1px solid var(--brand-primary); border-radius: 32px; box-shadow: 0 0 60px rgba(93,140,93,0.15); text-align: center; position: relative; overflow: hidden;">
-          <div style="position: absolute; inset: 0; background: radial-gradient(circle at 50% 0%, rgba(93,140,93,0.08) 0%, transparent 70%); pointer-events: none;"></div>
-          <div style="position: relative; z-index: 1;">
-            <h2 class="reveal" style="font-family: var(--font-display); font-size: clamp(2rem, 5vw, 3.5rem); font-weight: 900; font-style: italic; margin-bottom: 24px;">
-              <span class="text-gradient">Ready to build both?</span>
-            </h2>
-            <p class="reveal" style="font-size: 1.25rem; color: var(--text-secondary); max-width: 600px; margin: 0 auto 48px; line-height: 1.7;">
-              Book a 30-minute call. We'll audit your workflows and marketing situation, then tell you exactly what to fix first.
-            </p>
-            <div style="display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; margin-bottom: 32px;">
-              <button onclick="openCalendly()" class="btn btn-primary btn-lg btn-magnetic ripple reveal">
-                <span>Schedule Your Free Assessment</span>
-                <i class="ri-send-plane-line"></i>
-              </button>
-              <a href="/services.html" class="btn btn-secondary btn-lg btn-magnetic reveal">
-                <span>View All Services</span>
-                <i class="ri-arrow-right-line"></i>
-              </a>
-            </div>
-            <div style="display: flex; align-items: center; justify-content: center; gap: 32px; flex-wrap: wrap; font-size: 0.9rem; color: var(--text-tertiary);">
-              <span style="display: flex; align-items: center; gap: 6px;"><i class="ri-checkbox-circle-fill" style="color: var(--brand-primary);"></i> 30-minute call</span>
-              <span style="display: flex; align-items: center; gap: 6px;"><i class="ri-checkbox-circle-fill" style="color: var(--brand-primary);"></i> Fixed-price quote</span>
-              <span style="display: flex; align-items: center; gap: 6px;"><i class="ri-checkbox-circle-fill" style="color: var(--brand-primary);"></i> Zero obligation</span>
-              <span style="display: flex; align-items: center; gap: 6px;"><i class="ri-checkbox-circle-fill" style="color: var(--brand-primary);"></i> From $997</span>
-            </div>
-          </div>
-        </div>
+        <h2 class="reveal" style="font-family: var(--font-display); font-size: clamp(2rem, 5vw, 3.5rem); font-weight: 900; font-style: italic; margin-bottom: 24px;">
+          <span class="text-gradient">Ready to reclaim your time?</span>
+        </h2>
+        <p class="reveal" style="font-size: 1.25rem; color: var(--text-secondary); max-width: 700px; margin: 0 auto 48px;">
+          Tell us your biggest operational bottleneck. We'll reply within one business day with an honest assessment of what automation can do for you.
+        </p>
+        <button onclick="openCalendly()" class="btn btn-primary btn-lg btn-magnetic ripple reveal">
+          <span>Book a Free 20-Min Fit Call</span>
+          <i class="ri-send-plane-line"></i>
+        </button>
+        <p style="margin-top: 20px; color: var(--text-tertiary); font-size: 0.9rem;">
+          <i class="ri-shield-check-line"></i> No commitment required &nbsp;•&nbsp; Fixed-price proposals &nbsp;•&nbsp; You own the code
+        </p>
       </div>
     </section>
   </main>
@@ -671,44 +635,32 @@
       <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 64px; margin-bottom: 80px;">
         <div style="grid-column: span 2;">
           <a href="/" class="logo" style="margin-bottom: 24px;">
-            <div class="logo-icon logo-pulse">
-              <img src="assets/brand/logo-5cypress.jpg" alt="5 Cypress Automation Logo" width="52" height="52" loading="lazy">
+            <div class="logo-icon logo-pulse" style="width: 120px; height: 120px;">
+              <img src="assets/brand/logo-5cypress.jpg" alt="5 Cypress Automation Logo">
             </div>
             <div class="logo-text-group">
-              <span class="logo-title text-gradient-special">5 Cypress</span>
+              <span class="logo-title text-gradient-special" style="font-size: 2rem; line-height: 1.2; padding-bottom: 0.15em; margin-bottom: -0.15em;">5 Cypress</span>
               <div class="logo-subtitle">
                 <span>A</span><span>U</span><span>T</span><span>O</span><span>M</span><span>A</span><span>T</span><span>I</span><span>O</span><span>N</span>
               </div>
             </div>
           </a>
           <p style="color: var(--text-secondary); line-height: 1.8; font-size: 1rem; max-width: 400px; margin-bottom: 32px;">
-            We eliminate manual work and build real marketing pipelines for small B2B businesses. Two services. One trusted partner.
+            We automate the busywork so you can focus on growth. Custom workflows built for small teams that need systems they can actually use.
           </p>
           <div style="display: flex; gap: 16px;">
-            <a href="#" class="social-btn" aria-label="LinkedIn"><i class="ri-linkedin-fill"></i></a>
-            <a href="#" class="social-btn" aria-label="Twitter"><i class="ri-twitter-x-fill"></i></a>
             <a href="mailto:info@5cypress.com" class="social-btn" aria-label="Email"><i class="ri-mail-fill"></i></a>
           </div>
         </div>
 
         <div>
-          <h4 class="footer-heading">Automation</h4>
+          <h4 class="footer-heading">Core Services</h4>
           <ul class="footer-links">
             <li><a href="/services.html">Order Processing</a></li>
-            <li><a href="/services.html">Lead Capture &amp; CRM</a></li>
+            <li><a href="/services.html">Lead Capture & CRM</a></li>
             <li><a href="/services.html">Inventory Syncing</a></li>
             <li><a href="/services.html">Invoice Automation</a></li>
             <li><a href="/services.html">Calendar Integration</a></li>
-          </ul>
-        </div>
-
-        <div>
-          <h4 class="footer-heading">Marketing</h4>
-          <ul class="footer-links">
-            <li><a href="/services.html">Strategy &amp; Roadmaps</a></li>
-            <li><a href="/services.html">Email Campaigns</a></li>
-            <li><a href="/services.html">Performance Reports</a></li>
-            <li><a href="/services.html">Social Content</a></li>
           </ul>
         </div>
 
@@ -786,17 +738,14 @@
   </style>
 
   <!-- Scripts -->
-  <!-- dynamics.js: Must load first (non-deferred) — registers global openCalendly, handleVettingSubmit, toggleMobileMenu -->
-  <script src="dynamics.js"></script>
-  
-  <!-- Core premium animations -->
+  <!-- Core dynamics -->
   <script src="dynamics-premium.js" defer></script>
   
   <!-- Touch gestures (mobile) -->
   <script src="touch-gestures.js" defer></script>
   
-  <!-- Calendly Widget -->
-  <script src="https://assets.calendly.com/assets/external/widget.js" type="text/javascript" async></script>
+  <!-- 3D Dashboard (Three.js) -->
+  <script type="module" src="dashboard-3d.js"></script>
   
   <!-- Booking Modal -->
   <div id="bookingModal" class="calendly-modal">
@@ -806,44 +755,48 @@
       </button>
       
       <div class="vetting-form-container" style="padding: 40px;">
-        <h2 class="form-title text-gradient" style="text-align: center; margin-bottom: 10px;">Let's Talk Growth</h2>
+        <h2 class="form-title text-gradient" style="text-align: center; margin-bottom: 10px;">Book a Free Fit Call</h2>
         <p style="text-align: center; color: var(--text-secondary); margin-bottom: 30px;">
-          Tell us about your business and what's slowing you down. Automation, marketing, or both — we'll scope exactly what to build first.
+          Tell us your biggest bottleneck and we'll reply within one business day — no commitment, no hard sell.
         </p>
 
         <form id="vettingForm" onsubmit="handleVettingSubmit(event)">
           <div class="form-group" style="margin-bottom: 20px;">
-            <label class="form-label">Full Name</label>
-            <input type="text" name="name" required placeholder="John Doe" class="form-input">
+            <label style="display: block; color: var(--text-primary); margin-bottom: 8px;">Full Name</label>
+            <input type="text" name="name" required placeholder="John Doe" 
+                   style="width: 100%; padding: 12px; border-radius: 8px; border: 1px solid var(--border-subtle); background: rgba(255,255,255,0.05); color: #fff;">
           </div>
 
           <div class="form-group" style="margin-bottom: 20px;">
-            <label class="form-label">Work Email</label>
-            <input type="email" name="email" required placeholder="john@company.com" class="form-input">
+            <label style="display: block; color: var(--text-primary); margin-bottom: 8px;">Work Email</label>
+            <input type="email" name="email" required placeholder="john@company.com" 
+                   style="width: 100%; padding: 12px; border-radius: 8px; border: 1px solid var(--border-subtle); background: rgba(255,255,255,0.05); color: #fff;">
           </div>
 
           <div class="form-group" style="margin-bottom: 20px;">
-            <label class="form-label">Company Website</label>
-            <input type="text" name="company" placeholder="company.com" class="form-input">
+            <label style="display: block; color: var(--text-primary); margin-bottom: 8px;">Company Website</label>
+            <input type="text" name="company" placeholder="company.com" 
+                   style="width: 100%; padding: 12px; border-radius: 8px; border: 1px solid var(--border-subtle); background: rgba(255,255,255,0.05); color: #fff;">
           </div>
 
           <div class="form-group" style="margin-bottom: 20px;">
-            <label class="form-label">What's your biggest challenge right now?</label>
-            <textarea name="details" required rows="3" placeholder="e.g. Manual order entry is eating our team's time... or We have no marketing strategy and run on referrals..." class="form-input"></textarea>
+            <label style="display: block; color: var(--text-primary); margin-bottom: 8px;">Biggest Manual Bottleneck?</label>
+            <textarea name="details" required rows="3" placeholder="e.g. Copy-pasting leads from email to CRM..." 
+                      style="width: 100%; padding: 12px; border-radius: 8px; border: 1px solid var(--border-subtle); background: rgba(255,255,255,0.05); color: #fff;"></textarea>
           </div>
 
           <div class="form-group" style="margin-bottom: 30px;">
-            <label class="form-label">Target Timeline</label>
-            <select name="timeline" class="form-input">
-              <option value="" disabled selected>When do you want to start?</option>
-              <option value="asap">ASAP (Immediate Need)</option>
-              <option value="1-3_months">1-3 Months (Planning)</option>
-              <option value="exploring">Just Exploring Options</option>
+            <label style="display: block; color: var(--text-primary); margin-bottom: 8px;">Target Timeline</label>
+            <select name="timeline" style="width: 100%; padding: 12px; border-radius: 8px; border: 1px solid var(--border-subtle); background: #000; color: #fff;">
+              <option value="" disabled selected style="background: #000; color: #fff;">When do you want to start?</option>
+              <option value="asap" style="background: #000; color: #fff;">ASAP (Immediate Need)</option>
+              <option value="1-3_months" style="background: #000; color: #fff;">1-3 Months (Planning)</option>
+              <option value="exploring" style="background: #000; color: #fff;">Just Exploring Options</option>
             </select>
           </div>
 
           <button type="submit" class="btn btn-primary btn-block ripple" style="width: 100%; justify-content: center;">
-            <span>Submit Application</span>
+            <span>Send My Details</span>
             <i class="ri-arrow-right-line"></i>
           </button>
           
@@ -853,8 +806,7 @@
     </div>
   </div>
 
-  <!-- Background Paths Animation -->
-  <script src="background-paths.js?v=20260309-paths"></script>
+  <script src="dynamics.js"></script>
 </body>
 </html>
 

@@ -3,8 +3,7 @@
    Bold, Distinctive, Unforgettable
    ============================================ */
 
-/* Google Fonts are loaded via <link> in each page's <head> (with preconnects) for parallel loading.
-   design-system.css is either linked directly in HTML or remains importable from here for non-index pages. */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,700&family=Space+Grotesk:wght@400;500;600;700&family=DM+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
 @import 'design-system.css';
 
 /* ============================================
@@ -34,7 +33,6 @@ body {
   overflow-x: hidden;
   position: relative;
   min-height: 100vh;
-  isolation: isolate;
 }
 
 /* Film Grain Texture */
@@ -49,7 +47,7 @@ body::after {
   mix-blend-mode: overlay;
 }
 
-/* Subtle Grid Pattern — disabled for background-paths integration */
+/* Subtle Grid Pattern */
 body::before {
   content: '';
   position: fixed;
@@ -63,94 +61,9 @@ body::before {
   -webkit-mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, black 30%, transparent 80%);
   pointer-events: none;
   z-index: 0;
-  display: none; /* Hidden for animated SVG background */
 }
 
-/* ============================================
-   ANIMATED BACKGROUND PATHS
-   SVG floating path lines — full-screen overlay (index.html)
-   ============================================ */
-.background-paths-container {
-  position: fixed;
-  inset: 0;
-  z-index: 1;
-  pointer-events: none;
-  overflow: hidden;
-  opacity: 1;
-  mix-blend-mode: screen;
-  background:
-    radial-gradient(circle at 20% 18%, rgba(93, 140, 93, 0.12) 0%, transparent 28%),
-    radial-gradient(circle at 80% 22%, rgba(255, 255, 255, 0.08) 0%, transparent 22%),
-    radial-gradient(circle at 50% 72%, rgba(93, 140, 93, 0.10) 0%, transparent 30%);
-  animation: bp-fade-in 2s ease forwards;
-}
-
-.background-paths-container::before {
-  content: '';
-  position: absolute;
-  inset: -10%;
-  background:
-    radial-gradient(circle at 20% 20%, rgba(93, 140, 93, 0.26) 0%, transparent 32%),
-    radial-gradient(circle at 80% 24%, rgba(255, 255, 255, 0.16) 0%, transparent 26%),
-    radial-gradient(circle at 50% 75%, rgba(93, 140, 93, 0.22) 0%, transparent 34%);
-  filter: blur(54px);
-  opacity: 1;
-  animation: bp-glow-drift 14s ease-in-out infinite alternate;
-}
-
-.background-paths-container::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background-image:
-    linear-gradient(rgba(255, 255, 255, 0.025) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.025) 1px, transparent 1px);
-  background-size: 140px 140px;
-  opacity: 0.32;
-  animation: bp-grid-shift 24s linear infinite;
-}
-
-@keyframes bp-fade-in {
-  from { opacity: 0; }
-  to   { opacity: 1; }
-}
-
-@keyframes bp-glow-drift {
-  0% { transform: translate3d(-2%, -1%, 0) scale(1); }
-  100% { transform: translate3d(2%, 1.5%, 0) scale(1.06); }
-}
-
-@keyframes bp-grid-shift {
-  from { transform: translate3d(0, 0, 0); }
-  to { transform: translate3d(-70px, -70px, 0); }
-}
-
-/* Each SVG covers the full container */
-.bp-svg {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  color: rgba(255, 255, 255, 0.95);
-  transform: scale(1.08);
-  opacity: 1;
-}
-
-.bp-svg path {
-  filter: drop-shadow(0 0 12px rgba(255, 255, 255, 0.28));
-}
-
-.navbar,
-main,
-.mobile-menu {
-  position: relative;
-  z-index: 2;
-}
-
-/* ============================================
-   ATMOSPHERIC GRADIENT MESH
-   Legacy background used on inner pages + sections
-   ============================================ */
+/* Atmospheric Gradient Mesh */
 .atmosphere {
   position: fixed;
   inset: 0;
@@ -249,22 +162,16 @@ a:hover {
    ============================================ */
 
 .container {
-  max-width: 1440px;
+  max-width: var(--container-max);
   margin: 0 auto;
-  padding: 0 clamp(20px, 4.5vw, 72px);
+  padding: 0 var(--space-12);
   position: relative;
   z-index: var(--z-base);
 }
 
-@media (max-width: 1024px) {
-  .container {
-    padding: 0 clamp(18px, 3.5vw, 40px);
-  }
-}
-
 @media (max-width: 768px) {
   .container {
-    padding: 0 clamp(16px, 5vw, 24px);
+    padding: 0 var(--space-6);
   }
 }
 
@@ -329,18 +236,18 @@ section {
 }
 
 .logo-icon {
-  width: 52px; 
-  height: 52px; 
+  width: 140px; 
+  height: 140px; 
   display: flex; 
   align-items: center; 
   justify-content: center;
   overflow: hidden; 
   padding: 0;
   border-radius: 50%;
-  border: 2px solid var(--border-medium);
+  border: 4px solid var(--border-subtle);
   transition: all var(--duration-slow) var(--ease-out);
   background: var(--bg-void);
-  box-shadow: var(--shadow-md);
+  box-shadow: var(--shadow-xl);
 }
 
 .logo-pulse {
@@ -360,8 +267,8 @@ section {
 }
 
 .navbar.scrolled .logo-icon {
-  width: 40px;
-  height: 40px;
+  width: 64px;
+  height: 64px;
   border-width: 2px;
 }
 
@@ -373,40 +280,56 @@ section {
 
 .logo-title {
   font-family: var(--font-heading);
-  font-size: 1.6rem;
+  font-size: 3.5rem; /* Reduced from 4.5rem for better balance */
   font-weight: var(--weight-black);
   letter-spacing: var(--tracking-tighter);
-  line-height: 1.1;
+  line-height: 1.1; /* Increased from 0.85 to prevent clipping */
   padding-bottom: 0.1em;
   transition: all var(--duration-slow) var(--ease-out);
   background: linear-gradient(135deg, #fff 0%, var(--brand-accent) 50%, #fff 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  background-clip: text;
-  filter: drop-shadow(0 0 20px rgba(251, 191, 36, 0.2));
+  filter: drop-shadow(0 0 30px rgba(251, 191, 36, 0.2));
 }
 
 .navbar.scrolled .logo-title {
-  font-size: 1.35rem;
+  font-size: 2rem;
 }
 
-/* Single canonical .logo-subtitle definition */
 .logo-subtitle {
   display: flex;
   justify-content: space-between;
   width: 100%;
   font-family: var(--font-mono);
-  font-size: 0.55rem;
-  font-weight: var(--weight-semibold);
+  font-size: 1.1rem;
+  font-weight: var(--weight-bold);
+  text-transform: uppercase;
+  letter-spacing: 0.6em;
   color: var(--brand-primary);
-  letter-spacing: 0.45em;
+  margin-top: var(--space-2);
+}
+
+.navbar.scrolled .logo-subtitle {
+  font-size: 0.7rem;
+  letter-spacing: 0.3em;
+  margin-top: 0;
+}
+
+.logo-subtitle {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  font-weight: var(--weight-semibold);
+  color: var(--text-tertiary);
+  letter-spacing: var(--tracking-widest);
   text-transform: uppercase;
   transition: all var(--duration-slow) var(--ease-out);
 }
 
 .navbar.scrolled .logo-subtitle {
-  font-size: 0.45rem;
-  letter-spacing: 0.3em;
+  font-size: 0.5rem;
 }
 
 .logo-subtitle span {
@@ -1303,23 +1226,60 @@ section {
   height: 100%;
 }
 
+.calendly-spinner {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 40px;
+  height: 40px;
+  border: 3px solid rgba(135, 179, 135, 0.1);
+  border-top-color: var(--brand-primary);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: translate(-50%, -50%) rotate(360deg); }
+}
 /* ============================================
-   BOOKING MODAL — entrance animations only
+   CALENDLY MODAL SYSTEM
    ============================================ */
+
+.calendly-modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: rgba(10, 10, 12, 0.95);
+  backdrop-filter: blur(12px);
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  animation: fadeIn 0.3s ease-out;
+}
 
 @keyframes fadeIn {
   from { opacity: 0; }
-  to   { opacity: 1; }
+  to { opacity: 1; }
+}
+
+.calendly-modal-content {
+  background: var(--bg-surface);
+  width: 100%;
+  max-width: 1000px;
+  height: 90vh;
+  border-radius: var(--radius-2xl);
+  border: 1px solid var(--border-subtle);
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 40px 100px rgba(0,0,0,0.8);
+  transform: translateY(20px);
+  animation: slideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
 @keyframes slideUp {
-  from { transform: translateY(24px); opacity: 0; }
-  to   { transform: translateY(0);    opacity: 1; }
-}
-
-/* Active modal gets entrance animation on the content pane only */
-.calendly-modal.active .calendly-modal-content {
-  animation: slideUp 0.35s cubic-bezier(0.16, 1, 0.3, 1) both;
+  to { transform: translateY(0); }
 }
 
 .calendly-close {
@@ -1352,308 +1312,20 @@ section {
   background: transparent;
 }
 
-/* Ensure buttons are safe positioning parents for ripple spans */
-.btn {
-  position: relative;
-  overflow: hidden;
-}
-
-/* ============================================
-   FORM INPUTS — Global consistent styles
-   ============================================ */
-
-.form-input,
-input[type="text"].form-input,
-input[type="email"].form-input,
-input[type="tel"].form-input,
-textarea.form-input,
-select.form-input {
-  width: 100%;
-  padding: 14px 16px;
-  border-radius: var(--radius-md);
-  border: 1px solid var(--border-medium);
-  background: rgba(255, 255, 255, 0.04);
-  color: var(--text-primary);
-  font-family: var(--font-body);
-  font-size: var(--text-base);
-  line-height: 1.5;
-  transition: border-color var(--duration-fast) var(--ease-out),
-              background var(--duration-fast) var(--ease-out),
-              box-shadow var(--duration-fast) var(--ease-out);
-  -webkit-appearance: none;
-  appearance: none;
-  outline: none;
-}
-
-.form-input::placeholder {
-  color: var(--text-disabled);
-}
-
-.form-input:hover {
-  border-color: var(--border-strong);
-  background: rgba(255, 255, 255, 0.06);
-}
-
-.form-input:focus {
-  border-color: var(--brand-primary);
-  background: rgba(93, 140, 93, 0.06);
-  box-shadow: 0 0 0 3px rgba(93, 140, 93, 0.15);
-}
-
-.form-input:focus-visible {
-  outline: none;
-}
-
-select.form-input {
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%235D8C5D' stroke-width='2' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
-  background-repeat: no-repeat;
-  background-position: right 16px center;
-  padding-right: 44px;
-  cursor: pointer;
-}
-
-select.form-input option {
-  background: var(--bg-surface);
-  color: var(--text-primary);
-}
-
-textarea.form-input {
-  resize: vertical;
-  min-height: 100px;
-}
-
-/* Form labels */
-.form-label {
-  display: block;
-  color: var(--text-secondary);
-  font-size: var(--text-sm);
-  font-weight: var(--weight-semibold);
-  margin-bottom: var(--space-2);
-  letter-spacing: var(--tracking-wide);
-}
-
-/* Form group spacing */
-.form-group {
-  margin-bottom: var(--space-6);
-}
-
-/* ============================================
-   MOBILE MENU CLOSE BUTTON
-   ============================================ */
-
-.mobile-menu-close {
+.calendly-spinner {
   position: absolute;
-  top: var(--space-6);
-  right: var(--space-6);
-  width: 44px;
-  height: 44px;
-  border-radius: var(--radius-md);
-  background: var(--bg-surface-hover);
-  border: 1px solid var(--border-subtle);
-  color: var(--text-primary);
-  font-size: 1.5rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: all var(--duration-fast) var(--ease-out);
-}
-
-.mobile-menu-close:hover {
-  background: var(--brand-primary);
-  color: var(--bg-void);
-  border-color: var(--brand-primary);
-}
-
-/* mobile-link active state */
-.mobile-link.active {
-  color: var(--brand-primary);
-  background: rgba(93, 140, 93, 0.08);
-}
-
-/* ============================================
-   SKIP TO CONTENT (Accessibility)
-   ============================================ */
-
-.skip-to-content {
-  position: fixed;
-  top: -100px;
-  left: var(--space-6);
-  z-index: 9999;
-  padding: var(--space-3) var(--space-6);
-  background: var(--brand-primary);
-  color: var(--bg-void);
-  font-weight: var(--weight-bold);
-  border-radius: var(--radius-md);
-  transition: top var(--duration-fast) var(--ease-out);
-}
-
-.skip-to-content:focus {
-  top: var(--space-6);
-}
-
-/* ============================================
-   TAG / BADGE COMPONENTS
-   ============================================ */
-
-.tag {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--space-2);
-  padding: var(--space-2) var(--space-4);
-  border-radius: var(--radius-full);
-  font-family: var(--font-mono);
-  font-size: var(--text-xs);
-  font-weight: var(--weight-bold);
-  text-transform: uppercase;
-  letter-spacing: var(--tracking-wider);
-  color: var(--brand-primary);
-  background: rgba(93, 140, 93, 0.12);
-  border: 1px solid rgba(93, 140, 93, 0.25);
-}
-
-.tag-live {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--space-2);
-  padding: var(--space-1) var(--space-3);
-  border-radius: var(--radius-full);
-  font-family: var(--font-mono);
-  font-size: var(--text-xs);
-  font-weight: var(--weight-bold);
-  text-transform: uppercase;
-  letter-spacing: var(--tracking-wider);
-  color: var(--success);
-  background: var(--success-bg);
-  border: 1px solid rgba(16, 185, 129, 0.25);
-}
-
-.tag-live::before {
-  content: '';
-  width: 6px;
-  height: 6px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 40px;
+  height: 40px;
+  border: 3px solid rgba(135, 179, 135, 0.1);
+  border-top-color: var(--brand-primary);
   border-radius: 50%;
-  background: var(--success);
-  animation: pulse 2s ease-in-out infinite;
+  animation: spin 1s linear infinite;
 }
 
-@keyframes pulse {
-  0%, 100% { opacity: 1; transform: scale(1); }
-  50% { opacity: 0.5; transform: scale(0.8); }
+@keyframes spin {
+  to { transform: translate(-50%, -50%) rotate(360deg); }
 }
 
-/* ============================================
-   RIPPLE EFFECT
-   ============================================ */
-
-.ripple {
-  position: relative;
-  overflow: hidden;
-}
-
-.ripple::after {
-  content: '';
-  position: absolute;
-  width: 100px;
-  height: 100px;
-  background: rgba(255, 255, 255, 0.2);
-  border-radius: 50%;
-  transform: scale(0);
-  opacity: 0;
-  pointer-events: none;
-  top: var(--ripple-y, 50%);
-  left: var(--ripple-x, 50%);
-  translate: -50% -50%;
-}
-
-.ripple:active::after {
-  animation: rippleAnim 0.4s ease-out;
-}
-
-@keyframes rippleAnim {
-  from { transform: scale(0); opacity: 1; }
-  to { transform: scale(3); opacity: 0; }
-}
-
-/* ============================================
-   REVEAL ANIMATION
-   ============================================ */
-
-.reveal {
-  opacity: 0;
-  transform: translateY(24px);
-  transition: opacity var(--duration-slower) var(--ease-out),
-              transform var(--duration-slower) var(--ease-out);
-}
-
-.reveal.visible {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-/* ============================================
-   GLASS MODULE
-   ============================================ */
-
-.glass-module {
-  background: var(--bg-glass);
-  backdrop-filter: var(--backdrop-glass);
-  border: 1px solid var(--border-subtle);
-}
-
-/* ============================================
-   FOOTER — Shared styles kept in one place
-   ============================================ */
-
-.footer-heading {
-  font-size: 0.8rem;
-  font-weight: var(--weight-extrabold);
-  text-transform: uppercase;
-  letter-spacing: 0.15em;
-  color: var(--brand-primary);
-  margin-bottom: 24px;
-}
-
-.footer-links {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-}
-
-.footer-links a {
-  color: var(--text-tertiary);
-  font-size: 0.95rem;
-  font-weight: var(--weight-medium);
-  transition: all var(--duration-normal) var(--ease-out);
-  display: inline-block;
-}
-
-.footer-links a:hover {
-  color: var(--text-primary);
-  transform: translateX(4px);
-}
-
-.social-btn {
-  width: 44px;
-  height: 44px;
-  border-radius: var(--radius-md);
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid var(--border-subtle);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--text-secondary);
-  font-size: 1.25rem;
-  transition: all var(--duration-normal) var(--ease-out);
-  flex-shrink: 0;
-}
-
-.social-btn:hover {
-  border-color: var(--brand-primary);
-  color: var(--brand-primary);
-  background: rgba(93, 140, 93, 0.1);
-  transform: translateY(-3px);
-}

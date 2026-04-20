@@ -91,7 +91,7 @@ Format: `INV-YYYYMMDD-XXX`
 
 ## Email Template
 
-**Subject:** Invoice #{invoice_number} from 5 Cypress Automation
+**Subject:** Invoice #{invoice_number} from 5 Cypress Labs
 
 ```
 Hi {first_name},
@@ -109,10 +109,10 @@ Or pay via:
 
 If you have any questions regarding this invoice or the associated deliverables, please reply directly to this thread.
 
-Thank you for partnering with 5 Cypress Automation.
+Thank you for partnering with 5 Cypress Labs.
 
 Best,
-The 5 Cypress Automation Team
+The 5 Cypress Labs Team
 ```
 
 ## Payment Tracking

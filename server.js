@@ -8,6 +8,8 @@
  *   routes/api-leads.js     — /api/lead-capture, /api/leads, /api/webhooks/*, /api/contact, /submit-inquiry
  *   routes/api-seo.js       — /api/seo/* (analyze, report, checkout, config)
  *   routes/api-skills.js    — /api/skills
+ *   routes/api-gigclock.js  — /api/gigclock/* (GigClock time tracking SaaS)
+ *   routes/gigclock-pages.js — /gigclock/c/:shareToken (server-rendered client view)
  */
 'use strict';
 
@@ -29,7 +31,9 @@ const adminRouter     = require('./routes/admin');
 const dashboardRouter = require('./routes/api-dashboard');
 const leadsRouter     = require('./routes/api-leads');
 const seoRouter       = require('./routes/api-seo');
-const skillsRouter    = require('./routes/api-skills');
+const skillsRouter      = require('./routes/api-skills');
+const gigclockApiRouter = require('./routes/api-gigclock');
+const gigclockPagesRouter = require('./routes/gigclock-pages');
 
 // Stripe (optional)
 let stripe;
@@ -83,13 +87,15 @@ app.use(express.static('public'));
 app.use(morgan(':remote-addr - :remote-user [:date[clf]] ":method :url HTTP/:http-version" :status :res[content-length] ":referrer" ":user-agent" - :response-time ms'));
 
 // Route mounting (specific prefixes first, catch-all pages router last)
-app.use('/admin',      adminAuth, adminRouter);
-app.use('/api/seo',    seoRouter);
-app.use('/api',        leadsRouter);
-app.use('/api',        dashboardRouter);
+app.use('/admin',          adminAuth, adminRouter);
+app.use('/api/seo',        seoRouter);
+app.use('/api/gigclock',   gigclockApiRouter);   // GigClock time tracking SaaS
+app.use('/api',            leadsRouter);
+app.use('/api',            dashboardRouter);
 // Skills: GET /api/skills is public; POST /api/skills/:id/run is admin-only (enforced in router)
-app.use('/api/skills', skillsRouter);
-app.use('/',           pagesRouter);
+app.use('/api/skills',     skillsRouter);
+app.use('/gigclock',       gigclockPagesRouter); // GigClock server-rendered client views
+app.use('/',               pagesRouter);
 
 // Start server
 const PORT   = process.env.PORT || 3000;

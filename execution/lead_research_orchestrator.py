@@ -11,16 +11,6 @@ Usage:
         --output-sheet leads_sheet_id
 """
 
-# ============================================================
-# SCRIPT_STATUS: PLACEHOLDER
-# REASON: search_leads() returns 50 generated mock leads.
-#         Real implementation replaces _generate_mock_leads()
-#         with an aitmpl Search Specialist API call.
-#         export_to_sheets() also needs Google Sheets API.
-# BLOCKS:  DataForSEO / aitmpl creds + Google Sheets OAuth
-# OWNER:   @nick
-# ============================================================
-
 import json
 import os
 from datetime import datetime

@@ -48,7 +48,6 @@ let lastScrollY = window.scrollY;
 const navbar = document.querySelector('.navbar');
 
 const updateNavbar = () => {
-  if (!navbar) return; // guard: navbar may not exist on every page
   const currentScrollY = window.scrollY;
   
   // Add/remove scrolled class
@@ -76,7 +75,6 @@ window.addEventListener('scroll', updateNavbar);
 
 window.toggleMobileMenu = () => {
   const mobileMenu = document.getElementById('mobileMenu');
-  if (!mobileMenu) return; // guard: menu may not exist on every page
   const body = document.body;
   
   if (mobileMenu.classList.contains('active')) {
@@ -90,7 +88,6 @@ window.toggleMobileMenu = () => {
 
 window.closeMobileMenu = () => {
   const mobileMenu = document.getElementById('mobileMenu');
-  if (!mobileMenu) return; // guard: menu may not exist on every page
   mobileMenu.classList.remove('active');
   document.body.style.overflow = '';
 };
@@ -137,10 +134,7 @@ document.querySelectorAll('.reveal, [data-reveal]').forEach((el) => {
 // MAGNETIC BUTTON EFFECT
 // ===================================
 
-// Magnetic effect only on elements explicitly marked .btn-magnetic
-// Removing .btn-primary from this selector prevents transform-based click
-// hit-box drift that silently swallows clicks on some browsers / zoom levels.
-const magneticButtons = document.querySelectorAll('.btn-magnetic');
+const magneticButtons = document.querySelectorAll('.btn-magnetic, .btn-primary');
 
 magneticButtons.forEach(button => {
   button.addEventListener('mousemove', (e) => {
@@ -148,20 +142,15 @@ magneticButtons.forEach(button => {
     const x = e.clientX - rect.left - rect.width / 2;
     const y = e.clientY - rect.top - rect.height / 2;
     
-    // Limit effect to 8px — tight enough to look premium, safe for click area
-    const moveX = clamp(x * 0.15, -8, 8);
-    const moveY = clamp(y * 0.15, -8, 8);
+    // Limit the effect to 20px movement
+    const moveX = clamp(x * 0.3, -20, 20);
+    const moveY = clamp(y * 0.3, -20, 20);
     
-    button.style.transform = `translate(${moveX}px, ${moveY}px)`;
+    button.style.transform = `translate(${moveX}px, ${moveY}px) scale(1.02)`;
   });
   
-  // Reset immediately on mousedown so click always lands on the real element
-  button.addEventListener('mousedown', () => {
-    button.style.transform = 'translate(0, 0)';
-  });
-
   button.addEventListener('mouseleave', () => {
-    button.style.transform = 'translate(0, 0)';
+    button.style.transform = 'translate(0, 0) scale(1)';
   });
 });
 
