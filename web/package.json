@@ -1,0 +1,15 @@
+{
+  "name": "5cypress-web",
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "astro dev --host",
+    "build": "astro build",
+    "preview": "astro preview",
+    "check": "astro check"
+  },
+  "dependencies": {
+    "astro": "^5.7.0",
+    "@astrojs/sitemap": "^3.2.1"
+  }
+}

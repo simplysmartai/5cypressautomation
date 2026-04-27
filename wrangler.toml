@@ -1,7 +1,8 @@
 name = "5cypress"
 
 # Cloudflare Pages configuration
-pages_build_output_dir = "public"
+# Output dir is the Astro static build — run `cd web && npm run build` to regenerate.
+pages_build_output_dir = "web/dist"
 
 # Note: Cron triggers (_scheduled.js) are not supported in Pages directly.
 # To enable scheduled skills, deploy _scheduled.js as a separate Cloudflare Worker.

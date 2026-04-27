@@ -1,0 +1,13 @@
+# Cloudflare Pages _redirects
+# https://developers.cloudflare.com/pages/configuration/redirects/
+
+# Legacy HTML pages → clean URLs
+/services.html         /services             301
+/about.html            /about                301
+/contact.html          /                     301
+
+# API calls pass through to the Express origin (handled by wrangler.toml proxy / Pages Function)
+# These are no-ops in static mode; Express handles /api/* directly.
+
+# Catch-all 404 → Astro 404 page
+/*   /404   404

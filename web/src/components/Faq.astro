@@ -1,0 +1,145 @@
+---
+/**
+ * Faq.astro — Accordion FAQ with optional FAQPage JSON-LD
+ */
+interface FaqItem {
+  question: string;
+  answer: string;
+}
+interface Props {
+  items: FaqItem[];
+  includeLdJson?: boolean;
+}
+const { items, includeLdJson = false } = Astro.props;
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: items.map((item) => ({
+    '@type': 'Question',
+    name: item.question,
+    acceptedAnswer: {
+      '@type': 'Answer',
+      text: item.answer,
+    },
+  })),
+};
+---
+
+{includeLdJson && (
+  <script type="application/ld+json" set:html={JSON.stringify(schema)} />
+)}
+
+<div class="faq-list" role="list">
+  {items.map((item, i) => (
+    <div class="faq-item" role="listitem">
+      <button
+        class="faq-question"
+        aria-expanded="false"
+        aria-controls={`faq-answer-${i}`}
+        id={`faq-btn-${i}`}
+      >
+        <span>{item.question}</span>
+        <svg class="faq-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <path d="M6 9l6 6 6-6"/>
+        </svg>
+      </button>
+      <div
+        class="faq-answer"
+        id={`faq-answer-${i}`}
+        role="region"
+        aria-labelledby={`faq-btn-${i}`}
+      >
+        <div class="faq-answer-inner">
+          <p>{item.answer}</p>
+        </div>
+      </div>
+    </div>
+  ))}
+</div>
+
+<script>
+  document.querySelectorAll<HTMLButtonElement>('.faq-question').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const isOpen   = btn.getAttribute('aria-expanded') === 'true';
+      const answerId = btn.getAttribute('aria-controls')!;
+      const answer   = document.getElementById(answerId)!;
+
+      // Close all
+      document.querySelectorAll('.faq-question').forEach((b) => {
+        b.setAttribute('aria-expanded', 'false');
+        b.closest('.faq-item')?.classList.remove('is-open');
+      });
+      document.querySelectorAll('.faq-answer').forEach((a) => {
+        (a as HTMLElement).style.maxHeight = '';
+      });
+
+      // Toggle clicked
+      if (!isOpen) {
+        btn.setAttribute('aria-expanded', 'true');
+        btn.closest('.faq-item')?.classList.add('is-open');
+        answer.style.maxHeight = answer.scrollHeight + 'px';
+      }
+    });
+  });
+</script>
+
+<style>
+  .faq-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-xl);
+    overflow: hidden;
+  }
+
+  .faq-item {
+    border-bottom: 1px solid var(--border-subtle);
+  }
+  .faq-item:last-child { border-bottom: none; }
+
+  .faq-question {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-6);
+    padding: var(--space-6) var(--space-8);
+    text-align: left;
+    font-family: var(--font-heading);
+    font-size: var(--text-base);
+    font-weight: var(--weight-semibold);
+    color: var(--text-primary);
+    background: var(--bg-surface);
+    cursor: pointer;
+    transition: background var(--duration-fast);
+  }
+  .faq-question:hover { background: var(--bg-surface-hover); }
+
+  .faq-icon {
+    flex-shrink: 0;
+    color: var(--text-tertiary);
+    transition: transform var(--duration-normal) var(--ease-out), color var(--duration-fast);
+  }
+  .faq-item.is-open .faq-icon {
+    transform: rotate(180deg);
+    color: var(--brand-primary);
+  }
+
+  .faq-answer {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height var(--duration-slow) var(--ease-out);
+  }
+
+  .faq-answer-inner {
+    padding: 0 var(--space-8) var(--space-6);
+    background: var(--bg-surface);
+  }
+  .faq-answer-inner p {
+    font-size: var(--text-sm);
+    color: var(--text-secondary);
+    line-height: var(--leading-relaxed);
+  }
+</style>

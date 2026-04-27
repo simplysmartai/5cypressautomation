@@ -1,0 +1,13 @@
+---
+/**
+ * JsonLd.astro — Structured data injector
+ * Usage: <JsonLd schema={schemaObject} />
+ * Place inside <slot name="head"> in Layout.
+ */
+interface Props {
+  schema: Record<string, unknown> | Record<string, unknown>[];
+}
+const { schema } = Astro.props;
+---
+
+<script type="application/ld+json" set:html={JSON.stringify(schema)} />

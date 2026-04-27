@@ -185,26 +185,54 @@ router.post('/contact', [
   body('details').optional().trim().isLength({ max: 2000 }),
   body('company').optional().trim().isLength({ max: 200 }).escape(),
   body('timeline').optional().trim().escape()
-], (req, res) => {
+], async (req, res) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) return res.status(400).json({ errors: errors.array() });
 
   const { name, email, website, source, scanned_domain, challenge, details, company, timeline } = req.body;
-  const db = req.app.get('db');
 
+  // Honeypot: website field should always be blank (filled only by bots)
+  if (website) {
+    console.warn(`[CONTACT] Honeypot triggered by ${email}`);
+    return res.json({ success: true, message: "We'll be in touch within one business day." });
+  }
+
+  // Dedup: block repeated submissions from the same address within 1 hour
+  if (isDuplicateSubmission(email)) {
+    console.log(`[CONTACT] Duplicate from ${email} — blocked`);
+    return res.status(429).json({ success: false, message: "We already have your inquiry. We'll be in touch shortly." });
+  }
+
+  // Spam guard
+  const combinedDetails = challenge || details || '';
+  const spamCheck = isSpam({ name, company, details: combinedDetails });
+  if (spamCheck.flagged) {
+    console.warn(`[CONTACT] SPAM: ${email} — ${spamCheck.reason}`);
+    return res.json({ success: true, message: "We'll be in touch within one business day." });
+  }
+
+  const db = req.app.get('db');
+  let leadId;
   try {
-    db.prepare(`
+    const info = db.prepare(`
       INSERT INTO leads (name, email, company, website, source, scanned_domain, challenge, timeline)
       VALUES (?, ?, ?, ?, ?, ?, ?, ?)
     `).run(
-      name, email, company || null, website || null, source || null,
-      scanned_domain || null, (challenge || details) || null, timeline || null
+      name, email, company || null, null, source || 'website', scanned_domain || null,
+      combinedDetails || null, timeline || null
     );
+    leadId = info.lastInsertRowid;
+    recentSubmissions.set(email, Date.now());
   } catch (dbErr) {
-    console.error('[CONTACT] Lead DB log failed (non-fatal):', dbErr.message);
+    console.error('[CONTACT] DB insert failed:', dbErr.message);
+    return res.status(500).json({ error: 'Failed to save' });
   }
 
-  console.log(`[LEAD] ${name} <${email}> from ${source || 'website'} @ ${new Date().toISOString()}`);
+  notifyTeamOfLead({ name, email, company, details: combinedDetails, timeline }).catch(err => {
+    console.error('[CONTACT] Email notification failed:', err.message);
+  });
+
+  console.log(`[CONTACT] NEW #${leadId}: ${name} <${email}> from ${source || 'website'} @ ${new Date().toISOString()}`);
   res.json({ success: true, message: "We'll be in touch within one business day." });
 });
 

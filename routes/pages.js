@@ -47,7 +47,7 @@ router.get('*', (req, res, next) => {
   const cleanPath = req.path.replace(/\/$/, '') || '/index';
   const htmlFile = path.join(ROOT, 'public', cleanPath + '.html');
   if (fs.existsSync(htmlFile)) return res.sendFile(htmlFile);
-  res.status(404).sendFile(path.join(ROOT, 'public', 'index.html'));
+  res.status(404).json({ error: 'Not found' });
 });
 
 module.exports = router;

@@ -1,0 +1,329 @@
+---
+/**
+ * BookingModal.astro — Single booking/contact modal.
+ * Opened by any element with data-open-booking attribute.
+ * Submits to /api/contact (proxied to Express in dev).
+ */
+---
+
+<div
+  class="modal-backdrop"
+  id="booking-modal"
+  role="dialog"
+  aria-modal="true"
+  aria-labelledby="modal-title"
+>
+  <div class="modal-panel">
+
+    <button class="modal-close" id="modal-close" aria-label="Close">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+        <path d="M18 6L6 18M6 6l12 12"/>
+      </svg>
+    </button>
+
+    <div class="modal-header">
+      <p class="lead-in">20-Minute Fit Call</p>
+      <h2 id="modal-title">Let's see if we're a fit</h2>
+      <p class="modal-subtitle">
+        Tell us about your firm. We'll reach out within one business day to schedule a quick call — no obligation, no pitch decks.
+      </p>
+    </div>
+
+    <form class="booking-form" id="booking-form" novalidate>
+      <div class="form-row">
+        <div class="form-group">
+          <label for="bf-name">Your name <span aria-hidden="true">*</span></label>
+          <input
+            type="text"
+            id="bf-name"
+            name="name"
+            autocomplete="name"
+            placeholder="Jane Smith"
+            required
+          />
+        </div>
+        <div class="form-group">
+          <label for="bf-email">Work email <span aria-hidden="true">*</span></label>
+          <input
+            type="email"
+            id="bf-email"
+            name="email"
+            autocomplete="email"
+            placeholder="jane@smithcpa.com"
+            required
+          />
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="bf-company">Firm name <span aria-hidden="true">*</span></label>
+        <input
+          type="text"
+          id="bf-company"
+          name="company"
+          autocomplete="organization"
+          placeholder="Smith CPA Group"
+          required
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="bf-challenge">Biggest manual bottleneck right now</label>
+        <select id="bf-challenge" name="challenge">
+          <option value="">Select one…</option>
+          <option value="month-end-close">Month-end close packets take too long</option>
+          <option value="onboarding">New client onboarding is manual &amp; slow</option>
+          <option value="doc-intake">Tax season document chaos</option>
+          <option value="reporting">No real-time KPI visibility for partners</option>
+          <option value="missed-leads">Missing after-hours calls and leads</option>
+          <option value="other">Something else</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="bf-timeline">Timeline to move forward</label>
+        <select id="bf-timeline" name="timeline">
+          <option value="">Select one…</option>
+          <option value="asap">ASAP — ready to start</option>
+          <option value="1month">Within 1 month</option>
+          <option value="quarter">This quarter</option>
+          <option value="exploring">Just exploring for now</option>
+        </select>
+      </div>
+
+      <!-- Honeypot for spam prevention -->
+      <div class="visually-hidden" aria-hidden="true">
+        <label for="bf-website">Leave blank</label>
+        <input type="text" id="bf-website" name="website" tabindex="-1" autocomplete="off" />
+      </div>
+
+      <div class="form-submit-row">
+        <button type="submit" class="btn btn-primary btn-lg btn-block" data-ripple id="booking-submit">
+          <span>Request my fit call</span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+            <path d="M7 17L17 7M17 7H7M17 7v10"/>
+          </svg>
+        </button>
+      </div>
+
+      <div class="form-status" id="form-status" role="alert" aria-live="polite"></div>
+    </form>
+
+  </div>
+</div>
+
+<script>
+  const modal     = document.getElementById('booking-modal')!;
+  const closeBtn  = document.getElementById('modal-close')!;
+  const form      = document.getElementById('booking-form') as HTMLFormElement;
+  const statusEl  = document.getElementById('form-status')!;
+  const submitBtn = document.getElementById('booking-submit')!;
+
+  function closeModal() {
+    modal.classList.remove('is-open');
+    document.body.style.overflow = '';
+  }
+
+  closeBtn.addEventListener('click', closeModal);
+  modal.addEventListener('click', (e) => {
+    if (e.target === modal) closeModal();
+  });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && modal.classList.contains('is-open')) closeModal();
+  });
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const data = Object.fromEntries(new FormData(form));
+
+    // Honeypot check
+    if (data.website) return;
+
+    submitBtn.setAttribute('disabled', 'true');
+    submitBtn.querySelector('span')!.textContent = 'Sending…';
+    statusEl.textContent = '';
+    statusEl.className = 'form-status';
+
+    try {
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+      });
+
+      if (res.ok) {
+        statusEl.textContent = "You're all set! We'll be in touch within one business day.";
+        statusEl.classList.add('form-status--success');
+        form.reset();
+        setTimeout(closeModal, 3500);
+      } else {
+        throw new Error('Server error');
+      }
+    } catch {
+      statusEl.textContent = 'Something went wrong. Email us directly at nick@5cypress.com';
+      statusEl.classList.add('form-status--error');
+      submitBtn.removeAttribute('disabled');
+      submitBtn.querySelector('span')!.textContent = 'Request my fit call';
+    }
+  });
+</script>
+
+<style>
+  /* ── Backdrop ─────────────────────────────────────────────── */
+  .modal-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: var(--z-modal-backdrop);
+    background: rgba(0, 0, 0, 0.75);
+    backdrop-filter: var(--backdrop-glass);
+    -webkit-backdrop-filter: var(--backdrop-glass);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--space-6);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity var(--duration-normal) var(--ease-in-out);
+  }
+  .modal-backdrop.is-open {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  /* ── Panel ────────────────────────────────────────────────── */
+  .modal-panel {
+    position: relative;
+    background: var(--bg-surface);
+    border: 1px solid var(--border-medium);
+    border-radius: var(--radius-2xl);
+    padding: var(--space-10);
+    width: 100%;
+    max-width: 600px;
+    max-height: 92dvh;
+    overflow-y: auto;
+    transform: translateY(20px) scale(0.98);
+    transition:
+      transform var(--duration-normal) var(--ease-out),
+      opacity var(--duration-normal) var(--ease-out);
+  }
+  .modal-backdrop.is-open .modal-panel {
+    transform: translateY(0) scale(1);
+  }
+
+  .modal-close {
+    position: absolute;
+    top: var(--space-5);
+    right: var(--space-5);
+    color: var(--text-tertiary);
+    padding: var(--space-2);
+    border-radius: var(--radius-md);
+    transition: color var(--duration-fast), background var(--duration-fast);
+  }
+  .modal-close:hover {
+    color: var(--text-primary);
+    background: var(--bg-surface-hover);
+  }
+
+  /* ── Header ───────────────────────────────────────────────── */
+  .modal-header { margin-bottom: var(--space-8); }
+  .modal-header h2 {
+    font-size: var(--text-3xl);
+    margin-bottom: var(--space-3);
+  }
+  .modal-subtitle {
+    color: var(--text-secondary);
+    font-size: var(--text-sm);
+    line-height: var(--leading-relaxed);
+  }
+
+  /* ── Form ─────────────────────────────────────────────────── */
+  .booking-form { display: flex; flex-direction: column; gap: var(--space-5); }
+
+  .form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-5);
+  }
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+  label {
+    font-size: var(--text-xs);
+    font-weight: var(--weight-semibold);
+    letter-spacing: var(--tracking-wide);
+    text-transform: uppercase;
+    color: var(--text-tertiary);
+  }
+  label span { color: var(--brand-accent); }
+
+  input, select, textarea {
+    background: var(--bg-main);
+    border: 1px solid var(--border-medium);
+    border-radius: var(--radius-md);
+    padding: var(--space-3) var(--space-4);
+    color: var(--text-primary);
+    font-size: var(--text-sm);
+    transition: border-color var(--duration-fast), box-shadow var(--duration-fast);
+    appearance: none;
+    -webkit-appearance: none;
+  }
+  input::placeholder { color: var(--text-disabled); }
+  input:focus, select:focus {
+    outline: none;
+    border-color: var(--brand-primary);
+    box-shadow: 0 0 0 3px rgba(93, 140, 93, 0.15);
+  }
+  select {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23A1A1AA' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right var(--space-4) center;
+    padding-right: var(--space-10);
+    cursor: pointer;
+  }
+
+  .form-submit-row { margin-top: var(--space-3); }
+
+  .btn { display: inline-flex; align-items: center; gap: var(--space-2); padding: var(--space-3) var(--space-6); border-radius: var(--radius-full); font-family: var(--font-heading); font-weight: var(--weight-semibold); cursor: pointer; transition: background var(--duration-fast), box-shadow var(--duration-fast); position: relative; overflow: hidden; }
+  .btn-primary { background: var(--brand-primary); color: var(--text-primary); border: 1px solid var(--brand-primary); }
+  .btn-primary:hover { background: var(--brand-primary-dark); box-shadow: var(--shadow-glow); }
+  .btn-primary:disabled { opacity: 0.6; cursor: not-allowed; }
+  .btn-lg { padding: var(--space-4) var(--space-8); font-size: var(--text-base); }
+  .btn-block { width: 100%; justify-content: center; }
+
+  /* ── Status messages ──────────────────────────────────────── */
+  .form-status {
+    font-size: var(--text-sm);
+    padding: var(--space-3) var(--space-4);
+    border-radius: var(--radius-md);
+    display: none;
+  }
+  .form-status:not(:empty) { display: block; }
+  .form-status--success {
+    background: var(--success-bg);
+    color: var(--success);
+    border: 1px solid rgba(16, 185, 129, 0.2);
+  }
+  .form-status--error {
+    background: var(--error-bg);
+    color: var(--error);
+    border: 1px solid rgba(239, 68, 68, 0.2);
+  }
+
+  /* ── Honeypot ─────────────────────────────────────────────── */
+  .visually-hidden {
+    position: absolute;
+    width: 1px; height: 1px;
+    padding: 0; margin: -1px;
+    overflow: hidden;
+    clip: rect(0,0,0,0);
+    border: 0;
+  }
+
+  /* Responsive */
+  @media (max-width: 640px) {
+    .modal-panel { padding: var(--space-8) var(--space-6); }
+    .form-row { grid-template-columns: 1fr; }
+  }
+</style>

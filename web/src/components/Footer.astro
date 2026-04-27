@@ -1,0 +1,259 @@
+---
+const services = [
+  { label: 'Practice KPI Dashboard',       href: '/services#kpi-dashboard'    },
+  { label: 'Monthly Client Snapshot',       href: '/services#client-snapshot'  },
+  { label: 'Document Intake & AI Sort',     href: '/services#doc-intake'       },
+  { label: 'Engagement → Onboarding Flow',  href: '/services#onboarding-flow'  },
+  { label: 'Missed-Lead Recovery',          href: '/services#lead-recovery'    },
+];
+
+const company = [
+  { label: 'Process',      href: '/process'      },
+  { label: 'Case Studies', href: '/case-studies' },
+  { label: 'About',        href: '/about'        },
+  { label: 'Free SEO Scan', href: '/free-seo-scan' },
+];
+---
+
+<footer class="footer">
+  <div class="container">
+
+    <!-- Top row: brand + columns -->
+    <div class="footer-grid">
+
+      <!-- Brand column -->
+      <div class="footer-brand">
+        <a href="/" class="footer-logo" aria-label="5 Cypress Automation">
+          <img
+            src="/assets/brand/logo-5cypress.jpg"
+            alt="5 Cypress"
+            width="44"
+            height="44"
+            loading="lazy"
+          />
+          <span class="footer-logo-name">5 Cypress Automation</span>
+        </a>
+        <p class="footer-tagline">
+          Practice automation for accounting<br />
+          &amp; finance firms. Go live in&nbsp;14 days.
+        </p>
+        <a href="mailto:nick@5cypress.com" class="footer-email">
+          nick@5cypress.com
+        </a>
+      </div>
+
+      <!-- Services column -->
+      <div class="footer-col">
+        <p class="footer-col-heading">Services</p>
+        <ul>
+          {services.map((s) => (
+            <li><a href={s.href} class="footer-link">{s.label}</a></li>
+          ))}
+        </ul>
+      </div>
+
+      <!-- Company column -->
+      <div class="footer-col">
+        <p class="footer-col-heading">Company</p>
+        <ul>
+          {company.map((c) => (
+            <li><a href={c.href} class="footer-link">{c.label}</a></li>
+          ))}
+        </ul>
+      </div>
+
+    </div>
+
+    <div class="section-divider footer-divider"></div>
+
+    <!-- Partner band -->
+    <div class="partner-band">
+      <p class="partner-band-label">Partner network</p>
+      <div class="partner-links">
+        <a
+          href="https://www.nexairi.com"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="partner-link"
+          aria-label="Nexairi — AI news for accounting & finance professionals (opens in new tab)"
+        >
+          <span class="partner-link-name">Nexairi</span>
+          <span class="partner-link-desc">AI news for accounting &amp; finance</span>
+        </a>
+        <span class="partner-dot" aria-hidden="true">·</span>
+        <a
+          href="https://www.simplysmart-consulting.com"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="partner-link"
+          aria-label="Simply Smart Consulting — CPA-led bookkeeping & fractional CFO (opens in new tab)"
+        >
+          <span class="partner-link-name">Simply Smart Consulting</span>
+          <span class="partner-link-desc">CPA-led bookkeeping &amp; fractional CFO</span>
+        </a>
+      </div>
+    </div>
+
+    <div class="section-divider footer-divider"></div>
+
+    <!-- Bottom bar -->
+    <div class="footer-bottom">
+      <p class="footer-copy">
+        &copy; {new Date().getFullYear()} 5 Cypress Automation. All rights reserved.
+      </p>
+      <div class="footer-legal-links">
+        <a href="/privacy" class="footer-legal-link">Privacy Policy</a>
+        <a href="/terms"   class="footer-legal-link">Terms of Service</a>
+      </div>
+    </div>
+
+  </div>
+</footer>
+
+<style>
+  .footer {
+    background: var(--bg-void);
+    border-top: 1px solid var(--border-subtle);
+    padding-top: var(--space-20);
+    padding-bottom: var(--space-10);
+  }
+
+  /* Grid */
+  .footer-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    gap: var(--space-16);
+    padding-bottom: var(--space-16);
+  }
+
+  /* Brand */
+  .footer-logo {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    margin-bottom: var(--space-5);
+  }
+  .footer-logo img {
+    width: 44px;
+    height: 44px;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--border-brand);
+    object-fit: cover;
+  }
+  .footer-logo-name {
+    font-family: var(--font-heading);
+    font-size: var(--text-base);
+    font-weight: var(--weight-bold);
+    color: var(--text-primary);
+  }
+  .footer-tagline {
+    font-size: var(--text-sm);
+    color: var(--text-tertiary);
+    line-height: var(--leading-relaxed);
+    margin-bottom: var(--space-4);
+  }
+  .footer-email {
+    font-family: var(--font-mono);
+    font-size: var(--text-sm);
+    color: var(--brand-primary);
+    transition: color var(--duration-fast);
+  }
+  .footer-email:hover { color: var(--brand-primary-light); }
+
+  /* Columns */
+  .footer-col-heading {
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    font-weight: var(--weight-bold);
+    letter-spacing: var(--tracking-widest);
+    text-transform: uppercase;
+    color: var(--text-disabled);
+    margin-bottom: var(--space-4);
+  }
+  .footer-col ul { display: flex; flex-direction: column; gap: var(--space-3); }
+  .footer-link {
+    font-size: var(--text-sm);
+    color: var(--text-tertiary);
+    transition: color var(--duration-fast);
+  }
+  .footer-link:hover { color: var(--text-primary); }
+
+  /* Partner band */
+  .footer-divider { margin-block: var(--space-8); }
+
+  .partner-band {
+    display: flex;
+    align-items: center;
+    gap: var(--space-6);
+    flex-wrap: wrap;
+    padding-block: var(--space-2);
+  }
+  .partner-band-label {
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    font-weight: var(--weight-bold);
+    letter-spacing: var(--tracking-widest);
+    text-transform: uppercase;
+    color: var(--text-disabled);
+  }
+  .partner-links {
+    display: flex;
+    align-items: center;
+    gap: var(--space-6);
+    flex-wrap: wrap;
+  }
+  .partner-dot {
+    color: var(--text-disabled);
+    font-size: var(--text-lg);
+  }
+  .partner-link {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    transition: opacity var(--duration-fast);
+  }
+  .partner-link:hover { opacity: 0.8; }
+  .partner-link-name {
+    font-family: var(--font-heading);
+    font-size: var(--text-sm);
+    font-weight: var(--weight-semibold);
+    color: var(--text-secondary);
+  }
+  .partner-link-desc {
+    font-size: var(--text-xs);
+    color: var(--text-disabled);
+  }
+
+  /* Bottom bar */
+  .footer-bottom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: var(--space-4);
+  }
+  .footer-copy {
+    font-size: var(--text-xs);
+    color: var(--text-disabled);
+  }
+  .footer-legal-links {
+    display: flex;
+    gap: var(--space-6);
+  }
+  .footer-legal-link {
+    font-size: var(--text-xs);
+    color: var(--text-disabled);
+    transition: color var(--duration-fast);
+  }
+  .footer-legal-link:hover { color: var(--text-tertiary); }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .footer-grid {
+      grid-template-columns: 1fr;
+      gap: var(--space-10);
+    }
+    .partner-band { flex-direction: column; align-items: flex-start; }
+    .footer-bottom { flex-direction: column; align-items: flex-start; }
+  }
+</style>

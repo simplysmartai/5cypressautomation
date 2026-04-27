@@ -1,0 +1,441 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Button from '../components/Button.astro';
+import JsonLd from '../components/JsonLd.astro';
+
+const title = "How Accounting Firms Lose Leads After Hours (And How to Fix It)";
+const description = "Why referral leads that call accounting firms after 5pm usually go somewhere else — and how a 60-second automated text-back changes the outcome.";
+const url = "https://www.5cypress.com/missed-lead-recovery";
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": title,
+  "description": description,
+  "url": url,
+  "author": {
+    "@type": "Organization",
+    "name": "5 Cypress Automation",
+    "url": "https://www.5cypress.com"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "5 Cypress Automation",
+    "url": "https://www.5cypress.com"
+  },
+  "datePublished": "2025-01-01",
+  "dateModified": "2025-04-01"
+};
+
+const stats = [
+  { value: "78%", label: "of buyers choose the first business to respond" },
+  { value: "60 sec", label: "response window before lead quality drops significantly" },
+  { value: "5x", label: "higher conversion rate with text vs. callback attempt" },
+  { value: "After 5pm", label: "when the majority of referred accounting inquiries happen" },
+];
+---
+
+<Layout title={title} description={description}>
+  <JsonLd data={jsonLd} />
+
+  <!-- Hero -->
+  <section class="hero-section">
+    <div class="container">
+      <div class="hero-inner reveal">
+        <span class="lead-in">Lead Recovery</span>
+        <h1>They called after 5pm.<br /><em>They hired someone else.</em></h1>
+        <p class="hero-deck">
+          Accounting firm referral leads are time-sensitive. When no one responds quickly,
+          they move on. Here is why it happens and what a 60-second automated response does differently.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Stats row -->
+  <section class="section stats-section">
+    <div class="container">
+      <div class="stats-row">
+        {stats.map((s) => (
+          <div class="stat-item reveal">
+            <div class="stat-value">{s.value}</div>
+            <div class="stat-label">{s.label}</div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Why it happens -->
+  <section class="section">
+    <div class="container prose-container">
+      <div class="prose reveal">
+        <h2>Why accounting firms lose leads they should have won</h2>
+        <p>
+          Most accounting firm leads come from referrals. A client mentions their accountant
+          to a colleague. A lawyer refers a business owner. A banker passes along a name.
+          These referrals carry a lot of trust — but they are not exclusive.
+        </p>
+        <p>
+          The person who just received the referral will usually try to make contact that day.
+          If no one answers — because they called at 6:30pm, or because the office is closed
+          for a holiday, or because the phone just rang through to voicemail — they do one
+          of two things: they send a follow-up email that gets lost in the inbox, or they
+          try the next name on the list.
+        </p>
+        <p>
+          This is not a hypothetical. When accounting firms look at their lost opportunities —
+          the inquiries that went cold, the discovery calls that never happened — a disproportionate
+          number originated after business hours.
+        </p>
+        <p>
+          The problem is not that the firm was the wrong fit. The problem is that they were
+          the second to respond.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- What text-back does -->
+  <section class="section">
+    <div class="container prose-container">
+      <div class="prose reveal">
+        <h2>What a 60-second text response actually changes</h2>
+        <p>
+          When someone calls an accounting firm after hours and reaches voicemail, the default
+          outcome is silence until the next business day — at earliest. By then, they have
+          moved on, or the moment of intent has passed.
+        </p>
+        <p>
+          A missed-call text-back system monitors the firm phone line and contact forms
+          around the clock. The moment a call is missed or a form is submitted, it sends
+          a professional SMS within 60 seconds. The message does three things:
+        </p>
+      </div>
+      <div class="text-breakdown reveal">
+        <div class="text-step">
+          <div class="text-num">1</div>
+          <div>
+            <div class="text-label">Acknowledges immediately</div>
+            <p class="text-desc">
+              The prospect knows their inquiry was received. The silence that typically
+              signals indifference is replaced with a prompt, professional response.
+            </p>
+          </div>
+        </div>
+        <div class="text-step">
+          <div class="text-num">2</div>
+          <div>
+            <div class="text-label">Sets a clear expectation</div>
+            <p class="text-desc">
+              The message confirms that someone will follow up during business hours.
+              This keeps the conversation alive without requiring the firm to staff after-hours calls.
+            </p>
+          </div>
+        </div>
+        <div class="text-step">
+          <div class="text-num">3</div>
+          <div>
+            <div class="text-label">Offers an easy next step</div>
+            <p class="text-desc">
+              A simple reply-to-book link lets the prospect schedule a discovery call
+              whenever it is convenient for them — including at 10pm if that is when they
+              are thinking about it.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- What the message looks like -->
+  <section class="section">
+    <div class="container prose-container">
+      <div class="prose reveal">
+        <h2>What the message looks like</h2>
+        <p>
+          The text is not generic. It is written to match the tone of your firm — professional,
+          not robotic. A typical message:
+        </p>
+      </div>
+      <div class="sms-preview reveal">
+        <div class="sms-label">Example text response (missed call)</div>
+        <div class="sms-bubble">
+          <p>
+            Hi — this is Nick at 5 Cypress Automation. I just missed your call and wanted
+            to reach out right away. Happy to connect when it works for you —
+            feel free to reply here or grab a time: [booking link]. Talk soon.
+          </p>
+        </div>
+        <div class="sms-note">
+          Firm name, contact name, and booking link are configured per firm.
+          Separate templates for missed calls vs. form submissions.
+        </div>
+      </div>
+      <div class="prose reveal" style="margin-top: var(--space-8)">
+        <p>
+          The message reads like it came from a person who cares — because it is configured
+          to sound that way. It does not say "your inquiry has been received." It says
+          "I just missed your call." The difference in response rate is significant.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Insight -->
+  <section class="section insight-section">
+    <div class="container prose-container">
+      <div class="insight-box reveal">
+        <div class="insight-label">The math</div>
+        <p>
+          For most small accounting firms, recovering one consultation per month that would
+          otherwise have gone cold pays for this system in the first week. The setup cost
+          is less than one lost client. The monthly cost is less than one hour of billable time.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Lead log -->
+  <section class="section">
+    <div class="container prose-container">
+      <div class="prose reveal">
+        <h2>Everything is logged</h2>
+        <p>
+          Every incoming contact attempt — missed calls, form submissions, text replies —
+          is logged with a timestamp. Partners can see exactly what came in, when it was
+          responded to, and what happened next. There is no guessing about whether a
+          lead was followed up on.
+        </p>
+        <p>
+          The log also makes it possible to review which lead sources are generating the
+          most after-hours contacts — useful information when evaluating where referral
+          investment is paying off.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="section">
+    <div class="container prose-container">
+      <div class="prose reveal">
+        <h2>Missed-Lead Text-Back</h2>
+        <p>
+          We build missed-lead text-back systems for accounting and CPA firms using Twilio
+          and n8n. Setup takes 5-7 business days. Works with your existing phone system.
+          No new numbers, no new apps for clients to use.
+        </p>
+      </div>
+      <div class="cta-row reveal">
+        <Button href="/services/missed-lead-text-back" variant="primary">See Missed-Lead Text-Back</Button>
+        <Button href="/#book" variant="secondary">Book a scoping call</Button>
+      </div>
+    </div>
+  </section>
+
+</Layout>
+
+<style>
+  .hero-section {
+    padding: var(--space-32) 0 var(--space-20);
+    background: radial-gradient(ellipse 80% 50% at 50% 0%, rgba(93,140,93,0.12) 0%, transparent 70%);
+  }
+
+  .hero-inner {
+    max-width: 720px;
+  }
+
+  .hero-inner h1 {
+    margin: var(--space-4) 0 var(--space-6);
+    font-size: clamp(2rem, 4vw, 3rem);
+  }
+
+  .hero-deck {
+    font-size: 1.125rem;
+    color: var(--text-secondary);
+    max-width: 60ch;
+    line-height: 1.7;
+  }
+
+  .prose-container {
+    max-width: 760px;
+  }
+
+  .stats-section {
+    border-bottom: 1px solid var(--border-subtle);
+    padding-bottom: var(--space-12);
+  }
+
+  .stats-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--space-6);
+  }
+
+  @media (max-width: 700px) {
+    .stats-row {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  .stat-item {
+    text-align: center;
+    padding: var(--space-6) var(--space-4);
+    background: var(--bg-surface);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-xl);
+  }
+
+  .stat-value {
+    font-family: var(--font-display);
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--brand-primary-light);
+    line-height: 1;
+    margin-bottom: var(--space-2);
+  }
+
+  .stat-label {
+    font-size: 0.8rem;
+    color: var(--text-tertiary);
+    line-height: 1.4;
+  }
+
+  .prose p {
+    color: var(--text-secondary);
+    line-height: 1.75;
+    margin-bottom: var(--space-5);
+  }
+
+  .prose h2 {
+    font-size: 1.5rem;
+    margin: var(--space-10) 0 var(--space-4);
+    color: var(--text-primary);
+  }
+
+  .text-breakdown {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+    margin-top: var(--space-4);
+  }
+
+  .text-step {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-5);
+    padding: var(--space-5) var(--space-6);
+    background: var(--bg-surface);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-lg);
+  }
+
+  .text-num {
+    flex-shrink: 0;
+    width: 2rem;
+    height: 2rem;
+    background: rgba(93,140,93,0.15);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--brand-primary-light);
+  }
+
+  .text-label {
+    font-family: var(--font-heading);
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: var(--space-1);
+  }
+
+  .text-desc {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    line-height: 1.65;
+    margin: 0;
+  }
+
+  .sms-preview {
+    background: var(--bg-surface);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-xl);
+    padding: var(--space-6);
+    margin-top: var(--space-4);
+  }
+
+  .sms-label {
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-tertiary);
+    margin-bottom: var(--space-4);
+  }
+
+  .sms-bubble {
+    background: rgba(93,140,93,0.1);
+    border: 1px solid var(--border-brand);
+    border-radius: var(--radius-lg) var(--radius-lg) var(--radius-lg) 4px;
+    padding: var(--space-4) var(--space-5);
+    max-width: 480px;
+  }
+
+  .sms-bubble p {
+    font-size: 0.95rem;
+    color: var(--text-primary);
+    line-height: 1.65;
+    margin: 0;
+  }
+
+  .sms-note {
+    font-size: 0.8rem;
+    color: var(--text-tertiary);
+    margin-top: var(--space-4);
+    font-style: italic;
+    line-height: 1.5;
+  }
+
+  .insight-section {
+    background: var(--bg-surface);
+    border-top: 1px solid var(--border-subtle);
+    border-bottom: 1px solid var(--border-subtle);
+  }
+
+  .insight-box {
+    background: rgba(93,140,93,0.06);
+    border: 1px solid var(--border-brand);
+    border-radius: var(--radius-xl);
+    padding: var(--space-8) var(--space-10);
+  }
+
+  .insight-label {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--brand-primary-light);
+    margin-bottom: var(--space-3);
+  }
+
+  .insight-box p {
+    color: var(--text-secondary);
+    line-height: 1.75;
+    margin: 0;
+    font-size: 1.05rem;
+  }
+
+  .cta-row {
+    display: flex;
+    gap: var(--space-4);
+    flex-wrap: wrap;
+    margin-top: var(--space-8);
+  }
+</style>
