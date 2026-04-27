@@ -1,0 +1,351 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Button from '../components/Button.astro';
+import JsonLd from '../components/JsonLd.astro';
+
+const title = "QuickBooks Online Automation for Accountants: What's Actually Possible";
+const description = "The QBO API gives accounting firms real-time data access, period-close triggers, and automated sync — here is what small firms are actually building with it.";
+const url = "https://www.5cypress.com/quickbooks-automation-accountants";
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": title,
+  "description": description,
+  "url": url,
+  "author": {
+    "@type": "Organization",
+    "name": "5 Cypress Automation",
+    "url": "https://www.5cypress.com"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "5 Cypress Automation",
+    "url": "https://www.5cypress.com"
+  },
+  "datePublished": "2025-01-01",
+  "dateModified": "2025-04-01"
+};
+
+const capabilities = [
+  {
+    cap: "Real-time financial data",
+    detail: "The QBO API exposes balance sheet, P&L, cash flow, and custom reports as live data — not exports. Any system that can make an API call can pull it on demand.",
+    usedFor: "Practice KPI dashboards, client portals, automated reporting"
+  },
+  {
+    cap: "Period-close detection",
+    detail: "QBO webhooks fire when accounting periods are closed. This makes period-close an available automation trigger — not something a human has to watch for and act on manually.",
+    usedFor: "Automated client report generation, billing run triggers"
+  },
+  {
+    cap: "Customer record management",
+    detail: "Customer records can be created, updated, and synchronized with other systems via API. A signed engagement letter can create a QBO customer in seconds.",
+    usedFor: "Automated client onboarding, CRM sync, practice management integration"
+  },
+  {
+    cap: "Invoice and payment data",
+    detail: "Invoice status, payment history, and AR aging data are all accessible in real time. No one needs to run an aging report to see what is outstanding.",
+    usedFor: "AR dashboards, automated payment reminders, cash flow tracking"
+  },
+  {
+    cap: "Webhook notifications",
+    detail: "QBO can push notifications to any endpoint when entities change — customers, invoices, payments, accounts. This enables event-driven automation rather than polling.",
+    usedFor: "Real-time dashboard updates, downstream sync triggers, audit trails"
+  }
+];
+---
+
+<Layout title={title} description={description}>
+  <JsonLd data={jsonLd} />
+
+  <!-- Hero -->
+  <section class="hero-section">
+    <div class="container">
+      <div class="hero-inner reveal">
+        <span class="lead-in">QuickBooks Online</span>
+        <h1>What QBO automation<br /><em>actually makes possible</em></h1>
+        <p class="hero-deck">
+          QuickBooks Online has a robust API that most accounting firms never use directly.
+          Here is what it enables — and how small firms are building real automation on top of it.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- The gap -->
+  <section class="section">
+    <div class="container prose-container">
+      <div class="prose reveal">
+        <h2>The gap between what QBO can do and what most firms actually use</h2>
+        <p>
+          QuickBooks Online is the financial backbone of most small accounting practices.
+          Partners and staff use it daily. But the vast majority of that usage is manual:
+          entering transactions, running reports, exporting data to send somewhere else.
+        </p>
+        <p>
+          What most accounting firms do not know is that QuickBooks Online exposes nearly all
+          of its data and functionality through a well-documented API. Customer records, invoice
+          data, payment history, P&L, balance sheet, AR aging — all of it is accessible
+          programmatically, in real time, without anyone running a report or opening the QBO UI.
+        </p>
+        <p>
+          The firms that are using this well have stopped treating QBO as a place where staff
+          do work. They treat it as a data source — one that feeds dashboards, triggers workflows,
+          and syncs with other tools automatically.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- What the API enables -->
+  <section class="section">
+    <div class="container prose-container">
+      <h2 class="section-heading reveal">What the QBO API actually enables</h2>
+      <div class="cap-list">
+        {capabilities.map((c, i) => (
+          <div class="cap-item reveal" style={`--delay: ${i * 60}ms`}>
+            <div class="cap-header">
+              <div class="cap-name">{c.cap}</div>
+              <div class="cap-used-label">Used for</div>
+              <div class="cap-used">{c.usedFor}</div>
+            </div>
+            <p class="cap-detail">{c.detail}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- What small firms build -->
+  <section class="section">
+    <div class="container prose-container">
+      <div class="prose reveal">
+        <h2>What small accounting firms actually build</h2>
+        <p>
+          Enterprise accounting firms have dedicated engineering teams building QBO integrations.
+          Small firms — those with 5 to 30 staff — typically rely on whatever QBO
+          natively offers, which leaves a lot of the API functionality untouched.
+        </p>
+        <p>
+          The most practical QBO automation projects for small firms fall into two categories:
+          visibility and triggers.
+        </p>
+        <p>
+          <strong>Visibility:</strong> A live KPI dashboard that pulls realization rate, WIP balance,
+          AR aging, and billing trend from QBO and surfaces them to partners in real time.
+          No reports to run. The data is always current.
+        </p>
+        <p>
+          <strong>Triggers:</strong> A period-close event in QBO kicks off an automated workflow
+          that generates a branded client report for every reporting client and delivers it by
+          email before the 5th of the month. A signed engagement letter triggers an automated
+          workflow that creates the QBO customer record, the Karbon job, and sends the kickoff link.
+        </p>
+        <p>
+          These are not complex projects. They are integrations — connecting a data source (QBO)
+          to outputs (dashboards, reports, notifications) using the API that already exists.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- What it requires -->
+  <section class="section">
+    <div class="container prose-container">
+      <div class="prose reveal">
+        <h2>What it requires to build</h2>
+        <p>
+          QBO API integrations require OAuth 2.0 authentication and token management, which
+          means they are not something most accountants can set up themselves with no-code tools
+          alone. Zapier and Make have limited QBO integrations, but they do not expose the
+          full API surface — particularly webhooks and custom report generation.
+        </p>
+        <p>
+          Most meaningful QBO automations require a small custom backend: a Python or Node
+          service that handles token refresh, makes API calls on a schedule or in response
+          to webhook events, and produces output (reports, dashboard data, notifications)
+          downstream.
+        </p>
+        <p>
+          The good news is that once this backend exists for one use case, extending it to
+          the next one is straightforward. The authentication layer, the data models, and
+          the API patterns are reused.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Insight -->
+  <section class="section insight-section">
+    <div class="container prose-container">
+      <div class="insight-box reveal">
+        <div class="insight-label">The practical starting point</div>
+        <p>
+          Most accounting firms get the most immediate value from QBO automation in one
+          of two places: a live partner dashboard (if the pain is "we do not know our numbers
+          until month-end") or automated client reporting (if the pain is "we rebuild the
+          same report every month"). Both connect to QBO directly. Both produce visible
+          ROI within 30 days.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="section">
+    <div class="container prose-container">
+      <div class="prose reveal">
+        <h2>QBO-connected services</h2>
+        <p>
+          We build QuickBooks Online integrations for small accounting and CPA firms.
+          The Practice KPI Dashboard and Monthly Client Snapshot both connect directly
+          to QBO via the API. Onboarding automation syncs new clients to QBO automatically.
+        </p>
+      </div>
+      <div class="cta-row reveal">
+        <Button href="/services" variant="primary">See all five services</Button>
+        <Button href="/#book" variant="secondary">Book a scoping call</Button>
+      </div>
+    </div>
+  </section>
+
+</Layout>
+
+<style>
+  .hero-section {
+    padding: var(--space-32) 0 var(--space-20);
+    background: radial-gradient(ellipse 80% 50% at 50% 0%, rgba(93,140,93,0.12) 0%, transparent 70%);
+  }
+
+  .hero-inner {
+    max-width: 720px;
+  }
+
+  .hero-inner h1 {
+    margin: var(--space-4) 0 var(--space-6);
+    font-size: clamp(2rem, 4vw, 3rem);
+  }
+
+  .hero-deck {
+    font-size: 1.125rem;
+    color: var(--text-secondary);
+    max-width: 60ch;
+    line-height: 1.7;
+  }
+
+  .prose-container {
+    max-width: 760px;
+  }
+
+  .prose p {
+    color: var(--text-secondary);
+    line-height: 1.75;
+    margin-bottom: var(--space-5);
+  }
+
+  .prose p strong {
+    color: var(--text-primary);
+    font-weight: 600;
+  }
+
+  .prose h2 {
+    font-size: 1.5rem;
+    margin: var(--space-10) 0 var(--space-4);
+    color: var(--text-primary);
+  }
+
+  .section-heading {
+    font-size: 1.5rem;
+    margin-bottom: var(--space-8);
+    color: var(--text-primary);
+  }
+
+  .cap-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+  }
+
+  .cap-item {
+    background: var(--bg-surface);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-xl);
+    padding: var(--space-6);
+    animation-delay: var(--delay, 0ms);
+  }
+
+  .cap-header {
+    display: flex;
+    align-items: baseline;
+    gap: var(--space-3);
+    flex-wrap: wrap;
+    margin-bottom: var(--space-3);
+  }
+
+  .cap-name {
+    font-family: var(--font-heading);
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--text-primary);
+  }
+
+  .cap-used-label {
+    font-family: var(--font-mono);
+    font-size: 0.6rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-tertiary);
+  }
+
+  .cap-used {
+    font-size: 0.8rem;
+    color: var(--brand-primary-light);
+    font-style: italic;
+  }
+
+  .cap-detail {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    line-height: 1.65;
+    margin: 0;
+  }
+
+  .insight-section {
+    background: var(--bg-surface);
+    border-top: 1px solid var(--border-subtle);
+    border-bottom: 1px solid var(--border-subtle);
+  }
+
+  .insight-box {
+    background: rgba(93,140,93,0.06);
+    border: 1px solid var(--border-brand);
+    border-radius: var(--radius-xl);
+    padding: var(--space-8) var(--space-10);
+  }
+
+  .insight-label {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--brand-primary-light);
+    margin-bottom: var(--space-3);
+  }
+
+  .insight-box p {
+    color: var(--text-secondary);
+    line-height: 1.75;
+    margin: 0;
+    font-size: 1.05rem;
+  }
+
+  .cta-row {
+    display: flex;
+    gap: var(--space-4);
+    flex-wrap: wrap;
+    margin-top: var(--space-8);
+  }
+</style>

@@ -1,0 +1,316 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Button from '../components/Button.astro';
+import JsonLd from '../components/JsonLd.astro';
+
+const title = "KPI Dashboards for Accounting Firms: What to Track and How";
+const description = "Realization rate, WIP, AR aging — the metrics that matter most to accounting firm partners, and how a live dashboard replaces the month-end spreadsheet scramble.";
+const url = "https://www.5cypress.com/accounting-kpi-dashboard";
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": title,
+  "description": description,
+  "url": url,
+  "author": {
+    "@type": "Organization",
+    "name": "5 Cypress Automation",
+    "url": "https://www.5cypress.com"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "5 Cypress Automation",
+    "url": "https://www.5cypress.com"
+  },
+  "datePublished": "2025-01-01",
+  "dateModified": "2025-04-01"
+};
+
+const metrics = [
+  {
+    name: "Realization rate",
+    what: "Billed fees ÷ potential fees at standard rates. The single most important measure of whether your firm is capturing the value it creates.",
+    why: "Most firms can quote a rough number. Very few can tell you which engagements are dragging it down — until month-end, when it is too late to intervene."
+  },
+  {
+    name: "Work in progress (WIP)",
+    what: "Time recorded but not yet billed. High WIP is money sitting on the shelf.",
+    why: "Without a live view, WIP accumulates invisibly. By the time the billing run surfaces it, the client conversation about scope is harder to have."
+  },
+  {
+    name: "AR aging",
+    what: "Outstanding receivables bucketed by age: 0-30, 31-60, 61-90, 90+.",
+    why: "Aging AR is the single most predictable cash flow problem. Partners who see it weekly act on it. Partners who see it monthly are always surprised."
+  },
+  {
+    name: "Billing trend",
+    what: "Month-over-month billed revenue versus the prior 6-month average.",
+    why: "Revenue feels abstract until you can see the line move. A dashboard that shows the trend creates urgency around billing backlogs."
+  }
+];
+---
+
+<Layout title={title} description={description}>
+  <JsonLd data={jsonLd} />
+
+  <!-- Hero -->
+  <section class="hero-section">
+    <div class="container">
+      <div class="hero-inner reveal">
+        <span class="lead-in">KPI Dashboards</span>
+        <h1>What to track in your<br /><em>accounting firm dashboard</em></h1>
+        <p class="hero-deck">
+          Most accounting firms get their key metrics too late to act on them.
+          Here is what to track, why it matters, and how a live dashboard changes
+          the way partners make decisions.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- The problem -->
+  <section class="section">
+    <div class="container prose-container">
+      <div class="prose reveal">
+        <h2>The month-end information problem</h2>
+        <p>
+          Accounting firms are, ironically, often the last to have good financial visibility
+          into their own practice. Revenue gets reviewed at month-end. Realization rate gets
+          pulled when the billing run is closed. AR aging gets checked when cash flow starts
+          to feel tight.
+        </p>
+        <p>
+          By the time that information surfaces, the decisions it should have informed were
+          due two or three weeks ago. The partner who sees unbilled WIP at $180K on October
+          31 could have done something about it on October 14.
+        </p>
+        <p>
+          A practice KPI dashboard does not add new information — it surfaces what already
+          exists in your systems (QuickBooks Online and your practice management platform)
+          in real time, to every partner, without anyone having to run a report.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Metrics to track -->
+  <section class="section">
+    <div class="container prose-container">
+      <h2 class="section-heading reveal">The four metrics that matter most</h2>
+      <div class="metrics-grid">
+        {metrics.map((m, i) => (
+          <div class="metric-card reveal" style={`--delay: ${i * 80}ms`}>
+            <div class="metric-name">{m.name}</div>
+            <p class="metric-what">{m.what}</p>
+            <div class="metric-why-label">Why it matters live</div>
+            <p class="metric-why">{m.why}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- How it works -->
+  <section class="section">
+    <div class="container prose-container">
+      <div class="prose reveal">
+        <h2>How a live accounting dashboard actually works</h2>
+        <p>
+          A well-built practice dashboard connects directly to QuickBooks Online via the
+          QBO API and your practice management system — Karbon, TaxDome, Clio, or CCH.
+          It runs on a sync schedule (every few hours, or on-demand) and serves data to
+          a web-based panel accessible at a shared URL.
+        </p>
+        <p>
+          There is no spreadsheet involved. No one pulls a report. No one emails a CSV.
+          The dashboard exists at a URL that partners can bookmark. It updates itself.
+        </p>
+        <p>
+          Optional features most firms add after the first month: alerting when WIP crosses
+          a threshold, alerting when an AR bucket hits a dollar amount, and historical trend
+          lines that show month-over-month movement without pulling old reports.
+        </p>
+        <h2>What firms do differently once they have live data</h2>
+        <p>
+          The behavioral change is more significant than most partners expect before they
+          have it. Weekly partner meetings shift from "what are the numbers?" to "here is
+          what the numbers say we should do." Billing backlogs get cleared faster because
+          the WIP balance is visible every day, not once a month. AR follow-up happens
+          sooner because the aging buckets are impossible to ignore.
+        </p>
+        <p>
+          The dashboard does not make decisions. It makes it harder to avoid them.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Insight -->
+  <section class="section insight-section">
+    <div class="container prose-container">
+      <div class="insight-box reveal">
+        <div class="insight-label">What we see in practice</div>
+        <p>
+          Firms that implement live KPI dashboards consistently see a reduction in unbilled
+          WIP within the first 60 days — not because anything changed operationally, but
+          because visibility creates accountability. When partners can see the number every
+          day, they prioritize billing differently.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="section">
+    <div class="container prose-container">
+      <div class="prose reveal">
+        <h2>Building a practice KPI dashboard</h2>
+        <p>
+          We build custom KPI dashboards for small accounting and CPA firms. Setup takes
+          14 business days. It connects directly to your existing QBO and practice management
+          system — no new software subscriptions required.
+        </p>
+      </div>
+      <div class="cta-row reveal">
+        <Button href="/services/practice-kpi-dashboard" variant="primary">See the KPI Dashboard service</Button>
+        <Button href="/#book" variant="secondary">Book a scoping call</Button>
+      </div>
+    </div>
+  </section>
+
+</Layout>
+
+<style>
+  .hero-section {
+    padding: var(--space-32) 0 var(--space-20);
+    background: radial-gradient(ellipse 80% 50% at 50% 0%, rgba(93,140,93,0.12) 0%, transparent 70%);
+  }
+
+  .hero-inner {
+    max-width: 720px;
+  }
+
+  .hero-inner h1 {
+    margin: var(--space-4) 0 var(--space-6);
+    font-size: clamp(2rem, 4vw, 3rem);
+  }
+
+  .hero-deck {
+    font-size: 1.125rem;
+    color: var(--text-secondary);
+    max-width: 60ch;
+    line-height: 1.7;
+  }
+
+  .prose-container {
+    max-width: 760px;
+  }
+
+  .prose p {
+    color: var(--text-secondary);
+    line-height: 1.75;
+    margin-bottom: var(--space-5);
+  }
+
+  .prose h2 {
+    font-size: 1.5rem;
+    margin: var(--space-10) 0 var(--space-4);
+    color: var(--text-primary);
+  }
+
+  .section-heading {
+    font-size: 1.5rem;
+    margin-bottom: var(--space-8);
+    color: var(--text-primary);
+  }
+
+  .metrics-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-5);
+  }
+
+  @media (max-width: 600px) {
+    .metrics-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .metric-card {
+    background: var(--bg-surface);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-xl);
+    padding: var(--space-6);
+    animation-delay: var(--delay, 0ms);
+  }
+
+  .metric-name {
+    font-family: var(--font-heading);
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--brand-primary-light);
+    margin-bottom: var(--space-2);
+  }
+
+  .metric-what {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    line-height: 1.6;
+    margin-bottom: var(--space-4);
+  }
+
+  .metric-why-label {
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-tertiary);
+    margin-bottom: var(--space-2);
+  }
+
+  .metric-why {
+    font-size: 0.875rem;
+    color: var(--text-tertiary);
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  .insight-section {
+    background: var(--bg-surface);
+    border-top: 1px solid var(--border-subtle);
+    border-bottom: 1px solid var(--border-subtle);
+  }
+
+  .insight-box {
+    background: rgba(93,140,93,0.06);
+    border: 1px solid var(--border-brand);
+    border-radius: var(--radius-xl);
+    padding: var(--space-8) var(--space-10);
+  }
+
+  .insight-label {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--brand-primary-light);
+    margin-bottom: var(--space-3);
+  }
+
+  .insight-box p {
+    color: var(--text-secondary);
+    line-height: 1.75;
+    margin: 0;
+    font-size: 1.05rem;
+  }
+
+  .cta-row {
+    display: flex;
+    gap: var(--space-4);
+    flex-wrap: wrap;
+    margin-top: var(--space-8);
+  }
+</style>

@@ -1,0 +1,629 @@
+---
+import Layout from '../layouts/Layout.astro';
+import JsonLd from '../components/JsonLd.astro';
+---
+
+<Layout
+  title="Free SEO Scan | 5 Cypress Automation"
+  description="Get a free technical SEO scan for your accounting firm's website. We check for issues that suppress search rankings and send you the full report — no obligation."
+>
+  <Fragment slot="head">
+    <JsonLd schema={{
+      '@context': 'https://schema.org',
+      '@type': 'WebPage',
+      name: 'Free SEO Scan — 5 Cypress Automation',
+      description: 'Free technical SEO audit for accounting and finance firm websites.',
+      offers: {
+        '@type': 'Offer',
+        price: '0',
+        priceCurrency: 'USD',
+        name: 'Free SEO Website Scan',
+        description: 'Technical SEO analysis of your accounting firm website, delivered within 24 hours.',
+      },
+    }} />
+  </Fragment>
+
+  <!-- Hero + Form -->
+  <section class="seo-hero section">
+    <div class="container">
+      <div class="seo-hero-grid">
+
+        <!-- Left: copy -->
+        <div class="seo-hero-copy reveal">
+          <p class="lead-in">Free for accounting firms</p>
+          <h1>Find out why<br/><em>clients can't find you.</em></h1>
+          <p class="seo-hero-sub">
+            Most accounting firm websites have 4–8 fixable SEO issues suppressing their
+            search rankings. We scan your site and send you the full technical report —
+            free, within 24 hours, no pitch unless you ask.
+          </p>
+
+          <div class="seo-what">
+            <p class="seo-what-label">What the report covers</p>
+            <ul class="seo-checks">
+              {[
+                'Core Web Vitals (load speed, layout shift, interactivity)',
+                'Missing or broken meta titles and descriptions',
+                'Structured data / schema markup for local search',
+                'Mobile usability issues',
+                'Internal link structure and crawlability',
+                'Heading hierarchy and keyword signals',
+                'Broken links and redirect chains',
+              ].map((item) => (
+                <li>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
+                  </svg>
+                  {item}
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div class="seo-social-proof">
+            <div class="proof-item">
+              <span class="proof-stat">24 hrs</span>
+              <span class="proof-label">average delivery time</span>
+            </div>
+            <div class="proof-sep"></div>
+            <div class="proof-item">
+              <span class="proof-stat">Free</span>
+              <span class="proof-label">no credit card, no obligation</span>
+            </div>
+            <div class="proof-sep"></div>
+            <div class="proof-item">
+              <span class="proof-stat">Actionable</span>
+              <span class="proof-label">prioritized fix list, not raw data</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right: form -->
+        <div class="seo-form-wrap reveal-stagger">
+          <form id="seo-scan-form" class="seo-form" novalidate>
+            <div class="form-header">
+              <h2>Get your free scan</h2>
+              <p>Takes 30 seconds. Results in 24 hours.</p>
+            </div>
+
+            <div class="form-fields">
+              <!-- Honeypot -->
+              <div class="form-field" style="display:none" aria-hidden="true">
+                <label for="seo_website">Website</label>
+                <input type="text" id="seo_website" name="website" tabindex="-1" autocomplete="off"/>
+              </div>
+
+              <div class="form-field">
+                <label for="seo_name">Your name <span class="required" aria-hidden="true">*</span></label>
+                <input
+                  type="text"
+                  id="seo_name"
+                  name="name"
+                  placeholder="Jane Smith"
+                  required
+                  autocomplete="name"
+                />
+                <p class="field-error" id="name-error" role="alert" aria-live="polite"></p>
+              </div>
+
+              <div class="form-field">
+                <label for="seo_email">Work email <span class="required" aria-hidden="true">*</span></label>
+                <input
+                  type="email"
+                  id="seo_email"
+                  name="email"
+                  placeholder="jane@smithcpa.com"
+                  required
+                  autocomplete="email"
+                />
+                <p class="field-error" id="email-error" role="alert" aria-live="polite"></p>
+              </div>
+
+              <div class="form-field">
+                <label for="seo_url">Website URL <span class="required" aria-hidden="true">*</span></label>
+                <input
+                  type="url"
+                  id="seo_url"
+                  name="url"
+                  placeholder="https://smithcpa.com"
+                  required
+                  autocomplete="url"
+                />
+                <p class="field-error" id="url-error" role="alert" aria-live="polite"></p>
+              </div>
+
+              <div class="form-field">
+                <label for="seo_firm">Firm name</label>
+                <input
+                  type="text"
+                  id="seo_firm"
+                  name="firm_name"
+                  placeholder="Smith CPA & Associates"
+                  autocomplete="organization"
+                />
+              </div>
+            </div>
+
+            <button type="submit" class="seo-submit" data-ripple>
+              <span class="submit-text">Send me the free scan</span>
+              <svg class="submit-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3"/>
+              </svg>
+              <span class="submit-loader" aria-hidden="true"></span>
+            </button>
+
+            <p class="form-footnote">
+              We don't sell your data or add you to a mailing list.
+              The scan results are yours — no strings attached.
+            </p>
+
+            <!-- Success state -->
+            <div class="form-success" id="seo-form-success" hidden>
+              <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+              </svg>
+              <h3>Scan request received.</h3>
+              <p>
+                Check your inbox within 24 hours — we'll send the full report to
+                the email you provided. Questions? Email
+                <a href="mailto:nick@5cypress.com">nick@5cypress.com</a>.
+              </p>
+            </div>
+
+            <!-- Error state -->
+            <div class="form-error-banner" id="seo-form-error" hidden role="alert">
+              <p>
+                Something went wrong submitting the form. Please email
+                <a href="mailto:nick@5cypress.com">nick@5cypress.com</a> directly
+                with your website URL and we'll run the scan manually.
+              </p>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Sample findings -->
+  <section class="section seo-sample">
+    <div class="container">
+      <div class="reveal" style="margin-bottom: var(--space-10)">
+        <p class="lead-in">What we typically find</p>
+        <h2>Common issues in<br/><em>accounting firm websites.</em></h2>
+      </div>
+      <div class="seo-findings reveal-stagger">
+        {[
+          {
+            severity: 'high',
+            issue: 'No structured data / schema markup',
+            detail: 'Most accounting firm sites have zero JSON-LD. Google uses this for local pack ranking and rich results. 15-minute fix with measurable ranking impact.',
+          },
+          {
+            severity: 'high',
+            issue: 'Core Web Vitals failing on mobile',
+            detail: 'Images not sized for mobile, no lazy loading, JavaScript blocking render. Google uses CWV as a direct ranking factor.',
+          },
+          {
+            severity: 'medium',
+            issue: 'Missing or duplicate meta descriptions',
+            detail: 'Every service page looks the same in search results — Google writes its own meta description, often unflattering. Easy to fix with targeted copy.',
+          },
+          {
+            severity: 'medium',
+            issue: 'Heading hierarchy broken',
+            detail: 'Multiple H1s, H3s skipping H2s, important keyword phrases in body text instead of headings. Small changes move the needle on topic relevance.',
+          },
+          {
+            severity: 'low',
+            issue: 'No sitemap or robots.txt',
+            detail: 'Googlebot is guessing which pages to crawl. A sitemap and robots.txt file costs 20 minutes and eliminates the guesswork.',
+          },
+          {
+            severity: 'low',
+            issue: 'Broken internal links',
+            detail: 'Old service pages still linked from navigation or footers after a redesign. These create dead ends for both users and crawlers.',
+          },
+        ].map(({ severity, issue, detail }) => (
+          <div class={`finding-card finding-card--${severity}`}>
+            <div class="finding-severity">{severity}</div>
+            <div class="finding-content">
+              <h3>{issue}</h3>
+              <p>{detail}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="section seo-faq">
+    <div class="container seo-faq-inner">
+      <div class="reveal">
+        <p class="lead-in">Questions</p>
+        <h2>What people<br/><em>usually ask.</em></h2>
+      </div>
+      <div class="faq-list reveal-stagger">
+        {[
+          {
+            q: "Is this actually free? What's the catch?",
+            a: "It's free. The catch is that we're building goodwill — if the report is useful, some people hire us to fix what we found. Others just use the report. Both outcomes are fine.",
+          },
+          {
+            q: "Who runs the scan?",
+            a: "Nick at 5 Cypress. This is not an automated Screaming Frog dump — it's a human-reviewed audit using a combination of tools and contextual assessment specific to professional services websites.",
+          },
+          {
+            q: "How long does the report take?",
+            a: "Within 24 business hours. For simple sites, usually faster. We'll email the report to the address you provide.",
+          },
+          {
+            q: "What if I want help fixing what you find?",
+            a: "We offer a one-time SEO remediation engagement — scope and price depends on what the scan finds. Mention it when we email you the report and we'll include a quote.",
+          },
+          {
+            q: "Do you do ongoing SEO?",
+            a: "No. 5 Cypress builds automation systems, not ongoing marketing services. For SEO content and editorial, we refer to our partner Nexairi (nexairi.com).",
+          },
+        ].map(({ q, a }) => (
+          <div class="faq-item">
+            <h3 class="faq-q">{q}</h3>
+            <p class="faq-a">{a}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<script>
+  const form = document.getElementById('seo-scan-form') as HTMLFormElement | null;
+  const successEl = document.getElementById('seo-form-success');
+  const errorEl = document.getElementById('seo-form-error');
+
+  if (form) {
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      // Clear previous errors
+      form.querySelectorAll('.field-error').forEach((el) => { (el as HTMLElement).textContent = ''; });
+      if (errorEl) errorEl.hidden = true;
+
+      const data = new FormData(form);
+      const name = (data.get('name') as string).trim();
+      const email = (data.get('email') as string).trim();
+      const url = (data.get('url') as string).trim();
+      const honeypot = (data.get('website') as string).trim();
+
+      // Honeypot check
+      if (honeypot) return;
+
+      // Client-side validation
+      let valid = true;
+      if (!name) {
+        const el = document.getElementById('name-error');
+        if (el) el.textContent = 'Please enter your name.';
+        valid = false;
+      }
+      if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        const el = document.getElementById('email-error');
+        if (el) el.textContent = 'Please enter a valid work email.';
+        valid = false;
+      }
+      if (!url) {
+        const el = document.getElementById('url-error');
+        if (el) el.textContent = 'Please enter your website URL.';
+        valid = false;
+      }
+      if (!valid) return;
+
+      // Loading state
+      const btn = form.querySelector('.seo-submit') as HTMLButtonElement;
+      const btnText = form.querySelector('.submit-text') as HTMLElement;
+      const btnLoader = form.querySelector('.submit-loader') as HTMLElement;
+      if (btn) btn.disabled = true;
+      if (btnText) btnText.textContent = 'Submitting…';
+      if (btnLoader) btnLoader.style.display = 'inline-block';
+
+      try {
+        const res = await fetch('/api/seo', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            name,
+            email,
+            url,
+            firm_name: (data.get('firm_name') as string).trim(),
+          }),
+        });
+
+        if (res.ok) {
+          form.style.display = 'none';
+          if (successEl) successEl.hidden = false;
+        } else {
+          throw new Error(`HTTP ${res.status}`);
+        }
+      } catch {
+        if (errorEl) errorEl.hidden = false;
+        if (btn) btn.disabled = false;
+        if (btnText) btnText.textContent = 'Send me the free scan';
+        if (btnLoader) btnLoader.style.display = 'none';
+      }
+    });
+  }
+</script>
+
+<style>
+  /* ── Hero layout ──────────────────────────────────────────── */
+  .seo-hero { padding-block: var(--space-20) var(--space-16); }
+  .seo-hero-grid {
+    display: grid;
+    grid-template-columns: 1fr 460px;
+    gap: var(--space-16);
+    align-items: start;
+  }
+  .seo-hero-sub {
+    font-size: var(--text-base);
+    color: var(--text-secondary);
+    line-height: var(--leading-relaxed);
+    margin-top: var(--space-4);
+    max-width: 52ch;
+  }
+
+  /* ── What it covers ───────────────────────────────────────── */
+  .seo-what { margin-top: var(--space-8); }
+  .seo-what-label {
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-widest);
+    color: var(--text-disabled);
+    margin-bottom: var(--space-4);
+  }
+  .seo-checks {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+  .seo-checks li {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-3);
+    font-size: var(--text-sm);
+    color: var(--text-secondary);
+    line-height: var(--leading-relaxed);
+  }
+  .seo-checks svg { color: var(--success); flex-shrink: 0; margin-top: 2px; }
+
+  /* ── Social proof bar ─────────────────────────────────────── */
+  .seo-social-proof {
+    display: flex;
+    align-items: center;
+    gap: var(--space-8);
+    margin-top: var(--space-10);
+    padding: var(--space-5) var(--space-7);
+    background: var(--bg-surface);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-xl);
+    width: fit-content;
+  }
+  .proof-item { display: flex; flex-direction: column; gap: 2px; }
+  .proof-stat {
+    font-family: var(--font-heading);
+    font-weight: var(--weight-bold);
+    font-size: var(--text-base);
+    color: var(--text-primary);
+  }
+  .proof-label {
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    color: var(--text-disabled);
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-widest);
+  }
+  .proof-sep { width: 1px; height: 32px; background: var(--border-subtle); }
+
+  /* ── Form ─────────────────────────────────────────────────── */
+  .seo-form-wrap {
+    position: sticky;
+    top: var(--space-24);
+  }
+  .seo-form {
+    background: var(--bg-surface);
+    border: 1px solid var(--border-medium);
+    border-radius: var(--radius-2xl);
+    padding: var(--space-8);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-6);
+  }
+  .form-header { display: flex; flex-direction: column; gap: var(--space-1); }
+  .form-header h2 {
+    font-family: var(--font-heading);
+    font-size: var(--text-xl);
+    font-weight: var(--weight-bold);
+    color: var(--text-primary);
+  }
+  .form-header p { font-size: var(--text-sm); color: var(--text-tertiary); }
+
+  .form-fields { display: flex; flex-direction: column; gap: var(--space-4); }
+  .form-field { display: flex; flex-direction: column; gap: var(--space-1); }
+  .form-field label {
+    font-family: var(--font-body);
+    font-size: var(--text-sm);
+    font-weight: var(--weight-medium);
+    color: var(--text-secondary);
+  }
+  .required { color: var(--brand-accent); }
+  .form-field input {
+    padding: var(--space-3) var(--space-4);
+    background: var(--bg-main);
+    border: 1px solid var(--border-medium);
+    border-radius: var(--radius-lg);
+    font-family: var(--font-body);
+    font-size: var(--text-sm);
+    color: var(--text-primary);
+    outline: none;
+    transition: border-color var(--duration-fast), box-shadow var(--duration-fast);
+    width: 100%;
+  }
+  .form-field input::placeholder { color: var(--text-disabled); }
+  .form-field input:focus {
+    border-color: var(--brand-primary);
+    box-shadow: 0 0 0 3px rgba(93, 140, 93, 0.15);
+  }
+  .form-field input:invalid:not(:placeholder-shown) { border-color: var(--error); }
+  .field-error {
+    font-size: var(--text-xs);
+    color: var(--error);
+    min-height: 1em;
+  }
+
+  .seo-submit {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-3);
+    width: 100%;
+    padding: var(--space-4) var(--space-6);
+    background: var(--brand-primary);
+    color: var(--text-primary);
+    border: none;
+    border-radius: var(--radius-full);
+    font-family: var(--font-heading);
+    font-size: var(--text-base);
+    font-weight: var(--weight-semibold);
+    cursor: pointer;
+    transition: background var(--duration-fast), transform var(--duration-fast);
+    position: relative;
+    overflow: hidden;
+  }
+  .seo-submit:hover:not(:disabled) { background: var(--brand-primary-dark); transform: translateY(-1px); }
+  .seo-submit:disabled { opacity: 0.6; cursor: not-allowed; }
+
+  .submit-loader {
+    display: none;
+    width: 16px;
+    height: 16px;
+    border: 2px solid rgba(255,255,255,0.3);
+    border-top-color: #fff;
+    border-radius: 50%;
+    animation: spin 0.7s linear infinite;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  .form-footnote {
+    font-size: var(--text-xs);
+    color: var(--text-disabled);
+    text-align: center;
+    line-height: var(--leading-relaxed);
+  }
+
+  .form-success {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: var(--space-4);
+    padding: var(--space-8);
+  }
+  .form-success svg { color: var(--success); }
+  .form-success h3 {
+    font-family: var(--font-heading);
+    font-size: var(--text-xl);
+    font-weight: var(--weight-bold);
+    color: var(--text-primary);
+  }
+  .form-success p { font-size: var(--text-sm); color: var(--text-secondary); line-height: var(--leading-relaxed); }
+  .form-success a { color: var(--brand-primary); }
+
+  .form-error-banner {
+    padding: var(--space-4) var(--space-5);
+    background: var(--error-bg);
+    border: 1px solid var(--error);
+    border-radius: var(--radius-lg);
+  }
+  .form-error-banner p { font-size: var(--text-sm); color: var(--text-secondary); line-height: var(--leading-relaxed); }
+  .form-error-banner a { color: var(--brand-primary); }
+
+  /* ── Sample findings ──────────────────────────────────────── */
+  .seo-findings {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-4);
+  }
+  .finding-card {
+    display: flex;
+    gap: var(--space-4);
+    padding: var(--space-6);
+    background: var(--bg-surface);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-xl);
+    align-items: flex-start;
+  }
+  .finding-severity {
+    font-family: var(--font-mono);
+    font-size: 0.6rem;
+    font-weight: var(--weight-black);
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-widest);
+    padding: 3px 8px;
+    border-radius: var(--radius-full);
+    white-space: nowrap;
+    flex-shrink: 0;
+    margin-top: 3px;
+  }
+  .finding-card--high .finding-severity { background: var(--error-bg); color: var(--error); }
+  .finding-card--medium .finding-severity { background: var(--warning-bg); color: var(--warning); }
+  .finding-card--low .finding-severity { background: var(--info-bg); color: var(--info); }
+  .finding-content h3 {
+    font-family: var(--font-heading);
+    font-size: var(--text-base);
+    font-weight: var(--weight-bold);
+    color: var(--text-primary);
+    margin-bottom: var(--space-1);
+  }
+  .finding-content p { font-size: var(--text-sm); color: var(--text-secondary); line-height: var(--leading-relaxed); }
+
+  /* ── FAQ ──────────────────────────────────────────────────── */
+  .seo-faq { background: var(--bg-surface); border-top: 1px solid var(--border-subtle); }
+  .seo-faq-inner {
+    display: grid;
+    grid-template-columns: 260px 1fr;
+    gap: var(--space-16);
+    align-items: start;
+  }
+  .faq-list { display: flex; flex-direction: column; gap: 0; }
+  .faq-item {
+    padding: var(--space-6) 0;
+    border-bottom: 1px solid var(--border-subtle);
+  }
+  .faq-item:last-child { border-bottom: none; }
+  .faq-q {
+    font-family: var(--font-heading);
+    font-size: var(--text-base);
+    font-weight: var(--weight-bold);
+    color: var(--text-primary);
+    margin-bottom: var(--space-2);
+  }
+  .faq-a {
+    font-size: var(--text-sm);
+    color: var(--text-secondary);
+    line-height: var(--leading-relaxed);
+    max-width: 60ch;
+  }
+
+  /* ── Responsive ───────────────────────────────────────────── */
+  @media (max-width: 1024px) {
+    .seo-hero-grid { grid-template-columns: 1fr; }
+    .seo-form-wrap { position: static; }
+    .seo-faq-inner { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 640px) {
+    .seo-findings { grid-template-columns: 1fr; }
+    .seo-social-proof { flex-wrap: wrap; }
+    .proof-sep { display: none; }
+  }
+</style>

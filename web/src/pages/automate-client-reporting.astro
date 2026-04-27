@@ -1,0 +1,300 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Button from '../components/Button.astro';
+import JsonLd from '../components/JsonLd.astro';
+
+const title = "Automated Client Reporting for Accounting Firms: Stop Rebuilding the Same Report";
+const description = "How accounting and CPA firms eliminate monthly reporting busywork — QBO period-close triggers, branded PDFs, and live dashboards delivered before clients ask for them.";
+const url = "https://www.5cypress.com/automate-client-reporting";
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": title,
+  "description": description,
+  "url": url,
+  "author": {
+    "@type": "Organization",
+    "name": "5 Cypress Automation",
+    "url": "https://www.5cypress.com"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "5 Cypress Automation",
+    "url": "https://www.5cypress.com"
+  },
+  "datePublished": "2025-01-01",
+  "dateModified": "2025-04-01"
+};
+
+const steps = [
+  { n: "1", label: "QBO period closes", desc: "The system detects the accounting period close in QuickBooks Online." },
+  { n: "2", label: "Data pulled per client", desc: "Balance sheet, P&L, and any custom metrics are pulled via QBO API for each client automatically." },
+  { n: "3", label: "Report generated", desc: "A branded PDF and a live web dashboard are generated — no templates to fill in, no exports to format." },
+  { n: "4", label: "Optional: AI narrative", desc: "An AI-written plain-English summary of the period highlights is added to the report (optional, partner-reviewed)." },
+  { n: "5", label: "Partner review (optional)", desc: "Before delivery, a one-click approval step lets the partner review and approve — or override — any report." },
+  { n: "6", label: "Delivered by email", desc: "The report is sent to the client by email. Delivery is logged with timestamp. No one builds anything manually." }
+];
+---
+
+<Layout title={title} description={description}>
+  <JsonLd data={jsonLd} />
+
+  <!-- Hero -->
+  <section class="hero-section">
+    <div class="container">
+      <div class="hero-inner reveal">
+        <span class="lead-in">Client Reporting</span>
+        <h1>Stop rebuilding the<br /><em>same report every month</em></h1>
+        <p class="hero-deck">
+          Monthly client reports are accounting firms&apos; most consistent time sink.
+          Here is how automation eliminates the work without changing what clients receive.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- The problem -->
+  <section class="section">
+    <div class="container prose-container">
+      <div class="prose reveal">
+        <h2>The reporting treadmill</h2>
+        <p>
+          Ask a staff accountant at almost any small firm what they do between the 1st
+          and the 5th of every month, and the answer is some version of the same thing:
+          pull the QBO export, paste it into the branded template, adjust the formatting,
+          generate the PDF, send the email. For each client. Every month.
+        </p>
+        <p>
+          This is not skilled work. It is repetition. And yet it consumes a meaningful
+          portion of staff time every single month — time that cannot be billed, cannot
+          be delegated to a junior without close review, and does not get easier with experience.
+        </p>
+        <p>
+          The information needed to produce these reports already exists in QuickBooks Online.
+          The only reason a human is involved is that no one has connected the trigger (period close)
+          to the output (branded report + delivery) without a person in the middle.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- How automation works -->
+  <section class="section">
+    <div class="container prose-container">
+      <h2 class="section-heading reveal">What automated client reporting looks like</h2>
+      <div class="steps-flow">
+        {steps.map((s) => (
+          <div class="step reveal">
+            <div class="step-num">{s.n}</div>
+            <div class="step-body">
+              <div class="step-label">{s.label}</div>
+              <p class="step-desc">{s.desc}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- What you keep -->
+  <section class="section">
+    <div class="container prose-container">
+      <div class="prose reveal">
+        <h2>What the partner keeps control of</h2>
+        <p>
+          Automated reporting does not mean unsupervised reporting. The system is built
+          with a configurable review step: before any report goes out, the partner receives
+          a notification and a one-click approval link. If everything looks right, approve
+          and the email sends. If something needs adjustment, edit the draft before it delivers.
+        </p>
+        <p>
+          Most firms turn off the mandatory review step after the first quarter, once they
+          have confidence in the output. Some keep it for high-value clients or any month
+          where significant advisory context needs to be added.
+        </p>
+        <h2>What clients receive</h2>
+        <p>
+          From the client perspective, the experience is the same — or better. They receive
+          a professionally formatted PDF and a link to a live web dashboard showing their
+          financials updated through the prior period. The email arrives reliably before
+          the 5th of the month instead of whenever someone got around to it.
+        </p>
+        <p>
+          The optional AI narrative summary is written in plain English — not accounting jargon —
+          and highlights the three or four most meaningful numbers from the period. Clients
+          who previously ignored reports start reading them.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Insight -->
+  <section class="section insight-section">
+    <div class="container prose-container">
+      <div class="insight-box reveal">
+        <div class="insight-label">Time math</div>
+        <p>
+          A firm with 20 monthly reporting clients typically spends 8-15 hours per month
+          on manual report production. At a fully-loaded staff cost of $35-50/hr, that is
+          $280-$750 per month in labor for work that produces zero revenue. The automation
+          pays for itself in the first quarter.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="section">
+    <div class="container prose-container">
+      <div class="prose reveal">
+        <h2>The Monthly Client Snapshot service</h2>
+        <p>
+          We build automated client reporting systems for accounting and CPA firms. Setup
+          takes 10-14 business days. It connects to your existing QBO and delivers branded
+          reports to your existing clients — no new tools for them to learn, no migration
+          required from your side.
+        </p>
+      </div>
+      <div class="cta-row reveal">
+        <Button href="/services/monthly-client-snapshot" variant="primary">See Monthly Client Snapshots</Button>
+        <Button href="/#book" variant="secondary">Book a scoping call</Button>
+      </div>
+    </div>
+  </section>
+
+</Layout>
+
+<style>
+  .hero-section {
+    padding: var(--space-32) 0 var(--space-20);
+    background: radial-gradient(ellipse 80% 50% at 50% 0%, rgba(93,140,93,0.12) 0%, transparent 70%);
+  }
+
+  .hero-inner {
+    max-width: 720px;
+  }
+
+  .hero-inner h1 {
+    margin: var(--space-4) 0 var(--space-6);
+    font-size: clamp(2rem, 4vw, 3rem);
+  }
+
+  .hero-deck {
+    font-size: 1.125rem;
+    color: var(--text-secondary);
+    max-width: 60ch;
+    line-height: 1.7;
+  }
+
+  .prose-container {
+    max-width: 760px;
+  }
+
+  .prose p {
+    color: var(--text-secondary);
+    line-height: 1.75;
+    margin-bottom: var(--space-5);
+  }
+
+  .prose h2 {
+    font-size: 1.5rem;
+    margin: var(--space-10) 0 var(--space-4);
+    color: var(--text-primary);
+  }
+
+  .section-heading {
+    font-size: 1.5rem;
+    margin-bottom: var(--space-8);
+    color: var(--text-primary);
+  }
+
+  .steps-flow {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    border-left: 2px solid var(--border-brand);
+    padding-left: var(--space-8);
+    margin-left: var(--space-4);
+  }
+
+  .step {
+    display: grid;
+    grid-template-columns: 2rem 1fr;
+    gap: var(--space-4);
+    padding: var(--space-5) 0;
+    position: relative;
+  }
+
+  .step::before {
+    content: '';
+    position: absolute;
+    left: calc(-1 * var(--space-8) - 5px);
+    top: calc(var(--space-5) + 0.35rem);
+    width: 10px;
+    height: 10px;
+    background: var(--brand-primary);
+    border-radius: 50%;
+  }
+
+  .step-num {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: var(--brand-primary);
+    letter-spacing: 0.05em;
+    padding-top: 0.2rem;
+  }
+
+  .step-label {
+    font-family: var(--font-heading);
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: var(--space-1);
+  }
+
+  .step-desc {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    line-height: 1.65;
+    margin: 0;
+  }
+
+  .insight-section {
+    background: var(--bg-surface);
+    border-top: 1px solid var(--border-subtle);
+    border-bottom: 1px solid var(--border-subtle);
+  }
+
+  .insight-box {
+    background: rgba(93,140,93,0.06);
+    border: 1px solid var(--border-brand);
+    border-radius: var(--radius-xl);
+    padding: var(--space-8) var(--space-10);
+  }
+
+  .insight-label {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--brand-primary-light);
+    margin-bottom: var(--space-3);
+  }
+
+  .insight-box p {
+    color: var(--text-secondary);
+    line-height: 1.75;
+    margin: 0;
+    font-size: 1.05rem;
+  }
+
+  .cta-row {
+    display: flex;
+    gap: var(--space-4);
+    flex-wrap: wrap;
+    margin-top: var(--space-8);
+  }
+</style>

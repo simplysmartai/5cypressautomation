@@ -1,0 +1,574 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Button from '../../components/Button.astro';
+import JsonLd from '../../components/JsonLd.astro';
+import MicroDashboard from '../../components/MicroDashboard.astro';
+import { services, getService } from '../../data/services';
+
+export function getStaticPaths() {
+  return services.map((s) => ({ params: { slug: s.slug } }));
+}
+
+const { slug } = Astro.params;
+const service = getService(slug as string)!;
+
+// Adjacent services for "Related" section
+const otherServices = services.filter((s) => s.slug !== service.slug).slice(0, 3);
+
+// Decide which MicroDashboard variant to show
+const dashVariant: Record<string, string> = {
+  'practice-kpi-dashboard': 'practice-kpi',
+  'monthly-client-snapshot': 'monthly-snapshot',
+  'missed-lead-text-back': 'lead-recovery',
+  'document-intake-ai-sort': 'doc-intake',
+  'engagement-onboarding-flow': 'onboarding',
+};
+const variant = dashVariant[service.slug] ?? 'practice-kpi';
+
+// How-it-works steps per service
+type Step = { step: string; title: string; body: string };
+const steps: Record<string, Step[]> = {
+  'practice-kpi-dashboard': [
+    { step: '01', title: 'Connect your sources', body: 'We authenticate with QBO and your practice management system using OAuth. No exports, no spreadsheets.' },
+    { step: '02', title: 'Define your metrics', body: 'We scope exactly what each partner needs: realization rate, WIP buckets, AR aging, billing run status, or custom KPIs.' },
+    { step: '03', title: 'Build the sync layer', body: 'A Python/FastAPI worker polls both systems on your schedule. Data is normalized, stored, and updated automatically.' },
+    { step: '04', title: 'Hand off a live dashboard', body: 'You get a URL and a runbook. We stay on for 30 days of support and optionally maintain the sync going forward.' },
+  ],
+  'monthly-client-snapshot': [
+    { step: '01', title: 'Map your report template', body: 'We document exactly what each client receives — balance sheet, P&L, KPIs, narrative summary — and build the generation logic once.' },
+    { step: '02', title: 'Wire the QBO trigger', body: 'The system listens for period close events in QBO. When the books are closed, generation starts automatically.' },
+    { step: '03', title: 'Generate PDF + dashboard', body: 'Reports are rendered with your firm branding, optionally enriched with AI narrative, and uploaded to both PDF and a live URL.' },
+    { step: '04', title: 'Review and send', body: 'Optional partner review step before delivery. One-click approve, then SendGrid routes each report to the right client contact.' },
+  ],
+  'document-intake-ai-sort': [
+    { step: '01', title: 'Build the upload portal', body: 'Clients get a simple, branded upload page — no login required. Files are accepted via drag-and-drop or mobile camera.' },
+    { step: '02', title: 'AI classifies each file', body: 'OpenAI Vision reads every uploaded document and identifies its type: W-2, 1099, bank statement, K-1, signed return, and more.' },
+    { step: '03', title: 'Route to the right job', body: 'Classified files are pushed directly to the correct job folder in Karbon, TaxDome, or SharePoint — named and organized by our convention.' },
+    { step: '04', title: 'Track completeness', body: 'A per-client checklist shows which required documents have been received. Staff see gaps at a glance without chasing clients manually.' },
+  ],
+  'engagement-onboarding-flow': [
+    { step: '01', title: 'Configure your DocuSign templates', body: 'We map your engagement letter fields to the data we need: client name, service type, start date, billing tier, responsible partner.' },
+    { step: '02', title: 'Build the webhook receiver', body: 'A FastAPI endpoint listens for DocuSign completed events. When an envelope is signed, the workflow fires immediately.' },
+    { step: '03', title: 'Create records in parallel', body: 'In one pass: Karbon job created from the correct template, QBO customer created or updated, Calendly link generated with personalized message.' },
+    { step: '04', title: 'Notify and track', body: 'The responsible partner gets a Slack or email notification. A job tracker confirms every step completed without error.' },
+  ],
+  'missed-lead-text-back': [
+    { step: '01', title: 'Connect your phone line', body: 'We integrate with your existing phone system (RingCentral, Grasshopper, Google Voice, or direct VoIP) to detect missed calls in real time.' },
+    { step: '02', title: 'Monitor contact forms', body: 'A webhook monitors your contact form submissions 24/7 — website, Typeform, Gravity Forms, or custom form.' },
+    { step: '03', title: 'Send the text in <60 seconds', body: 'A personalized, professionally worded SMS goes out under your firm name within 60 seconds. No generic "we received your inquiry" messages.' },
+    { step: '04', title: 'Log every contact attempt', body: 'Every missed call and form submission is logged with a timestamp. You always know who was contacted, when, and whether they replied.' },
+  ],
+};
+const serviceSteps = steps[service.slug] ?? [];
+
+const serviceSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Service',
+  name: service.title,
+  description: service.detail,
+  provider: {
+    '@type': 'Organization',
+    name: '5 Cypress Automation',
+    url: 'https://www.5cypress.com',
+  },
+  areaServed: 'US',
+  offers: {
+    '@type': 'Offer',
+    price: service.setupPrice.replace('–', '-'),
+    priceCurrency: 'USD',
+    description: `Setup: ${service.setupPrice}${service.monthlyPrice ? `. Monthly: ${service.monthlyPrice}` : ''}`,
+  },
+};
+---
+
+<Layout
+  title={`${service.title} | 5 Cypress`}
+  description={service.description}
+  canonical={`https://www.5cypress.com/services/${service.slug}`}
+>
+  <Fragment slot="head">
+    <JsonLd schema={serviceSchema} />
+  </Fragment>
+
+  <!-- Breadcrumb -->
+  <nav class="breadcrumb-bar" aria-label="Breadcrumb">
+    <div class="container">
+      <ol class="breadcrumb-list">
+        <li><a href="/">Home</a></li>
+        <li aria-hidden="true">›</li>
+        <li><a href="/services">Services</a></li>
+        <li aria-hidden="true">›</li>
+        <li aria-current="page">{service.title}</li>
+      </ol>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <section class="detail-hero section">
+    <div class="container">
+      <div class="detail-hero-grid">
+        <div class="detail-hero-content reveal">
+          <p class="service-tag">{service.tag}</p>
+          <h1>{service.title}<br/><em>{service.tagline}</em></h1>
+          <p class="detail-hero-intro">{service.detail}</p>
+          <div class="detail-hero-actions">
+            <Button variant="primary" size="lg" magnetic ripple data-open-booking>
+              Book a fit call
+            </Button>
+            <div class="pricing-inline">
+              <span class="pi-setup">{service.setupPrice} setup</span>
+              {service.monthlyPrice && <span class="pi-monthly">{service.monthlyPrice}</span>}
+              <span class="pi-timeline">{service.timeline}</span>
+            </div>
+          </div>
+        </div>
+        <div class="detail-hero-visual reveal-stagger">
+          <MicroDashboard variant={variant as any} />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Pain points -->
+  <section class="section detail-pain">
+    <div class="container detail-pain-inner">
+      <div class="reveal">
+        <p class="lead-in">The problem</p>
+        <h2>Why this<br/><em>costs more than it looks like.</em></h2>
+      </div>
+      <div class="pain-grid reveal-stagger">
+        {service.painPoints.map((p) => (
+          <div class="pain-card">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <circle cx="12" cy="12" r="10"/>
+              <line x1="15" y1="9" x2="9" y2="15"/>
+              <line x1="9" y1="9" x2="15" y2="15"/>
+            </svg>
+            <p>{p}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- How it works -->
+  <section class="section detail-how">
+    <div class="container">
+      <div class="reveal" style="margin-bottom: var(--space-12)">
+        <p class="lead-in">How it works</p>
+        <h2>From kickoff to<br/><em>live in {service.timeline}.</em></h2>
+      </div>
+      <div class="steps-list">
+        {serviceSteps.map((s, i) => (
+          <div class="step-row reveal" style={`--step-delay: ${i * 80}ms`}>
+            <div class="step-number">{s.step}</div>
+            <div class="step-content">
+              <h3>{s.title}</h3>
+              <p>{s.body}</p>
+            </div>
+            {i < serviceSteps.length - 1 && <div class="step-connector" aria-hidden="true"></div>}
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Outcomes -->
+  <section class="section detail-outcomes">
+    <div class="container">
+      <div class="outcomes-inner">
+        <div class="reveal">
+          <p class="lead-in">What you get</p>
+          <h2>Exactly what<br/><em>gets delivered.</em></h2>
+        </div>
+        <div class="outcomes-grid reveal-stagger">
+          {service.outcomes.map((o) => (
+            <div class="outcome-card">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
+              </svg>
+              <p>{o}</p>
+            </div>
+          ))}
+        </div>
+        <div class="stack-used reveal">
+          <p class="stack-label">Built with</p>
+          <div class="stack-pills">
+            {service.stack.map((t) => (
+              <span class="stack-pill">{t}</span>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Pricing -->
+  <section class="section detail-pricing">
+    <div class="container">
+      <div class="pricing-card reveal">
+        <div class="pricing-card-left">
+          <p class="lead-in">Pricing</p>
+          <h2>Transparent.<br/><em>No surprises.</em></h2>
+          <p>
+            Setup is a one-time engagement. Monthly covers hosting, monitoring, and
+            minor updates. We scope every project before any work begins — if the
+            scope changes, we tell you before we build.
+          </p>
+          <ul class="pricing-includes">
+            <li>Full working system, documented and tested</li>
+            <li>Client runbook (PDF + web)</li>
+            <li>30 days post-launch support included</li>
+            <li>Optional ongoing maintenance</li>
+          </ul>
+        </div>
+        <div class="pricing-card-right">
+          <div class="price-block">
+            <p class="price-big">{service.setupPrice}</p>
+            <p class="price-type">one-time setup</p>
+          </div>
+          {service.monthlyPrice && (
+            <div class="price-block">
+              <p class="price-mid">{service.monthlyPrice}</p>
+              <p class="price-type">monthly maintenance</p>
+            </div>
+          )}
+          <div class="price-block">
+            <p class="price-timeline">{service.timeline}</p>
+            <p class="price-type">time to live</p>
+          </div>
+          <Button variant="primary" size="lg" magnetic ripple data-open-booking class="pricing-cta">
+            Book a fit call
+          </Button>
+          <p class="pricing-note">No commitment. 20 minutes. We tell you if it's the right fit.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Related services -->
+  <section class="section detail-related">
+    <div class="container">
+      <div class="reveal" style="margin-bottom: var(--space-10)">
+        <p class="lead-in">While you're here</p>
+        <h2>Other automations<br/><em>firms pair with this one.</em></h2>
+      </div>
+      <div class="related-grid reveal-stagger">
+        {otherServices.map((s) => (
+          <a class="related-card" href={`/services/${s.slug}`}>
+            <p class="related-tag">{s.tag}</p>
+            <h3>{s.title}</h3>
+            <p>{s.tagline}</p>
+            <span class="related-link">Learn more →</span>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  /* ── Breadcrumb ───────────────────────────────────────────── */
+  .breadcrumb-bar {
+    border-bottom: 1px solid var(--border-subtle);
+    background: var(--bg-surface);
+  }
+  .breadcrumb-list {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    list-style: none;
+    padding: var(--space-3) 0;
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    color: var(--text-disabled);
+  }
+  .breadcrumb-list a { color: var(--text-tertiary); text-decoration: none; }
+  .breadcrumb-list a:hover { color: var(--text-primary); }
+  .breadcrumb-list [aria-current] { color: var(--text-secondary); }
+
+  /* ── Hero ─────────────────────────────────────────────────── */
+  .detail-hero { padding-block: var(--space-20) var(--space-16); }
+  .detail-hero-grid {
+    display: grid;
+    grid-template-columns: 1fr 420px;
+    gap: var(--space-20);
+    align-items: start;
+  }
+  .service-tag {
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    font-weight: var(--weight-bold);
+    letter-spacing: var(--tracking-widest);
+    text-transform: uppercase;
+    color: var(--brand-primary);
+    margin-bottom: var(--space-3);
+  }
+  .detail-hero-intro {
+    font-size: var(--text-base);
+    color: var(--text-secondary);
+    line-height: var(--leading-relaxed);
+    margin-top: var(--space-5);
+    max-width: 60ch;
+  }
+  .detail-hero-actions {
+    display: flex;
+    align-items: center;
+    gap: var(--space-8);
+    flex-wrap: wrap;
+    margin-top: var(--space-8);
+  }
+  .pricing-inline {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  .pi-setup {
+    font-family: var(--font-heading);
+    font-weight: var(--weight-bold);
+    font-size: var(--text-base);
+    color: var(--text-primary);
+  }
+  .pi-monthly {
+    font-size: var(--text-sm);
+    color: var(--text-secondary);
+  }
+  .pi-timeline {
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    color: var(--brand-primary);
+  }
+
+  /* ── Pain points ──────────────────────────────────────────── */
+  .detail-pain { background: var(--bg-surface); border-top: 1px solid var(--border-subtle); border-bottom: 1px solid var(--border-subtle); }
+  .detail-pain-inner {
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    gap: var(--space-16);
+    align-items: start;
+  }
+  .pain-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-4);
+  }
+  .pain-card {
+    display: flex;
+    gap: var(--space-3);
+    padding: var(--space-5);
+    background: var(--bg-main);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-lg);
+    align-items: flex-start;
+  }
+  .pain-card svg { color: var(--error); flex-shrink: 0; margin-top: 2px; }
+  .pain-card p { font-size: var(--text-sm); color: var(--text-secondary); line-height: var(--leading-relaxed); }
+
+  /* ── How it works ─────────────────────────────────────────── */
+  .steps-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    max-width: 680px;
+    position: relative;
+  }
+  .step-row {
+    display: grid;
+    grid-template-columns: 80px 1fr;
+    gap: var(--space-6);
+    padding: var(--space-8) 0;
+    position: relative;
+  }
+  .step-number {
+    font-family: var(--font-mono);
+    font-size: var(--text-4xl);
+    font-weight: var(--weight-bold);
+    color: var(--border-subtle);
+    line-height: 1;
+    padding-top: 4px;
+    transition: color var(--duration-fast);
+  }
+  .step-row:hover .step-number { color: var(--brand-primary); }
+  .step-content h3 {
+    font-family: var(--font-heading);
+    font-size: var(--text-xl);
+    font-weight: var(--weight-bold);
+    color: var(--text-primary);
+    margin-bottom: var(--space-2);
+  }
+  .step-content p {
+    font-size: var(--text-sm);
+    color: var(--text-secondary);
+    line-height: var(--leading-relaxed);
+  }
+  .step-connector {
+    position: absolute;
+    left: 38px;
+    bottom: 0;
+    width: 1px;
+    height: var(--space-8);
+    background: var(--border-subtle);
+  }
+
+  /* ── Outcomes ─────────────────────────────────────────────── */
+  .detail-outcomes { background: var(--bg-surface); border-top: 1px solid var(--border-subtle); border-bottom: 1px solid var(--border-subtle); }
+  .outcomes-inner { display: flex; flex-direction: column; gap: var(--space-10); }
+  .outcomes-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-4);
+  }
+  .outcome-card {
+    display: flex;
+    gap: var(--space-3);
+    padding: var(--space-5);
+    background: var(--bg-main);
+    border: 1px solid var(--border-brand);
+    border-radius: var(--radius-lg);
+  }
+  .outcome-card svg { color: var(--success); flex-shrink: 0; margin-top: 3px; }
+  .outcome-card p { font-size: var(--text-sm); color: var(--text-secondary); line-height: var(--leading-relaxed); }
+  .stack-used { display: flex; flex-direction: column; gap: var(--space-3); }
+  .stack-label {
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-widest);
+    color: var(--text-disabled);
+  }
+  .stack-pills { display: flex; flex-wrap: wrap; gap: var(--space-2); }
+  .stack-pill {
+    padding: 4px 12px;
+    background: var(--bg-surface);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-full);
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    color: var(--text-tertiary);
+  }
+
+  /* ── Pricing ──────────────────────────────────────────────── */
+  .pricing-card {
+    display: grid;
+    grid-template-columns: 1fr 340px;
+    gap: var(--space-16);
+    padding: var(--space-12);
+    background: var(--bg-surface);
+    border: 1px solid var(--border-medium);
+    border-radius: var(--radius-2xl);
+  }
+  .pricing-card-left { display: flex; flex-direction: column; gap: var(--space-5); }
+  .pricing-card-left p { font-size: var(--text-base); color: var(--text-secondary); line-height: var(--leading-relaxed); }
+  .pricing-includes {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    padding-left: 0;
+  }
+  .pricing-includes li {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-size: var(--text-sm);
+    color: var(--text-tertiary);
+  }
+  .pricing-includes li::before { content: '—'; color: var(--brand-primary); }
+  .pricing-card-right {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-5);
+    padding: var(--space-8);
+    background: var(--bg-main);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-xl);
+  }
+  .price-block { display: flex; flex-direction: column; gap: 4px; }
+  .price-big {
+    font-family: var(--font-heading);
+    font-weight: var(--weight-black);
+    font-size: var(--text-3xl);
+    color: var(--text-primary);
+  }
+  .price-mid {
+    font-family: var(--font-heading);
+    font-weight: var(--weight-bold);
+    font-size: var(--text-xl);
+    color: var(--text-secondary);
+  }
+  .price-timeline {
+    font-family: var(--font-mono);
+    font-weight: var(--weight-bold);
+    font-size: var(--text-base);
+    color: var(--brand-primary);
+  }
+  .price-type {
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-wide);
+    color: var(--text-disabled);
+  }
+  .pricing-note {
+    font-size: var(--text-xs);
+    color: var(--text-disabled);
+    line-height: var(--leading-relaxed);
+  }
+
+  /* ── Related ──────────────────────────────────────────────── */
+  .related-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-5);
+  }
+  .related-card {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    padding: var(--space-7);
+    background: var(--bg-surface);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-xl);
+    text-decoration: none;
+    color: inherit;
+    transition: border-color var(--duration-fast), transform var(--duration-fast);
+  }
+  .related-card:hover { border-color: var(--border-brand); transform: translateY(-2px); }
+  .related-tag {
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    font-weight: var(--weight-bold);
+    letter-spacing: var(--tracking-widest);
+    text-transform: uppercase;
+    color: var(--brand-primary);
+  }
+  .related-card h3 {
+    font-family: var(--font-heading);
+    font-size: var(--text-base);
+    font-weight: var(--weight-bold);
+    color: var(--text-primary);
+  }
+  .related-card p { font-size: var(--text-sm); color: var(--text-secondary); }
+  .related-link {
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    color: var(--brand-primary);
+    margin-top: auto;
+  }
+
+  /* ── Responsive ───────────────────────────────────────────── */
+  @media (max-width: 1024px) {
+    .detail-hero-grid { grid-template-columns: 1fr; }
+    .detail-hero-visual { display: none; }
+    .detail-pain-inner { grid-template-columns: 1fr; }
+    .pricing-card { grid-template-columns: 1fr; }
+    .related-grid { grid-template-columns: 1fr 1fr; }
+  }
+  @media (max-width: 640px) {
+    .pain-grid { grid-template-columns: 1fr; }
+    .outcomes-grid { grid-template-columns: 1fr; }
+    .related-grid { grid-template-columns: 1fr; }
+    .step-row { grid-template-columns: 48px 1fr; }
+    .step-number { font-size: var(--text-2xl); }
+  }
+</style>

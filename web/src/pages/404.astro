@@ -1,0 +1,44 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Button from '../components/Button.astro';
+---
+
+<Layout
+  title="Page Not Found | 5 Cypress Automation"
+  description="This page doesn't exist."
+  noIndex
+>
+  <section class="not-found section">
+    <div class="container not-found-inner">
+      <p class="not-found-code">404</p>
+      <h1>Page not found</h1>
+      <p class="not-found-sub">
+        This page doesn't exist — or it moved. Head back to the homepage.
+      </p>
+      <Button variant="primary" size="md" href="/" magnetic ripple>
+        Back to home
+      </Button>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .not-found { min-height: 70vh; display: flex; align-items: center; }
+  .not-found-inner {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-6);
+    max-width: 520px;
+  }
+  .not-found-code {
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    font-weight: var(--weight-bold);
+    letter-spacing: var(--tracking-widest);
+    text-transform: uppercase;
+    color: var(--brand-primary);
+  }
+  .not-found h1 { font-size: var(--text-5xl); }
+  .not-found-sub { color: var(--text-secondary); font-size: var(--text-base); line-height: var(--leading-relaxed); }
+</style>

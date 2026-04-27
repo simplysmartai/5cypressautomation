@@ -1,0 +1,333 @@
+---
+/**
+ * MicroDashboard.astro
+ * Animated CSS-only UI mockup relevant to each service.
+ * Variant "practice-kpi" is the hero visual.
+ */
+interface Props {
+  variant?: 'practice-kpi' | 'monthly-snapshot' | 'doc-intake' | 'onboarding' | 'lead-recovery';
+}
+const { variant = 'practice-kpi' } = Astro.props;
+---
+
+{variant === 'practice-kpi' && (
+  <div class="micro-dash" aria-hidden="true">
+    <!-- Header bar -->
+    <div class="md-header">
+      <div class="md-header-left">
+        <div class="md-live-dot"></div>
+        <span class="md-title">Practice Overview</span>
+      </div>
+      <span class="md-period">Apr 2026 · LIVE</span>
+    </div>
+
+    <!-- KPI tiles -->
+    <div class="md-kpis">
+      <div class="md-kpi">
+        <span class="md-kpi-label">Realization Rate</span>
+        <span class="md-kpi-value md-kpi-value--green">87.4%</span>
+        <span class="md-kpi-delta md-kpi-delta--up">+2.1%</span>
+      </div>
+      <div class="md-kpi">
+        <span class="md-kpi-label">WIP Balance</span>
+        <span class="md-kpi-value">$142K</span>
+        <span class="md-kpi-delta md-kpi-delta--down">-$18K</span>
+      </div>
+      <div class="md-kpi">
+        <span class="md-kpi-label">AR &lt;30 Days</span>
+        <span class="md-kpi-value md-kpi-value--green">68%</span>
+        <span class="md-kpi-delta md-kpi-delta--up">+5%</span>
+      </div>
+    </div>
+
+    <!-- Mini bar chart: monthly billing -->
+    <div class="md-chart-section">
+      <span class="md-chart-label">Monthly Billings</span>
+      <div class="md-bars" role="img" aria-label="Monthly billing bar chart">
+        <div class="md-bar md-bar--5" style="--bar-h: 55%"></div>
+        <div class="md-bar md-bar--6" style="--bar-h: 70%"></div>
+        <div class="md-bar md-bar--7" style="--bar-h: 60%"></div>
+        <div class="md-bar md-bar--8" style="--bar-h: 85%"></div>
+        <div class="md-bar md-bar--9" style="--bar-h: 72%"></div>
+        <div class="md-bar md-bar--10" style="--bar-h: 90%"></div>
+        <div class="md-bar md-bar--11" style="--bar-h: 65%"></div>
+        <div class="md-bar md-bar--active" style="--bar-h: 78%"></div>
+      </div>
+      <div class="md-bar-labels">
+        <span>Sep</span><span>Oct</span><span>Nov</span>
+        <span>Dec</span><span>Jan</span><span>Feb</span>
+        <span>Mar</span><span>Apr</span>
+      </div>
+    </div>
+
+    <!-- Source badge -->
+    <div class="md-sources">
+      <span class="md-badge">QBO</span>
+      <span class="md-badge">Practice Mgmt</span>
+      <span class="md-badge md-badge--sync">
+        <span class="md-sync-dot"></span>
+        Auto-sync
+      </span>
+    </div>
+  </div>
+)}
+
+{variant === 'monthly-snapshot' && (
+  <div class="micro-dash" aria-hidden="true">
+    <div class="md-header">
+      <div class="md-header-left">
+        <div class="md-live-dot md-live-dot--gold"></div>
+        <span class="md-title">March 2026 Report</span>
+      </div>
+      <span class="md-period">Generated · Apr 1</span>
+    </div>
+    <div class="md-report-rows">
+      <div class="md-report-row"><span>Net Income</span><span class="md-val md-val--green">$48,240</span></div>
+      <div class="md-report-row"><span>Revenue vs Budget</span><span class="md-val">+8.4%</span></div>
+      <div class="md-report-row"><span>Accounts Receivable</span><span class="md-val">$22,180</span></div>
+      <div class="md-report-row"><span>Operating Expenses</span><span class="md-val md-val--warn">↑ 4%</span></div>
+    </div>
+    <div class="md-sources">
+      <span class="md-badge">PDF</span>
+      <span class="md-badge">Web Dashboard</span>
+      <span class="md-badge md-badge--sync">
+        <span class="md-sync-dot"></span>
+        Delivered
+      </span>
+    </div>
+  </div>
+)}
+
+{variant === 'lead-recovery' && (
+  <div class="micro-dash" aria-hidden="true">
+    <div class="md-header">
+      <div class="md-header-left">
+        <div class="md-live-dot"></div>
+        <span class="md-title">Lead Recovery</span>
+      </div>
+      <span class="md-period">&lt;60 sec</span>
+    </div>
+    <div class="md-sms-thread">
+      <div class="md-sms md-sms--inbound">Missed call from +1 (555) 438-2291</div>
+      <div class="md-sms md-sms--outbound md-sms--typing">
+        Hi! This is 5 Cypress — we missed your call. What can we help you with?
+      </div>
+      <div class="md-sms md-sms--inbound">Looking for automation help for our CPA firm</div>
+      <div class="md-sms md-sms--outbound">
+        Great timing — reply with a time that works and we'll confirm!
+      </div>
+    </div>
+    <div class="md-sources">
+      <span class="md-badge">Twilio</span>
+      <span class="md-badge md-badge--sync">
+        <span class="md-sync-dot"></span>
+        47 sec response
+      </span>
+    </div>
+  </div>
+)}
+
+<style>
+  /* ── Shell ────────────────────────────────────────────────── */
+  .micro-dash {
+    background: var(--bg-surface);
+    border: 1px solid var(--border-medium);
+    border-radius: var(--radius-xl);
+    padding: var(--space-6);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-5);
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    color: var(--text-secondary);
+    box-shadow: var(--shadow-lg);
+    width: 100%;
+    max-width: 440px;
+    position: relative;
+    overflow: hidden;
+  }
+  /* Subtle inner gradient */
+  .micro-dash::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at top left, rgba(93,140,93,0.06) 0%, transparent 60%);
+    pointer-events: none;
+  }
+
+  /* ── Header ───────────────────────────────────────────────── */
+  .md-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .md-header-left { display: flex; align-items: center; gap: var(--space-2); }
+  .md-title {
+    font-family: var(--font-heading);
+    font-size: var(--text-sm);
+    font-weight: var(--weight-semibold);
+    color: var(--text-primary);
+  }
+  .md-period { color: var(--text-disabled); }
+
+  /* Live dot */
+  .md-live-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--brand-primary);
+    box-shadow: 0 0 6px var(--brand-primary);
+    animation: pulse-dot 2s ease-in-out infinite;
+  }
+  .md-live-dot--gold {
+    background: var(--brand-accent);
+    box-shadow: 0 0 6px var(--brand-accent);
+  }
+  @keyframes pulse-dot {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50%       { opacity: 0.5; transform: scale(0.8); }
+  }
+
+  /* ── KPI Tiles ────────────────────────────────────────────── */
+  .md-kpis {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-3);
+  }
+  .md-kpi {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    background: var(--bg-main);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-md);
+    padding: var(--space-3);
+  }
+  .md-kpi-label { color: var(--text-disabled); font-size: 0.65rem; }
+  .md-kpi-value {
+    font-family: var(--font-heading);
+    font-size: var(--text-lg);
+    font-weight: var(--weight-bold);
+    color: var(--text-primary);
+    line-height: 1;
+  }
+  .md-kpi-value--green { color: var(--success); }
+  .md-kpi-delta { font-size: 0.65rem; }
+  .md-kpi-delta--up   { color: var(--success); }
+  .md-kpi-delta--down { color: var(--brand-accent); }
+
+  /* ── Bar chart ────────────────────────────────────────────── */
+  .md-chart-section { display: flex; flex-direction: column; gap: var(--space-2); }
+  .md-chart-label { color: var(--text-disabled); }
+
+  .md-bars {
+    display: flex;
+    align-items: flex-end;
+    gap: 4px;
+    height: 60px;
+  }
+  .md-bar {
+    flex: 1;
+    background: var(--bg-main);
+    border: 1px solid var(--border-subtle);
+    border-radius: 3px 3px 0 0;
+    height: var(--bar-h);
+    animation: bar-grow 0.8s var(--ease-out) both;
+  }
+  .md-bar:nth-child(1) { animation-delay: 0.05s; }
+  .md-bar:nth-child(2) { animation-delay: 0.10s; }
+  .md-bar:nth-child(3) { animation-delay: 0.15s; }
+  .md-bar:nth-child(4) { animation-delay: 0.20s; }
+  .md-bar:nth-child(5) { animation-delay: 0.25s; }
+  .md-bar:nth-child(6) { animation-delay: 0.30s; }
+  .md-bar:nth-child(7) { animation-delay: 0.35s; }
+  .md-bar--active {
+    background: var(--brand-primary) !important;
+    border-color: var(--brand-primary) !important;
+    box-shadow: 0 0 8px rgba(93,140,93,0.5);
+  }
+  @keyframes bar-grow {
+    from { transform: scaleY(0); transform-origin: bottom; }
+    to   { transform: scaleY(1); transform-origin: bottom; }
+  }
+
+  .md-bar-labels {
+    display: flex;
+    gap: 4px;
+    color: var(--text-disabled);
+    font-size: 0.6rem;
+  }
+  .md-bar-labels span { flex: 1; text-align: center; }
+
+  /* ── Source badges ────────────────────────────────────────── */
+  .md-sources { display: flex; align-items: center; gap: var(--space-2); flex-wrap: wrap; }
+  .md-badge {
+    padding: 3px 8px;
+    background: var(--bg-main);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-full);
+    font-size: 0.65rem;
+    color: var(--text-tertiary);
+  }
+  .md-badge--sync {
+    border-color: var(--border-brand);
+    color: var(--brand-primary);
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+  .md-sync-dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--brand-primary);
+    animation: pulse-dot 2s ease-in-out infinite;
+  }
+
+  /* ── Report rows ──────────────────────────────────────────── */
+  .md-report-rows { display: flex; flex-direction: column; gap: var(--space-2); }
+  .md-report-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--space-2) var(--space-3);
+    background: var(--bg-main);
+    border-radius: var(--radius-md);
+    border: 1px solid var(--border-subtle);
+    font-size: var(--text-xs);
+  }
+  .md-val { font-weight: var(--weight-semibold); color: var(--text-primary); }
+  .md-val--green { color: var(--success); }
+  .md-val--warn  { color: var(--warning); }
+
+  /* ── SMS thread ───────────────────────────────────────────── */
+  .md-sms-thread { display: flex; flex-direction: column; gap: var(--space-2); }
+  .md-sms {
+    max-width: 85%;
+    padding: var(--space-2) var(--space-3);
+    border-radius: var(--radius-lg);
+    font-size: var(--text-xs);
+    line-height: var(--leading-relaxed);
+  }
+  .md-sms--inbound {
+    background: var(--bg-surface-hover);
+    border: 1px solid var(--border-subtle);
+    align-self: flex-start;
+    color: var(--text-secondary);
+    border-bottom-left-radius: 4px;
+  }
+  .md-sms--outbound {
+    background: var(--brand-primary-dark);
+    border: 1px solid var(--border-brand);
+    align-self: flex-end;
+    color: var(--text-primary);
+    border-bottom-right-radius: 4px;
+  }
+  .md-sms--typing::after {
+    content: '…';
+    display: inline-block;
+    animation: blink 1.2s step-end infinite;
+  }
+  @keyframes blink {
+    0%, 100% { opacity: 1; }
+    50%       { opacity: 0; }
+  }
+</style>

@@ -1,0 +1,377 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Button from '../components/Button.astro';
+import JsonLd from '../components/JsonLd.astro';
+
+const title = "Client Onboarding Automation for Accounting Firms";
+const description = "How accounting and CPA firms eliminate 30-45 minutes of manual setup per new client — from signed engagement letter to fully onboarded in under 60 seconds.";
+const url = "https://www.5cypress.com/accounting-client-onboarding";
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": title,
+  "description": description,
+  "url": url,
+  "author": {
+    "@type": "Organization",
+    "name": "5 Cypress Automation",
+    "url": "https://www.5cypress.com"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "5 Cypress Automation",
+    "url": "https://www.5cypress.com"
+  },
+  "datePublished": "2025-01-01",
+  "dateModified": "2025-04-01"
+};
+
+const manualSteps = [
+  "Log into QuickBooks Online and create the customer record",
+  "Open Karbon or TaxDome and create the job with the correct template",
+  "Verify that all job fields (engagement type, billing rate, assigned staff) are filled in correctly",
+  "Find the Calendly link for kickoff calls and copy it",
+  "Draft and send a welcome email with the link",
+  "Update the pipeline or CRM to mark the prospect as a closed client",
+  "Notify the assigned staff member that a new client has been onboarded",
+];
+---
+
+<Layout title={title} description={description}>
+  <JsonLd data={jsonLd} />
+
+  <!-- Hero -->
+  <section class="hero-section">
+    <div class="container">
+      <div class="hero-inner reveal">
+        <span class="lead-in">Client Onboarding</span>
+        <h1>Signed letter.<br /><em>Zero manual setup.</em></h1>
+        <p class="hero-deck">
+          Every new client triggers the same 30-45 minutes of setup work. Here is how
+          to collapse that to under 60 seconds — without cutting corners on what gets done.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- The problem -->
+  <section class="section">
+    <div class="container prose-container">
+      <div class="prose reveal">
+        <h2>What actually happens when a client signs</h2>
+        <p>
+          The engagement letter is signed. The deal is done. And then someone on your team
+          has to do 30-45 minutes of administrative work before that client is actually set
+          up in your systems and ready to work.
+        </p>
+      </div>
+      <div class="manual-list reveal">
+        <div class="manual-list-label">The typical manual onboarding checklist</div>
+        {manualSteps.map((step, i) => (
+          <div class="manual-step">
+            <span class="manual-num">{i + 1}</span>
+            <span class="manual-text">{step}</span>
+          </div>
+        ))}
+      </div>
+      <div class="prose reveal" style="margin-top: var(--space-8)">
+        <p>
+          Every one of these steps has to happen for every new client. If it falls to
+          whoever has time, it gets done inconsistently. If it falls to a specific person,
+          they become a bottleneck. If it gets done right away, it interrupts billable work.
+          If it gets done later, the client experience suffers.
+        </p>
+        <p>
+          The information needed to do all of this already exists in the signed DocuSign envelope.
+          The client name, engagement type, contact details — it is all there. The only reason
+          a human is involved is that no one has connected the trigger to the downstream actions.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- The solution -->
+  <section class="section">
+    <div class="container prose-container">
+      <div class="prose reveal">
+        <h2>What automated onboarding actually does</h2>
+        <p>
+          When a DocuSign engagement letter is completed, a webhook fires immediately.
+          Within 60 seconds, the system does the following:
+        </p>
+      </div>
+      <div class="auto-flow reveal">
+        <div class="auto-step">
+          <div class="auto-icon">&#x2713;</div>
+          <div>
+            <div class="auto-label">Karbon job created</div>
+            <p class="auto-desc">
+              The correct job template is applied automatically based on engagement type.
+              All fields populated from the DocuSign data. Assigned staff notified.
+            </p>
+          </div>
+        </div>
+        <div class="auto-step">
+          <div class="auto-icon">&#x2713;</div>
+          <div>
+            <div class="auto-label">QBO customer record created or updated</div>
+            <p class="auto-desc">
+              If the client already exists in QBO, their record is updated.
+              If they are new, a complete customer record is created with all
+              relevant billing information from the engagement letter.
+            </p>
+          </div>
+        </div>
+        <div class="auto-step">
+          <div class="auto-icon">&#x2713;</div>
+          <div>
+            <div class="auto-label">Kickoff link sent to client</div>
+            <p class="auto-desc">
+              A personalized welcome email goes to the client within seconds of signing.
+              It confirms the engagement and includes a Calendly link to book their kickoff call.
+            </p>
+          </div>
+        </div>
+        <div class="auto-step">
+          <div class="auto-icon">&#x2713;</div>
+          <div>
+            <div class="auto-label">Partner notified when kickoff is booked</div>
+            <p class="auto-desc">
+              When the client books their call, the assigned partner receives an
+              automatic notification. No one has to chase the booking confirmation.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Context on scale -->
+  <section class="section">
+    <div class="container prose-container">
+      <div class="prose reveal">
+        <h2>Why this matters more than it sounds</h2>
+        <p>
+          At three new clients per month, 30-45 minutes of setup per client is 1.5-2.5 hours
+          of non-billable administrative time. That is easy to absorb and easy to ignore.
+        </p>
+        <p>
+          At ten new clients per month, it is 5-7.5 hours. At the busiest time of year —
+          when accounting firms are growing fastest — that administrative time competes
+          directly with delivery capacity. Firms that are doing well start to feel like
+          they are drowning in their own success.
+        </p>
+        <p>
+          The automation does not just save time. It removes the inconsistency that comes
+          with manual processes. Every new client gets the same setup, the same welcome
+          message, the same booking experience — regardless of who is on the team or
+          how busy they are.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Insight -->
+  <section class="section insight-section">
+    <div class="container prose-container">
+      <div class="insight-box reveal">
+        <div class="insight-label">What firms say after the first month</div>
+        <p>
+          The most common reaction from accounting firm partners after implementing
+          automated onboarding is not about the time saved — it is about the consistency.
+          Every client gets onboarded the same way. Nothing gets missed. The partner finds
+          out when the kickoff is booked, not when a staff member remembers to mention it.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="section">
+    <div class="container prose-container">
+      <div class="prose reveal">
+        <h2>Engagement Onboarding Flow</h2>
+        <p>
+          We build automated onboarding flows for accounting and CPA firms using DocuSign,
+          Karbon, QuickBooks Online, and Calendly. Setup takes 10-14 business days. No new
+          tools required — we connect the systems you already use.
+        </p>
+      </div>
+      <div class="cta-row reveal">
+        <Button href="/services/engagement-onboarding-flow" variant="primary">See the Onboarding Flow service</Button>
+        <Button href="/#book" variant="secondary">Book a scoping call</Button>
+      </div>
+    </div>
+  </section>
+
+</Layout>
+
+<style>
+  .hero-section {
+    padding: var(--space-32) 0 var(--space-20);
+    background: radial-gradient(ellipse 80% 50% at 50% 0%, rgba(93,140,93,0.12) 0%, transparent 70%);
+  }
+
+  .hero-inner {
+    max-width: 720px;
+  }
+
+  .hero-inner h1 {
+    margin: var(--space-4) 0 var(--space-6);
+    font-size: clamp(2rem, 4vw, 3rem);
+  }
+
+  .hero-deck {
+    font-size: 1.125rem;
+    color: var(--text-secondary);
+    max-width: 60ch;
+    line-height: 1.7;
+  }
+
+  .prose-container {
+    max-width: 760px;
+  }
+
+  .prose p {
+    color: var(--text-secondary);
+    line-height: 1.75;
+    margin-bottom: var(--space-5);
+  }
+
+  .prose h2 {
+    font-size: 1.5rem;
+    margin: var(--space-10) 0 var(--space-4);
+    color: var(--text-primary);
+  }
+
+  .manual-list {
+    background: var(--bg-surface);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-xl);
+    overflow: hidden;
+  }
+
+  .manual-list-label {
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-tertiary);
+    padding: var(--space-3) var(--space-6);
+    background: rgba(255,255,255,0.03);
+    border-bottom: 1px solid var(--border-subtle);
+  }
+
+  .manual-step {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-4);
+    padding: var(--space-3) var(--space-6);
+    border-bottom: 1px solid var(--border-subtle);
+  }
+
+  .manual-step:last-child {
+    border-bottom: none;
+  }
+
+  .manual-num {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: var(--text-tertiary);
+    width: 1.2rem;
+    flex-shrink: 0;
+    padding-top: 0.1rem;
+  }
+
+  .manual-text {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    line-height: 1.6;
+  }
+
+  .auto-flow {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-5);
+    margin-top: var(--space-6);
+  }
+
+  .auto-step {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-5);
+    padding: var(--space-5) var(--space-6);
+    background: rgba(93,140,93,0.06);
+    border: 1px solid var(--border-brand);
+    border-radius: var(--radius-lg);
+  }
+
+  .auto-icon {
+    flex-shrink: 0;
+    width: 1.75rem;
+    height: 1.75rem;
+    background: rgba(93,140,93,0.2);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8rem;
+    color: var(--brand-primary-light);
+    font-weight: 700;
+  }
+
+  .auto-label {
+    font-family: var(--font-heading);
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: var(--space-1);
+  }
+
+  .auto-desc {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    line-height: 1.65;
+    margin: 0;
+  }
+
+  .insight-section {
+    background: var(--bg-surface);
+    border-top: 1px solid var(--border-subtle);
+    border-bottom: 1px solid var(--border-subtle);
+  }
+
+  .insight-box {
+    background: rgba(93,140,93,0.06);
+    border: 1px solid var(--border-brand);
+    border-radius: var(--radius-xl);
+    padding: var(--space-8) var(--space-10);
+  }
+
+  .insight-label {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--brand-primary-light);
+    margin-bottom: var(--space-3);
+  }
+
+  .insight-box p {
+    color: var(--text-secondary);
+    line-height: 1.75;
+    margin: 0;
+    font-size: 1.05rem;
+  }
+
+  .cta-row {
+    display: flex;
+    gap: var(--space-4);
+    flex-wrap: wrap;
+    margin-top: var(--space-8);
+  }
+</style>

@@ -1,0 +1,371 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Button from '../components/Button.astro';
+import JsonLd from '../components/JsonLd.astro';
+
+const title = "Accounting Firm Automation: What Actually Works in 2025";
+const description = "The five areas where small accounting and CPA firms automate first — and what each one actually looks like in practice.";
+const url = "https://www.5cypress.com/accounting-firm-automation";
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": title,
+  "description": description,
+  "url": url,
+  "author": {
+    "@type": "Organization",
+    "name": "5 Cypress Automation",
+    "url": "https://www.5cypress.com"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "5 Cypress Automation",
+    "url": "https://www.5cypress.com"
+  },
+  "datePublished": "2025-01-01",
+  "dateModified": "2025-04-01"
+};
+---
+
+<Layout title={title} description={description}>
+  <JsonLd data={jsonLd} />
+
+  <!-- Hero -->
+  <section class="hero-section">
+    <div class="container">
+      <div class="hero-inner reveal">
+        <span class="lead-in">Automation Guide</span>
+        <h1>Accounting firm automation:<br /><em>what actually works</em></h1>
+        <p class="hero-deck">
+          Most accounting firms waste their first automation attempt on the wrong problem.
+          Here are the five areas that generate real ROI — and what each one looks like in practice.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Intro -->
+  <section class="section">
+    <div class="container prose-container">
+      <div class="prose reveal">
+        <p>
+          The pitch for automation usually goes like this: stop doing manual work, save time,
+          grow revenue. All true. But accounting firms that try to automate everything at once
+          almost always end up with a pile of tools that no one uses and a workflow that is somehow
+          more complicated than before.
+        </p>
+        <p>
+          The firms that actually pull this off start with one problem, solve it completely,
+          and then move to the next. They also pick problems where the ROI is obvious within
+          30 days — not theoretical savings that show up someday.
+        </p>
+        <p>
+          Below are the five areas where small accounting and CPA firms see the clearest, fastest
+          return on automation investment.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5 Areas -->
+  <section class="section">
+    <div class="container prose-container">
+
+      <div class="playbook-item reveal">
+        <div class="playbook-number">01</div>
+        <div class="playbook-content">
+          <h2>Practice KPI visibility</h2>
+          <p>
+            Most accounting firm partners know their revenue. Fewer know their realization rate,
+            WIP balance, or AR aging on any given Tuesday. That information exists inside
+            QuickBooks Online and your practice management system — it just never gets surfaced
+            until month-end, when it is too late to act on.
+          </p>
+          <p>
+            A practice KPI dashboard connects directly to QBO and Karbon, TaxDome, or Clio.
+            It pulls realization rate, WIP, AR aging buckets, and billing trend in real time
+            and serves them in a shared partner panel — no reports to run, no spreadsheets to open.
+          </p>
+          <p>
+            The change in behavior is immediate. Partners stop asking staff for status updates
+            and start making decisions off live data. One firm reduced unbilled WIP by 23%
+            in the first quarter simply because they could finally see it.
+          </p>
+          <div class="learn-more">
+            <a href="/services/practice-kpi-dashboard">See how the KPI Dashboard works &rarr;</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="section-divider"></div>
+
+      <div class="playbook-item reveal">
+        <div class="playbook-number">02</div>
+        <div class="playbook-content">
+          <h2>Monthly client reporting</h2>
+          <p>
+            Ask any accounting firm partner what their staff hates most, and monthly client
+            reports come up in the first three answers. The same QBO export, the same branded
+            template, the same manual formatting — every client, every month.
+          </p>
+          <p>
+            Automated client reporting uses a QBO period-close trigger to kick off a workflow:
+            pull data for each client, generate a branded PDF and a live web dashboard,
+            optionally add an AI-written narrative summary, and deliver it by email before
+            the 5th of the month. No one builds anything. Partners review and approve in one click.
+          </p>
+          <p>
+            Firms running this consistently report eliminating 8-15 staff-hours per month per
+            reporting cycle. At 20 clients, that is a meaningful number.
+          </p>
+          <div class="learn-more">
+            <a href="/services/monthly-client-snapshot">See how Monthly Client Snapshots work &rarr;</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="section-divider"></div>
+
+      <div class="playbook-item reveal">
+        <div class="playbook-number">03</div>
+        <div class="playbook-content">
+          <h2>Document intake and sorting</h2>
+          <p>
+            Tax season document collection is chaos at almost every small accounting firm:
+            clients emailing files to whoever responds first, staff manually sorting and
+            renaming them into job folders, documents showing up in the wrong client record.
+          </p>
+          <p>
+            An AI-powered intake system gives clients a branded upload portal. Every file
+            gets scanned by OpenAI Vision, which identifies the document type — W-2, 1099,
+            K-1, bank statement — and routes it to the correct job folder in Karbon, TaxDome,
+            or SharePoint automatically. Staff see a clean incoming tray instead of an inbox.
+          </p>
+          <p>
+            For firms that prepare 200+ returns, this single automation consistently frees
+            15-25 hours of staff time during peak season.
+          </p>
+          <div class="learn-more">
+            <a href="/services/document-intake-ai-sort">See how Document Intake & AI Sort works &rarr;</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="section-divider"></div>
+
+      <div class="playbook-item reveal">
+        <div class="playbook-number">04</div>
+        <div class="playbook-content">
+          <h2>New client onboarding</h2>
+          <p>
+            Every time a new client signs an engagement letter, someone on your team spends
+            30-45 minutes on manual setup: create the QBO customer, open the Karbon job with
+            the right template, send a kickoff scheduling link, update the pipeline. Every time.
+          </p>
+          <p>
+            When a DocuSign envelope is completed, a webhook fires and does all of it in under
+            60 seconds: Karbon job created with the correct template, QBO customer record
+            created or updated, Calendly kickoff link sent to the client with a personalized note.
+            The partner gets a notification when the call is booked.
+          </p>
+          <p>
+            Firms with 3-5 new engagements per month recover 3-4 hours immediately. Firms with
+            10+ new clients per month describe this as a hire they do not have to make.
+          </p>
+          <div class="learn-more">
+            <a href="/services/engagement-onboarding-flow">See how Engagement Onboarding works &rarr;</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="section-divider"></div>
+
+      <div class="playbook-item reveal">
+        <div class="playbook-number">05</div>
+        <div class="playbook-content">
+          <h2>After-hours lead response</h2>
+          <p>
+            Accounting firm leads are disproportionately time-sensitive. A referral who calls
+            at 6:30pm on a Wednesday and does not hear back by Thursday morning will call
+            the next name on the list. This is not speculation — it is the pattern that
+            appears repeatedly when firms look at their lost opportunity data.
+          </p>
+          <p>
+            A missed-lead text-back system monitors your phone line and contact forms around
+            the clock. When a call is missed or a form is submitted, a professional, branded
+            SMS goes out within 60 seconds. It acknowledges the inquiry, confirms someone will
+            follow up, and offers a simple reply-to-book link. The cost is typically less than
+            one recovered consultation.
+          </p>
+          <div class="learn-more">
+            <a href="/services/missed-lead-text-back">See how Missed-Lead Text-Back works &rarr;</a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Insight Callout -->
+  <section class="section insight-section">
+    <div class="container prose-container">
+      <div class="insight-box reveal">
+        <div class="insight-label">The pattern that works</div>
+        <p>
+          The firms that succeed with automation pick the single most painful problem, 
+          solve it completely in one build cycle, then move to the next. They do not try 
+          to automate five things at once. Start with the workflow your staff complains 
+          about most often — that is usually the right first project.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Where to Start -->
+  <section class="section">
+    <div class="container prose-container">
+      <div class="prose reveal">
+        <h2>Where to start</h2>
+        <p>
+          If you are evaluating automation for your accounting firm, the most useful first
+          step is a 20-minute call to map your highest-pain workflow. We will tell you
+          whether it is a good automation candidate, what the build would look like,
+          and what you should realistically expect in return.
+        </p>
+        <p>
+          We do not pitch tools. We build systems that solve specific problems for
+          accounting and CPA firms. If your problem is not something we can solve cleanly,
+          we will tell you that too.
+        </p>
+      </div>
+      <div class="cta-row reveal">
+        <Button href="/services" variant="primary">See all five automations</Button>
+        <Button href="/#book" variant="secondary">Book a scoping call</Button>
+      </div>
+    </div>
+  </section>
+
+</Layout>
+
+<style>
+  .hero-section {
+    padding: var(--space-32) 0 var(--space-20);
+    background: radial-gradient(ellipse 80% 50% at 50% 0%, rgba(93,140,93,0.12) 0%, transparent 70%);
+  }
+
+  .hero-inner {
+    max-width: 720px;
+  }
+
+  .hero-inner h1 {
+    margin: var(--space-4) 0 var(--space-6);
+    font-size: clamp(2rem, 4vw, 3rem);
+  }
+
+  .hero-deck {
+    font-size: 1.125rem;
+    color: var(--text-secondary);
+    max-width: 60ch;
+    line-height: 1.7;
+  }
+
+  .prose-container {
+    max-width: 760px;
+  }
+
+  .playbook-item {
+    display: grid;
+    grid-template-columns: 3rem 1fr;
+    gap: var(--space-6);
+    padding: var(--space-10) 0;
+  }
+
+  .playbook-number {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--brand-primary);
+    letter-spacing: 0.1em;
+    padding-top: 0.35rem;
+  }
+
+  .playbook-content h2 {
+    font-size: 1.4rem;
+    margin-bottom: var(--space-4);
+    color: var(--text-primary);
+  }
+
+  .playbook-content p {
+    color: var(--text-secondary);
+    line-height: 1.75;
+    margin-bottom: var(--space-4);
+  }
+
+  .learn-more {
+    margin-top: var(--space-4);
+  }
+
+  .learn-more a {
+    font-family: var(--font-heading);
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--brand-primary-light);
+    text-decoration: none;
+    letter-spacing: 0.02em;
+    transition: color 0.2s;
+  }
+
+  .learn-more a:hover {
+    color: var(--brand-accent);
+  }
+
+  .insight-section {
+    background: var(--bg-surface);
+    border-top: 1px solid var(--border-subtle);
+    border-bottom: 1px solid var(--border-subtle);
+  }
+
+  .insight-box {
+    background: rgba(93,140,93,0.06);
+    border: 1px solid var(--border-brand);
+    border-radius: var(--radius-xl);
+    padding: var(--space-8) var(--space-10);
+  }
+
+  .insight-label {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--brand-primary-light);
+    margin-bottom: var(--space-3);
+  }
+
+  .insight-box p {
+    color: var(--text-secondary);
+    line-height: 1.75;
+    margin: 0;
+    font-size: 1.05rem;
+  }
+
+  .cta-row {
+    display: flex;
+    gap: var(--space-4);
+    flex-wrap: wrap;
+    margin-top: var(--space-8);
+  }
+
+  .prose p {
+    color: var(--text-secondary);
+    line-height: 1.75;
+    margin-bottom: var(--space-5);
+  }
+
+  .prose h2 {
+    font-size: 1.5rem;
+    margin: var(--space-10) 0 var(--space-4);
+    color: var(--text-primary);
+  }
+</style>

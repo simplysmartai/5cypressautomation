@@ -1,0 +1,324 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Button from '../components/Button.astro';
+import JsonLd from '../components/JsonLd.astro';
+
+const title = "Document Management Automation for Accounting and Tax Firms";
+const description = "How small accounting firms replace email chaos during tax season with an AI-powered intake portal that classifies and routes every client document automatically.";
+const url = "https://www.5cypress.com/document-management-accounting";
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": title,
+  "description": description,
+  "url": url,
+  "author": {
+    "@type": "Organization",
+    "name": "5 Cypress Automation",
+    "url": "https://www.5cypress.com"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "5 Cypress Automation",
+    "url": "https://www.5cypress.com"
+  },
+  "datePublished": "2025-01-01",
+  "dateModified": "2025-04-01"
+};
+
+const docTypes = [
+  { type: "W-2 / W-2G", routed: "Tax preparation job folder — year-end" },
+  { type: "1099 (any variant)", routed: "Tax preparation job folder — year-end" },
+  { type: "K-1", routed: "Partnership / trust job folder by entity" },
+  { type: "Bank statement", routed: "Bookkeeping job folder — correct month" },
+  { type: "Brokerage statement", routed: "Investment / capital gains folder" },
+  { type: "Mortgage interest statement", routed: "Tax preparation — deductions folder" },
+  { type: "Business receipt / invoice", routed: "Bookkeeping job — expenses folder" },
+  { type: "Prior year return", routed: "Client permanent file" },
+];
+---
+
+<Layout title={title} description={description}>
+  <JsonLd data={jsonLd} />
+
+  <!-- Hero -->
+  <section class="hero-section">
+    <div class="container">
+      <div class="hero-inner reveal">
+        <span class="lead-in">Document Intake</span>
+        <h1>End tax season<br /><em>document chaos</em></h1>
+        <p class="hero-deck">
+          Clients uploading files to whoever responds first. Staff sorting and renaming all day.
+          Documents in the wrong folder. There is a better way — and it takes less than three weeks to set up.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- The problem -->
+  <section class="section">
+    <div class="container prose-container">
+      <div class="prose reveal">
+        <h2>What document collection actually looks like at most small firms</h2>
+        <p>
+          Every January and February, the same thing happens at small accounting and tax firms
+          across the country. Clients start sending documents. They send them to whoever they
+          have a relationship with — a partner, a staff accountant, the front desk. They send
+          them by email attachment. They send them in multiple emails, weeks apart, with no
+          subject line organization.
+        </p>
+        <p>
+          On the firm side, someone is opening those emails, downloading the attachments,
+          renaming them to some approximation of a file naming convention, and manually moving
+          them into job folders inside Karbon, TaxDome, or SharePoint. When the folder structure
+          is wrong, documents end up associated with the wrong client. When staff are overwhelmed,
+          documents sit in inboxes waiting.
+        </p>
+        <p>
+          This is not a problem that gets better by asking clients to be more organized.
+          It is a process problem, and it has a process solution.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- The solution -->
+  <section class="section">
+    <div class="container prose-container">
+      <div class="prose reveal">
+        <h2>How an AI-powered intake system works</h2>
+        <p>
+          An automated document intake system replaces the email-and-sort workflow with a
+          structured upload portal. Clients receive a simple, branded link — no software
+          to install, no account to create. They drag files in. Everything else is automatic.
+        </p>
+        <p>
+          Every file that enters the portal is scanned by OpenAI Vision, which reads the document
+          and identifies what it is. The classification is specific enough to distinguish between
+          a 1099-DIV and a 1099-INT, between a bank statement and a brokerage statement, between
+          a W-2 from one employer and a W-2 from another. Once classified, the file is routed to
+          the correct job folder in your practice management system — with proper naming conventions
+          applied automatically.
+        </p>
+        <p>
+          The result is a clean incoming tray instead of a chaotic inbox. Staff see what came
+          in, where it went, and what is still missing. No sorting. No renaming. No hunting
+          through inboxes.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Document types table -->
+  <section class="section">
+    <div class="container prose-container">
+      <h2 class="section-heading reveal">What the AI classifies and routes</h2>
+      <div class="doc-table reveal">
+        <div class="doc-table-header">
+          <span>Document type</span>
+          <span>Routed to</span>
+        </div>
+        {docTypes.map((d) => (
+          <div class="doc-row">
+            <span class="doc-type">{d.type}</span>
+            <span class="doc-dest">{d.routed}</span>
+          </div>
+        ))}
+        <div class="doc-row doc-more">
+          <span class="doc-type">+ custom types</span>
+          <span class="doc-dest">Configurable per firm — any document type can be added</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Missing document tracker -->
+  <section class="section">
+    <div class="container prose-container">
+      <div class="prose reveal">
+        <h2>The missing document tracker</h2>
+        <p>
+          One of the most time-consuming parts of tax season is chasing clients for documents
+          they have not yet submitted. Every year, staff spend hours looking across job folders
+          trying to figure out who still needs to send what.
+        </p>
+        <p>
+          An automated intake system solves this by tracking submission status per client.
+          The missing document tracker shows a simple list: which clients have submitted a
+          complete package, which are partial, and what is still expected. This eliminates the
+          manual status-check workflow entirely.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Insight -->
+  <section class="section insight-section">
+    <div class="container prose-container">
+      <div class="insight-box reveal">
+        <div class="insight-label">Tax season impact</div>
+        <p>
+          Firms preparing 200+ returns consistently recover 15-25 hours of staff time
+          during peak season after implementing automated document intake. The hours come
+          from two places: eliminating manual sorting and renaming, and eliminating status
+          checks on who has submitted what.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="section">
+    <div class="container prose-container">
+      <div class="prose reveal">
+        <h2>Document Intake & AI Sort</h2>
+        <p>
+          We build document intake systems for accounting and tax firms. Setup takes 14-21
+          business days. The portal is branded to your firm. It integrates with Karbon,
+          TaxDome, or SharePoint. Clients need nothing new — just a link.
+        </p>
+      </div>
+      <div class="cta-row reveal">
+        <Button href="/services/document-intake-ai-sort" variant="primary">See Document Intake & AI Sort</Button>
+        <Button href="/#book" variant="secondary">Book a scoping call</Button>
+      </div>
+    </div>
+  </section>
+
+</Layout>
+
+<style>
+  .hero-section {
+    padding: var(--space-32) 0 var(--space-20);
+    background: radial-gradient(ellipse 80% 50% at 50% 0%, rgba(93,140,93,0.12) 0%, transparent 70%);
+  }
+
+  .hero-inner {
+    max-width: 720px;
+  }
+
+  .hero-inner h1 {
+    margin: var(--space-4) 0 var(--space-6);
+    font-size: clamp(2rem, 4vw, 3rem);
+  }
+
+  .hero-deck {
+    font-size: 1.125rem;
+    color: var(--text-secondary);
+    max-width: 60ch;
+    line-height: 1.7;
+  }
+
+  .prose-container {
+    max-width: 760px;
+  }
+
+  .prose p {
+    color: var(--text-secondary);
+    line-height: 1.75;
+    margin-bottom: var(--space-5);
+  }
+
+  .prose h2 {
+    font-size: 1.5rem;
+    margin: var(--space-10) 0 var(--space-4);
+    color: var(--text-primary);
+  }
+
+  .section-heading {
+    font-size: 1.5rem;
+    margin-bottom: var(--space-6);
+    color: var(--text-primary);
+  }
+
+  .doc-table {
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-xl);
+    overflow: hidden;
+  }
+
+  .doc-table-header {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-4);
+    padding: var(--space-3) var(--space-6);
+    background: var(--bg-surface);
+    border-bottom: 1px solid var(--border-subtle);
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-tertiary);
+  }
+
+  .doc-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-4);
+    padding: var(--space-3) var(--space-6);
+    border-bottom: 1px solid var(--border-subtle);
+  }
+
+  .doc-row:last-child {
+    border-bottom: none;
+  }
+
+  .doc-type {
+    font-family: var(--font-mono);
+    font-size: 0.825rem;
+    color: var(--brand-primary-light);
+  }
+
+  .doc-dest {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+  }
+
+  .doc-more .doc-type {
+    color: var(--text-tertiary);
+  }
+
+  .doc-more .doc-dest {
+    color: var(--text-tertiary);
+    font-style: italic;
+  }
+
+  .insight-section {
+    background: var(--bg-surface);
+    border-top: 1px solid var(--border-subtle);
+    border-bottom: 1px solid var(--border-subtle);
+  }
+
+  .insight-box {
+    background: rgba(93,140,93,0.06);
+    border: 1px solid var(--border-brand);
+    border-radius: var(--radius-xl);
+    padding: var(--space-8) var(--space-10);
+  }
+
+  .insight-label {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--brand-primary-light);
+    margin-bottom: var(--space-3);
+  }
+
+  .insight-box p {
+    color: var(--text-secondary);
+    line-height: 1.75;
+    margin: 0;
+    font-size: 1.05rem;
+  }
+
+  .cta-row {
+    display: flex;
+    gap: var(--space-4);
+    flex-wrap: wrap;
+    margin-top: var(--space-8);
+  }
+</style>
