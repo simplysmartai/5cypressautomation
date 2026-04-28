@@ -1,16 +1,13 @@
-# Cloudflare Pages — extensionless URL rewrites
-# Serves the .html file silently so the clean URL stays in the browser bar.
+# Cloudflare Pages _redirects
+# https://developers.cloudflare.com/pages/configuration/redirects/
 
-/services        /services.html        200
-/about           /about.html           200
-/process         /process.html         200
-/case-studies    /case-studies.html    200
-/booking         /booking.html         200
-/privacy         /privacy.html         200
-/terms           /terms.html           200
-/security        /security.html        200
-/form            /form.html            200
-/login           /login.html           200
-/seo-report      /seo-report.html      200
-/dashboard       /dashboard.html       200
-/operations      /operations.html      200
+# Legacy HTML pages → clean URLs
+/services.html         /services             301
+/about.html            /about                301
+/contact.html          /                     301
+
+# API calls pass through to the Express origin (handled by wrangler.toml proxy / Pages Function)
+# These are no-ops in static mode; Express handles /api/* directly.
+
+# Catch-all 404 → Astro 404 page
+/*   /404   404
