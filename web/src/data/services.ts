@@ -155,6 +155,87 @@ export const services: Service[] = [
     monthlyPrice: '$100–$200/mo',
     timeline: '5–7 business days',
   },
+  {
+    slug: 'month-end-close-accelerator',
+    tag: 'Close · Flagship',
+    title: 'Month-End Close Accelerator',
+    shortTitle: 'Close Accelerator',
+    tagline: 'A 10-day close, compressed to 3.',
+    description:
+      'An agentic close engine that runs reconciliations, flags variances, drafts adjusting journal entries for review, and pushes a partner-ready close package — same day QBO is locked.',
+    detail:
+      "The month-end close is the single most expensive recurring workflow in a small accounting firm. We replace 10 days of senior-staff execution with a same-day agentic close. The system pulls bank, credit card, and payroll feeds, auto-reconciles to QBO, flags every variance over your threshold, drafts adjusting journal entries with explanations for partner review, and assembles the close package — all before the partner reviews their first email of the day. You approve, you don't rebuild.",
+    painPoints: [
+      'Close runs 7–10 days into the next month — partners reviewing too late to advise',
+      'Senior staff spending hours on reconciliations a junior could supervise if it were drafted',
+      'Adjusting JEs created from memory — no documented reasoning trail',
+      'Close package assembled by hand into a deck or PDF every cycle',
+    ],
+    outcomes: [
+      'Bank, credit card, and payroll feeds auto-reconciled before partner review',
+      'Variance flags surfaced with prior-period context — no manual diffing',
+      'Adjusting JEs drafted with reasoning notes, queued for one-click approval',
+      'Branded close package PDF generated automatically — ready to deliver to client',
+    ],
+    stack: ['QuickBooks Online API', 'OpenAI (variance reasoning + JE drafts)', 'Python / FastAPI', 'Karbon / TaxDome integration'],
+    setupPrice: '$2,500–$4,500',
+    monthlyPrice: '$400–$700/mo',
+    timeline: '21–30 business days',
+  },
+  {
+    slug: 'ar-collections-agent',
+    tag: 'AR · Cashflow',
+    title: 'AR / Collections Agent',
+    shortTitle: 'Collections Agent',
+    tagline: 'Aging invoices chased — without the awkward partner email.',
+    description:
+      'A graduated collections agent that monitors AR aging, sends personalized reminders at 15/30/45/60 days, tracks promise-to-pay commitments, and escalates only when a partner actually needs to step in.',
+    detail:
+      "Most small firms write off 4–8% of revenue every year because nobody enjoys chasing AR. We build an agent that lives on top of your QBO AR and runs a graduated collections cadence — friendly nudge at 15 days, structured reminder at 30, payment plan offer at 45, partner escalation at 60. Every message is tone-matched to the client relationship using OpenAI, sent via SMS or email per client preference, and logged back to QBO. Partners only get involved when the agent has exhausted the standard cadence — and the data needed for that conversation is one click away.",
+    painPoints: [
+      '4–8% of revenue lost to write-offs because nobody chases past 30 days',
+      'Generic dunning emails that damage long-standing client relationships',
+      'No structured promise-to-pay tracking — same client makes the same promise monthly',
+      'Partners blindsided when AR aging hits 90+ days with no warning',
+    ],
+    outcomes: [
+      'Graduated reminder cadence at 15/30/45/60 days, fully automated',
+      'Tone-matched messaging — formal for new clients, warmer for long-term relationships',
+      'Promise-to-pay tracker — every commitment logged, every broken promise surfaced',
+      'Partner-ready escalation report when the agent has done all it can',
+    ],
+    stack: ['QuickBooks Online API', 'Twilio + SendGrid', 'OpenAI (tone-matched copy)', 'Python / FastAPI'],
+    setupPrice: '$1,800–$3,000',
+    monthlyPrice: '$300–$500/mo',
+    timeline: '14–21 business days',
+  },
+  {
+    slug: 'cashflow-forecast-agent',
+    tag: 'Advisory · Forecast',
+    title: 'Cashflow Forecast Agent',
+    shortTitle: 'Cashflow Forecast',
+    tagline: 'A 13-week forecast you actually trust — refreshed every morning.',
+    description:
+      'A rolling 13-week cashflow forecast per client, pulled live from QBO actuals, AR/AP aging, payroll cadence, and recurring revenue — with auto-alerts for low balance projections and covenant risks.',
+    detail:
+      "Cashflow forecasting is the highest-margin advisory service most firms can't deliver consistently because the spreadsheets fall behind the moment a client's reality changes. We build an agent that maintains a rolling 13-week forecast per client, refreshed every morning from QBO actuals, AR/AP aging, payroll schedules, and known recurring lines. When projected balance crosses a threshold or a debt covenant is at risk, you and the client are alerted before it becomes a Friday-afternoon scramble. Forecasts are partner-reviewable, client-shareable, and historical accuracy is tracked so the model improves.",
+    painPoints: [
+      'Cashflow models built in Excel are stale within a week of delivery',
+      'Clients only ask for forecasts during a crisis — too late to advise well',
+      'No early warning when balances will trend negative or covenants will breach',
+      'Advisory revenue capped because the workflow doesn\'t scale past 5–10 clients',
+    ],
+    outcomes: [
+      '13-week rolling forecast per client, refreshed every morning from live QBO data',
+      'Auto-alerts for low balance projections and covenant risk thresholds',
+      'Client-facing dashboard — they see the forecast, you don\'t have to email it',
+      'Forecast accuracy tracked over time — model improves, advisory credibility grows',
+    ],
+    stack: ['QuickBooks Online API', 'OpenAI (narrative commentary)', 'Python / FastAPI + pandas', 'Custom web dashboard'],
+    setupPrice: '$2,000–$3,500',
+    monthlyPrice: '$350–$600/mo',
+    timeline: '21–30 business days',
+  },
 ];
 
 export function getService(slug: string): Service | undefined {
