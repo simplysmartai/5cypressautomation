@@ -236,6 +236,60 @@ export const services: Service[] = [
     monthlyPrice: '$350–$600/mo',
     timeline: '21–30 business days',
   },
+  {
+    slug: 'business-intelligence-dashboard',
+    tag: 'BI · Analytics',
+    title: 'Business Intelligence Dashboard',
+    shortTitle: 'BI Dashboard',
+    tagline: 'The numbers that run your business — finally in one place.',
+    description:
+      'A Power BI, Tableau, or Looker Studio dashboard built around the operational metrics that actually drive your business — modeled, automated, and refreshed without anyone touching a spreadsheet.',
+    detail:
+      "Most small businesses run on a Frankenstein of CRM exports, QuickBooks downloads, and Excel pivot tables nobody fully trusts. We design and build a real BI dashboard the way an enterprise data team would — proper data model, automated refresh, role-based views, drill-downs that actually work — but scoped and priced for a small business. Built by a former data analyst who's done this in three industries, now with Claude as a co-pilot to deliver it 3x faster than agency rates.",
+    painPoints: [
+      'Same numbers reported three different ways across departments',
+      'Monthly board pack rebuilt by hand from CRM, QBO, and Excel exports',
+      'Dashboards built in Excel that break the moment one column moves',
+      'Leadership making decisions on month-old or wrong data',
+    ],
+    outcomes: [
+      'Single source of truth dashboard — operational, financial, and sales metrics in one place',
+      'Automated daily/weekly refresh from your CRM, QBO, Stripe, ad platforms, and more',
+      'Role-based views — partners see margin, ops sees throughput, sales sees pipeline',
+      'Documented data model — when a metric is questioned, you can show exactly how it\'s built',
+    ],
+    stack: ['Power BI / Tableau / Looker Studio', 'SQL + Python data layer', 'Connectors: QBO, HubSpot, Stripe, GA4, Meta Ads', 'Scheduled refresh + alerting'],
+    setupPrice: '$1,800–$3,500',
+    monthlyPrice: '$200–$400/mo',
+    timeline: '14–21 business days',
+  },
+  {
+    slug: 'excel-spreadsheet-automation',
+    tag: 'Excel · Automation',
+    title: 'Excel & Spreadsheet Automation',
+    shortTitle: 'Excel Automation',
+    tagline: 'The spreadsheet you spend 8 hours on — done in 8 seconds.',
+    description:
+      'Custom Excel and Google Sheets automations using Power Query, Office Scripts, VBA, or Apps Script — built by a data analyst who has automated these workflows in three previous corporate roles.',
+    detail:
+      "Every business has at least one spreadsheet that takes someone half a day, every week, to update. Sales reports rebuilt from CRM exports. Inventory reconciliations across three systems. Commission calculations, payroll prep, KPI rollups. We replace those workflows with one-click (or zero-click, scheduled) automations using the right tool for the job — Power Query for messy data shaping, Office Scripts or VBA for native Excel automation, Apps Script for Google Sheets, Python for anything that needs to break out of the cell. Pay once per workflow, no subscription required.",
+    painPoints: [
+      'A senior employee spending 4–8 hours/week on a single recurring spreadsheet',
+      'Manual copy-paste between three systems to produce one report',
+      'Spreadsheets that break every time the underlying export format changes',
+      'No version control — three "final" copies of the same file in shared drives',
+    ],
+    outcomes: [
+      'Recurring spreadsheet workflows reduced from hours to seconds (one click or scheduled)',
+      'Resilient design — handles export format changes, missing columns, blank rows gracefully',
+      'Documented + handed off — your team owns it, no consultant lock-in',
+      'Optional scheduled execution + email delivery — runs without anyone opening the file',
+    ],
+    stack: ['Excel: Power Query, Office Scripts, VBA', 'Google Sheets: Apps Script', 'Python (pandas) for heavy lifts', 'Scheduled triggers + email delivery'],
+    setupPrice: '$750–$2,500',
+    monthlyPrice: 'Optional retainer',
+    timeline: '5–10 business days',
+  },
 ];
 
 export function getService(slug: string): Service | undefined {
