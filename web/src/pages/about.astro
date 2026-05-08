@@ -2,11 +2,38 @@
 import Layout from '../layouts/Layout.astro';
 import Button from '../components/Button.astro';
 import JsonLd from '../components/JsonLd.astro';
+
+const principles = [
+  {
+    title: 'Build around the real workflow',
+    body: 'The work starts with how leads, files, invoices, reports, and handoffs actually move through your business today.',
+  },
+  {
+    title: 'Use tools you can own',
+    body: 'Systems are built with practical APIs, clear documentation, and handoff notes so you are not trapped inside a black box.',
+  },
+  {
+    title: 'Automate what deserves it',
+    body: 'Some problems need a workflow. Some need a better form, rule, or operating habit. The job is to tell the difference.',
+  },
+  {
+    title: 'Keep humans in control',
+    body: 'Good automation removes repetitive work while keeping review, exception handling, and accountability visible.',
+  },
+];
+
+const systems = [
+  'Lead follow-up',
+  'Reporting dashboards',
+  'Document intake',
+  'Billing and payment flow',
+  'Client onboarding',
+];
 ---
 
 <Layout
-  title="About 5 Cypress Automation | Built for Accounting & Finance Firms"
-  description="5 Cypress builds purpose-built automation for CPA firms and fractional CFO practices. Learn about Nick, the 5 Cypress approach, and our partner network."
+  title="About 5 Cypress Automation | Practical Workflow Systems"
+  description="5 Cypress Automation builds practical workflow systems for growing B2B teams, with a specialty in accounting and finance operations."
 >
   <Fragment slot="head">
     <JsonLd schema={{
@@ -19,7 +46,7 @@ import JsonLd from '../components/JsonLd.astro';
         name: '5 Cypress Automation',
         url: 'https://www.5cypress.com',
         email: 'nick@5cypress.com',
-        description: 'Automation systems for accounting and finance firms. QuickBooks, Karbon, DocuSign, Twilio, and OpenAI integrations built and documented.',
+        description: 'Practical workflow automation for growing B2B teams, including lead follow-up, reporting, document intake, billing, and onboarding systems.',
         founder: {
           '@type': 'Person',
           name: 'Nick',
@@ -29,473 +56,296 @@ import JsonLd from '../components/JsonLd.astro';
     }} />
   </Fragment>
 
-  <!-- Hero -->
   <section class="about-hero section">
     <div class="container">
       <div class="about-hero-inner reveal">
         <p class="lead-in">About</p>
-        <h1>Small firm.<br/><em>Serious automation.</em></h1>
+        <h1>Practical automation with roots.</h1>
         <p class="about-hero-sub">
-          5 Cypress is one person — Nick — with a network of specialists and a very
-          specific focus: building automation systems that work for accounting and
-          finance firms and can be maintained without a full-time developer.
+          5 Cypress builds workflow systems for small B2B teams that have outgrown
+          copy-paste operations but do not need a bloated software project.
+          Accounting and finance firms are a specialty, not the boundary.
         </p>
       </div>
     </div>
   </section>
 
-  <!-- Nick's story -->
-  <section class="section about-story">
+  <section class="section origin-section">
     <div class="container">
-      <div class="story-grid">
-        <div class="story-visual reveal">
-          <div class="story-card">
-            <div class="story-avatar" aria-hidden="true">
-              <svg viewBox="0 0 80 80" fill="none">
-                <circle cx="40" cy="40" r="40" fill="var(--bg-surface)"/>
-                <circle cx="40" cy="32" r="14" fill="var(--brand-primary)" opacity="0.3"/>
-                <ellipse cx="40" cy="68" rx="22" ry="14" fill="var(--brand-primary)" opacity="0.2"/>
-                <text x="40" y="45" text-anchor="middle" font-family="var(--font-mono)" font-size="20" font-weight="700" fill="var(--brand-primary)">N</text>
-              </svg>
-            </div>
-            <div class="story-card-info">
-              <p class="sc-name">Nick</p>
-              <p class="sc-title">Founder, 5 Cypress Automation</p>
-              <p class="sc-contact">
-                <a href="mailto:nick@5cypress.com">nick@5cypress.com</a>
-              </p>
-            </div>
-            <div class="story-card-stack">
-              <p class="scs-label">Stack</p>
-              <div class="scs-pills">
-                {['Python', 'FastAPI', 'Node.js', 'QuickBooks API', 'OpenAI', 'Twilio', 'DocuSign', 'n8n'].map((t) => (
-                  <span class="scs-pill">{t}</span>
-                ))}
-              </div>
-            </div>
-          </div>
+      <div class="origin-grid">
+        <div class="origin-copy reveal">
+          <p class="lead-in">The Name</p>
+          <h2>Built from the New Orleans idea of roots, resilience, and useful shade.</h2>
+          <p>
+            The Cypress part comes from growing up around the New Orleans area,
+            where cypress trees are part of the landscape. They are steady, distinct,
+            and built for difficult ground. That is the brand direction: grounded,
+            useful, and not dressed up to look like every other AI company.
+          </p>
+          <p>
+            The 5 points to the first set of ready-to-build workflow systems most
+            growing companies eventually need. Each one can stand alone, connect to
+            the others, or be adjusted for the way a specific team works.
+          </p>
         </div>
 
-        <div class="story-content reveal">
-          <p class="lead-in">The story</p>
-          <h2>Why accounting<br/><em>and finance firms?</em></h2>
-
-          <div class="story-body">
-            <p>
-              I built automation systems for a few years across different industries —
-              e-commerce, SaaS, professional services. The pattern I kept seeing was
-              that the businesses with the most to gain were the ones where the work
-              was highly repeatable, the data was in structured systems, and the people
-              doing manual work were too expensive to be doing it.
-            </p>
-            <p>
-              Accounting firms are the clearest example of that pattern. Partners billing
-              at $300–$500/hour are sending monthly report emails. Staff spending 3 hours
-              on document sorting during tax season. Signed engagement letters sitting
-              in someone's inbox waiting for 45 minutes of setup work.
-            </p>
-            <p>
-              The automations are not complicated. The APIs exist. The problem is that
-              most firms don't have a developer, and most developers don't understand
-              the accounting workflow well enough to build systems that actually fit.
-              That gap is what 5 Cypress fills.
-            </p>
+        <div class="brand-card reveal">
+          <img src="/assets/brand/5cypress-mark.svg" alt="5 Cypress Automation cypress tree mark" />
+          <div>
+            <span>5 Cypress Automation</span>
+            <strong>Workflow systems for growing B2B teams</strong>
           </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Values / approach -->
-  <section class="section about-approach">
+  <section class="section systems-section">
     <div class="container">
-      <div class="reveal" style="margin-bottom: var(--space-12)">
-        <p class="lead-in">How we work</p>
-        <h2>The rules we<br/><em>build by.</em></h2>
+      <div class="section-header reveal">
+        <p class="lead-in">The Starting Five</p>
+        <h2>Five workflows most teams need before they need another platform.</h2>
       </div>
-      <div class="approach-grid reveal-stagger">
-        {[
-          {
-            icon: 'M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z',
-            title: 'No lock-in, ever',
-            body: "You own the code, the hosting account, and the API keys. If you decide to bring development in-house or stop working with us, we hand everything over and wish you well. There's no proprietary platform, no recurring license, nothing that holds you hostage.",
-          },
-          {
-            icon: 'M3 10h18M3 14h18m-9-4v8m-7 0h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z',
-            title: 'Fixed price, scoped first',
-            body: "Every project is priced before a line of code is written. The scope document defines exactly what gets built, what doesn't, and what happens if requirements change. No hourly billing, no surprise invoices.",
-          },
-          {
-            icon: 'M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 4H4m8 0h8m-8 0a2 2 0 100 4m0-4a2 2 0 110 4m-6 4h6m4 0h2',
-            title: 'Official APIs only',
-            body: "We connect systems using their official APIs — not screen scrapers, browser extensions, or hacks that break when the UI changes. That means your automations are stable and not dependent on us staying on top of them.",
-          },
-          {
-            icon: 'M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z',
-            title: 'Documented for the long run',
-            body: "Every system ships with a runbook: what the automation does, how to restart it if it stops, what to check when something looks wrong, and how to update configuration. Written for the office manager who will be maintaining it in two years.",
-          },
-          {
-            icon: 'M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z',
-            title: "We tell you when it's not worth it",
-            body: "If the fix is a process change, a better hire, or an off-the-shelf tool for $49/mo, we will tell you that on the fit call instead of scoping a custom system. 5 Cypress is the right fit when the automation genuinely pays for itself — not before.",
-          },
-          {
-            icon: 'M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z',
-            title: 'A small network, not a large team',
-            body: "5 Cypress is intentionally small. When a project needs design, bookkeeping domain expertise, or AI research, I bring in trusted people from my network — and introduce them to you. No bloated team, no invisible subcontractors.",
-          },
-        ].map(({ icon, title, body }) => (
-          <div class="approach-card">
-            <div class="approach-icon" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                <path stroke-linecap="round" stroke-linejoin="round" d={icon}/>
-              </svg>
-            </div>
-            <div>
-              <h3>{title}</h3>
-              <p>{body}</p>
-            </div>
+
+      <div class="systems-list reveal">
+        {systems.map((system, index) => (
+          <div class="system-row">
+            <span>{String(index + 1).padStart(2, '0')}</span>
+            <strong>{system}</strong>
           </div>
         ))}
       </div>
     </div>
   </section>
 
-  <!-- Partner network -->
-  <section class="section about-partners">
+  <section class="section principles-section">
     <div class="container">
-      <div class="reveal" style="margin-bottom: var(--space-10)">
-        <p class="lead-in">Partner network</p>
-        <h2>Who we work<br/><em>alongside.</em></h2>
-        <p class="partners-intro">
-          5 Cypress has referral partnerships with two organizations that serve the
-          same accounting and finance niche. When clients need what they do, we
-          introduce them directly.
-        </p>
-      </div>
-      <div class="partners-grid reveal-stagger">
-        <a class="partner-card" href="https://nexairi.com" target="_blank" rel="noopener noreferrer">
-          <div class="partner-header">
-            <div class="partner-logo-block" aria-label="Nexairi">Nex<span>airi</span></div>
-            <span class="partner-link-icon" aria-hidden="true">↗</span>
-          </div>
-          <p class="partner-role">AI news and intelligence for accounting & finance</p>
-          <p class="partner-body">
-            Nexairi covers AI tools, trends, and case studies relevant to CPA firms and
-            CFO practices — keeping practitioners informed without the noise. 5 Cypress
-            sends clients there for editorial content; Nexairi sends readers here for
-            implementation. No blog on 5cypress.com — that's Nexairi's domain.
-          </p>
-          <span class="partner-visit">nexairi.com ↗</span>
-        </a>
-
-        <a class="partner-card" href="https://simplysmart-consulting.com" target="_blank" rel="noopener noreferrer">
-          <div class="partner-header">
-            <div class="partner-logo-block" aria-label="Simply Smart Consulting">Simply Smart<span>Consulting</span></div>
-            <span class="partner-link-icon" aria-hidden="true">↗</span>
-          </div>
-          <p class="partner-role">CPA-led bookkeeping & fractional CFO services</p>
-          <p class="partner-body">
-            Founded by Sydney Smart, CPA. Simply Smart provides fractional CFO services
-            and bookkeeping for small businesses — the people who actually use the systems
-            we build. This partnership is the closest referral loop: they identify the
-            workflow pain, we build the automation, they confirm it fits the practice.
-          </p>
-          <span class="partner-visit">simplysmart-consulting.com ↗</span>
-        </a>
+      <div class="principles-grid">
+        {principles.map((principle) => (
+          <article class="principle-card reveal">
+            <h3>{principle.title}</h3>
+            <p>{principle.body}</p>
+          </article>
+        ))}
       </div>
     </div>
   </section>
 
-  <!-- Contact / CTA -->
-  <section class="section about-contact">
+  <section class="section specialty-section">
     <div class="container">
-      <div class="contact-inner">
-        <div class="reveal">
-          <p class="lead-in">Get in touch</p>
-          <h2>Direct access.<br/><em>No sales team.</em></h2>
-          <p>
-            Every email goes to Nick. Every fit call is with Nick. If you want to talk
-            through whether automation makes sense for your firm, email is fine too —
-            no calendar required.
-          </p>
-          <div class="contact-actions">
-            <Button variant="primary" size="lg" magnetic ripple data-open-booking>
-              Book a fit call
-            </Button>
-            <a class="contact-email" href="mailto:nick@5cypress.com">nick@5cypress.com</a>
-          </div>
-        </div>
-        <div class="contact-facts reveal-stagger">
-          {[
-            ['Response time', 'Same business day'],
-            ['Fit call length', '20 minutes'],
-            ['Fit call format', 'Zoom or phone — your preference'],
-            ['Commitment required', 'None — scope first, then decide'],
-          ].map(([label, value]) => (
-            <div class="contact-fact">
-              <p class="cf-label">{label}</p>
-              <p class="cf-value">{value}</p>
-            </div>
-          ))}
-        </div>
+      <div class="specialty-panel reveal">
+        <p class="lead-in">Specialty</p>
+        <h2>Accounting and finance workflows are still a strong lane.</h2>
+        <p>
+          QuickBooks, invoicing, client reporting, document intake, and financial
+          dashboards are natural fits for 5 Cypress. The broader point is the same
+          across sectors: clean handoffs, fewer duplicate entries, better follow-up,
+          and systems your team can trust.
+        </p>
+        <Button variant="secondary" size="md" href="/services/">
+          View Services
+        </Button>
+      </div>
+    </div>
+  </section>
+
+  <section class="section cta-section">
+    <div class="container">
+      <div class="cta-panel reveal">
+        <p class="lead-in">Next Step</p>
+        <h2>Bring the messy workflow. We will map what should happen next.</h2>
+        <Button variant="primary" size="lg" magnetic ripple data-open-booking>
+          Book a Workflow Call
+        </Button>
       </div>
     </div>
   </section>
 </Layout>
 
 <style>
-  /* ── Hero ─────────────────────────────────────────────────── */
-  .about-hero { padding-block: var(--space-24) var(--space-16); }
-  .about-hero-inner { max-width: 640px; }
+  .about-hero {
+    padding: calc(var(--space-24) + 3rem) 0 var(--space-24);
+    background:
+      linear-gradient(135deg, rgba(42, 71, 54, 0.08), transparent 46%),
+      linear-gradient(180deg, var(--bg-main), var(--bg-surface));
+  }
+
+  .about-hero-inner {
+    max-width: 860px;
+  }
+
+  .about-hero h1 {
+    font-size: clamp(3.2rem, 8vw, 7.5rem);
+    line-height: 0.94;
+    letter-spacing: 0;
+    margin: 0 0 var(--space-6);
+    color: var(--text-primary);
+  }
+
   .about-hero-sub {
-    font-size: var(--text-lg);
+    max-width: 720px;
     color: var(--text-secondary);
-    line-height: var(--leading-relaxed);
-    margin-top: var(--space-4);
-    max-width: 54ch;
+    font-size: clamp(1.1rem, 2vw, 1.35rem);
+    line-height: 1.7;
   }
 
-  /* ── Story ────────────────────────────────────────────────── */
-  .story-grid {
+  .origin-grid {
     display: grid;
-    grid-template-columns: 320px 1fr;
-    gap: var(--space-20);
-    align-items: start;
-  }
-
-  .story-card {
-    background: var(--bg-surface);
-    border: 1px solid var(--border-medium);
-    border-radius: var(--radius-2xl);
-    padding: var(--space-8);
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-7);
-  }
-  .story-avatar {
-    width: 80px;
-    height: 80px;
-  }
-  .story-avatar svg { width: 100%; height: 100%; }
-  .story-card-info { display: flex; flex-direction: column; gap: var(--space-1); }
-  .sc-name {
-    font-family: var(--font-heading);
-    font-size: var(--text-xl);
-    font-weight: var(--weight-bold);
-    color: var(--text-primary);
-  }
-  .sc-title {
-    font-size: var(--text-sm);
-    color: var(--text-secondary);
-  }
-  .sc-contact a {
-    font-family: var(--font-mono);
-    font-size: var(--text-sm);
-    color: var(--brand-primary);
-    text-decoration: none;
-  }
-  .sc-contact a:hover { color: var(--brand-primary-light); }
-  .story-card-stack { display: flex; flex-direction: column; gap: var(--space-3); }
-  .scs-label {
-    font-family: var(--font-mono);
-    font-size: var(--text-xs);
-    text-transform: uppercase;
-    letter-spacing: var(--tracking-widest);
-    color: var(--text-disabled);
-  }
-  .scs-pills { display: flex; flex-wrap: wrap; gap: var(--space-2); }
-  .scs-pill {
-    padding: 3px 10px;
-    background: var(--bg-main);
-    border: 1px solid var(--border-subtle);
-    border-radius: var(--radius-full);
-    font-family: var(--font-mono);
-    font-size: 0.65rem;
-    color: var(--text-tertiary);
-  }
-
-  .story-content {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-6);
-  }
-  .story-body {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-5);
-  }
-  .story-body p {
-    font-size: var(--text-base);
-    color: var(--text-secondary);
-    line-height: var(--leading-relaxed);
-  }
-
-  /* ── Approach ─────────────────────────────────────────────── */
-  .about-approach { background: var(--bg-surface); border-top: 1px solid var(--border-subtle); border-bottom: 1px solid var(--border-subtle); }
-  .approach-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: var(--space-5);
-  }
-  .approach-card {
-    display: flex;
-    gap: var(--space-4);
-    padding: var(--space-6);
-    background: var(--bg-main);
-    border: 1px solid var(--border-subtle);
-    border-radius: var(--radius-xl);
-    align-items: flex-start;
-    transition: border-color var(--duration-fast);
-  }
-  .approach-card:hover { border-color: var(--border-brand); }
-  .approach-icon {
-    width: 40px;
-    height: 40px;
-    flex-shrink: 0;
-    color: var(--brand-primary);
-  }
-  .approach-icon svg { width: 100%; height: 100%; }
-  .approach-card h3 {
-    font-family: var(--font-heading);
-    font-size: var(--text-base);
-    font-weight: var(--weight-bold);
-    color: var(--text-primary);
-    margin-bottom: var(--space-2);
-  }
-  .approach-card p {
-    font-size: var(--text-sm);
-    color: var(--text-secondary);
-    line-height: var(--leading-relaxed);
-  }
-
-  /* ── Partners ─────────────────────────────────────────────── */
-  .partners-intro {
-    font-size: var(--text-base);
-    color: var(--text-secondary);
-    line-height: var(--leading-relaxed);
-    max-width: 58ch;
-    margin-top: var(--space-4);
-  }
-  .partners-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: var(--space-6);
-    margin-top: var(--space-10);
-  }
-  .partner-card {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-5);
-    padding: var(--space-8);
-    background: var(--bg-surface);
-    border: 1px solid var(--border-medium);
-    border-radius: var(--radius-2xl);
-    text-decoration: none;
-    color: inherit;
-    transition: border-color var(--duration-fast), transform var(--duration-fast);
-  }
-  .partner-card:hover { border-color: var(--border-brand); transform: translateY(-2px); }
-  .partner-header { display: flex; justify-content: space-between; align-items: flex-start; }
-  .partner-logo-block {
-    font-family: var(--font-heading);
-    font-weight: var(--weight-black);
-    font-size: var(--text-2xl);
-    color: var(--text-primary);
-    line-height: 1.1;
-    display: flex;
-    flex-direction: column;
-  }
-  .partner-logo-block span { font-size: var(--text-lg); color: var(--text-tertiary); }
-  .partner-link-icon { font-size: var(--text-xl); color: var(--text-disabled); }
-  .partner-role {
-    font-family: var(--font-mono);
-    font-size: var(--text-xs);
-    font-weight: var(--weight-bold);
-    text-transform: uppercase;
-    letter-spacing: var(--tracking-wide);
-    color: var(--brand-primary);
-  }
-  .partner-body {
-    font-size: var(--text-sm);
-    color: var(--text-secondary);
-    line-height: var(--leading-relaxed);
-    flex: 1;
-  }
-  .partner-visit {
-    font-family: var(--font-mono);
-    font-size: var(--text-xs);
-    color: var(--brand-accent);
-    margin-top: auto;
-  }
-
-  /* ── Contact ──────────────────────────────────────────────── */
-  .contact-inner {
-    display: grid;
-    grid-template-columns: 1fr 320px;
-    gap: var(--space-16);
-    align-items: start;
-  }
-  .contact-inner > .reveal {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-5);
-  }
-  .contact-inner > .reveal p {
-    font-size: var(--text-base);
-    color: var(--text-secondary);
-    line-height: var(--leading-relaxed);
-    max-width: 52ch;
-  }
-  .contact-actions {
-    display: flex;
+    grid-template-columns: minmax(0, 1.2fr) minmax(280px, 0.8fr);
+    gap: var(--space-12);
     align-items: center;
-    gap: var(--space-6);
-    flex-wrap: wrap;
-    margin-top: var(--space-2);
   }
-  .contact-email {
-    font-family: var(--font-mono);
-    font-size: var(--text-base);
-    color: var(--brand-primary);
-    text-decoration: none;
+
+  .origin-copy h2,
+  .section-header h2,
+  .specialty-panel h2,
+  .cta-panel h2 {
+    margin: 0 0 var(--space-4);
+    font-size: clamp(2rem, 4vw, 3.75rem);
+    line-height: 1.05;
+    letter-spacing: 0;
+    color: var(--text-primary);
   }
-  .contact-email:hover { color: var(--brand-primary-light); }
-  .contact-facts {
-    display: flex;
-    flex-direction: column;
-    gap: 0;
+
+  .origin-copy p,
+  .specialty-panel p {
+    color: var(--text-secondary);
+    font-size: 1.05rem;
+    line-height: 1.75;
+  }
+
+  .brand-card {
+    border: 1px solid var(--border-medium);
+    border-radius: 8px;
+    padding: var(--space-8);
     background: var(--bg-surface);
-    border: 1px solid var(--border-subtle);
-    border-radius: var(--radius-xl);
-    overflow: hidden;
+    display: grid;
+    gap: var(--space-6);
+    box-shadow: var(--shadow-md);
   }
-  .contact-fact {
-    padding: var(--space-5) var(--space-6);
-    border-bottom: 1px solid var(--border-subtle);
+
+  .brand-card img {
+    width: 132px;
+    height: auto;
   }
-  .contact-fact:last-child { border-bottom: none; }
-  .cf-label {
+
+  .brand-card span {
+    display: block;
+    color: var(--brand-primary);
     font-family: var(--font-mono);
-    font-size: var(--text-xs);
+    font-size: 0.82rem;
     text-transform: uppercase;
-    letter-spacing: var(--tracking-widest);
-    color: var(--text-disabled);
+    letter-spacing: 0.08em;
     margin-bottom: var(--space-1);
   }
-  .cf-value {
-    font-size: var(--text-sm);
+
+  .brand-card strong {
+    display: block;
     color: var(--text-primary);
-    font-weight: var(--weight-medium);
+    font-size: 1.65rem;
+    line-height: 1.15;
   }
 
-  /* ── Responsive ───────────────────────────────────────────── */
-  @media (max-width: 1024px) {
-    .story-grid { grid-template-columns: 1fr; }
-    .story-card { max-width: 360px; }
-    .approach-grid { grid-template-columns: 1fr; }
-    .partners-grid { grid-template-columns: 1fr; }
-    .contact-inner { grid-template-columns: 1fr; }
+  .section-header {
+    max-width: 760px;
+    margin-bottom: var(--space-8);
+  }
+
+  .systems-list {
+    border-top: 1px solid var(--border-medium);
+  }
+
+  .system-row {
+    display: grid;
+    grid-template-columns: 72px 1fr;
+    gap: var(--space-4);
+    align-items: center;
+    padding: var(--space-6) 0;
+    border-bottom: 1px solid var(--border-medium);
+  }
+
+  .system-row span {
+    color: var(--brand-accent);
+    font-family: var(--font-mono);
+    font-weight: 700;
+  }
+
+  .system-row strong {
+    color: var(--text-primary);
+    font-size: clamp(1.35rem, 3vw, 2.4rem);
+    letter-spacing: 0;
+  }
+
+  .principles-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--space-4);
+  }
+
+  .principle-card {
+    min-height: 250px;
+    padding: var(--space-6);
+    border: 1px solid var(--border-medium);
+    border-radius: 8px;
+    background: var(--bg-surface);
+  }
+
+  .principle-card h3 {
+    margin: 0 0 var(--space-3);
+    color: var(--text-primary);
+    font-size: 1.2rem;
+  }
+
+  .principle-card p {
+    color: var(--text-secondary);
+    line-height: 1.65;
+  }
+
+  .specialty-panel,
+  .cta-panel {
+    border-radius: 8px;
+    padding: var(--space-12);
+    background: var(--bg-surface);
+    border: 1px solid var(--border-medium);
+  }
+
+  .specialty-panel {
+    max-width: 920px;
+  }
+
+  .cta-panel {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: var(--space-8);
+    align-items: center;
+    background:
+      linear-gradient(135deg, rgba(42, 71, 54, 0.14), transparent 48%),
+      var(--bg-surface);
+  }
+
+  @media (max-width: 900px) {
+    .origin-grid,
+    .cta-panel {
+      grid-template-columns: 1fr;
+    }
+
+    .principles-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 640px) {
+    .principles-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .system-row {
+      grid-template-columns: 48px 1fr;
+    }
+
+    .specialty-panel,
+    .cta-panel {
+      padding: var(--space-6);
+    }
   }
 </style>

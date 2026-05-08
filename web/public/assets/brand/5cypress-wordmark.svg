@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 370 128" role="img" aria-labelledby="title desc">
+  <title id="title">5 Cypress Automation</title>
+  <desc id="desc">Horizontal logo for 5 Cypress Automation with a cypress tree mark.</desc>
+  <defs>
+    <linearGradient id="canopy" x1="24" x2="104" y1="15" y2="74" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#8FAE72"/>
+      <stop offset=".48" stop-color="#5D8C5D"/>
+      <stop offset="1" stop-color="#2D5A3A"/>
+    </linearGradient>
+    <linearGradient id="trunk" x1="56" x2="75" y1="51" y2="111" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#7A4F2B"/>
+      <stop offset="1" stop-color="#3B2415"/>
+    </linearGradient>
+    <linearGradient id="rootGold" x1="18" x2="110" y1="99" y2="113" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#9A5B16"/>
+      <stop offset=".5" stop-color="#FBBF24"/>
+      <stop offset="1" stop-color="#6F451D"/>
+    </linearGradient>
+  </defs>
+
+  <g>
+    <path d="M21 57c0-9 8-15 17-14 3-10 13-17 24-17 8-9 24-8 31 2 10 2 18 10 19 21 7 3 11 9 10 16-1 7-8 11-16 9-7 8-22 8-30 2-6 5-18 5-24 0-8 6-23 5-30-3-8 2-16-3-16-10 0-3 2-5 5-6 2 0 6 0 10 0Z" fill="url(#canopy)"/>
+    <path d="M45 49c8-2 15 1 19 8 5-8 15-11 24-8-10 6-15 16-17 31l11 18H46l11-18c-2-15-7-25-12-31Z" fill="url(#trunk)"/>
+    <path d="M64 54v44" fill="none" stroke="#2A190F" stroke-width="5" stroke-linecap="round"/>
+    <path d="M63 65c-8-7-17-9-28-8" fill="none" stroke="#1D120B" stroke-width="3" stroke-linecap="round"/>
+    <path d="M65 65c8-7 17-9 28-8" fill="none" stroke="#1D120B" stroke-width="3" stroke-linecap="round"/>
+    <g fill="none" stroke="#172516" stroke-linecap="round">
+      <path d="M36 62v22" stroke-width="3"/>
+      <path d="M42 64v15" stroke-width="2"/>
+      <path d="M50 61v24" stroke-width="2.5"/>
+      <path d="M82 61v23" stroke-width="2.5"/>
+      <path d="M90 64v16" stroke-width="2"/>
+      <path d="M97 62v23" stroke-width="3"/>
+      <path d="M105 64v14" stroke-width="2"/>
+      <path d="M28 63v13" stroke-width="2"/>
+    </g>
+    <path d="M20 105c13-10 28-9 44-1 16-8 31-9 44 1" fill="none" stroke="url(#rootGold)" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M28 114c9-7 21-7 36-1 15-6 27-6 36 1" fill="none" stroke="url(#rootGold)" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" opacity=".9"/>
+  </g>
+
+  <text x="146" y="61" fill="#FEFEFE" font-family="Space Grotesk, Arial, sans-serif" font-size="34" font-weight="700" letter-spacing="-.8">5 Cypress</text>
+  <text x="148" y="88" fill="#FBBF24" font-family="JetBrains Mono, Consolas, monospace" font-size="12" font-weight="700" letter-spacing="4.5">AUTOMATION</text>
+</svg>

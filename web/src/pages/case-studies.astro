@@ -3,205 +3,147 @@ import Layout from '../layouts/Layout.astro';
 import Button from '../components/Button.astro';
 import JsonLd from '../components/JsonLd.astro';
 
-const studies = [
+const examples = [
   {
-    id: 'cpa-kpi',
-    client: 'Regional CPA Firm',
-    segment: '6-partner firm · 2,200+ clients · Southeast US',
-    service: 'Practice KPI Dashboard',
-    serviceSlug: 'practice-kpi-dashboard',
-    tag: 'Dashboard',
-    problem: "Partners were running QBO reports manually twice a month and emailing screenshots to each other. No shared view. AR aging was tracked in a spreadsheet updated by one staff member. When that person left, the spreadsheet stopped being updated.",
-    solution: "We built a live dashboard pulling from QBO and their Karbon instance — realization rate, WIP by partner, AR aging buckets, and billing trend. One URL, updated every 4 hours, accessible from any device.",
-    timeline: '12 business days',
+    id: 'lead-flow',
+    title: 'Service Business Lead Flow',
+    segment: 'Calls, forms, CRM, email, and SMS',
+    tag: 'Lead Follow-Up',
+    problem: 'New inquiries were landing in different places, and the team was relying on memory to follow up. Hot leads could sit for hours before anyone owned them.',
+    workflow: 'A new inquiry creates one lead record, assigns an owner, sends an internal alert, starts a follow-up sequence, and keeps the status visible until someone closes the loop.',
     results: [
-      { stat: '3.5 hrs', label: 'saved per partner per month on reporting' },
-      { stat: '22%', label: 'reduction in overdue AR within 60 days of going live' },
-      { stat: '0 hrs', label: 'staff time on manual spreadsheet updates' },
-      { stat: '1 URL', label: 'every partner shares the same view, live' },
+      { stat: '<1 min', label: 'lead routed after form or missed call' },
+      { stat: '3 channels', label: 'form, phone, and email brought into one flow' },
+      { stat: '1 owner', label: 'assigned for every open lead' },
+      { stat: '0 duplicates', label: 'before the CRM record is created' },
     ],
-    quote: "We used to argue in Monday meetings about whose numbers were right. Now there's one source and everyone uses it.",
-    attribution: 'Managing Partner',
   },
   {
-    id: 'fractional-cfo-snapshot',
-    client: 'Fractional CFO Practice',
-    segment: '1 CFO · 14 SMB clients · Monthly close reporting',
-    service: 'Monthly Client Snapshot',
-    serviceSlug: 'monthly-client-snapshot',
+    id: 'reporting-flow',
+    title: 'Operations Reporting Flow',
+    segment: 'QuickBooks, CRM, spreadsheets, and dashboard',
     tag: 'Reporting',
-    problem: "Every month, the CFO spent 6–8 hours building client reports: exporting QBO, reformatting in Excel, copying into a branded template, emailing. For 14 clients. The same 6–8 hours every month.",
-    solution: "We automated the full chain. QBO close triggers generation. Each client gets a branded PDF report and a live web dashboard — auto-delivered before the 5th. The CFO reviews but does not rebuild.",
-    timeline: '10 business days',
+    problem: 'Weekly reporting required exports, spreadsheet cleanup, screenshots, and manual commentary. The numbers changed depending on who built the report.',
+    workflow: 'The dashboard pulls the same source data on a schedule, flags missing records, shows the core metrics, and gives leadership one shared place to check performance.',
     results: [
-      { stat: '7 hrs', label: 'reclaimed every month on report generation' },
-      { stat: '14 clients', label: 'each receiving branded, individualized reports' },
-      { stat: 'Day 3', label: 'reports delivered — before clients ask' },
-      { stat: '2 new clients', label: 'added with zero additional reporting overhead' },
+      { stat: '12 metrics', label: 'tracked in one operating view' },
+      { stat: '1 URL', label: 'shared by the whole team' },
+      { stat: 'Mon 8am', label: 'updated before the weekly meeting' },
+      { stat: '0 exports', label: 'needed for the standard report' },
     ],
-    quote: "I added two clients immediately after launch because I knew the reporting wasn't going to consume me. That's $2,400/month in new revenue directly traceable to this system.",
-    attribution: 'Fractional CFO, Founder',
   },
   {
-    id: 'tax-firm-doc-intake',
-    client: 'Tax & Bookkeeping Firm',
-    segment: '3-person team · 380 individual tax clients',
-    service: 'Document Intake & AI Sort',
-    serviceSlug: 'document-intake-ai-sort',
-    tag: 'AI · Intake',
-    problem: "Tax season meant clients emailing documents to whoever they knew at the firm — sometimes to the owner's personal email, sometimes as 12 separate attachments. Staff spent the first three weeks of season just sorting and naming files.",
-    solution: "We built a client-facing upload portal and connected it to OpenAI Vision for classification. Every uploaded document is identified, renamed to convention, and routed to the correct TaxDome job folder automatically.",
-    timeline: '16 business days',
+    id: 'document-flow',
+    title: 'Document Intake Flow',
+    segment: 'Upload form, shared drive, review queue, and alerts',
+    tag: 'Document Intake',
+    problem: 'Files arrived through email threads, shared links, and staff inboxes. Naming, sorting, and follow-up took too much time before the real work could start.',
+    workflow: 'Clients upload files through one intake path. Each file is renamed, routed to the right folder, added to a review queue, and flagged when something is missing.',
     results: [
-      { stat: '47 hrs', label: 'staff time saved in first tax season' },
-      { stat: '<5 sec', label: 'per document: classified and filed' },
-      { stat: '0', label: 'misfiled documents in first season (vs. 12+ prior year)' },
-      { stat: '380 clients', label: 'each receiving a personal upload link with instructions' },
+      { stat: '<5 sec', label: 'to route a standard document' },
+      { stat: '4 folders', label: 'organized by workflow stage' },
+      { stat: '2 exceptions', label: 'flagged for human review' },
+      { stat: '1 queue', label: 'for staff to work from' },
     ],
-    quote: "The first week of tax season used to feel like triage. This year it felt like February.",
-    attribution: 'Firm Owner',
   },
 ];
 ---
 
 <Layout
-  title="Case Studies | 5 Cypress Automation"
-  description="Real results from accounting and finance firms using 5 Cypress automation systems — Practice KPI dashboards, automated client reports, and AI document intake."
+  title="Workflow Examples | 5 Cypress Automation"
+  description="Explore realistic workflow examples for lead follow-up, reporting, document intake, billing, and onboarding automation."
 >
   <Fragment slot="head">
     <JsonLd schema={{
       '@context': 'https://schema.org',
-      '@type': 'ItemList',
-      name: '5 Cypress Case Studies',
-      description: 'Automation results for accounting and finance firms',
-      itemListElement: studies.map((s, i) => ({
-        '@type': 'ListItem',
-        position: i + 1,
-        name: `${s.client}: ${s.service}`,
-        url: `https://www.5cypress.com/case-studies#${s.id}`,
-      })),
+      '@type': 'CollectionPage',
+      name: '5 Cypress Workflow Examples',
+      description: 'Representative workflow automation examples using realistic demo scenarios.',
+      url: 'https://www.5cypress.com/case-studies',
     }} />
   </Fragment>
 
-  <!-- Hero -->
-  <section class="cs-hero section">
+  <section class="examples-hero section">
     <div class="container">
-      <div class="cs-hero-inner reveal">
-        <p class="lead-in">Case Studies</p>
-        <h1>What automation<br/><em>actually looks like.</em></h1>
-        <p class="cs-hero-sub">
-          Three results from firms that had a clear, repeatable problem and the
-          patience to let automation solve it properly. Clients are anonymized;
-          numbers are real.
+      <div class="examples-hero-inner reveal">
+        <p class="lead-in">Workflow Examples</p>
+        <h1>See what 5 Cypress can build.</h1>
+        <p class="examples-hero-sub">
+          These examples use realistic demo scenarios to show the shape of the work:
+          where the workflow starts, what gets connected, and what the team gets back.
+          Public client stories can be added here as the brand grows.
         </p>
       </div>
     </div>
   </section>
 
-  <!-- Studies -->
-  {studies.map((study, i) => (
-    <section class={`section cs-study ${i % 2 === 1 ? 'cs-study--alt' : ''}`} id={study.id}>
-      <div class="container">
-        <!-- Header -->
-        <div class="cs-study-header reveal">
-          <div class="cs-meta">
-            <span class="cs-tag">{study.tag}</span>
-            <span class="cs-client">{study.client}</span>
-            <span class="cs-segment">{study.segment}</span>
-          </div>
-          <div class="cs-service-link">
-            <a href={`/services/${study.serviceSlug}`}>
-              Service: {study.service} →
-            </a>
-          </div>
-        </div>
+  <section class="section examples-section">
+    <div class="container">
+      <div class="examples-list">
+        {examples.map((example, index) => (
+          <article class="example-card reveal" id={example.id}>
+            <div class="example-index">
+              <span>{String(index + 1).padStart(2, '0')}</span>
+              <p>{example.tag}</p>
+            </div>
 
-        <!-- Main grid -->
-        <div class="cs-study-grid">
-          <!-- Left: problem / solution -->
-          <div class="cs-narrative reveal">
-            <div class="narrative-block">
-              <div class="narrative-label">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-                  <circle cx="12" cy="12" r="10"/>
-                  <line x1="15" y1="9" x2="9" y2="15"/>
-                  <line x1="9" y1="9" x2="15" y2="15"/>
-                </svg>
-                The problem
-              </div>
-              <p>{study.problem}</p>
-            </div>
-            <div class="narrative-connector" aria-hidden="true">
-              <div class="connector-line"></div>
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/>
-              </svg>
-            </div>
-            <div class="narrative-block narrative-block--solution">
-              <div class="narrative-label">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
-                </svg>
-                The solution
-              </div>
-              <p>{study.solution}</p>
-              <p class="narrative-timeline">
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-                  <circle cx="12" cy="12" r="10"/>
-                  <polyline points="12 6 12 12 16 14"/>
-                </svg>
-                Live in {study.timeline}
-              </p>
-            </div>
-          </div>
+            <div class="example-main">
+              <p class="example-segment">{example.segment}</p>
+              <h2>{example.title}</h2>
 
-          <!-- Right: results -->
-          <div class="cs-results reveal-stagger">
-            <div class="results-grid">
-              {study.results.map((r) => (
-                <div class="result-tile">
-                  <p class="result-stat">{r.stat}</p>
-                  <p class="result-label">{r.label}</p>
+              <div class="example-columns">
+                <div>
+                  <h3>Before</h3>
+                  <p>{example.problem}</p>
                 </div>
-              ))}
-            </div>
-            <blockquote class="cs-quote">
-              <p>"{study.quote}"</p>
-              <footer>— {study.attribution}</footer>
-            </blockquote>
-          </div>
-        </div>
-      </div>
-    </section>
-  ))}
+                <div>
+                  <h3>Workflow</h3>
+                  <p>{example.workflow}</p>
+                </div>
+              </div>
 
-  <!-- Disclaimer -->
-  <section class="section cs-disclaimer">
-    <div class="container">
-      <p class="disclaimer-text">
-        Client names and identifying details are anonymized. Results vary based on
-        firm size, existing systems, and data quality. Numbers reflect outcomes
-        reported by clients during or after the 30-day support window.
-      </p>
+              <div class="results-grid">
+                {example.results.map((result) => (
+                  <div class="result-card">
+                    <strong>{result.stat}</strong>
+                    <span>{result.label}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </article>
+        ))}
+      </div>
     </div>
   </section>
 
-  <!-- CTA -->
-  <section class="section cs-cta">
+  <section class="section note-section">
     <div class="container">
-      <div class="cs-cta-inner reveal">
-        <p class="lead-in">Your firm next?</p>
-        <h2>Tell us the problem.<br/><em>We'll tell you if it's solvable.</em></h2>
+      <div class="note-panel reveal">
+        <p class="lead-in">About These Examples</p>
+        <h2>Demo data now. Real proof as the portfolio grows.</h2>
         <p>
-          A 20-minute fit call is enough to scope whether automation is the right
-          tool for what you're dealing with — and what it would cost.
+          This page is intentionally framed as workflow examples, not public client
+          case studies. It gives prospects a concrete view of the systems 5 Cypress
+          can build without overstating proof that has not been packaged yet.
         </p>
-        <div class="cs-cta-actions">
+      </div>
+    </div>
+  </section>
+
+  <section class="section cta-section">
+    <div class="container">
+      <div class="cta-panel reveal">
+        <div>
+          <p class="lead-in">Your Workflow</p>
+          <h2>Have a version of one of these inside your business?</h2>
+        </div>
+        <div class="cta-actions">
           <Button variant="primary" size="lg" magnetic ripple data-open-booking>
-            Book a fit call
+            Book a Workflow Call
           </Button>
-          <Button variant="ghost" size="lg" magnetic href="/services">
-            See all services
+          <Button variant="secondary" size="lg" href="/services/">
+            View Services
           </Button>
         </div>
       </div>
@@ -210,196 +152,191 @@ const studies = [
 </Layout>
 
 <style>
-  /* ── Hero ─────────────────────────────────────────────────── */
-  .cs-hero { padding-block: var(--space-24) var(--space-16); }
-  .cs-hero-inner { max-width: 640px; }
-  .cs-hero-sub {
-    font-size: var(--text-lg);
-    color: var(--text-secondary);
-    line-height: var(--leading-relaxed);
-    margin-top: var(--space-4);
-    max-width: 52ch;
+  .examples-hero {
+    padding: calc(var(--space-24) + 3rem) 0 var(--space-24);
+    background:
+      linear-gradient(135deg, rgba(42, 71, 54, 0.09), transparent 48%),
+      linear-gradient(180deg, var(--bg-main), var(--bg-surface));
   }
 
-  /* ── Study sections ───────────────────────────────────────── */
-  .cs-study { border-top: 1px solid var(--border-subtle); }
-  .cs-study--alt { background: var(--bg-surface); }
+  .examples-hero-inner {
+    max-width: 920px;
+  }
 
-  /* Header row */
-  .cs-study-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    margin-bottom: var(--space-10);
-    padding-bottom: var(--space-6);
-    border-bottom: 1px solid var(--border-subtle);
-  }
-  .cs-meta { display: flex; flex-direction: column; gap: var(--space-1); }
-  .cs-tag {
-    font-family: var(--font-mono);
-    font-size: var(--text-xs);
-    font-weight: var(--weight-bold);
-    text-transform: uppercase;
-    letter-spacing: var(--tracking-widest);
-    color: var(--brand-primary);
-  }
-  .cs-client {
-    font-family: var(--font-heading);
-    font-size: var(--text-2xl);
-    font-weight: var(--weight-bold);
+  .examples-hero h1 {
+    margin: 0 0 var(--space-6);
     color: var(--text-primary);
-  }
-  .cs-segment {
-    font-size: var(--text-sm);
-    color: var(--text-tertiary);
-  }
-  .cs-service-link a {
-    font-family: var(--font-mono);
-    font-size: var(--text-sm);
-    color: var(--brand-accent);
-    text-decoration: none;
-  }
-  .cs-service-link a:hover { color: var(--brand-accent-light); }
-
-  /* Main grid */
-  .cs-study-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: var(--space-16);
-    align-items: start;
+    font-size: clamp(3.2rem, 8vw, 7.5rem);
+    line-height: 0.94;
+    letter-spacing: 0;
   }
 
-  /* Narrative */
-  .cs-narrative { display: flex; flex-direction: column; gap: 0; }
-  .narrative-block {
-    padding: var(--space-7);
-    background: var(--bg-main);
-    border: 1px solid var(--border-subtle);
-    border-radius: var(--radius-xl);
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-4);
-  }
-  .narrative-block--solution { border-color: var(--border-brand); }
-  .narrative-label {
-    display: flex;
-    align-items: center;
-    gap: var(--space-2);
-    font-family: var(--font-mono);
-    font-size: var(--text-xs);
-    font-weight: var(--weight-bold);
-    text-transform: uppercase;
-    letter-spacing: var(--tracking-widest);
-    color: var(--text-disabled);
-  }
-  .narrative-block--solution .narrative-label { color: var(--brand-primary); }
-  .narrative-block--solution .narrative-label svg { color: var(--success); }
-  .narrative-label svg { color: var(--error); }
-  .narrative-block p {
-    font-size: var(--text-sm);
+  .examples-hero-sub {
+    max-width: 760px;
     color: var(--text-secondary);
-    line-height: var(--leading-relaxed);
+    font-size: clamp(1.1rem, 2vw, 1.35rem);
+    line-height: 1.7;
   }
-  .narrative-timeline {
-    display: flex;
-    align-items: center;
-    gap: var(--space-2);
-    font-family: var(--font-mono);
-    font-size: var(--text-xs);
-    color: var(--brand-primary);
-    margin-top: var(--space-2);
-  }
-  .narrative-connector {
-    display: flex;
-    align-items: center;
-    gap: var(--space-3);
-    padding: var(--space-2) var(--space-4);
-    color: var(--brand-primary);
-  }
-  .connector-line { flex: 1; height: 1px; background: var(--border-brand); }
 
-  /* Results */
-  .cs-results { display: flex; flex-direction: column; gap: var(--space-6); }
-  .results-grid {
+  .examples-list {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: var(--space-3);
-  }
-  .result-tile {
-    padding: var(--space-5) var(--space-6);
-    background: var(--bg-surface);
-    border: 1px solid var(--border-medium);
-    border-radius: var(--radius-xl);
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-1);
-  }
-  .result-stat {
-    font-family: var(--font-display);
-    font-style: italic;
-    font-size: var(--text-3xl);
-    font-weight: var(--weight-bold);
-    background: linear-gradient(135deg, var(--brand-primary-light), var(--brand-accent));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    line-height: 1.1;
-  }
-  .result-label {
-    font-size: var(--text-xs);
-    color: var(--text-tertiary);
-    line-height: var(--leading-relaxed);
-  }
-
-  .cs-quote {
-    padding: var(--space-6) var(--space-7);
-    background: var(--bg-surface);
-    border-left: 3px solid var(--brand-accent);
-    border-radius: 0 var(--radius-lg) var(--radius-lg) 0;
-    margin: 0;
-  }
-  .cs-quote p {
-    font-family: var(--font-display);
-    font-style: italic;
-    font-size: var(--text-base);
-    color: var(--text-secondary);
-    line-height: var(--leading-relaxed);
-    margin-bottom: var(--space-3);
-  }
-  .cs-quote footer {
-    font-family: var(--font-mono);
-    font-size: var(--text-xs);
-    color: var(--text-disabled);
-  }
-
-  /* ── Disclaimer ───────────────────────────────────────────── */
-  .disclaimer-text {
-    font-family: var(--font-mono);
-    font-size: var(--text-xs);
-    color: var(--text-disabled);
-    line-height: var(--leading-relaxed);
-    max-width: 72ch;
-    border-top: 1px solid var(--border-subtle);
-    padding-top: var(--space-6);
-  }
-
-  /* ── CTA ──────────────────────────────────────────────────── */
-  .cs-cta { background: var(--bg-surface); border-top: 1px solid var(--border-subtle); }
-  .cs-cta-inner {
-    max-width: 560px;
-    display: flex;
-    flex-direction: column;
     gap: var(--space-6);
   }
-  .cs-cta-inner p { font-size: var(--text-base); color: var(--text-secondary); line-height: var(--leading-relaxed); }
-  .cs-cta-actions { display: flex; gap: var(--space-4); flex-wrap: wrap; }
 
-  /* ── Responsive ───────────────────────────────────────────── */
-  @media (max-width: 1024px) {
-    .cs-study-grid { grid-template-columns: 1fr; }
+  .example-card {
+    display: grid;
+    grid-template-columns: 180px 1fr;
+    gap: var(--space-8);
+    border: 1px solid var(--border-medium);
+    border-radius: 8px;
+    background: var(--bg-surface);
+    padding: var(--space-8);
   }
-  @media (max-width: 640px) {
-    .cs-study-header { flex-direction: column; gap: var(--space-3); }
-    .results-grid { grid-template-columns: 1fr 1fr; }
+
+  .example-index span {
+    display: block;
+    color: var(--brand-accent);
+    font-family: var(--font-mono);
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin-bottom: var(--space-3);
+  }
+
+  .example-index p,
+  .example-segment {
+    margin: 0;
+    color: var(--brand-primary);
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+
+  .example-main h2 {
+    margin: var(--space-3) 0 var(--space-6);
+    color: var(--text-primary);
+    font-size: clamp(2rem, 4vw, 3.8rem);
+    line-height: 1.02;
+    letter-spacing: 0;
+  }
+
+  .example-columns {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-6);
+    margin-bottom: var(--space-6);
+  }
+
+  .example-columns h3 {
+    margin: 0 0 var(--space-3);
+    color: var(--text-primary);
+    font-size: 1rem;
+  }
+
+  .example-columns p {
+    margin: 0;
+    color: var(--text-secondary);
+    line-height: 1.7;
+  }
+
+  .results-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--space-3);
+  }
+
+  .result-card {
+    min-height: 128px;
+    border: 1px solid var(--border-medium);
+    border-radius: 8px;
+    padding: var(--space-4);
+    background: var(--bg-main);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  .result-card strong {
+    color: var(--brand-primary);
+    font-size: 1.65rem;
+    line-height: 1;
+  }
+
+  .result-card span {
+    color: var(--text-secondary);
+    line-height: 1.45;
+  }
+
+  .note-panel,
+  .cta-panel {
+    border: 1px solid var(--border-medium);
+    border-radius: 8px;
+    background: var(--bg-surface);
+    padding: var(--space-12);
+  }
+
+  .note-panel {
+    max-width: 920px;
+  }
+
+  .note-panel h2,
+  .cta-panel h2 {
+    margin: 0 0 var(--space-4);
+    color: var(--text-primary);
+    font-size: clamp(2rem, 4vw, 3.6rem);
+    line-height: 1.05;
+    letter-spacing: 0;
+  }
+
+  .note-panel p {
+    color: var(--text-secondary);
+    line-height: 1.75;
+    font-size: 1.05rem;
+  }
+
+  .cta-panel {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: var(--space-8);
+    align-items: center;
+    background:
+      linear-gradient(135deg, rgba(42, 71, 54, 0.14), transparent 50%),
+      var(--bg-surface);
+  }
+
+  .cta-actions {
+    display: flex;
+    gap: var(--space-4);
+    flex-wrap: wrap;
+    justify-content: flex-end;
+  }
+
+  @media (max-width: 1000px) {
+    .example-card,
+    .cta-panel {
+      grid-template-columns: 1fr;
+    }
+
+    .results-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .cta-actions {
+      justify-content: flex-start;
+    }
+  }
+
+  @media (max-width: 700px) {
+    .example-columns,
+    .results-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .example-card,
+    .note-panel,
+    .cta-panel {
+      padding: var(--space-6);
+    }
   }
 </style>

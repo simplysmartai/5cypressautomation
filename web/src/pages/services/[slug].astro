@@ -84,7 +84,7 @@ const serviceSchema = {
 <Layout
   title={`${service.title} | 5 Cypress`}
   description={service.description}
-  canonical={`https://www.5cypress.com/services/${service.slug}`}
+  canonical={`https://www.5cypress.com/services/${service.slug}/`}
 >
   <Fragment slot="head">
     <JsonLd schema={serviceSchema} />
@@ -113,7 +113,7 @@ const serviceSchema = {
           <p class="detail-hero-intro">{service.detail}</p>
           <div class="detail-hero-actions">
             <Button variant="primary" size="lg" magnetic ripple data-open-booking>
-              Book a fit call
+              Book a Workflow Call
             </Button>
             <div class="pricing-inline">
               <span class="pi-setup">{service.setupPrice} setup</span>
@@ -238,7 +238,7 @@ const serviceSchema = {
             <p class="price-type">time to live</p>
           </div>
           <Button variant="primary" size="lg" magnetic ripple data-open-booking class="pricing-cta">
-            Book a fit call
+            Book a Workflow Call
           </Button>
           <p class="pricing-note">No commitment. 20 minutes. We tell you if it's the right fit.</p>
         </div>

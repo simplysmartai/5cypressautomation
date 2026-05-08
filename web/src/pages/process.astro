@@ -2,233 +2,146 @@
 import Layout from '../layouts/Layout.astro';
 import Button from '../components/Button.astro';
 import JsonLd from '../components/JsonLd.astro';
+
+const steps = [
+  {
+    number: '01',
+    label: 'Map',
+    title: 'Find the handoff that keeps breaking',
+    body: 'We trace the current workflow from first trigger to final output: who touches it, where data moves, what gets copied, and where delays or errors show up.',
+  },
+  {
+    number: '02',
+    label: 'Design',
+    title: 'Choose the simplest system that can hold up',
+    body: 'You get a clear build plan with the tools involved, the human review points, the exception path, and the expected handoff when the system goes live.',
+  },
+  {
+    number: '03',
+    label: 'Build',
+    title: 'Connect the workflow with real checks',
+    body: 'The system is built around APIs, forms, files, dashboards, email, SMS, or internal tools depending on the job. Test data comes first, production comes later.',
+  },
+  {
+    number: '04',
+    label: 'Launch',
+    title: 'Hand it off with documentation',
+    body: 'We test the workflow end to end, document how it works, show your team how to handle exceptions, and leave you with something you can maintain.',
+  },
+];
+
+const timelines = [
+  ['Lead follow-up flow', '5 to 10 business days'],
+  ['Reporting dashboard', '7 to 14 business days'],
+  ['Document intake flow', '10 to 16 business days'],
+  ['Billing or payment flow', '10 to 18 business days'],
+  ['Client onboarding system', '10 to 20 business days'],
+];
 ---
 
 <Layout
-  title="How We Work | 5 Cypress Automation"
-  description="From scoping call to live automation in 14 business days. Learn how 5 Cypress delivers purpose-built automation for accounting and finance firms."
+  title="How We Build Automation | 5 Cypress Automation"
+  description="See the 5 Cypress process for mapping, designing, building, and launching practical workflow automation for B2B teams."
 >
   <Fragment slot="head">
     <JsonLd schema={{
       '@context': 'https://schema.org',
       '@type': 'HowTo',
       name: 'How 5 Cypress Builds Automation',
-      description: 'The 4-step process from discovery to a live, documented automation system.',
-      step: [
-        { '@type': 'HowToStep', position: 1, name: 'Scope', text: '20-minute fit call to define the problem, map your existing stack, and confirm scope and pricing.' },
-        { '@type': 'HowToStep', position: 2, name: 'Build', text: 'We write the integration code, connect your APIs, and run it in staging before touching production.' },
-        { '@type': 'HowToStep', position: 3, name: 'Test', text: 'End-to-end testing with your real data. We run edge cases and confirm the system handles errors gracefully.' },
-        { '@type': 'HowToStep', position: 4, name: 'Hand off', text: 'Live deployment, runbook documentation, and a 30-day support window. You own it.' },
-      ],
+      description: 'The 4-step process for mapping, building, testing, and handing off a documented workflow automation system.',
+      step: steps.map((step, index) => ({
+        '@type': 'HowToStep',
+        position: index + 1,
+        name: step.label,
+        text: step.body,
+      })),
     }} />
   </Fragment>
 
-  <!-- Hero -->
   <section class="process-hero section">
     <div class="container">
       <div class="process-hero-inner reveal">
         <p class="lead-in">Process</p>
-        <h1>From scoping call<br/>to <em>live in 14 days.</em></h1>
+        <h1>From messy handoff to live workflow.</h1>
         <p class="process-hero-sub">
-          Every project follows the same four steps — no surprises, no scope creep
-          without a conversation, no "it's almost done" for three weeks.
+          The goal is not to make everything automatic. The goal is to make the
+          repeatable work move cleanly, with the right checks and the right person
+          still in control.
         </p>
       </div>
     </div>
   </section>
 
-  <!-- Steps -->
-  <section class="section process-steps-section">
+  <section class="section steps-section">
     <div class="container">
-      <div class="steps-timeline">
-
-        <div class="timeline-track" aria-hidden="true"></div>
-
-        <!-- Step 1 -->
-        <div class="timeline-step reveal">
-          <div class="timeline-marker">
-            <span class="marker-number">01</span>
-            <div class="marker-line" aria-hidden="true"></div>
-          </div>
-          <div class="timeline-content">
-            <div class="timeline-label">Day 1</div>
-            <h2 class="timeline-title">Scope</h2>
-            <p class="timeline-tagline">We define the problem before we touch a single line of code.</p>
-            <p class="timeline-body">
-              The fit call covers: what system is causing the pain, what your existing stack looks like,
-              what the ideal outcome is, and whether automation is actually the right tool. If the problem
-              is hiring, process, or pricing — we tell you. If automation solves it, we write a scope document
-              that defines deliverables, price, and timeline before work begins.
-            </p>
-            <div class="timeline-deliverables">
-              <p class="deliverables-label">Outputs</p>
-              <ul>
-                <li>Scope document (plain language, signed off before build starts)</li>
-                <li>Fixed price — no hourly billing ambiguity</li>
-                <li>Timeline with weekly checkpoints</li>
-              </ul>
+      <div class="steps-grid">
+        {steps.map((step) => (
+          <article class="step-card reveal">
+            <div class="step-top">
+              <span>{step.number}</span>
+              <p>{step.label}</p>
             </div>
-          </div>
-        </div>
-
-        <!-- Step 2 -->
-        <div class="timeline-step reveal">
-          <div class="timeline-marker">
-            <span class="marker-number">02</span>
-            <div class="marker-line" aria-hidden="true"></div>
-          </div>
-          <div class="timeline-content">
-            <div class="timeline-label">Days 2–10</div>
-            <h2 class="timeline-title">Build</h2>
-            <p class="timeline-tagline">Integration code, API connections, staging environment. You stay focused on client work.</p>
-            <p class="timeline-body">
-              We connect your APIs, write the automation logic, and run the full workflow in a staging
-              environment before anything touches production. You get one checkpoint update midway — a
-              short async message with what's built and what's coming. No daily standups, no managing us.
-            </p>
-            <div class="timeline-deliverables">
-              <p class="deliverables-label">What we build on</p>
-              <ul>
-                <li>Python / FastAPI for integration logic and webhooks</li>
-                <li>Official APIs only — QuickBooks Online, Karbon, DocuSign, Twilio, OpenAI</li>
-                <li>Hosted on Railway, Render, or your preferred platform</li>
-                <li>All credentials in environment variables — nothing hardcoded</li>
-              </ul>
-            </div>
-          </div>
-        </div>
-
-        <!-- Step 3 -->
-        <div class="timeline-step reveal">
-          <div class="timeline-marker">
-            <span class="marker-number">03</span>
-            <div class="marker-line" aria-hidden="true"></div>
-          </div>
-          <div class="timeline-content">
-            <div class="timeline-label">Days 10–12</div>
-            <h2 class="timeline-title">Test</h2>
-            <p class="timeline-tagline">Real data. Real edge cases. Confirmed before we call it done.</p>
-            <p class="timeline-body">
-              We test with your actual data in a sandbox environment. That means running the workflow
-              with realistic inputs, simulating failure conditions (API timeout, malformed response,
-              duplicate record), and confirming the system handles errors gracefully — logs the failure,
-              alerts you, and does not corrupt anything downstream.
-            </p>
-            <div class="timeline-deliverables">
-              <p class="deliverables-label">Test coverage</p>
-              <ul>
-                <li>Happy-path: full workflow from trigger to output</li>
-                <li>Edge cases: missing fields, duplicate records, rate limit hits</li>
-                <li>Error handling: what happens when an API call fails</li>
-                <li>Client acceptance: you verify the output matches scope</li>
-              </ul>
-            </div>
-          </div>
-        </div>
-
-        <!-- Step 4 -->
-        <div class="timeline-step reveal">
-          <div class="timeline-marker">
-            <span class="marker-number">04</span>
-          </div>
-          <div class="timeline-content">
-            <div class="timeline-label">Day 14</div>
-            <h2 class="timeline-title">Hand off</h2>
-            <p class="timeline-tagline">Live in production. Documented. Yours.</p>
-            <p class="timeline-body">
-              We deploy to production, confirm the live workflow runs end-to-end, and deliver the
-              documentation package. You get a 30-day support window — any bugs that surface, we fix.
-              After that, you can self-maintain (the runbook covers it), continue on a monthly retainer,
-              or leave it alone. Most systems run for months without intervention.
-            </p>
-            <div class="timeline-deliverables">
-              <p class="deliverables-label">Handoff package</p>
-              <ul>
-                <li>Client runbook (step-by-step PDF + web version)</li>
-                <li>Architecture diagram (what connects to what)</li>
-                <li>Environment setup guide (credentials, hosting, ENV vars)</li>
-                <li>30 days of included support</li>
-              </ul>
-            </div>
-          </div>
-        </div>
-
-      </div>
-    </div>
-  </section>
-
-  <!-- What you own -->
-  <section class="section process-ownership">
-    <div class="container">
-      <div class="ownership-grid">
-        <div class="reveal">
-          <p class="lead-in">Ownership</p>
-          <h2>You own it.<br/><em>Completely.</em></h2>
-          <p>
-            Every system we build is yours. The code is yours. The hosting account
-            is yours. If you want to bring it in-house, hand it to your IT team, or
-            never hear from us again — you can. There are no platform lock-ins, no
-            proprietary runtimes, no "we hold the keys" situations.
-          </p>
-          <Button variant="primary" size="md" href="/services" magnetic>
-            See what we build
-          </Button>
-        </div>
-        <div class="ownership-list reveal-stagger">
-          {[
-            ['Source code', 'Delivered to your repo or as a zip. MIT-friendly.'],
-            ['Hosting', 'Deployed to your account (Railway, Render, Heroku, or your server).'],
-            ['Credentials', 'All API keys in your .env. We never retain access after handoff.'],
-            ['Documentation', 'Runbook + architecture diagram. Readable by your future hire.'],
-            ['Support path', '30 days included. Monthly retainer optional — not mandatory.'],
-          ].map(([title, body]) => (
-            <div class="ownership-item">
-              <h3>{title}</h3>
-              <p>{body}</p>
-            </div>
-          ))}
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Typical timelines -->
-  <section class="section process-timelines">
-    <div class="container">
-      <div class="reveal" style="margin-bottom: var(--space-12)">
-        <p class="lead-in">Timelines</p>
-        <h2>How long does<br/><em>each system take?</em></h2>
-      </div>
-      <div class="timelines-table reveal">
-        {[
-          ['Missed-Lead Text-Back', '5–7 business days', '$997–$1,500'],
-          ['Monthly Client Snapshot', '10–14 business days', '$1,200–$1,800'],
-          ['Engagement → Onboarding Flow', '10–14 business days', '$1,200–$2,000'],
-          ['Practice KPI Dashboard', '14 business days', '$1,500–$2,500'],
-          ['Document Intake & AI Sort', '14–21 business days', '$1,800–$2,800'],
-        ].map(([name, timeline, price]) => (
-          <div class="timelines-row">
-            <span class="tr-name">{name}</span>
-            <span class="tr-timeline">{timeline}</span>
-            <span class="tr-price">{price} setup</span>
-          </div>
+            <h2>{step.title}</h2>
+            <p>{step.body}</p>
+          </article>
         ))}
       </div>
     </div>
   </section>
 
-  <!-- Final CTA -->
-  <section class="section process-cta">
+  <section class="section proof-section">
     <div class="container">
-      <div class="cta-inner reveal">
-        <p class="lead-in">Ready to scope?</p>
-        <h2>20 minutes.<br/><em>We tell you if it's the right fit.</em></h2>
-        <p>
-          No commitment. No sales deck. You describe the problem, we tell you
-          what automation could do, what it would cost, and how long it takes.
-        </p>
+      <div class="proof-grid">
+        <div class="proof-copy reveal">
+          <p class="lead-in">What You Get</p>
+          <h2>A workflow your team can understand after launch.</h2>
+          <p>
+            Every build includes the workflow map, a plain-English runbook, the
+            systems connected, the trigger rules, and what to do when something
+            needs review. That matters whether the workflow touches QuickBooks,
+            a CRM, a form, a shared drive, or a dashboard.
+          </p>
+        </div>
+
+        <div class="timeline-card reveal">
+          <h3>Typical Build Windows</h3>
+          <div class="timeline-list">
+            {timelines.map(([name, time]) => (
+              <div class="timeline-row">
+                <span>{name}</span>
+                <strong>{time}</strong>
+              </div>
+            ))}
+          </div>
+          <p>Exact timing depends on access, approvals, and how clean the source data is.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section rules-section">
+    <div class="container">
+      <div class="rules-panel reveal">
+        <div>
+          <p class="lead-in">Operating Rules</p>
+          <h2>No magic box. No surprise handoff.</h2>
+        </div>
+        <ul>
+          <li>Test data before production data.</li>
+          <li>Human review where judgment is needed.</li>
+          <li>Clear exception paths when an automation cannot complete.</li>
+          <li>Documentation your team can actually use.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="section cta-section">
+    <div class="container">
+      <div class="cta-panel reveal">
+        <h2>Start with the workflow that wastes the most time.</h2>
         <Button variant="primary" size="lg" magnetic ripple data-open-booking>
-          Book a fit call
+          Book a Workflow Call
         </Button>
       </div>
     </div>
@@ -236,200 +149,187 @@ import JsonLd from '../components/JsonLd.astro';
 </Layout>
 
 <style>
-  /* ── Hero ─────────────────────────────────────────────────── */
-  .process-hero { padding-block: var(--space-24) var(--space-16); }
-  .process-hero-inner { max-width: 640px; }
-  .process-hero-sub {
-    font-size: var(--text-lg);
-    color: var(--text-secondary);
-    line-height: var(--leading-relaxed);
-    margin-top: var(--space-4);
-    max-width: 52ch;
+  .process-hero {
+    padding: calc(var(--space-24) + 3rem) 0 var(--space-24);
+    background:
+      linear-gradient(135deg, rgba(42, 71, 54, 0.09), transparent 48%),
+      linear-gradient(180deg, var(--bg-main), var(--bg-surface));
   }
 
-  /* ── Timeline ─────────────────────────────────────────────── */
-  .steps-timeline {
-    display: flex;
-    flex-direction: column;
-    gap: 0;
-    position: relative;
-    max-width: 860px;
-  }
-  .timeline-step {
-    display: grid;
-    grid-template-columns: 120px 1fr;
-    gap: var(--space-10);
-    padding: var(--space-12) 0;
-    border-bottom: 1px solid var(--border-subtle);
-  }
-  .timeline-step:last-child { border-bottom: none; }
-
-  .timeline-marker { display: flex; flex-direction: column; align-items: center; gap: 0; }
-  .marker-number {
-    font-family: var(--font-mono);
-    font-weight: var(--weight-black);
-    font-size: var(--text-5xl);
-    color: var(--bg-surface-hover);
-    line-height: 1;
-    transition: color var(--duration-normal);
-  }
-  .timeline-step:hover .marker-number { color: var(--brand-primary); }
-  .marker-line {
-    width: 1px;
-    flex: 1;
-    min-height: 40px;
-    background: var(--border-subtle);
-    margin-top: var(--space-4);
+  .process-hero-inner {
+    max-width: 900px;
   }
 
-  .timeline-label {
-    font-family: var(--font-mono);
-    font-size: var(--text-xs);
-    font-weight: var(--weight-bold);
-    text-transform: uppercase;
-    letter-spacing: var(--tracking-widest);
-    color: var(--brand-accent);
-    margin-bottom: var(--space-2);
-  }
-  .timeline-title {
-    font-family: var(--font-heading);
-    font-size: var(--text-3xl);
-    font-weight: var(--weight-black);
+  .process-hero h1 {
+    margin: 0 0 var(--space-6);
     color: var(--text-primary);
-    margin-bottom: var(--space-2);
+    font-size: clamp(3.1rem, 8vw, 7.25rem);
+    line-height: 0.94;
+    letter-spacing: 0;
   }
-  .timeline-tagline {
-    font-family: var(--font-display);
-    font-style: italic;
-    font-size: var(--text-base);
+
+  .process-hero-sub {
+    max-width: 720px;
     color: var(--text-secondary);
-    margin-bottom: var(--space-4);
+    font-size: clamp(1.1rem, 2vw, 1.35rem);
+    line-height: 1.7;
   }
-  .timeline-body {
-    font-size: var(--text-sm);
-    color: var(--text-secondary);
-    line-height: var(--leading-relaxed);
-    margin-bottom: var(--space-6);
-    max-width: 60ch;
+
+  .steps-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--space-4);
   }
-  .timeline-deliverables {
-    padding: var(--space-5) var(--space-6);
+
+  .step-card {
+    min-height: 350px;
+    border: 1px solid var(--border-medium);
+    border-radius: 8px;
     background: var(--bg-surface);
-    border: 1px solid var(--border-subtle);
-    border-radius: var(--radius-lg);
-  }
-  .deliverables-label {
-    font-family: var(--font-mono);
-    font-size: var(--text-xs);
-    text-transform: uppercase;
-    letter-spacing: var(--tracking-widest);
-    color: var(--text-disabled);
-    margin-bottom: var(--space-3);
-  }
-  .timeline-deliverables ul {
-    list-style: none;
+    padding: var(--space-6);
     display: flex;
     flex-direction: column;
-    gap: var(--space-2);
-    padding: 0;
   }
-  .timeline-deliverables li {
-    font-size: var(--text-sm);
-    color: var(--text-secondary);
-    display: flex;
-    gap: var(--space-2);
-    align-items: flex-start;
-  }
-  .timeline-deliverables li::before { content: '→'; color: var(--brand-primary); flex-shrink: 0; }
 
-  /* ── Ownership ────────────────────────────────────────────── */
-  .process-ownership { background: var(--bg-surface); border-top: 1px solid var(--border-subtle); border-bottom: 1px solid var(--border-subtle); }
-  .ownership-grid {
+  .step-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--space-6);
+    color: var(--brand-accent);
+    font-family: var(--font-mono);
+    font-weight: 700;
+  }
+
+  .step-top p {
+    margin: 0;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-size: 0.78rem;
+  }
+
+  .step-card h2 {
+    margin: 0 0 var(--space-4);
+    color: var(--text-primary);
+    font-size: 1.55rem;
+    line-height: 1.15;
+  }
+
+  .step-card > p {
+    margin: 0;
+    color: var(--text-secondary);
+    line-height: 1.65;
+  }
+
+  .proof-grid {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: var(--space-20);
+    grid-template-columns: minmax(0, 1fr) minmax(320px, 0.85fr);
+    gap: var(--space-12);
     align-items: start;
   }
-  .ownership-grid > div:first-child {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-5);
-  }
-  .ownership-grid > div:first-child p { font-size: var(--text-base); color: var(--text-secondary); line-height: var(--leading-relaxed); }
-  .ownership-list {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-1);
-  }
-  .ownership-item {
-    padding: var(--space-5) var(--space-6);
-    border-bottom: 1px solid var(--border-subtle);
-  }
-  .ownership-item:last-child { border-bottom: none; }
-  .ownership-item h3 {
-    font-family: var(--font-heading);
-    font-size: var(--text-base);
-    font-weight: var(--weight-bold);
-    color: var(--text-primary);
-    margin-bottom: var(--space-1);
-  }
-  .ownership-item p { font-size: var(--text-sm); color: var(--text-secondary); }
 
-  /* ── Timelines table ──────────────────────────────────────── */
-  .timelines-table {
-    display: flex;
-    flex-direction: column;
-    gap: 0;
-    border: 1px solid var(--border-subtle);
-    border-radius: var(--radius-xl);
-    overflow: hidden;
-  }
-  .timelines-row {
-    display: grid;
-    grid-template-columns: 1fr 200px 180px;
-    gap: var(--space-4);
-    align-items: center;
-    padding: var(--space-5) var(--space-6);
-    border-bottom: 1px solid var(--border-subtle);
-    transition: background var(--duration-fast);
-  }
-  .timelines-row:last-child { border-bottom: none; }
-  .timelines-row:hover { background: var(--bg-surface); }
-  .tr-name {
-    font-family: var(--font-heading);
-    font-size: var(--text-base);
-    font-weight: var(--weight-semibold);
+  .proof-copy h2,
+  .rules-panel h2,
+  .cta-panel h2 {
+    margin: 0 0 var(--space-4);
     color: var(--text-primary);
+    font-size: clamp(2rem, 4vw, 3.75rem);
+    line-height: 1.05;
+    letter-spacing: 0;
   }
-  .tr-timeline {
-    font-family: var(--font-mono);
-    font-size: var(--text-sm);
-    color: var(--brand-primary);
-  }
-  .tr-price {
-    font-family: var(--font-mono);
-    font-size: var(--text-sm);
+
+  .proof-copy p {
     color: var(--text-secondary);
-    text-align: right;
+    font-size: 1.05rem;
+    line-height: 1.75;
   }
 
-  /* ── CTA ──────────────────────────────────────────────────── */
-  .cta-inner {
-    max-width: 560px;
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-6);
+  .timeline-card,
+  .rules-panel,
+  .cta-panel {
+    border: 1px solid var(--border-medium);
+    border-radius: 8px;
+    background: var(--bg-surface);
+    padding: var(--space-8);
   }
-  .cta-inner p { font-size: var(--text-base); color: var(--text-secondary); line-height: var(--leading-relaxed); }
 
-  /* ── Responsive ───────────────────────────────────────────── */
-  @media (max-width: 768px) {
-    .timeline-step { grid-template-columns: 1fr; gap: var(--space-4); }
-    .timeline-marker { flex-direction: row; }
-    .marker-line { display: none; }
-    .marker-number { font-size: var(--text-3xl); }
-    .ownership-grid { grid-template-columns: 1fr; }
-    .timelines-row { grid-template-columns: 1fr; }
-    .tr-price { text-align: left; }
+  .timeline-card h3 {
+    margin: 0 0 var(--space-6);
+    color: var(--text-primary);
+    font-size: 1.4rem;
+  }
+
+  .timeline-row {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: var(--space-4);
+    padding: var(--space-4) 0;
+    border-top: 1px solid var(--border-medium);
+  }
+
+  .timeline-row span {
+    color: var(--text-secondary);
+  }
+
+  .timeline-row strong {
+    color: var(--text-primary);
+    white-space: nowrap;
+  }
+
+  .timeline-card > p {
+    color: var(--text-tertiary);
+    line-height: 1.6;
+    margin: var(--space-6) 0 0;
+  }
+
+  .rules-panel {
+    display: grid;
+    grid-template-columns: 0.9fr 1.1fr;
+    gap: var(--space-8);
+    align-items: start;
+  }
+
+  .rules-panel ul {
+    margin: 0;
+    padding-left: 1.2rem;
+    color: var(--text-secondary);
+    line-height: 1.9;
+  }
+
+  .cta-panel {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: var(--space-8);
+    align-items: center;
+    background:
+      linear-gradient(135deg, rgba(42, 71, 54, 0.14), transparent 50%),
+      var(--bg-surface);
+  }
+
+  .cta-panel h2 {
+    margin-bottom: 0;
+  }
+
+  @media (max-width: 1000px) {
+    .steps-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .proof-grid,
+    .rules-panel,
+    .cta-panel {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .steps-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .timeline-row {
+      grid-template-columns: 1fr;
+      gap: var(--space-1);
+    }
   }
 </style>

@@ -1,0 +1,71 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout
+  title="Privacy Policy | 5 Cypress Automation"
+  description="How 5 Cypress Automation collects, uses, and protects information shared through our website and client projects."
+>
+  <section class="section legal-hero">
+    <div class="container legal-wrap">
+      <p class="lead-in">Legal</p>
+      <h1>Privacy Policy</h1>
+      <p class="legal-updated">Last updated: May 7, 2026</p>
+
+      <article class="legal-card">
+        <h2>Information We Collect</h2>
+        <p>When you contact 5 Cypress Automation, request a scan, or work with us on a project, we may collect your name, email address, company name, website, project details, and the business tools involved in the workflow.</p>
+
+        <h2>How We Use Information</h2>
+        <p>We use this information to respond to inquiries, scope automation projects, deliver services, maintain client records, improve our website, and communicate about active work.</p>
+
+        <h2>Business Data</h2>
+        <p>Client workflow data is treated as confidential. We only access systems and files needed for the approved project scope, and we do not sell client or prospect information.</p>
+
+        <h2>Third-Party Services</h2>
+        <p>We may use trusted services such as Cloudflare, Google Workspace, Calendly, Stripe, QuickBooks, CRM platforms, email tools, analytics tools, and automation platforms when operating the website or delivering client work.</p>
+
+        <h2>Your Choices</h2>
+        <p>You can request access, correction, or deletion of personal information by emailing us. Some records may need to be retained for legal, security, or business continuity reasons.</p>
+
+        <h2>Contact</h2>
+        <p>For privacy questions, email <a href="mailto:nick@5cypress.com">nick@5cypress.com</a>.</p>
+      </article>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .legal-hero { padding-top: var(--space-32); }
+  .legal-wrap { max-width: 880px; }
+  .legal-updated {
+    margin-top: var(--space-4);
+    margin-bottom: var(--space-10);
+    color: var(--text-tertiary);
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-widest);
+  }
+  .legal-card {
+    background: var(--bg-surface);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-xl);
+    padding: var(--space-10);
+  }
+  .legal-card h2 {
+    font-size: var(--text-xl);
+    margin-top: var(--space-10);
+    margin-bottom: var(--space-4);
+  }
+  .legal-card h2:first-child { margin-top: 0; }
+  .legal-card p {
+    color: var(--text-secondary);
+    line-height: var(--leading-relaxed);
+  }
+  .legal-card a {
+    color: var(--brand-primary);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+</style>

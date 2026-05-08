@@ -12,6 +12,7 @@
   role="dialog"
   aria-modal="true"
   aria-labelledby="modal-title"
+  aria-hidden="true"
 >
   <div class="modal-panel">
 
@@ -22,10 +23,10 @@
     </button>
 
     <div class="modal-header">
-      <p class="lead-in">20-Minute Fit Call</p>
-      <h2 id="modal-title">Let's see if we're a fit</h2>
+      <p class="lead-in">20-Minute Workflow Call</p>
+      <h2 id="modal-title">Let's map the bottleneck</h2>
       <p class="modal-subtitle">
-        Tell us about your firm. We'll reach out within one business day to schedule a quick call — no obligation, no pitch decks.
+        Tell us where work is getting stuck. We'll reach out within one business day to schedule a quick call. No obligation, no pitch deck.
       </p>
     </div>
 
@@ -49,20 +50,20 @@
             id="bf-email"
             name="email"
             autocomplete="email"
-            placeholder="jane@smithcpa.com"
+            placeholder="jane@company.com"
             required
           />
         </div>
       </div>
 
       <div class="form-group">
-        <label for="bf-company">Firm name <span aria-hidden="true">*</span></label>
+        <label for="bf-company">Company name <span aria-hidden="true">*</span></label>
         <input
           type="text"
           id="bf-company"
           name="company"
           autocomplete="organization"
-          placeholder="Smith CPA Group"
+          placeholder="Cypress Operations Co."
           required
         />
       </div>
@@ -71,11 +72,11 @@
         <label for="bf-challenge">Biggest manual bottleneck right now</label>
         <select id="bf-challenge" name="challenge">
           <option value="">Select one…</option>
-          <option value="month-end-close">Month-end close packets take too long</option>
-          <option value="onboarding">New client onboarding is manual &amp; slow</option>
-          <option value="doc-intake">Tax season document chaos</option>
-          <option value="reporting">No real-time KPI visibility for partners</option>
-          <option value="missed-leads">Missing after-hours calls and leads</option>
+          <option value="lead-follow-up">Lead follow-up is too manual</option>
+          <option value="reporting">Reports or dashboards take too long</option>
+          <option value="doc-intake">Document intake is messy</option>
+          <option value="billing">Billing, collections, or payment handoffs are slow</option>
+          <option value="onboarding">Client or customer onboarding is manual</option>
           <option value="other">Something else</option>
         </select>
       </div>
@@ -99,7 +100,7 @@
 
       <div class="form-submit-row">
         <button type="submit" class="btn btn-primary btn-lg btn-block" data-ripple id="booking-submit">
-          <span>Request my fit call</span>
+          <span>Request my workflow call</span>
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
             <path d="M7 17L17 7M17 7H7M17 7v10"/>
           </svg>
@@ -121,6 +122,7 @@
 
   function closeModal() {
     modal.classList.remove('is-open');
+    modal.setAttribute('aria-hidden', 'true');
     document.body.style.overflow = '';
   }
 
@@ -163,7 +165,7 @@
       statusEl.textContent = 'Something went wrong. Email us directly at nick@5cypress.com';
       statusEl.classList.add('form-status--error');
       submitBtn.removeAttribute('disabled');
-      submitBtn.querySelector('span')!.textContent = 'Request my fit call';
+      submitBtn.querySelector('span')!.textContent = 'Request my workflow call';
     }
   });
 </script>

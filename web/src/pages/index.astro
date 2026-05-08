@@ -7,111 +7,157 @@ import Faq from '../components/Faq.astro';
 import MicroDashboard from '../components/MicroDashboard.astro';
 import JsonLd from '../components/JsonLd.astro';
 
-const services = [
+const coreWorkflows = [
   {
-    tag: 'Dashboard',
-    title: 'Practice KPI Dashboard',
+    tag: '01 / Leads',
+    title: 'Lead capture and follow-up',
     description:
-      'Real-time realization rate, WIP, AR aging, and billing metrics — pulled from QBO + your practice management system and surfaced to every partner in one live panel.',
-    href: '/services/practice-kpi-dashboard',
-  },
-  {
-    tag: 'Reporting',
-    title: 'Monthly Client Snapshot',
-    description:
-      'One click after QBO close: auto-generated PDF report + branded web dashboard per client, delivered before the 5th — no manual data pulls, no formatting.',
-    href: '/services/monthly-client-snapshot',
-  },
-  {
-    tag: 'AI · Intake',
-    title: 'Document Intake & AI Sort',
-    description:
-      'Clients upload to a shared portal. OpenAI Vision classifies each file and routes it to the right job in Karbon, TaxDome, or SharePoint — in seconds.',
-    href: '/services/document-intake-ai-sort',
+      'Route form fills, missed calls, referrals, and ad leads into one system with fast replies, owner alerts, and clean CRM records.',
+    href: '/services/missed-lead-text-back/',
     highlight: true,
   },
   {
-    tag: 'Onboarding',
-    title: 'Engagement → Onboarding Flow',
+    tag: '02 / Reporting',
+    title: 'Dashboards and KPI reporting',
     description:
-      'When a DocuSign engagement letter is signed, the system auto-creates the Karbon job, adds the client to QBO, and books their kickoff call via Calendly — hands-free.',
-    href: '/services/engagement-onboarding-flow',
+      'Turn scattered exports into live dashboards, scheduled reports, and decision-ready summaries your team can trust.',
+    href: '/services/business-intelligence-dashboard/',
   },
   {
-    tag: 'Lead Recovery',
-    title: 'Missed-Lead Text-Back',
+    tag: '03 / Intake',
+    title: 'Document intake and routing',
     description:
-      'A prospect calls after hours or submits a form. They get a personalized text in under 60 seconds — before they move on to your competitor.',
-    href: '/services/missed-lead-text-back',
+      'Collect files, classify documents, rename them, and send them to the right folder, job, client, or person automatically.',
+    href: '/services/document-intake-ai-sort/',
   },
   {
-    tag: 'Close · Flagship',
-    title: 'Month-End Close Accelerator',
+    tag: '04 / Money',
+    title: 'Billing, invoice, and payment flows',
     description:
-      'An agentic close engine that runs reconciliations, flags variances, drafts adjusting JEs for review, and pushes a partner-ready close package — same day QBO is locked.',
-    href: '/services/month-end-close-accelerator',
+      'Connect proposals, invoices, reminders, payment links, bookkeeping records, and status updates without manual re-entry.',
+    href: '/services/ar-collections-agent/',
+  },
+  {
+    tag: '05 / Onboarding',
+    title: 'Client and customer onboarding',
+    description:
+      'Move a signed agreement or new order into kickoff tasks, calendar links, records, folders, and internal notifications.',
+    href: '/services/engagement-onboarding-flow/',
     highlight: true,
   },
+];
+
+const sectors = [
   {
-    tag: 'AR · Cashflow',
-    title: 'AR / Collections Agent',
-    description:
-      'Aging invoices chased automatically with a graduated 15/30/45/60 day cadence — tone-matched to the client relationship and escalated to a partner only when needed.',
-    href: '/services/ar-collections-agent',
+    label: 'Accounting and finance',
+    text: 'QBO workflows, client reporting, document intake, AR, close support, KPI dashboards, and onboarding.',
   },
   {
-    tag: 'Advisory · Forecast',
-    title: 'Cashflow Forecast Agent',
-    description:
-      'A 13-week rolling cashflow forecast per client, refreshed every morning from QBO actuals — with auto-alerts for low balance projections and covenant risks.',
-    href: '/services/cashflow-forecast-agent',
+    label: 'Service businesses',
+    text: 'Lead follow-up, scheduling, proposal handoffs, invoice reminders, operations dashboards, and client updates.',
   },
   {
-    tag: 'BI · Analytics',
-    title: 'Business Intelligence Dashboard',
-    description:
-      'A Power BI, Tableau, or Looker Studio dashboard built around the metrics that actually drive your business — modeled, automated, and refreshed without anyone touching a spreadsheet.',
-    href: '/services/business-intelligence-dashboard',
+    label: 'Medical and professional offices',
+    text: 'Inbound requests, document routing, appointment workflows, referral tracking, and staff task automation.',
   },
   {
-    tag: 'Excel · Automation',
-    title: 'Excel & Spreadsheet Automation',
-    description:
-      'Custom Excel and Google Sheets automations using Power Query, Office Scripts, VBA, or Apps Script — the spreadsheet that takes someone 8 hours, done in 8 seconds.',
-    href: '/services/excel-spreadsheet-automation',
+    label: 'Custom one-off builds',
+    text: 'The recurring workflow that is too specific for off-the-shelf software but too expensive to keep doing by hand.',
+  },
+];
+
+const trustSignals = [
+  {
+    title: 'Scope before build',
+    text: 'You get a clear workflow map, systems list, handoff points, and rough timeline before anything is built.',
+  },
+  {
+    title: 'Test data first',
+    text: 'Production data comes after the trigger, validation, exception path, and human review points are clear.',
+  },
+  {
+    title: 'No new platform by default',
+    text: 'The first choice is usually to connect the tools already in the business, not force another login.',
+  },
+  {
+    title: 'Documented handoff',
+    text: 'Each workflow ships with plain-English notes so the team knows what it does and what to check.',
+  },
+];
+
+const nextSteps = [
+  'You describe the workflow that keeps slowing the team down.',
+  'We identify the first useful build and what systems it touches.',
+  'You decide whether to scope it. No pitch deck, no pressure.',
+];
+
+const demoWorkflows = [
+  {
+    label: 'Lead flow',
+    title: 'Referral lead captured and routed',
+    metric: '47 sec',
+    metricLabel: 'first response',
+    rows: [
+      ['Source', 'Website form'],
+      ['Owner', 'Nick / Sales'],
+      ['Status', 'Fit call requested'],
+      ['Next step', 'Send calendar link'],
+    ],
+    timeline: ['Form received', 'CRM record created', 'SMS sent', 'Owner notified'],
+  },
+  {
+    label: 'Invoice flow',
+    title: 'Aging invoice escalated cleanly',
+    metric: '$18,420',
+    metricLabel: 'at-risk AR',
+    rows: [
+      ['Client', 'Crescent Supply Co.'],
+      ['Aging', '45 days'],
+      ['Tone', 'Warm reminder'],
+      ['Next step', 'Partner review if unpaid'],
+    ],
+    timeline: ['QBO sync', 'Aging rule matched', 'Reminder drafted', 'Promise-to-pay tracked'],
+  },
+  {
+    label: 'Document flow',
+    title: 'Client files sorted automatically',
+    metric: '38',
+    metricLabel: 'files routed',
+    rows: [
+      ['Batch', 'May close packet'],
+      ['Detected', 'Statements / receipts'],
+      ['Destination', 'Client folder'],
+      ['Exception', '2 need review'],
+    ],
+    timeline: ['Upload received', 'Files classified', 'Names standardized', 'Exceptions queued'],
   },
 ];
 
 const faqs = [
   {
-    question: 'Do you replace our existing tools — QBO, Karbon, TaxDome?',
+    question: 'Do you only work with accounting and finance firms?',
     answer:
-      'No. We build the connective tissue between them. Your team keeps using the tools they already know; the automations work invisibly in the background to eliminate the manual steps between systems.',
+      'No. Accounting and finance are a strong specialty because those teams have heavy reporting, billing, document, and onboarding workflows. The same automation patterns also apply to service businesses, medical offices, agencies, operations teams, and other small B2B companies.',
   },
   {
-    question: 'How long does a typical engagement take to go live?',
+    question: 'What does the "5" in 5 Cypress mean?',
     answer:
-      'Most projects are live in 14 business days from kickoff. More complex workflows — like multi-system onboarding flows — typically take 3–4 weeks. We scope that clearly upfront.',
+      'It gives the brand a practical operating model: five ready-to-build workflow systems most companies need. Each one can be installed as a focused automation or adapted into a custom workflow for a specific business.',
   },
   {
-    question: 'What does it cost?',
+    question: 'Are these AI tools or normal automations?',
     answer:
-      'Setup ranges from $997 for focused automations (missed-lead text-back, single workflow) up to $4,500 for our flagship builds (Month-End Close Accelerator, Cashflow Forecast Agent). Ongoing automation maintenance is $100–$700/mo depending on scope.',
+      'Both, when useful. Some workflows only need clean rules and reliable API connections. Others benefit from AI for classification, summarization, routing, or drafting. The goal is not to add AI everywhere; it is to remove the work safely.',
   },
   {
-    question: "We're a small firm — is this overkill?",
+    question: 'How fast can a project go live?',
     answer:
-      'Two-partner firms often see the fastest ROI. If partners are spending 2+ hours a month on data entry or client reporting, the automation pays for itself in the first billing cycle.',
+      'Focused workflows often go live in 5-14 business days. Multi-system builds usually take 3-4 weeks because the edge cases, approvals, and testing matter.',
   },
   {
-    question: 'Who maintains it after delivery?',
+    question: 'What happens after launch?',
     answer:
-      'You get full documentation and a runbook. For clients on a maintenance plan, we monitor, update, and expand the system as your tools evolve — no technical staff required on your end.',
-  },
-  {
-    question: 'Do you work with fractional CFO practices, or only CPA firms?',
-    answer:
-      'Both. Fractional CFOs typically need the Monthly Client Snapshot and onboarding flow most. CPA firms tend to start with Practice KPI dashboards and document intake. We scope based on your specific workflow gaps.',
+      'You get documentation and a handoff. For clients who want ongoing help, we monitor, adjust, and expand workflows as tools, teams, and business rules change.',
   },
 ];
 
@@ -120,14 +166,14 @@ const orgSchema = {
   '@type': 'Organization',
   name: '5 Cypress Automation',
   url: 'https://www.5cypress.com',
-  logo: 'https://www.5cypress.com/logo.svg',
+  logo: 'https://www.5cypress.com/assets/brand/5cypress-mark.svg',
   email: 'nick@5cypress.com',
   description:
-    'Automation systems for accounting and finance firms — Practice KPI dashboards, client reporting, document intake, and onboarding flows built on QBO, Karbon, TaxDome, and OpenAI.',
+    'Business automation systems for small B2B teams, including lead capture, reporting dashboards, document intake, billing workflows, and onboarding automation.',
   sameAs: [],
 };
 
-const serviceSchemas = services.map((s) => ({
+const serviceSchemas = coreWorkflows.map((s) => ({
   '@context': 'https://schema.org',
   '@type': 'Service',
   serviceType: 'Business Automation',
@@ -143,104 +189,60 @@ const serviceSchemas = services.map((s) => ({
 ---
 
 <Layout
-  title="Automation for Accounting & Finance Firms | 5 Cypress"
-  description="We build the systems that eliminate data entry, accelerate month-end close, and put real-time KPIs in front of every partner — without replacing the tools you already use."
+  title="Business Automation Systems | 5 Cypress Automation"
+  description="5 Cypress Automation builds practical workflows for growing teams: lead follow-up, dashboards, document intake, billing, and onboarding."
 >
   <Fragment slot="head">
     <JsonLd schema={orgSchema} />
     <JsonLd schema={serviceSchemas} />
   </Fragment>
 
-  <!-- ══════════════════════════════════════════════════════════
-       HERO
-  ═══════════════════════════════════════════════════════════════ -->
   <section class="hero section">
     <div class="container hero-inner">
       <div class="hero-copy reveal">
-        <p class="lead-in">Built for accounting &amp; finance firms</p>
-        <h1>Your firm's busywork,&nbsp;<em>automated.</em></h1>
+        <p class="lead-in">Workflow systems for growing teams</p>
+        <h1>Automation that feels built into your business.</h1>
         <p class="hero-sub">
-          We build the systems that eliminate data entry, accelerate month-end close,
-          and put real-time KPIs in front of every partner — without replacing the tools you already use.
+          5 Cypress builds practical automation workflows that connect the tools you already use,
+          remove repeat manual work, and give your team cleaner data without forcing a new platform.
         </p>
         <div class="hero-ctas">
           <Button variant="primary" size="lg" magnetic ripple data-open-booking>
-            Book a 20-min fit call
+            Book a Workflow Call
           </Button>
-          <Button variant="secondary" size="lg" href="/services/practice-kpi-dashboard">
-            See the Practice Dashboard
+          <Button variant="secondary" size="lg" href="/services/">
+            Explore the 5 workflows
           </Button>
         </div>
         <p class="hero-proof">
-          <span>15+ hrs saved per month</span>
-          <span class="sep">·</span>
-          <span>14 days to live</span>
-          <span class="sep">·</span>
-          <span>From $997</span>
+          <span>5 ready-to-build systems</span>
+          <span class="sep">/</span>
+          <span>customized to your stack</span>
+          <span class="sep">/</span>
+          <span>Cloudflare-first site</span>
         </p>
       </div>
 
       <div class="hero-visual reveal">
         <MicroDashboard variant="practice-kpi" />
-        <div class="hero-visual-glow" aria-hidden="true"></div>
+        <div class="hero-orbit hero-orbit--one" aria-hidden="true"></div>
+        <div class="hero-orbit hero-orbit--two" aria-hidden="true"></div>
       </div>
     </div>
   </section>
 
-  <!-- ══════════════════════════════════════════════════════════
-       PAIN POINTS
-  ═══════════════════════════════════════════════════════════════ -->
-  <section class="section pain-section">
+  <section class="section workflow-section" id="workflows">
     <div class="container">
       <div class="section-header reveal">
-        <h2>Sound familiar?</h2>
+        <p class="lead-in">The 5 Cypress model</p>
+        <h2>Five workflow systems most companies need.</h2>
         <p class="section-sub">
-          These aren't technology problems — they're workflow problems.
-          And they're costing your partners billable hours every week.
-        </p>
-      </div>
-      <div class="pain-grid reveal-stagger">
-        {[
-          {
-            num: '01',
-            pain: 'Manual sync between QBO and your practice management system — every billing cycle.',
-          },
-          {
-            num: '02',
-            pain: 'Month-end client reports take 2–4 hours per client to pull, format, and send.',
-          },
-          {
-            num: '03',
-            pain: "Tax season document chaos: clients emailing files to whoever's available.",
-          },
-          {
-            num: '04',
-            pain: 'No live visibility into realization rate, WIP, or AR aging — until month-end.',
-          },
-        ].map(({ num, pain }) => (
-          <div class="pain-item">
-            <span class="pain-num">{num}</span>
-            <p class="pain-text">{pain}</p>
-          </div>
-        ))}
-      </div>
-    </div>
-  </section>
-
-  <!-- ══════════════════════════════════════════════════════════
-       SERVICES
-  ═══════════════════════════════════════════════════════════════ -->
-  <section class="section" id="services">
-    <div class="container">
-      <div class="section-header reveal">
-        <h2>Ten automations.<br/><em>Purpose-built for your practice.</em></h2>
-        <p class="section-sub">
-          Each system is scoped, built, and documented for your specific stack —
-          not a generic tool you're expected to configure yourself.
+          Start with a proven pattern, then tune it to the way your business actually runs.
+          These are not generic templates; they are repeatable starting points.
         </p>
       </div>
       <div class="services-grid reveal-stagger">
-        {services.map((s) => (
+        {coreWorkflows.map((s) => (
           <Card
             tag={s.tag}
             title={s.title}
@@ -249,7 +251,7 @@ const serviceSchemas = services.map((s) => ({
             highlight={s.highlight}
           >
             <svg slot="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z"/>
+              <path stroke-linecap="round" stroke-linejoin="round" d="M4 7h7m-7 5h12m-12 5h16M16 5l4 2-4 2M13 10l4 2-4 2M18 15l3 2-3 2"/>
             </svg>
           </Card>
         ))}
@@ -257,143 +259,171 @@ const serviceSchemas = services.map((s) => ({
     </div>
   </section>
 
-  <!-- ══════════════════════════════════════════════════════════
-       STATS
-  ═══════════════════════════════════════════════════════════════ -->
   <section class="section stats-section">
     <div class="container">
       <div class="stats-row reveal">
         <StatTile
-          stat="15+"
-          label="Hours saved per partner, per month"
-          subtext="Across billing, reporting & intake"
+          stat="5-14"
+          label="Business days for focused workflow builds"
+          subtext="Lead follow-up, routing, reporting, reminders"
         />
         <StatTile
-          stat="<60s"
-          label="Text-back for missed leads"
-          subtext="Twilio-powered, always on"
+          stat="3-4"
+          label="Weeks for multi-system automations"
+          subtext="When approvals, edge cases, and testing matter"
         />
         <StatTile
-          stat="2–4 hrs"
-          label="Per client saved on month-end reports"
-          subtext="Auto-generated after QBO close"
+          stat="0"
+          label="New platform required by default"
+          subtext="We connect the tools already in the business"
         />
         <StatTile
-          stat="14 days"
-          label="Average time to go live"
-          subtext="From kickoff to production"
+          stat="1"
+          label="Clear runbook after launch"
+          subtext="So the workflow is understandable, not mysterious"
         />
       </div>
     </div>
   </section>
 
-  <!-- ══════════════════════════════════════════════════════════
-       TWO AUDIENCES
-  ═══════════════════════════════════════════════════════════════ -->
-  <section class="section audience-section">
+  <section class="section sectors-section">
     <div class="container">
       <div class="section-header reveal">
-        <h2>Built for two kinds of firms</h2>
+        <p class="lead-in">Specialized, not boxed in</p>
+        <h2>Strong in accounting and finance. Useful far beyond it.</h2>
+        <p class="section-sub">
+          The best automations are built around repeated handoffs: someone submits, someone reviews,
+          something gets filed, a record changes, a report goes out. That pattern shows up in every serious business.
+        </p>
       </div>
-      <div class="audience-grid reveal-stagger">
-        <div class="audience-card">
-          <p class="audience-label">CPA &amp; Accounting Firms</p>
-          <h3>2–10 partners,<br/>drowning in admin</h3>
-          <ul class="audience-list">
-            <li>Practice KPI Dashboard + WIP tracking</li>
-            <li>Automated monthly client reports</li>
-            <li>AI document intake for tax season</li>
-            <li>Engagement → onboarding flow</li>
-          </ul>
-          <Button variant="primary" size="md" magnetic ripple data-open-booking>
-            Talk to us
-          </Button>
-        </div>
-        <div class="audience-card audience-card--alt">
-          <p class="audience-label">Fractional CFO Practices</p>
-          <h3>High-touch service,<br/>systematic delivery</h3>
-          <ul class="audience-list">
-            <li>Monthly snapshot per client — auto-delivered</li>
-            <li>Onboarding flow: signed → active in hours</li>
-            <li>Missed-lead text-back for inbound referrals</li>
-            <li>QBO → reporting stack automation</li>
-          </ul>
-          <Button variant="secondary" size="md" magnetic ripple data-open-booking>
-            Talk to us
-          </Button>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ══════════════════════════════════════════════════════════
-       PARTNERS
-  ═══════════════════════════════════════════════════════════════ -->
-  <section class="section partner-section">
-    <div class="container">
-      <p class="partner-eyebrow">Part of a trusted partner network</p>
-      <div class="partner-band reveal">
-        <a href="https://nexairi.com" class="partner-item" target="_blank" rel="noopener noreferrer">
-          <span class="partner-name">Nexairi</span>
-          <span class="partner-desc">AI news for accounting &amp; finance professionals</span>
-        </a>
-        <div class="partner-sep" aria-hidden="true"></div>
-        <a href="https://simplysmart-consulting.com" class="partner-item" target="_blank" rel="noopener noreferrer">
-          <span class="partner-name">Simply Smart Consulting</span>
-          <span class="partner-desc">CPA-led bookkeeping &amp; fractional CFO services</span>
-        </a>
-      </div>
-    </div>
-  </section>
-
-  <!-- ══════════════════════════════════════════════════════════
-       TESTIMONIALS
-  ═══════════════════════════════════════════════════════════════ -->
-  <section class="section">
-    <div class="container">
-      <div class="section-header reveal">
-        <h2>What our clients say</h2>
-      </div>
-      <div class="testimonials-grid reveal-stagger">
-        {[
-          {
-            quote:
-              "We were spending 3 hours every month pulling the same data for each client. Now it runs overnight and shows up in my inbox before I've had coffee.",
-            name: 'Managing Partner',
-            firm: 'Regional CPA Firm',
-          },
-          {
-            quote:
-              "The onboarding flow was the unlock for us. A signed engagement letter used to mean 45 minutes of setup work. Now it's a Calendly link and a job in Karbon — automatically.",
-            name: 'Fractional CFO',
-            firm: 'Independent Practice',
-          },
-          {
-            quote:
-              "We were losing referrals because we couldn't respond fast enough. The text-back paid for itself in the first week when it caught a lead we would have missed completely.",
-            name: 'Partner',
-            firm: 'Small Accounting Firm',
-          },
-        ].map(({ quote, name, firm }) => (
-          <blockquote class="testimonial">
-            <p class="testimonial-quote">"{quote}"</p>
-            <footer class="testimonial-author">
-              <span class="testimonial-name">{name}</span>
-              <span class="testimonial-firm">{firm}</span>
-            </footer>
-          </blockquote>
+      <div class="sector-grid reveal-stagger">
+        {sectors.map((sector) => (
+          <div class="sector-card">
+            <h3>{sector.label}</h3>
+            <p>{sector.text}</p>
+          </div>
         ))}
       </div>
     </div>
   </section>
 
-  <!-- ══════════════════════════════════════════════════════════
-       FAQ
-  ═══════════════════════════════════════════════════════════════ -->
+  <section class="section trust-section">
+    <div class="container">
+      <div class="trust-grid">
+        <div class="trust-copy reveal">
+          <p class="lead-in">Trust the build</p>
+          <h2>Useful automation should feel controlled, not mysterious.</h2>
+          <p>
+            The safest workflows are boring in the right places: clear triggers,
+            validated data, visible exceptions, and a documented handoff. That is
+            how 5 Cypress keeps automation practical instead of fragile.
+          </p>
+        </div>
+
+        <div class="trust-list reveal-stagger">
+          {trustSignals.map((signal) => (
+            <article class="trust-card">
+              <h3>{signal.title}</h3>
+              <p>{signal.text}</p>
+            </article>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section method-section">
+    <div class="container method-grid">
+      <div class="method-copy reveal">
+        <p class="lead-in">How we build</p>
+        <h2>Modern automation without the AI costume.</h2>
+        <p>
+          We use AI where it earns its place: reading documents, classifying requests,
+          drafting summaries, finding exceptions, and turning raw data into useful language.
+          The rest is disciplined workflow design, validation, logging, and clean handoff.
+        </p>
+      </div>
+      <div class="method-list reveal-stagger">
+        <div class="method-item">
+          <span>01</span>
+          <div>
+            <h3>Map the handoff</h3>
+            <p>What starts the workflow, who needs to know, and what can go wrong?</p>
+          </div>
+        </div>
+        <div class="method-item">
+          <span>02</span>
+          <div>
+            <h3>Connect the stack</h3>
+            <p>APIs, forms, databases, email, SMS, dashboards, files, and existing tools.</p>
+          </div>
+        </div>
+        <div class="method-item">
+          <span>03</span>
+          <div>
+            <h3>Test the edge cases</h3>
+            <p>Bad inputs, missing fields, duplicate records, retries, and human approvals.</p>
+          </div>
+        </div>
+        <div class="method-item">
+          <span>04</span>
+          <div>
+            <h3>Document the system</h3>
+            <p>Your team gets a plain-English runbook and a workflow that can evolve.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section demo-section">
+    <div class="container">
+      <div class="demo-header reveal">
+        <p class="lead-in">Sample workflow data</p>
+        <h2>Make the invisible work visible.</h2>
+        <p>
+          These are dummy examples, but they show the kind of operational view a finished
+          automation can give you: what happened, where it went, what needs attention, and who owns it.
+        </p>
+      </div>
+      <div class="demo-grid reveal-stagger">
+        {demoWorkflows.map((demo) => (
+          <article class="workflow-demo">
+            <div class="workflow-demo-top">
+              <span class="workflow-demo-label">{demo.label}</span>
+              <span class="workflow-demo-live">Demo data</span>
+            </div>
+            <h3>{demo.title}</h3>
+            <div class="workflow-demo-metric">
+              <span>{demo.metric}</span>
+              <p>{demo.metricLabel}</p>
+            </div>
+            <div class="workflow-demo-rows">
+              {demo.rows.map(([key, value]) => (
+                <div class="workflow-demo-row">
+                  <span>{key}</span>
+                  <strong>{value}</strong>
+                </div>
+              ))}
+            </div>
+            <div class="workflow-timeline">
+              {demo.timeline.map((step, index) => (
+                <div class="workflow-step">
+                  <span>{String(index + 1).padStart(2, '0')}</span>
+                  <p>{step}</p>
+                </div>
+              ))}
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
   <section class="section" id="faq">
     <div class="container faq-container">
       <div class="section-header reveal">
-        <h2>Frequently asked questions</h2>
+        <h2>Questions people usually ask</h2>
       </div>
       <div class="reveal">
         <Faq items={faqs} includeLdJson />
@@ -401,21 +431,26 @@ const serviceSchemas = services.map((s) => ({
     </div>
   </section>
 
-  <!-- ══════════════════════════════════════════════════════════
-       FINAL CTA
-  ═══════════════════════════════════════════════════════════════ -->
   <section class="section cta-final">
     <div class="container cta-final-inner reveal">
-      <h2>Ready to automate your practice?</h2>
+      <h2>Bring the messy workflow.</h2>
       <p>
-        20-minute fit call. No sales pitch — just a clear scope of what we'd automate
-        and what it would cost you to do it manually.
+        In 20 minutes we can usually tell whether it should be automated, simplified,
+        delegated, or left alone.
       </p>
+      <div class="next-steps" aria-label="What happens next">
+        {nextSteps.map((step, index) => (
+          <div class="next-step">
+            <span>{String(index + 1).padStart(2, '0')}</span>
+            <p>{step}</p>
+          </div>
+        ))}
+      </div>
       <Button variant="primary" size="lg" magnetic ripple data-open-booking>
-        Book a fit call — it's free
+        Book a Workflow Call
       </Button>
       <p class="cta-contact">
-        Prefer email?&nbsp;
+        Prefer email?
         <a href="mailto:nick@5cypress.com">nick@5cypress.com</a>
       </p>
     </div>
@@ -423,89 +458,76 @@ const serviceSchemas = services.map((s) => ({
 </Layout>
 
 <style>
-  /* ── Hero ─────────────────────────────────────────────────── */
   .hero {
     padding-block: var(--space-24) var(--space-20);
     overflow: hidden;
   }
   .hero-inner {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: minmax(0, 1fr) minmax(360px, 0.85fr);
     gap: var(--space-16);
     align-items: center;
   }
-  .hero-copy { display: flex; flex-direction: column; gap: var(--space-6); }
-
+  .hero-copy {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-6);
+  }
+  .hero h1 {
+    max-width: 11ch;
+  }
   .hero-sub {
     font-size: var(--text-lg);
     color: var(--text-secondary);
     line-height: var(--leading-relaxed);
-    max-width: 52ch;
+    max-width: 58ch;
   }
-
-  .hero-ctas { display: flex; gap: var(--space-4); flex-wrap: wrap; }
-
+  .hero-ctas {
+    display: flex;
+    gap: var(--space-4);
+    flex-wrap: wrap;
+  }
   .hero-proof {
     display: flex;
     align-items: center;
     gap: var(--space-3);
+    flex-wrap: wrap;
     font-family: var(--font-mono);
     font-size: var(--text-xs);
     color: var(--text-tertiary);
     letter-spacing: var(--tracking-wide);
     text-transform: uppercase;
   }
-  .hero-proof .sep { color: var(--border-medium); }
-
+  .hero-proof .sep { color: var(--brand-accent); }
   .hero-visual {
     display: flex;
     justify-content: flex-end;
-    align-items: center;
     position: relative;
   }
-  .hero-visual-glow {
+  .hero-orbit {
     position: absolute;
-    inset: -30%;
-    background: radial-gradient(ellipse at center, rgba(93,140,93,0.12) 0%, transparent 70%);
+    border: 1px solid rgba(251, 191, 36, 0.16);
+    border-radius: 999px;
     pointer-events: none;
-    z-index: -1;
+  }
+  .hero-orbit--one {
+    width: 440px;
+    height: 160px;
+    right: -32px;
+    top: 42px;
+    transform: rotate(-18deg);
+  }
+  .hero-orbit--two {
+    width: 360px;
+    height: 120px;
+    right: 12px;
+    bottom: 40px;
+    transform: rotate(16deg);
+    border-color: rgba(93, 140, 93, 0.18);
   }
 
-  /* ── Pain points ──────────────────────────────────────────── */
-  .pain-section { background: var(--bg-surface); }
-  .pain-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: var(--space-6);
-    margin-top: var(--space-10);
-  }
-  .pain-item {
-    display: flex;
-    gap: var(--space-5);
-    align-items: flex-start;
-    padding: var(--space-6);
-    border: 1px solid var(--border-subtle);
-    border-radius: var(--radius-lg);
-    background: var(--bg-main);
-  }
-  .pain-num {
-    font-family: var(--font-mono);
-    font-size: var(--text-xs);
-    font-weight: var(--weight-bold);
-    color: var(--brand-primary);
-    letter-spacing: var(--tracking-widest);
-    flex-shrink: 0;
-    padding-top: 2px;
-  }
-  .pain-text {
-    font-size: var(--text-sm);
-    color: var(--text-secondary);
-    line-height: var(--leading-relaxed);
-  }
-
-  /* ── Section header ───────────────────────────────────────── */
   .section-header {
-    max-width: 60ch;
+    max-width: 68ch;
     margin-bottom: var(--space-12);
   }
   .section-sub {
@@ -514,167 +536,257 @@ const serviceSchemas = services.map((s) => ({
     color: var(--text-secondary);
     line-height: var(--leading-relaxed);
   }
-
-  /* ── Services grid ────────────────────────────────────────── */
+  .workflow-section,
+  .method-section,
+  .trust-section {
+    background: var(--bg-surface);
+  }
   .services-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: var(--space-6);
   }
-  .services-grid > :last-child:nth-child(3n - 1) {
-    grid-column: span 1;
+  .stats-section {
+    border-block: 1px solid var(--border-subtle);
   }
-
-  /* ── Stats ────────────────────────────────────────────────── */
-  .stats-section { border-block: 1px solid var(--border-subtle); }
   .stats-row {
     display: flex;
     flex-wrap: wrap;
   }
-
-  /* ── Audience ─────────────────────────────────────────────── */
-  .audience-grid {
+  .sector-grid {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: var(--space-6);
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--space-5);
   }
-  .audience-card {
+  .sector-card {
+    min-height: 230px;
+    padding: var(--space-6);
     background: var(--bg-surface);
     border: 1px solid var(--border-subtle);
     border-radius: var(--radius-xl);
-    padding: var(--space-10);
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-6);
   }
-  .audience-card--alt {
-    border-color: rgba(93,140,93,0.2);
-    background: linear-gradient(135deg, var(--bg-surface) 0%, rgba(93,140,93,0.04) 100%);
+  .sector-card h3 {
+    font-size: var(--text-xl);
+    margin-bottom: var(--space-4);
   }
-  .audience-label {
-    font-family: var(--font-mono);
-    font-size: var(--text-xs);
-    font-weight: var(--weight-bold);
-    letter-spacing: var(--tracking-widest);
-    text-transform: uppercase;
-    color: var(--brand-primary);
-  }
-  .audience-card h3 {
-    font-size: var(--text-2xl);
-    line-height: var(--leading-snug);
-  }
-  .audience-list {
-    list-style: none;
-    padding: 0;
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-3);
-    flex: 1;
-  }
-  .audience-list li {
-    display: flex;
-    align-items: flex-start;
-    gap: var(--space-3);
-    font-size: var(--text-sm);
+  .sector-card p {
     color: var(--text-secondary);
+    font-size: var(--text-sm);
   }
-  .audience-list li::before {
-    content: '→';
-    color: var(--brand-primary);
-    font-family: var(--font-mono);
-    flex-shrink: 0;
+  .trust-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+    gap: var(--space-16);
+    align-items: start;
   }
-
-  /* ── Partners ─────────────────────────────────────────────── */
-  .partner-eyebrow {
-    font-family: var(--font-mono);
-    font-size: var(--text-xs);
-    color: var(--text-disabled);
-    letter-spacing: var(--tracking-widest);
-    text-transform: uppercase;
-    text-align: center;
-    margin-bottom: var(--space-8);
+  .trust-copy p {
+    color: var(--text-secondary);
+    font-size: var(--text-lg);
   }
-  .partner-band {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: var(--space-10);
-    flex-wrap: wrap;
-    padding: var(--space-8);
+  .trust-list {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-5);
+  }
+  .trust-card {
+    min-height: 210px;
+    padding: var(--space-6);
     border: 1px solid var(--border-subtle);
     border-radius: var(--radius-xl);
-    background: var(--bg-surface);
+    background:
+      linear-gradient(180deg, rgba(93,140,93,0.08), transparent),
+      var(--bg-main);
   }
-  .partner-sep {
-    width: 1px;
-    height: 40px;
-    background: var(--border-subtle);
+  .trust-card h3 {
+    font-size: var(--text-lg);
+    margin-bottom: var(--space-3);
   }
-  .partner-item {
+  .trust-card p {
+    color: var(--text-secondary);
+    font-size: var(--text-sm);
+  }
+  .method-grid {
+    display: grid;
+    grid-template-columns: 0.85fr 1.15fr;
+    gap: var(--space-16);
+    align-items: start;
+  }
+  .method-copy p {
+    color: var(--text-secondary);
+    font-size: var(--text-lg);
+  }
+  .method-list {
     display: flex;
     flex-direction: column;
-    gap: var(--space-1);
-    text-decoration: none;
-    text-align: center;
-    transition: opacity var(--duration-fast);
+    gap: var(--space-4);
   }
-  .partner-item:hover { opacity: 0.8; }
-  .partner-name {
-    font-family: var(--font-heading);
-    font-weight: var(--weight-bold);
-    font-size: var(--text-base);
-    color: var(--text-primary);
+  .method-item {
+    display: grid;
+    grid-template-columns: 48px 1fr;
+    gap: var(--space-5);
+    padding: var(--space-6);
+    background: var(--bg-main);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-lg);
   }
-  .partner-desc {
+  .method-item span {
+    font-family: var(--font-mono);
+    color: var(--brand-accent);
     font-size: var(--text-xs);
-    color: var(--text-tertiary);
+    letter-spacing: var(--tracking-widest);
   }
-
-  /* ── Testimonials ─────────────────────────────────────────── */
-  .testimonials-grid {
+  .method-item h3 {
+    font-size: var(--text-lg);
+    margin-bottom: var(--space-2);
+  }
+  .method-item p {
+    color: var(--text-secondary);
+    font-size: var(--text-sm);
+  }
+  .demo-section {
+    border-block: 1px solid var(--border-subtle);
+  }
+  .demo-header {
+    max-width: 760px;
+    margin-bottom: var(--space-12);
+  }
+  .demo-header p {
+    color: var(--text-secondary);
+    font-size: var(--text-lg);
+  }
+  .demo-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: var(--space-6);
   }
-  .testimonial {
-    background: var(--bg-surface);
-    border: 1px solid var(--border-subtle);
-    border-radius: var(--radius-xl);
-    padding: var(--space-8);
+  .workflow-demo {
+    min-height: 560px;
     display: flex;
     flex-direction: column;
     gap: var(--space-6);
+    padding: var(--space-6);
+    background:
+      linear-gradient(180deg, rgba(93,140,93,0.08), transparent 38%),
+      var(--bg-surface);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-xl);
+    position: relative;
+    overflow: hidden;
   }
-  .testimonial-quote {
-    font-size: var(--text-sm);
-    color: var(--text-secondary);
-    line-height: var(--leading-relaxed);
-    font-style: italic;
-    flex: 1;
+  .workflow-demo::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.035) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.035) 1px, transparent 1px);
+    background-size: 28px 28px;
+    mask-image: linear-gradient(to bottom, black, transparent 70%);
+    pointer-events: none;
   }
-  .testimonial-author { display: flex; flex-direction: column; gap: var(--space-1); }
-  .testimonial-name {
-    font-size: var(--text-sm);
-    font-weight: var(--weight-semibold);
-    color: var(--text-primary);
+  .workflow-demo > * {
+    position: relative;
+    z-index: 1;
   }
-  .testimonial-firm {
+  .workflow-demo-top {
+    display: flex;
+    justify-content: space-between;
+    gap: var(--space-4);
+    align-items: center;
+  }
+  .workflow-demo-label,
+  .workflow-demo-live {
     font-family: var(--font-mono);
     font-size: var(--text-xs);
-    color: var(--text-tertiary);
+    font-weight: var(--weight-bold);
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-widest);
   }
-
-  /* ── FAQ ──────────────────────────────────────────────────── */
-  .faq-container { max-width: 760px; }
-
-  /* ── Final CTA ────────────────────────────────────────────── */
+  .workflow-demo-label { color: var(--brand-primary); }
+  .workflow-demo-live {
+    color: var(--brand-accent);
+    border: 1px solid rgba(251,191,36,0.22);
+    border-radius: var(--radius-full);
+    padding: 4px 8px;
+    background: rgba(251,191,36,0.06);
+  }
+  .workflow-demo h3 {
+    font-size: var(--text-2xl);
+    line-height: var(--leading-snug);
+  }
+  .workflow-demo-metric {
+    padding: var(--space-5);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-lg);
+    background: var(--bg-main);
+  }
+  .workflow-demo-metric span {
+    display: block;
+    color: var(--text-primary);
+    font-family: var(--font-heading);
+    font-size: var(--text-4xl);
+    font-weight: var(--weight-bold);
+    line-height: 1;
+  }
+  .workflow-demo-metric p {
+    margin-top: var(--space-2);
+    color: var(--text-tertiary);
+    font-size: var(--text-sm);
+  }
+  .workflow-demo-rows {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+  .workflow-demo-row {
+    display: flex;
+    justify-content: space-between;
+    gap: var(--space-4);
+    padding: var(--space-3);
+    border-radius: var(--radius-md);
+    background: rgba(10,10,12,0.58);
+    border: 1px solid var(--border-subtle);
+  }
+  .workflow-demo-row span {
+    color: var(--text-disabled);
+    font-size: var(--text-xs);
+  }
+  .workflow-demo-row strong {
+    color: var(--text-secondary);
+    font-size: var(--text-xs);
+    text-align: right;
+  }
+  .workflow-timeline {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    margin-top: auto;
+  }
+  .workflow-step {
+    display: grid;
+    grid-template-columns: 34px 1fr;
+    gap: var(--space-3);
+    align-items: center;
+  }
+  .workflow-step span {
+    color: var(--brand-accent);
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+  }
+  .workflow-step p {
+    color: var(--text-secondary);
+    font-size: var(--text-sm);
+    line-height: var(--leading-normal);
+  }
+  .faq-container {
+    max-width: 760px;
+  }
   .cta-final {
     background: var(--bg-surface);
     border-top: 1px solid var(--border-subtle);
   }
   .cta-final-inner {
-    max-width: 640px;
+    max-width: 680px;
     margin-inline: auto;
     text-align: center;
     display: flex;
@@ -682,34 +794,76 @@ const serviceSchemas = services.map((s) => ({
     align-items: center;
     gap: var(--space-6);
   }
-  .cta-final h2 { font-size: var(--text-4xl); }
   .cta-final p {
     color: var(--text-secondary);
     font-size: var(--text-base);
     line-height: var(--leading-relaxed);
-    max-width: 48ch;
+    max-width: 52ch;
   }
-  .cta-contact { font-size: var(--text-sm); color: var(--text-tertiary); }
-  .cta-contact a { color: var(--brand-primary); text-decoration: none; }
-  .cta-contact a:hover { text-decoration: underline; }
+  .next-steps {
+    width: min(100%, 720px);
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-3);
+  }
+  .next-step {
+    min-height: 132px;
+    padding: var(--space-4);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-lg);
+    background: var(--bg-main);
+    text-align: left;
+  }
+  .next-step span {
+    display: block;
+    margin-bottom: var(--space-3);
+    color: var(--brand-accent);
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    font-weight: var(--weight-bold);
+  }
+  .next-step p {
+    color: var(--text-secondary);
+    font-size: var(--text-sm);
+    line-height: var(--leading-normal);
+  }
+  .cta-contact {
+    font-size: var(--text-sm);
+    color: var(--text-tertiary);
+  }
+  .cta-contact a {
+    color: var(--brand-primary);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
 
-  /* ── Responsive ───────────────────────────────────────────── */
-  @media (max-width: 1024px) {
+  @media (max-width: 1100px) {
     .services-grid { grid-template-columns: repeat(2, 1fr); }
-    .testimonials-grid { grid-template-columns: 1fr 1fr; }
+    .sector-grid { grid-template-columns: repeat(2, 1fr); }
+    .trust-grid { grid-template-columns: 1fr; }
+    .demo-grid { grid-template-columns: 1fr; }
+    .workflow-demo { min-height: auto; }
   }
-
   @media (max-width: 768px) {
-    .hero-inner {
+    .hero-inner,
+    .method-grid {
       grid-template-columns: 1fr;
       gap: var(--space-12);
     }
+    .hero h1 { max-width: none; }
     .hero-visual { justify-content: center; }
-    .pain-grid { grid-template-columns: 1fr; }
-    .services-grid { grid-template-columns: 1fr; }
-    .audience-grid { grid-template-columns: 1fr; }
-    .testimonials-grid { grid-template-columns: 1fr; }
-    .stats-row { flex-direction: column; }
-    .partner-sep { display: none; }
+    .hero-orbit { display: none; }
+    .services-grid,
+    .sector-grid,
+    .trust-list,
+    .demo-grid {
+      grid-template-columns: 1fr;
+    }
+    .next-steps {
+      grid-template-columns: 1fr;
+    }
+    .stats-row {
+      flex-direction: column;
+    }
   }
 </style>

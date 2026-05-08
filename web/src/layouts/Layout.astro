@@ -26,7 +26,7 @@ const {
   title,
   description,
   canonical = Astro.url.href,
-  ogImage = 'https://www.5cypress.com/assets/brand/logo-5cypress.jpg',
+  ogImage = 'https://www.5cypress.com/assets/brand/5cypress-mark.svg',
   noIndex = false,
 } = Astro.props;
 ---
@@ -136,6 +136,7 @@ const {
         trigger.addEventListener('click', () => {
           const modal = document.getElementById('booking-modal');
           modal?.classList.add('is-open');
+          modal?.setAttribute('aria-hidden', 'false');
           document.body.style.overflow = 'hidden';
         });
       });

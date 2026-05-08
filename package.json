@@ -1,7 +1,7 @@
 {
-  "name": "5-cypress-labs-platform",
+  "name": "5-cypress-automation-site",
   "version": "1.1.0",
-  "description": "5 Cypress Labs - Resilient AI Automation Dashboard",
+  "description": "5 Cypress Automation website and workflow automation platform",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
@@ -14,9 +14,9 @@
     "ai-automation",
     "resilient-systems",
     "workflow-architecture",
-    "5-cypress-labs"
+    "5-cypress-automation"
   ],
-  "author": "5 Cypress Labs",
+  "author": "5 Cypress Automation",
   "license": "MIT",
   "dependencies": {
     "bcryptjs": "^3.0.3",
