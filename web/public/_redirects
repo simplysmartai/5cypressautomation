@@ -5,6 +5,8 @@
 /services.html         /services             301
 /about.html            /about                301
 /contact.html          /                     301
+/free-seo-scan         /services             302
+/free-seo-scan/        /services             302
 
 # API calls pass through to the Express origin (handled by wrangler.toml proxy / Pages Function)
 # These are no-ops in static mode; Express handles /api/* directly.

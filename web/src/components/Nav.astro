@@ -47,21 +47,12 @@ const isActive = (href: string) => {
           </a>
         </li>
       ))}
-      <li>
-        <a
-          href="/free-seo-scan"
-          class={`nav-link nav-link--accent${isActive('/free-seo-scan') ? ' is-active' : ''}`}
-          aria-current={isActive('/free-seo-scan') ? 'page' : undefined}
-        >
-          Free SEO Scan
-        </a>
-      </li>
     </ul>
 
     <!-- CTA -->
     <div class="nav-actions">
       <button class="btn btn-primary" data-open-booking data-magnetic data-ripple>
-        Book a Workflow Call
+        Map My Workflow
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
           <path d="M7 17L17 7M17 7H7M17 7v10"/>
         </svg>
@@ -104,19 +95,10 @@ const isActive = (href: string) => {
         </a>
       </li>
     ))}
-    <li>
-      <a
-        href="/free-seo-scan"
-        class={`mobile-link mobile-link--accent${isActive('/free-seo-scan') ? ' is-active' : ''}`}
-        aria-current={isActive('/free-seo-scan') ? 'page' : undefined}
-      >
-        Free SEO Scan
-      </a>
-    </li>
   </ul>
 
   <button class="btn btn-primary btn-block mobile-booking-button" data-open-booking>
-    Book a Workflow Call
+    Map My Workflow
   </button>
 </div>
 
@@ -190,7 +172,7 @@ const isActive = (href: string) => {
       padding var(--duration-normal) var(--ease-out);
   }
   .navbar--scrolled {
-    background: var(--bg-glass);
+    background: rgba(10, 10, 12, 0.82);
     backdrop-filter: var(--backdrop-glass);
     -webkit-backdrop-filter: var(--backdrop-glass);
     border-bottom: 1px solid var(--border-subtle);
@@ -263,7 +245,7 @@ const isActive = (href: string) => {
     font-weight: var(--weight-medium);
     color: var(--text-secondary);
     padding: var(--space-2) var(--space-3);
-    border-radius: var(--radius-md);
+    border-radius: var(--radius-full);
     transition:
       color var(--duration-fast),
       background var(--duration-fast);
@@ -271,7 +253,7 @@ const isActive = (href: string) => {
   .nav-link:hover,
   .nav-link.is-active {
     color: var(--text-primary);
-    background: var(--bg-surface-hover);
+    background: rgba(255,255,255,0.055);
   }
   .nav-link--accent {
     color: var(--brand-accent);

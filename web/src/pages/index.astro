@@ -4,46 +4,60 @@ import Button from '../components/Button.astro';
 import Card from '../components/Card.astro';
 import StatTile from '../components/StatTile.astro';
 import Faq from '../components/Faq.astro';
-import MicroDashboard from '../components/MicroDashboard.astro';
 import JsonLd from '../components/JsonLd.astro';
 
 const coreWorkflows = [
   {
-    tag: '01 / Leads',
+    tag: '01 / Capture',
     title: 'Lead capture and follow-up',
     description:
-      'Route form fills, missed calls, referrals, and ad leads into one system with fast replies, owner alerts, and clean CRM records.',
+      'When a form, missed call, referral, or ad lead comes in, the system replies fast, creates the record, alerts the owner, and keeps the next step visible.',
     href: '/services/missed-lead-text-back/',
     highlight: true,
   },
   {
-    tag: '02 / Reporting',
+    tag: '02 / Report',
     title: 'Dashboards and KPI reporting',
     description:
-      'Turn scattered exports into live dashboards, scheduled reports, and decision-ready summaries your team can trust.',
+      'Pull the numbers out of exports and inboxes. Build dashboards and scheduled reports people can use before the decision window closes.',
     href: '/services/business-intelligence-dashboard/',
   },
   {
-    tag: '03 / Intake',
+    tag: '03 / Route',
     title: 'Document intake and routing',
     description:
-      'Collect files, classify documents, rename them, and send them to the right folder, job, client, or person automatically.',
+      'Collect files, classify what they are, rename them, and route exceptions to a person instead of letting folders become a second job.',
     href: '/services/document-intake-ai-sort/',
   },
   {
-    tag: '04 / Money',
-    title: 'Billing, invoice, and payment flows',
+    tag: '04 / Collect',
+    title: 'Billing and payment workflows',
     description:
-      'Connect proposals, invoices, reminders, payment links, bookkeeping records, and status updates without manual re-entry.',
+      'Connect proposals, invoices, reminders, payment links, QBO records, and review steps so money does not depend on memory.',
     href: '/services/ar-collections-agent/',
   },
   {
-    tag: '05 / Onboarding',
+    tag: '05 / Start',
     title: 'Client and customer onboarding',
     description:
-      'Move a signed agreement or new order into kickoff tasks, calendar links, records, folders, and internal notifications.',
+      'Turn a signed agreement or new order into kickoff tasks, folders, calendar links, CRM updates, and internal notifications.',
     href: '/services/engagement-onboarding-flow/',
     highlight: true,
+  },
+];
+
+const operatingScenes = [
+  {
+    title: 'The lead comes in after hours',
+    text: 'The reply goes out, the contact is logged, the service need is tagged, and the right person sees the next step before the morning inbox pileup starts.',
+  },
+  {
+    title: 'The report used to take Friday afternoon',
+    text: 'The numbers refresh from the source systems, exceptions are flagged, and the summary is ready for review instead of being rebuilt from exports.',
+  },
+  {
+    title: 'The file drop is no longer a mystery box',
+    text: 'Documents are named, sorted, routed, and queued for human review when the system is not confident enough to act alone.',
   },
 ];
 
@@ -61,34 +75,28 @@ const sectors = [
     text: 'Inbound requests, document routing, appointment workflows, referral tracking, and staff task automation.',
   },
   {
-    label: 'Custom one-off builds',
-    text: 'The recurring workflow that is too specific for off-the-shelf software but too expensive to keep doing by hand.',
+    label: 'Custom workflow builds',
+    text: 'The recurring task that is too specific for off-the-shelf software and too expensive to keep doing by hand.',
   },
 ];
 
 const trustSignals = [
   {
     title: 'Scope before build',
-    text: 'You get a clear workflow map, systems list, handoff points, and rough timeline before anything is built.',
+    text: 'You get a workflow map, systems list, handoff points, and rough timeline before the build starts.',
   },
   {
     title: 'Test data first',
-    text: 'Production data comes after the trigger, validation, exception path, and human review points are clear.',
+    text: 'Production data waits until triggers, validation, exceptions, and review points are clear.',
   },
   {
     title: 'No new platform by default',
-    text: 'The first choice is usually to connect the tools already in the business, not force another login.',
+    text: 'The first move is usually connecting the tools already in the business, not adding another login.',
   },
   {
     title: 'Documented handoff',
-    text: 'Each workflow ships with plain-English notes so the team knows what it does and what to check.',
+    text: 'Each workflow ships with plain-English notes so the team knows what runs, what to check, and who owns it.',
   },
-];
-
-const nextSteps = [
-  'You describe the workflow that keeps slowing the team down.',
-  'We identify the first useful build and what systems it touches.',
-  'You decide whether to scope it. No pitch deck, no pressure.',
 ];
 
 const demoWorkflows = [
@@ -97,40 +105,49 @@ const demoWorkflows = [
     title: 'Referral lead captured and routed',
     metric: '47 sec',
     metricLabel: 'first response',
+    status: 'Owner alerted',
     rows: [
       ['Source', 'Website form'],
-      ['Owner', 'Nick / Sales'],
-      ['Status', 'Fit call requested'],
+      ['Record', 'CRM contact created'],
+      ['Need', 'Automation scoping'],
       ['Next step', 'Send calendar link'],
     ],
-    timeline: ['Form received', 'CRM record created', 'SMS sent', 'Owner notified'],
+    timeline: ['Form received', 'CRM checked', 'Reply sent', 'Task assigned'],
   },
   {
     label: 'Invoice flow',
     title: 'Aging invoice escalated cleanly',
     metric: '$18,420',
     metricLabel: 'at-risk AR',
+    status: 'Review queued',
     rows: [
-      ['Client', 'Crescent Supply Co.'],
+      ['System', 'QuickBooks Online'],
       ['Aging', '45 days'],
       ['Tone', 'Warm reminder'],
       ['Next step', 'Partner review if unpaid'],
     ],
-    timeline: ['QBO sync', 'Aging rule matched', 'Reminder drafted', 'Promise-to-pay tracked'],
+    timeline: ['QBO sync', 'Rule matched', 'Reminder drafted', 'Promise tracked'],
   },
   {
     label: 'Document flow',
     title: 'Client files sorted automatically',
     metric: '38',
     metricLabel: 'files routed',
+    status: '2 exceptions',
     rows: [
       ['Batch', 'May close packet'],
       ['Detected', 'Statements / receipts'],
       ['Destination', 'Client folder'],
-      ['Exception', '2 need review'],
+      ['Exception', 'Needs review'],
     ],
     timeline: ['Upload received', 'Files classified', 'Names standardized', 'Exceptions queued'],
   },
+];
+
+const nextSteps = [
+  'You describe the workflow that keeps slowing the team down.',
+  'We map the handoffs, systems, review points, and first useful build.',
+  'You decide whether to scope it. No pitch deck, no pressure.',
 ];
 
 const faqs = [
@@ -189,8 +206,8 @@ const serviceSchemas = coreWorkflows.map((s) => ({
 ---
 
 <Layout
-  title="Business Automation Systems | 5 Cypress Automation"
-  description="5 Cypress Automation builds practical workflows for growing teams: lead follow-up, dashboards, document intake, billing, and onboarding."
+  title="Workflow Automation Systems | 5 Cypress Automation"
+  description="5 Cypress Automation maps and builds practical workflow systems for growing B2B teams: lead follow-up, dashboards, document intake, billing, and onboarding."
 >
   <Fragment slot="head">
     <JsonLd schema={orgSchema} />
@@ -200,33 +217,100 @@ const serviceSchemas = coreWorkflows.map((s) => ({
   <section class="hero section">
     <div class="container hero-inner">
       <div class="hero-copy reveal">
-        <p class="lead-in">Workflow systems for growing teams</p>
-        <h1>Automation that feels built into your business.</h1>
+        <p class="lead-in">Founder-led workflow automation</p>
+        <h1>Your team is not slow. The handoffs are.</h1>
         <p class="hero-sub">
-          5 Cypress builds practical automation workflows that connect the tools you already use,
-          remove repeat manual work, and give your team cleaner data without forcing a new platform.
+          5 Cypress maps the manual steps hiding between your forms, inboxes, spreadsheets,
+          CRMs, QuickBooks files, folders, and reports. Then we build the first workflow that
+          removes the drag without turning your business into an AI science project.
         </p>
         <div class="hero-ctas">
           <Button variant="primary" size="lg" magnetic ripple data-open-booking>
-            Book a Workflow Call
+            Map My Workflow
           </Button>
           <Button variant="secondary" size="lg" href="/services/">
-            Explore the 5 workflows
+            See the 5 systems
           </Button>
         </div>
-        <p class="hero-proof">
-          <span>5 ready-to-build systems</span>
-          <span class="sep">/</span>
-          <span>customized to your stack</span>
-          <span class="sep">/</span>
-          <span>Cloudflare-first site</span>
-        </p>
+        <div class="hero-proof" aria-label="5 Cypress operating principles">
+          <span>Map first</span>
+          <span>Build narrow</span>
+          <span>Test with real edge cases</span>
+          <span>Document the handoff</span>
+        </div>
       </div>
 
-      <div class="hero-visual reveal">
-        <MicroDashboard variant="practice-kpi" />
-        <div class="hero-orbit hero-orbit--one" aria-hidden="true"></div>
-        <div class="hero-orbit hero-orbit--two" aria-hidden="true"></div>
+      <div class="hero-visual reveal" aria-label="Workflow control room preview">
+        <div class="control-room">
+          <div class="control-room-top">
+            <div>
+              <span class="panel-kicker">Live workflow map</span>
+              <h2>Intake to action</h2>
+            </div>
+            <span class="system-status">Human review on</span>
+          </div>
+
+          <div class="route-map" aria-hidden="true">
+            <div class="route-node route-node--active">
+              <span>01</span>
+              <strong>Lead captured</strong>
+              <small>Form / call / referral</small>
+            </div>
+            <div class="route-line"></div>
+            <div class="route-node">
+              <span>02</span>
+              <strong>Record checked</strong>
+              <small>CRM + duplicate rules</small>
+            </div>
+            <div class="route-line"></div>
+            <div class="route-node">
+              <span>03</span>
+              <strong>Owner alerted</strong>
+              <small>SMS + inbox + task</small>
+            </div>
+          </div>
+
+          <div class="signal-grid">
+            <div class="signal-card">
+              <span>First response</span>
+              <strong>47 sec</strong>
+              <small>inside business rule</small>
+            </div>
+            <div class="signal-card">
+              <span>Open exceptions</span>
+              <strong>2</strong>
+              <small>needs review</small>
+            </div>
+            <div class="signal-card signal-card--gold">
+              <span>Manual steps removed</span>
+              <strong>6</strong>
+              <small>from intake flow</small>
+            </div>
+          </div>
+
+          <div class="system-log">
+            <div><span>15:42</span><p>New lead matched automation services</p></div>
+            <div><span>15:42</span><p>CRM record created with source tag</p></div>
+            <div><span>15:43</span><p>Owner notified; calendar link queued</p></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section scene-section">
+    <div class="container">
+      <div class="section-header reveal">
+        <p class="lead-in">Where the work leaks</p>
+        <h2>The problem is usually not the tool. It is the space between tools.</h2>
+      </div>
+      <div class="scene-grid reveal-stagger">
+        {operatingScenes.map((scene) => (
+          <article class="scene-card">
+            <h3>{scene.title}</h3>
+            <p>{scene.text}</p>
+          </article>
+        ))}
       </div>
     </div>
   </section>
@@ -235,10 +319,11 @@ const serviceSchemas = coreWorkflows.map((s) => ({
     <div class="container">
       <div class="section-header reveal">
         <p class="lead-in">The 5 Cypress model</p>
-        <h2>Five workflow systems most companies need.</h2>
+        <h2>Five workflow systems. Built like starting points, not templates.</h2>
         <p class="section-sub">
-          Start with a proven pattern, then tune it to the way your business actually runs.
-          These are not generic templates; they are repeatable starting points.
+          Most companies do not need a giant transformation project. They need one broken
+          handoff fixed well enough that the team trusts it. These five systems are where
+          that first win usually lives.
         </p>
       </div>
       <div class="services-grid reveal-stagger">
@@ -261,47 +346,36 @@ const serviceSchemas = coreWorkflows.map((s) => ({
 
   <section class="section stats-section">
     <div class="container">
+      <div class="stats-intro reveal">
+        <p class="lead-in">Scope with restraint</p>
+        <h2>Premium work is not bigger. It is clearer.</h2>
+      </div>
       <div class="stats-row reveal">
-        <StatTile
-          stat="5-14"
-          label="Business days for focused workflow builds"
-          subtext="Lead follow-up, routing, reporting, reminders"
-        />
-        <StatTile
-          stat="3-4"
-          label="Weeks for multi-system automations"
-          subtext="When approvals, edge cases, and testing matter"
-        />
-        <StatTile
-          stat="0"
-          label="New platform required by default"
-          subtext="We connect the tools already in the business"
-        />
-        <StatTile
-          stat="1"
-          label="Clear runbook after launch"
-          subtext="So the workflow is understandable, not mysterious"
-        />
+        <StatTile stat="5-14" label="Business days for focused workflow builds" subtext="Lead follow-up, routing, reporting, reminders" />
+        <StatTile stat="3-4" label="Weeks for multi-system automations" subtext="When approvals, edge cases, and testing matter" />
+        <StatTile stat="0" label="New platform required by default" subtext="We connect the tools already in the business" />
+        <StatTile stat="1" label="Plain-English runbook after launch" subtext="So the workflow is understandable, not mysterious" />
       </div>
     </div>
   </section>
 
   <section class="section sectors-section">
-    <div class="container">
+    <div class="container sectors-layout">
       <div class="section-header reveal">
         <p class="lead-in">Specialized, not boxed in</p>
-        <h2>Strong in accounting and finance. Useful far beyond it.</h2>
+        <h2>Accounting and finance proves the depth. The workflow logic travels.</h2>
         <p class="section-sub">
-          The best automations are built around repeated handoffs: someone submits, someone reviews,
-          something gets filed, a record changes, a report goes out. That pattern shows up in every serious business.
+          Dense financial workflows make a strong proving ground: QuickBooks data, document intake,
+          approvals, reports, invoices, and client updates. But the same handoff problems show up
+          in any serious B2B operation.
         </p>
       </div>
       <div class="sector-grid reveal-stagger">
         {sectors.map((sector) => (
-          <div class="sector-card">
+          <article class="sector-card">
             <h3>{sector.label}</h3>
             <p>{sector.text}</p>
-          </div>
+          </article>
         ))}
       </div>
     </div>
@@ -311,7 +385,7 @@ const serviceSchemas = coreWorkflows.map((s) => ({
     <div class="container">
       <div class="trust-grid">
         <div class="trust-copy reveal">
-          <p class="lead-in">Trust the build</p>
+          <p class="lead-in">How trust is built</p>
           <h2>Useful automation should feel controlled, not mysterious.</h2>
           <p>
             The safest workflows are boring in the right places: clear triggers,
@@ -332,58 +406,14 @@ const serviceSchemas = coreWorkflows.map((s) => ({
     </div>
   </section>
 
-  <section class="section method-section">
-    <div class="container method-grid">
-      <div class="method-copy reveal">
-        <p class="lead-in">How we build</p>
-        <h2>Modern automation without the AI costume.</h2>
-        <p>
-          We use AI where it earns its place: reading documents, classifying requests,
-          drafting summaries, finding exceptions, and turning raw data into useful language.
-          The rest is disciplined workflow design, validation, logging, and clean handoff.
-        </p>
-      </div>
-      <div class="method-list reveal-stagger">
-        <div class="method-item">
-          <span>01</span>
-          <div>
-            <h3>Map the handoff</h3>
-            <p>What starts the workflow, who needs to know, and what can go wrong?</p>
-          </div>
-        </div>
-        <div class="method-item">
-          <span>02</span>
-          <div>
-            <h3>Connect the stack</h3>
-            <p>APIs, forms, databases, email, SMS, dashboards, files, and existing tools.</p>
-          </div>
-        </div>
-        <div class="method-item">
-          <span>03</span>
-          <div>
-            <h3>Test the edge cases</h3>
-            <p>Bad inputs, missing fields, duplicate records, retries, and human approvals.</p>
-          </div>
-        </div>
-        <div class="method-item">
-          <span>04</span>
-          <div>
-            <h3>Document the system</h3>
-            <p>Your team gets a plain-English runbook and a workflow that can evolve.</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
   <section class="section demo-section">
     <div class="container">
       <div class="demo-header reveal">
-        <p class="lead-in">Sample workflow data</p>
-        <h2>Make the invisible work visible.</h2>
+        <p class="lead-in">Dummy workflow data</p>
+        <h2>This is the kind of visibility automation should create.</h2>
         <p>
-          These are dummy examples, but they show the kind of operational view a finished
-          automation can give you: what happened, where it went, what needs attention, and who owns it.
+          These are sample records, not client claims. They show the shape of a useful workflow:
+          what came in, what changed, what still needs a human, and who owns the next step.
         </p>
       </div>
       <div class="demo-grid reveal-stagger">
@@ -391,7 +421,7 @@ const serviceSchemas = coreWorkflows.map((s) => ({
           <article class="workflow-demo">
             <div class="workflow-demo-top">
               <span class="workflow-demo-label">{demo.label}</span>
-              <span class="workflow-demo-live">Demo data</span>
+              <span class="workflow-demo-live">{demo.status}</span>
             </div>
             <h3>{demo.title}</h3>
             <div class="workflow-demo-metric">
@@ -423,7 +453,8 @@ const serviceSchemas = coreWorkflows.map((s) => ({
   <section class="section" id="faq">
     <div class="container faq-container">
       <div class="section-header reveal">
-        <h2>Questions people usually ask</h2>
+        <p class="lead-in">Buyer questions</p>
+        <h2>What people usually ask before they trust an automation build</h2>
       </div>
       <div class="reveal">
         <Faq items={faqs} includeLdJson />
@@ -433,10 +464,11 @@ const serviceSchemas = coreWorkflows.map((s) => ({
 
   <section class="section cta-final">
     <div class="container cta-final-inner reveal">
-      <h2>Bring the messy workflow.</h2>
+      <p class="lead-in">Start narrow</p>
+      <h2>Bring the workflow your team keeps working around.</h2>
       <p>
-        In 20 minutes we can usually tell whether it should be automated, simplified,
-        delegated, or left alone.
+        In one mapping session, we can usually tell whether the work should be automated,
+        simplified, delegated, or left alone.
       </p>
       <div class="next-steps" aria-label="What happens next">
         {nextSteps.map((step, index) => (
@@ -447,7 +479,7 @@ const serviceSchemas = coreWorkflows.map((s) => ({
         ))}
       </div>
       <Button variant="primary" size="lg" magnetic ripple data-open-booking>
-        Book a Workflow Call
+        Map My Workflow
       </Button>
       <p class="cta-contact">
         Prefer email?
@@ -459,12 +491,23 @@ const serviceSchemas = coreWorkflows.map((s) => ({
 
 <style>
   .hero {
-    padding-block: var(--space-24) var(--space-20);
+    min-height: 92vh;
+    display: flex;
+    align-items: center;
+    padding-block: var(--space-32) var(--space-20);
     overflow: hidden;
+    position: relative;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 96px var(--space-6) auto;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(251,191,36,0.28), rgba(93,140,93,0.28), transparent);
   }
   .hero-inner {
     display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(360px, 0.85fr);
+    grid-template-columns: minmax(0, 0.92fr) minmax(420px, 0.88fr);
     gap: var(--space-16);
     align-items: center;
   }
@@ -474,13 +517,15 @@ const serviceSchemas = coreWorkflows.map((s) => ({
     gap: var(--space-6);
   }
   .hero h1 {
-    max-width: 11ch;
+    max-width: 10ch;
+    font-size: clamp(3.25rem, 7.6vw, 6.65rem);
+    letter-spacing: 0;
   }
   .hero-sub {
-    font-size: var(--text-lg);
+    font-size: clamp(1.05rem, 1.7vw, 1.25rem);
     color: var(--text-secondary);
     line-height: var(--leading-relaxed);
-    max-width: 58ch;
+    max-width: 64ch;
   }
   .hero-ctas {
     display: flex;
@@ -488,46 +533,193 @@ const serviceSchemas = coreWorkflows.map((s) => ({
     flex-wrap: wrap;
   }
   .hero-proof {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: var(--space-2);
+    max-width: 720px;
+  }
+  .hero-proof span {
+    min-height: 72px;
     display: flex;
-    align-items: center;
-    gap: var(--space-3);
-    flex-wrap: wrap;
-    font-family: var(--font-mono);
-    font-size: var(--text-xs);
+    align-items: end;
+    padding: var(--space-3);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-md);
+    background: rgba(20,20,24,0.58);
     color: var(--text-tertiary);
-    letter-spacing: var(--tracking-wide);
+    font-family: var(--font-mono);
+    font-size: 0.66rem;
+    font-weight: var(--weight-bold);
+    letter-spacing: var(--tracking-widest);
+    line-height: var(--leading-snug);
     text-transform: uppercase;
   }
-  .hero-proof .sep { color: var(--brand-accent); }
   .hero-visual {
-    display: flex;
-    justify-content: flex-end;
     position: relative;
   }
-  .hero-orbit {
+  .control-room {
+    position: relative;
+    min-height: 620px;
+    padding: var(--space-6);
+    border: 1px solid var(--border-medium);
+    border-radius: 28px;
+    background:
+      linear-gradient(180deg, rgba(93,140,93,0.13), transparent 32%),
+      radial-gradient(circle at 90% 0%, rgba(251,191,36,0.16), transparent 34%),
+      #101014;
+    box-shadow: 0 50px 120px rgba(0,0,0,0.62);
+    overflow: hidden;
+  }
+  .control-room::before {
+    content: '';
     position: absolute;
-    border: 1px solid rgba(251, 191, 36, 0.16);
-    border-radius: 999px;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px);
+    background-size: 32px 32px;
+    mask-image: linear-gradient(to bottom, black, transparent 78%);
     pointer-events: none;
   }
-  .hero-orbit--one {
-    width: 440px;
-    height: 160px;
-    right: -32px;
-    top: 42px;
-    transform: rotate(-18deg);
+  .control-room > * {
+    position: relative;
+    z-index: 1;
   }
-  .hero-orbit--two {
-    width: 360px;
-    height: 120px;
-    right: 12px;
-    bottom: 40px;
-    transform: rotate(16deg);
-    border-color: rgba(93, 140, 93, 0.18);
+  .control-room-top {
+    display: flex;
+    justify-content: space-between;
+    gap: var(--space-6);
+    align-items: start;
+    margin-bottom: var(--space-8);
+  }
+  .panel-kicker,
+  .system-status {
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    font-weight: var(--weight-bold);
+    letter-spacing: var(--tracking-widest);
+    text-transform: uppercase;
+  }
+  .panel-kicker { color: var(--brand-primary-light); }
+  .control-room h2 {
+    margin-top: var(--space-2);
+    font-size: var(--text-3xl);
+  }
+  .system-status {
+    white-space: nowrap;
+    color: var(--brand-accent);
+    padding: 7px 10px;
+    border: 1px solid rgba(251,191,36,0.24);
+    border-radius: var(--radius-full);
+    background: rgba(251,191,36,0.08);
+  }
+  .route-map {
+    display: grid;
+    grid-template-columns: 1fr 48px 1fr 48px 1fr;
+    gap: var(--space-3);
+    align-items: center;
+  }
+  .route-node {
+    min-height: 154px;
+    padding: var(--space-4);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-lg);
+    background: rgba(10,10,12,0.76);
+  }
+  .route-node--active {
+    border-color: rgba(251,191,36,0.32);
+    box-shadow: inset 0 0 0 1px rgba(251,191,36,0.08);
+  }
+  .route-node span {
+    display: block;
+    margin-bottom: var(--space-8);
+    color: var(--brand-accent);
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+  }
+  .route-node strong {
+    display: block;
+    color: var(--text-primary);
+    font-family: var(--font-heading);
+    font-size: var(--text-base);
+  }
+  .route-node small {
+    display: block;
+    margin-top: var(--space-2);
+    color: var(--text-disabled);
+    line-height: var(--leading-normal);
+  }
+  .route-line {
+    height: 1px;
+    background: linear-gradient(90deg, var(--brand-primary), var(--brand-accent));
+    position: relative;
+  }
+  .route-line::after {
+    content: '';
+    position: absolute;
+    right: 0;
+    top: 50%;
+    width: 8px;
+    height: 8px;
+    border-top: 1px solid var(--brand-accent);
+    border-right: 1px solid var(--brand-accent);
+    transform: translateY(-50%) rotate(45deg);
+  }
+  .signal-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-3);
+    margin-top: var(--space-6);
+  }
+  .signal-card {
+    min-height: 136px;
+    padding: var(--space-4);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-lg);
+    background: var(--bg-main);
+  }
+  .signal-card span,
+  .signal-card small {
+    color: var(--text-disabled);
+    font-size: var(--text-xs);
+  }
+  .signal-card strong {
+    display: block;
+    margin-block: var(--space-3) var(--space-2);
+    color: var(--text-primary);
+    font-family: var(--font-heading);
+    font-size: var(--text-3xl);
+    line-height: 1;
+  }
+  .signal-card--gold strong { color: var(--brand-accent); }
+  .system-log {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    margin-top: var(--space-6);
+  }
+  .system-log div {
+    display: grid;
+    grid-template-columns: 64px 1fr;
+    gap: var(--space-4);
+    padding: var(--space-3);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-md);
+    background: rgba(10,10,12,0.62);
+  }
+  .system-log span {
+    color: var(--brand-primary-light);
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+  }
+  .system-log p {
+    color: var(--text-secondary);
+    font-size: var(--text-sm);
+    line-height: var(--leading-normal);
   }
 
   .section-header {
-    max-width: 68ch;
+    max-width: 78ch;
     margin-bottom: var(--space-12);
   }
   .section-sub {
@@ -536,9 +728,36 @@ const serviceSchemas = coreWorkflows.map((s) => ({
     color: var(--text-secondary);
     line-height: var(--leading-relaxed);
   }
+  .scene-section {
+    border-block: 1px solid var(--border-subtle);
+    background: #0d0d10;
+  }
+  .scene-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-5);
+  }
+  .scene-card {
+    min-height: 270px;
+    padding: var(--space-7);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-xl);
+    background:
+      linear-gradient(180deg, rgba(93,140,93,0.08), transparent),
+      var(--bg-surface);
+  }
+  .scene-card h3 {
+    max-width: 12ch;
+    margin-bottom: var(--space-5);
+    font-size: var(--text-2xl);
+  }
+  .scene-card p {
+    color: var(--text-secondary);
+    font-size: var(--text-base);
+  }
   .workflow-section,
-  .method-section,
-  .trust-section {
+  .trust-section,
+  .cta-final {
     background: var(--bg-surface);
   }
   .services-grid {
@@ -549,17 +768,27 @@ const serviceSchemas = coreWorkflows.map((s) => ({
   .stats-section {
     border-block: 1px solid var(--border-subtle);
   }
+  .stats-intro {
+    max-width: 720px;
+    margin-bottom: var(--space-10);
+  }
   .stats-row {
     display: flex;
     flex-wrap: wrap;
   }
+  .sectors-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 0.82fr) minmax(0, 1fr);
+    gap: var(--space-16);
+    align-items: start;
+  }
   .sector-grid {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(2, 1fr);
     gap: var(--space-5);
   }
   .sector-card {
-    min-height: 230px;
+    min-height: 240px;
     padding: var(--space-6);
     background: var(--bg-surface);
     border: 1px solid var(--border-subtle);
@@ -589,7 +818,7 @@ const serviceSchemas = coreWorkflows.map((s) => ({
     gap: var(--space-5);
   }
   .trust-card {
-    min-height: 210px;
+    min-height: 214px;
     padding: var(--space-6);
     border: 1px solid var(--border-subtle);
     border-radius: var(--radius-xl);
@@ -605,49 +834,11 @@ const serviceSchemas = coreWorkflows.map((s) => ({
     color: var(--text-secondary);
     font-size: var(--text-sm);
   }
-  .method-grid {
-    display: grid;
-    grid-template-columns: 0.85fr 1.15fr;
-    gap: var(--space-16);
-    align-items: start;
-  }
-  .method-copy p {
-    color: var(--text-secondary);
-    font-size: var(--text-lg);
-  }
-  .method-list {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-4);
-  }
-  .method-item {
-    display: grid;
-    grid-template-columns: 48px 1fr;
-    gap: var(--space-5);
-    padding: var(--space-6);
-    background: var(--bg-main);
-    border: 1px solid var(--border-subtle);
-    border-radius: var(--radius-lg);
-  }
-  .method-item span {
-    font-family: var(--font-mono);
-    color: var(--brand-accent);
-    font-size: var(--text-xs);
-    letter-spacing: var(--tracking-widest);
-  }
-  .method-item h3 {
-    font-size: var(--text-lg);
-    margin-bottom: var(--space-2);
-  }
-  .method-item p {
-    color: var(--text-secondary);
-    font-size: var(--text-sm);
-  }
   .demo-section {
     border-block: 1px solid var(--border-subtle);
   }
   .demo-header {
-    max-width: 760px;
+    max-width: 800px;
     margin-bottom: var(--space-12);
   }
   .demo-header p {
@@ -709,6 +900,7 @@ const serviceSchemas = coreWorkflows.map((s) => ({
     border-radius: var(--radius-full);
     padding: 4px 8px;
     background: rgba(251,191,36,0.06);
+    text-align: right;
   }
   .workflow-demo h3 {
     font-size: var(--text-2xl);
@@ -779,14 +971,13 @@ const serviceSchemas = coreWorkflows.map((s) => ({
     line-height: var(--leading-normal);
   }
   .faq-container {
-    max-width: 760px;
+    max-width: 800px;
   }
   .cta-final {
-    background: var(--bg-surface);
     border-top: 1px solid var(--border-subtle);
   }
   .cta-final-inner {
-    max-width: 680px;
+    max-width: 760px;
     margin-inline: auto;
     text-align: center;
     display: flex;
@@ -798,16 +989,16 @@ const serviceSchemas = coreWorkflows.map((s) => ({
     color: var(--text-secondary);
     font-size: var(--text-base);
     line-height: var(--leading-relaxed);
-    max-width: 52ch;
+    max-width: 56ch;
   }
   .next-steps {
-    width: min(100%, 720px);
+    width: min(100%, 780px);
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: var(--space-3);
   }
   .next-step {
-    min-height: 132px;
+    min-height: 140px;
     padding: var(--space-4);
     border: 1px solid var(--border-subtle);
     border-radius: var(--radius-lg);
@@ -837,33 +1028,76 @@ const serviceSchemas = coreWorkflows.map((s) => ({
     text-underline-offset: 3px;
   }
 
-  @media (max-width: 1100px) {
-    .services-grid { grid-template-columns: repeat(2, 1fr); }
-    .sector-grid { grid-template-columns: repeat(2, 1fr); }
-    .trust-grid { grid-template-columns: 1fr; }
-    .demo-grid { grid-template-columns: 1fr; }
-    .workflow-demo { min-height: auto; }
-  }
-  @media (max-width: 768px) {
+  @media (max-width: 1180px) {
     .hero-inner,
-    .method-grid {
+    .sectors-layout,
+    .trust-grid {
       grid-template-columns: 1fr;
-      gap: var(--space-12);
     }
-    .hero h1 { max-width: none; }
-    .hero-visual { justify-content: center; }
-    .hero-orbit { display: none; }
+    .hero h1 { max-width: 12ch; }
+    .hero-visual { max-width: 760px; }
     .services-grid,
-    .sector-grid,
-    .trust-list,
+    .scene-grid,
     .demo-grid {
       grid-template-columns: 1fr;
     }
+    .workflow-demo { min-height: auto; }
+  }
+  @media (max-width: 768px) {
+    .hero {
+      min-height: auto;
+      padding-top: var(--space-24);
+    }
+    .hero-inner {
+      gap: var(--space-12);
+    }
+    .hero h1 {
+      max-width: none;
+      font-size: clamp(2.8rem, 15vw, 4.4rem);
+    }
+    .hero-proof,
+    .signal-grid,
+    .sector-grid,
+    .trust-list,
     .next-steps {
       grid-template-columns: 1fr;
     }
+    .control-room {
+      min-height: auto;
+      padding: var(--space-4);
+      border-radius: var(--radius-xl);
+    }
+    .control-room-top,
+    .workflow-demo-top {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+    .route-map {
+      grid-template-columns: 1fr;
+    }
+    .route-line {
+      width: 1px;
+      height: 28px;
+      margin-left: var(--space-6);
+      background: linear-gradient(180deg, var(--brand-primary), var(--brand-accent));
+    }
+    .route-line::after {
+      right: auto;
+      left: 50%;
+      top: auto;
+      bottom: 0;
+      transform: translateX(-50%) rotate(135deg);
+    }
+    .route-node {
+      min-height: 132px;
+    }
     .stats-row {
       flex-direction: column;
+    }
+    .scene-card,
+    .sector-card,
+    .trust-card {
+      min-height: auto;
     }
   }
 </style>
