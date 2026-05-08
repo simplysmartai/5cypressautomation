@@ -1,4 +1,4 @@
-import { existsSync } from 'node:fs';
+import { rmSync } from 'node:fs';
 import { spawnSync } from 'node:child_process';
 
 const isCloudflarePages =
@@ -12,17 +12,18 @@ if (!isCloudflarePages) {
   process.exit(0);
 }
 
-if (existsSync('web/dist/index.html')) {
-  console.log('Cloudflare Pages build output already exists. Skipping postinstall build.');
-  process.exit(0);
-}
+console.log('Cloudflare Pages detected. Rebuilding Astro output for web/dist...');
 
-console.log('Cloudflare Pages detected. Building Astro output for web/dist...');
+rmSync('web/dist', { recursive: true, force: true });
 
-const npmCommand = process.platform === 'win32' ? 'npm.cmd' : 'npm';
-const result = spawnSync(npmCommand, ['run', 'build'], {
+const nodeCommand = process.execPath;
+const result = spawnSync(nodeCommand, ['scripts/build-web.mjs'], {
   stdio: 'inherit',
   shell: false,
+  env: {
+    ...process.env,
+    ASTRO_TELEMETRY_DISABLED: '1',
+  },
 });
 
 if (result.status !== 0) {

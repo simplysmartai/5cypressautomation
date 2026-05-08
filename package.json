@@ -7,8 +7,8 @@
     "start": "node server.js",
     "dev": "nodemon server.js",
     "postinstall": "node scripts/cloudflare-pages-postinstall.mjs",
-    "build": "cd web && npm install && npm run build",
-    "deploy": "cd web && npm install && npm run build && cd .. && npx wrangler pages deploy web/dist",
+    "build": "node scripts/build-web.mjs",
+    "deploy": "node scripts/build-web.mjs && npx wrangler pages deploy web/dist",
     "versions": "npx wrangler versions upload"
   },
   "keywords": [
