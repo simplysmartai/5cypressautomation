@@ -257,6 +257,7 @@ export const services: Service[] = [
       'Automated daily/weekly refresh from your CRM, QBO, Stripe, ad platforms, and more',
       'Role-based views — partners see margin, ops sees throughput, sales sees pipeline',
       'Documented data model — when a metric is questioned, you can show exactly how it\'s built',
+      'Portfolio-safe synthetic dashboard demo available at /dashboards/b2b-growth-command-center/',
     ],
     stack: ['Power BI / Tableau / Looker Studio', 'SQL + Python data layer', 'Connectors: QBO, HubSpot, Stripe, GA4, Meta Ads', 'Scheduled refresh + alerting'],
     setupPrice: '$1,800–$3,500',

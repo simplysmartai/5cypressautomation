@@ -205,8 +205,22 @@
 
   <!-- Charts -->
   <div class="charts-grid">
-    
-    
+    <div class="chart-card full-width">
+      <div class="chart-title">Monthly Revenue — 2025</div>
+      <div class="chart-container"><canvas id="revenueChart"></canvas></div>
+    </div>
+    <div class="chart-card">
+      <div class="chart-title">Win Rate by Sales Rep</div>
+      <div class="chart-container"><canvas id="winRateChart"></canvas></div>
+    </div>
+    <div class="chart-card">
+      <div class="chart-title">Revenue by Industry</div>
+      <div class="chart-container"><canvas id="industryChart"></canvas></div>
+    </div>
+    <div class="chart-card full-width">
+      <div class="chart-title">Pipeline Stage Distribution</div>
+      <div class="chart-container" style="height:200px"><canvas id="stageChart"></canvas></div>
+    </div>
   </div>
 
   <!-- Data Preview Table -->
@@ -514,8 +528,118 @@
 </footer>
 
 <script>
+const CHART_DEFAULTS = {
+  color: '#9CA3AF',
+  grid: 'rgba(255,255,255,0.06)',
+  font: 'Inter, sans-serif',
+};
+Chart.defaults.color = CHART_DEFAULTS.color;
+Chart.defaults.font.family = CHART_DEFAULTS.font;
 
+// ── 1. Monthly Revenue Bar Chart ──────────────────────────────
+new Chart(document.getElementById('revenueChart'), {
+  type: 'bar',
+  data: {
+    labels: ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'],
+    datasets: [{
+      label: 'Revenue',
+      data: [142300, 198600, 156200, 187400, 133900, 162100, 148700, 174800, 189300, 143600, 167500, 196500],
+      backgroundColor: 'rgba(82,183,136,0.75)',
+      borderColor: '#52B788',
+      borderWidth: 1,
+      borderRadius: 4,
+    }]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { display: false }, tooltip: {
+      callbacks: { label: ctx => ' $' + ctx.parsed.y.toLocaleString() }
+    }},
+    scales: {
+      x: { grid: { color: CHART_DEFAULTS.grid } },
+      y: { grid: { color: CHART_DEFAULTS.grid },
+           ticks: { callback: v => '$' + (v/1000).toFixed(0) + 'K' } }
+    }
+  }
+});
 
+// ── 2. Win Rate by Rep (Horizontal Bar) ──────────────────────
+new Chart(document.getElementById('winRateChart'), {
+  type: 'bar',
+  data: {
+    labels: ['Eva Chen','Bob Martinez','Carol Smith','Alice Johnson','David Lee'],
+    datasets: [{
+      label: 'Win Rate %',
+      data: [55, 51, 48, 44, 39],
+      backgroundColor: ['#52B788','#74C69D','#40916C','#2D6A4F','#1B4332'],
+      borderRadius: 4,
+    }]
+  },
+  options: {
+    indexAxis: 'y',
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { display: false }, tooltip: {
+      callbacks: { label: ctx => ' ' + ctx.parsed.x + '% win rate' }
+    }},
+    scales: {
+      x: { grid: { color: CHART_DEFAULTS.grid }, max: 70,
+           ticks: { callback: v => v + '%' } },
+      y: { grid: { display: false } }
+    }
+  }
+});
+
+// ── 3. Revenue by Industry (Donut) ────────────────────────────
+new Chart(document.getElementById('industryChart'), {
+  type: 'doughnut',
+  data: {
+    labels: ['Healthcare IT','SaaS','Manufacturing','Logistics','Finance'],
+    datasets: [{
+      data: [520000, 480000, 340000, 290000, 170000],
+      backgroundColor: ['#52B788','#74C69D','#40916C','#2D6A4F','#95D5B2'],
+      borderColor: '#111827',
+      borderWidth: 2,
+      hoverOffset: 8,
+    }]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: {
+      legend: { position: 'right', labels: { padding: 16, font: { size: 12 } } },
+      tooltip: {
+        callbacks: { label: ctx => ' $' + (ctx.parsed/1000).toFixed(0) + 'K' }
+      }
+    }
+  }
+});
+
+// ── 4. Pipeline Stage Distribution (Horizontal Stacked) ──────
+new Chart(document.getElementById('stageChart'), {
+  type: 'bar',
+  data: {
+    labels: ['All Deals'],
+    datasets: [
+      { label: 'Closed Won',  data: [112], backgroundColor: '#52B788' },
+      { label: 'Closed Lost', data: [89],  backgroundColor: '#EF4444' },
+      { label: 'Proposal',    data: [48],  backgroundColor: '#F59E0B' },
+      { label: 'Discovery',   data: [31],  backgroundColor: '#3B82F6' },
+      { label: 'Negotiation', data: [20],  backgroundColor: '#8B5CF6' },
+    ]
+  },
+  options: {
+    indexAxis: 'y',
+    responsive: true, maintainAspectRatio: false,
+    plugins: {
+      legend: { position: 'bottom', labels: { padding: 20, font: { size: 11 } } },
+      tooltip: { callbacks: { label: ctx => ' ' + ctx.dataset.label + ': ' + ctx.parsed.x + ' deals' } }
+    },
+    scales: {
+      x: { stacked: true, grid: { color: CHART_DEFAULTS.grid },
+           ticks: { callback: v => v + ' deals' } },
+      y: { stacked: true, grid: { display: false } }
+    }
+  }
+});
 </script>
 
 </body>

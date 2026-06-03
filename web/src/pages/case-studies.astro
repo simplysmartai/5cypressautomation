@@ -5,6 +5,22 @@ import JsonLd from '../components/JsonLd.astro';
 
 const examples = [
   {
+    id: 'growth-command-center',
+    title: 'B2B Growth Command Center',
+    segment: 'Revenue, pipeline, marketing, invoices, automation, and account health',
+    tag: 'BI Dashboard',
+    problem: 'Past dashboard work contained sensitive company data, so the public site needed a portfolio-safe way to show real analytics judgment without exposing private information.',
+    workflow: 'A synthetic B2B operating dataset powers an executive dashboard with revenue trend, weighted pipeline, channel ROI, invoice aging, workflow health, and renewal risk in one view.',
+    href: '/dashboards/b2b-growth-command-center/',
+    cta: 'Open Dashboard',
+    results: [
+      { stat: '18 mo', label: 'synthetic operating history modeled' },
+      { stat: '6 views', label: 'revenue, sales, marketing, AR, workflow, accounts' },
+      { stat: '0 client', label: 'records or confidential screenshots used' },
+      { stat: '1 URL', label: 'site-ready interactive portfolio asset' },
+    ],
+  },
+  {
     id: 'lead-flow',
     title: 'Service Business Lead Flow',
     segment: 'Calls, forms, CRM, email, and SMS',
@@ -110,6 +126,12 @@ const examples = [
                   </div>
                 ))}
               </div>
+
+              {example.href && (
+                <div class="example-action">
+                  <Button href={example.href} variant="secondary">{example.cta}</Button>
+                </div>
+              )}
             </div>
           </article>
         ))}
@@ -244,6 +266,10 @@ const examples = [
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: var(--space-3);
+  }
+
+  .example-action {
+    margin-top: var(--space-6);
   }
 
   .result-card {

@@ -1,0 +1,811 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Button from '../../components/Button.astro';
+import JsonLd from '../../components/JsonLd.astro';
+import {
+  accountHealth,
+  automationWorkflows,
+  campaignPerformance,
+  companyProfile,
+  dashboardSummary,
+  invoiceAging,
+  monthlyPerformance,
+  pipelineStages,
+} from '../../data/syntheticDashboardData';
+
+const title = 'B2B Growth Command Center Demo | 5 Cypress Automation';
+const description =
+  'A portfolio-safe executive analytics dashboard built from synthetic data for revenue, pipeline, marketing, invoicing, automation ROI, and account health.';
+
+const currency = (value: number) =>
+  new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'USD',
+    maximumFractionDigits: 0,
+  }).format(value);
+
+const percent = (value: number) =>
+  new Intl.NumberFormat('en-US', {
+    style: 'percent',
+    maximumFractionDigits: 1,
+  }).format(value);
+
+const shortCurrency = (value: number) => `$${Math.round(value / 1000)}K`;
+const maxRevenue = Math.max(...monthlyPerformance.map((month) => month.revenue));
+const maxPipeline = Math.max(...monthlyPerformance.map((month) => month.pipeline));
+const revenuePoints = monthlyPerformance
+  .map((month, index) => {
+    const x = (index / (monthlyPerformance.length - 1)) * 100;
+    const y = 100 - (month.revenue / maxRevenue) * 86;
+    return `${x},${y}`;
+  })
+  .join(' ');
+const pipelinePoints = monthlyPerformance
+  .map((month, index) => {
+    const x = (index / (monthlyPerformance.length - 1)) * 100;
+    const y = 100 - (month.pipeline / maxPipeline) * 86;
+    return `${x},${y}`;
+  })
+  .join(' ');
+const maxStage = Math.max(...pipelineStages.map((stage) => stage.value));
+const maxCampaignRevenue = Math.max(...campaignPerformance.map((campaign) => campaign.revenue));
+const maxInvoiceAmount = Math.max(...invoiceAging.map((bucket) => bucket.amount));
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'CreativeWork',
+  name: 'B2B Growth Command Center Demo',
+  description,
+  creator: {
+    '@type': 'Organization',
+    name: '5 Cypress Automation',
+    url: 'https://www.5cypress.com',
+  },
+  about: ['Business intelligence', 'Synthetic data', 'Dashboard design', 'Workflow automation'],
+};
+---
+
+<Layout title={title} description={description}>
+  <Fragment slot="head">
+    <JsonLd schema={schema} />
+  </Fragment>
+
+  <section class="dashboard-hero section">
+    <div class="container dashboard-hero-grid">
+      <div class="dashboard-copy reveal">
+        <p class="lead-in">Portfolio Dashboard</p>
+        <h1>B2B Growth Command Center</h1>
+        <p>
+          A site-ready executive dashboard built from synthetic data. It shows how revenue,
+          pipeline, campaign ROI, invoice aging, automation savings, and account risk can
+          live in one operating view.
+        </p>
+        <div class="dashboard-actions">
+          <Button variant="primary" size="lg" magnetic ripple data-open-booking>
+            Build My Dashboard
+          </Button>
+          <Button variant="secondary" size="lg" href="/services/business-intelligence-dashboard/">
+            View BI Service
+          </Button>
+        </div>
+      </div>
+
+      <aside class="data-card reveal" aria-label="Synthetic dataset profile">
+        <span>Demo Company</span>
+        <strong>{companyProfile.name}</strong>
+        <dl>
+          <div>
+            <dt>Segment</dt>
+            <dd>{companyProfile.segment}</dd>
+          </div>
+          <div>
+            <dt>Period</dt>
+            <dd>{companyProfile.period}</dd>
+          </div>
+          <div>
+            <dt>Data Status</dt>
+            <dd>Synthetic only</dd>
+          </div>
+        </dl>
+      </aside>
+    </div>
+  </section>
+
+  <section class="section dashboard-shell">
+    <div class="container">
+      <div class="dashboard-toolbar reveal">
+        <div>
+          <p class="lead-in">Executive View</p>
+          <h2>Revenue, demand, cash, and workflow health in one place.</h2>
+        </div>
+        <span class="refresh-pill">Updated Jun 2026</span>
+      </div>
+
+      <div class="kpi-grid reveal-stagger">
+        <article class="kpi-card">
+          <span>Monthly Revenue</span>
+          <strong>{currency(dashboardSummary.revenue)}</strong>
+          <small>{percent(dashboardSummary.revenueChange)} vs prior quarter</small>
+        </article>
+        <article class="kpi-card">
+          <span>Open Pipeline</span>
+          <strong>{currency(dashboardSummary.pipeline)}</strong>
+          <small>{currency(dashboardSummary.weightedPipeline)} weighted forecast</small>
+        </article>
+        <article class="kpi-card">
+          <span>Lead to MQL</span>
+          <strong>{percent(dashboardSummary.leadConversion)}</strong>
+          <small>109 qualified from 274 leads</small>
+        </article>
+        <article class="kpi-card">
+          <span>Hours Saved</span>
+          <strong>{dashboardSummary.automationHours}</strong>
+          <small>{percent(dashboardSummary.automationChange)} month over month</small>
+        </article>
+      </div>
+
+      <div class="dashboard-grid">
+        <article class="panel panel-wide reveal">
+          <div class="panel-header">
+            <div>
+              <span>18-month trend</span>
+              <h3>Revenue and pipeline momentum</h3>
+            </div>
+            <div class="legend">
+              <span><i class="legend-revenue"></i>Revenue</span>
+              <span><i class="legend-pipeline"></i>Pipeline</span>
+            </div>
+          </div>
+          <div class="line-chart" aria-label="Revenue and pipeline trend chart">
+            <svg viewBox="0 0 100 100" preserveAspectRatio="none" role="img">
+              <polyline points={pipelinePoints} class="line line-pipeline" />
+              <polyline points={revenuePoints} class="line line-revenue" />
+            </svg>
+            <div class="chart-baseline">
+              <span>{monthlyPerformance[0].month}</span>
+              <span>{monthlyPerformance[monthlyPerformance.length - 1].month}</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="panel reveal">
+          <div class="panel-header">
+            <div>
+              <span>Sales</span>
+              <h3>Pipeline by stage</h3>
+            </div>
+          </div>
+          <div class="bar-list">
+            {pipelineStages.map((stage) => (
+              <div class="bar-row">
+                <div class="bar-row-top">
+                  <span>{stage.stage}</span>
+                  <strong>{shortCurrency(stage.value)}</strong>
+                </div>
+                <div class="bar-track">
+                  <i style={`width: ${(stage.value / maxStage) * 100}%`}></i>
+                </div>
+                <small>{stage.count} deals · {percent(stage.probability)} probability</small>
+              </div>
+            ))}
+          </div>
+        </article>
+
+        <article class="panel reveal">
+          <div class="panel-header">
+            <div>
+              <span>Marketing</span>
+              <h3>Campaign ROI</h3>
+            </div>
+          </div>
+          <div class="campaign-list">
+            {campaignPerformance.map((campaign) => (
+              <div class="campaign-row">
+                <div>
+                  <strong>{campaign.channel}</strong>
+                  <span>{campaign.leads} leads · {percent(campaign.conversionRate)} CVR</span>
+                </div>
+                <div class="campaign-meter">
+                  <i style={`width: ${(campaign.revenue / maxCampaignRevenue) * 100}%`}></i>
+                </div>
+                <em>{currency(campaign.revenue - campaign.spend)}</em>
+              </div>
+            ))}
+          </div>
+        </article>
+
+        <article class="panel reveal">
+          <div class="panel-header">
+            <div>
+              <span>Finance</span>
+              <h3>Invoice aging</h3>
+            </div>
+            <strong class="panel-stat">{currency(dashboardSummary.arOutstanding)}</strong>
+          </div>
+          <div class="aging-grid">
+            {invoiceAging.map((bucket) => (
+              <div class="aging-bucket">
+                <span>{bucket.bucket}</span>
+                <div class="aging-bar">
+                  <i style={`height: ${(bucket.amount / maxInvoiceAmount) * 100}%`}></i>
+                </div>
+                <strong>{shortCurrency(bucket.amount)}</strong>
+                <small>{bucket.invoices} invoices</small>
+              </div>
+            ))}
+          </div>
+        </article>
+
+        <article class="panel panel-wide reveal">
+          <div class="panel-header">
+            <div>
+              <span>Automation ROI</span>
+              <h3>Workflow health and time returned</h3>
+            </div>
+          </div>
+          <div class="workflow-table" role="table" aria-label="Automation workflow health">
+            <div class="table-row table-head" role="row">
+              <span>Workflow</span>
+              <span>Runs</span>
+              <span>Success</span>
+              <span>Hours Saved</span>
+              <span>Owner</span>
+            </div>
+            {automationWorkflows.map((workflow) => (
+              <div class="table-row" role="row">
+                <strong>{workflow.workflow}</strong>
+                <span>{workflow.runs.toLocaleString()}</span>
+                <span>{percent(workflow.successRate)}</span>
+                <span>{workflow.hoursSaved}</span>
+                <span>{workflow.owner}</span>
+              </div>
+            ))}
+          </div>
+        </article>
+
+        <article class="panel panel-wide reveal">
+          <div class="panel-header">
+            <div>
+              <span>Customer Success</span>
+              <h3>Account health and renewal risk</h3>
+            </div>
+          </div>
+          <div class="account-list">
+            {accountHealth.map((account) => (
+              <div class="account-row">
+                <div>
+                  <strong>{account.account}</strong>
+                  <span>{account.segment} · Renewal {account.renewal}</span>
+                </div>
+                <div class="health-score" aria-label={`Health score ${account.health}`}>
+                  <i style={`width: ${account.health}%`}></i>
+                </div>
+                <strong>{account.health}</strong>
+                <span class={`risk risk-${account.risk.toLowerCase()}`}>{account.risk}</span>
+                <em>{currency(account.revenue)}</em>
+              </div>
+            ))}
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section story-section">
+    <div class="container story-grid">
+      <div class="reveal">
+        <p class="lead-in">How We Did It</p>
+        <h2>How we built this demo without using client data</h2>
+        <p class="story-intro">
+          This dashboard uses fake but realistic business data. The goal was simple:
+          show the kind of thinking and build quality a client would get, without
+          exposing private records, screenshots, or account details.
+        </p>
+      </div>
+      <div class="story-steps reveal-stagger">
+        <article>
+          <span>01</span>
+          <h3>Picked the decisions first</h3>
+          <p>We started with the questions a B2B owner asks each week: Is revenue growing? Is the pipeline healthy? Are invoices getting paid? Which accounts need attention?</p>
+        </article>
+        <article>
+          <span>02</span>
+          <h3>Built a safe sample company</h3>
+          <p>We created a made-up company with 18 months of records. The data has normal business patterns, like slower months, late invoices, won deals, and support risk.</p>
+        </article>
+        <article>
+          <span>03</span>
+          <h3>Grouped the numbers by job</h3>
+          <p>Revenue, sales, marketing, finance, automation, and account health each got their own view. That keeps the page easy to scan and helps each team find its part.</p>
+        </article>
+        <article>
+          <span>04</span>
+          <h3>Turned raw data into useful signals</h3>
+          <p>We calculated totals, trends, conversion rates, weighted pipeline, unpaid invoices, workflow success, and account risk. These are the numbers leaders act on.</p>
+        </article>
+        <article>
+          <span>05</span>
+          <h3>Designed it for review, not decoration</h3>
+          <p>Every chart has a job. The dashboard is meant to help someone see what changed, what is stuck, and where to follow up next.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .dashboard-hero {
+    padding: calc(var(--space-24) + 3rem) 0 var(--space-16);
+    background:
+      linear-gradient(140deg, rgba(93,140,93,0.16), transparent 46%),
+      linear-gradient(180deg, var(--bg-main), #0f1011);
+  }
+  .dashboard-hero-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 360px;
+    gap: var(--space-12);
+    align-items: end;
+  }
+  .dashboard-copy h1 {
+    max-width: 9ch;
+    margin: 0 0 var(--space-6);
+    color: var(--text-primary);
+    font-size: clamp(3.6rem, 9vw, 8rem);
+    line-height: 0.9;
+    letter-spacing: 0;
+  }
+  .dashboard-copy p {
+    max-width: 780px;
+    color: var(--text-secondary);
+    font-size: clamp(1.08rem, 2vw, 1.35rem);
+    line-height: 1.7;
+  }
+  .dashboard-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-4);
+    margin-top: var(--space-8);
+  }
+  .data-card {
+    border: 1px solid var(--border-medium);
+    border-radius: 8px;
+    background:
+      linear-gradient(180deg, rgba(251,191,36,0.1), transparent),
+      var(--bg-surface);
+    padding: var(--space-6);
+  }
+  .data-card > span,
+  .panel-header span,
+  .kpi-card span,
+  .refresh-pill {
+    color: var(--brand-primary);
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  .data-card > strong {
+    display: block;
+    margin: var(--space-3) 0 var(--space-6);
+    color: var(--text-primary);
+    font-size: 1.55rem;
+  }
+  .data-card dl {
+    display: grid;
+    gap: var(--space-3);
+    margin: 0;
+  }
+  .data-card div {
+    display: flex;
+    justify-content: space-between;
+    gap: var(--space-4);
+    border-top: 1px solid var(--border-subtle);
+    padding-top: var(--space-3);
+  }
+  .data-card dt {
+    color: var(--text-disabled);
+  }
+  .data-card dd {
+    margin: 0;
+    color: var(--text-secondary);
+    text-align: right;
+  }
+  .dashboard-shell {
+    background: #0f1011;
+  }
+  .dashboard-toolbar {
+    display: flex;
+    justify-content: space-between;
+    gap: var(--space-8);
+    align-items: end;
+    margin-bottom: var(--space-6);
+  }
+  .dashboard-toolbar h2 {
+    max-width: 880px;
+    margin: 0;
+    color: var(--text-primary);
+    font-size: clamp(2rem, 4vw, 4.2rem);
+    line-height: 1;
+    letter-spacing: 0;
+  }
+  .refresh-pill {
+    flex-shrink: 0;
+    border: 1px solid rgba(251,191,36,0.24);
+    border-radius: 999px;
+    color: var(--brand-accent);
+    padding: var(--space-2) var(--space-3);
+  }
+  .kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--space-4);
+    margin-bottom: var(--space-4);
+  }
+  .kpi-card,
+  .panel {
+    border: 1px solid var(--border-medium);
+    border-radius: 8px;
+    background: var(--bg-surface);
+    box-shadow: 0 24px 70px rgba(0,0,0,0.24);
+  }
+  .kpi-card {
+    min-height: 150px;
+    padding: var(--space-5);
+  }
+  .kpi-card strong {
+    display: block;
+    margin: var(--space-4) 0 var(--space-2);
+    color: var(--text-primary);
+    font-size: clamp(1.8rem, 4vw, 3.1rem);
+    line-height: 1;
+  }
+  .kpi-card small {
+    color: var(--text-tertiary);
+  }
+  .dashboard-grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: var(--space-4);
+  }
+  .panel {
+    grid-column: span 3;
+    padding: var(--space-5);
+    overflow: hidden;
+  }
+  .panel-wide {
+    grid-column: span 6;
+  }
+  .panel-header {
+    display: flex;
+    justify-content: space-between;
+    gap: var(--space-6);
+    align-items: start;
+    margin-bottom: var(--space-5);
+  }
+  .panel-header h3 {
+    margin: var(--space-2) 0 0;
+    color: var(--text-primary);
+    font-size: 1.35rem;
+  }
+  .panel-stat {
+    color: var(--brand-accent);
+  }
+  .legend {
+    display: flex;
+    gap: var(--space-4);
+    color: var(--text-tertiary);
+    font-size: 0.85rem;
+  }
+  .legend span {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    color: var(--text-tertiary);
+    font-family: var(--font-body);
+    letter-spacing: 0;
+    text-transform: none;
+  }
+  .legend i {
+    display: block;
+    width: 18px;
+    height: 3px;
+    border-radius: 999px;
+  }
+  .legend-revenue {
+    background: var(--brand-accent);
+  }
+  .legend-pipeline {
+    background: var(--brand-primary);
+  }
+  .line-chart {
+    min-height: 330px;
+    display: flex;
+    flex-direction: column;
+    justify-content: stretch;
+  }
+  .line-chart svg {
+    flex: 1;
+    width: 100%;
+    min-height: 280px;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.055) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.035) 1px, transparent 1px);
+    background-size: 100% 25%, 8.333% 100%;
+  }
+  .line {
+    fill: none;
+    stroke-width: 2.8;
+    vector-effect: non-scaling-stroke;
+  }
+  .line-revenue {
+    stroke: var(--brand-accent);
+  }
+  .line-pipeline {
+    stroke: var(--brand-primary);
+    opacity: 0.78;
+  }
+  .chart-baseline {
+    display: flex;
+    justify-content: space-between;
+    margin-top: var(--space-3);
+    color: var(--text-disabled);
+    font-size: 0.8rem;
+  }
+  .bar-list,
+  .campaign-list,
+  .account-list {
+    display: grid;
+    gap: var(--space-4);
+  }
+  .bar-row-top,
+  .campaign-row,
+  .account-row,
+  .table-row {
+    display: grid;
+    align-items: center;
+    gap: var(--space-4);
+  }
+  .bar-row-top {
+    grid-template-columns: 1fr auto;
+    color: var(--text-secondary);
+  }
+  .bar-track,
+  .campaign-meter,
+  .health-score {
+    overflow: hidden;
+    border-radius: 999px;
+    background: rgba(255,255,255,0.07);
+  }
+  .bar-track {
+    height: 10px;
+    margin: var(--space-2) 0;
+  }
+  .bar-track i,
+  .campaign-meter i,
+  .health-score i {
+    display: block;
+    height: 100%;
+    border-radius: inherit;
+    background: linear-gradient(90deg, var(--brand-primary), var(--brand-accent));
+  }
+  .bar-row small,
+  .campaign-row span,
+  .account-row span,
+  .table-row span {
+    color: var(--text-tertiary);
+    font-size: 0.86rem;
+  }
+  .campaign-row {
+    grid-template-columns: minmax(140px, 1fr) minmax(90px, 0.8fr) auto;
+    border-bottom: 1px solid var(--border-subtle);
+    padding-bottom: var(--space-3);
+  }
+  .campaign-row strong,
+  .campaign-row span {
+    display: block;
+  }
+  .campaign-meter {
+    height: 9px;
+  }
+  .campaign-row em,
+  .account-row em {
+    color: var(--brand-accent);
+    font-style: normal;
+    text-align: right;
+  }
+  .aging-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: var(--space-3);
+    min-height: 270px;
+    align-items: end;
+  }
+  .aging-bucket {
+    display: grid;
+    grid-template-rows: auto 180px auto auto;
+    gap: var(--space-2);
+    text-align: center;
+  }
+  .aging-bucket span,
+  .aging-bucket small {
+    color: var(--text-tertiary);
+    font-size: 0.78rem;
+  }
+  .aging-bar {
+    display: flex;
+    align-items: end;
+    justify-content: center;
+    border: 1px solid var(--border-subtle);
+    background: rgba(10,10,12,0.46);
+  }
+  .aging-bar i {
+    width: 100%;
+    background: linear-gradient(180deg, var(--brand-primary), var(--brand-accent));
+  }
+  .aging-bucket strong {
+    color: var(--text-primary);
+  }
+  .workflow-table {
+    display: grid;
+    border: 1px solid var(--border-subtle);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  .table-row {
+    grid-template-columns: 1.5fr 0.7fr 0.7fr 0.8fr 0.8fr;
+    min-height: 58px;
+    padding: 0 var(--space-4);
+    border-top: 1px solid var(--border-subtle);
+  }
+  .table-row:first-child {
+    border-top: 0;
+  }
+  .table-head {
+    background: rgba(255,255,255,0.04);
+  }
+  .table-head span {
+    color: var(--brand-primary);
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  .table-row strong,
+  .account-row strong {
+    color: var(--text-primary);
+  }
+  .account-row {
+    grid-template-columns: minmax(180px, 1.2fr) minmax(110px, 0.9fr) 42px 74px 86px;
+    min-height: 70px;
+    border-bottom: 1px solid var(--border-subtle);
+  }
+  .account-row strong,
+  .account-row span {
+    display: block;
+  }
+  .health-score {
+    height: 10px;
+  }
+  .risk {
+    width: fit-content;
+    border-radius: 999px;
+    padding: 5px 9px;
+    font-size: 0.78rem;
+  }
+  .risk-low {
+    border: 1px solid rgba(93,140,93,0.36);
+    color: var(--brand-primary-light);
+  }
+  .risk-medium {
+    border: 1px solid rgba(251,191,36,0.32);
+    color: var(--brand-accent);
+  }
+  .story-section {
+    border-top: 1px solid var(--border-subtle);
+    background: var(--bg-surface);
+  }
+  .story-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 0.8fr) minmax(0, 1fr);
+    gap: var(--space-12);
+  }
+  .story-grid h2 {
+    margin: 0;
+    color: var(--text-primary);
+    font-size: clamp(2.2rem, 5vw, 4.5rem);
+    line-height: 1;
+    letter-spacing: 0;
+  }
+  .story-intro {
+    max-width: 620px;
+    margin: var(--space-5) 0 0;
+    color: var(--text-secondary);
+    font-size: 1.05rem;
+    line-height: 1.75;
+  }
+  .story-steps {
+    display: grid;
+    gap: var(--space-4);
+  }
+  .story-steps article {
+    border: 1px solid var(--border-medium);
+    border-radius: 8px;
+    background: var(--bg-main);
+    padding: var(--space-6);
+  }
+  .story-steps span {
+    color: var(--brand-accent);
+    font-family: var(--font-mono);
+    font-weight: 700;
+  }
+  .story-steps h3 {
+    margin: var(--space-3) 0;
+    color: var(--text-primary);
+  }
+  .story-steps p {
+    margin: 0;
+    color: var(--text-secondary);
+    line-height: 1.65;
+  }
+  @media (max-width: 1100px) {
+    .dashboard-hero-grid,
+    .story-grid {
+      grid-template-columns: 1fr;
+    }
+    .data-card {
+      max-width: 520px;
+    }
+    .kpi-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    .panel,
+    .panel-wide {
+      grid-column: span 6;
+    }
+  }
+  @media (max-width: 760px) {
+    .dashboard-copy h1 {
+      max-width: none;
+      font-size: clamp(3.2rem, 16vw, 4.8rem);
+    }
+    .dashboard-toolbar,
+    .panel-header {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+    .kpi-grid,
+    .aging-grid {
+      grid-template-columns: 1fr;
+    }
+    .aging-bucket {
+      grid-template-columns: 72px 1fr 64px 74px;
+      grid-template-rows: auto;
+      align-items: center;
+      text-align: left;
+    }
+    .aging-bar {
+      height: 12px;
+    }
+    .aging-bar i {
+      height: 100% !important;
+    }
+    .campaign-row,
+    .account-row,
+    .table-row {
+      grid-template-columns: 1fr;
+      align-items: start;
+      padding-block: var(--space-4);
+    }
+    .table-head {
+      display: none;
+    }
+    .line-chart {
+      min-height: 240px;
+    }
+    .line-chart svg {
+      min-height: 210px;
+    }
+  }
+</style>
