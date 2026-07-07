@@ -1,0 +1,846 @@
+---
+/**
+ * demo.astro — Public Practice KPI Dashboard demo (5cypress.com/demo)
+ *
+ * Fictional 4-partner CPA firm on seeded synthetic data
+ * (scripts/generate-practice-kpi-data.mjs). Layout doctrine: exec summary
+ * top-left, trend center, exceptions right, drill-down below.
+ * Charts are build-time SVG/HTML; JS adds tabs + hover tooltips only.
+ */
+import Layout from '../layouts/Layout.astro';
+import Button from '../components/Button.astro';
+import JsonLd from '../components/JsonLd.astro';
+import data from '../data/practiceKpiData.json';
+
+const { meta, partners, firm, arAging } = data;
+const M = meta.months.length;
+const latest = firm[M - 1];
+const prior = firm[M - 2];
+
+// ── Formatting ───────────────────────────────────────────────────────────────
+const usd = (n: number) => `$${Math.round(n).toLocaleString('en-US')}`;
+const usdK = (n: number) => `$${Math.round(n / 1000)}K`;
+const pct = (n: number) => `${(n * 100).toFixed(1)}%`;
+const delta = (cur: number, prev: number) => {
+  const d = ((cur - prev) / prev) * 100;
+  return `${d >= 0 ? '+' : ''}${d.toFixed(1)}%`;
+};
+
+// ── Chart palette (validated: dataviz six checks, dark surface #101014) ──────
+const partnerColors: Record<string, string> = {
+  ellison: '#199E70',
+  okafor: '#C98500',
+  reyes: '#3987E5',
+  nguyen: '#D95926',
+};
+const agingRamp = ['#6E4E0A', '#96690B', '#C98500', '#F5A623']; // amber, monotonic light←dark by severity
+const seriesGreen = '#199E70';
+const seriesGold = '#C98500';
+
+// ── SVG helpers ──────────────────────────────────────────────────────────────
+const W = 720;
+const H = 220;
+const PAD = { l: 44, r: 14, t: 14, b: 26 };
+
+function scaleSeries(values: number[], min?: number, max?: number) {
+  const lo = min ?? Math.min(...values) * 0.94;
+  const hi = max ?? Math.max(...values) * 1.04;
+  const x = (i: number) => PAD.l + (i / (values.length - 1)) * (W - PAD.l - PAD.r);
+  const y = (v: number) => PAD.t + (1 - (v - lo) / (hi - lo)) * (H - PAD.t - PAD.b);
+  return { x, y, lo, hi };
+}
+function linePath(values: number[], s: ReturnType<typeof scaleSeries>) {
+  return values.map((v, i) => `${i === 0 ? 'M' : 'L'}${s.x(i).toFixed(1)},${s.y(v).toFixed(1)}`).join(' ');
+}
+function areaPath(values: number[], s: ReturnType<typeof scaleSeries>) {
+  return `${linePath(values, s)} L${s.x(values.length - 1).toFixed(1)},${H - PAD.b} L${s.x(0).toFixed(1)},${H - PAD.b} Z`;
+}
+
+const billingsVals = firm.map((f) => f.billings);
+const billingsScale = scaleSeries(billingsVals);
+const realizationVals = firm.map((f) => f.realization);
+const realizationScale = scaleSeries(realizationVals, 0.78, 0.97);
+const peakIdx = billingsVals.indexOf(Math.max(...billingsVals));
+
+// grid: 3 recessive horizontal lines per chart
+const gridYs = [0.25, 0.5, 0.75].map((f) => PAD.t + f * (H - PAD.t - PAD.b));
+const monthTicks = meta.months.map((label, i) => ({ label, i })).filter(({ i }) => i % 3 === 0);
+
+// ── Exceptions (computed from the data, not invented) ────────────────────────
+type Alert = { level: 'warning' | 'critical'; title: string; detail: string };
+const alerts: Alert[] = [];
+
+const totalAR = arAging.reduce((s, p) => s + p.buckets.reduce((a, b) => a + b, 0), 0);
+const over60 = arAging.reduce((s, p) => s + p.buckets[2] + p.buckets[3], 0);
+const over90 = arAging.reduce((s, p) => s + p.buckets[3], 0);
+if (over90 > totalAR * 0.04) {
+  alerts.push({
+    level: 'critical',
+    title: `${usdK(over90)} sitting past 90 days`,
+    detail: `${pct(over90 / totalAR)} of total AR. An AR chase agent would have escalated these invoices at day 45.`,
+  });
+}
+const worst90 = [...arAging].sort((a, b) => b.buckets[3] - a.buckets[3])[0];
+if (worst90.buckets[3] > over90 * 0.4) {
+  const wp = partners.find((p) => p.id === worst90.partnerId)!;
+  alerts.push({
+    level: 'warning',
+    title: `${wp.name} holds ${pct(worst90.buckets[3] / over90)} of everything past 90`,
+    detail: 'Collections is a desk-level habit, not a firm-level one. Route reminders by partner, not by policy memo.',
+  });
+}
+for (const p of partners) {
+  const last3 = p.series.slice(-3).map((s) => s.realization);
+  if (last3.every((r) => r < meta.targets.realization - 0.04)) {
+    alerts.push({
+      level: 'warning',
+      title: `${p.name} realization below ${pct(meta.targets.realization - 0.04)} for 3 straight months`,
+      detail: `${p.focus} book is writing down time at intake. Worth a pricing review before next busy season.`,
+    });
+  }
+  const wipNow = p.series[M - 1].wip;
+  const wipAvg = p.series.slice(-13, -1).reduce((s, r) => s + r.wip, 0) / 12;
+  if (wipNow > wipAvg * 1.25) {
+    alerts.push({
+      level: 'warning',
+      title: `${p.name} WIP ${Math.round(((wipNow - wipAvg) / wipAvg) * 100)}% above trailing average`,
+      detail: `${usdK(wipNow)} unbilled. Aging WIP is the firm's quietest realization leak.`,
+    });
+  }
+}
+if (latest.closeDays > meta.targets.closeDays) {
+  alerts.push({
+    level: 'warning',
+    title: `Close ran ${latest.closeDays} days against an ${meta.targets.closeDays}-day target`,
+    detail: 'Bank-rec and doc-chase steps are the usual drag — both automatable with review gates.',
+  });
+}
+
+// ── AR aging rows ─────────────────────────────────────────────────────────────
+const arRows = arAging.map((row) => {
+  const partner = partners.find((p) => p.id === row.partnerId)!;
+  const total = row.buckets.reduce((a, b) => a + b, 0);
+  return { partner, buckets: row.buckets, total };
+});
+const maxAr = Math.max(...arRows.map((r) => r.total));
+
+// ── Per-partner drill-down panels ────────────────────────────────────────────
+const partnerPanels = partners.map((p) => {
+  const s = p.series;
+  const cur = s[M - 1];
+  const prev = s[M - 2];
+  const vals = s.map((r) => r.billings);
+  const scale = scaleSeries(vals);
+  return {
+    ...p,
+    cur,
+    prev,
+    color: partnerColors[p.id],
+    spark: linePath(vals, scale),
+    sparkArea: areaPath(vals, scale),
+    sparkPoints: vals.map((v, i) => ({ cx: scale.x(i), cy: scale.y(v), v, label: meta.months[i] })),
+    recent: s.slice(-6).map((r, i) => ({ month: meta.months[M - 6 + i], ...r })),
+  };
+});
+
+const title = 'Practice KPI Dashboard — Live Demo | 5 Cypress Automation';
+const description =
+  'Interactive practice KPI dashboard for a fictional 4-partner CPA firm: realization, WIP, AR aging, billings seasonality, and per-partner drill-down on synthetic data.';
+---
+
+<Layout title={title} description={description}>
+  <Fragment slot="head">
+    <JsonLd schema={{
+      '@context': 'https://schema.org',
+      '@type': 'CreativeWork',
+      name: 'Practice KPI Dashboard Demo',
+      description,
+      creator: { '@type': 'Organization', name: '5 Cypress Automation', url: 'https://www.5cypress.com' },
+    }} />
+  </Fragment>
+
+  <section class="demo-hero section">
+    <div class="container">
+      <div class="demo-hero-top reveal">
+        <div>
+          <p class="lead-in">Live demo — synthetic data</p>
+          <h1>{meta.firmName}</h1>
+          <p class="demo-hero-sub">
+            A fictional 4-partner firm, generated by a seeded script so the story is realistic:
+            tax-season spikes, a WIP problem child, and money aging past 90.
+            This is the view we build on your real QBO + practice-management data.
+          </p>
+        </div>
+        <div class="demo-hero-meta">
+          <span class="demo-badge">Demo data</span>
+          <span class="demo-period">Jul 24 – Jun 26 · 24 months</span>
+          <Button variant="primary" size="lg" magnetic ripple data-open-booking>Map My Workflow</Button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section board-section">
+    <div class="container">
+
+      <!-- Row 1: exec summary (left) + exceptions (right) -->
+      <div class="board-top reveal">
+        <div class="exec-tiles" aria-label="Executive summary">
+          <div class="kpi-tile">
+            <span class="kpi-label">Billings · {latest.label}</span>
+            <strong class="kpi-value">{usdK(latest.billings)}</strong>
+            <span class={`kpi-delta ${latest.billings >= prior.billings ? 'is-up' : 'is-down'}`}>{delta(latest.billings, prior.billings)} MoM</span>
+          </div>
+          <div class="kpi-tile">
+            <span class="kpi-label">Realization</span>
+            <strong class="kpi-value">{pct(latest.realization)}</strong>
+            <span class={`kpi-delta ${latest.realization >= meta.targets.realization ? 'is-up' : 'is-down'}`}>target {pct(meta.targets.realization)}</span>
+          </div>
+          <div class="kpi-tile">
+            <span class="kpi-label">Unbilled WIP</span>
+            <strong class="kpi-value">{usdK(latest.wip)}</strong>
+            <span class="kpi-delta">{delta(latest.wip, prior.wip)} MoM</span>
+          </div>
+          <div class="kpi-tile">
+            <span class="kpi-label">AR past 60 days</span>
+            <strong class="kpi-value">{usdK(over60)}</strong>
+            <span class="kpi-delta is-down">{pct(over60 / totalAR)} of {usdK(totalAR)} AR</span>
+          </div>
+          <div class="kpi-tile">
+            <span class="kpi-label">Days to close</span>
+            <strong class="kpi-value">{latest.closeDays}</strong>
+            <span class={`kpi-delta ${latest.closeDays <= meta.targets.closeDays ? 'is-up' : 'is-down'}`}>target {meta.targets.closeDays}</span>
+          </div>
+        </div>
+
+        <aside class="alerts-panel" aria-label="Exceptions needing review">
+          <p class="panel-title">Needs a human</p>
+          {alerts.map((a) => (
+            <div class={`alert alert--${a.level}`}>
+              <span class="alert-icon" aria-hidden="true">{a.level === 'critical' ? '▲' : '●'}</span>
+              <div>
+                <p class="alert-title">{a.title} <em class="alert-level">{a.level}</em></p>
+                <p class="alert-detail">{a.detail}</p>
+              </div>
+            </div>
+          ))}
+        </aside>
+      </div>
+
+      <!-- Row 2: trends center -->
+      <div class="chart-row reveal">
+        <figure class="chart-card chart-card--wide">
+          <figcaption>
+            <p class="chart-title">Monthly billings — firm</p>
+            <p class="chart-sub">Tax season carries the year; the summer trough is where cash planning breaks.</p>
+          </figcaption>
+          <svg viewBox={`0 0 ${W} ${H}`} role="img" aria-label="Firm monthly billings over 24 months" class="line-chart" data-chart="billings">
+            {gridYs.map((y) => <line x1={PAD.l} x2={W - PAD.r} y1={y} y2={y} class="grid-line" />)}
+            <path d={areaPath(billingsVals, billingsScale)} fill={seriesGreen} opacity="0.13" />
+            <path d={linePath(billingsVals, billingsScale)} fill="none" stroke={seriesGreen} stroke-width="2" stroke-linejoin="round" />
+            <circle cx={billingsScale.x(peakIdx)} cy={billingsScale.y(billingsVals[peakIdx])} r="4" fill={seriesGreen} stroke="#101014" stroke-width="2" />
+            <text x={billingsScale.x(peakIdx)} y={billingsScale.y(billingsVals[peakIdx]) - 10} class="point-label" text-anchor="middle">{usdK(billingsVals[peakIdx])} · {meta.months[peakIdx]}</text>
+            {monthTicks.map(({ label, i }) => (
+              <text x={billingsScale.x(i)} y={H - 8} class="axis-label" text-anchor="middle">{label}</text>
+            ))}
+            <text x={PAD.l - 8} y={billingsScale.y(billingsScale.hi) + 10} class="axis-label" text-anchor="end">{usdK(billingsScale.hi)}</text>
+            <text x={PAD.l - 8} y={billingsScale.y(billingsScale.lo)} class="axis-label" text-anchor="end">{usdK(billingsScale.lo)}</text>
+            {billingsVals.map((v, i) => (
+              <rect
+                class="hit"
+                x={billingsScale.x(i) - 15} y={PAD.t} width="30" height={H - PAD.t - PAD.b}
+                data-tip={`${meta.months[i]} — ${usd(v)}`}
+                data-cx={billingsScale.x(i)} data-cy={billingsScale.y(v)}
+              />
+            ))}
+            <circle class="cursor-dot" r="4" fill={seriesGreen} stroke="#101014" stroke-width="2" style="display:none" />
+          </svg>
+        </figure>
+
+        <figure class="chart-card">
+          <figcaption>
+            <p class="chart-title">Realization vs 90% target</p>
+            <p class="chart-sub">Every busy season buys revenue with write-downs.</p>
+          </figcaption>
+          <svg viewBox={`0 0 ${W} ${H}`} role="img" aria-label="Firm realization rate over 24 months against a 90 percent target" class="line-chart">
+            {gridYs.map((y) => <line x1={PAD.l} x2={W - PAD.r} y1={y} y2={y} class="grid-line" />)}
+            <line
+              x1={PAD.l} x2={W - PAD.r}
+              y1={realizationScale.y(meta.targets.realization)} y2={realizationScale.y(meta.targets.realization)}
+              class="target-line"
+            />
+            <text x={W - PAD.r} y={realizationScale.y(meta.targets.realization) - 6} class="axis-label" text-anchor="end">target 90%</text>
+            <path d={linePath(realizationVals, realizationScale)} fill="none" stroke={seriesGold} stroke-width="2" stroke-linejoin="round" />
+            {monthTicks.map(({ label, i }) => (
+              <text x={realizationScale.x(i)} y={H - 8} class="axis-label" text-anchor="middle">{label}</text>
+            ))}
+            {realizationVals.map((v, i) => (
+              <rect
+                class="hit"
+                x={realizationScale.x(i) - 15} y={PAD.t} width="30" height={H - PAD.t - PAD.b}
+                data-tip={`${meta.months[i]} — ${pct(v)}`}
+                data-cx={realizationScale.x(i)} data-cy={realizationScale.y(v)}
+              />
+            ))}
+            <circle class="cursor-dot" r="4" fill={seriesGold} stroke="#101014" stroke-width="2" style="display:none" />
+          </svg>
+        </figure>
+      </div>
+
+      <!-- Row 3: AR aging by partner -->
+      <div class="chart-row reveal">
+        <figure class="chart-card chart-card--full">
+          <figcaption class="ar-caption">
+            <div>
+              <p class="chart-title">AR aging by partner</p>
+              <p class="chart-sub">Collections habits differ by desk — that difference is {usdK(over90)} past 90 days.</p>
+            </div>
+            <div class="ar-legend" aria-label="Aging buckets">
+              {meta.arBuckets.map((b, i) => (
+                <span class="legend-item"><i style={`background:${agingRamp[i]}`}></i>{b}</span>
+              ))}
+            </div>
+          </figcaption>
+          <div class="ar-rows">
+            {arRows.map((row) => (
+              <div class="ar-row">
+                <span class="ar-name">{row.partner.name}</span>
+                <div class="ar-bar" style={`width:${(row.total / maxAr) * 100}%`}>
+                  {row.buckets.map((v, i) => (
+                    <span
+                      class="ar-seg"
+                      style={`flex:${v} 0 0; background:${agingRamp[i]}`}
+                      data-tip={`${row.partner.name} · ${meta.arBuckets[i]}: ${usd(v)}`}
+                    ></span>
+                  ))}
+                </div>
+                <span class="ar-total">{usdK(row.total)}</span>
+              </div>
+            ))}
+          </div>
+        </figure>
+      </div>
+
+      <!-- Drill-down: partner tabs -->
+      <div class="drill reveal">
+        <div class="drill-head">
+          <p class="panel-title">Per-partner drill-down</p>
+          <div class="drill-tabs" role="tablist" aria-label="Choose a partner">
+            {partnerPanels.map((p, i) => (
+              <button
+                class={`drill-tab${i === 0 ? ' is-active' : ''}`}
+                role="tab"
+                aria-selected={i === 0 ? 'true' : 'false'}
+                data-panel={p.id}
+                style={`--tab-color:${p.color}`}
+              >{p.name}</button>
+            ))}
+          </div>
+        </div>
+
+        {partnerPanels.map((p, i) => (
+          <div class={`drill-panel${i === 0 ? ' is-active' : ''}`} id={`panel-${p.id}`} role="tabpanel">
+            <div class="drill-grid">
+              <div class="drill-meta">
+                <p class="drill-role">{p.role} · {p.focus}</p>
+                <div class="drill-tiles">
+                  <div class="kpi-tile kpi-tile--sm">
+                    <span class="kpi-label">Billings · {latest.label}</span>
+                    <strong class="kpi-value">{usdK(p.cur.billings)}</strong>
+                    <span class={`kpi-delta ${p.cur.billings >= p.prev.billings ? 'is-up' : 'is-down'}`}>{delta(p.cur.billings, p.prev.billings)} MoM</span>
+                  </div>
+                  <div class="kpi-tile kpi-tile--sm">
+                    <span class="kpi-label">Realization</span>
+                    <strong class="kpi-value">{pct(p.cur.realization)}</strong>
+                    <span class={`kpi-delta ${p.cur.realization >= meta.targets.realization ? 'is-up' : 'is-down'}`}>target {pct(meta.targets.realization)}</span>
+                  </div>
+                  <div class="kpi-tile kpi-tile--sm">
+                    <span class="kpi-label">Utilization</span>
+                    <strong class="kpi-value">{pct(p.cur.utilization)}</strong>
+                    <span class={`kpi-delta ${p.cur.utilization >= meta.targets.utilization ? 'is-up' : 'is-down'}`}>target {pct(meta.targets.utilization)}</span>
+                  </div>
+                  <div class="kpi-tile kpi-tile--sm">
+                    <span class="kpi-label">Unbilled WIP</span>
+                    <strong class="kpi-value">{usdK(p.cur.wip)}</strong>
+                    <span class="kpi-delta">{delta(p.cur.wip, p.prev.wip)} MoM</span>
+                  </div>
+                </div>
+
+                <figure class="drill-chart">
+                  <figcaption class="chart-sub">Billings, 24 months</figcaption>
+                  <svg viewBox={`0 0 ${W} ${H}`} role="img" aria-label={`${p.name} monthly billings over 24 months`} class="line-chart">
+                    {gridYs.map((y) => <line x1={PAD.l} x2={W - PAD.r} y1={y} y2={y} class="grid-line" />)}
+                    <path d={p.sparkArea} fill={p.color} opacity="0.12" />
+                    <path d={p.spark} fill="none" stroke={p.color} stroke-width="2" stroke-linejoin="round" />
+                    {monthTicks.map(({ label, i: ti }) => (
+                      <text x={p.sparkPoints[ti].cx} y={H - 8} class="axis-label" text-anchor="middle">{label}</text>
+                    ))}
+                    {p.sparkPoints.map((pt) => (
+                      <rect
+                        class="hit"
+                        x={pt.cx - 15} y={PAD.t} width="30" height={H - PAD.t - PAD.b}
+                        data-tip={`${pt.label} — ${usd(pt.v)}`}
+                        data-cx={pt.cx} data-cy={pt.cy}
+                      />
+                    ))}
+                    <circle class="cursor-dot" r="4" fill={p.color} stroke="#101014" stroke-width="2" style="display:none" />
+                  </svg>
+                </figure>
+              </div>
+
+              <div class="drill-table-wrap">
+                <p class="chart-sub">Last 6 months</p>
+                <table class="drill-table">
+                  <thead>
+                    <tr><th>Month</th><th>Billings</th><th>Real.</th><th>Util.</th><th>WIP</th><th>Close</th></tr>
+                  </thead>
+                  <tbody>
+                    {p.recent.map((r) => (
+                      <tr>
+                        <td>{r.month}</td>
+                        <td>{usd(r.billings)}</td>
+                        <td class={r.realization < meta.targets.realization ? 'is-low' : ''}>{pct(r.realization)}</td>
+                        <td>{pct(r.utilization)}</td>
+                        <td>{usd(r.wip)}</td>
+                        <td class={r.closeDays > meta.targets.closeDays ? 'is-low' : ''}>{r.closeDays}d</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <p class="demo-disclaimer reveal">{meta.disclaimer} Seed #{meta.seed} · generated {meta.generatedAt}.</p>
+    </div>
+  </section>
+
+  <section class="section demo-cta">
+    <div class="container demo-cta-inner reveal">
+      <p class="lead-in">Your firm's numbers</p>
+      <h2>This view, wired to your QBO and practice management system.</h2>
+      <p>
+        Live sync instead of month-end exports. Alerts routed to the right partner with a
+        human-review gate on anything that touches a client. Built in Power BI, Tableau,
+        or a web view like this one — whatever your firm already trusts.
+      </p>
+      <Button variant="primary" size="lg" magnetic ripple data-open-booking>Map My Workflow</Button>
+    </div>
+  </section>
+</Layout>
+
+<div class="chart-tooltip" id="chart-tooltip" role="status" aria-hidden="true"></div>
+
+<script>
+  // ── Partner tabs ────────────────────────────────────────────
+  const tabs = Array.from(document.querySelectorAll<HTMLButtonElement>('.drill-tab'));
+  const panels = Array.from(document.querySelectorAll<HTMLElement>('.drill-panel'));
+  for (const tab of tabs) {
+    tab.addEventListener('click', () => {
+      tabs.forEach((t) => {
+        t.classList.toggle('is-active', t === tab);
+        t.setAttribute('aria-selected', t === tab ? 'true' : 'false');
+      });
+      panels.forEach((p) => p.classList.toggle('is-active', p.id === `panel-${tab.dataset.panel}`));
+    });
+  }
+
+  // ── Shared hover tooltip (charts + AR segments) ─────────────
+  const tip = document.getElementById('chart-tooltip')!;
+  function showTip(text: string, x: number, y: number) {
+    tip.textContent = text;
+    tip.style.display = 'block';
+    const r = tip.getBoundingClientRect();
+    tip.style.left = `${Math.min(x + 14, window.innerWidth - r.width - 8)}px`;
+    tip.style.top = `${y - r.height - 12}px`;
+  }
+  function hideTip() { tip.style.display = 'none'; }
+
+  document.querySelectorAll<HTMLElement>('[data-tip]').forEach((el) => {
+    el.addEventListener('mousemove', (e) => {
+      showTip(el.dataset.tip!, e.clientX, e.clientY);
+      // crosshair dot on line charts
+      const svg = el.closest('svg');
+      const dot = svg?.querySelector<SVGCircleElement>('.cursor-dot');
+      if (dot && el.dataset.cx) {
+        dot.setAttribute('cx', el.dataset.cx);
+        dot.setAttribute('cy', el.dataset.cy!);
+        dot.style.display = 'block';
+      }
+    });
+    el.addEventListener('mouseleave', () => {
+      hideTip();
+      const dot = el.closest('svg')?.querySelector<SVGCircleElement>('.cursor-dot');
+      if (dot) dot.style.display = 'none';
+    });
+  });
+</script>
+
+<style>
+  .demo-hero {
+    padding-top: calc(var(--space-24) + 3rem);
+    padding-bottom: var(--space-8);
+    background: linear-gradient(180deg, rgba(93,140,93,0.07), transparent 60%), var(--bg-main);
+  }
+  .demo-hero-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: var(--space-10);
+    flex-wrap: wrap;
+  }
+  .demo-hero h1 {
+    font-size: clamp(2.6rem, 5vw, 4.4rem);
+    margin-block: var(--space-3);
+  }
+  .demo-hero-sub {
+    max-width: 62ch;
+    color: var(--text-secondary);
+    line-height: var(--leading-relaxed);
+  }
+  .demo-hero-meta {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: var(--space-3);
+  }
+  .demo-badge {
+    padding: var(--space-1) var(--space-3);
+    border: 1px solid rgba(251,191,36,0.3);
+    border-radius: var(--radius-full);
+    background: rgba(251,191,36,0.08);
+    color: var(--brand-accent);
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    font-weight: var(--weight-bold);
+    letter-spacing: var(--tracking-widest);
+    text-transform: uppercase;
+  }
+  .demo-period {
+    color: var(--text-disabled);
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+  }
+
+  .board-section { padding-top: var(--space-8); }
+
+  /* ── Row 1: exec + alerts ─────────────────────────────────── */
+  .board-top {
+    display: grid;
+    grid-template-columns: minmax(0, 1.6fr) minmax(300px, 0.8fr);
+    gap: var(--space-5);
+    margin-bottom: var(--space-5);
+    align-items: start;
+  }
+  .exec-tiles {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: var(--space-3);
+  }
+  .kpi-tile {
+    padding: var(--space-4);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-lg);
+    background: #101014;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+  .kpi-label {
+    color: var(--text-disabled);
+    font-family: var(--font-mono);
+    font-size: 0.64rem;
+    font-weight: var(--weight-bold);
+    letter-spacing: var(--tracking-wider);
+    text-transform: uppercase;
+  }
+  .kpi-value {
+    color: var(--text-primary);
+    font-family: var(--font-heading);
+    font-size: var(--text-3xl);
+    font-weight: var(--weight-bold);
+    line-height: 1;
+  }
+  .kpi-delta {
+    color: var(--text-tertiary);
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+  }
+  .kpi-delta.is-up { color: var(--success); }
+  .kpi-delta.is-down { color: var(--warning); }
+
+  .alerts-panel {
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-lg);
+    background: #101014;
+    padding: var(--space-4);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+  .panel-title {
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    font-weight: var(--weight-bold);
+    letter-spacing: var(--tracking-widest);
+    text-transform: uppercase;
+    color: var(--text-disabled);
+  }
+  .alert {
+    display: grid;
+    grid-template-columns: 18px 1fr;
+    gap: var(--space-2);
+    padding: var(--space-3);
+    border-radius: var(--radius-md);
+    border: 1px solid var(--border-subtle);
+    background: rgba(20,20,24,0.7);
+  }
+  .alert--critical { border-color: rgba(239,68,68,0.35); }
+  .alert--warning  { border-color: rgba(245,158,11,0.25); }
+  .alert-icon { font-size: 0.7rem; line-height: 1.6; }
+  .alert--critical .alert-icon { color: var(--error); }
+  .alert--warning  .alert-icon { color: var(--warning); }
+  .alert-title {
+    color: var(--text-primary);
+    font-size: var(--text-sm);
+    font-weight: var(--weight-semibold);
+    line-height: var(--leading-snug);
+  }
+  .alert-level {
+    font-style: normal;
+    font-family: var(--font-mono);
+    font-size: 0.6rem;
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-wider);
+    color: var(--text-disabled);
+  }
+  .alert-detail {
+    margin-top: var(--space-1);
+    color: var(--text-tertiary);
+    font-size: var(--text-xs);
+    line-height: var(--leading-normal);
+  }
+
+  /* ── Charts ───────────────────────────────────────────────── */
+  .chart-row {
+    display: grid;
+    grid-template-columns: 1.35fr 1fr;
+    gap: var(--space-5);
+    margin-bottom: var(--space-5);
+  }
+  .chart-card {
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-lg);
+    background: #101014;
+    padding: var(--space-5);
+    margin: 0;
+  }
+  .chart-card--full { grid-column: 1 / -1; }
+  .chart-title {
+    color: var(--text-primary);
+    font-family: var(--font-heading);
+    font-size: var(--text-lg);
+    font-weight: var(--weight-semibold);
+  }
+  .chart-sub {
+    margin-top: 2px;
+    margin-bottom: var(--space-4);
+    color: var(--text-tertiary);
+    font-size: var(--text-sm);
+  }
+  .line-chart { width: 100%; height: auto; display: block; }
+  .grid-line { stroke: rgba(255,255,255,0.06); stroke-width: 1; }
+  .target-line { stroke: rgba(255,255,255,0.3); stroke-width: 1; stroke-dasharray: 4 4; }
+  .axis-label { fill: var(--text-disabled); font-family: var(--font-mono); font-size: 10px; }
+  .point-label { fill: var(--text-secondary); font-family: var(--font-mono); font-size: 11px; font-weight: 700; }
+  .hit { fill: transparent; cursor: crosshair; }
+
+  /* AR aging */
+  .ar-caption {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: var(--space-6);
+    flex-wrap: wrap;
+  }
+  .ar-legend { display: flex; gap: var(--space-4); flex-wrap: wrap; }
+  .legend-item {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    color: var(--text-tertiary);
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+  }
+  .legend-item i { width: 10px; height: 10px; border-radius: 3px; display: inline-block; }
+  .ar-rows { display: flex; flex-direction: column; gap: var(--space-3); }
+  .ar-row {
+    display: grid;
+    grid-template-columns: 110px 1fr 64px;
+    gap: var(--space-4);
+    align-items: center;
+  }
+  .ar-name { color: var(--text-secondary); font-size: var(--text-sm); }
+  .ar-bar { display: flex; gap: 2px; min-width: 40px; }
+  .ar-seg {
+    height: 22px;
+    display: block;
+    border-radius: 3px;
+    min-width: 3px;
+    cursor: crosshair;
+    transition: filter var(--duration-fast);
+  }
+  .ar-seg:hover { filter: brightness(1.35); }
+  .ar-total {
+    color: var(--text-secondary);
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    font-weight: var(--weight-bold);
+    text-align: right;
+  }
+
+  /* ── Drill-down ───────────────────────────────────────────── */
+  .drill {
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-lg);
+    background: #101014;
+    padding: var(--space-5);
+    margin-bottom: var(--space-5);
+  }
+  .drill-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: var(--space-6);
+    flex-wrap: wrap;
+    margin-bottom: var(--space-5);
+  }
+  .drill-tabs { display: flex; gap: var(--space-2); flex-wrap: wrap; }
+  .drill-tab {
+    padding: var(--space-2) var(--space-4);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-full);
+    background: transparent;
+    color: var(--text-tertiary);
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    font-weight: var(--weight-bold);
+    letter-spacing: var(--tracking-wide);
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    transition: color var(--duration-fast), border-color var(--duration-fast);
+  }
+  .drill-tab::before {
+    content: '';
+    width: 8px;
+    height: 8px;
+    border-radius: var(--radius-full);
+    background: var(--tab-color);
+  }
+  .drill-tab:hover { color: var(--text-primary); }
+  .drill-tab.is-active {
+    color: var(--text-primary);
+    border-color: var(--tab-color);
+  }
+  .drill-panel { display: none; }
+  .drill-panel.is-active { display: block; }
+  .drill-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.4fr) minmax(320px, 1fr);
+    gap: var(--space-8);
+    align-items: start;
+  }
+  .drill-role {
+    color: var(--text-tertiary);
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-wide);
+    margin-bottom: var(--space-4);
+  }
+  .drill-tiles {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--space-3);
+    margin-bottom: var(--space-5);
+  }
+  .kpi-tile--sm { background: rgba(20,20,24,0.7); }
+  .kpi-tile--sm .kpi-value { font-size: var(--text-xl); }
+  .drill-chart { margin: 0; }
+  .drill-table-wrap { overflow-x: auto; }
+  .drill-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: var(--text-sm);
+  }
+  .drill-table th {
+    text-align: left;
+    padding: var(--space-2) var(--space-3);
+    color: var(--text-disabled);
+    font-family: var(--font-mono);
+    font-size: 0.64rem;
+    font-weight: var(--weight-bold);
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-wider);
+    border-bottom: 1px solid var(--border-medium);
+  }
+  .drill-table td {
+    padding: var(--space-2) var(--space-3);
+    color: var(--text-secondary);
+    border-bottom: 1px solid var(--border-subtle);
+    font-variant-numeric: tabular-nums;
+  }
+  .drill-table td.is-low { color: var(--warning); }
+
+  .demo-disclaimer {
+    color: var(--text-disabled);
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    text-align: center;
+  }
+
+  .demo-cta { background: var(--bg-surface); border-top: 1px solid var(--border-subtle); }
+  .demo-cta-inner {
+    max-width: 720px;
+    margin-inline: auto;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-5);
+  }
+  .demo-cta p { color: var(--text-secondary); line-height: var(--leading-relaxed); }
+
+  /* tooltip lives outside scoped tree — see global below */
+
+  @media (max-width: 1100px) {
+    .board-top, .chart-row, .drill-grid { grid-template-columns: 1fr; }
+    .exec-tiles { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 640px) {
+    .drill-tiles { grid-template-columns: repeat(2, 1fr); }
+    .ar-row { grid-template-columns: 80px 1fr 56px; }
+  }
+</style>
+
+<style is:global>
+  .chart-tooltip {
+    display: none;
+    position: fixed;
+    z-index: 1600;
+    padding: 6px 10px;
+    border: 1px solid rgba(255,255,255,0.14);
+    border-radius: 8px;
+    background: rgba(10,10,12,0.95);
+    color: #FEFEFE;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    pointer-events: none;
+    white-space: nowrap;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+  }
+</style>

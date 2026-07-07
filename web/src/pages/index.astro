@@ -5,46 +5,57 @@ import Card from '../components/Card.astro';
 import StatTile from '../components/StatTile.astro';
 import Faq from '../components/Faq.astro';
 import JsonLd from '../components/JsonLd.astro';
+import { getService } from '../data/services';
 
-const coreWorkflows = [
+const workflowCards = [
   {
     tag: '01 / Capture',
+    slug: 'missed-lead-text-back',
     title: 'Lead capture and follow-up',
     description:
       'When a form, missed call, referral, or ad lead comes in, the system replies fast, creates the record, alerts the owner, and keeps the next step visible.',
-    href: '/services/missed-lead-text-back/',
     highlight: true,
   },
   {
     tag: '02 / Report',
+    slug: 'business-intelligence-dashboard',
     title: 'Dashboards and KPI reporting',
     description:
       'Pull the numbers out of exports and inboxes. Build dashboards and scheduled reports people can use before the decision window closes.',
-    href: '/services/business-intelligence-dashboard/',
   },
   {
     tag: '03 / Route',
+    slug: 'document-intake-ai-sort',
     title: 'Document intake and routing',
     description:
       'Collect files, classify what they are, rename them, and route exceptions to a person instead of letting folders become a second job.',
-    href: '/services/document-intake-ai-sort/',
   },
   {
     tag: '04 / Collect',
+    slug: 'ar-collections-agent',
     title: 'Billing and payment workflows',
     description:
       'Connect proposals, invoices, reminders, payment links, QBO records, and review steps so money does not depend on memory.',
-    href: '/services/ar-collections-agent/',
   },
   {
     tag: '05 / Start',
+    slug: 'engagement-onboarding-flow',
     title: 'Client and customer onboarding',
     description:
       'Turn a signed agreement or new order into kickoff tasks, folders, calendar links, CRM updates, and internal notifications.',
-    href: '/services/engagement-onboarding-flow/',
     highlight: true,
   },
 ];
+
+const coreWorkflows = workflowCards.map((card) => {
+  const service = getService(card.slug);
+  return {
+    ...card,
+    href: `/services/${card.slug}/`,
+    timeline: service?.timeline,
+    price: service?.setupPrice,
+  };
+});
 
 const operatingScenes = [
   {
@@ -151,6 +162,11 @@ const nextSteps = [
 ];
 
 const faqs = [
+  {
+    question: 'Are you new? Who have you worked with?',
+    answer:
+      '5 Cypress is a new practice built on more than a decade of enterprise BI and analytics work at Verizon and the U.S. Army — Tableau, Power BI, and Alteryx at serious scale. You will not find borrowed logos or invented testimonials here. Proof is live instead: an interactive demo dashboard you can open right now, public build walkthroughs, and founding-client pricing for the first five firms. You see exactly what you would get before you spend a dollar.',
+  },
   {
     question: 'Do you only work with accounting and finance firms?',
     answer:
@@ -273,27 +289,55 @@ const serviceSchemas = coreWorkflows.map((s) => ({
           <div class="signal-grid">
             <div class="signal-card">
               <span>First response</span>
-              <strong>47 sec</strong>
+              <strong data-count="47" data-suffix=" sec">47 sec</strong>
               <small>inside business rule</small>
             </div>
             <div class="signal-card">
               <span>Open exceptions</span>
-              <strong>2</strong>
+              <strong data-count="2">2</strong>
               <small>needs review</small>
             </div>
             <div class="signal-card signal-card--gold">
               <span>Manual steps removed</span>
-              <strong>6</strong>
+              <strong data-count="6">6</strong>
               <small>from intake flow</small>
             </div>
           </div>
 
-          <div class="system-log">
+          <div class="system-log" id="system-log">
             <div><span>15:42</span><p>New lead matched automation services</p></div>
             <div><span>15:42</span><p>CRM record created with source tag</p></div>
             <div><span>15:43</span><p>Owner notified; calendar link queued</p></div>
           </div>
         </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="founder-band" aria-label="About the founder">
+    <div class="container founder-band-inner reveal">
+      <div class="founder-photo">
+        <img
+          src="/assets/jim-smart.jpg"
+          alt="Jim Smart, founder of 5 Cypress Automation"
+          width="76"
+          height="76"
+          loading="lazy"
+          onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
+        />
+        <span class="founder-monogram" aria-hidden="true">JS</span>
+      </div>
+      <div class="founder-copy">
+        <p class="founder-line">
+          Built by <strong>Jim Smart</strong> — 10+ years of BI and analytics at
+          Verizon and the U.S. Army.
+        </p>
+        <p class="founder-sub">The same reporting discipline enterprises pay for, scoped for small firms.</p>
+      </div>
+      <div class="founder-tools" aria-label="Tools">
+        <span>Tableau</span>
+        <span>Power BI</span>
+        <span>Alteryx</span>
       </div>
     </div>
   </section>
@@ -334,6 +378,8 @@ const serviceSchemas = coreWorkflows.map((s) => ({
             description={s.description}
             href={s.href}
             highlight={s.highlight}
+            timeline={s.timeline}
+            price={s.price}
           >
             <svg slot="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
               <path stroke-linecap="round" stroke-linejoin="round" d="M4 7h7m-7 5h12m-12 5h16M16 5l4 2-4 2M13 10l4 2-4 2M18 15l3 2-3 2"/>
@@ -409,7 +455,7 @@ const serviceSchemas = coreWorkflows.map((s) => ({
   <section class="section demo-section">
     <div class="container">
       <div class="demo-header reveal">
-        <p class="lead-in">Dummy workflow data</p>
+        <p class="lead-in">See it live</p>
         <h2>This is the kind of visibility automation should create.</h2>
         <p>
           These are sample records, not client claims. They show the shape of a useful workflow:
@@ -425,7 +471,11 @@ const serviceSchemas = coreWorkflows.map((s) => ({
             </div>
             <h3>{demo.title}</h3>
             <div class="workflow-demo-metric">
-              <span>{demo.metric}</span>
+              <span
+                data-count={demo.metric.replace(/[^0-9]/g, '')}
+                data-prefix={demo.metric.startsWith('$') ? '$' : undefined}
+                data-suffix={/[a-z]/i.test(demo.metric) ? ` ${demo.metric.replace(/[^a-z ]/gi, '').trim()}` : undefined}
+              >{demo.metric}</span>
               <p>{demo.metricLabel}</p>
             </div>
             <div class="workflow-demo-rows">
@@ -447,6 +497,12 @@ const serviceSchemas = coreWorkflows.map((s) => ({
           </article>
         ))}
       </div>
+      <div class="demo-action reveal">
+        <Button variant="secondary" size="lg" href="/demo/">
+          Open the live demo dashboard
+        </Button>
+        <p>A full practice KPI dashboard for a fictional 4-partner CPA firm. Click around — no signup, no gate.</p>
+      </div>
     </div>
   </section>
 
@@ -458,6 +514,38 @@ const serviceSchemas = coreWorkflows.map((s) => ({
       </div>
       <div class="reveal">
         <Faq items={faqs} includeLdJson />
+      </div>
+    </div>
+  </section>
+
+  <section class="section founding-section">
+    <div class="container">
+      <div class="founding-panel reveal">
+        <div class="founding-copy">
+          <p class="lead-in">Founding five</p>
+          <h2>First 5 firms: a flagship build at $1,500 flat.</h2>
+          <p>
+            Flagship builds normally run $2,500–$4,500. The first five founding clients get
+            one at $1,500 flat — in exchange for letting us publish a build walkthrough of
+            the work (your numbers anonymized, your review before anything goes public).
+          </p>
+          <p class="founding-why">
+            Why so cheap? We're new, and we'd rather trade margin for public proof than
+            invent testimonials. You get enterprise-grade work at a founding rate; we get
+            a real case study.
+          </p>
+        </div>
+        <div class="founding-side">
+          <div class="founding-counter" aria-label="Founding client slots">
+            <div class="founding-slots" aria-hidden="true">
+              <span></span><span></span><span></span><span></span><span></span>
+            </div>
+            <p><strong>5 of 5</strong> founding slots open</p>
+          </div>
+          <Button variant="primary" size="lg" magnetic ripple data-open-booking>
+            Map My Workflow
+          </Button>
+        </div>
       </div>
     </div>
   </section>
@@ -488,6 +576,76 @@ const serviceSchemas = coreWorkflows.map((s) => ({
     </div>
   </section>
 </Layout>
+
+<script>
+  // ── Hero control room: live-dashboard choreography ─────────
+  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // Count-up for any [data-count] once it scrolls into view
+  function animateCount(el: HTMLElement) {
+    const target = Number(el.dataset.count);
+    if (Number.isNaN(target)) return;
+    const prefix = el.dataset.prefix ?? '';
+    const suffix = el.dataset.suffix ?? '';
+    const duration = Math.min(1600, 700 + target);
+    const start = performance.now();
+
+    function frame(now: number) {
+      const t = Math.min(1, (now - start) / duration);
+      const eased = 1 - Math.pow(1 - t, 4); // easeOutQuart
+      const value = Math.round(target * eased);
+      el.textContent = `${prefix}${value.toLocaleString('en-US')}${suffix}`;
+      if (t < 1) requestAnimationFrame(frame);
+    }
+    requestAnimationFrame(frame);
+  }
+
+  if (!reducedMotion) {
+    const counters = document.querySelectorAll<HTMLElement>('[data-count]');
+    const seen = new WeakSet<Element>();
+    const counterObserver = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting && !seen.has(entry.target)) {
+            seen.add(entry.target);
+            animateCount(entry.target as HTMLElement);
+            counterObserver.unobserve(entry.target);
+          }
+        }
+      },
+      { threshold: 0.5 }
+    );
+    counters.forEach((el) => counterObserver.observe(el));
+  }
+
+  // System log: staggered line reveal when the hero is visible
+  const log = document.getElementById('system-log');
+  if (log && !reducedMotion) {
+    log.classList.add('log-anim');
+    const logObserver = new IntersectionObserver(
+      (entries) => {
+        if (entries.some((e) => e.isIntersecting)) {
+          log.classList.add('log-play');
+          logObserver.disconnect();
+        }
+      },
+      { threshold: 0.4 }
+    );
+    logObserver.observe(log);
+  }
+
+  // Route map: ambient activation cycle (lead → record → alert)
+  const nodes = Array.from(document.querySelectorAll<HTMLElement>('.route-map .route-node'));
+  const lines = Array.from(document.querySelectorAll<HTMLElement>('.route-map .route-line'));
+  if (nodes.length === 3 && !reducedMotion) {
+    let step = 0;
+    setInterval(() => {
+      step = (step + 1) % 6; // 0..5: node0, line0, node1, line1, node2, rest
+      nodes.forEach((n, i) => n.classList.toggle('route-node--active', step >= i * 2 && step < 5));
+      lines.forEach((l, i) => l.classList.toggle('route-line--flow', step === i * 2 + 1));
+    }, 1300);
+  }
+</script>
 
 <style>
   .hero {
@@ -970,6 +1128,18 @@ const serviceSchemas = coreWorkflows.map((s) => ({
     font-size: var(--text-sm);
     line-height: var(--leading-normal);
   }
+  .demo-action {
+    margin-top: var(--space-10);
+    display: flex;
+    align-items: center;
+    gap: var(--space-5);
+    flex-wrap: wrap;
+  }
+  .demo-action p {
+    color: var(--text-tertiary);
+    font-size: var(--text-sm);
+    max-width: 44ch;
+  }
   .faq-container {
     max-width: 800px;
   }
@@ -1026,6 +1196,198 @@ const serviceSchemas = coreWorkflows.map((s) => ({
     color: var(--brand-primary);
     text-decoration: underline;
     text-underline-offset: 3px;
+  }
+
+  /* ── Founder band ─────────────────────────────────────────── */
+  .founder-band {
+    border-block: 1px solid var(--border-subtle);
+    background:
+      linear-gradient(90deg, rgba(93,140,93,0.09), transparent 55%),
+      var(--bg-surface);
+    padding-block: var(--space-5);
+  }
+  .founder-band-inner {
+    display: flex;
+    align-items: center;
+    gap: var(--space-6);
+    flex-wrap: wrap;
+  }
+  .founder-photo {
+    position: relative;
+    width: 76px;
+    height: 76px;
+    flex-shrink: 0;
+  }
+  .founder-photo img,
+  .founder-monogram {
+    width: 76px;
+    height: 76px;
+    border-radius: var(--radius-full);
+    border: 1px solid var(--border-brand);
+    box-shadow: 0 0 0 1px rgba(251,191,36,0.1), var(--shadow-sm);
+  }
+  .founder-photo img { object-fit: cover; display: block; }
+  .founder-monogram {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(160deg, var(--brand-primary-dark), #101014);
+    color: var(--text-primary);
+    font-family: var(--font-heading);
+    font-size: var(--text-xl);
+    font-weight: var(--weight-bold);
+    letter-spacing: var(--tracking-wide);
+  }
+  .founder-copy { flex: 1; min-width: 260px; }
+  .founder-line {
+    color: var(--text-secondary);
+    font-size: var(--text-lg);
+    line-height: var(--leading-snug);
+  }
+  .founder-line strong {
+    color: var(--text-primary);
+    font-family: var(--font-heading);
+  }
+  .founder-sub {
+    margin-top: var(--space-1);
+    color: var(--text-tertiary);
+    font-size: var(--text-sm);
+  }
+  .founder-tools {
+    display: flex;
+    gap: var(--space-2);
+    flex-wrap: wrap;
+  }
+  .founder-tools span {
+    padding: var(--space-1) var(--space-3);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-full);
+    background: rgba(10,10,12,0.55);
+    color: var(--text-tertiary);
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    font-weight: var(--weight-bold);
+    letter-spacing: var(--tracking-wider);
+    text-transform: uppercase;
+  }
+
+  /* ── Founding five offer ──────────────────────────────────── */
+  .founding-section {
+    border-top: 1px solid var(--border-subtle);
+  }
+  .founding-panel {
+    display: grid;
+    grid-template-columns: minmax(0, 1.4fr) minmax(260px, 0.6fr);
+    gap: var(--space-12);
+    align-items: center;
+    padding: var(--space-12);
+    border: 1px solid rgba(251,191,36,0.22);
+    border-radius: var(--radius-2xl);
+    background:
+      radial-gradient(circle at 100% 0%, rgba(251,191,36,0.1), transparent 42%),
+      linear-gradient(180deg, rgba(93,140,93,0.07), transparent 50%),
+      var(--bg-surface);
+  }
+  .founding-copy h2 {
+    margin-block: var(--space-3) var(--space-5);
+    font-size: clamp(1.9rem, 3.4vw, 2.9rem);
+    max-width: 22ch;
+  }
+  .founding-copy p {
+    color: var(--text-secondary);
+    line-height: var(--leading-relaxed);
+    max-width: 58ch;
+  }
+  .founding-why {
+    margin-top: var(--space-4);
+    color: var(--text-tertiary) !important;
+    font-size: var(--text-sm);
+  }
+  .founding-side {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: var(--space-5);
+  }
+  .founding-counter {
+    padding: var(--space-5);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-lg);
+    background: rgba(10,10,12,0.6);
+  }
+  .founding-slots {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: var(--space-2);
+    margin-bottom: var(--space-3);
+  }
+  .founding-slots span {
+    height: 8px;
+    border-radius: var(--radius-full);
+    background: rgba(251,191,36,0.28);
+    box-shadow: inset 0 0 0 1px rgba(251,191,36,0.3);
+  }
+  .founding-counter p {
+    color: var(--text-tertiary);
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    letter-spacing: var(--tracking-wide);
+    text-transform: uppercase;
+  }
+  .founding-counter strong { color: var(--brand-accent); }
+
+  /* ── Hero choreography ────────────────────────────────────── */
+  .system-status {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+  }
+  .system-status::before {
+    content: '';
+    width: 7px;
+    height: 7px;
+    border-radius: var(--radius-full);
+    background: var(--brand-accent);
+    animation: statusPulse 2.2s var(--ease-in-out) infinite;
+  }
+  @keyframes statusPulse {
+    0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(251,191,36,0.45); }
+    50%      { opacity: 0.55; box-shadow: 0 0 0 5px rgba(251,191,36,0); }
+  }
+
+  .log-anim div {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  .log-play div {
+    animation: logIn 0.55s var(--ease-out) forwards;
+  }
+  .log-play div:nth-child(1) { animation-delay: 0.35s; }
+  .log-play div:nth-child(2) { animation-delay: 0.95s; }
+  .log-play div:nth-child(3) { animation-delay: 1.55s; }
+  @keyframes logIn {
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .route-node {
+    transition:
+      border-color var(--duration-slow) var(--ease-out),
+      box-shadow var(--duration-slow) var(--ease-out);
+  }
+  .route-line {
+    overflow: visible;
+  }
+  .route-line--flow {
+    animation: lineFlow 1.3s var(--ease-in-out);
+  }
+  @keyframes lineFlow {
+    0%   { filter: brightness(1); }
+    50%  { filter: brightness(2.1); }
+    100% { filter: brightness(1); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .system-status::before { animation: none; }
   }
 
   @media (max-width: 1180px) {
@@ -1098,6 +1460,16 @@ const serviceSchemas = coreWorkflows.map((s) => ({
     .sector-card,
     .trust-card {
       min-height: auto;
+    }
+    .founder-band-inner {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: var(--space-4);
+    }
+    .founding-panel {
+      grid-template-columns: 1fr;
+      padding: var(--space-6);
+      gap: var(--space-8);
     }
   }
 </style>

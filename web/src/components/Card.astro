@@ -15,8 +15,10 @@ interface Props {
   href?: string;
   tag?: string;
   highlight?: boolean;
+  timeline?: string;
+  price?: string;
 }
-const { title, description, href, tag, highlight = false } = Astro.props;
+const { title, description, href, tag, highlight = false, timeline, price } = Astro.props;
 ---
 
 {href ? (
@@ -27,6 +29,12 @@ const { title, description, href, tag, highlight = false } = Astro.props;
     {tag && <p class="card-tag">{tag}</p>}
     <h3 class="card-title">{title}</h3>
     <p class="card-desc">{description}</p>
+    {(timeline || price) && (
+      <div class="card-meta">
+        {timeline && <span class="card-meta-item"><span class="card-meta-label">Live in</span>{timeline}</span>}
+        {price && <span class="card-meta-item card-meta-item--price"><span class="card-meta-label">From</span>{price}</span>}
+      </div>
+    )}
     <span class="card-arrow" aria-hidden="true">
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
         <path d="M7 17L17 7M17 7H7M17 7v10"/>
@@ -41,6 +49,12 @@ const { title, description, href, tag, highlight = false } = Astro.props;
     {tag && <p class="card-tag">{tag}</p>}
     <h3 class="card-title">{title}</h3>
     <p class="card-desc">{description}</p>
+    {(timeline || price) && (
+      <div class="card-meta">
+        {timeline && <span class="card-meta-item"><span class="card-meta-label">Live in</span>{timeline}</span>}
+        {price && <span class="card-meta-item card-meta-item--price"><span class="card-meta-label">From</span>{price}</span>}
+      </div>
+    )}
   </div>
 )}
 
@@ -119,6 +133,39 @@ const { title, description, href, tag, highlight = false } = Astro.props;
     color: var(--text-secondary);
     line-height: var(--leading-relaxed);
     flex: 1;
+  }
+
+  .card-meta {
+    display: flex;
+    gap: var(--space-2);
+    flex-wrap: wrap;
+    padding-top: var(--space-4);
+    border-top: 1px solid var(--border-subtle);
+  }
+  .card-meta-item {
+    display: inline-flex;
+    align-items: baseline;
+    gap: var(--space-2);
+    padding: var(--space-1) var(--space-3);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-full);
+    background: rgba(10,10,12,0.5);
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    font-weight: var(--weight-bold);
+    color: var(--text-secondary);
+    white-space: nowrap;
+  }
+  .card-meta-item--price {
+    color: var(--brand-accent);
+    border-color: rgba(251,191,36,0.22);
+  }
+  .card-meta-label {
+    font-weight: var(--weight-normal);
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-wider);
+    font-size: 0.62rem;
+    color: var(--text-disabled);
   }
 
   .card-arrow {

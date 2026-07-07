@@ -1,0 +1,983 @@
+{
+  "meta": {
+    "firmName": "Meridian & Vale CPAs",
+    "disclaimer": "Fictional demo firm. Every number on this page is synthetic and regenerable from a seeded script.",
+    "seed": 52026,
+    "generatedAt": "2026-07-07",
+    "months": [
+      "Jul 24",
+      "Aug 24",
+      "Sep 24",
+      "Oct 24",
+      "Nov 24",
+      "Dec 24",
+      "Jan 25",
+      "Feb 25",
+      "Mar 25",
+      "Apr 25",
+      "May 25",
+      "Jun 25",
+      "Jul 25",
+      "Aug 25",
+      "Sep 25",
+      "Oct 25",
+      "Nov 25",
+      "Dec 25",
+      "Jan 26",
+      "Feb 26",
+      "Mar 26",
+      "Apr 26",
+      "May 26",
+      "Jun 26"
+    ],
+    "arBuckets": [
+      "Current",
+      "31–60",
+      "61–90",
+      "90+"
+    ],
+    "targets": {
+      "realization": 0.9,
+      "utilization": 0.68,
+      "closeDays": 8
+    }
+  },
+  "partners": [
+    {
+      "id": "ellison",
+      "name": "D. Ellison",
+      "role": "Managing Partner",
+      "focus": "Advisory & CAS",
+      "series": [
+        {
+          "billings": 64850,
+          "realization": 0.928,
+          "utilization": 0.569,
+          "wip": 33934,
+          "closeDays": 5.9
+        },
+        {
+          "billings": 67040,
+          "realization": 0.925,
+          "utilization": 0.576,
+          "wip": 34331,
+          "closeDays": 6.5
+        },
+        {
+          "billings": 73500,
+          "realization": 0.932,
+          "utilization": 0.567,
+          "wip": 38387,
+          "closeDays": 6.4
+        },
+        {
+          "billings": 70406,
+          "realization": 0.921,
+          "utilization": 0.579,
+          "wip": 39117,
+          "closeDays": 5.6
+        },
+        {
+          "billings": 69420,
+          "realization": 0.925,
+          "utilization": 0.595,
+          "wip": 37036,
+          "closeDays": 6
+        },
+        {
+          "billings": 69098,
+          "realization": 0.932,
+          "utilization": 0.598,
+          "wip": 38052,
+          "closeDays": 6.6
+        },
+        {
+          "billings": 71219,
+          "realization": 0.937,
+          "utilization": 0.588,
+          "wip": 36242,
+          "closeDays": 6.8
+        },
+        {
+          "billings": 82568,
+          "realization": 0.918,
+          "utilization": 0.588,
+          "wip": 43041,
+          "closeDays": 7.2
+        },
+        {
+          "billings": 83267,
+          "realization": 0.91,
+          "utilization": 0.6,
+          "wip": 43365,
+          "closeDays": 7.9
+        },
+        {
+          "billings": 81448,
+          "realization": 0.92,
+          "utilization": 0.607,
+          "wip": 41101,
+          "closeDays": 6.6
+        },
+        {
+          "billings": 74331,
+          "realization": 0.922,
+          "utilization": 0.584,
+          "wip": 36025,
+          "closeDays": 5.6
+        },
+        {
+          "billings": 68128,
+          "realization": 0.934,
+          "utilization": 0.563,
+          "wip": 39016,
+          "closeDays": 5.7
+        },
+        {
+          "billings": 72462,
+          "realization": 0.939,
+          "utilization": 0.552,
+          "wip": 36809,
+          "closeDays": 6.3
+        },
+        {
+          "billings": 71531,
+          "realization": 0.932,
+          "utilization": 0.591,
+          "wip": 36811,
+          "closeDays": 5.8
+        },
+        {
+          "billings": 74082,
+          "realization": 0.92,
+          "utilization": 0.577,
+          "wip": 40392,
+          "closeDays": 6.1
+        },
+        {
+          "billings": 81024,
+          "realization": 0.93,
+          "utilization": 0.598,
+          "wip": 39176,
+          "closeDays": 6.1
+        },
+        {
+          "billings": 75770,
+          "realization": 0.94,
+          "utilization": 0.59,
+          "wip": 39819,
+          "closeDays": 6.7
+        },
+        {
+          "billings": 73997,
+          "realization": 0.923,
+          "utilization": 0.578,
+          "wip": 39321,
+          "closeDays": 5.4
+        },
+        {
+          "billings": 82104,
+          "realization": 0.928,
+          "utilization": 0.566,
+          "wip": 42367,
+          "closeDays": 5.8
+        },
+        {
+          "billings": 88718,
+          "realization": 0.928,
+          "utilization": 0.593,
+          "wip": 44779,
+          "closeDays": 6.3
+        },
+        {
+          "billings": 92818,
+          "realization": 0.917,
+          "utilization": 0.608,
+          "wip": 45505,
+          "closeDays": 6.6
+        },
+        {
+          "billings": 92333,
+          "realization": 0.926,
+          "utilization": 0.62,
+          "wip": 44157,
+          "closeDays": 7.5
+        },
+        {
+          "billings": 78917,
+          "realization": 0.933,
+          "utilization": 0.57,
+          "wip": 38472,
+          "closeDays": 5.7
+        },
+        {
+          "billings": 73248,
+          "realization": 0.926,
+          "utilization": 0.587,
+          "wip": 36222,
+          "closeDays": 5.7
+        }
+      ]
+    },
+    {
+      "id": "okafor",
+      "name": "A. Okafor",
+      "role": "Partner",
+      "focus": "Tax",
+      "series": [
+        {
+          "billings": 57703,
+          "realization": 0.86,
+          "utilization": 0.662,
+          "wip": 61136,
+          "closeDays": 6.6
+        },
+        {
+          "billings": 67609,
+          "realization": 0.872,
+          "utilization": 0.685,
+          "wip": 61635,
+          "closeDays": 7.1
+        },
+        {
+          "billings": 80598,
+          "realization": 0.847,
+          "utilization": 0.71,
+          "wip": 80796,
+          "closeDays": 7.5
+        },
+        {
+          "billings": 86793,
+          "realization": 0.862,
+          "utilization": 0.711,
+          "wip": 79385,
+          "closeDays": 8.2
+        },
+        {
+          "billings": 72760,
+          "realization": 0.871,
+          "utilization": 0.718,
+          "wip": 71573,
+          "closeDays": 6.6
+        },
+        {
+          "billings": 79156,
+          "realization": 0.864,
+          "utilization": 0.73,
+          "wip": 74923,
+          "closeDays": 7.7
+        },
+        {
+          "billings": 81593,
+          "realization": 0.858,
+          "utilization": 0.7,
+          "wip": 75707,
+          "closeDays": 7.1
+        },
+        {
+          "billings": 100243,
+          "realization": 0.835,
+          "utilization": 0.765,
+          "wip": 88071,
+          "closeDays": 9.2
+        },
+        {
+          "billings": 120841,
+          "realization": 0.817,
+          "utilization": 0.82,
+          "wip": 109736,
+          "closeDays": 10.7
+        },
+        {
+          "billings": 115651,
+          "realization": 0.838,
+          "utilization": 0.782,
+          "wip": 101011,
+          "closeDays": 9.1
+        },
+        {
+          "billings": 73422,
+          "realization": 0.862,
+          "utilization": 0.717,
+          "wip": 70380,
+          "closeDays": 6.4
+        },
+        {
+          "billings": 66836,
+          "realization": 0.856,
+          "utilization": 0.704,
+          "wip": 62558,
+          "closeDays": 6.8
+        },
+        {
+          "billings": 68403,
+          "realization": 0.863,
+          "utilization": 0.695,
+          "wip": 67087,
+          "closeDays": 5.8
+        },
+        {
+          "billings": 71828,
+          "realization": 0.869,
+          "utilization": 0.697,
+          "wip": 69404,
+          "closeDays": 6.2
+        },
+        {
+          "billings": 84877,
+          "realization": 0.848,
+          "utilization": 0.707,
+          "wip": 84390,
+          "closeDays": 8.3
+        },
+        {
+          "billings": 89367,
+          "realization": 0.846,
+          "utilization": 0.748,
+          "wip": 82847,
+          "closeDays": 8
+        },
+        {
+          "billings": 74799,
+          "realization": 0.859,
+          "utilization": 0.717,
+          "wip": 77310,
+          "closeDays": 6.5
+        },
+        {
+          "billings": 83908,
+          "realization": 0.847,
+          "utilization": 0.718,
+          "wip": 82335,
+          "closeDays": 7.8
+        },
+        {
+          "billings": 88520,
+          "realization": 0.861,
+          "utilization": 0.71,
+          "wip": 77328,
+          "closeDays": 6.9
+        },
+        {
+          "billings": 108079,
+          "realization": 0.848,
+          "utilization": 0.773,
+          "wip": 94465,
+          "closeDays": 8.4
+        },
+        {
+          "billings": 130835,
+          "realization": 0.835,
+          "utilization": 0.802,
+          "wip": 109652,
+          "closeDays": 10
+        },
+        {
+          "billings": 123742,
+          "realization": 0.833,
+          "utilization": 0.8,
+          "wip": 104642,
+          "closeDays": 9.3
+        },
+        {
+          "billings": 80119,
+          "realization": 0.862,
+          "utilization": 0.71,
+          "wip": 77934,
+          "closeDays": 7.5
+        },
+        {
+          "billings": 71396,
+          "realization": 0.873,
+          "utilization": 0.697,
+          "wip": 66667,
+          "closeDays": 6.8
+        }
+      ]
+    },
+    {
+      "id": "reyes",
+      "name": "M. Reyes",
+      "role": "Partner",
+      "focus": "Audit & Assurance",
+      "series": [
+        {
+          "billings": 50504,
+          "realization": 0.901,
+          "utilization": 0.624,
+          "wip": 50820,
+          "closeDays": 6.2
+        },
+        {
+          "billings": 54319,
+          "realization": 0.893,
+          "utilization": 0.645,
+          "wip": 46344,
+          "closeDays": 5.5
+        },
+        {
+          "billings": 62204,
+          "realization": 0.884,
+          "utilization": 0.674,
+          "wip": 57106,
+          "closeDays": 7.4
+        },
+        {
+          "billings": 63227,
+          "realization": 0.884,
+          "utilization": 0.665,
+          "wip": 56381,
+          "closeDays": 7.1
+        },
+        {
+          "billings": 60282,
+          "realization": 0.888,
+          "utilization": 0.646,
+          "wip": 51825,
+          "closeDays": 6.7
+        },
+        {
+          "billings": 63519,
+          "realization": 0.888,
+          "utilization": 0.67,
+          "wip": 55295,
+          "closeDays": 6.4
+        },
+        {
+          "billings": 61281,
+          "realization": 0.876,
+          "utilization": 0.658,
+          "wip": 51863,
+          "closeDays": 6.7
+        },
+        {
+          "billings": 73507,
+          "realization": 0.873,
+          "utilization": 0.702,
+          "wip": 63415,
+          "closeDays": 7.2
+        },
+        {
+          "billings": 82154,
+          "realization": 0.883,
+          "utilization": 0.721,
+          "wip": 70382,
+          "closeDays": 7.9
+        },
+        {
+          "billings": 79536,
+          "realization": 0.876,
+          "utilization": 0.697,
+          "wip": 63194,
+          "closeDays": 7.7
+        },
+        {
+          "billings": 63435,
+          "realization": 0.888,
+          "utilization": 0.647,
+          "wip": 52768,
+          "closeDays": 6.1
+        },
+        {
+          "billings": 56291,
+          "realization": 0.884,
+          "utilization": 0.636,
+          "wip": 52424,
+          "closeDays": 6.6
+        },
+        {
+          "billings": 54388,
+          "realization": 0.891,
+          "utilization": 0.65,
+          "wip": 49363,
+          "closeDays": 6.6
+        },
+        {
+          "billings": 61068,
+          "realization": 0.884,
+          "utilization": 0.632,
+          "wip": 50248,
+          "closeDays": 5.8
+        },
+        {
+          "billings": 65911,
+          "realization": 0.893,
+          "utilization": 0.654,
+          "wip": 56883,
+          "closeDays": 6.7
+        },
+        {
+          "billings": 71680,
+          "realization": 0.88,
+          "utilization": 0.657,
+          "wip": 58857,
+          "closeDays": 7.3
+        },
+        {
+          "billings": 64821,
+          "realization": 0.89,
+          "utilization": 0.641,
+          "wip": 54984,
+          "closeDays": 6.8
+        },
+        {
+          "billings": 66048,
+          "realization": 0.889,
+          "utilization": 0.669,
+          "wip": 55266,
+          "closeDays": 7.3
+        },
+        {
+          "billings": 65659,
+          "realization": 0.888,
+          "utilization": 0.657,
+          "wip": 56270,
+          "closeDays": 6.7
+        },
+        {
+          "billings": 76672,
+          "realization": 0.874,
+          "utilization": 0.682,
+          "wip": 62303,
+          "closeDays": 7.5
+        },
+        {
+          "billings": 92674,
+          "realization": 0.873,
+          "utilization": 0.717,
+          "wip": 73756,
+          "closeDays": 8.7
+        },
+        {
+          "billings": 82769,
+          "realization": 0.874,
+          "utilization": 0.712,
+          "wip": 66818,
+          "closeDays": 7.4
+        },
+        {
+          "billings": 64184,
+          "realization": 0.886,
+          "utilization": 0.658,
+          "wip": 54196,
+          "closeDays": 6.3
+        },
+        {
+          "billings": 64616,
+          "realization": 0.897,
+          "utilization": 0.661,
+          "wip": 54507,
+          "closeDays": 5.6
+        }
+      ]
+    },
+    {
+      "id": "nguyen",
+      "name": "T. Nguyen",
+      "role": "Partner (new)",
+      "focus": "Client Advisory",
+      "series": [
+        {
+          "billings": 27787,
+          "realization": 0.816,
+          "utilization": 0.715,
+          "wip": 41031,
+          "closeDays": 8
+        },
+        {
+          "billings": 31140,
+          "realization": 0.822,
+          "utilization": 0.744,
+          "wip": 43840,
+          "closeDays": 6.8
+        },
+        {
+          "billings": 34482,
+          "realization": 0.816,
+          "utilization": 0.739,
+          "wip": 47579,
+          "closeDays": 8.5
+        },
+        {
+          "billings": 35564,
+          "realization": 0.803,
+          "utilization": 0.737,
+          "wip": 49257,
+          "closeDays": 7.3
+        },
+        {
+          "billings": 33397,
+          "realization": 0.804,
+          "utilization": 0.754,
+          "wip": 45211,
+          "closeDays": 7.7
+        },
+        {
+          "billings": 34714,
+          "realization": 0.809,
+          "utilization": 0.739,
+          "wip": 46511,
+          "closeDays": 7.7
+        },
+        {
+          "billings": 38173,
+          "realization": 0.816,
+          "utilization": 0.733,
+          "wip": 50763,
+          "closeDays": 8.2
+        },
+        {
+          "billings": 42478,
+          "realization": 0.808,
+          "utilization": 0.742,
+          "wip": 52399,
+          "closeDays": 7.9
+        },
+        {
+          "billings": 48850,
+          "realization": 0.787,
+          "utilization": 0.774,
+          "wip": 59074,
+          "closeDays": 9
+        },
+        {
+          "billings": 48507,
+          "realization": 0.798,
+          "utilization": 0.773,
+          "wip": 58387,
+          "closeDays": 8.1
+        },
+        {
+          "billings": 40040,
+          "realization": 0.805,
+          "utilization": 0.747,
+          "wip": 52612,
+          "closeDays": 7.3
+        },
+        {
+          "billings": 40014,
+          "realization": 0.814,
+          "utilization": 0.75,
+          "wip": 51084,
+          "closeDays": 7.6
+        },
+        {
+          "billings": 40504,
+          "realization": 0.819,
+          "utilization": 0.709,
+          "wip": 47364,
+          "closeDays": 6.5
+        },
+        {
+          "billings": 41217,
+          "realization": 0.819,
+          "utilization": 0.74,
+          "wip": 51262,
+          "closeDays": 8.1
+        },
+        {
+          "billings": 46316,
+          "realization": 0.807,
+          "utilization": 0.757,
+          "wip": 54125,
+          "closeDays": 7.7
+        },
+        {
+          "billings": 48494,
+          "realization": 0.806,
+          "utilization": 0.761,
+          "wip": 55966,
+          "closeDays": 8.6
+        },
+        {
+          "billings": 48972,
+          "realization": 0.801,
+          "utilization": 0.728,
+          "wip": 52250,
+          "closeDays": 8.2
+        },
+        {
+          "billings": 51036,
+          "realization": 0.814,
+          "utilization": 0.738,
+          "wip": 55221,
+          "closeDays": 7.7
+        },
+        {
+          "billings": 54416,
+          "realization": 0.805,
+          "utilization": 0.728,
+          "wip": 56270,
+          "closeDays": 7.7
+        },
+        {
+          "billings": 60071,
+          "realization": 0.797,
+          "utilization": 0.763,
+          "wip": 63781,
+          "closeDays": 9.1
+        },
+        {
+          "billings": 67377,
+          "realization": 0.795,
+          "utilization": 0.786,
+          "wip": 66739,
+          "closeDays": 8.7
+        },
+        {
+          "billings": 67112,
+          "realization": 0.795,
+          "utilization": 0.773,
+          "wip": 65857,
+          "closeDays": 9.3
+        },
+        {
+          "billings": 57624,
+          "realization": 0.812,
+          "utilization": 0.745,
+          "wip": 61925,
+          "closeDays": 7.7
+        },
+        {
+          "billings": 54821,
+          "realization": 0.803,
+          "utilization": 0.726,
+          "wip": 58355,
+          "closeDays": 8
+        }
+      ]
+    }
+  ],
+  "firm": [
+    {
+      "label": "Jul 24",
+      "billings": 200844,
+      "realization": 0.886,
+      "utilization": 0.643,
+      "wip": 186921,
+      "closeDays": 8
+    },
+    {
+      "label": "Aug 24",
+      "billings": 220108,
+      "realization": 0.886,
+      "utilization": 0.663,
+      "wip": 186150,
+      "closeDays": 7.1
+    },
+    {
+      "label": "Sep 24",
+      "billings": 250784,
+      "realization": 0.877,
+      "utilization": 0.673,
+      "wip": 223868,
+      "closeDays": 8.5
+    },
+    {
+      "label": "Oct 24",
+      "billings": 255990,
+      "realization": 0.875,
+      "utilization": 0.673,
+      "wip": 224140,
+      "closeDays": 8.2
+    },
+    {
+      "label": "Nov 24",
+      "billings": 235859,
+      "realization": 0.882,
+      "utilization": 0.678,
+      "wip": 205645,
+      "closeDays": 7.7
+    },
+    {
+      "label": "Dec 24",
+      "billings": 246487,
+      "realization": 0.882,
+      "utilization": 0.684,
+      "wip": 214781,
+      "closeDays": 7.7
+    },
+    {
+      "label": "Jan 25",
+      "billings": 252266,
+      "realization": 0.878,
+      "utilization": 0.67,
+      "wip": 214575,
+      "closeDays": 8.2
+    },
+    {
+      "label": "Feb 25",
+      "billings": 298796,
+      "realization": 0.863,
+      "utilization": 0.699,
+      "wip": 246926,
+      "closeDays": 9.2
+    },
+    {
+      "label": "Mar 25",
+      "billings": 335112,
+      "realization": 0.852,
+      "utilization": 0.729,
+      "wip": 282557,
+      "closeDays": 10.7
+    },
+    {
+      "label": "Apr 25",
+      "billings": 325142,
+      "realization": 0.862,
+      "utilization": 0.715,
+      "wip": 263693,
+      "closeDays": 9.1
+    },
+    {
+      "label": "May 25",
+      "billings": 251228,
+      "realization": 0.877,
+      "utilization": 0.674,
+      "wip": 211785,
+      "closeDays": 7.3
+    },
+    {
+      "label": "Jun 25",
+      "billings": 231269,
+      "realization": 0.879,
+      "utilization": 0.663,
+      "wip": 205082,
+      "closeDays": 7.6
+    },
+    {
+      "label": "Jul 25",
+      "billings": 235757,
+      "realization": 0.885,
+      "utilization": 0.652,
+      "wip": 200623,
+      "closeDays": 6.6
+    },
+    {
+      "label": "Aug 25",
+      "billings": 245644,
+      "realization": 0.883,
+      "utilization": 0.665,
+      "wip": 207725,
+      "closeDays": 8.1
+    },
+    {
+      "label": "Sep 25",
+      "billings": 271186,
+      "realization": 0.872,
+      "utilization": 0.674,
+      "wip": 235790,
+      "closeDays": 8.3
+    },
+    {
+      "label": "Oct 25",
+      "billings": 290565,
+      "realization": 0.871,
+      "utilization": 0.691,
+      "wip": 236846,
+      "closeDays": 8.6
+    },
+    {
+      "label": "Nov 25",
+      "billings": 264362,
+      "realization": 0.879,
+      "utilization": 0.669,
+      "wip": 224363,
+      "closeDays": 8.2
+    },
+    {
+      "label": "Dec 25",
+      "billings": 274989,
+      "realization": 0.871,
+      "utilization": 0.676,
+      "wip": 232143,
+      "closeDays": 7.8
+    },
+    {
+      "label": "Jan 26",
+      "billings": 290699,
+      "realization": 0.876,
+      "utilization": 0.665,
+      "wip": 232235,
+      "closeDays": 7.7
+    },
+    {
+      "label": "Feb 26",
+      "billings": 333540,
+      "realization": 0.866,
+      "utilization": 0.703,
+      "wip": 265328,
+      "closeDays": 9.1
+    },
+    {
+      "label": "Mar 26",
+      "billings": 383704,
+      "realization": 0.857,
+      "utilization": 0.728,
+      "wip": 295652,
+      "closeDays": 10
+    },
+    {
+      "label": "Apr 26",
+      "billings": 365956,
+      "realization": 0.859,
+      "utilization": 0.726,
+      "wip": 281474,
+      "closeDays": 9.3
+    },
+    {
+      "label": "May 26",
+      "billings": 280844,
+      "realization": 0.877,
+      "utilization": 0.671,
+      "wip": 232527,
+      "closeDays": 7.7
+    },
+    {
+      "label": "Jun 26",
+      "billings": 264081,
+      "realization": 0.879,
+      "utilization": 0.668,
+      "wip": 215751,
+      "closeDays": 8
+    }
+  ],
+  "arAging": [
+    {
+      "partnerId": "ellison",
+      "buckets": [
+        37520,
+        18344,
+        8120,
+        1502
+      ]
+    },
+    {
+      "partnerId": "okafor",
+      "buckets": [
+        39787,
+        22375,
+        9181,
+        3946
+      ]
+    },
+    {
+      "partnerId": "reyes",
+      "buckets": [
+        35481,
+        14202,
+        5236,
+        3608
+      ]
+    },
+    {
+      "partnerId": "nguyen",
+      "buckets": [
+        27696,
+        14921,
+        9569,
+        4792
+      ]
+    }
+  ]
+}
