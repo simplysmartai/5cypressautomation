@@ -1,15 +1,16 @@
 ---
 const services = [
-  { label: 'Lead Capture & Follow-Up',   href: '/services/missed-lead-text-back/' },
-  { label: 'Dashboards & KPI Reporting', href: '/services/business-intelligence-dashboard/' },
-  { label: 'Document Intake & Routing',  href: '/services/document-intake-ai-sort/' },
-  { label: 'Billing & Payment Flows',    href: '/services/ar-collections-agent/' },
-  { label: 'Client Onboarding',          href: '/services/engagement-onboarding-flow/' },
+  { label: 'Practice KPI Dashboard',     href: '/services/practice-kpi-dashboard/' },
+  { label: 'Business Intelligence',      href: '/services/business-intelligence-dashboard/' },
+  { label: 'Cashflow Forecasting',       href: '/services/cashflow-forecast-agent/' },
+  { label: 'Monthly Reporting',          href: '/services/monthly-client-snapshot/' },
+  { label: 'Spreadsheet Automation',     href: '/services/excel-spreadsheet-automation/' },
 ];
 
 const company = [
   { label: 'Process',       href: '/process/' },
   { label: 'Case Studies',  href: '/case-studies/' },
+  { label: 'Security',      href: '/security/' },
   { label: 'About',         href: '/about/' },
 ];
 ---
@@ -29,8 +30,8 @@ const company = [
           <span class="footer-logo-name">5 Cypress Automation</span>
         </a>
         <p class="footer-tagline">
-          Practical automation systems<br />
-          for growing B2B teams.
+          Fractional data analyst<br />
+          for accounting firms and small businesses.
         </p>
         <a href="mailto:nick@5cypress.com" class="footer-email">
           nick@5cypress.com
@@ -38,7 +39,7 @@ const company = [
       </div>
 
       <div class="footer-col">
-        <p class="footer-col-heading">The 5 workflows</p>
+        <p class="footer-col-heading">Analyst services</p>
         <ul>
           {services.map((s) => (
             <li><a href={s.href} class="footer-link">{s.label}</a></li>

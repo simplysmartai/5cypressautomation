@@ -1,0 +1,410 @@
+---
+/**
+ * DashboardShowcase.astro — the cinematic "Practice Command Center".
+ * A large, device-framed dashboard that self-assembles on scroll: KPI numbers
+ * tick up (via the shared [data-count] observer in index.astro), the collections
+ * line draws itself (pathLength), billing bars grow, and a human-reviewed AI
+ * insight types out. Same visual language as HeroCashflowChart, scaled up as the
+ * centerpiece of the demo section. All motion is reduced-motion gated.
+ * Display-only, synthetic data — the interactive versions live under /dashboards.
+ */
+
+// Collections trend (12 months, $K). Drives the main drawing line.
+const trend = [210, 225, 240, 232, 255, 268, 249, 276, 288, 295, 312, 318];
+const vbW = 480, vbH = 168, padX = 10, padTop = 16, padBot = 24;
+const tMax = Math.max(...trend), tMin = Math.min(...trend), tRange = tMax - tMin || 1;
+const px = (i: number) => padX + (i / (trend.length - 1)) * (vbW - padX * 2);
+const py = (v: number) => padTop + (1 - (v - tMin) / tRange) * (vbH - padTop - padBot);
+const lineD = trend.map((v, i) => (i === 0 ? 'M' : 'L') + px(i).toFixed(1) + ',' + py(v).toFixed(1)).join(' ');
+const areaD = `${lineD} L${px(trend.length - 1).toFixed(1)},${vbH - padBot} L${px(0).toFixed(1)},${vbH - padBot} Z`;
+const lastX = px(trend.length - 1), lastY = py(trend[trend.length - 1]);
+const gridYs = [0.25, 0.5, 0.75].map((f) => padTop + f * (vbH - padTop - padBot));
+
+// KPI readouts — integers so the shared [data-count] tick-up can drive them.
+const kpis = [
+  { label: 'Realization', count: 87, prefix: '', suffix: '%', delta: '+2.1%', dir: 'up' },
+  { label: 'Collected MTD', count: 318, prefix: '$', suffix: 'K', delta: '+6%', dir: 'up' },
+  { label: 'WIP balance', count: 142, prefix: '$', suffix: 'K', delta: '-$18K', dir: 'down' },
+  { label: 'AR under 30d', count: 68, prefix: '', suffix: '%', delta: '+5%', dir: 'up' },
+];
+
+// Monthly billing bars (% height).
+const bars = [55, 70, 60, 85, 72, 90, 65, 82];
+
+// AR aging segments (share of receivables).
+const aging = [
+  { label: 'Current', pct: 68, tone: 'ok' },
+  { label: '30d', pct: 18, tone: 'mid' },
+  { label: '60d', pct: 9, tone: 'warn' },
+  { label: '90d+', pct: 5, tone: 'bad' },
+];
+
+const aiInsight =
+  'Collections are pacing 6% ahead of last quarter — but WIP aged past 60 days grew $18K. Worth a partner review before month-end.';
+---
+
+<div class="dsc" data-showcase aria-label="Practice Command Center — live demo dashboard, synthetic data">
+  <!-- Device chrome -->
+  <div class="dsc-chrome">
+    <span class="dsc-dot"></span><span class="dsc-dot"></span><span class="dsc-dot"></span>
+    <span class="dsc-url">5cypress.com/demo · Practice Command Center</span>
+    <span class="dsc-live"><span class="dsc-live-dot"></span>LIVE</span>
+  </div>
+
+  <div class="dsc-body">
+    <!-- KPI row -->
+    <div class="dsc-kpis">
+      {kpis.map((k) => (
+        <div class="dsc-kpi">
+          <span class="dsc-kpi-label">{k.label}</span>
+          <strong
+            class="dsc-kpi-value"
+            data-count={k.count}
+            data-prefix={k.prefix}
+            data-suffix={k.suffix}
+          >{k.prefix}{k.count}{k.suffix}</strong>
+          <span class={'dsc-delta dsc-delta--' + k.dir}>{k.delta}</span>
+        </div>
+      ))}
+    </div>
+
+    <div class="dsc-grid">
+      <!-- Main: collections trend line, draws on scroll -->
+      <div class="dsc-panel dsc-panel--main">
+        <div class="dsc-panel-head">
+          <span class="dsc-panel-title">Collections trend</span>
+          <span class="dsc-panel-note">rolling 12 mo · $K</span>
+        </div>
+        <svg class="dsc-chart" viewBox={`0 0 ${vbW} ${vbH}`} preserveAspectRatio="none" role="img" aria-label="Collections trending up over the last twelve months">
+          {gridYs.map((y) => <line x1={padX} x2={vbW - padX} y1={y} y2={y} class="dsc-grid" />)}
+          <path d={areaD} class="dsc-area" />
+          <path d={lineD} class="dsc-line" pathLength="1" />
+          <circle cx={lastX} cy={lastY} r="4" class="dsc-line-dot" />
+        </svg>
+      </div>
+
+      <!-- Side: billings + AR aging -->
+      <div class="dsc-side">
+        <div class="dsc-panel">
+          <div class="dsc-panel-head">
+            <span class="dsc-panel-title">Monthly billings</span>
+          </div>
+          <div class="dsc-bars">
+            {bars.map((h, i) => (
+              <span class={'dsc-bar' + (i === bars.length - 1 ? ' dsc-bar--active' : '')} style={`--h:${h}%`}></span>
+            ))}
+          </div>
+        </div>
+        <div class="dsc-panel">
+          <div class="dsc-panel-head">
+            <span class="dsc-panel-title">AR aging</span>
+          </div>
+          <div class="dsc-aging" role="img" aria-label="Accounts receivable aging: 68% current, 18% at 30 days, 9% at 60 days, 5% at 90 days or more">
+            {aging.map((a) => (
+              <span class={'dsc-aging-seg dsc-aging-seg--' + a.tone} style={`--w:${a.pct}%`}></span>
+            ))}
+          </div>
+          <div class="dsc-aging-legend">
+            {aging.map((a) => (
+              <span class="dsc-aging-item"><span class={'dsc-aging-key dsc-aging-key--' + a.tone}></span>{a.label}</span>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- AI insight bar (Tier 2 — human-reviewed) -->
+    <div class="dsc-ai">
+      <span class="dsc-ai-chip">AI insight</span>
+      <p class="dsc-ai-text" data-ai-text={aiInsight}><span class="dsc-ai-caret"></span></p>
+      <span class="dsc-ai-gate">Human-reviewed</span>
+    </div>
+  </div>
+</div>
+
+<style>
+  .dsc {
+    position: relative;
+    border: 1px solid var(--border-medium);
+    border-radius: 24px;
+    background:
+      linear-gradient(180deg, rgba(93,140,93,0.12), transparent 30%),
+      radial-gradient(circle at 92% 0%, rgba(251,191,36,0.13), transparent 34%),
+      #101014;
+    box-shadow: 0 50px 120px rgba(0,0,0,0.6);
+    overflow: hidden;
+  }
+  .dsc::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.035) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.035) 1px, transparent 1px);
+    background-size: 34px 34px;
+    mask-image: linear-gradient(to bottom, black, transparent 82%);
+    pointer-events: none;
+  }
+  .dsc > * { position: relative; z-index: 1; }
+
+  /* ── Device chrome ─────────────────────────────────────────── */
+  .dsc-chrome {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: var(--space-3) var(--space-5);
+    border-bottom: 1px solid var(--border-subtle);
+  }
+  .dsc-dot { width: 10px; height: 10px; border-radius: 50%; background: rgba(255,255,255,0.14); }
+  .dsc-dot:nth-child(1) { background: rgba(251,191,36,0.5); }
+  .dsc-url {
+    margin-left: var(--space-3);
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    color: var(--text-tertiary);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .dsc-live {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-family: var(--font-mono);
+    font-size: 0.62rem;
+    font-weight: var(--weight-bold);
+    letter-spacing: var(--tracking-wider);
+    color: var(--brand-primary-light);
+  }
+  .dsc-live-dot {
+    width: 7px; height: 7px; border-radius: 50%;
+    background: var(--brand-primary);
+    box-shadow: 0 0 7px var(--brand-primary);
+    animation: dsc-pulse 2s ease-in-out infinite;
+  }
+  @keyframes dsc-pulse { 0%,100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.45; transform: scale(0.8); } }
+
+  .dsc-body { padding: var(--space-5); display: flex; flex-direction: column; gap: var(--space-4); }
+
+  /* ── KPI row ───────────────────────────────────────────────── */
+  .dsc-kpis { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--space-3); }
+  .dsc-kpi {
+    padding: var(--space-3) var(--space-4);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-lg);
+    background: var(--bg-main);
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .dsc-kpi-label {
+    color: var(--text-disabled);
+    font-family: var(--font-mono);
+    font-size: 0.58rem;
+    font-weight: var(--weight-bold);
+    letter-spacing: var(--tracking-wide);
+    text-transform: uppercase;
+  }
+  .dsc-kpi-value {
+    color: var(--text-primary);
+    font-family: var(--font-mono);
+    font-size: var(--text-xl);
+    font-weight: var(--weight-bold);
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+  }
+  .dsc-delta { font-family: var(--font-mono); font-size: 0.62rem; }
+  .dsc-delta--up { color: var(--success); }
+  .dsc-delta--down { color: var(--brand-accent); }
+
+  /* ── Grid: main + side ─────────────────────────────────────── */
+  .dsc-grid { display: grid; grid-template-columns: 1.55fr 1fr; gap: var(--space-3); }
+  .dsc-side { display: flex; flex-direction: column; gap: var(--space-3); }
+  .dsc-panel {
+    padding: var(--space-4);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-lg);
+    background: var(--bg-main);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+  .dsc-panel--main { gap: var(--space-2); }
+  .dsc-panel-head { display: flex; align-items: baseline; justify-content: space-between; gap: var(--space-3); }
+  .dsc-panel-title {
+    font-family: var(--font-heading);
+    font-size: var(--text-sm);
+    font-weight: var(--weight-semibold);
+    color: var(--text-secondary);
+  }
+  .dsc-panel-note { font-family: var(--font-mono); font-size: 0.6rem; color: var(--text-disabled); }
+
+  .dsc-chart { display: block; width: 100%; height: 168px; }
+  .dsc-grid-line, .dsc-grid { stroke: rgba(255,255,255,0.05); stroke-width: 1; }
+  .dsc-area { fill: rgba(25,158,112,0.10); stroke: none; opacity: 0; }
+  .dsc-line { fill: none; stroke: #199E70; stroke-width: 2.5; stroke-linejoin: round; stroke-linecap: round; stroke-dasharray: 1; stroke-dashoffset: 1; }
+  .dsc-line-dot { fill: #199E70; stroke: #101014; stroke-width: 2; opacity: 0; }
+  [data-showcase].is-live .dsc-line { stroke-dashoffset: 0; }
+  [data-showcase].is-live .dsc-area,
+  [data-showcase].is-live .dsc-line-dot { opacity: 1; }
+
+  /* ── Bars ──────────────────────────────────────────────────── */
+  .dsc-bars { display: flex; align-items: flex-end; gap: 5px; height: 56px; }
+  .dsc-bar {
+    flex: 1;
+    height: var(--h);
+    background: rgba(255,255,255,0.07);
+    border-radius: 3px 3px 0 0;
+    transform: scaleY(0);
+    transform-origin: bottom;
+  }
+  .dsc-bar--active { background: var(--brand-primary); box-shadow: 0 0 8px rgba(93,140,93,0.5); }
+  [data-showcase].is-live .dsc-bar { transform: scaleY(1); }
+
+  /* ── AR aging ──────────────────────────────────────────────── */
+  .dsc-aging { display: flex; height: 12px; border-radius: var(--radius-full); overflow: hidden; gap: 2px; }
+  .dsc-aging-seg { width: 0; transition: none; }
+  [data-showcase].is-live .dsc-aging-seg { width: var(--w); }
+  .dsc-aging-seg--ok { background: var(--brand-primary); }
+  .dsc-aging-seg--mid { background: #7FA9C9; }
+  .dsc-aging-seg--warn { background: var(--brand-accent); }
+  .dsc-aging-seg--bad { background: var(--error); }
+  .dsc-aging-legend { display: flex; flex-wrap: wrap; gap: var(--space-3); }
+  .dsc-aging-item { display: flex; align-items: center; gap: 5px; font-family: var(--font-mono); font-size: 0.6rem; color: var(--text-tertiary); }
+  .dsc-aging-key { width: 8px; height: 8px; border-radius: 2px; }
+  .dsc-aging-key--ok { background: var(--brand-primary); }
+  .dsc-aging-key--mid { background: #7FA9C9; }
+  .dsc-aging-key--warn { background: var(--brand-accent); }
+  .dsc-aging-key--bad { background: var(--error); }
+
+  /* ── AI insight ────────────────────────────────────────────── */
+  .dsc-ai {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    padding: var(--space-3) var(--space-4);
+    border: 1px solid rgba(251,191,36,0.22);
+    border-radius: var(--radius-lg);
+    background: rgba(251,191,36,0.05);
+  }
+  .dsc-ai-chip {
+    flex-shrink: 0;
+    padding: 3px 9px;
+    border-radius: var(--radius-full);
+    background: rgba(251,191,36,0.14);
+    color: var(--brand-accent);
+    font-family: var(--font-mono);
+    font-size: 0.6rem;
+    font-weight: var(--weight-bold);
+    letter-spacing: var(--tracking-wide);
+    text-transform: uppercase;
+  }
+  .dsc-ai-text {
+    flex: 1;
+    margin: 0;
+    color: var(--text-secondary);
+    font-size: var(--text-sm);
+    line-height: var(--leading-normal);
+    min-height: 1.4em;
+  }
+  .dsc-ai-caret {
+    display: inline-block;
+    width: 2px;
+    height: 1em;
+    vertical-align: text-bottom;
+    background: var(--brand-accent);
+    animation: dsc-blink 1s step-end infinite;
+  }
+  .dsc-ai-caret.is-done { display: none; }
+  @keyframes dsc-blink { 0%,100% { opacity: 1; } 50% { opacity: 0; } }
+  .dsc-ai-gate {
+    flex-shrink: 0;
+    font-family: var(--font-mono);
+    font-size: 0.58rem;
+    font-weight: var(--weight-bold);
+    letter-spacing: var(--tracking-wide);
+    text-transform: uppercase;
+    color: var(--text-disabled);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-full);
+    padding: 3px 9px;
+  }
+
+  /* ── Motion gating ─────────────────────────────────────────── */
+  @media (prefers-reduced-motion: no-preference) {
+    [data-showcase].is-live .dsc-line {
+      animation: dsc-draw 1.4s var(--ease-out) forwards;
+    }
+    [data-showcase].is-live .dsc-area,
+    [data-showcase].is-live .dsc-line-dot {
+      opacity: 0;
+      animation: dsc-fade 0.6s var(--ease-out) 1.2s forwards;
+    }
+    .dsc-bar { transition: transform 0.7s var(--ease-out); }
+    .dsc-bar:nth-child(1) { transition-delay: 0.05s; }
+    .dsc-bar:nth-child(2) { transition-delay: 0.10s; }
+    .dsc-bar:nth-child(3) { transition-delay: 0.15s; }
+    .dsc-bar:nth-child(4) { transition-delay: 0.20s; }
+    .dsc-bar:nth-child(5) { transition-delay: 0.25s; }
+    .dsc-bar:nth-child(6) { transition-delay: 0.30s; }
+    .dsc-bar:nth-child(7) { transition-delay: 0.35s; }
+    .dsc-bar:nth-child(8) { transition-delay: 0.40s; }
+    .dsc-aging-seg { transition: width 0.8s var(--ease-out) 0.3s; }
+  }
+  @keyframes dsc-draw { to { stroke-dashoffset: 0; } }
+  @keyframes dsc-fade { to { opacity: 1; } }
+
+  /* ── Responsive ────────────────────────────────────────────── */
+  @media (max-width: 720px) {
+    .dsc-kpis { grid-template-columns: repeat(2, 1fr); }
+    .dsc-grid { grid-template-columns: 1fr; }
+    .dsc-ai { flex-wrap: wrap; }
+    .dsc-ai-gate { order: 3; }
+  }
+</style>
+
+<script>
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const panel = document.querySelector<HTMLElement>('[data-showcase]');
+
+  function typeAi(el: HTMLElement) {
+    const full = el.dataset.aiText || '';
+    const caret = el.querySelector('.dsc-ai-caret');
+    if (reduce) {
+      el.textContent = full;
+      return;
+    }
+    let i = 0;
+    const step = () => {
+      el.textContent = full.slice(0, i);
+      if (caret) el.appendChild(caret);
+      if (i < full.length) {
+        i += 1;
+        setTimeout(step, 18);
+      } else if (caret) {
+        setTimeout(() => caret.classList.add('is-done'), 1400);
+      }
+    };
+    step();
+  }
+
+  if (panel) {
+    const aiEl = panel.querySelector<HTMLElement>('.dsc-ai-text');
+    const start = () => {
+      panel.classList.add('is-live');
+      // Let the line draw begin, then run the insight.
+      if (aiEl) setTimeout(() => typeAi(aiEl), reduce ? 0 : 1500);
+    };
+    const io = new IntersectionObserver(
+      (entries) => {
+        if (entries.some((e) => e.isIntersecting)) {
+          start();
+          io.disconnect();
+        }
+      },
+      { threshold: 0.35 }
+    );
+    io.observe(panel);
+  }
+</script>

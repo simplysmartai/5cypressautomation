@@ -1,0 +1,331 @@
+---
+/**
+ * monthly-reporting-package.astro — Portfolio dashboard #4
+ * Fictional bookkeeping/CAS practice ("Ledger & Bloom Bookkeeping") serving
+ * multiple clients. Shows delivery speed improving over 6 months (the
+ * automation story), a current-month client roster with package status,
+ * and a sample one-client package preview. Maps to Dashboards & KPI
+ * Reporting + the existing monthly-insights workflow.
+ */
+import Layout from '../../layouts/Layout.astro';
+import Button from '../../components/Button.astro';
+import JsonLd from '../../components/JsonLd.astro';
+import data from '../../data/monthlyReportingData.json';
+import { scaleSeries, linePath, areaPath, gridYs, usd, usdK, pct, CHART_W, CHART_H, CHART_PAD } from '../../lib/chartSvg';
+
+const { meta, delivery, clients, samplePackage } = data;
+const N = delivery.length;
+const latest = delivery[N - 1];
+const first = delivery[0];
+
+const dayVals = delivery.map((d) => d.avgDay);
+const dayScale = scaleSeries(dayVals, 0, Math.max(...dayVals) * 1.15);
+const onTimeVals = delivery.map((d) => d.onTimePct);
+const onTimeScale = scaleSeries(onTimeVals, 0.5, 1);
+
+const delivered = clients.filter((c) => c.status === 'Delivered').length;
+const flagged = clients.filter((c) => c.varianceFlag).length;
+
+const title = 'Monthly Client Reporting Package — Live Demo | 5 Cypress Automation';
+const description =
+  'Interactive monthly client reporting dashboard for a fictional bookkeeping practice: delivery speed trend, a multi-client roster, and a sample client package preview.';
+---
+
+<Layout title={title} description={description}>
+  <Fragment slot="head">
+    <JsonLd schema={{
+      '@context': 'https://schema.org',
+      '@type': 'CreativeWork',
+      name: 'Monthly Client Reporting Package Demo',
+      description,
+      creator: { '@type': 'Organization', name: '5 Cypress Automation', url: 'https://www.5cypress.com' },
+    }} />
+  </Fragment>
+
+  <section class="demo-hero section">
+    <div class="container">
+      <div class="demo-hero-top reveal">
+        <div>
+          <p class="lead-in">Live demo — synthetic data</p>
+          <h1>{meta.firmName}</h1>
+          <p class="demo-hero-sub">
+            A fictional {meta.sector} serving {clients.length} clients. Delivery time dropped from
+            {first.avgDay} to {latest.avgDay} business days over {N} months — this is what happens
+            when the monthly close-to-package pipeline runs on a schedule instead of a to-do list.
+          </p>
+        </div>
+        <div class="demo-hero-meta">
+          <span class="demo-badge">Demo data</span>
+          <span class="demo-period">{meta.currentMonth} snapshot</span>
+          <Button variant="primary" size="lg" magnetic ripple data-open-booking>Book a fit call</Button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section board-section">
+    <div class="container">
+      <div class="board-top reveal">
+        <div class="exec-tiles">
+          <div class="kpi-tile">
+            <span class="kpi-label">Clients served</span>
+            <strong class="kpi-value">{clients.length}</strong>
+            <span class="kpi-delta">{delivered} delivered this month</span>
+          </div>
+          <div class="kpi-tile">
+            <span class="kpi-label">Avg delivery time</span>
+            <strong class="kpi-value">{latest.avgDay}d</strong>
+            <span class="kpi-delta is-up">target {meta.targetDay} business days</span>
+          </div>
+          <div class="kpi-tile">
+            <span class="kpi-label">On-time rate</span>
+            <strong class="kpi-value">{pct(latest.onTimePct)}</strong>
+            <span class="kpi-delta is-up">up from {pct(first.onTimePct)}</span>
+          </div>
+          <div class="kpi-tile">
+            <span class="kpi-label">Needs a variance note</span>
+            <strong class="kpi-value">{flagged}</strong>
+            <span class="kpi-delta">clients moved &gt;15% MoM</span>
+          </div>
+        </div>
+
+        <aside class="sample-panel" aria-label="Sample client package preview">
+          <p class="panel-title">Sample package — {samplePackage.clientName}</p>
+          <div class="sample-tiles">
+            <div class="sample-tile">
+              <span>Revenue</span>
+              <strong>{usdK(samplePackage.revenue)}</strong>
+            </div>
+            <div class="sample-tile">
+              <span>Net margin</span>
+              <strong>{pct(samplePackage.netMargin)}</strong>
+            </div>
+            <div class="sample-tile">
+              <span>Cash position</span>
+              <strong>{usdK(samplePackage.cashPosition)}</strong>
+            </div>
+            <div class="sample-tile">
+              <span>AR outstanding</span>
+              <strong>{usdK(samplePackage.arOutstanding)}</strong>
+            </div>
+          </div>
+          <p class="sample-narrative">{samplePackage.narrative}</p>
+        </aside>
+      </div>
+
+      <div class="chart-row reveal">
+        <figure class="chart-card">
+          <figcaption>
+            <p class="chart-title">Delivery time — {N} months</p>
+            <p class="chart-sub">Business days from month-end close to package delivery.</p>
+          </figcaption>
+          <svg viewBox={'0 0 ' + CHART_W + ' ' + CHART_H} role="img" aria-label="Average delivery time in business days over six months" class="line-chart">
+            {gridYs().map((y) => <line x1={CHART_PAD.l} x2={CHART_W - CHART_PAD.r} y1={y} y2={y} class="grid-line" />)}
+            <line
+              x1={CHART_PAD.l} x2={CHART_W - CHART_PAD.r}
+              y1={dayScale.y(meta.targetDay)} y2={dayScale.y(meta.targetDay)}
+              class="target-line"
+            />
+            <text x={CHART_W - CHART_PAD.r} y={dayScale.y(meta.targetDay) - 6} class="axis-label" text-anchor="end">target {meta.targetDay}d</text>
+            <path d={areaPath(dayVals, dayScale)} fill="#199E70" opacity="0.12" />
+            <path d={linePath(dayVals, dayScale)} fill="none" stroke="#199E70" stroke-width="2" stroke-linejoin="round" />
+            {delivery.map((d, i) => (
+              <text x={dayScale.x(i)} y={CHART_H - 8} class="axis-label" text-anchor="middle">{d.label}</text>
+            ))}
+            {dayVals.map((v, i) => (
+              <rect
+                class="hit"
+                x={dayScale.x(i) - 15} y={CHART_PAD.t} width="30" height={CHART_H - CHART_PAD.t - CHART_PAD.b}
+                data-tip={delivery[i].label + ' — ' + v + 'd avg delivery'}
+                data-cx={dayScale.x(i)} data-cy={dayScale.y(v)}
+              />
+            ))}
+            <circle class="cursor-dot" r="4" fill="#199E70" stroke="#101014" stroke-width="2" style="display:none" />
+          </svg>
+        </figure>
+
+        <figure class="chart-card">
+          <figcaption>
+            <p class="chart-title">On-time delivery rate</p>
+            <p class="chart-sub">Share of clients receiving their package on or before target.</p>
+          </figcaption>
+          <svg viewBox={'0 0 ' + CHART_W + ' ' + CHART_H} role="img" aria-label="On-time delivery rate over six months" class="line-chart">
+            {gridYs().map((y) => <line x1={CHART_PAD.l} x2={CHART_W - CHART_PAD.r} y1={y} y2={y} class="grid-line" />)}
+            <path d={areaPath(onTimeVals, onTimeScale)} fill="#C98500" opacity="0.14" />
+            <path d={linePath(onTimeVals, onTimeScale)} fill="none" stroke="#C98500" stroke-width="2" stroke-linejoin="round" />
+            {delivery.map((d, i) => (
+              <text x={onTimeScale.x(i)} y={CHART_H - 8} class="axis-label" text-anchor="middle">{d.label}</text>
+            ))}
+            {onTimeVals.map((v, i) => (
+              <rect
+                class="hit"
+                x={onTimeScale.x(i) - 15} y={CHART_PAD.t} width="30" height={CHART_H - CHART_PAD.t - CHART_PAD.b}
+                data-tip={delivery[i].label + ' — ' + pct(v) + ' on time'}
+                data-cx={onTimeScale.x(i)} data-cy={onTimeScale.y(v)}
+              />
+            ))}
+            <circle class="cursor-dot" r="4" fill="#C98500" stroke="#101014" stroke-width="2" style="display:none" />
+          </svg>
+        </figure>
+      </div>
+
+      <div class="roster-section reveal">
+        <p class="panel-title">Client roster — {meta.currentMonth}</p>
+        <div class="roster-table-wrap">
+          <table class="roster-table">
+            <thead>
+              <tr><th>Client</th><th>Industry</th><th>Revenue</th><th>MoM</th><th>Margin</th><th>Status</th><th>Delivered</th></tr>
+            </thead>
+            <tbody>
+              {clients.map((c) => {
+                const deltaLabel = (c.revenueDeltaPct >= 0 ? '+' : '') + (c.revenueDeltaPct * 100).toFixed(1) + '%';
+                const deltaClass = c.varianceFlag ? 'is-flag' : c.revenueDeltaPct >= 0 ? 'is-up' : 'is-down';
+                const statusClass = c.status === 'Delivered' ? 'status-done' : c.status === 'In review' ? 'status-review' : 'status-draft';
+                return (
+                  <tr>
+                    <td>{c.name}</td>
+                    <td class="dim">{c.industry}</td>
+                    <td>{usd(c.revenue)}</td>
+                    <td class={deltaClass}>{deltaLabel}</td>
+                    <td>{pct(c.margin)}</td>
+                    <td><span class={'status-pill ' + statusClass}>{c.status}</span></td>
+                    <td class="dim">{c.deliveredDay ? 'Day ' + c.deliveredDay : '—'}</td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <p class="demo-disclaimer reveal">{meta.disclaimer} Seed #{meta.seed} · generated {meta.generatedAt}.</p>
+    </div>
+  </section>
+
+  <section class="section demo-cta">
+    <div class="container demo-cta-inner reveal">
+      <p class="lead-in">Every client, same day each month</p>
+      <h2>The package that used to eat a Friday now ships on a schedule.</h2>
+      <p>
+        Pulls from QuickBooks on a cycle, flags anything that moved more than expected, and gives
+        you a written narrative to review — not a blank page to write from scratch.
+      </p>
+      <Button variant="primary" size="lg" magnetic ripple data-open-booking>Book a fit call</Button>
+    </div>
+  </section>
+</Layout>
+
+<div class="chart-tooltip" id="chart-tooltip" role="status" aria-hidden="true"></div>
+
+<script>
+  const tip = document.getElementById('chart-tooltip')!;
+  function showTip(text: string, x: number, y: number) {
+    tip.textContent = text;
+    tip.style.display = 'block';
+    const r = tip.getBoundingClientRect();
+    const left = Math.min(x + 14, window.innerWidth - r.width - 8);
+    const top = y - r.height - 12;
+    tip.style.left = left + 'px';
+    tip.style.top = top + 'px';
+  }
+  function hideTip() { tip.style.display = 'none'; }
+  document.querySelectorAll<HTMLElement>('[data-tip]').forEach((el) => {
+    el.addEventListener('mousemove', (e) => {
+      showTip(el.dataset.tip!, e.clientX, e.clientY);
+      const svg = el.closest('svg');
+      const dot = svg?.querySelector<SVGCircleElement>('.cursor-dot');
+      if (dot && el.dataset.cx) {
+        dot.setAttribute('cx', el.dataset.cx);
+        dot.setAttribute('cy', el.dataset.cy!);
+        dot.style.display = 'block';
+      }
+    });
+    el.addEventListener('mouseleave', () => {
+      hideTip();
+      const dot = el.closest('svg')?.querySelector<SVGCircleElement>('.cursor-dot');
+      if (dot) dot.style.display = 'none';
+    });
+  });
+</script>
+
+<style>
+  .demo-hero {
+    padding-top: calc(var(--space-24) + 3rem);
+    padding-bottom: var(--space-8);
+    background: linear-gradient(180deg, rgba(93,140,93,0.07), transparent 60%), var(--bg-main);
+  }
+  .demo-hero-top { display: flex; justify-content: space-between; align-items: flex-end; gap: var(--space-10); flex-wrap: wrap; }
+  .demo-hero h1 { font-size: clamp(2.6rem, 5vw, 4.4rem); margin-block: var(--space-3); }
+  .demo-hero-sub { max-width: 62ch; color: var(--text-secondary); line-height: var(--leading-relaxed); }
+  .demo-hero-meta { display: flex; flex-direction: column; align-items: flex-end; gap: var(--space-3); }
+  .demo-badge {
+    padding: var(--space-1) var(--space-3); border: 1px solid rgba(251,191,36,0.3); border-radius: var(--radius-full);
+    background: rgba(251,191,36,0.08); color: var(--brand-accent); font-family: var(--font-mono);
+    font-size: var(--text-xs); font-weight: var(--weight-bold); letter-spacing: var(--tracking-widest); text-transform: uppercase;
+  }
+  .demo-period { color: var(--text-disabled); font-family: var(--font-mono); font-size: var(--text-xs); }
+
+  .board-section { padding-top: var(--space-8); }
+  .board-top { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(320px, 1fr); gap: var(--space-5); margin-bottom: var(--space-5); align-items: start; }
+  .exec-tiles { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--space-3); }
+  .kpi-tile { padding: var(--space-4); border: 1px solid var(--border-subtle); border-radius: var(--radius-lg); background: #101014; display: flex; flex-direction: column; gap: var(--space-2); }
+  .kpi-label { color: var(--text-disabled); font-family: var(--font-mono); font-size: 0.64rem; font-weight: var(--weight-bold); letter-spacing: var(--tracking-wider); text-transform: uppercase; }
+  .kpi-value { color: var(--text-primary); font-family: var(--font-heading); font-size: var(--text-3xl); font-weight: var(--weight-bold); line-height: 1; }
+  .kpi-delta { color: var(--text-tertiary); font-family: var(--font-mono); font-size: var(--text-xs); }
+  .kpi-delta.is-up { color: var(--success); }
+
+  .sample-panel { border: 1px solid var(--border-subtle); border-radius: var(--radius-lg); background: #101014; padding: var(--space-4); display: flex; flex-direction: column; gap: var(--space-3); }
+  .panel-title { font-family: var(--font-mono); font-size: var(--text-xs); font-weight: var(--weight-bold); letter-spacing: var(--tracking-widest); text-transform: uppercase; color: var(--text-disabled); }
+  .sample-tiles { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--space-2); }
+  .sample-tile { padding: var(--space-3); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); background: rgba(20,20,24,0.7); }
+  .sample-tile span { display: block; color: var(--text-disabled); font-family: var(--font-mono); font-size: 0.6rem; text-transform: uppercase; letter-spacing: var(--tracking-wider); margin-bottom: var(--space-1); }
+  .sample-tile strong { color: var(--text-primary); font-family: var(--font-heading); font-size: var(--text-lg); }
+  .sample-narrative { color: var(--text-tertiary); font-size: var(--text-xs); line-height: var(--leading-normal); font-style: italic; }
+
+  .chart-row { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-5); margin-bottom: var(--space-5); }
+  .chart-card { border: 1px solid var(--border-subtle); border-radius: var(--radius-lg); background: #101014; padding: var(--space-5); margin: 0; }
+  .chart-title { color: var(--text-primary); font-family: var(--font-heading); font-size: var(--text-lg); font-weight: var(--weight-semibold); }
+  .chart-sub { margin-top: 2px; margin-bottom: var(--space-4); color: var(--text-tertiary); font-size: var(--text-sm); }
+  .line-chart { width: 100%; height: auto; display: block; }
+  .grid-line { stroke: rgba(255,255,255,0.06); stroke-width: 1; }
+  .target-line { stroke: rgba(255,255,255,0.3); stroke-width: 1; stroke-dasharray: 4 4; }
+  .axis-label { fill: var(--text-disabled); font-family: var(--font-mono); font-size: 10px; }
+  .hit { fill: transparent; cursor: crosshair; }
+
+  .roster-section { border: 1px solid var(--border-subtle); border-radius: var(--radius-lg); background: #101014; padding: var(--space-5); margin-bottom: var(--space-5); }
+  .roster-table-wrap { overflow-x: auto; margin-top: var(--space-4); }
+  .roster-table { width: 100%; border-collapse: collapse; font-size: var(--text-sm); }
+  .roster-table th {
+    text-align: left; padding: var(--space-2) var(--space-3); color: var(--text-disabled); font-family: var(--font-mono);
+    font-size: 0.64rem; font-weight: var(--weight-bold); text-transform: uppercase; letter-spacing: var(--tracking-wider);
+    border-bottom: 1px solid var(--border-medium);
+  }
+  .roster-table td { padding: var(--space-2) var(--space-3); color: var(--text-secondary); border-bottom: 1px solid var(--border-subtle); font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .roster-table td.dim { color: var(--text-disabled); font-size: var(--text-xs); }
+  .roster-table td.is-up { color: var(--success); }
+  .roster-table td.is-down { color: var(--text-tertiary); }
+  .roster-table td.is-flag { color: var(--warning); font-weight: var(--weight-bold); }
+  .status-pill { padding: 2px 9px; border-radius: var(--radius-full); font-family: var(--font-mono); font-size: 0.66rem; font-weight: var(--weight-bold); text-transform: uppercase; letter-spacing: 0.04em; }
+  .status-done { background: rgba(16,185,129,0.12); color: var(--success); }
+  .status-review { background: rgba(245,158,11,0.12); color: var(--warning); }
+  .status-draft { background: rgba(161,161,170,0.12); color: var(--text-tertiary); }
+
+  .demo-disclaimer { color: var(--text-disabled); font-family: var(--font-mono); font-size: var(--text-xs); text-align: center; }
+
+  .demo-cta { background: var(--bg-surface); border-top: 1px solid var(--border-subtle); }
+  .demo-cta-inner { max-width: 720px; margin-inline: auto; text-align: center; display: flex; flex-direction: column; align-items: center; gap: var(--space-5); }
+  .demo-cta p { color: var(--text-secondary); line-height: var(--leading-relaxed); }
+
+  @media (max-width: 1100px) {
+    .board-top, .chart-row { grid-template-columns: 1fr; }
+    .exec-tiles { grid-template-columns: repeat(2, 1fr); }
+  }
+</style>
+
+<style is:global>
+  .chart-tooltip {
+    display: none; position: fixed; z-index: 1600; padding: 6px 10px; border: 1px solid rgba(255,255,255,0.14);
+    border-radius: 8px; background: rgba(10,10,12,0.95); color: #FEFEFE; font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem; pointer-events: none; white-space: nowrap; box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+  }
+</style>

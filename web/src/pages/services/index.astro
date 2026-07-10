@@ -7,57 +7,76 @@ import { services } from '../../data/services';
 const workflowSystems = [
   {
     num: '01',
-    label: 'Lead flow',
-    title: 'Lead capture and follow-up',
+    label: 'Dashboards',
+    title: 'Practice KPI dashboard',
     description:
-      'Capture form fills, missed calls, referrals, and ad leads. Create the record, notify the owner, send the first reply, and keep the handoff from going cold.',
-    examples: ['Missed-lead text-back', 'CRM routing', 'Referral intake', 'Owner alerts'],
-    related: ['missed-lead-text-back'],
+      'Realization, WIP, AR aging, and billing pulled live from QBO and your practice system into one panel every partner reads — no month-end wait, no exports.',
+    examples: ['Realization', 'WIP', 'AR aging', 'Per-partner drill-down'],
+    related: ['practice-kpi-dashboard'],
   },
   {
     num: '02',
-    label: 'Reporting flow',
-    title: 'Dashboards and KPI reporting',
+    label: 'Business intelligence',
+    title: 'Business intelligence dashboard',
     description:
-      'Turn recurring exports and scattered metrics into dashboards, scheduled reports, and decision-ready summaries that update without spreadsheet work.',
-    examples: ['BI dashboards', 'Client snapshots', 'KPI reports', 'Executive summaries'],
-    related: ['business-intelligence-dashboard', 'practice-kpi-dashboard', 'monthly-client-snapshot'],
+      'A proper data model with automated refresh, role-based views, and drill-downs that work — built the way an enterprise BI team would, scoped for a small business.',
+    examples: ['Data model', 'Automated refresh', 'Role-based views', 'Source of truth'],
+    related: ['business-intelligence-dashboard'],
   },
   {
     num: '03',
-    label: 'Document flow',
-    title: 'Document intake and routing',
+    label: 'Forecasting',
+    title: 'Cashflow forecasting',
     description:
-      'Collect files, classify them, rename them, route them to the right place, and flag exceptions for human review.',
-    examples: ['Upload portals', 'AI file sorting', 'Folder routing', 'Exception queues'],
-    related: ['document-intake-ai-sort'],
+      'A rolling 13-week forecast refreshed from live actuals and aging, with early alerts before a balance trends negative or a covenant is at risk.',
+    examples: ['13-week forecast', 'Low-balance alerts', 'Covenant watch', 'Refreshed daily'],
+    related: ['cashflow-forecast-agent'],
   },
   {
     num: '04',
-    label: 'Money flow',
-    title: 'Billing, invoice, and payment workflows',
+    label: 'Reporting',
+    title: 'Monthly reporting package',
     description:
-      'Connect proposals, invoices, reminders, payment links, accounting records, and status updates so money workflows stop depending on manual re-entry.',
-    examples: ['AR reminders', 'Invoice sync', 'Payment tracking', 'Cashflow alerts'],
-    related: ['ar-collections-agent', 'cashflow-forecast-agent', 'month-end-close-accelerator'],
+      'The recurring P&L trend, margins, and variances generated and delivered after each close, branded per client. You review the numbers instead of rebuilding them.',
+    examples: ['P&L trend', 'Margins', 'Variances', 'Branded delivery'],
+    related: ['monthly-client-snapshot'],
   },
   {
     num: '05',
-    label: 'Onboarding flow',
-    title: 'Client and customer onboarding',
+    label: 'Data automation',
+    title: 'Spreadsheet & data automation',
     description:
-      'Move a signed agreement, booked call, or new order into kickoff tasks, folders, calendar links, records, and internal notifications.',
-    examples: ['Client setup', 'Kickoff routing', 'Task creation', 'Welcome sequences'],
-    related: ['engagement-onboarding-flow', 'excel-spreadsheet-automation'],
+      'The half-day recurring spreadsheet — commission runs, KPI rollups, reconciliations — rebuilt as a one-click or scheduled job, documented and handed off.',
+    examples: ['Power Query', 'Scheduled runs', 'KPI rollups', 'No consultant lock-in'],
+    related: ['excel-spreadsheet-automation'],
   },
 ];
 
 const serviceMap = Object.fromEntries(services.map((service) => [service.slug, service]));
+
+// Analyst services lead the site. Operational-automation services keep their URLs
+// (SEO) but are demoted to a single discreet link at the bottom of the page.
+const analystSlugs = [
+  'practice-kpi-dashboard',
+  'business-intelligence-dashboard',
+  'cashflow-forecast-agent',
+  'monthly-client-snapshot',
+  'excel-spreadsheet-automation',
+];
+const automationSlugs = [
+  'missed-lead-text-back',
+  'document-intake-ai-sort',
+  'engagement-onboarding-flow',
+  'ar-collections-agent',
+  'month-end-close-accelerator',
+];
+const analystServices = analystSlugs.map((s) => serviceMap[s]).filter(Boolean);
+const automationServices = automationSlugs.map((s) => serviceMap[s]).filter(Boolean);
 ---
 
 <Layout
-  title="Automation Services and Workflow Systems | 5 Cypress"
-  description="Explore the five workflow systems 5 Cypress builds: lead follow-up, dashboards, document intake, billing flows, and onboarding automation."
+  title="Fractional Data Analyst Services | 5 Cypress"
+  description="The analytics 5 Cypress builds for accounting firms and small businesses: practice KPI dashboards, business intelligence, cashflow forecasting, monthly reporting, and spreadsheet automation."
 >
   <Fragment slot="head">
     <JsonLd schema={{
@@ -77,17 +96,17 @@ const serviceMap = Object.fromEntries(services.map((service) => [service.slug, s
     <div class="container services-hero-grid">
       <div class="services-hero-copy reveal">
         <p class="lead-in">Services</p>
-        <h1>Five systems for the handoffs your team keeps carrying.</h1>
+        <h1>The analytics your business runs on, finally built right.</h1>
         <p class="services-hero-sub">
-          Start with the repeated work that keeps leaking time: lead follow-up,
-          reporting, document routing, billing, or onboarding. Then tune the build
-          to your tools, approvals, data, and edge cases.
+          Start with the decision you keep making late or the report that keeps eating a day:
+          a KPI dashboard, a business intelligence model, a cashflow forecast, or a monthly
+          reporting pack. Built from the data you already have, kept current on a schedule.
         </p>
         <div class="services-actions">
           <Button variant="primary" size="lg" magnetic ripple data-open-booking>
-            Map My Workflow
+            Book a fit call
           </Button>
-          <Button variant="secondary" size="lg" href="#automation-library">
+          <Button variant="secondary" size="lg" href="#service-library">
             View example builds
           </Button>
         </div>
@@ -95,16 +114,16 @@ const serviceMap = Object.fromEntries(services.map((service) => [service.slug, s
 
       <div class="services-proof reveal">
         <div class="proof-row">
-          <span>5-14</span>
-          <p>business days for focused workflows</p>
+          <span>10-14</span>
+          <p>business days to a first live dashboard</p>
         </div>
         <div class="proof-row">
           <span>3-4</span>
-          <p>weeks for multi-system builds</p>
+          <p>weeks for a full BI model or forecast engine</p>
         </div>
         <div class="proof-row">
           <span>0</span>
-          <p>new platform required by default</p>
+          <p>new logins your team has to learn</p>
         </div>
       </div>
     </div>
@@ -113,11 +132,11 @@ const serviceMap = Object.fromEntries(services.map((service) => [service.slug, s
   <section class="section systems-section">
     <div class="container">
       <div class="section-header reveal">
-        <p class="lead-in">The 5 Cypress model</p>
-        <h2>Ready-to-build systems, customized after the workflow is mapped.</h2>
+        <p class="lead-in">What we build</p>
+        <h2>Five ways to turn idle data into decisions.</h2>
         <p class="section-sub">
-          Each system solves a familiar business problem. The actual build changes
-          based on your industry, tools, volume, approval rules, and risk level.
+          Each one starts from data you already have and is scoped to your metrics, tools,
+          and how fast you actually need the numbers. Pick the one that unblocks a decision.
         </p>
       </div>
 
@@ -157,19 +176,19 @@ const serviceMap = Object.fromEntries(services.map((service) => [service.slug, s
     <div class="container specialty-grid">
       <div class="specialty-copy reveal">
         <p class="lead-in">Specialty lane</p>
-        <h2>Accounting and finance stays on the site for a reason.</h2>
+        <h2>Accounting and finance is the specialty for a reason.</h2>
         <p>
-          Those teams have dense workflows: QBO data, document intake, client reports,
-          invoice follow-up, close packages, and partner dashboards. That makes the niche
-          a strong proof point while the core service stays broader.
+          Those teams live on dense, high-stakes numbers: realization, WIP, AR aging, cashflow,
+          and partner dashboards. That makes the niche a strong proof point — but the same
+          analysis travels to any business with real data and no one to model it.
         </p>
       </div>
       <div class="specialty-card reveal">
         <span>Useful for</span>
         <ul>
-          <li>CPA and bookkeeping firms</li>
+          <li>CPA and bookkeeping firms (and their clients)</li>
           <li>Fractional CFO practices</li>
-          <li>Service businesses with lead leakage</li>
+          <li>Service businesses flying blind on pipeline</li>
           <li>Medical and professional offices</li>
           <li>Any team rebuilding the same report every week</li>
         </ul>
@@ -177,20 +196,19 @@ const serviceMap = Object.fromEntries(services.map((service) => [service.slug, s
     </div>
   </section>
 
-  <section class="section" id="automation-library">
+  <section class="section" id="service-library">
     <div class="container">
       <div class="section-header reveal">
-        <p class="lead-in">Automation library</p>
-        <h2>Concrete starting points, not vague automation packages.</h2>
+        <p class="lead-in">Service library</p>
+        <h2>Concrete starting points, with real price ranges.</h2>
         <p class="section-sub">
-          Some are accounting-focused today because those workflows are dense and
-          useful proof points. The underlying patterns can be adapted for other
-          B2B teams with similar handoffs.
+          Accounting-focused today because those numbers are dense and make useful proof
+          points — the same builds adapt to any business with data sitting idle.
         </p>
       </div>
 
       <div class="library-grid reveal-stagger">
-        {services.map((service) => (
+        {analystServices.map((service) => (
           <a class="library-card" href={`/services/${service.slug}/`}>
             <div>
               <p class="library-tag">{service.tag}</p>
@@ -204,6 +222,17 @@ const serviceMap = Object.fromEntries(services.map((service) => [service.slug, s
           </a>
         ))}
       </div>
+
+      <p class="automation-note reveal">
+        Also handle the back-office plumbing — missed-lead text-back, document intake,
+        client onboarding, AR chase, and month-end close?
+        {automationServices.map((service, i) => (
+          <>
+            {i === 0 ? ' ' : ', '}
+            <a href={`/services/${service.slug}/`}>{service.shortTitle}</a>
+          </>
+        ))}. Available on request; the analytics above are the core practice.
+      </p>
     </div>
   </section>
 
@@ -212,7 +241,7 @@ const serviceMap = Object.fromEntries(services.map((service) => [service.slug, s
       <div class="founding-band reveal">
         <div>
           <p class="lead-in">Founding five</p>
-          <h2>First 5 firms: a flagship build at $1,500 flat.</h2>
+          <h2>First 5 firms: a flagship dashboard build at $1,500 flat.</h2>
           <p>
             Flagship builds list at $2,500–$4,500. Founding clients trade a public build
             walkthrough (numbers anonymized, you approve before publish) for the founding
@@ -220,9 +249,9 @@ const serviceMap = Object.fromEntries(services.map((service) => [service.slug, s
           </p>
         </div>
         <div class="founding-band-action">
-          <span class="founding-band-slots">5 of 5 slots open</span>
+          <span class="founding-band-slots">Founding rate — limited</span>
           <Button variant="primary" size="lg" magnetic ripple data-open-booking>
-            Map My Workflow
+            Book a fit call
           </Button>
         </div>
       </div>
@@ -232,14 +261,14 @@ const serviceMap = Object.fromEntries(services.map((service) => [service.slug, s
   <section class="section services-bottom-cta">
     <div class="container">
       <div class="bottom-cta-inner reveal">
-        <p class="lead-in">Not sure which system fits?</p>
-        <h2>Bring the workflow your team keeps working around.</h2>
+        <p class="lead-in">Not sure which one fits?</p>
+        <h2>Bring the number you can never see in time.</h2>
         <p>
-          A mapping session is enough to identify the highest-leverage handoff,
-          what systems it touches, and what should be built first.
+          One fit call is enough to identify the decision worth unblocking, what data it
+          needs, and which dashboard or forecast to build first.
         </p>
         <Button variant="primary" size="lg" magnetic ripple data-open-booking>
-          Map My Workflow
+          Book a fit call
         </Button>
       </div>
     </div>
@@ -527,6 +556,21 @@ const serviceMap = Object.fromEntries(services.map((service) => [service.slug, s
     color: var(--text-secondary);
     font-size: var(--text-base);
   }
+  .automation-note {
+    margin-top: var(--space-8);
+    padding-top: var(--space-6);
+    border-top: 1px solid var(--border-subtle);
+    color: var(--text-disabled);
+    font-size: var(--text-sm);
+    line-height: var(--leading-relaxed);
+    max-width: 70ch;
+  }
+  .automation-note a {
+    color: var(--text-tertiary);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+  .automation-note a:hover { color: var(--text-secondary); }
   @media (max-width: 1024px) {
     .services-hero-grid,
     .system-row,

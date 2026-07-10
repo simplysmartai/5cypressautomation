@@ -102,13 +102,10 @@ h3 { font-size: clamp(1.25rem, 2.5vw, 1.875rem); }
 h4 { font-size: clamp(1.1rem, 2vw, 1.5rem); }
 
 h1 em, h2 em {
-  font-family: var(--font-display);
-  font-style: italic;
-  font-weight: var(--weight-normal);
-  background: var(--gradient-primary);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  font-family: var(--font-heading);
+  font-style: normal;
+  font-weight: var(--weight-bold);
+  color: var(--brand-primary-light);
 }
 
 .text-gradient {
@@ -145,8 +142,17 @@ p { line-height: var(--leading-relaxed); }
 }
 .skip-link:focus { top: var(--space-4); }
 
+/* ── LENIS SMOOTH SCROLL ─────────────────────────────────────── */
+/* Required by Lenis; also disables native smooth-scroll while it runs. */
+html.lenis, html.lenis body { height: auto; }
+.lenis.lenis-smooth { scroll-behavior: auto !important; }
+.lenis.lenis-smooth [data-lenis-prevent] { overscroll-behavior: contain; }
+.lenis.lenis-stopped { overflow: hidden; }
+
 /* ── SCROLL REVEAL ───────────────────────────────────────────── */
-.reveal {
+/* Hidden states only apply when JS is present (.js added before paint), so
+   with JS disabled every .reveal element stays fully visible. */
+.js .reveal {
   opacity: 0;
   transform: translateY(24px);
   transition:
@@ -159,7 +165,7 @@ p { line-height: var(--leading-relaxed); }
 }
 
 /* Stagger helpers for child reveals */
-.reveal-stagger > * {
+.js .reveal-stagger > * {
   opacity: 0;
   transform: translateY(20px);
   transition:

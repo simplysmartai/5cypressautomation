@@ -51,7 +51,8 @@
   --shadow-glow-accent:0 0 40px rgba(251, 191, 36, 0.3);
 
   /* ── TYPOGRAPHY ──────────────────────────────────────────── */
-  --font-display: 'Playfair Display', Georgia, serif;
+  /* One display family sitewide — Playfair retired (Phase 1 type unification) */
+  --font-display: 'Space Grotesk', sans-serif;
   --font-heading: 'Space Grotesk', sans-serif;
   --font-body:    'DM Sans', sans-serif;
   --font-mono:    'JetBrains Mono', monospace;

@@ -41,6 +41,9 @@ const {
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
     <meta name="theme-color" content="#0A0A0C" />
 
+    <!-- Mark JS-enabled before paint so reveal states only hide when JS can restore them -->
+    <script is:inline>document.documentElement.classList.add('js');</script>
+
     <title>{title}</title>
     <meta name="description" content={description} />
     {noIndex && <meta name="robots" content="noindex, nofollow" />}
@@ -68,7 +71,7 @@ const {
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&family=Space+Grotesk:wght@400;500;600;700&family=DM+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=DM+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap"
     />
 
     <!-- Structured data slot -->
@@ -87,59 +90,9 @@ const {
     <Footer />
     <BookingModal />
 
-    <!-- Page interaction scripts — bundled by Astro -->
+    <!-- Global motion + interaction module — bundled by Astro -->
     <script>
-      // ── Scroll Reveal ──────────────────────────────────────
-      const revealObserver = new IntersectionObserver(
-        (entries) => {
-          entries.forEach((entry) => {
-            if (entry.isIntersecting) {
-              entry.target.classList.add('is-visible');
-              revealObserver.unobserve(entry.target);
-            }
-          });
-        },
-        { threshold: 0.12, rootMargin: '0px 0px -48px 0px' }
-      );
-      document
-        .querySelectorAll('.reveal, .reveal-stagger')
-        .forEach((el) => revealObserver.observe(el));
-
-      // ── Magnetic Buttons ───────────────────────────────────
-      document.querySelectorAll<HTMLElement>('[data-magnetic]').forEach((btn) => {
-        btn.addEventListener('mousemove', (e: MouseEvent) => {
-          const rect = btn.getBoundingClientRect();
-          const x = e.clientX - rect.left - rect.width / 2;
-          const y = e.clientY - rect.top - rect.height / 2;
-          btn.style.transform = `translate(${x * 0.18}px, ${y * 0.18}px)`;
-        });
-        btn.addEventListener('mouseleave', () => {
-          btn.style.transform = '';
-        });
-      });
-
-      // ── Ripple Effect ──────────────────────────────────────
-      document.querySelectorAll<HTMLElement>('[data-ripple]').forEach((btn) => {
-        btn.addEventListener('click', (e: MouseEvent) => {
-          const rect = btn.getBoundingClientRect();
-          const ripple = document.createElement('span');
-          ripple.classList.add('ripple-wave');
-          ripple.style.left = `${e.clientX - rect.left}px`;
-          ripple.style.top  = `${e.clientY - rect.top}px`;
-          btn.appendChild(ripple);
-          ripple.addEventListener('animationend', () => ripple.remove());
-        });
-      });
-
-      // ── Booking modal trigger ──────────────────────────────
-      document.querySelectorAll('[data-open-booking]').forEach((trigger) => {
-        trigger.addEventListener('click', () => {
-          const modal = document.getElementById('booking-modal');
-          modal?.classList.add('is-open');
-          modal?.setAttribute('aria-hidden', 'false');
-          document.body.style.overflow = 'hidden';
-        });
-      });
+      import '../scripts/motion.ts';
     </script>
   </body>
 </html>

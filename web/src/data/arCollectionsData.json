@@ -1,0 +1,1467 @@
+{
+  "meta": {
+    "companyName": "Harlow Fabrication & Supply",
+    "sector": "B2B parts distributor",
+    "disclaimer": "Fictional demo company. Every number on this page is synthetic and regenerable from a seeded script.",
+    "seed": 71026,
+    "generatedAt": "2026-07-08",
+    "automationLiveDate": "2026-05-10",
+    "targets": {
+      "dso": 35
+    }
+  },
+  "history": [
+    {
+      "date": "2026-04-10",
+      "dso": 54.6,
+      "totalOutstanding": 320474,
+      "buckets": [
+        160237,
+        90246,
+        43948,
+        26044
+      ]
+    },
+    {
+      "date": "2026-04-11",
+      "dso": 54.6,
+      "totalOutstanding": 308550,
+      "buckets": [
+        154275,
+        80635,
+        49436,
+        24204
+      ]
+    },
+    {
+      "date": "2026-04-12",
+      "dso": 54.9,
+      "totalOutstanding": 314186,
+      "buckets": [
+        157093,
+        74313,
+        48135,
+        34645
+      ]
+    },
+    {
+      "date": "2026-04-13",
+      "dso": 54.8,
+      "totalOutstanding": 319721,
+      "buckets": [
+        159860,
+        89661,
+        45497,
+        24703
+      ]
+    },
+    {
+      "date": "2026-04-14",
+      "dso": 55.4,
+      "totalOutstanding": 322660,
+      "buckets": [
+        161330,
+        91767,
+        50197,
+        19366
+      ]
+    },
+    {
+      "date": "2026-04-15",
+      "dso": 55.6,
+      "totalOutstanding": 322217,
+      "buckets": [
+        161108,
+        82212,
+        54334,
+        24562
+      ]
+    },
+    {
+      "date": "2026-04-16",
+      "dso": 55.9,
+      "totalOutstanding": 326051,
+      "buckets": [
+        163025,
+        87728,
+        49950,
+        25347
+      ]
+    },
+    {
+      "date": "2026-04-17",
+      "dso": 56.4,
+      "totalOutstanding": 324423,
+      "buckets": [
+        162211,
+        84429,
+        45046,
+        32736
+      ]
+    },
+    {
+      "date": "2026-04-18",
+      "dso": 55.9,
+      "totalOutstanding": 325714,
+      "buckets": [
+        162857,
+        84088,
+        45197,
+        33572
+      ]
+    },
+    {
+      "date": "2026-04-19",
+      "dso": 56,
+      "totalOutstanding": 317933,
+      "buckets": [
+        158967,
+        78223,
+        46170,
+        34573
+      ]
+    },
+    {
+      "date": "2026-04-20",
+      "dso": 56.5,
+      "totalOutstanding": 327571,
+      "buckets": [
+        163786,
+        81932,
+        51032,
+        30821
+      ]
+    },
+    {
+      "date": "2026-04-21",
+      "dso": 56.9,
+      "totalOutstanding": 332618,
+      "buckets": [
+        166309,
+        80257,
+        55479,
+        30572
+      ]
+    },
+    {
+      "date": "2026-04-22",
+      "dso": 57.1,
+      "totalOutstanding": 327879,
+      "buckets": [
+        163939,
+        83567,
+        45564,
+        34808
+      ]
+    },
+    {
+      "date": "2026-04-23",
+      "dso": 56.9,
+      "totalOutstanding": 323488,
+      "buckets": [
+        161744,
+        87962,
+        49491,
+        24291
+      ]
+    },
+    {
+      "date": "2026-04-24",
+      "dso": 57.3,
+      "totalOutstanding": 335686,
+      "buckets": [
+        167843,
+        80237,
+        46533,
+        41073
+      ]
+    },
+    {
+      "date": "2026-04-25",
+      "dso": 57.8,
+      "totalOutstanding": 330138,
+      "buckets": [
+        165069,
+        84740,
+        45685,
+        34644
+      ]
+    },
+    {
+      "date": "2026-04-26",
+      "dso": 57.7,
+      "totalOutstanding": 333935,
+      "buckets": [
+        166967,
+        86951,
+        43679,
+        36337
+      ]
+    },
+    {
+      "date": "2026-04-27",
+      "dso": 58.3,
+      "totalOutstanding": 328632,
+      "buckets": [
+        164316,
+        89804,
+        52259,
+        22253
+      ]
+    },
+    {
+      "date": "2026-04-28",
+      "dso": 58.1,
+      "totalOutstanding": 330940,
+      "buckets": [
+        165470,
+        79506,
+        53709,
+        32255
+      ]
+    },
+    {
+      "date": "2026-04-29",
+      "dso": 58.4,
+      "totalOutstanding": 338858,
+      "buckets": [
+        169429,
+        93823,
+        53702,
+        21904
+      ]
+    },
+    {
+      "date": "2026-04-30",
+      "dso": 58.4,
+      "totalOutstanding": 336416,
+      "buckets": [
+        168208,
+        83156,
+        45066,
+        39986
+      ]
+    },
+    {
+      "date": "2026-05-01",
+      "dso": 58.9,
+      "totalOutstanding": 346122,
+      "buckets": [
+        173061,
+        95298,
+        45032,
+        32731
+      ]
+    },
+    {
+      "date": "2026-05-02",
+      "dso": 58.6,
+      "totalOutstanding": 337940,
+      "buckets": [
+        168970,
+        82855,
+        50867,
+        35248
+      ]
+    },
+    {
+      "date": "2026-05-03",
+      "dso": 59.1,
+      "totalOutstanding": 331913,
+      "buckets": [
+        165957,
+        84757,
+        50777,
+        30422
+      ]
+    },
+    {
+      "date": "2026-05-04",
+      "dso": 58.6,
+      "totalOutstanding": 332646,
+      "buckets": [
+        166323,
+        82114,
+        43480,
+        40729
+      ]
+    },
+    {
+      "date": "2026-05-05",
+      "dso": 58,
+      "totalOutstanding": 333337,
+      "buckets": [
+        166669,
+        89308,
+        46004,
+        31356
+      ]
+    },
+    {
+      "date": "2026-05-06",
+      "dso": 57.8,
+      "totalOutstanding": 333770,
+      "buckets": [
+        166885,
+        79899,
+        49012,
+        37975
+      ]
+    },
+    {
+      "date": "2026-05-07",
+      "dso": 57.8,
+      "totalOutstanding": 337985,
+      "buckets": [
+        168993,
+        88863,
+        49441,
+        30689
+      ]
+    },
+    {
+      "date": "2026-05-08",
+      "dso": 57.4,
+      "totalOutstanding": 322109,
+      "buckets": [
+        161054,
+        88463,
+        54271,
+        18320
+      ]
+    },
+    {
+      "date": "2026-05-09",
+      "dso": 57.3,
+      "totalOutstanding": 331998,
+      "buckets": [
+        165999,
+        87269,
+        48772,
+        29957
+      ]
+    },
+    {
+      "date": "2026-05-10",
+      "dso": 56.1,
+      "totalOutstanding": 321302,
+      "buckets": [
+        160651,
+        87044,
+        51510,
+        22098
+      ]
+    },
+    {
+      "date": "2026-05-11",
+      "dso": 54.9,
+      "totalOutstanding": 322197,
+      "buckets": [
+        162441,
+        85658,
+        51626,
+        22472
+      ]
+    },
+    {
+      "date": "2026-05-12",
+      "dso": 53.7,
+      "totalOutstanding": 310785,
+      "buckets": [
+        157983,
+        84452,
+        40869,
+        27482
+      ]
+    },
+    {
+      "date": "2026-05-13",
+      "dso": 53,
+      "totalOutstanding": 297099,
+      "buckets": [
+        152263,
+        73243,
+        45325,
+        26268
+      ]
+    },
+    {
+      "date": "2026-05-14",
+      "dso": 52.3,
+      "totalOutstanding": 307614,
+      "buckets": [
+        158934,
+        78576,
+        44075,
+        26029
+      ]
+    },
+    {
+      "date": "2026-05-15",
+      "dso": 52,
+      "totalOutstanding": 299399,
+      "buckets": [
+        155937,
+        74542,
+        47746,
+        21174
+      ]
+    },
+    {
+      "date": "2026-05-16",
+      "dso": 51.5,
+      "totalOutstanding": 296707,
+      "buckets": [
+        155771,
+        69680,
+        41320,
+        29936
+      ]
+    },
+    {
+      "date": "2026-05-17",
+      "dso": 50.4,
+      "totalOutstanding": 283003,
+      "buckets": [
+        149756,
+        67740,
+        44407,
+        21100
+      ]
+    },
+    {
+      "date": "2026-05-18",
+      "dso": 49.5,
+      "totalOutstanding": 286192,
+      "buckets": [
+        152636,
+        73595,
+        38862,
+        21099
+      ]
+    },
+    {
+      "date": "2026-05-19",
+      "dso": 48.7,
+      "totalOutstanding": 279184,
+      "buckets": [
+        150061,
+        68780,
+        35165,
+        25178
+      ]
+    },
+    {
+      "date": "2026-05-20",
+      "dso": 48.5,
+      "totalOutstanding": 284716,
+      "buckets": [
+        154221,
+        63072,
+        40438,
+        26985
+      ]
+    },
+    {
+      "date": "2026-05-21",
+      "dso": 47.9,
+      "totalOutstanding": 274768,
+      "buckets": [
+        149977,
+        64318,
+        35463,
+        25009
+      ]
+    },
+    {
+      "date": "2026-05-22",
+      "dso": 47.2,
+      "totalOutstanding": 272895,
+      "buckets": [
+        150092,
+        61940,
+        32490,
+        28374
+      ]
+    },
+    {
+      "date": "2026-05-23",
+      "dso": 47,
+      "totalOutstanding": 276964,
+      "buckets": [
+        153484,
+        65529,
+        37290,
+        20661
+      ]
+    },
+    {
+      "date": "2026-05-24",
+      "dso": 46.5,
+      "totalOutstanding": 273484,
+      "buckets": [
+        152695,
+        65737,
+        37527,
+        17525
+      ]
+    },
+    {
+      "date": "2026-05-25",
+      "dso": 45.7,
+      "totalOutstanding": 264351,
+      "buckets": [
+        148698,
+        59910,
+        37560,
+        18183
+      ]
+    },
+    {
+      "date": "2026-05-26",
+      "dso": 44.8,
+      "totalOutstanding": 253880,
+      "buckets": [
+        143866,
+        59399,
+        35559,
+        15057
+      ]
+    },
+    {
+      "date": "2026-05-27",
+      "dso": 44.3,
+      "totalOutstanding": 257493,
+      "buckets": [
+        146985,
+        52201,
+        34593,
+        23713
+      ]
+    },
+    {
+      "date": "2026-05-28",
+      "dso": 43.5,
+      "totalOutstanding": 246469,
+      "buckets": [
+        141720,
+        58368,
+        27803,
+        18579
+      ]
+    },
+    {
+      "date": "2026-05-29",
+      "dso": 43.1,
+      "totalOutstanding": 240436,
+      "buckets": [
+        139253,
+        53449,
+        28340,
+        19394
+      ]
+    },
+    {
+      "date": "2026-05-30",
+      "dso": 42.3,
+      "totalOutstanding": 250438,
+      "buckets": [
+        146089,
+        55819,
+        33784,
+        14746
+      ]
+    },
+    {
+      "date": "2026-05-31",
+      "dso": 42.4,
+      "totalOutstanding": 237850,
+      "buckets": [
+        139737,
+        48732,
+        26184,
+        23197
+      ]
+    },
+    {
+      "date": "2026-06-01",
+      "dso": 41.7,
+      "totalOutstanding": 235298,
+      "buckets": [
+        139218,
+        49275,
+        28692,
+        18113
+      ]
+    },
+    {
+      "date": "2026-06-02",
+      "dso": 40.9,
+      "totalOutstanding": 232181,
+      "buckets": [
+        138341,
+        51380,
+        26883,
+        15577
+      ]
+    },
+    {
+      "date": "2026-06-03",
+      "dso": 40.2,
+      "totalOutstanding": 224986,
+      "buckets": [
+        134992,
+        42753,
+        23546,
+        23695
+      ]
+    },
+    {
+      "date": "2026-06-04",
+      "dso": 40.3,
+      "totalOutstanding": 227773,
+      "buckets": [
+        137613,
+        51239,
+        29490,
+        9431
+      ]
+    },
+    {
+      "date": "2026-06-05",
+      "dso": 40.5,
+      "totalOutstanding": 231345,
+      "buckets": [
+        140735,
+        45568,
+        29342,
+        15699
+      ]
+    },
+    {
+      "date": "2026-06-06",
+      "dso": 40.1,
+      "totalOutstanding": 233953,
+      "buckets": [
+        143296,
+        44171,
+        23718,
+        22767
+      ]
+    },
+    {
+      "date": "2026-06-07",
+      "dso": 39.3,
+      "totalOutstanding": 229684,
+      "buckets": [
+        141638,
+        47058,
+        28764,
+        12224
+      ]
+    },
+    {
+      "date": "2026-06-08",
+      "dso": 38.8,
+      "totalOutstanding": 217422,
+      "buckets": [
+        134983,
+        42588,
+        27579,
+        12273
+      ]
+    },
+    {
+      "date": "2026-06-09",
+      "dso": 38.8,
+      "totalOutstanding": 224692,
+      "buckets": [
+        140432,
+        43432,
+        23161,
+        17666
+      ]
+    },
+    {
+      "date": "2026-06-10",
+      "dso": 38.2,
+      "totalOutstanding": 222577,
+      "buckets": [
+        140038,
+        45115,
+        25963,
+        11461
+      ]
+    },
+    {
+      "date": "2026-06-11",
+      "dso": 37.6,
+      "totalOutstanding": 217092,
+      "buckets": [
+        137491,
+        44138,
+        22010,
+        13453
+      ]
+    },
+    {
+      "date": "2026-06-12",
+      "dso": 37.2,
+      "totalOutstanding": 212951,
+      "buckets": [
+        135756,
+        37838,
+        21116,
+        18241
+      ]
+    },
+    {
+      "date": "2026-06-13",
+      "dso": 36.6,
+      "totalOutstanding": 211259,
+      "buckets": [
+        135558,
+        39378,
+        24163,
+        12161
+      ]
+    },
+    {
+      "date": "2026-06-14",
+      "dso": 36.2,
+      "totalOutstanding": 213290,
+      "buckets": [
+        137750,
+        42564,
+        25444,
+        7533
+      ]
+    },
+    {
+      "date": "2026-06-15",
+      "dso": 35.7,
+      "totalOutstanding": 200287,
+      "buckets": [
+        130187,
+        35115,
+        22806,
+        12179
+      ]
+    },
+    {
+      "date": "2026-06-16",
+      "dso": 35.3,
+      "totalOutstanding": 196839,
+      "buckets": [
+        128766,
+        35220,
+        22225,
+        10629
+      ]
+    },
+    {
+      "date": "2026-06-17",
+      "dso": 35.5,
+      "totalOutstanding": 210840,
+      "buckets": [
+        138803,
+        39483,
+        23515,
+        9039
+      ]
+    },
+    {
+      "date": "2026-06-18",
+      "dso": 35.7,
+      "totalOutstanding": 204802,
+      "buckets": [
+        135682,
+        38845,
+        18510,
+        11766
+      ]
+    },
+    {
+      "date": "2026-06-19",
+      "dso": 35,
+      "totalOutstanding": 201714,
+      "buckets": [
+        134476,
+        37619,
+        17820,
+        11799
+      ]
+    },
+    {
+      "date": "2026-06-20",
+      "dso": 35.4,
+      "totalOutstanding": 207329,
+      "buckets": [
+        139083,
+        38894,
+        18430,
+        10922
+      ]
+    },
+    {
+      "date": "2026-06-21",
+      "dso": 34.9,
+      "totalOutstanding": 193988,
+      "buckets": [
+        130942,
+        35903,
+        17487,
+        9657
+      ]
+    },
+    {
+      "date": "2026-06-22",
+      "dso": 34.4,
+      "totalOutstanding": 205283,
+      "buckets": [
+        139422,
+        35668,
+        19804,
+        10390
+      ]
+    },
+    {
+      "date": "2026-06-23",
+      "dso": 34.6,
+      "totalOutstanding": 198171,
+      "buckets": [
+        135417,
+        29793,
+        19210,
+        13751
+      ]
+    },
+    {
+      "date": "2026-06-24",
+      "dso": 34.8,
+      "totalOutstanding": 194204,
+      "buckets": [
+        133516,
+        28611,
+        18615,
+        13463
+      ]
+    },
+    {
+      "date": "2026-06-25",
+      "dso": 34.8,
+      "totalOutstanding": 200730,
+      "buckets": [
+        138838,
+        29147,
+        20602,
+        12143
+      ]
+    },
+    {
+      "date": "2026-06-26",
+      "dso": 35,
+      "totalOutstanding": 205482,
+      "buckets": [
+        142981,
+        31152,
+        20594,
+        10755
+      ]
+    },
+    {
+      "date": "2026-06-27",
+      "dso": 34.7,
+      "totalOutstanding": 203947,
+      "buckets": [
+        142763,
+        30551,
+        19225,
+        11408
+      ]
+    },
+    {
+      "date": "2026-06-28",
+      "dso": 34.7,
+      "totalOutstanding": 198335,
+      "buckets": [
+        139661,
+        28755,
+        15728,
+        14191
+      ]
+    },
+    {
+      "date": "2026-06-29",
+      "dso": 34.7,
+      "totalOutstanding": 205140,
+      "buckets": [
+        145307,
+        30638,
+        15976,
+        13218
+      ]
+    },
+    {
+      "date": "2026-06-30",
+      "dso": 34.4,
+      "totalOutstanding": 192417,
+      "buckets": [
+        137097,
+        27610,
+        15584,
+        12125
+      ]
+    },
+    {
+      "date": "2026-07-01",
+      "dso": 34.6,
+      "totalOutstanding": 202707,
+      "buckets": [
+        145273,
+        27698,
+        17138,
+        12598
+      ]
+    },
+    {
+      "date": "2026-07-02",
+      "dso": 34.3,
+      "totalOutstanding": 198264,
+      "buckets": [
+        142915,
+        27235,
+        14927,
+        13187
+      ]
+    },
+    {
+      "date": "2026-07-03",
+      "dso": 34.6,
+      "totalOutstanding": 201795,
+      "buckets": [
+        146302,
+        30580,
+        15674,
+        9239
+      ]
+    },
+    {
+      "date": "2026-07-04",
+      "dso": 34.3,
+      "totalOutstanding": 193931,
+      "buckets": [
+        141408,
+        26446,
+        15420,
+        10657
+      ]
+    },
+    {
+      "date": "2026-07-05",
+      "dso": 34.3,
+      "totalOutstanding": 192596,
+      "buckets": [
+        141237,
+        28442,
+        16071,
+        6846
+      ]
+    },
+    {
+      "date": "2026-07-06",
+      "dso": 34.4,
+      "totalOutstanding": 196295,
+      "buckets": [
+        144768,
+        26886,
+        15475,
+        9166
+      ]
+    },
+    {
+      "date": "2026-07-07",
+      "dso": 34.6,
+      "totalOutstanding": 199426,
+      "buckets": [
+        147907,
+        28778,
+        14400,
+        8340
+      ]
+    },
+    {
+      "date": "2026-07-08",
+      "dso": 35,
+      "totalOutstanding": 195030,
+      "buckets": [
+        145460,
+        25026,
+        15313,
+        9231
+      ]
+    }
+  ],
+  "recovered": [
+    {
+      "date": "2026-04-10",
+      "cumulative": 0
+    },
+    {
+      "date": "2026-04-11",
+      "cumulative": 0
+    },
+    {
+      "date": "2026-04-12",
+      "cumulative": 0
+    },
+    {
+      "date": "2026-04-13",
+      "cumulative": 0
+    },
+    {
+      "date": "2026-04-14",
+      "cumulative": 0
+    },
+    {
+      "date": "2026-04-15",
+      "cumulative": 0
+    },
+    {
+      "date": "2026-04-16",
+      "cumulative": 0
+    },
+    {
+      "date": "2026-04-17",
+      "cumulative": 0
+    },
+    {
+      "date": "2026-04-18",
+      "cumulative": 0
+    },
+    {
+      "date": "2026-04-19",
+      "cumulative": 0
+    },
+    {
+      "date": "2026-04-20",
+      "cumulative": 0
+    },
+    {
+      "date": "2026-04-21",
+      "cumulative": 0
+    },
+    {
+      "date": "2026-04-22",
+      "cumulative": 0
+    },
+    {
+      "date": "2026-04-23",
+      "cumulative": 0
+    },
+    {
+      "date": "2026-04-24",
+      "cumulative": 0
+    },
+    {
+      "date": "2026-04-25",
+      "cumulative": 0
+    },
+    {
+      "date": "2026-04-26",
+      "cumulative": 0
+    },
+    {
+      "date": "2026-04-27",
+      "cumulative": 0
+    },
+    {
+      "date": "2026-04-28",
+      "cumulative": 0
+    },
+    {
+      "date": "2026-04-29",
+      "cumulative": 0
+    },
+    {
+      "date": "2026-04-30",
+      "cumulative": 0
+    },
+    {
+      "date": "2026-05-01",
+      "cumulative": 0
+    },
+    {
+      "date": "2026-05-02",
+      "cumulative": 0
+    },
+    {
+      "date": "2026-05-03",
+      "cumulative": 0
+    },
+    {
+      "date": "2026-05-04",
+      "cumulative": 0
+    },
+    {
+      "date": "2026-05-05",
+      "cumulative": 0
+    },
+    {
+      "date": "2026-05-06",
+      "cumulative": 0
+    },
+    {
+      "date": "2026-05-07",
+      "cumulative": 0
+    },
+    {
+      "date": "2026-05-08",
+      "cumulative": 0
+    },
+    {
+      "date": "2026-05-09",
+      "cumulative": 0
+    },
+    {
+      "date": "2026-05-10",
+      "cumulative": 1287
+    },
+    {
+      "date": "2026-05-11",
+      "cumulative": 2057
+    },
+    {
+      "date": "2026-05-12",
+      "cumulative": 3934
+    },
+    {
+      "date": "2026-05-13",
+      "cumulative": 5441
+    },
+    {
+      "date": "2026-05-14",
+      "cumulative": 6455
+    },
+    {
+      "date": "2026-05-15",
+      "cumulative": 7448
+    },
+    {
+      "date": "2026-05-16",
+      "cumulative": 8218
+    },
+    {
+      "date": "2026-05-17",
+      "cumulative": 9672
+    },
+    {
+      "date": "2026-05-18",
+      "cumulative": 10934
+    },
+    {
+      "date": "2026-05-19",
+      "cumulative": 12783
+    },
+    {
+      "date": "2026-05-20",
+      "cumulative": 14170
+    },
+    {
+      "date": "2026-05-21",
+      "cumulative": 14910
+    },
+    {
+      "date": "2026-05-22",
+      "cumulative": 17050
+    },
+    {
+      "date": "2026-05-23",
+      "cumulative": 17966
+    },
+    {
+      "date": "2026-05-24",
+      "cumulative": 19146
+    },
+    {
+      "date": "2026-05-25",
+      "cumulative": 21180
+    },
+    {
+      "date": "2026-05-26",
+      "cumulative": 22213
+    },
+    {
+      "date": "2026-05-27",
+      "cumulative": 24405
+    },
+    {
+      "date": "2026-05-28",
+      "cumulative": 26521
+    },
+    {
+      "date": "2026-05-29",
+      "cumulative": 28756
+    },
+    {
+      "date": "2026-05-30",
+      "cumulative": 30081
+    },
+    {
+      "date": "2026-05-31",
+      "cumulative": 31152
+    },
+    {
+      "date": "2026-06-01",
+      "cumulative": 31721
+    },
+    {
+      "date": "2026-06-02",
+      "cumulative": 32841
+    },
+    {
+      "date": "2026-06-03",
+      "cumulative": 34696
+    },
+    {
+      "date": "2026-06-04",
+      "cumulative": 35712
+    },
+    {
+      "date": "2026-06-05",
+      "cumulative": 37547
+    },
+    {
+      "date": "2026-06-06",
+      "cumulative": 39478
+    },
+    {
+      "date": "2026-06-07",
+      "cumulative": 40664
+    },
+    {
+      "date": "2026-06-08",
+      "cumulative": 41454
+    },
+    {
+      "date": "2026-06-09",
+      "cumulative": 42373
+    },
+    {
+      "date": "2026-06-10",
+      "cumulative": 43170
+    },
+    {
+      "date": "2026-06-11",
+      "cumulative": 43821
+    },
+    {
+      "date": "2026-06-12",
+      "cumulative": 44668
+    },
+    {
+      "date": "2026-06-13",
+      "cumulative": 46676
+    },
+    {
+      "date": "2026-06-14",
+      "cumulative": 48813
+    },
+    {
+      "date": "2026-06-15",
+      "cumulative": 50251
+    },
+    {
+      "date": "2026-06-16",
+      "cumulative": 51298
+    },
+    {
+      "date": "2026-06-17",
+      "cumulative": 53486
+    },
+    {
+      "date": "2026-06-18",
+      "cumulative": 54774
+    },
+    {
+      "date": "2026-06-19",
+      "cumulative": 56071
+    },
+    {
+      "date": "2026-06-20",
+      "cumulative": 58116
+    },
+    {
+      "date": "2026-06-21",
+      "cumulative": 58712
+    },
+    {
+      "date": "2026-06-22",
+      "cumulative": 59416
+    },
+    {
+      "date": "2026-06-23",
+      "cumulative": 60507
+    },
+    {
+      "date": "2026-06-24",
+      "cumulative": 61192
+    },
+    {
+      "date": "2026-06-25",
+      "cumulative": 63132
+    },
+    {
+      "date": "2026-06-26",
+      "cumulative": 65403
+    },
+    {
+      "date": "2026-06-27",
+      "cumulative": 67635
+    },
+    {
+      "date": "2026-06-28",
+      "cumulative": 68892
+    },
+    {
+      "date": "2026-06-29",
+      "cumulative": 69737
+    },
+    {
+      "date": "2026-06-30",
+      "cumulative": 71482
+    },
+    {
+      "date": "2026-07-01",
+      "cumulative": 73098
+    },
+    {
+      "date": "2026-07-02",
+      "cumulative": 75250
+    },
+    {
+      "date": "2026-07-03",
+      "cumulative": 77070
+    },
+    {
+      "date": "2026-07-04",
+      "cumulative": 77623
+    },
+    {
+      "date": "2026-07-05",
+      "cumulative": 79079
+    },
+    {
+      "date": "2026-07-06",
+      "cumulative": 80370
+    },
+    {
+      "date": "2026-07-07",
+      "cumulative": 81727
+    },
+    {
+      "date": "2026-07-08",
+      "cumulative": 83944
+    }
+  ],
+  "invoices": [
+    {
+      "id": "INV-2612",
+      "client": "Marrow Bay Machining",
+      "amount": 7901,
+      "daysOverdue": 66,
+      "lastAction": "Promise to pay logged",
+      "remindersSent": 4
+    },
+    {
+      "id": "INV-2606",
+      "client": "Petrov Industrial Supply",
+      "amount": 14555,
+      "daysOverdue": 40,
+      "lastAction": "Second notice sent",
+      "remindersSent": 2
+    },
+    {
+      "id": "INV-2618",
+      "client": "Fenwick Distribution",
+      "amount": 7998,
+      "daysOverdue": 28,
+      "lastAction": "Reminder opened",
+      "remindersSent": 2
+    },
+    {
+      "id": "INV-2609",
+      "client": "Castellan Fixtures",
+      "amount": 15182,
+      "daysOverdue": 21,
+      "lastAction": "Reminder sent",
+      "remindersSent": 1
+    },
+    {
+      "id": "INV-2603",
+      "client": "Ridgeline Hardware Co.",
+      "amount": 4157,
+      "daysOverdue": 19,
+      "lastAction": "Escalated to owner",
+      "remindersSent": 1
+    },
+    {
+      "id": "INV-2615",
+      "client": "Ostrander Tool & Die",
+      "amount": 3944,
+      "daysOverdue": 13,
+      "lastAction": "Reminder sent",
+      "remindersSent": 1
+    },
+    {
+      "id": "INV-2600",
+      "client": "Brannon Steel Works",
+      "amount": 8215,
+      "daysOverdue": 12,
+      "lastAction": "Reminder sent",
+      "remindersSent": 1
+    }
+  ],
+  "activity": [
+    {
+      "hoursAgo": 2,
+      "text": "Marrow Bay Machining escalated to owner after 2 unanswered reminders"
+    },
+    {
+      "hoursAgo": 9,
+      "text": "Petrov Industrial Supply opened reminder email — logged for follow-up"
+    },
+    {
+      "hoursAgo": 15,
+      "text": "Promise-to-pay captured from Castellan Fixtures — due in 5 days"
+    },
+    {
+      "hoursAgo": 25,
+      "text": "Promise-to-pay captured from Castellan Fixtures — due in 5 days"
+    },
+    {
+      "hoursAgo": 30,
+      "text": "Promise-to-pay captured from Petrov Industrial Supply — due in 5 days"
+    },
+    {
+      "hoursAgo": 37,
+      "text": "Brannon Steel Works opened reminder email — logged for follow-up"
+    },
+    {
+      "hoursAgo": 44,
+      "text": "Reminder auto-sent to Ridgeline Hardware Co. — invoice 32 days past due"
+    },
+    {
+      "hoursAgo": 50,
+      "text": "Calloway Metal Group escalated to owner after 2 unanswered reminders"
+    },
+    {
+      "hoursAgo": 58,
+      "text": "Petrov Industrial Supply escalated to owner after 2 unanswered reminders"
+    },
+    {
+      "hoursAgo": 68,
+      "text": "Calloway Metal Group opened reminder email — logged for follow-up"
+    }
+  ]
+}

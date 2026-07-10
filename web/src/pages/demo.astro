@@ -174,7 +174,7 @@ const description =
         <div class="demo-hero-meta">
           <span class="demo-badge">Demo data</span>
           <span class="demo-period">Jul 24 – Jun 26 · 24 months</span>
-          <Button variant="primary" size="lg" magnetic ripple data-open-booking>Map My Workflow</Button>
+          <Button variant="primary" size="lg" magnetic ripple data-open-booking>Book a fit call</Button>
         </div>
       </div>
     </div>
@@ -204,7 +204,7 @@ const description =
           <div class="kpi-tile">
             <span class="kpi-label">AR past 60 days</span>
             <strong class="kpi-value">{usdK(over60)}</strong>
-            <span class="kpi-delta is-down">{pct(over60 / totalAR)} of {usdK(totalAR)} AR</span>
+            <span class="kpi-delta is-down">{pct(over60 / totalAR)} of total AR</span>
           </div>
           <div class="kpi-tile">
             <span class="kpi-label">Days to close</span>
@@ -215,12 +215,19 @@ const description =
 
         <aside class="alerts-panel" aria-label="Exceptions needing review">
           <p class="panel-title">Needs a human</p>
-          {alerts.map((a) => (
+          {alerts.map((a, i) => (
             <div class={`alert alert--${a.level}`}>
               <span class="alert-icon" aria-hidden="true">{a.level === 'critical' ? '▲' : '●'}</span>
               <div>
                 <p class="alert-title">{a.title} <em class="alert-level">{a.level}</em></p>
-                <p class="alert-detail">{a.detail}</p>
+                {i === 0 ? (
+                  <p class="alert-detail alert-detail--ai" data-typewriter={a.detail}>
+                    <span class="tw-label">AI-drafted read</span>
+                    <span class="tw-text"></span><span class="tw-cursor" aria-hidden="true"></span>
+                  </p>
+                ) : (
+                  <p class="alert-detail">{a.detail}</p>
+                )}
               </div>
             </div>
           ))}
@@ -301,18 +308,24 @@ const description =
               ))}
             </div>
           </figcaption>
-          <div class="ar-rows">
-            {arRows.map((row) => (
+          <div class="ar-rows" id="ar-rows">
+            {arRows.map((row, i) => (
               <div class="ar-row">
                 <span class="ar-name">{row.partner.name}</span>
-                <div class="ar-bar" style={`width:${(row.total / maxAr) * 100}%`}>
-                  {row.buckets.map((v, i) => (
-                    <span
-                      class="ar-seg"
-                      style={`flex:${v} 0 0; background:${agingRamp[i]}`}
-                      data-tip={`${row.partner.name} · ${meta.arBuckets[i]}: ${usd(v)}`}
-                    ></span>
-                  ))}
+                <div class="ar-bar-track">
+                  <div
+                    class="ar-bar"
+                    style={`--target-width:${(row.total / maxAr) * 100}%`}
+                    data-delay={i * 130}
+                  >
+                    {row.buckets.map((v, i2) => (
+                      <span
+                        class="ar-seg"
+                        style={`flex:${v} 0 0; background:${agingRamp[i2]}`}
+                        data-tip={`${row.partner.name} · ${meta.arBuckets[i2]}: ${usd(v)}`}
+                      ></span>
+                    ))}
+                  </div>
                 </div>
                 <span class="ar-total">{usdK(row.total)}</span>
               </div>
@@ -426,7 +439,7 @@ const description =
         human-review gate on anything that touches a client. Built in Power BI, Tableau,
         or a web view like this one — whatever your firm already trusts.
       </p>
-      <Button variant="primary" size="lg" magnetic ripple data-open-booking>Map My Workflow</Button>
+      <Button variant="primary" size="lg" magnetic ripple data-open-booking>Book a fit call</Button>
     </div>
   </section>
 </Layout>
@@ -434,6 +447,61 @@ const description =
 <div class="chart-tooltip" id="chart-tooltip" role="status" aria-hidden="true"></div>
 
 <script>
+  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // ── AR aging: staggered cascade-in on scroll into view ──────
+  const arRows = document.getElementById('ar-rows');
+  if (arRows) {
+    const bars = Array.from(arRows.querySelectorAll<HTMLElement>('.ar-bar'));
+    if (reducedMotion) {
+      bars.forEach((b) => b.classList.add('is-grown'));
+    } else {
+      const arObserver = new IntersectionObserver(
+        (entries) => {
+          if (entries.some((e) => e.isIntersecting)) {
+            bars.forEach((bar) => {
+              const delay = Number(bar.dataset.delay ?? 0);
+              setTimeout(() => bar.classList.add('is-grown'), delay);
+            });
+            arObserver.disconnect();
+          }
+        },
+        { threshold: 0.3 }
+      );
+      arObserver.observe(arRows);
+    }
+  }
+
+  // ── AI-drafted insight: typewriter reveal on scroll into view ─
+  document.querySelectorAll<HTMLElement>('[data-typewriter]').forEach((el) => {
+    const full = el.dataset.typewriter ?? '';
+    const textEl = el.querySelector<HTMLElement>('.tw-text');
+    if (!textEl) return;
+    if (reducedMotion) {
+      textEl.textContent = full;
+      return;
+    }
+    let started = false;
+    const twObserver = new IntersectionObserver(
+      (entries) => {
+        if (entries.some((e) => e.isIntersecting) && !started) {
+          started = true;
+          let i = 0;
+          const tick = () => {
+            textEl.textContent = full.slice(0, i);
+            i++;
+            if (i <= full.length) setTimeout(tick, 14);
+            else el.querySelector('.tw-cursor')?.classList.add('tw-done');
+          };
+          tick();
+          twObserver.disconnect();
+        }
+      },
+      { threshold: 0.4 }
+    );
+    twObserver.observe(el);
+  });
+
   // ── Partner tabs ────────────────────────────────────────────
   const tabs = Array.from(document.querySelectorAll<HTMLButtonElement>('.drill-tab'));
   const panels = Array.from(document.querySelectorAll<HTMLElement>('.drill-panel'));
@@ -622,6 +690,43 @@ const description =
     font-size: var(--text-xs);
     line-height: var(--leading-normal);
   }
+  .alert-detail--ai {
+    margin-top: var(--space-2);
+    padding: var(--space-2) var(--space-3);
+    border-left: 2px solid var(--brand-accent);
+    background: rgba(251,191,36,0.05);
+    border-radius: 0 6px 6px 0;
+    min-height: 2.6em;
+  }
+  .tw-label {
+    display: block;
+    margin-bottom: 2px;
+    color: var(--brand-accent);
+    font-family: var(--font-mono);
+    font-size: 0.6rem;
+    font-weight: var(--weight-bold);
+    letter-spacing: var(--tracking-wider);
+    text-transform: uppercase;
+  }
+  .tw-text {
+    color: var(--text-secondary);
+    font-size: var(--text-xs);
+    line-height: var(--leading-normal);
+  }
+  .tw-cursor {
+    display: inline-block;
+    width: 5px;
+    height: 11px;
+    margin-left: 1px;
+    background: var(--brand-accent);
+    vertical-align: middle;
+    animation: twBlink 0.9s step-end infinite;
+  }
+  .tw-cursor.tw-done { display: none; }
+  @keyframes twBlink { 50% { opacity: 0; } }
+  @media (prefers-reduced-motion: reduce) {
+    .tw-cursor { display: none; }
+  }
 
   /* ── Charts ───────────────────────────────────────────────── */
   .chart-row {
@@ -683,7 +788,14 @@ const description =
     align-items: center;
   }
   .ar-name { color: var(--text-secondary); font-size: var(--text-sm); }
-  .ar-bar { display: flex; gap: 2px; min-width: 40px; }
+  .ar-bar-track { min-width: 40px; }
+  .ar-bar {
+    display: flex;
+    gap: 2px;
+    width: 0;
+    transition: width 0.7s var(--ease-out);
+  }
+  .ar-bar.is-grown { width: var(--target-width, 100%); }
   .ar-seg {
     height: 22px;
     display: block;

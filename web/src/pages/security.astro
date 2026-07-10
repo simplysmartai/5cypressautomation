@@ -1,0 +1,287 @@
+---
+/**
+ * security.astro — Security & Data Handling
+ * Load-bearing, not boilerplate (CLAUDE.md §8): CPAs ask about data handling
+ * before they sign. Answering plainly, before they ask, wins deals.
+ */
+import Layout from '../layouts/Layout.astro';
+import Button from '../components/Button.astro';
+import JsonLd from '../components/JsonLd.astro';
+
+const controls = [
+  {
+    tag: '01',
+    title: 'AI runs API-only — nothing trains on your data',
+    text:
+      'We call AI models through their standard business API. Under those terms, your data is not used to train models and is not retained by the AI provider beyond the request. It is not a chatbot with memory of your firm.',
+  },
+  {
+    tag: '02',
+    title: 'Identifiers are stripped or minimized before processing',
+    text:
+      'Where a workflow allows it, client names, account numbers, and other direct identifiers are removed or masked before data is sent for AI processing. The system reconnects results back to the right record — not the AI step.',
+  },
+  {
+    tag: '03',
+    title: 'A human reviews before anything ships to a client',
+    text:
+      'Every AI-touched output — a classified document, a drafted entry, a flagged exception — sits behind a review gate. Nothing reaches a client or a client-facing system without a person seeing it first.',
+  },
+  {
+    tag: '04',
+    title: 'Encrypted in transit and at rest',
+    text:
+      'Data moving between your systems (QuickBooks, ShipStation, your CRM) and ours is encrypted in transit. Anything stored — logs, configuration, workflow state — is encrypted at rest.',
+  },
+  {
+    tag: '05',
+    title: 'NDA standard with every engagement',
+    text:
+      'A mutual NDA is part of the standard engagement letter, signed before any system access is granted — not an add-on you have to request.',
+  },
+  {
+    tag: '06',
+    title: 'You own every deliverable and its documentation',
+    text:
+      'Dashboards, scripts, workflow documentation, and runbooks belong to you. If you cancel or pause, you keep everything already built and the plain-English notes on how it runs.',
+  },
+];
+
+const reconciliationChecklist = [
+  'Every AI-classified or AI-drafted item is flagged, never silently auto-applied',
+  'Source totals are compared against output totals before delivery',
+  'Exceptions and low-confidence items route to a person, not a client',
+  'A named human signs off before a workflow goes from test data to production data',
+];
+
+const faqs = [
+  {
+    q: 'Does the AI model ever see raw client financial data?',
+    a: 'Only the fields a given workflow needs, and only through an API call with no training/retention on our data. Where identifiers can be stripped without breaking the workflow, they are.',
+  },
+  {
+    q: 'What happens if the AI gets something wrong?',
+    a: 'It gets caught at the human-review gate before it reaches a client or a production system. That gate is not optional — it is built into every workflow we ship, and it is documented in the handoff.',
+  },
+  {
+    q: 'Do you sign an NDA before we give you system access?',
+    a: 'Yes, standard for every engagement — it is part of the engagement letter, not a separate negotiation.',
+  },
+  {
+    q: 'Who owns the dashboards and scripts once they are built?',
+    a: 'You do. Full stop. If the engagement ends, you keep the deliverables, the source files, and the documentation.',
+  },
+];
+
+const title = 'Security & Data Handling | 5 Cypress Automation';
+const description =
+  'Where your data goes, what the AI sees, and who reviews it before it ships. Plain-English data handling for accounting and finance teams evaluating automation.';
+---
+
+<Layout title={title} description={description}>
+  <Fragment slot="head">
+    <JsonLd schema={{
+      '@context': 'https://schema.org',
+      '@type': 'FAQPage',
+      mainEntity: faqs.map((f) => ({
+        '@type': 'Question',
+        name: f.q,
+        acceptedAnswer: { '@type': 'Answer', text: f.a },
+      })),
+    }} />
+  </Fragment>
+
+  <section class="sec-hero section">
+    <div class="container">
+      <div class="sec-hero-inner reveal">
+        <p class="lead-in">Security &amp; data handling</p>
+        <h1>Where your data goes, and who checks it before it ships.</h1>
+        <p class="sec-hero-sub">
+          CPAs ask this before they sign anything — as they should. Here is the plain-English
+          version, not a policy PDF. If a question isn't answered here, ask it directly.
+        </p>
+        <Button variant="primary" size="lg" magnetic ripple data-open-booking>Ask a question</Button>
+      </div>
+    </div>
+  </section>
+
+  <section class="section controls-section">
+    <div class="container">
+      <div class="controls-grid reveal-stagger">
+        {controls.map((c) => (
+          <article class="control-card">
+            <span class="control-tag">{c.tag}</span>
+            <h2>{c.title}</h2>
+            <p>{c.text}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section checklist-section">
+    <div class="container checklist-grid">
+      <div class="checklist-copy reveal">
+        <p class="lead-in">The tie-out control</p>
+        <h2>Human review is a checklist, not a vibe.</h2>
+        <p>
+          "A person looks at it" only means something if the same checklist runs every time.
+          This is the reconciliation pass every AI-touched workflow goes through before it
+          reaches production or a client.
+        </p>
+      </div>
+      <div class="checklist-card reveal">
+        {reconciliationChecklist.map((item) => (
+          <div class="checklist-row">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+            </svg>
+            <p>{item}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="faq">
+    <div class="container faq-container">
+      <div class="section-header reveal">
+        <p class="lead-in">Questions firms actually ask</p>
+        <h2>Data handling, answered directly</h2>
+      </div>
+      <div class="sec-faq reveal-stagger">
+        {faqs.map((f) => (
+          <article class="sec-faq-item">
+            <h3>{f.q}</h3>
+            <p>{f.a}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section sec-cta">
+    <div class="container sec-cta-inner reveal">
+      <p class="lead-in">Still have questions</p>
+      <h2>Ask before you sign, not after.</h2>
+      <p>Every engagement letter spells out data handling in writing. Happy to walk through it on a call first.</p>
+      <Button variant="primary" size="lg" magnetic ripple data-open-booking>Book a fit call</Button>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .sec-hero {
+    padding-top: calc(var(--space-24) + 3rem);
+    padding-bottom: var(--space-12);
+    background: linear-gradient(180deg, rgba(93,140,93,0.07), transparent 60%), var(--bg-main);
+  }
+  .sec-hero-inner { max-width: 760px; }
+  .sec-hero h1 {
+    margin-block: var(--space-3) var(--space-5);
+    font-size: clamp(2.2rem, 4.4vw, 3.4rem);
+  }
+  .sec-hero-sub {
+    margin-bottom: var(--space-8);
+    color: var(--text-secondary);
+    font-size: var(--text-lg);
+    line-height: var(--leading-relaxed);
+    max-width: 62ch;
+  }
+
+  .controls-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-5);
+  }
+  .control-card {
+    padding: var(--space-6);
+    border: 1px solid var(--border-subtle);
+    border-top: 2px solid var(--brand-primary);
+    border-radius: var(--radius-lg);
+    background: var(--bg-surface);
+  }
+  .control-tag {
+    display: block;
+    margin-bottom: var(--space-4);
+    color: var(--brand-primary-light);
+    font-family: var(--font-mono);
+    font-size: var(--text-sm);
+    font-weight: var(--weight-bold);
+    letter-spacing: var(--tracking-widest);
+  }
+  .control-card h2 {
+    font-size: var(--text-lg);
+    line-height: var(--leading-snug);
+    margin-bottom: var(--space-3);
+  }
+  .control-card p {
+    color: var(--text-secondary);
+    font-size: var(--text-sm);
+    line-height: var(--leading-relaxed);
+  }
+
+  .checklist-section { background: var(--bg-surface); border-block: 1px solid var(--border-subtle); }
+  .checklist-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+    gap: var(--space-16);
+    align-items: center;
+  }
+  .checklist-copy p {
+    margin-top: var(--space-4);
+    color: var(--text-secondary);
+    line-height: var(--leading-relaxed);
+  }
+  .checklist-card {
+    padding: var(--space-6);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-xl);
+    background: var(--bg-main);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+  }
+  .checklist-row {
+    display: grid;
+    grid-template-columns: 18px 1fr;
+    gap: var(--space-4);
+    align-items: start;
+    padding-bottom: var(--space-4);
+    border-bottom: 1px solid var(--border-subtle);
+  }
+  .checklist-row:last-child { padding-bottom: 0; border-bottom: none; }
+  .checklist-row svg { color: var(--brand-primary-light); margin-top: 3px; }
+  .checklist-row p { color: var(--text-secondary); line-height: var(--leading-normal); }
+
+  .faq-container { max-width: 800px; }
+  .sec-faq { display: flex; flex-direction: column; gap: var(--space-5); }
+  .sec-faq-item {
+    padding: var(--space-6);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-lg);
+    background: var(--bg-surface);
+  }
+  .sec-faq-item h3 { font-size: var(--text-lg); margin-bottom: var(--space-3); }
+  .sec-faq-item p { color: var(--text-secondary); line-height: var(--leading-relaxed); }
+
+  .sec-cta { background: var(--bg-surface); border-top: 1px solid var(--border-subtle); }
+  .sec-cta-inner {
+    max-width: 680px;
+    margin-inline: auto;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-5);
+  }
+  .sec-cta p { color: var(--text-secondary); line-height: var(--leading-relaxed); }
+
+  @media (max-width: 1000px) {
+    .controls-grid { grid-template-columns: 1fr 1fr; }
+    .checklist-grid { grid-template-columns: 1fr; gap: var(--space-8); }
+  }
+  @media (max-width: 640px) {
+    .controls-grid { grid-template-columns: 1fr; }
+  }
+</style>

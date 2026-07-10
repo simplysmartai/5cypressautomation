@@ -6,49 +6,49 @@ import JsonLd from '../components/JsonLd.astro';
 const steps = [
   {
     number: '01',
-    label: 'Map',
-    title: 'Find the handoff that keeps breaking',
-    body: 'We trace the current workflow from first trigger to final output: who touches it, where data moves, what gets copied, and where delays or errors show up.',
+    label: 'Scope',
+    title: 'Find the decision you make blind',
+    body: 'We identify the decision you keep making late, the metrics behind it, the data sources, and the refresh cadence you actually need.',
   },
   {
     number: '02',
-    label: 'Design',
-    title: 'Choose the simplest system that can hold up',
-    body: 'You get a clear build plan with the tools involved, the human review points, the exception path, and the expected handoff when the system goes live.',
+    label: 'Model',
+    title: 'Define the metrics and the data model',
+    body: 'You get a clear plan: each metric and how it is defined, the data sources, the review points, and how the dashboard is delivered and refreshed.',
   },
   {
     number: '03',
     label: 'Build',
-    title: 'Connect the workflow with real checks',
-    body: 'The system is built around APIs, forms, files, dashboards, email, SMS, or internal tools depending on the job. Test data comes first, production comes later.',
+    title: 'Build it on read-only data',
+    body: 'We connect read-only to QBO, your CRM, and other sources, model the numbers, and build the dashboard. Synthetic data first, live data once the logic checks out.',
   },
   {
     number: '04',
     label: 'Launch',
-    title: 'Hand it off with documentation',
-    body: 'We test the workflow end to end, document how it works, show your team how to handle exceptions, and leave you with something you can maintain.',
+    title: 'Hand it off, fully documented',
+    body: 'We validate every metric end to end, document how each number is defined and sourced, and leave you a dashboard you and your accountant can trust.',
   },
 ];
 
 const timelines = [
-  ['Lead follow-up flow', '5 to 10 business days'],
-  ['Reporting dashboard', '7 to 14 business days'],
-  ['Document intake flow', '10 to 16 business days'],
-  ['Billing or payment flow', '10 to 18 business days'],
-  ['Client onboarding system', '10 to 20 business days'],
+  ['Practice KPI dashboard', '10 to 14 business days'],
+  ['Monthly reporting package', '10 to 14 business days'],
+  ['Cashflow forecast', '14 to 21 business days'],
+  ['Business intelligence model', '14 to 21 business days'],
+  ['Spreadsheet automation', '5 to 10 business days'],
 ];
 ---
 
 <Layout
-  title="How We Build Automation | 5 Cypress Automation"
-  description="See the 5 Cypress process for mapping, designing, building, and launching practical workflow automation for B2B teams."
+  title="How We Build Your Dashboards | 5 Cypress"
+  description="The 5 Cypress process for scoping, modeling, building, and launching dashboards and forecasts you can trust — for accounting firms and small businesses."
 >
   <Fragment slot="head">
     <JsonLd schema={{
       '@context': 'https://schema.org',
       '@type': 'HowTo',
-      name: 'How 5 Cypress Builds Automation',
-      description: 'The 4-step process for mapping, building, testing, and handing off a documented workflow automation system.',
+      name: 'How 5 Cypress Builds a Dashboard',
+      description: 'The 4-step process for scoping, modeling, building, and handing off a documented dashboard or forecast you can trust.',
       step: steps.map((step, index) => ({
         '@type': 'HowToStep',
         position: index + 1,
@@ -62,11 +62,11 @@ const timelines = [
     <div class="container">
       <div class="process-hero-inner reveal">
         <p class="lead-in">Process</p>
-        <h1>From messy handoff to workflow your team can trust.</h1>
+        <h1>From idle data to a number you can trust.</h1>
         <p class="process-hero-sub">
-          The goal is not to make everything automatic. The goal is to make the
-          repeatable work move cleanly, with the right checks and the right person
-          still in control.
+          The goal is not a dashboard for its own sake. It is a modeled source of truth,
+          with every metric defined and traceable, in front of the person who has to
+          make the call.
         </p>
       </div>
     </div>
@@ -94,12 +94,12 @@ const timelines = [
       <div class="proof-grid">
         <div class="proof-copy reveal">
           <p class="lead-in">What You Get</p>
-          <h2>A workflow your team can understand after launch.</h2>
+          <h2>A dashboard your team can trust after launch.</h2>
           <p>
-            Every build includes the workflow map, a plain-English runbook, the
-            systems connected, the trigger rules, and what to do when something
-            needs review. That matters whether the workflow touches QuickBooks,
-            a CRM, a form, a shared drive, or a dashboard.
+            Every build includes the metric definitions, the data sources, the refresh
+            schedule, and a plain-English note on how each number is calculated. So when
+            a partner questions a figure, you can show exactly how it was built — whether
+            it came from QuickBooks, a CRM, or a spreadsheet.
           </p>
         </div>
 
@@ -124,12 +124,12 @@ const timelines = [
       <div class="rules-panel reveal">
         <div>
           <p class="lead-in">Operating Rules</p>
-          <h2>No magic box. No surprise handoff.</h2>
+          <h2>No black box. No mystery numbers.</h2>
         </div>
         <ul>
-          <li>Test data before production data.</li>
-          <li>Human review where judgment is needed.</li>
-          <li>Clear exception paths when an automation cannot complete.</li>
+          <li>Read-only data access by default.</li>
+          <li>Every metric defined and traceable to its source.</li>
+          <li>Human review on any AI-assisted insight.</li>
           <li>Documentation your team can actually use.</li>
         </ul>
       </div>
@@ -139,9 +139,9 @@ const timelines = [
   <section class="section cta-section">
     <div class="container">
       <div class="cta-panel reveal">
-        <h2>Start with the handoff your team keeps cleaning up manually.</h2>
+        <h2>Start with the number you keep rebuilding by hand.</h2>
         <Button variant="primary" size="lg" magnetic ripple data-open-booking>
-          Map My Workflow
+          Book a fit call
         </Button>
       </div>
     </div>
@@ -163,7 +163,7 @@ const timelines = [
   .process-hero h1 {
     margin: 0 0 var(--space-6);
     color: var(--text-primary);
-    font-size: clamp(3.1rem, 8vw, 7.25rem);
+    font-size: clamp(2.75rem, 5.2vw, 4.5rem);
     line-height: 0.94;
     letter-spacing: 0;
   }
@@ -184,7 +184,7 @@ const timelines = [
   .step-card {
     min-height: 350px;
     border: 1px solid var(--border-medium);
-    border-radius: 8px;
+    border-radius: var(--radius-lg);
     background: var(--bg-surface);
     padding: var(--space-6);
     display: flex;
@@ -233,7 +233,7 @@ const timelines = [
   .cta-panel h2 {
     margin: 0 0 var(--space-4);
     color: var(--text-primary);
-    font-size: clamp(2rem, 4vw, 3.75rem);
+    font-size: clamp(2rem, 4vw, 3rem);
     line-height: 1.05;
     letter-spacing: 0;
   }
@@ -248,7 +248,7 @@ const timelines = [
   .rules-panel,
   .cta-panel {
     border: 1px solid var(--border-medium);
-    border-radius: 8px;
+    border-radius: var(--radius-lg);
     background: var(--bg-surface);
     padding: var(--space-8);
   }

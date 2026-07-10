@@ -23,10 +23,10 @@
     </button>
 
     <div class="modal-header">
-      <p class="lead-in">Workflow Mapping Session</p>
-      <h2 id="modal-title">Show us where work gets stuck</h2>
+      <p class="lead-in">Fit call</p>
+      <h2 id="modal-title">Which number can you never see in time?</h2>
       <p class="modal-subtitle">
-        Tell us where work is getting stuck. We'll reach out within one business day to schedule a quick call. No obligation, no pitch deck.
+        Tell us the decision you keep making late. We'll reach out within one business day to schedule a short fit call. No obligation, no pitch deck.
       </p>
     </div>
 
@@ -69,14 +69,14 @@
       </div>
 
       <div class="form-group">
-        <label for="bf-challenge">Biggest manual bottleneck right now</label>
+        <label for="bf-challenge">Biggest reporting or data pain right now</label>
         <select id="bf-challenge" name="challenge">
           <option value="">Select one…</option>
-          <option value="lead-follow-up">Lead follow-up is too manual</option>
           <option value="reporting">Reports or dashboards take too long</option>
-          <option value="doc-intake">Document intake is messy</option>
-          <option value="billing">Billing, collections, or payment handoffs are slow</option>
-          <option value="onboarding">Client or customer onboarding is manual</option>
+          <option value="forecasting">No reliable cashflow forecast</option>
+          <option value="kpi-visibility">No shared view of the KPIs that matter</option>
+          <option value="scattered-data">Data is scattered across systems</option>
+          <option value="spreadsheet">A spreadsheet eats hours every week</option>
           <option value="other">Something else</option>
         </select>
       </div>
@@ -100,7 +100,7 @@
 
       <div class="form-submit-row">
         <button type="submit" class="btn btn-primary btn-lg btn-block" data-ripple id="booking-submit">
-          <span>Request my workflow map</span>
+          <span>Book my fit call</span>
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
             <path d="M7 17L17 7M17 7H7M17 7v10"/>
           </svg>
@@ -120,6 +120,10 @@
   const statusEl  = document.getElementById('form-status')!;
   const submitBtn = document.getElementById('booking-submit')!;
 
+  // Timestamp the form render — the backend rejects submissions faster than
+  // a human could fill it (bot signal). See functions/api/contact.ts.
+  const formLoadedAt = Date.now();
+
   function closeModal() {
     modal.classList.remove('is-open');
     modal.setAttribute('aria-hidden', 'true');
@@ -136,7 +140,8 @@
 
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
-    const data = Object.fromEntries(new FormData(form));
+    const data = Object.fromEntries(new FormData(form)) as Record<string, unknown>;
+    data.t = formLoadedAt;
 
     // Honeypot check
     if (data.website) return;
@@ -165,7 +170,7 @@
       statusEl.textContent = 'Something went wrong. Email us directly at nick@5cypress.com';
       statusEl.classList.add('form-status--error');
       submitBtn.removeAttribute('disabled');
-      submitBtn.querySelector('span')!.textContent = 'Request my workflow map';
+      submitBtn.querySelector('span')!.textContent = 'Book my fit call';
     }
   });
 </script>

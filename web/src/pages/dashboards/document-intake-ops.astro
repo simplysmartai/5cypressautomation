@@ -1,0 +1,274 @@
+---
+/**
+ * document-intake-ops.astro — Portfolio dashboard #5
+ * Fictional multi-location outpatient medical group ("Cascade Health
+ * Partners"). Shows 14-day intake volume, a document-type confidence
+ * breakdown, and a live exception queue. Maps to Document Intake &
+ * Routing — deliberately healthcare, not accounting, to back up "the
+ * workflow logic travels" with a genuinely different vertical.
+ */
+import Layout from '../../layouts/Layout.astro';
+import Button from '../../components/Button.astro';
+import JsonLd from '../../components/JsonLd.astro';
+import data from '../../data/documentIntakeData.json';
+import { pct } from '../../lib/chartSvg';
+
+const { meta, volume, docTypes, exceptions } = data;
+const totalReceived = volume.reduce((s, v) => s + v.received, 0);
+const totalRouted = volume.reduce((s, v) => s + v.routed, 0);
+const totalFlagged = volume.reduce((s, v) => s + v.flagged, 0);
+const autoRoutedPct = totalRouted / totalReceived;
+const maxDay = Math.max(...volume.map((v) => v.received));
+const barAreaH = 140;
+
+const maxDocCount = Math.max(...docTypes.map((d) => d.count));
+
+const title = 'Document Intake Ops Dashboard — Live Demo | 5 Cypress Automation';
+const description =
+  'Interactive document intake dashboard for a fictional multi-location medical group: 14-day volume, document-type confidence breakdown, and a live exception queue.';
+---
+
+<Layout title={title} description={description}>
+  <Fragment slot="head">
+    <JsonLd schema={{
+      '@context': 'https://schema.org',
+      '@type': 'CreativeWork',
+      name: 'Document Intake Ops Dashboard Demo',
+      description,
+      creator: { '@type': 'Organization', name: '5 Cypress Automation', url: 'https://www.5cypress.com' },
+    }} />
+  </Fragment>
+
+  <section class="demo-hero section">
+    <div class="container">
+      <div class="demo-hero-top reveal">
+        <div>
+          <p class="lead-in">Live demo — synthetic data</p>
+          <h1>{meta.orgName}</h1>
+          <p class="demo-hero-sub">
+            A fictional {meta.sector}. {totalReceived} documents in 14 days — intake forms, insurance
+            cards, referral letters, lab results — classified, routed, and queued for review when
+            the system is not confident enough to act alone.
+          </p>
+        </div>
+        <div class="demo-hero-meta">
+          <span class="demo-badge">Demo data</span>
+          <span class="demo-period">14-day window</span>
+          <Button variant="primary" size="lg" magnetic ripple data-open-booking>Book a fit call</Button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section board-section">
+    <div class="container">
+      <div class="board-top reveal">
+        <div class="exec-tiles">
+          <div class="kpi-tile">
+            <span class="kpi-label">Documents received</span>
+            <strong class="kpi-value">{totalReceived}</strong>
+            <span class="kpi-delta">last 14 days</span>
+          </div>
+          <div class="kpi-tile">
+            <span class="kpi-label">Auto-routed</span>
+            <strong class="kpi-value">{pct(autoRoutedPct)}</strong>
+            <span class="kpi-delta is-up">{totalRouted} of {totalReceived}</span>
+          </div>
+          <div class="kpi-tile">
+            <span class="kpi-label">Avg time to route</span>
+            <strong class="kpi-value">&lt;{meta.targetRouteMinutes}min</strong>
+            <span class="kpi-delta">per document, once received</span>
+          </div>
+          <div class="kpi-tile">
+            <span class="kpi-label">In review queue</span>
+            <strong class="kpi-value">{exceptions.length}</strong>
+            <span class="kpi-delta">{totalFlagged} flagged over 14 days</span>
+          </div>
+        </div>
+
+        <aside class="queue-panel" aria-label="Exception queue">
+          <p class="panel-title">Needs a human</p>
+          {exceptions.slice(0, 5).map((e) => (
+            <div class="queue-row">
+              <div class="queue-row-top">
+                <span class="queue-id">{e.id}</span>
+                <span class="queue-age">{e.ageHours}h old</span>
+              </div>
+              <p class="queue-reason">{e.reason}</p>
+              <p class="queue-meta">{e.type} · {e.location}</p>
+            </div>
+          ))}
+        </aside>
+      </div>
+
+      <div class="chart-row reveal">
+        <figure class="chart-card chart-card--wide">
+          <figcaption>
+            <p class="chart-title">Daily intake volume — 14 days</p>
+            <p class="chart-sub">Routed automatically vs flagged for review. Weekends run lighter.</p>
+          </figcaption>
+          <div class="volume-bars">
+            {volume.map((v) => {
+              const routedH = Math.round((v.routed / maxDay) * barAreaH);
+              const flaggedH = Math.round((v.flagged / maxDay) * barAreaH);
+              return (
+                <div class="volume-col">
+                  <div class="volume-stack" data-tip={v.label + ' — ' + v.received + ' received, ' + v.flagged + ' flagged'}>
+                    <div class="volume-seg volume-seg--flag" style={'height:' + flaggedH + 'px'}></div>
+                    <div class="volume-seg volume-seg--route" style={'height:' + routedH + 'px'}></div>
+                  </div>
+                  <span class="volume-label">{v.label}</span>
+                </div>
+              );
+            })}
+          </div>
+          <div class="volume-legend">
+            <span class="legend-item"><i class="swatch swatch--route"></i>Auto-routed</span>
+            <span class="legend-item"><i class="swatch swatch--flag"></i>Flagged for review</span>
+          </div>
+        </figure>
+      </div>
+
+      <div class="chart-row reveal">
+        <figure class="chart-card chart-card--full">
+          <figcaption>
+            <p class="chart-title">Document types — 14-day mix</p>
+            <p class="chart-sub">Classification confidence varies by type. Referral letters and free-text scans are the hardest.</p>
+          </figcaption>
+          <div class="doctype-rows">
+            {docTypes.map((d) => (
+              <div class="doctype-row">
+                <span class="doctype-name">{d.type}</span>
+                <div class="doctype-bar-track">
+                  <div class="doctype-bar" style={'width:' + Math.round((d.count / maxDocCount) * 100) + '%'}></div>
+                </div>
+                <span class="doctype-count">{d.count}</span>
+                <span class={'doctype-conf ' + (d.confidence < 0.85 ? 'is-low' : '')}>{pct(d.confidence)} conf.</span>
+              </div>
+            ))}
+          </div>
+        </figure>
+      </div>
+
+      <p class="demo-disclaimer reveal">{meta.disclaimer} Seed #{meta.seed} · generated {meta.generatedAt}.</p>
+    </div>
+  </section>
+
+  <section class="section demo-cta">
+    <div class="container demo-cta-inner reveal">
+      <p class="lead-in">Every file, sorted before anyone opens it</p>
+      <h2>The inbox stops being a second job.</h2>
+      <p>
+        Classified, renamed, and routed automatically. Anything the system isn't confident about
+        gets queued for a person — nothing files itself into the wrong record silently.
+      </p>
+      <Button variant="primary" size="lg" magnetic ripple data-open-booking>Book a fit call</Button>
+    </div>
+  </section>
+</Layout>
+
+<div class="chart-tooltip" id="chart-tooltip" role="status" aria-hidden="true"></div>
+
+<script>
+  const tip = document.getElementById('chart-tooltip')!;
+  function showTip(text: string, x: number, y: number) {
+    tip.textContent = text;
+    tip.style.display = 'block';
+    const r = tip.getBoundingClientRect();
+    const left = Math.min(x + 14, window.innerWidth - r.width - 8);
+    const top = y - r.height - 12;
+    tip.style.left = left + 'px';
+    tip.style.top = top + 'px';
+  }
+  function hideTip() { tip.style.display = 'none'; }
+  document.querySelectorAll<HTMLElement>('[data-tip]').forEach((el) => {
+    el.addEventListener('mousemove', (e) => showTip(el.dataset.tip!, e.clientX, e.clientY));
+    el.addEventListener('mouseleave', hideTip);
+  });
+</script>
+
+<style>
+  .demo-hero {
+    padding-top: calc(var(--space-24) + 3rem);
+    padding-bottom: var(--space-8);
+    background: linear-gradient(180deg, rgba(93,140,93,0.07), transparent 60%), var(--bg-main);
+  }
+  .demo-hero-top { display: flex; justify-content: space-between; align-items: flex-end; gap: var(--space-10); flex-wrap: wrap; }
+  .demo-hero h1 { font-size: clamp(2.6rem, 5vw, 4.4rem); margin-block: var(--space-3); }
+  .demo-hero-sub { max-width: 62ch; color: var(--text-secondary); line-height: var(--leading-relaxed); }
+  .demo-hero-meta { display: flex; flex-direction: column; align-items: flex-end; gap: var(--space-3); }
+  .demo-badge {
+    padding: var(--space-1) var(--space-3); border: 1px solid rgba(251,191,36,0.3); border-radius: var(--radius-full);
+    background: rgba(251,191,36,0.08); color: var(--brand-accent); font-family: var(--font-mono);
+    font-size: var(--text-xs); font-weight: var(--weight-bold); letter-spacing: var(--tracking-widest); text-transform: uppercase;
+  }
+  .demo-period { color: var(--text-disabled); font-family: var(--font-mono); font-size: var(--text-xs); }
+
+  .board-section { padding-top: var(--space-8); }
+  .board-top { display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(300px, 1fr); gap: var(--space-5); margin-bottom: var(--space-5); align-items: start; }
+  .exec-tiles { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--space-3); }
+  .kpi-tile { padding: var(--space-4); border: 1px solid var(--border-subtle); border-radius: var(--radius-lg); background: #101014; display: flex; flex-direction: column; gap: var(--space-2); }
+  .kpi-label { color: var(--text-disabled); font-family: var(--font-mono); font-size: 0.64rem; font-weight: var(--weight-bold); letter-spacing: var(--tracking-wider); text-transform: uppercase; }
+  .kpi-value { color: var(--text-primary); font-family: var(--font-heading); font-size: var(--text-3xl); font-weight: var(--weight-bold); line-height: 1; }
+  .kpi-delta { color: var(--text-tertiary); font-family: var(--font-mono); font-size: var(--text-xs); }
+  .kpi-delta.is-up { color: var(--success); }
+
+  .queue-panel { border: 1px solid var(--border-subtle); border-radius: var(--radius-lg); background: #101014; padding: var(--space-4); display: flex; flex-direction: column; gap: var(--space-3); }
+  .panel-title { font-family: var(--font-mono); font-size: var(--text-xs); font-weight: var(--weight-bold); letter-spacing: var(--tracking-widest); text-transform: uppercase; color: var(--text-disabled); }
+  .queue-row { padding: var(--space-3); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); background: rgba(20,20,24,0.7); }
+  .queue-row-top { display: flex; justify-content: space-between; margin-bottom: var(--space-1); }
+  .queue-id { color: var(--brand-primary-light); font-family: var(--font-mono); font-size: 0.68rem; font-weight: var(--weight-bold); }
+  .queue-age { color: var(--warning); font-family: var(--font-mono); font-size: 0.64rem; }
+  .queue-reason { color: var(--text-primary); font-size: var(--text-xs); font-weight: var(--weight-semibold); margin-bottom: 2px; }
+  .queue-meta { color: var(--text-tertiary); font-size: 0.68rem; }
+
+  .chart-row { display: grid; grid-template-columns: 1fr; gap: var(--space-5); margin-bottom: var(--space-5); }
+  .chart-card { border: 1px solid var(--border-subtle); border-radius: var(--radius-lg); background: #101014; padding: var(--space-5); margin: 0; }
+  .chart-title { color: var(--text-primary); font-family: var(--font-heading); font-size: var(--text-lg); font-weight: var(--weight-semibold); }
+  .chart-sub { margin-top: 2px; margin-bottom: var(--space-4); color: var(--text-tertiary); font-size: var(--text-sm); }
+
+  .volume-bars { display: flex; align-items: flex-end; gap: 6px; height: 160px; padding-top: var(--space-4); }
+  .volume-col { flex: 1; display: flex; flex-direction: column; align-items: center; gap: var(--space-2); min-width: 0; }
+  .volume-stack { width: 100%; max-width: 28px; display: flex; flex-direction: column-reverse; cursor: crosshair; border-radius: 3px 3px 0 0; overflow: hidden; }
+  .volume-seg--route { background: #199E70; }
+  .volume-seg--flag { background: #C98500; }
+  .volume-label { color: var(--text-disabled); font-family: var(--font-mono); font-size: 0.6rem; }
+  .volume-legend { display: flex; gap: var(--space-5); margin-top: var(--space-4); justify-content: center; }
+  .legend-item { display: inline-flex; align-items: center; gap: var(--space-2); color: var(--text-tertiary); font-family: var(--font-mono); font-size: var(--text-xs); }
+  .swatch { width: 10px; height: 10px; border-radius: 3px; display: inline-block; }
+  .swatch--route { background: #199E70; }
+  .swatch--flag { background: #C98500; }
+
+  .doctype-rows { display: flex; flex-direction: column; gap: var(--space-3); margin-top: var(--space-2); }
+  .doctype-row { display: grid; grid-template-columns: 170px 1fr 50px 80px; gap: var(--space-4); align-items: center; }
+  .doctype-name { color: var(--text-secondary); font-size: var(--text-sm); }
+  .doctype-bar-track { height: 14px; border-radius: 4px; background: rgba(255,255,255,0.04); overflow: hidden; }
+  .doctype-bar { height: 100%; background: linear-gradient(90deg, var(--brand-primary), var(--brand-primary-light)); border-radius: 4px; }
+  .doctype-count { color: var(--text-tertiary); font-family: var(--font-mono); font-size: var(--text-xs); text-align: right; }
+  .doctype-conf { color: var(--text-tertiary); font-family: var(--font-mono); font-size: var(--text-xs); text-align: right; }
+  .doctype-conf.is-low { color: var(--warning); }
+
+  .demo-disclaimer { color: var(--text-disabled); font-family: var(--font-mono); font-size: var(--text-xs); text-align: center; }
+
+  .demo-cta { background: var(--bg-surface); border-top: 1px solid var(--border-subtle); }
+  .demo-cta-inner { max-width: 720px; margin-inline: auto; text-align: center; display: flex; flex-direction: column; align-items: center; gap: var(--space-5); }
+  .demo-cta p { color: var(--text-secondary); line-height: var(--leading-relaxed); }
+
+  @media (max-width: 1100px) {
+    .board-top { grid-template-columns: 1fr; }
+    .exec-tiles { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 640px) {
+    .volume-label { display: none; }
+    .doctype-row { grid-template-columns: 100px 1fr 36px; }
+    .doctype-conf { display: none; }
+  }
+</style>
+
+<style is:global>
+  .chart-tooltip {
+    display: none; position: fixed; z-index: 1600; padding: 6px 10px; border: 1px solid rgba(255,255,255,0.14);
+    border-radius: 8px; background: rgba(10,10,12,0.95); color: #FEFEFE; font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem; pointer-events: none; white-space: nowrap; box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+  }
+</style>

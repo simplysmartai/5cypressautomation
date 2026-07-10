@@ -5,45 +5,47 @@ import Card from '../components/Card.astro';
 import StatTile from '../components/StatTile.astro';
 import Faq from '../components/Faq.astro';
 import JsonLd from '../components/JsonLd.astro';
+import HeroCashflowChart from '../components/HeroCashflowChart.astro';
+import DashboardShowcase from '../components/DashboardShowcase.astro';
 import { getService } from '../data/services';
 
 const workflowCards = [
   {
-    tag: '01 / Capture',
-    slug: 'missed-lead-text-back',
-    title: 'Lead capture and follow-up',
+    tag: '01 / Dashboard',
+    slug: 'practice-kpi-dashboard',
+    title: 'Practice KPI dashboard',
     description:
-      'When a form, missed call, referral, or ad lead comes in, the system replies fast, creates the record, alerts the owner, and keeps the next step visible.',
+      'Realization, WIP, AR aging, and billing pulled live from QBO and your practice system into one panel every partner can read — no month-end wait.',
     highlight: true,
   },
   {
-    tag: '02 / Report',
+    tag: '02 / BI',
     slug: 'business-intelligence-dashboard',
-    title: 'Dashboards and KPI reporting',
+    title: 'Business intelligence dashboard',
     description:
-      'Pull the numbers out of exports and inboxes. Build dashboards and scheduled reports people can use before the decision window closes.',
+      'A proper data model with automated refresh and role-based views, built the way an enterprise BI team would — scoped and priced for a small business.',
   },
   {
-    tag: '03 / Route',
-    slug: 'document-intake-ai-sort',
-    title: 'Document intake and routing',
+    tag: '03 / Forecast',
+    slug: 'cashflow-forecast-agent',
+    title: 'Cashflow forecasting',
     description:
-      'Collect files, classify what they are, rename them, and route exceptions to a person instead of letting folders become a second job.',
-  },
-  {
-    tag: '04 / Collect',
-    slug: 'ar-collections-agent',
-    title: 'Billing and payment workflows',
-    description:
-      'Connect proposals, invoices, reminders, payment links, QBO records, and review steps so money does not depend on memory.',
-  },
-  {
-    tag: '05 / Start',
-    slug: 'engagement-onboarding-flow',
-    title: 'Client and customer onboarding',
-    description:
-      'Turn a signed agreement or new order into kickoff tasks, folders, calendar links, CRM updates, and internal notifications.',
+      'A rolling 13-week forecast per client, refreshed from live actuals and aging, with early alerts before a balance trends negative — not a stale spreadsheet.',
     highlight: true,
+  },
+  {
+    tag: '04 / Reporting',
+    slug: 'monthly-client-snapshot',
+    title: 'Monthly reporting package',
+    description:
+      'The recurring P&L trend, margins, and variances generated and delivered after each close. You review the numbers instead of rebuilding them.',
+  },
+  {
+    tag: '05 / Automate',
+    slug: 'excel-spreadsheet-automation',
+    title: 'Spreadsheet automation',
+    description:
+      'The half-day recurring spreadsheet — commission runs, KPI rollups, reconciliations — rebuilt as a one-click or scheduled job, documented and handed off.',
   },
 ];
 
@@ -59,105 +61,143 @@ const coreWorkflows = workflowCards.map((card) => {
 
 const operatingScenes = [
   {
-    title: 'The lead comes in after hours',
-    text: 'The reply goes out, the contact is logged, the service need is tagged, and the right person sees the next step before the morning inbox pileup starts.',
+    num: '01',
+    title: 'The number you need is a month old',
+    before: 'Realization and WIP are unknown until the billing run closes — three weeks too late to act.',
+    after: 'The metric is live from source data, so the week-2 decision gets made in week 2.',
   },
   {
+    num: '02',
     title: 'The report used to take Friday afternoon',
-    text: 'The numbers refresh from the source systems, exceptions are flagged, and the summary is ready for review instead of being rebuilt from exports.',
+    before: 'Rebuilt from exports and pivot tables, one spreadsheet at a time.',
+    after: 'Numbers refresh from source systems; exceptions are flagged and ready for review.',
   },
   {
-    title: 'The file drop is no longer a mystery box',
-    text: 'Documents are named, sorted, routed, and queued for human review when the system is not confident enough to act alone.',
+    num: '03',
+    title: 'Everyone is working from a different spreadsheet',
+    before: 'Each partner has their own copy of the numbers, and none of them agree.',
+    after: 'One modeled source of truth — a single URL every partner reads, always current.',
   },
 ];
 
 const sectors = [
   {
     label: 'Accounting and finance',
-    text: 'QBO workflows, client reporting, document intake, AR, close support, KPI dashboards, and onboarding.',
+    text: 'Realization, WIP, AR aging, cashflow forecasting, close reporting, and per-partner KPI dashboards.',
   },
   {
     label: 'Service businesses',
-    text: 'Lead follow-up, scheduling, proposal handoffs, invoice reminders, operations dashboards, and client updates.',
+    text: 'Pipeline, win rate, revenue pacing, utilization, and operations dashboards leadership can actually trust.',
   },
   {
     label: 'Medical and professional offices',
-    text: 'Inbound requests, document routing, appointment workflows, referral tracking, and staff task automation.',
+    text: 'Referral sources, appointment throughput, payer mix, and the practice KPIs that usually live in nobody\'s report.',
   },
   {
-    label: 'Custom workflow builds',
-    text: 'The recurring task that is too specific for off-the-shelf software and too expensive to keep doing by hand.',
+    label: 'Custom analytics builds',
+    text: 'The metric buried across three systems that nobody has time to model, and too expensive to rebuild by hand each month.',
   },
 ];
 
 const trustSignals = [
   {
     title: 'Scope before build',
-    text: 'You get a workflow map, systems list, handoff points, and rough timeline before the build starts.',
+    text: 'You get a metric list, data sources, a model sketch, and refresh cadence before the build starts.',
   },
   {
-    title: 'Test data first',
-    text: 'Production data waits until triggers, validation, exceptions, and review points are clear.',
+    title: 'Modeled, not glued',
+    text: 'Numbers come from a real data model with defined logic — not a pile of linked spreadsheets that break.',
   },
   {
-    title: 'No new platform by default',
-    text: 'The first move is usually connecting the tools already in the business, not adding another login.',
+    title: 'Read-only by default',
+    text: 'We connect through narrowly-scoped, read-only API access — never broader than the dashboard needs.',
   },
   {
-    title: 'Documented handoff',
-    text: 'Each workflow ships with plain-English notes so the team knows what runs, what to check, and who owns it.',
+    title: 'Every metric documented',
+    text: 'Each dashboard ships with a plain-English note on how each number is defined and where it comes from.',
   },
 ];
 
-const demoWorkflows = [
+// Live demo gallery. Featured tile leads; the rest are a secondary row.
+// The CPA Practice KPI board is listed last as the accounting deep-dive.
+const dashboards = [
   {
-    label: 'Lead flow',
-    title: 'Referral lead captured and routed',
-    metric: '47 sec',
-    metricLabel: 'first response',
-    status: 'Owner alerted',
-    rows: [
-      ['Source', 'Website form'],
-      ['Record', 'CRM contact created'],
-      ['Need', 'Automation scoping'],
-      ['Next step', 'Send calendar link'],
+    featured: true,
+    tag: 'Cashflow',
+    title: '13-Week Cashflow Forecast',
+    blurb:
+      'Actuals, then a projection with a variance band, tracked against the reserve floor a tight week nearly breaches.',
+    href: '/dashboards/cashflow-forecast/',
+    motif: 'line',
+    series: [48, 49, 53, 59, 52, 52, 42, 58, 48, 29, 33, 39, 30],
+    kpis: [
+      { label: 'Current cash', value: '$52K' },
+      { label: '13-wk low', value: '$29K' },
     ],
-    timeline: ['Form received', 'CRM checked', 'Reply sent', 'Task assigned'],
   },
   {
-    label: 'Invoice flow',
-    title: 'Aging invoice escalated cleanly',
-    metric: '$18,420',
-    metricLabel: 'at-risk AR',
-    status: 'Review queued',
-    rows: [
-      ['System', 'QuickBooks Online'],
-      ['Aging', '45 days'],
-      ['Tone', 'Warm reminder'],
-      ['Next step', 'Partner review if unpaid'],
-    ],
-    timeline: ['QBO sync', 'Rule matched', 'Reminder drafted', 'Promise tracked'],
+    tag: 'A/R',
+    title: 'A/R Collections Command Center',
+    blurb: 'Who owes what, how overdue, and which accounts to chase first.',
+    href: '/dashboards/ar-collections-command-center/',
+    motif: 'bars',
+    series: [82, 61, 44, 28, 15],
   },
   {
-    label: 'Document flow',
-    title: 'Client files sorted automatically',
-    metric: '38',
-    metricLabel: 'files routed',
-    status: '2 exceptions',
-    rows: [
-      ['Batch', 'May close packet'],
-      ['Detected', 'Statements / receipts'],
-      ['Destination', 'Client folder'],
-      ['Exception', 'Needs review'],
-    ],
-    timeline: ['Upload received', 'Files classified', 'Names standardized', 'Exceptions queued'],
+    tag: 'Reporting',
+    title: 'Monthly Reporting Package',
+    blurb: 'The recurring P&L trend, margins, and variances in one snapshot.',
+    href: '/dashboards/monthly-reporting-package/',
+    motif: 'line',
+    series: [30, 34, 33, 40, 44, 42, 50, 55],
+  },
+  {
+    tag: 'Doc intake',
+    title: 'Document Intake Ops',
+    blurb: 'Files classified, renamed, and routed — with the exceptions flagged for a human.',
+    href: '/dashboards/document-intake-ops/',
+    motif: 'bars',
+    series: [40, 66, 52, 78, 34, 60],
+  },
+  {
+    tag: 'Growth',
+    title: 'B2B Growth Command Center',
+    blurb: 'Pipeline, win rate, and revenue pacing for a services firm.',
+    href: '/dashboards/b2b-growth-command-center/',
+    motif: 'line',
+    series: [22, 28, 26, 35, 41, 39, 48, 58, 66],
+  },
+  {
+    tag: 'CPA practice',
+    title: 'Practice KPI Dashboard',
+    blurb: 'The accounting deep-dive: partner productivity, unbilled work, and collections for a 4-partner CPA firm.',
+    href: '/demo/',
+    motif: 'bars',
+    series: [70, 84, 58, 90, 76],
   },
 ];
+const featuredDashboard = dashboards.find((d) => d.featured)!;
+const secondaryDashboards = dashboards.filter((d) => !d.featured);
+
+// Mini sparkline path for the line-motif tiles (100×40 viewBox).
+function miniLine(series: number[]): string {
+  const max = Math.max(...series);
+  const min = Math.min(...series);
+  const range = max - min || 1;
+  const w = 100, h = 40, pad = 4;
+  return series
+    .map((v, i) => {
+      const x = pad + (i / (series.length - 1)) * (w - pad * 2);
+      const y = pad + (1 - (v - min) / range) * (h - pad * 2);
+      return (i === 0 ? 'M' : 'L') + x.toFixed(1) + ',' + y.toFixed(1);
+    })
+    .join(' ');
+}
+const barMax = (s: number[]) => Math.max(...s);
 
 const nextSteps = [
-  'You describe the workflow that keeps slowing the team down.',
-  'We map the handoffs, systems, review points, and first useful build.',
+  'You describe the decisions you keep making late, or the report that keeps eating a day.',
+  'We map the metrics, data sources, refresh cadence, and the first dashboard worth building.',
   'You decide whether to scope it. No pitch deck, no pressure.',
 ];
 
@@ -165,32 +205,32 @@ const faqs = [
   {
     question: 'Are you new? Who have you worked with?',
     answer:
-      '5 Cypress is a new practice built on more than a decade of enterprise BI and analytics work at Verizon and the U.S. Army — Tableau, Power BI, and Alteryx at serious scale. You will not find borrowed logos or invented testimonials here. Proof is live instead: an interactive demo dashboard you can open right now, public build walkthroughs, and founding-client pricing for the first five firms. You see exactly what you would get before you spend a dollar.',
+      '5 Cypress is a new practice built on years of senior data analyst and BI work across the telecom and government sectors — Tableau, Power BI, and Alteryx at enterprise scale. You will not find borrowed logos or invented testimonials here. Proof is live instead: an interactive demo dashboard you can open right now, public build walkthroughs, and founding-client pricing for the first five firms. You see exactly what you would get before you spend a dollar.',
   },
   {
     question: 'Do you only work with accounting and finance firms?',
     answer:
-      'No. Accounting and finance are a strong specialty because those teams have heavy reporting, billing, document, and onboarding workflows. The same automation patterns also apply to service businesses, medical offices, agencies, operations teams, and other small B2B companies.',
+      'No. Accounting and finance are a strong specialty because those teams live on realization, WIP, AR aging, and cashflow — dense, high-stakes numbers. The same analysis and dashboards apply to service businesses, medical offices, agencies, and other small B2B companies with data sitting idle.',
   },
   {
-    question: 'What does the "5" in 5 Cypress mean?',
+    question: 'Do you put AI on our financial data?',
     answer:
-      'It gives the brand a practical operating model: five ready-to-build workflow systems most companies need. Each one can be installed as a focused automation or adapted into a custom workflow for a specific business.',
+      'Not by default. The dashboards connect read-only to your data with zero AI in the path — no model ever sees a client record. An optional AI insight layer can be added later, but only on aggregated, identifier-stripped rollups and always behind a human-review step. You can run the dashboards with no AI exposure at all if that is your comfort level.',
   },
   {
-    question: 'Are these AI tools or normal automations?',
+    question: 'Are you a bookkeeper or a CPA?',
     answer:
-      'Both, when useful. Some workflows only need clean rules and reliable API connections. Others benefit from AI for classification, summarization, routing, or drafting. The goal is not to add AI everywhere; it is to remove the work safely.',
+      'Neither, on purpose. We do not touch tax, reconciliation, or compliance. We take numbers that are already correct — from your bookkeeper or CAS provider — plus your operational data, and build the decision-support layer on top: dashboards, forecasting, and KPI reporting. We complement your accountant, not replace them.',
   },
   {
-    question: 'How fast can a project go live?',
+    question: 'How fast can a dashboard go live?',
     answer:
-      'Focused workflows often go live in 5-14 business days. Multi-system builds usually take 3-4 weeks because the edge cases, approvals, and testing matter.',
+      'A first dashboard often goes live in 10–14 business days. More involved builds — full BI models or a forecasting engine — usually take 3–4 weeks, because the data model, definitions, and QA are where the trust is won.',
   },
   {
     question: 'What happens after launch?',
     answer:
-      'You get documentation and a handoff. For clients who want ongoing help, we monitor, adjust, and expand workflows as tools, teams, and business rules change.',
+      'You get documentation and a handoff. Most clients keep a monthly retainer so the dashboards stay current, refresh on schedule, and get a recurring insight review — the ongoing analyst seat, without the headcount.',
   },
 ];
 
@@ -202,14 +242,14 @@ const orgSchema = {
   logo: 'https://www.5cypress.com/assets/brand/5cypress-mark.svg',
   email: 'nick@5cypress.com',
   description:
-    'Business automation systems for small B2B teams, including lead capture, reporting dashboards, document intake, billing workflows, and onboarding automation.',
+    'Fractional data analyst practice for accounting firms and small businesses: practice KPI dashboards, business intelligence, cashflow forecasting, monthly reporting, and spreadsheet automation.',
   sameAs: [],
 };
 
 const serviceSchemas = coreWorkflows.map((s) => ({
   '@context': 'https://schema.org',
   '@type': 'Service',
-  serviceType: 'Business Automation',
+  serviceType: 'Data Analytics',
   name: s.title,
   description: s.description,
   provider: {
@@ -222,8 +262,8 @@ const serviceSchemas = coreWorkflows.map((s) => ({
 ---
 
 <Layout
-  title="Workflow Automation Systems | 5 Cypress Automation"
-  description="5 Cypress Automation maps and builds practical workflow systems for growing B2B teams: lead follow-up, dashboards, document intake, billing, and onboarding."
+  title="Fractional Data Analyst for Accounting Firms | 5 Cypress"
+  description="5 Cypress is a fractional data analyst practice for accounting firms and small businesses: live KPI dashboards, cashflow forecasting, and monthly reporting built from the data you already have."
 >
   <Fragment slot="head">
     <JsonLd schema={orgSchema} />
@@ -232,84 +272,32 @@ const serviceSchemas = coreWorkflows.map((s) => ({
 
   <section class="hero section">
     <div class="container hero-inner">
-      <div class="hero-copy reveal">
-        <p class="lead-in">Founder-led workflow automation</p>
-        <h1>Your team is not slow. The handoffs are.</h1>
+      <div class="hero-copy">
+        <p class="lead-in">Fractional data analyst · accounting &amp; small business</p>
+        <h1>You have the data. You're deciding blind.</h1>
         <p class="hero-sub">
-          5 Cypress maps the manual steps hiding between your forms, inboxes, spreadsheets,
-          CRMs, QuickBooks files, folders, and reports. Then we build the first workflow that
-          removes the drag without turning your business into an AI science project.
+          5 Cypress turns the QuickBooks, CRM, and operational data already sitting in your
+          business into live dashboards and forecasts you can trust — so the decisions that
+          used to wait for month-end get made while they still matter.
         </p>
         <div class="hero-ctas">
           <Button variant="primary" size="lg" magnetic ripple data-open-booking>
-            Map My Workflow
+            Book a fit call
           </Button>
-          <Button variant="secondary" size="lg" href="/services/">
-            See the 5 systems
+          <Button variant="secondary" size="lg" href="/demo/">
+            See a live dashboard
           </Button>
         </div>
         <div class="hero-proof" aria-label="5 Cypress operating principles">
-          <span>Map first</span>
-          <span>Build narrow</span>
-          <span>Test with real edge cases</span>
-          <span>Document the handoff</span>
+          <span>Read-only data access</span>
+          <span>One source of truth</span>
+          <span>Refreshed on schedule</span>
+          <span>Every metric documented</span>
         </div>
       </div>
 
-      <div class="hero-visual reveal" aria-label="Workflow control room preview">
-        <div class="control-room">
-          <div class="control-room-top">
-            <div>
-              <span class="panel-kicker">Live workflow map</span>
-              <h2>Intake to action</h2>
-            </div>
-            <span class="system-status">Human review on</span>
-          </div>
-
-          <div class="route-map" aria-hidden="true">
-            <div class="route-node route-node--active">
-              <span>01</span>
-              <strong>Lead captured</strong>
-              <small>Form / call / referral</small>
-            </div>
-            <div class="route-line"></div>
-            <div class="route-node">
-              <span>02</span>
-              <strong>Record checked</strong>
-              <small>CRM + duplicate rules</small>
-            </div>
-            <div class="route-line"></div>
-            <div class="route-node">
-              <span>03</span>
-              <strong>Owner alerted</strong>
-              <small>SMS + inbox + task</small>
-            </div>
-          </div>
-
-          <div class="signal-grid">
-            <div class="signal-card">
-              <span>First response</span>
-              <strong data-count="47" data-suffix=" sec">47 sec</strong>
-              <small>inside business rule</small>
-            </div>
-            <div class="signal-card">
-              <span>Open exceptions</span>
-              <strong data-count="2">2</strong>
-              <small>needs review</small>
-            </div>
-            <div class="signal-card signal-card--gold">
-              <span>Manual steps removed</span>
-              <strong data-count="6">6</strong>
-              <small>from intake flow</small>
-            </div>
-          </div>
-
-          <div class="system-log" id="system-log">
-            <div><span>15:42</span><p>New lead matched automation services</p></div>
-            <div><span>15:42</span><p>CRM record created with source tag</p></div>
-            <div><span>15:43</span><p>Owner notified; calendar link queued</p></div>
-          </div>
-        </div>
+      <div class="hero-visual" aria-label="Live cashflow forecast dashboard preview">
+        <HeroCashflowChart />
       </div>
     </div>
   </section>
@@ -329,8 +317,8 @@ const serviceSchemas = coreWorkflows.map((s) => ({
       </div>
       <div class="founder-copy">
         <p class="founder-line">
-          Built by <strong>Jim Smart</strong> — 10+ years of BI and analytics at
-          Verizon and the U.S. Army.
+          Built by <strong>Jim Smart</strong> — a senior data analyst with years of
+          experience across the telecom and government sectors.
         </p>
         <p class="founder-sub">The same reporting discipline enterprises pay for, scoped for small firms.</p>
       </div>
@@ -345,14 +333,18 @@ const serviceSchemas = coreWorkflows.map((s) => ({
   <section class="section scene-section">
     <div class="container">
       <div class="section-header reveal">
-        <p class="lead-in">Where the work leaks</p>
-        <h2>The problem is usually not the tool. It is the space between tools.</h2>
+        <p class="lead-in">Where the decisions slip</p>
+        <h2>The data already exists. It is just never in front of you in time.</h2>
       </div>
       <div class="scene-grid reveal-stagger">
         {operatingScenes.map((scene) => (
           <article class="scene-card">
+            <span class="scene-num">{scene.num}</span>
             <h3>{scene.title}</h3>
-            <p>{scene.text}</p>
+            <div class="scene-states">
+              <p class="scene-before"><span>Before</span>{scene.before}</p>
+              <p class="scene-after"><span>After</span>{scene.after}</p>
+            </div>
           </article>
         ))}
       </div>
@@ -362,12 +354,12 @@ const serviceSchemas = coreWorkflows.map((s) => ({
   <section class="section workflow-section" id="workflows">
     <div class="container">
       <div class="section-header reveal">
-        <p class="lead-in">The 5 Cypress model</p>
-        <h2>Five workflow systems. Built like starting points, not templates.</h2>
+        <p class="lead-in">What we build</p>
+        <h2>Five ways to turn idle data into decisions.</h2>
         <p class="section-sub">
-          Most companies do not need a giant transformation project. They need one broken
-          handoff fixed well enough that the team trusts it. These five systems are where
-          that first win usually lives.
+          Most small businesses do not need a data team. They need one dashboard or forecast
+          built well enough that leadership trusts it and uses it. These five are where that
+          first win usually lives.
         </p>
       </div>
       <div class="services-grid reveal-stagger">
@@ -390,6 +382,75 @@ const serviceSchemas = coreWorkflows.map((s) => ({
     </div>
   </section>
 
+  <section class="section retainer-section" id="retainer">
+    <div class="container">
+      <div class="section-header reveal">
+        <p class="lead-in">Pricing</p>
+        <h2>One build fee to start. A low monthly plan to keep it current.</h2>
+        <p class="section-sub">
+          A dashboard is built once, then refreshed automatically on a schedule you set — weekly or
+          monthly for almost everyone. You pay a one-time fee to stand it up, then a monthly plan to
+          keep it live and turn it into a decision. No daily babysitting — not by you, not by us.
+        </p>
+      </div>
+      <div class="retainer-grid reveal-stagger">
+        <article class="retainer-card">
+          <p class="retainer-tier">Starter</p>
+          <p class="retainer-price"><strong>$99</strong><span>/mo</span></p>
+          <p class="retainer-cadence">Prebuilt template · self-serve</p>
+          <p class="retainer-for">Just want a dashboard, no custom build.</p>
+          <ul class="retainer-list">
+            <li>A ready-made KPI template</li>
+            <li>Connect your QuickBooks, Xero, or Stripe</li>
+            <li>Automatic monthly refresh</li>
+            <li>No build fee — start this week</li>
+          </ul>
+        </article>
+        <article class="retainer-card">
+          <p class="retainer-tier">Essentials</p>
+          <p class="retainer-price"><strong>$350</strong><span>/mo</span></p>
+          <p class="retainer-cadence">One custom dashboard</p>
+          <p class="retainer-for">Built around your numbers, kept current for you.</p>
+          <ul class="retainer-list">
+            <li>One dashboard modeled to your business</li>
+            <li>Automatic weekly or monthly refresh</li>
+            <li>Metric changes on request</li>
+            <li>Email support</li>
+          </ul>
+        </article>
+        <article class="retainer-card retainer-card--featured">
+          <span class="retainer-badge">Most firms</span>
+          <p class="retainer-tier">Growth</p>
+          <p class="retainer-price"><strong>$900</strong><span>/mo</span></p>
+          <p class="retainer-cadence">Dashboard suite + insight review</p>
+          <p class="retainer-for">Your analyst seat, without the headcount.</p>
+          <ul class="retainer-list">
+            <li>Everything in Essentials</li>
+            <li>A small suite of dashboards</li>
+            <li>A monthly insight review call</li>
+            <li>Priority changes and new metrics</li>
+          </ul>
+        </article>
+        <article class="retainer-card">
+          <p class="retainer-tier">Partner</p>
+          <p class="retainer-price"><strong>$2,000</strong><span>/mo</span></p>
+          <p class="retainer-cadence">Fractional analyst on call</p>
+          <p class="retainer-for">For teams that run on their numbers daily.</p>
+          <ul class="retainer-list">
+            <li>Everything in Growth</li>
+            <li>Standing analyst hours each month</li>
+            <li>New builds as you need them</li>
+            <li>Faster refresh where it earns its keep</li>
+          </ul>
+        </article>
+      </div>
+      <p class="retainer-foot">
+        Custom plans start with a one-time build — <a href="#founding-offer">founding rate $1,500</a>,
+        normally $2,500–$4,500. The Starter template has no build fee.
+      </p>
+    </div>
+  </section>
+
   <section class="section stats-section">
     <div class="container">
       <div class="stats-intro reveal">
@@ -397,10 +458,10 @@ const serviceSchemas = coreWorkflows.map((s) => ({
         <h2>Premium work is not bigger. It is clearer.</h2>
       </div>
       <div class="stats-row reveal">
-        <StatTile stat="5-14" label="Business days for focused workflow builds" subtext="Lead follow-up, routing, reporting, reminders" />
-        <StatTile stat="3-4" label="Weeks for multi-system automations" subtext="When approvals, edge cases, and testing matter" />
-        <StatTile stat="0" label="New platform required by default" subtext="We connect the tools already in the business" />
-        <StatTile stat="1" label="Plain-English runbook after launch" subtext="So the workflow is understandable, not mysterious" />
+        <StatTile stat="10-14" label="Business days to a first live dashboard" subtext="A KPI board, reporting pack, or forecast" />
+        <StatTile stat="3-4" label="Weeks for a full BI model or forecast engine" subtext="When the data model and QA are the work" />
+        <StatTile stat="0" label="New logins your team has to learn" subtext="Read-only connections to the tools you already use" />
+        <StatTile stat="1" label="Documented definition per metric" subtext="So every number can be traced to its source" />
       </div>
     </div>
   </section>
@@ -409,11 +470,11 @@ const serviceSchemas = coreWorkflows.map((s) => ({
     <div class="container sectors-layout">
       <div class="section-header reveal">
         <p class="lead-in">Specialized, not boxed in</p>
-        <h2>Accounting and finance proves the depth. The workflow logic travels.</h2>
+        <h2>Accounting proves the depth. The analysis travels.</h2>
         <p class="section-sub">
-          Dense financial workflows make a strong proving ground: QuickBooks data, document intake,
-          approvals, reports, invoices, and client updates. But the same handoff problems show up
-          in any serious B2B operation.
+          Dense financial data makes a strong proving ground: QuickBooks actuals, AR aging,
+          WIP, and cashflow. But the same problem — real data no one has time to model and
+          report — shows up in any serious B2B operation.
         </p>
       </div>
       <div class="sector-grid reveal-stagger">
@@ -432,11 +493,12 @@ const serviceSchemas = coreWorkflows.map((s) => ({
       <div class="trust-grid">
         <div class="trust-copy reveal">
           <p class="lead-in">How trust is built</p>
-          <h2>Useful automation should feel controlled, not mysterious.</h2>
+          <h2>Good analytics should feel verifiable, not magic.</h2>
           <p>
-            The safest workflows are boring in the right places: clear triggers,
-            validated data, visible exceptions, and a documented handoff. That is
-            how 5 Cypress keeps automation practical instead of fragile.
+            The dashboards you can trust are boring in the right places: read-only
+            data access, defined metric logic, a visible source for every number,
+            and documentation. That is how 5 Cypress keeps analysis dependable
+            instead of another spreadsheet nobody believes.
           </p>
         </div>
 
@@ -449,6 +511,27 @@ const serviceSchemas = coreWorkflows.map((s) => ({
           ))}
         </div>
       </div>
+
+      <div class="pipeline reveal" id="qa-pipeline" aria-label="How an AI-assisted insight ships">
+        <p class="pipeline-label">If AI is ever involved, here is the path it takes</p>
+        <div class="pipeline-track">
+          {[
+            { n: '01', label: 'Source data', sub: 'Read-only from QBO, CRM' },
+            { n: '02', label: 'Aggregate', sub: 'Rolled up, identifiers stripped' },
+            { n: '03', label: 'Human review', sub: 'Gate before anything ships' },
+            { n: '04', label: 'Delivery', sub: 'Into your dashboard' },
+          ].map((stage, i, arr) => (
+            <>
+              <div class="pipeline-stage" data-stage={i}>
+                <span class="pipeline-num">{stage.n}</span>
+                <strong>{stage.label}</strong>
+                <small>{stage.sub}</small>
+              </div>
+              {i < arr.length - 1 && <div class="pipeline-line" data-line={i}></div>}
+            </>
+          ))}
+        </div>
+      </div>
     </div>
   </section>
 
@@ -456,52 +539,70 @@ const serviceSchemas = coreWorkflows.map((s) => ({
     <div class="container">
       <div class="demo-header reveal">
         <p class="lead-in">See it live</p>
-        <h2>This is the kind of visibility automation should create.</h2>
+        <h2>This is the product. Watch it build itself.</h2>
         <p>
-          These are sample records, not client claims. They show the shape of a useful workflow:
-          what came in, what changed, what still needs a human, and who owns the next step.
+          The dashboards are the deliverable — not slide mockups. Below is a live Practice
+          Command Center on clearly-labeled synthetic data; every board is hosted live with
+          no signup, no gate, no sales call first. Open one and poke at the numbers.
         </p>
       </div>
-      <div class="demo-grid reveal-stagger">
-        {demoWorkflows.map((demo) => (
-          <article class="workflow-demo">
-            <div class="workflow-demo-top">
-              <span class="workflow-demo-label">{demo.label}</span>
-              <span class="workflow-demo-live">{demo.status}</span>
-            </div>
-            <h3>{demo.title}</h3>
-            <div class="workflow-demo-metric">
-              <span
-                data-count={demo.metric.replace(/[^0-9]/g, '')}
-                data-prefix={demo.metric.startsWith('$') ? '$' : undefined}
-                data-suffix={/[a-z]/i.test(demo.metric) ? ` ${demo.metric.replace(/[^a-z ]/gi, '').trim()}` : undefined}
-              >{demo.metric}</span>
-              <p>{demo.metricLabel}</p>
-            </div>
-            <div class="workflow-demo-rows">
-              {demo.rows.map(([key, value]) => (
-                <div class="workflow-demo-row">
-                  <span>{key}</span>
-                  <strong>{value}</strong>
-                </div>
-              ))}
-            </div>
-            <div class="workflow-timeline">
-              {demo.timeline.map((step, index) => (
-                <div class="workflow-step">
-                  <span>{String(index + 1).padStart(2, '0')}</span>
-                  <p>{step}</p>
-                </div>
-              ))}
-            </div>
-          </article>
-        ))}
+
+      <div class="showcase-wrap reveal">
+        <DashboardShowcase />
       </div>
-      <div class="demo-action reveal">
-        <Button variant="secondary" size="lg" href="/demo/">
-          Open the live demo dashboard
-        </Button>
-        <p>A full practice KPI dashboard for a fictional 4-partner CPA firm. Click around — no signup, no gate.</p>
+
+      <div class="gallery">
+        <a class="gallery-tile gallery-tile--featured reveal" href={featuredDashboard.href}>
+          <div class="tile-body">
+            <div class="tile-head">
+              <span class="tile-tag">{featuredDashboard.tag}</span>
+              <span class="tile-badge">Live demo · synthetic data</span>
+            </div>
+            <h3>{featuredDashboard.title}</h3>
+            <p class="tile-blurb">{featuredDashboard.blurb}</p>
+            <div class="tile-kpis">
+              {featuredDashboard.kpis?.map((k) => (
+                <div class="tile-kpi">
+                  <span>{k.label}</span>
+                  <strong>{k.value}</strong>
+                </div>
+              ))}
+            </div>
+            <span class="tile-foot">Open the dashboard <span aria-hidden="true">→</span></span>
+          </div>
+          <div class="tile-preview tile-preview--featured" aria-hidden="true">
+            <svg viewBox="0 0 100 40" preserveAspectRatio="none" class="tile-spark">
+              <path d={miniLine(featuredDashboard.series)} class="tile-spark-line" />
+            </svg>
+          </div>
+        </a>
+
+        <div class="gallery-secondary reveal-stagger">
+          {secondaryDashboards.map((d) => (
+            <a class="gallery-tile" href={d.href}>
+              <div class="tile-preview" aria-hidden="true">
+                {d.motif === 'line' ? (
+                  <svg viewBox="0 0 100 40" preserveAspectRatio="none" class="tile-spark">
+                    <path d={miniLine(d.series)} class="tile-spark-line" />
+                  </svg>
+                ) : (
+                  <div class="tile-bars">
+                    {d.series.map((v) => (
+                      <span style={'height:' + Math.round((v / barMax(d.series)) * 100) + '%'}></span>
+                    ))}
+                  </div>
+                )}
+              </div>
+              <div class="tile-head">
+                <span class="tile-tag">{d.tag}</span>
+                <span class="tile-badge">Live demo</span>
+              </div>
+              <h3>{d.title}</h3>
+              <p class="tile-blurb">{d.blurb}</p>
+              <span class="tile-foot">Open <span aria-hidden="true">→</span></span>
+            </a>
+          ))}
+        </div>
       </div>
     </div>
   </section>
@@ -510,7 +611,7 @@ const serviceSchemas = coreWorkflows.map((s) => ({
     <div class="container faq-container">
       <div class="section-header reveal">
         <p class="lead-in">Buyer questions</p>
-        <h2>What people usually ask before they trust an automation build</h2>
+        <h2>What people usually ask before they trust a new analyst</h2>
       </div>
       <div class="reveal">
         <Faq items={faqs} includeLdJson />
@@ -518,16 +619,16 @@ const serviceSchemas = coreWorkflows.map((s) => ({
     </div>
   </section>
 
-  <section class="section founding-section">
+  <section class="section founding-section" id="founding-offer">
     <div class="container">
       <div class="founding-panel reveal">
         <div class="founding-copy">
           <p class="lead-in">Founding five</p>
-          <h2>First 5 firms: a flagship build at $1,500 flat.</h2>
+          <h2>First 5 firms: a flagship dashboard build at $1,500 flat.</h2>
           <p>
-            Flagship builds normally run $2,500–$4,500. The first five founding clients get
-            one at $1,500 flat — in exchange for letting us publish a build walkthrough of
-            the work (your numbers anonymized, your review before anything goes public).
+            Flagship builds normally run $2,500–$4,500. Founding clients get one at $1,500 flat
+            — in exchange for letting us publish a build walkthrough of the work (your numbers
+            anonymized, your review before anything goes public).
           </p>
           <p class="founding-why">
             Why so cheap? We're new, and we'd rather trade margin for public proof than
@@ -536,14 +637,14 @@ const serviceSchemas = coreWorkflows.map((s) => ({
           </p>
         </div>
         <div class="founding-side">
-          <div class="founding-counter" aria-label="Founding client slots">
+          <div class="founding-counter" aria-label="Founding rate availability">
             <div class="founding-slots" aria-hidden="true">
               <span></span><span></span><span></span><span></span><span></span>
             </div>
-            <p><strong>5 of 5</strong> founding slots open</p>
+            <p><strong>Founding rate</strong> — limited availability</p>
           </div>
           <Button variant="primary" size="lg" magnetic ripple data-open-booking>
-            Map My Workflow
+            Book a fit call
           </Button>
         </div>
       </div>
@@ -553,10 +654,10 @@ const serviceSchemas = coreWorkflows.map((s) => ({
   <section class="section cta-final">
     <div class="container cta-final-inner reveal">
       <p class="lead-in">Start narrow</p>
-      <h2>Bring the workflow your team keeps working around.</h2>
+      <h2>Bring the number you can never see in time.</h2>
       <p>
-        In one mapping session, we can usually tell whether the work should be automated,
-        simplified, delegated, or left alone.
+        In one fit call, we can usually tell whether the answer is a dashboard, a forecast,
+        a cleaner data model, or nothing worth building yet.
       </p>
       <div class="next-steps" aria-label="What happens next">
         {nextSteps.map((step, index) => (
@@ -567,7 +668,7 @@ const serviceSchemas = coreWorkflows.map((s) => ({
         ))}
       </div>
       <Button variant="primary" size="lg" magnetic ripple data-open-booking>
-        Map My Workflow
+        Book a fit call
       </Button>
       <p class="cta-contact">
         Prefer email?
@@ -618,32 +719,32 @@ const serviceSchemas = coreWorkflows.map((s) => ({
     counters.forEach((el) => counterObserver.observe(el));
   }
 
-  // System log: staggered line reveal when the hero is visible
-  const log = document.getElementById('system-log');
-  if (log && !reducedMotion) {
-    log.classList.add('log-anim');
-    const logObserver = new IntersectionObserver(
+  // QA pipeline: sequential left-to-right light-up, once, on scroll into view
+  const pipeline = document.getElementById('qa-pipeline');
+  if (pipeline) {
+    const stages = Array.from(pipeline.querySelectorAll<HTMLElement>('.pipeline-stage'));
+    const lines = Array.from(pipeline.querySelectorAll<HTMLElement>('.pipeline-line'));
+    const runPipeline = () => {
+      if (reducedMotion) {
+        stages.forEach((s) => s.classList.add('is-active'));
+        lines.forEach((l) => l.classList.add('is-active'));
+        return;
+      }
+      stages.forEach((stage, i) => {
+        setTimeout(() => stage.classList.add('is-active'), i * 450);
+        if (lines[i]) setTimeout(() => lines[i].classList.add('is-active'), i * 450 + 250);
+      });
+    };
+    const pipelineObserver = new IntersectionObserver(
       (entries) => {
         if (entries.some((e) => e.isIntersecting)) {
-          log.classList.add('log-play');
-          logObserver.disconnect();
+          runPipeline();
+          pipelineObserver.disconnect();
         }
       },
       { threshold: 0.4 }
     );
-    logObserver.observe(log);
-  }
-
-  // Route map: ambient activation cycle (lead → record → alert)
-  const nodes = Array.from(document.querySelectorAll<HTMLElement>('.route-map .route-node'));
-  const lines = Array.from(document.querySelectorAll<HTMLElement>('.route-map .route-line'));
-  if (nodes.length === 3 && !reducedMotion) {
-    let step = 0;
-    setInterval(() => {
-      step = (step + 1) % 6; // 0..5: node0, line0, node1, line1, node2, rest
-      nodes.forEach((n, i) => n.classList.toggle('route-node--active', step >= i * 2 && step < 5));
-      lines.forEach((l, i) => l.classList.toggle('route-line--flow', step === i * 2 + 1));
-    }, 1300);
+    pipelineObserver.observe(pipeline);
   }
 </script>
 
@@ -675,8 +776,8 @@ const serviceSchemas = coreWorkflows.map((s) => ({
     gap: var(--space-6);
   }
   .hero h1 {
-    max-width: 10ch;
-    font-size: clamp(3.25rem, 7.6vw, 6.65rem);
+    max-width: 15ch;
+    font-size: clamp(2.75rem, 5.2vw, 4.5rem);
     letter-spacing: 0;
   }
   .hero-sub {
@@ -697,9 +798,10 @@ const serviceSchemas = coreWorkflows.map((s) => ({
     max-width: 720px;
   }
   .hero-proof span {
-    min-height: 72px;
     display: flex;
-    align-items: end;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
     padding: var(--space-3);
     border: 1px solid var(--border-subtle);
     border-radius: var(--radius-md);
@@ -715,165 +817,25 @@ const serviceSchemas = coreWorkflows.map((s) => ({
   .hero-visual {
     position: relative;
   }
-  .control-room {
-    position: relative;
-    min-height: 620px;
-    padding: var(--space-6);
-    border: 1px solid var(--border-medium);
-    border-radius: 28px;
-    background:
-      linear-gradient(180deg, rgba(93,140,93,0.13), transparent 32%),
-      radial-gradient(circle at 90% 0%, rgba(251,191,36,0.16), transparent 34%),
-      #101014;
-    box-shadow: 0 50px 120px rgba(0,0,0,0.62);
-    overflow: hidden;
+  /* Hero entrance — motion only. The h1 (LCP) never starts hidden: it rises
+     without fading, so its first paint is at full opacity. */
+  @media (prefers-reduced-motion: no-preference) {
+    .hero-copy > * { animation: heroRise 0.7s var(--ease-out) both; }
+    .hero-copy > *:nth-child(1) { animation-delay: 0s; }
+    .hero-copy > *:nth-child(2) { animation-delay: 0.06s; }
+    .hero-copy > *:nth-child(3) { animation-delay: 0.12s; }
+    .hero-copy > *:nth-child(4) { animation-delay: 0.18s; }
+    .hero-copy > *:nth-child(5) { animation-delay: 0.24s; }
+    .hero-copy h1 { animation-name: heroRiseSolid; }
+    .hero-visual { animation: heroRise 0.8s var(--ease-out) 0.25s both; }
   }
-  .control-room::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background-image:
-      linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px);
-    background-size: 32px 32px;
-    mask-image: linear-gradient(to bottom, black, transparent 78%);
-    pointer-events: none;
+  @keyframes heroRise {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: none; }
   }
-  .control-room > * {
-    position: relative;
-    z-index: 1;
-  }
-  .control-room-top {
-    display: flex;
-    justify-content: space-between;
-    gap: var(--space-6);
-    align-items: start;
-    margin-bottom: var(--space-8);
-  }
-  .panel-kicker,
-  .system-status {
-    font-family: var(--font-mono);
-    font-size: var(--text-xs);
-    font-weight: var(--weight-bold);
-    letter-spacing: var(--tracking-widest);
-    text-transform: uppercase;
-  }
-  .panel-kicker { color: var(--brand-primary-light); }
-  .control-room h2 {
-    margin-top: var(--space-2);
-    font-size: var(--text-3xl);
-  }
-  .system-status {
-    white-space: nowrap;
-    color: var(--brand-accent);
-    padding: 7px 10px;
-    border: 1px solid rgba(251,191,36,0.24);
-    border-radius: var(--radius-full);
-    background: rgba(251,191,36,0.08);
-  }
-  .route-map {
-    display: grid;
-    grid-template-columns: 1fr 48px 1fr 48px 1fr;
-    gap: var(--space-3);
-    align-items: center;
-  }
-  .route-node {
-    min-height: 154px;
-    padding: var(--space-4);
-    border: 1px solid var(--border-subtle);
-    border-radius: var(--radius-lg);
-    background: rgba(10,10,12,0.76);
-  }
-  .route-node--active {
-    border-color: rgba(251,191,36,0.32);
-    box-shadow: inset 0 0 0 1px rgba(251,191,36,0.08);
-  }
-  .route-node span {
-    display: block;
-    margin-bottom: var(--space-8);
-    color: var(--brand-accent);
-    font-family: var(--font-mono);
-    font-size: var(--text-xs);
-  }
-  .route-node strong {
-    display: block;
-    color: var(--text-primary);
-    font-family: var(--font-heading);
-    font-size: var(--text-base);
-  }
-  .route-node small {
-    display: block;
-    margin-top: var(--space-2);
-    color: var(--text-disabled);
-    line-height: var(--leading-normal);
-  }
-  .route-line {
-    height: 1px;
-    background: linear-gradient(90deg, var(--brand-primary), var(--brand-accent));
-    position: relative;
-  }
-  .route-line::after {
-    content: '';
-    position: absolute;
-    right: 0;
-    top: 50%;
-    width: 8px;
-    height: 8px;
-    border-top: 1px solid var(--brand-accent);
-    border-right: 1px solid var(--brand-accent);
-    transform: translateY(-50%) rotate(45deg);
-  }
-  .signal-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: var(--space-3);
-    margin-top: var(--space-6);
-  }
-  .signal-card {
-    min-height: 136px;
-    padding: var(--space-4);
-    border: 1px solid var(--border-subtle);
-    border-radius: var(--radius-lg);
-    background: var(--bg-main);
-  }
-  .signal-card span,
-  .signal-card small {
-    color: var(--text-disabled);
-    font-size: var(--text-xs);
-  }
-  .signal-card strong {
-    display: block;
-    margin-block: var(--space-3) var(--space-2);
-    color: var(--text-primary);
-    font-family: var(--font-heading);
-    font-size: var(--text-3xl);
-    line-height: 1;
-  }
-  .signal-card--gold strong { color: var(--brand-accent); }
-  .system-log {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-3);
-    margin-top: var(--space-6);
-  }
-  .system-log div {
-    display: grid;
-    grid-template-columns: 64px 1fr;
-    gap: var(--space-4);
-    padding: var(--space-3);
-    border: 1px solid var(--border-subtle);
-    border-radius: var(--radius-md);
-    background: rgba(10,10,12,0.62);
-  }
-  .system-log span {
-    color: var(--brand-primary-light);
-    font-family: var(--font-mono);
-    font-size: var(--text-xs);
-  }
-  .system-log p {
-    color: var(--text-secondary);
-    font-size: var(--text-sm);
-    line-height: var(--leading-normal);
+  @keyframes heroRiseSolid {
+    from { transform: translateY(16px); }
+    to   { transform: none; }
   }
 
   .section-header {
@@ -896,23 +858,59 @@ const serviceSchemas = coreWorkflows.map((s) => ({
     gap: var(--space-5);
   }
   .scene-card {
-    min-height: 270px;
-    padding: var(--space-7);
+    position: relative;
+    padding: var(--space-7) var(--space-6) var(--space-6);
     border: 1px solid var(--border-subtle);
-    border-radius: var(--radius-xl);
-    background:
-      linear-gradient(180deg, rgba(93,140,93,0.08), transparent),
-      var(--bg-surface);
+    border-top: 2px solid var(--brand-primary);
+    border-radius: var(--radius-lg);
+    background: #101014;
+    overflow: hidden;
+  }
+  .scene-num {
+    display: block;
+    margin-bottom: var(--space-5);
+    color: var(--brand-primary-light);
+    font-family: var(--font-mono);
+    font-size: var(--text-sm);
+    font-weight: var(--weight-bold);
+    letter-spacing: var(--tracking-widest);
   }
   .scene-card h3 {
-    max-width: 12ch;
     margin-bottom: var(--space-5);
-    font-size: var(--text-2xl);
+    font-size: var(--text-xl);
+    line-height: var(--leading-snug);
   }
-  .scene-card p {
+  .scene-states {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    padding-top: var(--space-4);
+    border-top: 1px solid var(--border-subtle);
+  }
+  .scene-states p {
+    font-size: var(--text-sm);
+    line-height: var(--leading-normal);
+    padding-left: var(--space-4);
+    border-left: 2px solid var(--border-medium);
+  }
+  .scene-before {
+    color: var(--text-disabled);
+  }
+  .scene-after {
     color: var(--text-secondary);
-    font-size: var(--text-base);
+    border-left-color: var(--brand-primary) !important;
   }
+  .scene-states span {
+    display: block;
+    margin-bottom: 2px;
+    font-family: var(--font-mono);
+    font-size: 0.62rem;
+    font-weight: var(--weight-bold);
+    letter-spacing: var(--tracking-wider);
+    text-transform: uppercase;
+  }
+  .scene-before span { color: var(--text-disabled); }
+  .scene-after span { color: var(--brand-primary-light); }
   .workflow-section,
   .trust-section,
   .cta-final {
@@ -946,7 +944,6 @@ const serviceSchemas = coreWorkflows.map((s) => ({
     gap: var(--space-5);
   }
   .sector-card {
-    min-height: 240px;
     padding: var(--space-6);
     background: var(--bg-surface);
     border: 1px solid var(--border-subtle);
@@ -976,7 +973,6 @@ const serviceSchemas = coreWorkflows.map((s) => ({
     gap: var(--space-5);
   }
   .trust-card {
-    min-height: 214px;
     padding: var(--space-6);
     border: 1px solid var(--border-subtle);
     border-radius: var(--radius-xl);
@@ -992,6 +988,89 @@ const serviceSchemas = coreWorkflows.map((s) => ({
     color: var(--text-secondary);
     font-size: var(--text-sm);
   }
+
+  .pipeline {
+    margin-top: var(--space-16);
+    padding-top: var(--space-12);
+    border-top: 1px solid var(--border-subtle);
+  }
+  .pipeline-label {
+    margin-bottom: var(--space-6);
+    color: var(--text-disabled);
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    font-weight: var(--weight-bold);
+    letter-spacing: var(--tracking-widest);
+    text-transform: uppercase;
+    text-align: center;
+  }
+  .pipeline-track {
+    display: grid;
+    grid-template-columns: 1fr 40px 1fr 40px 1fr 40px 1fr;
+    align-items: center;
+    gap: var(--space-2);
+  }
+  .pipeline-stage {
+    padding: var(--space-5) var(--space-4);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-lg);
+    background: var(--bg-main);
+    text-align: center;
+    opacity: 0.4;
+    transform: translateY(6px);
+    transition:
+      opacity 0.5s var(--ease-out),
+      transform 0.5s var(--ease-out),
+      border-color 0.5s var(--ease-out),
+      box-shadow 0.5s var(--ease-out);
+  }
+  .pipeline-stage.is-active {
+    opacity: 1;
+    transform: translateY(0);
+    border-color: rgba(251,191,36,0.3);
+    box-shadow: 0 0 0 1px rgba(251,191,36,0.08), var(--shadow-sm);
+  }
+  .pipeline-num {
+    display: block;
+    margin-bottom: var(--space-2);
+    color: var(--brand-accent);
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    font-weight: var(--weight-bold);
+  }
+  .pipeline-stage strong {
+    display: block;
+    color: var(--text-primary);
+    font-family: var(--font-heading);
+    font-size: var(--text-sm);
+    margin-bottom: var(--space-1);
+  }
+  .pipeline-stage small {
+    display: block;
+    color: var(--text-tertiary);
+    font-size: 0.72rem;
+    line-height: var(--leading-snug);
+  }
+  .pipeline-line {
+    height: 2px;
+    background: var(--border-medium);
+    transition: background 0.4s var(--ease-out);
+  }
+  .pipeline-line.is-active {
+    background: linear-gradient(90deg, var(--brand-primary), var(--brand-accent));
+  }
+
+  @media (max-width: 900px) {
+    .pipeline-track {
+      grid-template-columns: 1fr;
+      gap: var(--space-3);
+    }
+    .pipeline-line {
+      width: 2px;
+      height: 20px;
+      margin-inline: auto;
+    }
+  }
   .demo-section {
     border-block: 1px solid var(--border-subtle);
   }
@@ -1003,142 +1082,154 @@ const serviceSchemas = coreWorkflows.map((s) => ({
     color: var(--text-secondary);
     font-size: var(--text-lg);
   }
-  .demo-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: var(--space-6);
+  .showcase-wrap {
+    max-width: 980px;
+    margin: 0 auto var(--space-16);
   }
-  .workflow-demo {
-    min-height: 560px;
+  .gallery { display: grid; gap: var(--space-6); }
+  .gallery-tile {
     display: flex;
     flex-direction: column;
-    gap: var(--space-6);
+    gap: var(--space-3);
+    position: relative;
     padding: var(--space-6);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-xl);
     background:
       linear-gradient(180deg, rgba(93,140,93,0.08), transparent 38%),
       var(--bg-surface);
-    border: 1px solid var(--border-subtle);
-    border-radius: var(--radius-xl);
-    position: relative;
     overflow: hidden;
+    transition:
+      transform var(--duration-normal) var(--ease-out),
+      border-color var(--duration-normal) var(--ease-out),
+      box-shadow var(--duration-normal) var(--ease-out);
   }
-  .workflow-demo::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background-image:
-      linear-gradient(rgba(255,255,255,0.035) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(255,255,255,0.035) 1px, transparent 1px);
-    background-size: 28px 28px;
-    mask-image: linear-gradient(to bottom, black, transparent 70%);
-    pointer-events: none;
+  .gallery-tile:hover {
+    transform: translateY(-4px);
+    border-color: var(--border-brand);
+    box-shadow: var(--shadow-lg), var(--shadow-glow);
   }
-  .workflow-demo > * {
-    position: relative;
-    z-index: 1;
+
+  /* Featured tile — ~2× the visual weight of a secondary tile. */
+  .gallery-tile--featured {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: var(--space-8);
+    align-items: center;
+    padding: var(--space-8);
   }
-  .workflow-demo-top {
+  .tile-body { display: flex; flex-direction: column; gap: var(--space-4); align-items: flex-start; }
+
+  .tile-head {
     display: flex;
     justify-content: space-between;
-    gap: var(--space-4);
     align-items: center;
+    gap: var(--space-3);
+    width: 100%;
   }
-  .workflow-demo-label,
-  .workflow-demo-live {
+  .tile-tag {
     font-family: var(--font-mono);
     font-size: var(--text-xs);
     font-weight: var(--weight-bold);
+    letter-spacing: var(--tracking-wider);
     text-transform: uppercase;
-    letter-spacing: var(--tracking-widest);
+    color: var(--brand-primary-light);
   }
-  .workflow-demo-label { color: var(--brand-primary); }
-  .workflow-demo-live {
+  .tile-badge {
+    flex-shrink: 0;
+    white-space: nowrap;
     color: var(--brand-accent);
     border: 1px solid rgba(251,191,36,0.22);
     border-radius: var(--radius-full);
     padding: 4px 8px;
     background: rgba(251,191,36,0.06);
-    text-align: right;
+    font-family: var(--font-mono);
+    font-size: 0.6rem;
+    font-weight: var(--weight-bold);
+    letter-spacing: var(--tracking-wide);
+    text-transform: uppercase;
   }
-  .workflow-demo h3 {
-    font-size: var(--text-2xl);
+  .gallery-tile h3 {
+    color: var(--text-primary);
+    font-size: var(--text-xl);
     line-height: var(--leading-snug);
   }
-  .workflow-demo-metric {
-    padding: var(--space-5);
-    border: 1px solid var(--border-subtle);
-    border-radius: var(--radius-lg);
-    background: var(--bg-main);
+  .gallery-tile--featured h3 {
+    font-size: clamp(1.6rem, 3vw, 2.4rem);
+    line-height: var(--leading-tight);
   }
-  .workflow-demo-metric span {
-    display: block;
-    color: var(--text-primary);
-    font-family: var(--font-heading);
-    font-size: var(--text-4xl);
-    font-weight: var(--weight-bold);
-    line-height: 1;
-  }
-  .workflow-demo-metric p {
-    margin-top: var(--space-2);
+  .tile-blurb {
     color: var(--text-tertiary);
-    font-size: var(--text-sm);
-  }
-  .workflow-demo-rows {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-2);
-  }
-  .workflow-demo-row {
-    display: flex;
-    justify-content: space-between;
-    gap: var(--space-4);
-    padding: var(--space-3);
-    border-radius: var(--radius-md);
-    background: rgba(10,10,12,0.58);
-    border: 1px solid var(--border-subtle);
-  }
-  .workflow-demo-row span {
-    color: var(--text-disabled);
-    font-size: var(--text-xs);
-  }
-  .workflow-demo-row strong {
-    color: var(--text-secondary);
-    font-size: var(--text-xs);
-    text-align: right;
-  }
-  .workflow-timeline {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-3);
-    margin-top: auto;
-  }
-  .workflow-step {
-    display: grid;
-    grid-template-columns: 34px 1fr;
-    gap: var(--space-3);
-    align-items: center;
-  }
-  .workflow-step span {
-    color: var(--brand-accent);
-    font-family: var(--font-mono);
-    font-size: var(--text-xs);
-  }
-  .workflow-step p {
-    color: var(--text-secondary);
     font-size: var(--text-sm);
     line-height: var(--leading-normal);
   }
-  .demo-action {
-    margin-top: var(--space-10);
-    display: flex;
-    align-items: center;
-    gap: var(--space-5);
-    flex-wrap: wrap;
+  .gallery-tile--featured .tile-blurb {
+    color: var(--text-secondary);
+    font-size: var(--text-base);
   }
-  .demo-action p {
-    color: var(--text-tertiary);
-    font-size: var(--text-sm);
-    max-width: 44ch;
+  .tile-foot {
+    color: var(--brand-primary-light);
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    font-weight: var(--weight-bold);
+    letter-spacing: var(--tracking-wide);
+    text-transform: uppercase;
+  }
+  .gallery-secondary .tile-foot { margin-top: auto; padding-top: var(--space-2); }
+  .gallery-tile:hover .tile-foot { color: var(--brand-accent); }
+
+  .tile-kpis { display: flex; gap: var(--space-8); }
+  .tile-kpi span {
+    display: block;
+    color: var(--text-disabled);
+    font-family: var(--font-mono);
+    font-size: 0.6rem;
+    font-weight: var(--weight-bold);
+    letter-spacing: var(--tracking-wider);
+    text-transform: uppercase;
+  }
+  .tile-kpi strong {
+    display: block;
+    margin-top: var(--space-1);
+    color: var(--text-primary);
+    font-family: var(--font-mono);
+    font-size: var(--text-2xl);
+    font-weight: var(--weight-bold);
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .tile-preview {
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-lg);
+    background: var(--bg-main);
+    padding: var(--space-4);
+    height: 92px;
+    display: flex;
+    align-items: stretch;
+  }
+  .tile-preview--featured { height: 100%; min-height: 210px; }
+  .tile-spark { width: 100%; height: 100%; display: block; }
+  .tile-spark-line { fill: none; stroke: #199E70; stroke-width: 2; stroke-linejoin: round; stroke-linecap: round; }
+  .tile-bars { display: flex; align-items: flex-end; gap: var(--space-2); width: 100%; }
+  .tile-bars span {
+    flex: 1;
+    min-height: 4px;
+    border-radius: 3px 3px 0 0;
+    background: linear-gradient(180deg, var(--brand-primary-light), var(--brand-primary-dark));
+  }
+
+  .gallery-secondary {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-5);
+  }
+  @media (max-width: 1100px) {
+    .gallery-secondary { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 680px) {
+    .gallery-tile--featured { grid-template-columns: 1fr; padding: var(--space-6); }
+    .gallery-secondary { grid-template-columns: 1fr; }
   }
   .faq-container {
     max-width: 800px;
@@ -1168,7 +1259,6 @@ const serviceSchemas = coreWorkflows.map((s) => ({
     gap: var(--space-3);
   }
   .next-step {
-    min-height: 140px;
     padding: var(--space-4);
     border: 1px solid var(--border-subtle);
     border-radius: var(--radius-lg);
@@ -1271,6 +1361,100 @@ const serviceSchemas = coreWorkflows.map((s) => ({
     text-transform: uppercase;
   }
 
+  /* ── Retainer tiers ───────────────────────────────────────── */
+  .retainer-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--space-4);
+    margin-top: var(--space-10);
+  }
+  @media (max-width: 1024px) {
+    .retainer-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+  .retainer-card {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    padding: var(--space-6);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-lg);
+    background: rgba(255,255,255,0.02);
+    position: relative;
+  }
+  .retainer-card--featured {
+    border-color: var(--border-brand);
+    box-shadow: var(--shadow-md);
+  }
+  .retainer-badge {
+    position: absolute;
+    top: calc(-1 * var(--space-3));
+    left: var(--space-6);
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    font-weight: var(--weight-bold);
+    letter-spacing: var(--tracking-wide);
+    text-transform: uppercase;
+    color: var(--bg-void);
+    background: var(--brand-accent);
+    padding: 3px var(--space-2);
+    border-radius: var(--radius-full);
+  }
+  .retainer-tier {
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    font-weight: var(--weight-bold);
+    letter-spacing: var(--tracking-widest);
+    text-transform: uppercase;
+    color: var(--text-tertiary);
+  }
+  .retainer-price { display: flex; align-items: baseline; gap: 2px; }
+  .retainer-price strong {
+    font-family: var(--font-heading);
+    font-size: var(--text-4xl);
+    color: var(--text-primary);
+  }
+  .retainer-price span { color: var(--text-tertiary); font-size: var(--text-sm); }
+  .retainer-cadence {
+    color: var(--brand-accent);
+    font-size: var(--text-sm);
+    font-weight: var(--weight-semibold);
+  }
+  .retainer-for { color: var(--text-secondary); font-size: var(--text-sm); }
+  .retainer-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    margin-top: var(--space-3);
+    padding-top: var(--space-4);
+    border-top: 1px solid var(--border-subtle);
+  }
+  .retainer-list li {
+    color: var(--text-tertiary);
+    font-size: var(--text-sm);
+    padding-left: var(--space-4);
+    position: relative;
+  }
+  .retainer-list li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0.55em;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--brand-accent);
+  }
+  .retainer-foot {
+    margin-top: var(--space-6);
+    text-align: center;
+    color: var(--text-tertiary);
+    font-size: var(--text-sm);
+  }
+  .retainer-foot a { color: var(--brand-accent); }
+  @media (max-width: 768px) {
+    .retainer-grid { grid-template-columns: 1fr; }
+  }
+
   /* ── Founding five offer ──────────────────────────────────── */
   .founding-section {
     border-top: 1px solid var(--border-subtle);
@@ -1336,60 +1520,6 @@ const serviceSchemas = coreWorkflows.map((s) => ({
   }
   .founding-counter strong { color: var(--brand-accent); }
 
-  /* ── Hero choreography ────────────────────────────────────── */
-  .system-status {
-    display: inline-flex;
-    align-items: center;
-    gap: var(--space-2);
-  }
-  .system-status::before {
-    content: '';
-    width: 7px;
-    height: 7px;
-    border-radius: var(--radius-full);
-    background: var(--brand-accent);
-    animation: statusPulse 2.2s var(--ease-in-out) infinite;
-  }
-  @keyframes statusPulse {
-    0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(251,191,36,0.45); }
-    50%      { opacity: 0.55; box-shadow: 0 0 0 5px rgba(251,191,36,0); }
-  }
-
-  .log-anim div {
-    opacity: 0;
-    transform: translateY(8px);
-  }
-  .log-play div {
-    animation: logIn 0.55s var(--ease-out) forwards;
-  }
-  .log-play div:nth-child(1) { animation-delay: 0.35s; }
-  .log-play div:nth-child(2) { animation-delay: 0.95s; }
-  .log-play div:nth-child(3) { animation-delay: 1.55s; }
-  @keyframes logIn {
-    to { opacity: 1; transform: translateY(0); }
-  }
-
-  .route-node {
-    transition:
-      border-color var(--duration-slow) var(--ease-out),
-      box-shadow var(--duration-slow) var(--ease-out);
-  }
-  .route-line {
-    overflow: visible;
-  }
-  .route-line--flow {
-    animation: lineFlow 1.3s var(--ease-in-out);
-  }
-  @keyframes lineFlow {
-    0%   { filter: brightness(1); }
-    50%  { filter: brightness(2.1); }
-    100% { filter: brightness(1); }
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .system-status::before { animation: none; }
-  }
-
   @media (max-width: 1180px) {
     .hero-inner,
     .sectors-layout,
@@ -1399,11 +1529,9 @@ const serviceSchemas = coreWorkflows.map((s) => ({
     .hero h1 { max-width: 12ch; }
     .hero-visual { max-width: 760px; }
     .services-grid,
-    .scene-grid,
-    .demo-grid {
+    .scene-grid {
       grid-template-columns: 1fr;
     }
-    .workflow-demo { min-height: auto; }
   }
   @media (max-width: 768px) {
     .hero {
@@ -1415,43 +1543,13 @@ const serviceSchemas = coreWorkflows.map((s) => ({
     }
     .hero h1 {
       max-width: none;
-      font-size: clamp(2.8rem, 15vw, 4.4rem);
+      font-size: clamp(2.2rem, 9.5vw, 3.1rem);
     }
     .hero-proof,
-    .signal-grid,
     .sector-grid,
     .trust-list,
     .next-steps {
       grid-template-columns: 1fr;
-    }
-    .control-room {
-      min-height: auto;
-      padding: var(--space-4);
-      border-radius: var(--radius-xl);
-    }
-    .control-room-top,
-    .workflow-demo-top {
-      flex-direction: column;
-      align-items: flex-start;
-    }
-    .route-map {
-      grid-template-columns: 1fr;
-    }
-    .route-line {
-      width: 1px;
-      height: 28px;
-      margin-left: var(--space-6);
-      background: linear-gradient(180deg, var(--brand-primary), var(--brand-accent));
-    }
-    .route-line::after {
-      right: auto;
-      left: 50%;
-      top: auto;
-      bottom: 0;
-      transform: translateX(-50%) rotate(135deg);
-    }
-    .route-node {
-      min-height: 132px;
     }
     .stats-row {
       flex-direction: column;

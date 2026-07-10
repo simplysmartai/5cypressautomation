@@ -1,0 +1,156 @@
+{
+  "meta": {
+    "firmName": "Ledger & Bloom Bookkeeping",
+    "sector": "Bookkeeping & Client Advisory Services",
+    "disclaimer": "Fictional demo firm. Every number on this page is synthetic and regenerable from a seeded script.",
+    "seed": 90826,
+    "generatedAt": "2026-07-08",
+    "targetDay": 5,
+    "currentMonth": "Jul 26"
+  },
+  "delivery": [
+    {
+      "label": "Feb 26",
+      "avgDay": 9.4,
+      "onTimePct": 0.636
+    },
+    {
+      "label": "Mar 26",
+      "avgDay": 7.8,
+      "onTimePct": 0.672
+    },
+    {
+      "label": "Apr 26",
+      "avgDay": 6.7,
+      "onTimePct": 0.744
+    },
+    {
+      "label": "May 26",
+      "avgDay": 6,
+      "onTimePct": 0.798
+    },
+    {
+      "label": "Jun 26",
+      "avgDay": 5.6,
+      "onTimePct": 0.889
+    },
+    {
+      "label": "Jul 26",
+      "avgDay": 5.6,
+      "onTimePct": 0.96
+    }
+  ],
+  "clients": [
+    {
+      "name": "Brightwell Dental Group",
+      "industry": "Healthcare",
+      "revenue": 109509,
+      "revenueDeltaPct": -0.077,
+      "margin": 0.166,
+      "status": "Delivered",
+      "deliveredDay": 3,
+      "varianceFlag": false
+    },
+    {
+      "name": "Cobalt Ridge Landscaping",
+      "industry": "Field services",
+      "revenue": 49177,
+      "revenueDeltaPct": -0.002,
+      "margin": 0.186,
+      "status": "Delivered",
+      "deliveredDay": 5,
+      "varianceFlag": false
+    },
+    {
+      "name": "Marchetti & Sons Contracting",
+      "industry": "Construction",
+      "revenue": 23925,
+      "revenueDeltaPct": -0.083,
+      "margin": 0.157,
+      "status": "Delivered",
+      "deliveredDay": 4,
+      "varianceFlag": false
+    },
+    {
+      "name": "Alameda Pet Wellness",
+      "industry": "Healthcare",
+      "revenue": 107185,
+      "revenueDeltaPct": 0.115,
+      "margin": 0.164,
+      "status": "Delivered",
+      "deliveredDay": 6,
+      "varianceFlag": false
+    },
+    {
+      "name": "Union Yard Coffee Roasters",
+      "industry": "Retail/CPG",
+      "revenue": 29519,
+      "revenueDeltaPct": 0.061,
+      "margin": 0.189,
+      "status": "Delivered",
+      "deliveredDay": 5,
+      "varianceFlag": false
+    },
+    {
+      "name": "Hartline Logistics",
+      "industry": "Transportation",
+      "revenue": 61099,
+      "revenueDeltaPct": 0.135,
+      "margin": 0.237,
+      "status": "Delivered",
+      "deliveredDay": 2,
+      "varianceFlag": false
+    },
+    {
+      "name": "Pinecrest Family Law",
+      "industry": "Professional services",
+      "revenue": 94272,
+      "revenueDeltaPct": 0.087,
+      "margin": 0.193,
+      "status": "Delivered",
+      "deliveredDay": 4,
+      "varianceFlag": false
+    },
+    {
+      "name": "Delacroix Salon Group",
+      "industry": "Retail/CPG",
+      "revenue": 85364,
+      "revenueDeltaPct": 0.125,
+      "margin": 0.264,
+      "status": "Drafting",
+      "deliveredDay": null,
+      "varianceFlag": false
+    },
+    {
+      "name": "Overlook Property Management",
+      "industry": "Real estate",
+      "revenue": 64703,
+      "revenueDeltaPct": 0.14,
+      "margin": 0.18,
+      "status": "Delivered",
+      "deliveredDay": 2,
+      "varianceFlag": false
+    },
+    {
+      "name": "Fenmore Audio & Electronics",
+      "industry": "Retail/CPG",
+      "revenue": 109781,
+      "revenueDeltaPct": 0.024,
+      "margin": 0.169,
+      "status": "In review",
+      "deliveredDay": null,
+      "varianceFlag": false
+    }
+  ],
+  "samplePackage": {
+    "clientName": "Brightwell Dental Group",
+    "month": "Jul 26",
+    "revenue": 109509,
+    "revenueDeltaPct": -0.077,
+    "expenses": 91331,
+    "netMargin": 0.166,
+    "cashPosition": 60447,
+    "arOutstanding": 14811,
+    "narrative": "Revenue held steady month over month. Payroll and supply costs both ticked up slightly, keeping margin flat. AR is current — no accounts past 45 days."
+  }
+}

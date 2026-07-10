@@ -1,0 +1,179 @@
+{
+  "meta": {
+    "orgName": "Cascade Health Partners",
+    "sector": "Multi-location outpatient medical group",
+    "disclaimer": "Fictional demo organization. Every number on this page is synthetic and regenerable from a seeded script.",
+    "seed": 40726,
+    "generatedAt": "2026-07-08",
+    "targetRouteMinutes": 3
+  },
+  "volume": [
+    {
+      "label": "06-25",
+      "received": 73,
+      "routed": 67,
+      "flagged": 6
+    },
+    {
+      "label": "06-26",
+      "received": 67,
+      "routed": 59,
+      "flagged": 8
+    },
+    {
+      "label": "06-27",
+      "received": 73,
+      "routed": 66,
+      "flagged": 7
+    },
+    {
+      "label": "06-28",
+      "received": 17,
+      "routed": 16,
+      "flagged": 1
+    },
+    {
+      "label": "06-29",
+      "received": 13,
+      "routed": 12,
+      "flagged": 1
+    },
+    {
+      "label": "06-30",
+      "received": 53,
+      "routed": 48,
+      "flagged": 5
+    },
+    {
+      "label": "07-01",
+      "received": 71,
+      "routed": 66,
+      "flagged": 5
+    },
+    {
+      "label": "07-02",
+      "received": 73,
+      "routed": 66,
+      "flagged": 7
+    },
+    {
+      "label": "07-03",
+      "received": 68,
+      "routed": 61,
+      "flagged": 7
+    },
+    {
+      "label": "07-04",
+      "received": 70,
+      "routed": 66,
+      "flagged": 4
+    },
+    {
+      "label": "07-05",
+      "received": 21,
+      "routed": 19,
+      "flagged": 2
+    },
+    {
+      "label": "07-06",
+      "received": 16,
+      "routed": 15,
+      "flagged": 1
+    },
+    {
+      "label": "07-07",
+      "received": 59,
+      "routed": 52,
+      "flagged": 7
+    },
+    {
+      "label": "07-08",
+      "received": 74,
+      "routed": 69,
+      "flagged": 5
+    }
+  ],
+  "docTypes": [
+    {
+      "type": "New patient intake",
+      "share": 0.24,
+      "confidence": 0.95,
+      "count": 180
+    },
+    {
+      "type": "Insurance card",
+      "share": 0.28,
+      "confidence": 0.97,
+      "count": 209
+    },
+    {
+      "type": "Referral letter",
+      "share": 0.18,
+      "confidence": 0.89,
+      "count": 135
+    },
+    {
+      "type": "Lab result",
+      "share": 0.21,
+      "confidence": 0.93,
+      "count": 157
+    },
+    {
+      "type": "Other / unclassified",
+      "share": 0.09,
+      "confidence": 0.71,
+      "count": 67
+    }
+  ],
+  "exceptions": [
+    {
+      "id": "DOC-5107",
+      "type": "New patient intake",
+      "location": "Cascade — Main St",
+      "reason": "Missing required field (DOB)",
+      "ageHours": 16
+    },
+    {
+      "id": "DOC-5142",
+      "type": "Referral letter",
+      "location": "Cascade — Riverside",
+      "reason": "Possible duplicate of existing record",
+      "ageHours": 12
+    },
+    {
+      "id": "DOC-5100",
+      "type": "Lab result",
+      "location": "Cascade — North Clinic",
+      "reason": "Possible duplicate of existing record",
+      "ageHours": 10
+    },
+    {
+      "id": "DOC-5114",
+      "type": "Insurance card",
+      "location": "Cascade — Riverside",
+      "reason": "Insurance ID does not match any patient",
+      "ageHours": 9
+    },
+    {
+      "id": "DOC-5128",
+      "type": "Lab result",
+      "location": "Cascade — Main St",
+      "reason": "Missing required field (DOB)",
+      "ageHours": 7
+    },
+    {
+      "id": "DOC-5135",
+      "type": "Other / unclassified",
+      "location": "Cascade — Riverside",
+      "reason": "Possible duplicate of existing record",
+      "ageHours": 5
+    },
+    {
+      "id": "DOC-5121",
+      "type": "Insurance card",
+      "location": "Cascade — Main St",
+      "reason": "Insurance ID does not match any patient",
+      "ageHours": 2
+    }
+  ]
+}

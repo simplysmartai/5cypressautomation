@@ -1,0 +1,145 @@
+{
+  "meta": {
+    "companyName": "Solmark Facilities Group",
+    "sector": "Commercial facilities maintenance",
+    "disclaimer": "Fictional demo company. Every number on this page is synthetic and regenerable from a seeded script.",
+    "seed": 130726,
+    "generatedAt": "2026-07-08",
+    "actualWeeks": 6,
+    "minReserve": 20000,
+    "startBalance": 58000,
+    "lowPointIdx": 9
+  },
+  "history": [
+    {
+      "label": "Wk of 06-03",
+      "isActual": true,
+      "inflow": 8642,
+      "outflow": 18047,
+      "net": -9405,
+      "balance": 48595,
+      "balanceLow": 48595,
+      "balanceHigh": 48595
+    },
+    {
+      "label": "Wk of 06-10",
+      "isActual": true,
+      "inflow": 10362,
+      "outflow": 9847,
+      "net": 515,
+      "balance": 49110,
+      "balanceLow": 49110,
+      "balanceHigh": 49110
+    },
+    {
+      "label": "Wk of 06-17",
+      "isActual": true,
+      "inflow": 20717,
+      "outflow": 16932,
+      "net": 3785,
+      "balance": 52895,
+      "balanceLow": 52895,
+      "balanceHigh": 52895
+    },
+    {
+      "label": "Wk of 06-24",
+      "isActual": true,
+      "inflow": 9452,
+      "outflow": 3227,
+      "net": 6225,
+      "balance": 59120,
+      "balanceLow": 59120,
+      "balanceHigh": 59120
+    },
+    {
+      "label": "Wk of 07-01",
+      "isActual": true,
+      "inflow": 10169,
+      "outflow": 17561,
+      "net": -7392,
+      "balance": 51728,
+      "balanceLow": 51728,
+      "balanceHigh": 51728
+    },
+    {
+      "label": "Wk of 07-08",
+      "isActual": true,
+      "inflow": 9268,
+      "outflow": 9308,
+      "net": -40,
+      "balance": 51688,
+      "balanceLow": 51688,
+      "balanceHigh": 51688
+    },
+    {
+      "label": "Wk of 07-15",
+      "isActual": false,
+      "inflow": 8682,
+      "outflow": 18370,
+      "net": -9688,
+      "balance": 42000,
+      "balanceLow": 41250,
+      "balanceHigh": 42750
+    },
+    {
+      "label": "Wk of 07-22",
+      "isActual": false,
+      "inflow": 20183,
+      "outflow": 4417,
+      "net": 15766,
+      "balance": 57766,
+      "balanceLow": 56266,
+      "balanceHigh": 59266
+    },
+    {
+      "label": "Wk of 07-29",
+      "isActual": false,
+      "inflow": 9194,
+      "outflow": 18949,
+      "net": -9755,
+      "balance": 48011,
+      "balanceLow": 45761,
+      "balanceHigh": 50261
+    },
+    {
+      "label": "Wk of 08-05",
+      "isActual": false,
+      "inflow": 10828,
+      "outflow": 29479,
+      "net": -18651,
+      "balance": 29360,
+      "balanceLow": 26360,
+      "balanceHigh": 32360
+    },
+    {
+      "label": "Wk of 08-12",
+      "isActual": false,
+      "inflow": 22729,
+      "outflow": 18612,
+      "net": 4117,
+      "balance": 33477,
+      "balanceLow": 29727,
+      "balanceHigh": 37227
+    },
+    {
+      "label": "Wk of 08-19",
+      "isActual": false,
+      "inflow": 9830,
+      "outflow": 4098,
+      "net": 5732,
+      "balance": 39209,
+      "balanceLow": 34709,
+      "balanceHigh": 43709
+    },
+    {
+      "label": "Wk of 08-26",
+      "isActual": false,
+      "inflow": 8230,
+      "outflow": 17145,
+      "net": -8915,
+      "balance": 30294,
+      "balanceLow": 25044,
+      "balanceHigh": 35544
+    }
+  ]
+}

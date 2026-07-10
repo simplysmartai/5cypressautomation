@@ -5,76 +5,82 @@ import JsonLd from '../components/JsonLd.astro';
 
 const examples = [
   {
+    id: 'practice-kpi',
+    title: 'Practice KPI Dashboard',
+    segment: 'Realization, WIP, AR aging, and billing for a 4-partner CPA firm',
+    tag: 'Practice KPI',
+    problem: 'Partners were flying blind until month-end. Realization, WIP, and AR aging lived in separate spreadsheets, each updated by a different person, and rarely agreed.',
+    workflow: 'A live dashboard models the practice from QBO and practice-management data — realization, WIP balance, AR aging buckets, and monthly billings, with per-partner drill-down. One shared URL, always current.',
+    href: '/demo/',
+    cta: 'Open Dashboard',
+    results: [
+      { stat: '4 partners', label: 'each with a drill-down view' },
+      { stat: '5 KPIs', label: 'realization, WIP, AR, billings, collections' },
+      { stat: '1 URL', label: 'shared, always current' },
+      { stat: '0 exports', label: 'no month-end spreadsheet scramble' },
+    ],
+  },
+  {
+    id: 'cashflow-forecast',
+    title: '13-Week Cashflow Forecast',
+    segment: 'Actuals, projection, variance band, and reserve floor',
+    tag: 'Forecast',
+    problem: 'Cashflow models built in Excel went stale within a week, so the forecast only surfaced during a crisis — too late to act on.',
+    workflow: 'A rolling 13-week forecast pulls live actuals and aging, projects the balance with a best/worst variance band, and flags the week a tight balance nearly breaches the reserve floor.',
+    href: '/dashboards/cashflow-forecast/',
+    cta: 'Open Dashboard',
+    results: [
+      { stat: '13 weeks', label: 'rolling forward projection' },
+      { stat: '$29K', label: 'projected low the model surfaces early' },
+      { stat: '1 band', label: 'best and worst case around the line' },
+      { stat: '0 stale', label: 'refreshed from live data, not memory' },
+    ],
+  },
+  {
     id: 'growth-command-center',
     title: 'B2B Growth Command Center',
-    segment: 'Revenue, pipeline, marketing, invoices, automation, and account health',
+    segment: 'Revenue, pipeline, marketing, AR, and account health',
     tag: 'BI Dashboard',
-    problem: 'Past dashboard work contained sensitive company data, so the public site needed a portfolio-safe way to show real analytics judgment without exposing private information.',
-    workflow: 'A synthetic B2B operating dataset powers an executive dashboard with revenue trend, weighted pipeline, channel ROI, invoice aging, workflow health, and renewal risk in one view.',
+    problem: 'Past dashboard work contained sensitive company data, so the public site needed a portfolio-safe way to show real analytics judgment without exposing anything private.',
+    workflow: 'A synthetic B2B operating dataset powers an executive dashboard: revenue trend, weighted pipeline, channel ROI, invoice aging, and renewal risk in one modeled view.',
     href: '/dashboards/b2b-growth-command-center/',
     cta: 'Open Dashboard',
     results: [
       { stat: '18 mo', label: 'synthetic operating history modeled' },
-      { stat: '6 views', label: 'revenue, sales, marketing, AR, workflow, accounts' },
+      { stat: '6 views', label: 'revenue, sales, marketing, AR, ops, accounts' },
       { stat: '0 client', label: 'records or confidential screenshots used' },
       { stat: '1 URL', label: 'site-ready interactive portfolio asset' },
     ],
   },
   {
-    id: 'lead-flow',
-    title: 'Service Business Lead Flow',
-    segment: 'Calls, forms, CRM, email, and SMS',
-    tag: 'Lead Follow-Up',
-    problem: 'New inquiries were landing in different places, and the team was relying on memory to follow up. Hot leads could sit for hours before anyone owned them.',
-    workflow: 'A new inquiry creates one lead record, assigns an owner, sends an internal alert, starts a follow-up sequence, and keeps the status visible until someone closes the loop.',
-    results: [
-      { stat: '<1 min', label: 'lead routed after form or missed call' },
-      { stat: '3 channels', label: 'form, phone, and email brought into one flow' },
-      { stat: '1 owner', label: 'assigned for every open lead' },
-      { stat: '0 duplicates', label: 'before the CRM record is created' },
-    ],
-  },
-  {
-    id: 'reporting-flow',
-    title: 'Operations Reporting Flow',
-    segment: 'QuickBooks, CRM, spreadsheets, and dashboard',
+    id: 'monthly-reporting',
+    title: 'Monthly Reporting Package',
+    segment: 'P&L trend, margins, and variances, per client',
     tag: 'Reporting',
-    problem: 'Weekly reporting required exports, spreadsheet cleanup, screenshots, and manual commentary. The numbers changed depending on who built the report.',
-    workflow: 'The dashboard pulls the same source data on a schedule, flags missing records, shows the core metrics, and gives leadership one shared place to check performance.',
+    problem: 'The same monthly report was rebuilt by hand from exports every close — hours of formatting, and the numbers shifted depending on who built it.',
+    workflow: 'After each close, the package pulls the same source data, shows the P&L trend, margins, and variances, and delivers a branded snapshot. You review the numbers instead of rebuilding them.',
+    href: '/dashboards/monthly-reporting-package/',
+    cta: 'Open Dashboard',
     results: [
-      { stat: '12 metrics', label: 'tracked in one operating view' },
-      { stat: '1 URL', label: 'shared by the whole team' },
-      { stat: 'Mon 8am', label: 'updated before the weekly meeting' },
-      { stat: '0 exports', label: 'needed for the standard report' },
-    ],
-  },
-  {
-    id: 'document-flow',
-    title: 'Document Intake Flow',
-    segment: 'Upload form, shared drive, review queue, and alerts',
-    tag: 'Document Intake',
-    problem: 'Files arrived through email threads, shared links, and staff inboxes. Naming, sorting, and follow-up took too much time before the real work could start.',
-    workflow: 'Clients upload files through one intake path. Each file is renamed, routed to the right folder, added to a review queue, and flagged when something is missing.',
-    results: [
-      { stat: '<5 sec', label: 'to route a standard document' },
-      { stat: '4 folders', label: 'organized by workflow stage' },
-      { stat: '2 exceptions', label: 'flagged for human review' },
-      { stat: '1 queue', label: 'for staff to work from' },
+      { stat: 'After close', label: 'generated on schedule, every month' },
+      { stat: '1 snapshot', label: 'branded, per client' },
+      { stat: '0 exports', label: 'no manual spreadsheet rebuild' },
+      { stat: 'Review', label: 'you approve, you do not rebuild' },
     ],
   },
 ];
 ---
 
 <Layout
-  title="Workflow Examples | 5 Cypress Automation"
-  description="Explore realistic workflow examples for lead follow-up, reporting, document intake, billing, and onboarding automation."
+  title="Dashboard Build Walkthroughs | 5 Cypress"
+  description="Real dashboard build walkthroughs on synthetic data: practice KPI, cashflow forecast, business intelligence, and monthly reporting — each one live and clickable."
 >
   <Fragment slot="head">
     <JsonLd schema={{
       '@context': 'https://schema.org',
       '@type': 'CollectionPage',
-      name: '5 Cypress Workflow Examples',
-      description: 'Representative workflow automation examples using realistic demo scenarios.',
+      name: '5 Cypress Dashboard Build Walkthroughs',
+      description: 'Live dashboard build walkthroughs on clearly-labeled synthetic data: practice KPI, cashflow forecast, business intelligence, and monthly reporting.',
       url: 'https://www.5cypress.com/case-studies',
     }} />
   </Fragment>
@@ -82,12 +88,12 @@ const examples = [
   <section class="examples-hero section">
     <div class="container">
       <div class="examples-hero-inner reveal">
-        <p class="lead-in">Workflow Examples</p>
-        <h1>Realistic workflow examples, without pretending they are case studies.</h1>
+        <p class="lead-in">Build Walkthroughs</p>
+        <h1>Real dashboards on synthetic data — not case studies we can't back up.</h1>
         <p class="examples-hero-sub">
-          These demo scenarios show the shape of the work: where the workflow starts,
-          what gets connected, what changes, and what the team gets back. Public
-          client stories can be added here as the brand grows.
+          Every walkthrough below is a live, clickable dashboard: what the numbers looked
+          like before, what we modeled, and what leadership gets back. Real client stories
+          get added here — with permission — as the practice grows.
         </p>
       </div>
     </div>
@@ -113,7 +119,7 @@ const examples = [
                   <p>{example.problem}</p>
                 </div>
                 <div>
-                  <h3>Workflow</h3>
+                  <h3>What we built</h3>
                   <p>{example.workflow}</p>
                 </div>
               </div>
@@ -142,12 +148,12 @@ const examples = [
   <section class="section note-section">
     <div class="container">
       <div class="note-panel reveal">
-        <p class="lead-in">About These Examples</p>
-        <h2>Demo data now. Real proof as the portfolio grows.</h2>
+        <p class="lead-in">About These Walkthroughs</p>
+        <h2>Synthetic data now. Real client proof as the practice grows.</h2>
         <p>
-          This page is intentionally framed as workflow examples, not public client
-          case studies. It gives prospects a concrete view of the systems 5 Cypress
-          can build without overstating proof that has not been packaged yet.
+          These are build walkthroughs on clearly-labeled synthetic data, not public
+          client case studies. They give you a concrete, clickable view of the dashboards
+          5 Cypress builds — without borrowing logos or inventing proof we can't stand behind.
         </p>
       </div>
     </div>
@@ -157,12 +163,12 @@ const examples = [
     <div class="container">
       <div class="cta-panel reveal">
         <div>
-          <p class="lead-in">Your Workflow</p>
-          <h2>Have a version of one of these inside your business?</h2>
+          <p class="lead-in">Your Numbers</p>
+          <h2>Have a version of one of these buried in your business?</h2>
         </div>
         <div class="cta-actions">
           <Button variant="primary" size="lg" magnetic ripple data-open-booking>
-            Map My Workflow
+            Book a fit call
           </Button>
           <Button variant="secondary" size="lg" href="/services/">
             View Services
@@ -188,7 +194,7 @@ const examples = [
   .examples-hero h1 {
     margin: 0 0 var(--space-6);
     color: var(--text-primary);
-    font-size: clamp(3.2rem, 8vw, 7.5rem);
+    font-size: clamp(2.75rem, 5.2vw, 4.5rem);
     line-height: 0.94;
     letter-spacing: 0;
   }
@@ -210,7 +216,7 @@ const examples = [
     grid-template-columns: 180px 1fr;
     gap: var(--space-8);
     border: 1px solid var(--border-medium);
-    border-radius: 8px;
+    border-radius: var(--radius-lg);
     background: var(--bg-surface);
     padding: var(--space-8);
   }
@@ -238,7 +244,7 @@ const examples = [
   .example-main h2 {
     margin: var(--space-3) 0 var(--space-6);
     color: var(--text-primary);
-    font-size: clamp(2rem, 4vw, 3.8rem);
+    font-size: clamp(2rem, 4vw, 3rem);
     line-height: 1.02;
     letter-spacing: 0;
   }
@@ -275,7 +281,7 @@ const examples = [
   .result-card {
     min-height: 128px;
     border: 1px solid var(--border-medium);
-    border-radius: 8px;
+    border-radius: var(--radius-lg);
     padding: var(--space-4);
     background: var(--bg-main);
     display: flex;
@@ -297,7 +303,7 @@ const examples = [
   .note-panel,
   .cta-panel {
     border: 1px solid var(--border-medium);
-    border-radius: 8px;
+    border-radius: var(--radius-lg);
     background: var(--bg-surface);
     padding: var(--space-12);
   }
@@ -310,7 +316,7 @@ const examples = [
   .cta-panel h2 {
     margin: 0 0 var(--space-4);
     color: var(--text-primary);
-    font-size: clamp(2rem, 4vw, 3.6rem);
+    font-size: clamp(2rem, 4vw, 3rem);
     line-height: 1.05;
     letter-spacing: 0;
   }

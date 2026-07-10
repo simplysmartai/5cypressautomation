@@ -30,7 +30,7 @@ const isActive = (href: string) => {
       </div>
       <div class="logo-text-group">
         <span class="logo-title">5 Cypress</span>
-        <span class="logo-subtitle">AUTOMATION</span>
+        <span class="logo-subtitle">DATA ANALYTICS</span>
       </div>
     </a>
 
@@ -52,7 +52,7 @@ const isActive = (href: string) => {
     <!-- CTA -->
     <div class="nav-actions">
       <button class="btn btn-primary" data-open-booking data-magnetic data-ripple>
-        Map My Workflow
+        Book a fit call
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
           <path d="M7 17L17 7M17 7H7M17 7v10"/>
         </svg>
@@ -98,7 +98,7 @@ const isActive = (href: string) => {
   </ul>
 
   <button class="btn btn-primary btn-block mobile-booking-button" data-open-booking>
-    Map My Workflow
+    Book a fit call
   </button>
 </div>
 
@@ -171,6 +171,18 @@ const isActive = (href: string) => {
       box-shadow var(--duration-normal) var(--ease-out),
       padding var(--duration-normal) var(--ease-out);
   }
+  /* Soft scrim so the header reads as its own shelf over the hero,
+     even before the scrolled glass state kicks in. */
+  .navbar::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background: linear-gradient(180deg, rgba(10, 10, 12, 0.62), rgba(10, 10, 12, 0));
+    transition: opacity var(--duration-normal) var(--ease-out);
+  }
+  .navbar--scrolled::before { opacity: 0; }
   .navbar--scrolled {
     background: rgba(10, 10, 12, 0.82);
     backdrop-filter: var(--backdrop-glass);
@@ -218,18 +230,19 @@ const isActive = (href: string) => {
   }
   .logo-title {
     font-family: var(--font-heading);
-    font-size: var(--text-base);
+    font-size: var(--text-lg);
     font-weight: var(--weight-bold);
     color: var(--text-primary);
     letter-spacing: var(--tracking-tight);
+    line-height: 1;
   }
   .logo-subtitle {
     font-family: var(--font-mono);
-    font-size: 0.6rem;
+    font-size: 0.58rem;
     font-weight: var(--weight-bold);
     letter-spacing: var(--tracking-widest);
-    color: var(--brand-primary);
-    margin-top: 2px;
+    color: var(--text-tertiary);
+    margin-top: 4px;
   }
 
   /* ── Desktop nav links ────────────────────────────────────── */

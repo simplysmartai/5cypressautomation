@@ -1,0 +1,407 @@
+---
+/**
+ * ar-collections-command-center.astro — Portfolio dashboard #2
+ * Fictional B2B distributor ("Harlow Fabrication and Supply"). Shows the
+ * AR/Collections Agent service in action: DSO trending down after
+ * automation goes live, an aging snapshot, a recovered dollars running
+ * total, and a live automated-reminder activity feed.
+ */
+import Layout from '../../layouts/Layout.astro';
+import Button from '../../components/Button.astro';
+import JsonLd from '../../components/JsonLd.astro';
+import data from '../../data/arCollectionsData.json';
+import { scaleSeries, linePath, areaPath, gridYs, usd, usdK, deltaPct, CHART_W, CHART_H, CHART_PAD } from '../../lib/chartSvg';
+
+const { meta, history, recovered, invoices, activity } = data;
+const N = history.length;
+const latest = history[N - 1];
+const prior30 = history[N - 31];
+const launchIdx = history.findIndex((h) => h.date === meta.automationLiveDate);
+
+const dsoVals = history.map((h) => h.dso);
+const dsoScale = scaleSeries(dsoVals, 25, 58);
+const recVals = recovered.map((r) => r.cumulative);
+const recScale = scaleSeries(recVals, 0, Math.max(...recVals) * 1.08);
+
+const agingRamp = ['#6E4E0A', '#96690B', '#C98500', '#F5A623'];
+const arBuckets = ['Current', '31–60', '61–90', '90+'];
+const seriesGreen = '#199E70';
+const seriesGold = '#C98500';
+
+const maxBucketTotal = Math.max(...latest.buckets);
+const dateTicks = history
+  .map((h, i) => ({ i, label: h.date.slice(5) }))
+  .filter(({ i }) => i % 15 === 0);
+
+const dsoOverTarget = latest.dso <= meta.targets.dso;
+const dsoDeltaLabel = dsoOverTarget ? 'at target' : `${(latest.dso - meta.targets.dso).toFixed(0)}d over`;
+
+const title = 'AR & Collections Command Center — Live Demo | 5 Cypress Automation';
+const description =
+  'Interactive AR collections dashboard for a fictional B2B distributor: DSO trend, aging snapshot, automated reminder activity, and dollars recovered via automation.';
+---
+
+<Layout title={title} description={description}>
+  <Fragment slot="head">
+    <JsonLd schema={{
+      '@context': 'https://schema.org',
+      '@type': 'CreativeWork',
+      name: 'AR & Collections Command Center Demo',
+      description,
+      creator: { '@type': 'Organization', name: '5 Cypress Automation', url: 'https://www.5cypress.com' },
+    }} />
+  </Fragment>
+
+  <section class="demo-hero section">
+    <div class="container">
+      <div class="demo-hero-top reveal">
+        <div>
+          <p class="lead-in">Live demo — synthetic data</p>
+          <h1>{meta.companyName}</h1>
+          <p class="demo-hero-sub">
+            A fictional {meta.sector}. Automation went live {meta.automationLiveDate} — watch DSO
+            step down and the recovered-dollars line start climbing right after. This is what the
+            AR &amp; Collections Agent looks like connected to your QuickBooks and email.
+          </p>
+        </div>
+        <div class="demo-hero-meta">
+          <span class="demo-badge">Demo data</span>
+          <span class="demo-period">90-day window</span>
+          <Button variant="primary" size="lg" magnetic ripple data-open-booking>Book a fit call</Button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section board-section">
+    <div class="container">
+      <div class="board-top reveal">
+        <div class="exec-tiles">
+          <div class="kpi-tile">
+            <span class="kpi-label">Days Sales Outstanding</span>
+            <strong class="kpi-value">{latest.dso}</strong>
+            <span class="kpi-delta is-up">{deltaPct(latest.dso, prior30.dso)} vs 30 days ago</span>
+          </div>
+          <div class="kpi-tile">
+            <span class="kpi-label">Total AR outstanding</span>
+            <strong class="kpi-value">{usdK(latest.totalOutstanding)}</strong>
+            <span class="kpi-delta is-up">{deltaPct(latest.totalOutstanding, prior30.totalOutstanding)} vs 30 days ago</span>
+          </div>
+          <div class="kpi-tile">
+            <span class="kpi-label">Recovered via automation</span>
+            <strong class="kpi-value">{usdK(recovered[N - 1].cumulative)}</strong>
+            <span class="kpi-delta">since {meta.automationLiveDate}</span>
+          </div>
+          <div class="kpi-tile">
+            <span class="kpi-label">DSO target</span>
+            <strong class="kpi-value">{meta.targets.dso}d</strong>
+            <span class={dsoOverTarget ? 'kpi-delta is-up' : 'kpi-delta is-down'}>{dsoDeltaLabel}</span>
+          </div>
+        </div>
+
+        <aside class="activity-panel" aria-label="Automated reminder activity">
+          <p class="panel-title">Automated activity — last 7 days</p>
+          {activity.slice(0, 6).map((a) => (
+            <div class="activity-row">
+              <span class="activity-time">{a.hoursAgo}h ago</span>
+              <p>{a.text}</p>
+            </div>
+          ))}
+        </aside>
+      </div>
+
+      <div class="chart-row reveal">
+        <figure class="chart-card chart-card--wide">
+          <figcaption>
+            <p class="chart-title">DSO — 90 days</p>
+            <p class="chart-sub">The vertical line marks automation go-live. Reminders start firing the same day.</p>
+          </figcaption>
+          <svg viewBox={`0 0 ${CHART_W} ${CHART_H}`} role="img" aria-label="Days Sales Outstanding over 90 days, with a marked automation launch date" class="line-chart">
+            {gridYs().map((y) => <line x1={CHART_PAD.l} x2={CHART_W - CHART_PAD.r} y1={y} y2={y} class="grid-line" />)}
+            <line
+              x1={dsoScale.x(launchIdx)} x2={dsoScale.x(launchIdx)}
+              y1={CHART_PAD.t} y2={CHART_H - CHART_PAD.b}
+              class="launch-line"
+            />
+            <text x={dsoScale.x(launchIdx) + 6} y={CHART_PAD.t + 10} class="axis-label launch-label">automation live</text>
+            <path d={areaPath(dsoVals, dsoScale)} fill={seriesGreen} opacity="0.12" />
+            <path d={linePath(dsoVals, dsoScale)} fill="none" stroke={seriesGreen} stroke-width="2" stroke-linejoin="round" />
+            {dateTicks.map(({ label, i }) => (
+              <text x={dsoScale.x(i)} y={CHART_H - 8} class="axis-label" text-anchor="middle">{label}</text>
+            ))}
+            {dsoVals.map((v, i) => {
+              const tipText = history[i].date + ' — ' + v + 'd DSO';
+              return (
+                <rect
+                  class="hit"
+                  x={dsoScale.x(i) - 4} y={CHART_PAD.t} width="8" height={CHART_H - CHART_PAD.t - CHART_PAD.b}
+                  data-tip={tipText}
+                  data-cx={dsoScale.x(i)} data-cy={dsoScale.y(v)}
+                />
+              );
+            })}
+            <circle class="cursor-dot" r="4" fill={seriesGreen} stroke="#101014" stroke-width="2" style="display:none" />
+          </svg>
+        </figure>
+
+        <figure class="chart-card">
+          <figcaption>
+            <p class="chart-title">Recovered via automation</p>
+            <p class="chart-sub">Cumulative dollars collected with an automated reminder in the trail.</p>
+          </figcaption>
+          <svg viewBox={`0 0 ${CHART_W} ${CHART_H}`} role="img" aria-label="Cumulative dollars recovered via automation over 90 days" class="line-chart">
+            {gridYs().map((y) => <line x1={CHART_PAD.l} x2={CHART_W - CHART_PAD.r} y1={y} y2={y} class="grid-line" />)}
+            <path d={areaPath(recVals, recScale)} fill={seriesGold} opacity="0.14" />
+            <path d={linePath(recVals, recScale)} fill="none" stroke={seriesGold} stroke-width="2" stroke-linejoin="round" />
+            {dateTicks.map(({ label, i }) => (
+              <text x={recScale.x(i)} y={CHART_H - 8} class="axis-label" text-anchor="middle">{label}</text>
+            ))}
+            {recVals.map((v, i) => {
+              const tipText = history[i].date + ' — ' + usd(v) + ' recovered';
+              return (
+                <rect
+                  class="hit"
+                  x={recScale.x(i) - 4} y={CHART_PAD.t} width="8" height={CHART_H - CHART_PAD.t - CHART_PAD.b}
+                  data-tip={tipText}
+                  data-cx={recScale.x(i)} data-cy={recScale.y(v)}
+                />
+              );
+            })}
+            <circle class="cursor-dot" r="4" fill={seriesGold} stroke="#101014" stroke-width="2" style="display:none" />
+          </svg>
+        </figure>
+      </div>
+
+      <div class="chart-row reveal">
+        <figure class="chart-card chart-card--full">
+          <figcaption class="ar-caption">
+            <div>
+              <p class="chart-title">Current aging snapshot</p>
+              <p class="chart-sub">{usdK(latest.totalOutstanding)} total outstanding across all buckets.</p>
+            </div>
+            <div class="ar-legend">
+              {arBuckets.map((b, i) => {
+                const swatchStyle = 'background:' + agingRamp[i];
+                return <span class="legend-item"><i style={swatchStyle}></i>{b}</span>;
+              })}
+            </div>
+          </figcaption>
+          <div class="ar-single-row">
+            <div class="ar-bar-track">
+              <div class="ar-bar" style="--target-width:100%" data-delay="0">
+                {latest.buckets.map((v, i) => {
+                  const segTip = arBuckets[i] + ': ' + usd(v);
+                  const segStyle = 'flex:' + v + ' 0 0; background:' + agingRamp[i];
+                  return (
+                    <span
+                      class="ar-seg"
+                      style={segStyle}
+                      data-tip={segTip}
+                    ></span>
+                  );
+                })}
+              </div>
+            </div>
+          </div>
+        </figure>
+      </div>
+
+      <div class="invoices-section reveal">
+        <p class="panel-title">Needs attention</p>
+        <div class="invoice-table-wrap">
+          <table class="invoice-table">
+            <thead>
+              <tr><th>Invoice</th><th>Client</th><th>Amount</th><th>Days overdue</th><th>Reminders</th><th>Last action</th></tr>
+            </thead>
+            <tbody>
+              {invoices.map((inv) => (
+                <tr>
+                  <td class="mono">{inv.id}</td>
+                  <td>{inv.client}</td>
+                  <td>{usd(inv.amount)}</td>
+                  <td class={inv.daysOverdue > 60 ? 'is-critical' : inv.daysOverdue > 30 ? 'is-warning' : ''}>{inv.daysOverdue}d</td>
+                  <td>{inv.remindersSent}</td>
+                  <td>{inv.lastAction}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <p class="demo-disclaimer reveal">{meta.disclaimer} Seed #{meta.seed} · generated {meta.generatedAt}.</p>
+    </div>
+  </section>
+
+  <section class="section demo-cta">
+    <div class="container demo-cta-inner reveal">
+      <p class="lead-in">Your AR, chased automatically</p>
+      <h2>Reminders that go out on schedule — every time, not when someone remembers.</h2>
+      <p>
+        Connected to QuickBooks and your inbox. Every reminder, promise, and escalation logged.
+        Nothing reaches a client without matching your tone and your rules.
+      </p>
+      <Button variant="primary" size="lg" magnetic ripple data-open-booking>Book a fit call</Button>
+    </div>
+  </section>
+</Layout>
+
+<div class="chart-tooltip" id="chart-tooltip" role="status" aria-hidden="true"></div>
+
+<script>
+  const tip = document.getElementById('chart-tooltip')!;
+  function showTip(text: string, x: number, y: number) {
+    tip.textContent = text;
+    tip.style.display = 'block';
+    const r = tip.getBoundingClientRect();
+    const left = Math.min(x + 14, window.innerWidth - r.width - 8);
+    const top = y - r.height - 12;
+    tip.style.left = left + 'px';
+    tip.style.top = top + 'px';
+  }
+  function hideTip() { tip.style.display = 'none'; }
+  document.querySelectorAll<HTMLElement>('[data-tip]').forEach((el) => {
+    el.addEventListener('mousemove', (e) => {
+      showTip(el.dataset.tip!, e.clientX, e.clientY);
+      const svg = el.closest('svg');
+      const dot = svg?.querySelector<SVGCircleElement>('.cursor-dot');
+      if (dot && el.dataset.cx) {
+        dot.setAttribute('cx', el.dataset.cx);
+        dot.setAttribute('cy', el.dataset.cy!);
+        dot.style.display = 'block';
+      }
+    });
+    el.addEventListener('mouseleave', () => {
+      hideTip();
+      const dot = el.closest('svg')?.querySelector<SVGCircleElement>('.cursor-dot');
+      if (dot) dot.style.display = 'none';
+    });
+  });
+
+  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const bar = document.querySelector<HTMLElement>('.ar-single-row .ar-bar');
+  if (bar) {
+    if (reducedMotion) {
+      bar.classList.add('is-grown');
+    } else {
+      const obs = new IntersectionObserver((entries) => {
+        if (entries.some((e) => e.isIntersecting)) {
+          bar.classList.add('is-grown');
+          obs.disconnect();
+        }
+      }, { threshold: 0.3 });
+      obs.observe(bar);
+    }
+  }
+</script>
+
+<style>
+  .demo-hero {
+    padding-top: calc(var(--space-24) + 3rem);
+    padding-bottom: var(--space-8);
+    background: linear-gradient(180deg, rgba(93,140,93,0.07), transparent 60%), var(--bg-main);
+  }
+  .demo-hero-top { display: flex; justify-content: space-between; align-items: flex-end; gap: var(--space-10); flex-wrap: wrap; }
+  .demo-hero h1 { font-size: clamp(2.6rem, 5vw, 4.4rem); margin-block: var(--space-3); }
+  .demo-hero-sub { max-width: 62ch; color: var(--text-secondary); line-height: var(--leading-relaxed); }
+  .demo-hero-meta { display: flex; flex-direction: column; align-items: flex-end; gap: var(--space-3); }
+  .demo-badge {
+    padding: var(--space-1) var(--space-3); border: 1px solid rgba(251,191,36,0.3); border-radius: var(--radius-full);
+    background: rgba(251,191,36,0.08); color: var(--brand-accent); font-family: var(--font-mono);
+    font-size: var(--text-xs); font-weight: var(--weight-bold); letter-spacing: var(--tracking-widest); text-transform: uppercase;
+  }
+  .demo-period { color: var(--text-disabled); font-family: var(--font-mono); font-size: var(--text-xs); }
+
+  .board-section { padding-top: var(--space-8); }
+  .board-top {
+    display: grid;
+    grid-template-columns: minmax(0, 1.6fr) minmax(300px, 0.8fr);
+    gap: var(--space-5);
+    margin-bottom: var(--space-5);
+    align-items: start;
+  }
+  .exec-tiles { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--space-3); }
+  .kpi-tile {
+    padding: var(--space-4); border: 1px solid var(--border-subtle); border-radius: var(--radius-lg);
+    background: #101014; display: flex; flex-direction: column; gap: var(--space-2);
+  }
+  .kpi-label { color: var(--text-disabled); font-family: var(--font-mono); font-size: 0.64rem; font-weight: var(--weight-bold); letter-spacing: var(--tracking-wider); text-transform: uppercase; }
+  .kpi-value { color: var(--text-primary); font-family: var(--font-heading); font-size: var(--text-3xl); font-weight: var(--weight-bold); line-height: 1; }
+  .kpi-delta { color: var(--text-tertiary); font-family: var(--font-mono); font-size: var(--text-xs); }
+  .kpi-delta.is-up { color: var(--success); }
+  .kpi-delta.is-down { color: var(--warning); }
+
+  .activity-panel {
+    border: 1px solid var(--border-subtle); border-radius: var(--radius-lg); background: #101014;
+    padding: var(--space-4); display: flex; flex-direction: column; gap: var(--space-3);
+  }
+  .panel-title {
+    font-family: var(--font-mono); font-size: var(--text-xs); font-weight: var(--weight-bold);
+    letter-spacing: var(--tracking-widest); text-transform: uppercase; color: var(--text-disabled);
+  }
+  .activity-row {
+    display: grid; grid-template-columns: 60px 1fr; gap: var(--space-3);
+    padding: var(--space-2) 0; border-bottom: 1px solid var(--border-subtle); align-items: baseline;
+  }
+  .activity-row:last-child { border-bottom: none; }
+  .activity-time { color: var(--brand-primary-light); font-family: var(--font-mono); font-size: 0.68rem; }
+  .activity-row p { color: var(--text-secondary); font-size: var(--text-xs); line-height: var(--leading-normal); }
+
+  .chart-row { display: grid; grid-template-columns: 1.35fr 1fr; gap: var(--space-5); margin-bottom: var(--space-5); }
+  .chart-card { border: 1px solid var(--border-subtle); border-radius: var(--radius-lg); background: #101014; padding: var(--space-5); margin: 0; }
+  .chart-card--full { grid-column: 1 / -1; }
+  .chart-title { color: var(--text-primary); font-family: var(--font-heading); font-size: var(--text-lg); font-weight: var(--weight-semibold); }
+  .chart-sub { margin-top: 2px; margin-bottom: var(--space-4); color: var(--text-tertiary); font-size: var(--text-sm); }
+  .line-chart { width: 100%; height: auto; display: block; }
+  .grid-line { stroke: rgba(255,255,255,0.06); stroke-width: 1; }
+  .launch-line { stroke: rgba(251,191,36,0.5); stroke-width: 1.5; stroke-dasharray: 4 3; }
+  .launch-label { fill: var(--brand-accent); font-family: var(--font-mono); font-size: 9px; text-transform: uppercase; letter-spacing: 0.05em; }
+  .axis-label { fill: var(--text-disabled); font-family: var(--font-mono); font-size: 10px; }
+  .hit { fill: transparent; cursor: crosshair; }
+
+  .ar-caption { display: flex; justify-content: space-between; align-items: flex-start; gap: var(--space-6); flex-wrap: wrap; }
+  .ar-legend { display: flex; gap: var(--space-4); flex-wrap: wrap; }
+  .legend-item { display: inline-flex; align-items: center; gap: var(--space-2); color: var(--text-tertiary); font-family: var(--font-mono); font-size: var(--text-xs); }
+  .legend-item i { width: 10px; height: 10px; border-radius: 3px; display: inline-block; }
+  .ar-single-row { padding-top: var(--space-2); }
+  .ar-bar-track { min-width: 40px; }
+  .ar-bar { display: flex; gap: 2px; width: 0; height: 32px; transition: width 0.9s var(--ease-out); }
+  .ar-bar.is-grown { width: var(--target-width, 100%); }
+  .ar-seg { display: block; border-radius: 4px; min-width: 4px; cursor: crosshair; transition: filter var(--duration-fast); }
+  .ar-seg:hover { filter: brightness(1.35); }
+
+  .invoices-section {
+    border: 1px solid var(--border-subtle); border-radius: var(--radius-lg); background: #101014;
+    padding: var(--space-5); margin-bottom: var(--space-5);
+  }
+  .invoice-table-wrap { overflow-x: auto; margin-top: var(--space-4); }
+  .invoice-table { width: 100%; border-collapse: collapse; font-size: var(--text-sm); }
+  .invoice-table th {
+    text-align: left; padding: var(--space-2) var(--space-3); color: var(--text-disabled); font-family: var(--font-mono);
+    font-size: 0.64rem; font-weight: var(--weight-bold); text-transform: uppercase; letter-spacing: var(--tracking-wider);
+    border-bottom: 1px solid var(--border-medium);
+  }
+  .invoice-table td { padding: var(--space-2) var(--space-3); color: var(--text-secondary); border-bottom: 1px solid var(--border-subtle); font-variant-numeric: tabular-nums; }
+  .invoice-table td.mono { font-family: var(--font-mono); font-size: var(--text-xs); color: var(--text-tertiary); }
+  .invoice-table td.is-warning { color: var(--warning); }
+  .invoice-table td.is-critical { color: var(--error); }
+
+  .demo-disclaimer { color: var(--text-disabled); font-family: var(--font-mono); font-size: var(--text-xs); text-align: center; }
+
+  .demo-cta { background: var(--bg-surface); border-top: 1px solid var(--border-subtle); }
+  .demo-cta-inner { max-width: 720px; margin-inline: auto; text-align: center; display: flex; flex-direction: column; align-items: center; gap: var(--space-5); }
+  .demo-cta p { color: var(--text-secondary); line-height: var(--leading-relaxed); }
+
+  @media (max-width: 1100px) {
+    .board-top, .chart-row { grid-template-columns: 1fr; }
+    .exec-tiles { grid-template-columns: repeat(2, 1fr); }
+  }
+</style>
+
+<style is:global>
+  .chart-tooltip {
+    display: none; position: fixed; z-index: 1600; padding: 6px 10px; border: 1px solid rgba(255,255,255,0.14);
+    border-radius: 8px; background: rgba(10,10,12,0.95); color: #FEFEFE; font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem; pointer-events: none; white-space: nowrap; box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+  }
+</style>

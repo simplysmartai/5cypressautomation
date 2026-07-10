@@ -5,35 +5,35 @@ import JsonLd from '../components/JsonLd.astro';
 
 const principles = [
   {
-    title: 'Build around the real workflow',
-    body: 'The work starts with how leads, files, invoices, reports, and handoffs actually move through your business today.',
+    title: 'Start from the decision',
+    body: 'The work starts with the decision you keep making late — then we find the metric, the source, and the smallest dashboard that answers it.',
   },
   {
-    title: 'Use tools you can own',
-    body: 'Systems are built with practical APIs, clear documentation, and handoff notes so you are not trapped inside a black box.',
+    title: 'Build models you can own',
+    body: 'Every dashboard ships with defined metric logic, documentation, and handoff notes — never a black box you cannot question.',
   },
   {
-    title: 'Automate what deserves it',
-    body: 'Some problems need a workflow. Some need a better form, rule, or operating habit. The job is to tell the difference.',
+    title: 'Model what deserves it',
+    body: 'Some questions need a live dashboard. Some need a cleaner spreadsheet or one number on a schedule. The job is to tell the difference.',
   },
   {
     title: 'Keep humans in control',
-    body: 'Good automation removes repetitive work while keeping review, exception handling, and accountability visible.',
+    body: 'When AI is involved it runs on aggregated data behind a human-review gate, so you always see how each number is built.',
   },
 ];
 
 const systems = [
-  'Lead follow-up',
-  'Reporting dashboards',
-  'Document intake',
-  'Billing and payment flow',
-  'Client onboarding',
+  'Practice KPI dashboards',
+  'Business intelligence',
+  'Cashflow forecasting',
+  'Monthly reporting',
+  'Spreadsheet automation',
 ];
 ---
 
 <Layout
-  title="About 5 Cypress Automation | Practical Workflow Systems"
-  description="5 Cypress Automation builds practical workflow systems for growing B2B teams, with a specialty in accounting and finance operations."
+  title="About 5 Cypress | Fractional Data Analyst"
+  description="5 Cypress is a fractional data analyst practice for accounting firms and small businesses — live dashboards, forecasting, and reporting, founded by Jim Smart."
 >
   <Fragment slot="head">
     <JsonLd schema={{
@@ -46,10 +46,10 @@ const systems = [
         name: '5 Cypress Automation',
         url: 'https://www.5cypress.com',
         email: 'nick@5cypress.com',
-        description: 'Practical workflow automation for growing B2B teams, including lead follow-up, reporting, document intake, billing, and onboarding systems.',
+        description: 'Fractional data analyst practice for accounting firms and small businesses: practice KPI dashboards, business intelligence, cashflow forecasting, monthly reporting, and spreadsheet automation.',
         founder: {
           '@type': 'Person',
-          name: 'Nick',
+          name: 'Jim Smart',
           jobTitle: 'Founder',
         },
       },
@@ -60,12 +60,13 @@ const systems = [
     <div class="container">
       <div class="about-hero-inner reveal">
         <p class="lead-in">About</p>
-        <h1>Practical automation, built for difficult ground.</h1>
+        <h1>Enterprise BI discipline, scoped for small firms.</h1>
         <p class="about-hero-sub">
-          5 Cypress builds workflow systems for small B2B teams that have outgrown
-          copy-paste operations but do not need a bloated software project or a
-          new platform nobody asked for.
-          Accounting and finance firms are a specialty, not the boundary.
+          5 Cypress builds the decision-support layer — dashboards, forecasting, and
+          reporting — for small businesses with real data sitting idle and no analyst
+          to turn it into decisions. Founded by Jim Smart, a senior data analyst with
+          years of experience across the telecom and government sectors. Accounting and
+          finance is a specialty, not the boundary.
         </p>
       </div>
     </div>
@@ -84,17 +85,17 @@ const systems = [
             useful, and not dressed up to look like every other AI company.
           </p>
           <p>
-            The 5 points to the first set of ready-to-build workflow systems most
-            growing companies eventually need. Each one can stand alone, connect to
-            the others, or be adjusted for the way a specific team works.
+            The 5 is a nod to keeping the work focused: a handful of high-value
+            dashboards and reports, built well and kept current, instead of a
+            sprawling data project nobody trusts.
           </p>
         </div>
 
         <div class="brand-card reveal">
-          <img src="/assets/brand/5cypress-mark.svg" alt="5 Cypress Automation cypress tree mark" />
+          <img src="/assets/brand/5cypress-mark.svg" alt="5 Cypress cypress tree mark" />
           <div>
-            <span>5 Cypress Automation</span>
-            <strong>Workflow systems for growing B2B teams</strong>
+            <span>5 Cypress</span>
+            <strong>Fractional data analyst for accounting firms &amp; small business</strong>
           </div>
         </div>
       </div>
@@ -104,8 +105,8 @@ const systems = [
   <section class="section systems-section">
     <div class="container">
       <div class="section-header reveal">
-        <p class="lead-in">The Starting Five</p>
-        <h2>Five workflows most teams need before they need another platform.</h2>
+        <p class="lead-in">What we build</p>
+        <h2>Five ways to turn idle data into decisions.</h2>
       </div>
 
       <div class="systems-list reveal">
@@ -136,12 +137,12 @@ const systems = [
     <div class="container">
       <div class="specialty-panel reveal">
         <p class="lead-in">Specialty</p>
-        <h2>Accounting and finance workflows are still a strong lane.</h2>
+        <h2>Accounting and finance is the specialty for a reason.</h2>
         <p>
-          QuickBooks, invoicing, client reporting, document intake, and financial
-          dashboards are natural fits for 5 Cypress. The broader point is the same
-          across sectors: clean handoffs, fewer duplicate entries, better follow-up,
-          and systems your team can trust.
+          QuickBooks actuals, realization, WIP, AR aging, and cashflow are dense,
+          high-stakes numbers — a strong proving ground for the analysis. The broader
+          point is the same across sectors: a modeled source of truth, defined metrics,
+          and dashboards your team can actually trust.
         </p>
         <Button variant="secondary" size="md" href="/services/">
           View Services
@@ -154,9 +155,9 @@ const systems = [
     <div class="container">
       <div class="cta-panel reveal">
         <p class="lead-in">Next Step</p>
-        <h2>Bring the messy workflow. We will map what should happen next.</h2>
+        <h2>Bring the number you can never see in time.</h2>
         <Button variant="primary" size="lg" magnetic ripple data-open-booking>
-          Map My Workflow
+          Book a fit call
         </Button>
       </div>
     </div>
@@ -176,7 +177,7 @@ const systems = [
   }
 
   .about-hero h1 {
-    font-size: clamp(3.2rem, 8vw, 7.5rem);
+    font-size: clamp(2.75rem, 5.2vw, 4.5rem);
     line-height: 0.94;
     letter-spacing: 0;
     margin: 0 0 var(--space-6);
@@ -202,7 +203,7 @@ const systems = [
   .specialty-panel h2,
   .cta-panel h2 {
     margin: 0 0 var(--space-4);
-    font-size: clamp(2rem, 4vw, 3.75rem);
+    font-size: clamp(2rem, 4vw, 3rem);
     line-height: 1.05;
     letter-spacing: 0;
     color: var(--text-primary);
@@ -217,7 +218,7 @@ const systems = [
 
   .brand-card {
     border: 1px solid var(--border-medium);
-    border-radius: 8px;
+    border-radius: var(--radius-lg);
     padding: var(--space-8);
     background: var(--bg-surface);
     display: grid;
@@ -287,7 +288,7 @@ const systems = [
     min-height: 250px;
     padding: var(--space-6);
     border: 1px solid var(--border-medium);
-    border-radius: 8px;
+    border-radius: var(--radius-lg);
     background: var(--bg-surface);
   }
 
@@ -304,7 +305,7 @@ const systems = [
 
   .specialty-panel,
   .cta-panel {
-    border-radius: 8px;
+    border-radius: var(--radius-lg);
     padding: var(--space-12);
     background: var(--bg-surface);
     border: 1px solid var(--border-medium);
