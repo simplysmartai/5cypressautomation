@@ -222,20 +222,25 @@ const systems = [
     padding: var(--space-8);
     background: var(--bg-surface);
     display: grid;
+    justify-items: center;
+    text-align: center;
     gap: var(--space-6);
     box-shadow: var(--shadow-md);
   }
 
   .brand-card img {
-    width: 132px;
-    height: 132px;
+    width: 160px;
+    height: 160px;
+    justify-self: center;
     object-fit: contain;
     /* Illustrated mark is painted for a light ground — chip it in cream
-       even though the card itself stays on the dark surface. */
+       even though the card itself stays on the dark surface. Circular to
+       match the artwork's own crest composition. */
     background: #F9F7F3;
     border: 1px solid var(--border-medium);
-    border-radius: var(--radius-lg);
-    padding: var(--space-3);
+    border-radius: 50%;
+    box-shadow: 0 0 0 1px rgba(251,191,36,0.1);
+    padding: var(--space-4);
   }
 
   .brand-card span {
