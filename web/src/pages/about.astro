@@ -92,7 +92,7 @@ const systems = [
         </div>
 
         <div class="brand-card reveal">
-          <img src="/assets/brand/5cypress-mark.svg" alt="5 Cypress cypress tree mark" />
+          <img src="/assets/brand/5cypress-mark.png" alt="5 Cypress cypress tree mark" />
           <div>
             <span>5 Cypress</span>
             <strong>Fractional data analyst for accounting firms &amp; small business</strong>
@@ -228,7 +228,14 @@ const systems = [
 
   .brand-card img {
     width: 132px;
-    height: auto;
+    height: 132px;
+    object-fit: contain;
+    /* Illustrated mark is painted for a light ground — chip it in cream
+       even though the card itself stays on the dark surface. */
+    background: #F9F7F3;
+    border: 1px solid var(--border-medium);
+    border-radius: var(--radius-lg);
+    padding: var(--space-3);
   }
 
   .brand-card span {

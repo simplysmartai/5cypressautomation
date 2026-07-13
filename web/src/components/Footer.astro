@@ -21,7 +21,7 @@ const company = [
       <div class="footer-brand">
         <a href="/" class="footer-logo" aria-label="5 Cypress Automation">
           <img
-            src="/assets/brand/5cypress-mark.svg"
+            src="/assets/brand/5cypress-mark.png"
             alt="5 Cypress"
             width="44"
             height="44"
@@ -124,9 +124,12 @@ const company = [
     height: 44px;
     border-radius: 14px;
     border: 1px solid var(--border-brand);
-    background: #0A0A0C;
-    box-shadow: 0 0 0 1px rgba(251,191,36,0.08), var(--shadow-sm);
-    object-fit: cover;
+    /* Illustrated mark is painted for a light ground — keep the chip cream
+       regardless of site theme, or the linework goes muddy. */
+    background: #F9F7F3;
+    box-shadow: var(--shadow-sm);
+    object-fit: contain;
+    padding: 3px;
   }
   .footer-logo-name {
     font-family: var(--font-heading);
