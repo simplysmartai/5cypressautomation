@@ -217,6 +217,7 @@ const automationServices = automationSlugs.map((s) => serviceMap[s]).filter(Bool
             </div>
             <div class="library-meta">
               <span>{service.setupPrice}</span>
+              {service.monthlyPrice && <small class="library-monthly">{service.monthlyPrice}</small>}
               <small>{service.timeline}</small>
             </div>
           </a>
@@ -243,9 +244,9 @@ const automationServices = automationSlugs.map((s) => serviceMap[s]).filter(Bool
           <p class="lead-in">Founding five</p>
           <h2>First 5 firms: a flagship dashboard build at $1,500 flat.</h2>
           <p>
-            Flagship builds list at $2,500–$4,500. Founding clients trade a public build
-            walkthrough (numbers anonymized, you approve before publish) for the founding
-            rate. We're new — we'd rather earn proof than invent it.
+            A BI dashboard or cashflow forecast build lists at $2,000–$3,500. Founding clients
+            trade a public build walkthrough (numbers anonymized, you approve before publish)
+            for the founding rate. We're new — we'd rather earn proof than invent it.
           </p>
         </div>
         <div class="founding-band-action">

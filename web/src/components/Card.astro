@@ -17,8 +17,9 @@ interface Props {
   highlight?: boolean;
   timeline?: string;
   price?: string;
+  monthlyPrice?: string;
 }
-const { title, description, href, tag, highlight = false, timeline, price } = Astro.props;
+const { title, description, href, tag, highlight = false, timeline, price, monthlyPrice } = Astro.props;
 ---
 
 {href ? (
@@ -32,7 +33,8 @@ const { title, description, href, tag, highlight = false, timeline, price } = As
     {(timeline || price) && (
       <div class="card-meta">
         {timeline && <span class="card-meta-item"><span class="card-meta-label">Live in</span>{timeline}</span>}
-        {price && <span class="card-meta-item card-meta-item--price"><span class="card-meta-label">From</span>{price}</span>}
+        {price && <span class="card-meta-item card-meta-item--price"><span class="card-meta-label">Setup</span>{price}</span>}
+        {monthlyPrice && <span class="card-meta-item card-meta-item--price"><span class="card-meta-label">Then</span>{monthlyPrice}</span>}
       </div>
     )}
     <span class="card-arrow" aria-hidden="true">
@@ -52,7 +54,8 @@ const { title, description, href, tag, highlight = false, timeline, price } = As
     {(timeline || price) && (
       <div class="card-meta">
         {timeline && <span class="card-meta-item"><span class="card-meta-label">Live in</span>{timeline}</span>}
-        {price && <span class="card-meta-item card-meta-item--price"><span class="card-meta-label">From</span>{price}</span>}
+        {price && <span class="card-meta-item card-meta-item--price"><span class="card-meta-label">Setup</span>{price}</span>}
+        {monthlyPrice && <span class="card-meta-item card-meta-item--price"><span class="card-meta-label">Then</span>{monthlyPrice}</span>}
       </div>
     )}
   </div>
