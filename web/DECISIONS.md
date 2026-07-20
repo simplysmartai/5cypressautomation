@@ -58,3 +58,11 @@ calls confirmed with Jim before building:
   replaced with an analyst-decision H1, handoff idea preserved lower on the page.
 - **Founding-slots counter:** "5 of 5 founding slots open" advertised zero clients; reframed to a
   limited-time founding rate with no zero-count exposure (Fable fix).
+
+## 2026-07-21 — Entity rename completed: "5 Cypress Automation" → "5 Cypress Data Analytics"
+
+Supersedes the "entity name kept" deferral logged 2026-07-09 above. Jim confirmed the legal
+entity is/will be renamed, so the exception no longer applies — replaced every remaining
+"5 Cypress Automation" occurrence sitewide, including the Organization schema, footer
+copyright, image alts, and Terms of Service / Privacy Policy (previously the deliberate
+holdouts). No occurrences of the old name remain under `web/src` or `web/public`.
