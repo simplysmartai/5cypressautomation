@@ -1,0 +1,46 @@
+{
+  "meta": {
+    "companyName": "Grantline Advisory",
+    "sector": "B2B professional services firm running outbound growth campaigns",
+    "period": "Apr 1 – Jun 30, 2026",
+    "disclaimer": "Fictional demo firm. Every number on this page is synthetic and regenerable from a seeded script.",
+    "seed": 30641,
+    "generatedAt": "2026-07-17"
+  },
+  "weeklyReplyRate": [
+    { "label": "Wk1", "rate": 0.041 },
+    { "label": "Wk2", "rate": 0.046 },
+    { "label": "Wk3", "rate": 0.050 },
+    { "label": "Wk4", "rate": 0.048 },
+    { "label": "Wk5", "rate": 0.054 },
+    { "label": "Wk6", "rate": 0.061 },
+    { "label": "Wk7", "rate": 0.066 },
+    { "label": "Wk8", "rate": 0.070 },
+    { "label": "Wk9", "rate": 0.078 },
+    { "label": "Wk10", "rate": 0.083 },
+    { "label": "Wk11", "rate": 0.089 },
+    { "label": "Wk12", "rate": 0.094 }
+  ],
+  "kpis": {
+    "revenueClosed": 81600,
+    "dealsWon": 14,
+    "avgDealValue": 5829,
+    "dealValueRange": [1800, 18200],
+    "costPerLead": 14.20,
+    "industryAvgCostPerLead": 78,
+    "spend": 9850
+  },
+  "leadSources": [
+    { "label": "LinkedIn outbound", "pct": 0.38 },
+    { "label": "Cold email", "pct": 0.27 },
+    { "label": "Referral", "pct": 0.20 },
+    { "label": "Paid ads", "pct": 0.10 },
+    { "label": "Events", "pct": 0.05 }
+  ],
+  "campaigns": [
+    { "name": "CPA Referral Warm-Intro", "sent": 420, "openRate": 0.61, "replyRate": 0.112, "callsBooked": 18, "dealsClosed": 5, "revenue": 28900, "bestPerformer": "Founder direct send" },
+    { "name": "Bookkeeper Partner Outreach", "sent": 380, "openRate": 0.58, "replyRate": 0.094, "callsBooked": 14, "dealsClosed": 4, "revenue": 22100, "bestPerformer": "Case-study follow-up" },
+    { "name": "Fractional CFO Network", "sent": 260, "openRate": 0.64, "replyRate": 0.128, "callsBooked": 12, "dealsClosed": 3, "revenue": 18600, "bestPerformer": "Demo-link first touch" },
+    { "name": "Cold LinkedIn — Services SMB", "sent": 610, "openRate": 0.44, "replyRate": 0.056, "callsBooked": 9, "dealsClosed": 2, "revenue": 12000, "bestPerformer": "3-line teardown message" }
+  ]
+}

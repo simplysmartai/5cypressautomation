@@ -1,0 +1,338 @@
+---
+/**
+ * infrastructure-pmo-dashboard.astro — Portfolio dashboard #8
+ * Fictional fiber/data-center construction PMO ("Corridor Infrastructure
+ * Partners"). Demonstrates BI range beyond accounting: schedule variance
+ * recovery on a flagged program, a safety leading/lagging pair, punch-list
+ * backlog trend, and a portfolio program roster. Genericized from an
+ * internal Power BI proof-of-concept — company, sites, and all figures
+ * here are synthetic.
+ */
+import Layout from '../../layouts/Layout.astro';
+import Button from '../../components/Button.astro';
+import JsonLd from '../../components/JsonLd.astro';
+import data from '../../data/pmoProgramData.json';
+import { scaleSeries, linePath, areaPath, gridYs, usd, pct, CHART_W, CHART_H, CHART_PAD } from '../../lib/chartSvg';
+
+const { meta, flaggedProgram, punchList, nearMissShare, programs } = data;
+
+const varianceVals = flaggedProgram.varianceHistory.map((v) => v.daysBehind);
+const varianceScale = scaleSeries(varianceVals, 0, Math.max(...varianceVals) * 1.15);
+
+const openedVals = punchList.weekly.map((w) => w.opened);
+const closedVals = punchList.weekly.map((w) => w.closed);
+const punchScale = scaleSeries([...openedVals, ...closedVals], 0);
+const backlog = openedVals.reduce((a, b) => a + b, 0) - closedVals.reduce((a, b) => a + b, 0);
+const closureRate = closedVals.reduce((a, b) => a + b, 0) / openedVals.reduce((a, b) => a + b, 0);
+
+const siteRamp = ['#3987E5', '#199E70', '#C98500', '#D95926'];
+
+const statusClass = (s: string) =>
+  s === 'On schedule' ? 'status-done' : s.startsWith('Recovering') ? 'status-review' : 'status-flag';
+
+const title = 'Infrastructure PMO Dashboard — Live Demo | 5 Cypress Automation';
+const description =
+  'Interactive PMO dashboard for a fictional fiber and data-center construction portfolio: schedule variance recovery, safety leading/lagging indicators, punch-list backlog, and a program roster.';
+---
+
+<Layout title={title} description={description}>
+  <Fragment slot="head">
+    <JsonLd schema={{
+      '@context': 'https://schema.org',
+      '@type': 'CreativeWork',
+      name: 'Infrastructure PMO Dashboard Demo',
+      description,
+      creator: { '@type': 'Organization', name: '5 Cypress Automation', url: 'https://www.5cypress.com' },
+    }} />
+  </Fragment>
+
+  <section class="demo-hero section">
+    <div class="container">
+      <div class="demo-hero-top reveal">
+        <div>
+          <p class="lead-in">Live demo — synthetic data</p>
+          <h1>{meta.companyName}</h1>
+          <p class="demo-hero-sub">
+            A fictional {meta.sector} running {meta.programsTotal} active programs across four sites.
+            The same modeling approach behind the accounting dashboards, applied to a portfolio
+            of construction programs — proof this isn't a one-industry template.
+          </p>
+        </div>
+        <div class="demo-hero-meta">
+          <span class="demo-badge">Demo data</span>
+          <span class="demo-period">As of {meta.asOfDate}</span>
+          <Button variant="primary" size="lg" magnetic ripple data-open-booking>Book a fit call</Button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section board-section">
+    <div class="container">
+      <div class="board-top reveal">
+        <div class="exec-tiles">
+          <div class="kpi-tile">
+            <span class="kpi-label">Days since last recordable</span>
+            <strong class="kpi-value">{meta.daysSinceRecordable}</strong>
+            <span class="kpi-delta is-up">portfolio-wide, lagging indicator</span>
+          </div>
+          <div class="kpi-tile">
+            <span class="kpi-label">Programs on schedule</span>
+            <strong class="kpi-value">{meta.programsOnSchedule} / {meta.programsTotal}</strong>
+            <span class="kpi-delta">{meta.portfolioAvgVarianceDays}d avg portfolio variance</span>
+          </div>
+          <div class="kpi-tile">
+            <span class="kpi-label">Punch-list backlog</span>
+            <strong class="kpi-value">{backlog}</strong>
+            <span class="kpi-delta">{punchList.programName}, growing weekly</span>
+          </div>
+          <div class="kpi-tile">
+            <span class="kpi-label">Punch-list closure rate</span>
+            <strong class="kpi-value">{pct(closureRate)}</strong>
+            <span class="kpi-delta">closed vs. opened, {punchList.weekly.length}-week trailing</span>
+          </div>
+        </div>
+
+        <aside class="service-panel" aria-label="Near-miss share by site — safety leading indicator">
+          <p class="panel-title">Near-misses by site — leading indicator</p>
+          {nearMissShare.map((s, i) => (
+            <div class="service-row">
+              <span class="service-label">{s.label}</span>
+              <div class="service-track">
+                <span class="service-fill" style={`--w:${Math.round(s.pct * 100)}%; background:${siteRamp[i]}`}></span>
+              </div>
+              <span class="service-pct">{pct(s.pct)}</span>
+            </div>
+          ))}
+          <p class="sample-narrative">One site carries most of the near-miss volume while the lagging TRIR stays clean — the leading indicator flags it months before the lagging one would.</p>
+        </aside>
+      </div>
+
+      <div class="chart-row reveal">
+        <figure class="chart-card">
+          <figcaption>
+            <p class="chart-title">{flaggedProgram.name} — schedule variance</p>
+            <p class="chart-sub">{flaggedProgram.site}. Down to {varianceVals[varianceVals.length - 1]} days behind from a peak of {Math.max(...varianceVals)}.</p>
+          </figcaption>
+          <svg viewBox={`0 0 ${CHART_W} ${CHART_H}`} role="img" aria-label="Schedule variance in days behind, recovering over ten weeks" class="line-chart">
+            {gridYs().map((y) => <line x1={CHART_PAD.l} x2={CHART_W - CHART_PAD.r} y1={y} y2={y} class="grid-line" />)}
+            <path d={areaPath(varianceVals, varianceScale)} fill="#D95926" opacity="0.12" />
+            <path d={linePath(varianceVals, varianceScale)} fill="none" stroke="#D95926" stroke-width="2" stroke-linejoin="round" />
+            {flaggedProgram.varianceHistory.map((w, i) => (
+              <text x={varianceScale.x(i)} y={CHART_H - 8} class="axis-label" text-anchor="middle">{w.label}</text>
+            ))}
+            {varianceVals.map((v, i) => (
+              <rect
+                class="hit"
+                x={varianceScale.x(i) - 15} y={CHART_PAD.t} width="30" height={CHART_H - CHART_PAD.t - CHART_PAD.b}
+                data-tip={flaggedProgram.varianceHistory[i].label + ' — ' + v + 'd behind'}
+                data-cx={varianceScale.x(i)} data-cy={varianceScale.y(v)}
+              />
+            ))}
+            <circle class="cursor-dot" r="4" fill="#D95926" stroke="#101014" stroke-width="2" style="display:none" />
+          </svg>
+        </figure>
+
+        <figure class="chart-card">
+          <figcaption>
+            <p class="chart-title">Punch-list opened vs. closed</p>
+            <p class="chart-sub">{punchList.programName}. Opened is consistently outrunning closed — the backlog everyone can see coming.</p>
+          </figcaption>
+          <svg viewBox={`0 0 ${CHART_W} ${CHART_H}`} role="img" aria-label="Weekly punch-list items opened versus closed over eight weeks" class="line-chart">
+            {gridYs().map((y) => <line x1={CHART_PAD.l} x2={CHART_W - CHART_PAD.r} y1={y} y2={y} class="grid-line" />)}
+            <path d={linePath(openedVals, punchScale)} fill="none" stroke="#D95926" stroke-width="2" stroke-linejoin="round" />
+            <path d={linePath(closedVals, punchScale)} fill="none" stroke="#199E70" stroke-width="2" stroke-linejoin="round" stroke-dasharray="5 3" />
+            {punchList.weekly.map((w, i) => (
+              <text x={punchScale.x(i)} y={CHART_H - 8} class="axis-label" text-anchor="middle">{w.label}</text>
+            ))}
+            {openedVals.map((v, i) => (
+              <rect
+                class="hit"
+                x={punchScale.x(i) - 15} y={CHART_PAD.t} width="30" height={CHART_H - CHART_PAD.t - CHART_PAD.b}
+                data-tip={punchList.weekly[i].label + ' — ' + v + ' opened, ' + closedVals[i] + ' closed'}
+                data-cx={punchScale.x(i)} data-cy={punchScale.y(v)}
+              />
+            ))}
+            <circle class="cursor-dot" r="4" fill="#D95926" stroke="#101014" stroke-width="2" style="display:none" />
+          </svg>
+          <div class="chart-legend">
+            <span class="legend-item"><i style="background:#D95926"></i>Opened</span>
+            <span class="legend-item"><i class="dash" style="background:#199E70"></i>Closed</span>
+          </div>
+        </figure>
+      </div>
+
+      <div class="expense-section reveal">
+        <p class="panel-title">Program roster — {meta.programsTotal} active</p>
+        <div class="expense-table-wrap">
+          <table class="expense-table">
+            <thead>
+              <tr><th>Program</th><th>Site</th><th>PM owner</th><th>Contract band</th><th>Variance</th><th>Status</th></tr>
+            </thead>
+            <tbody>
+              {programs.map((p) => (
+                <tr>
+                  <td>{p.name}</td>
+                  <td class="dim">{p.site}</td>
+                  <td class="dim">{p.pmOwner}</td>
+                  <td class="dim">{p.band}</td>
+                  <td class={p.varianceDays < 0 ? 'is-down' : 'is-up'}>{p.varianceDays >= 0 ? '+' : ''}{p.varianceDays}d</td>
+                  <td><span class={'status-pill ' + statusClass(p.status)}>{p.status}</span></td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <p class="demo-disclaimer reveal">{meta.disclaimer} Seed #{meta.seed} · generated {meta.generatedAt}.</p>
+    </div>
+  </section>
+
+  <section class="section demo-cta">
+    <div class="container demo-cta-inner reveal">
+      <p class="lead-in">Not just an accounting template</p>
+      <h2>If the data has a schema, it can carry a dashboard.</h2>
+      <p>
+        The metric list changes — realization becomes schedule variance, AR aging becomes a
+        punch-list backlog — but the model discipline and the QA before it ships doesn't.
+      </p>
+      <Button variant="primary" size="lg" magnetic ripple data-open-booking>Book a fit call</Button>
+    </div>
+  </section>
+</Layout>
+
+<div class="chart-tooltip" id="chart-tooltip" role="status" aria-hidden="true"></div>
+
+<script>
+  const tip = document.getElementById('chart-tooltip')!;
+  function showTip(text: string, x: number, y: number) {
+    tip.textContent = text;
+    tip.style.display = 'block';
+    const r = tip.getBoundingClientRect();
+    const left = Math.min(x + 14, window.innerWidth - r.width - 8);
+    const top = y - r.height - 12;
+    tip.style.left = left + 'px';
+    tip.style.top = top + 'px';
+  }
+  function hideTip() { tip.style.display = 'none'; }
+  document.querySelectorAll<HTMLElement>('[data-tip]').forEach((el) => {
+    el.addEventListener('mousemove', (e) => {
+      showTip(el.dataset.tip!, e.clientX, e.clientY);
+      const svg = el.closest('svg');
+      const dot = svg?.querySelector<SVGCircleElement>('.cursor-dot');
+      if (dot && el.dataset.cx) {
+        dot.setAttribute('cx', el.dataset.cx);
+        dot.setAttribute('cy', el.dataset.cy!);
+        dot.style.display = 'block';
+      }
+    });
+    el.addEventListener('mouseleave', () => {
+      hideTip();
+      const dot = el.closest('svg')?.querySelector<SVGCircleElement>('.cursor-dot');
+      if (dot) dot.style.display = 'none';
+    });
+  });
+
+  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const fills = document.querySelectorAll<HTMLElement>('.service-fill');
+  if (reducedMotion) {
+    fills.forEach((f) => f.classList.add('is-grown'));
+  } else {
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach((e) => {
+        if (e.isIntersecting) {
+          (e.target as HTMLElement).classList.add('is-grown');
+          obs.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.4 });
+    fills.forEach((f) => obs.observe(f));
+  }
+</script>
+
+<style>
+  .demo-hero {
+    padding-top: calc(var(--space-24) + 3rem);
+    padding-bottom: var(--space-8);
+    background: linear-gradient(180deg, rgba(93,140,93,0.07), transparent 60%), var(--bg-main);
+  }
+  .demo-hero-top { display: flex; justify-content: space-between; align-items: flex-end; gap: var(--space-10); flex-wrap: wrap; }
+  .demo-hero h1 { font-size: clamp(2.6rem, 5vw, 4.4rem); margin-block: var(--space-3); }
+  .demo-hero-sub { max-width: 62ch; color: var(--text-secondary); line-height: var(--leading-relaxed); }
+  .demo-hero-meta { display: flex; flex-direction: column; align-items: flex-end; gap: var(--space-3); }
+  .demo-badge {
+    padding: var(--space-1) var(--space-3); border: 1px solid rgba(251,191,36,0.3); border-radius: var(--radius-full);
+    background: rgba(251,191,36,0.08); color: var(--brand-accent); font-family: var(--font-mono);
+    font-size: var(--text-xs); font-weight: var(--weight-bold); letter-spacing: var(--tracking-widest); text-transform: uppercase;
+  }
+  .demo-period { color: var(--text-disabled); font-family: var(--font-mono); font-size: var(--text-xs); }
+
+  .board-section { padding-top: var(--space-8); }
+  .board-top { display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(300px, 1fr); gap: var(--space-5); margin-bottom: var(--space-5); align-items: start; }
+  .exec-tiles { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--space-3); }
+  .kpi-tile { padding: var(--space-4); border: 1px solid var(--border-subtle); border-radius: var(--radius-lg); background: #101014; display: flex; flex-direction: column; gap: var(--space-2); }
+  .kpi-label { color: var(--text-disabled); font-family: var(--font-mono); font-size: 0.64rem; font-weight: var(--weight-bold); letter-spacing: var(--tracking-wider); text-transform: uppercase; }
+  .kpi-value { color: var(--text-primary); font-family: var(--font-heading); font-size: var(--text-3xl); font-weight: var(--weight-bold); line-height: 1; }
+  .kpi-delta { color: var(--text-tertiary); font-family: var(--font-mono); font-size: var(--text-xs); }
+  .kpi-delta.is-up { color: var(--success); }
+
+  .service-panel { border: 1px solid var(--border-subtle); border-radius: var(--radius-lg); background: #101014; padding: var(--space-4); display: flex; flex-direction: column; gap: var(--space-3); }
+  .panel-title { font-family: var(--font-mono); font-size: var(--text-xs); font-weight: var(--weight-bold); letter-spacing: var(--tracking-widest); text-transform: uppercase; color: var(--text-disabled); }
+  .service-row { display: grid; grid-template-columns: 108px 1fr 42px; align-items: center; gap: var(--space-3); }
+  .service-label { color: var(--text-secondary); font-size: var(--text-xs); }
+  .service-track { height: 8px; border-radius: var(--radius-full); background: rgba(255,255,255,0.06); overflow: hidden; }
+  .service-fill { display: block; height: 100%; width: 0; border-radius: var(--radius-full); transition: width 0.8s var(--ease-out); }
+  .service-fill.is-grown { width: var(--w); }
+  .service-pct { color: var(--text-tertiary); font-family: var(--font-mono); font-size: var(--text-xs); text-align: right; }
+  .sample-narrative { color: var(--text-tertiary); font-size: var(--text-xs); line-height: var(--leading-normal); font-style: italic; }
+
+  .chart-row { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-5); margin-bottom: var(--space-5); }
+  .chart-card { border: 1px solid var(--border-subtle); border-radius: var(--radius-lg); background: #101014; padding: var(--space-5); margin: 0; }
+  .chart-title { color: var(--text-primary); font-family: var(--font-heading); font-size: var(--text-lg); font-weight: var(--weight-semibold); }
+  .chart-sub { margin-top: 2px; margin-bottom: var(--space-4); color: var(--text-tertiary); font-size: var(--text-sm); }
+  .line-chart { width: 100%; height: auto; display: block; }
+  .grid-line { stroke: rgba(255,255,255,0.06); stroke-width: 1; }
+  .axis-label { fill: var(--text-disabled); font-family: var(--font-mono); font-size: 10px; }
+  .hit { fill: transparent; cursor: crosshair; }
+  .chart-legend { display: flex; gap: var(--space-4); margin-top: var(--space-3); }
+  .legend-item { display: inline-flex; align-items: center; gap: var(--space-2); color: var(--text-tertiary); font-family: var(--font-mono); font-size: var(--text-xs); }
+  .legend-item i { width: 14px; height: 2px; display: inline-block; }
+  .legend-item i.dash { background-image: linear-gradient(90deg, currentColor 60%, transparent 40%); background-size: 6px 2px; background-color: transparent !important; }
+
+  .expense-section { border: 1px solid var(--border-subtle); border-radius: var(--radius-lg); background: #101014; padding: var(--space-5); margin-bottom: var(--space-5); }
+  .expense-table-wrap { overflow-x: auto; margin-top: var(--space-4); }
+  .expense-table { width: 100%; border-collapse: collapse; font-size: var(--text-sm); }
+  .expense-table th {
+    text-align: left; padding: var(--space-2) var(--space-3); color: var(--text-disabled); font-family: var(--font-mono);
+    font-size: 0.64rem; font-weight: var(--weight-bold); text-transform: uppercase; letter-spacing: var(--tracking-wider);
+    border-bottom: 1px solid var(--border-medium); white-space: nowrap;
+  }
+  .expense-table td { padding: var(--space-2) var(--space-3); color: var(--text-secondary); border-bottom: 1px solid var(--border-subtle); font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .expense-table td.dim { color: var(--text-disabled); font-size: var(--text-xs); }
+  .expense-table td.is-up { color: var(--success); }
+  .expense-table td.is-down { color: var(--warning); }
+  .status-pill { padding: 2px 9px; border-radius: var(--radius-full); font-family: var(--font-mono); font-size: 0.66rem; font-weight: var(--weight-bold); text-transform: uppercase; letter-spacing: 0.04em; }
+  .status-done { background: rgba(16,185,129,0.12); color: var(--success); }
+  .status-review { background: rgba(245,158,11,0.12); color: var(--warning); }
+  .status-flag { background: rgba(217,89,38,0.14); color: var(--brand-accent-2, #D95926); }
+
+  .demo-disclaimer { color: var(--text-disabled); font-family: var(--font-mono); font-size: var(--text-xs); text-align: center; }
+
+  .demo-cta { background: var(--bg-surface); border-top: 1px solid var(--border-subtle); }
+  .demo-cta-inner { max-width: 720px; margin-inline: auto; text-align: center; display: flex; flex-direction: column; align-items: center; gap: var(--space-5); }
+  .demo-cta p { color: var(--text-secondary); line-height: var(--leading-relaxed); }
+
+  @media (max-width: 1100px) {
+    .board-top, .chart-row { grid-template-columns: 1fr; }
+    .exec-tiles { grid-template-columns: repeat(2, 1fr); }
+  }
+</style>
+
+<style is:global>
+  .chart-tooltip {
+    display: none; position: fixed; z-index: 1600; padding: 6px 10px; border: 1px solid rgba(255,255,255,0.14);
+    border-radius: 8px; background: rgba(10,10,12,0.95); color: #FEFEFE; font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem; pointer-events: none; white-space: nowrap; box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+  }
+</style>

@@ -136,6 +136,14 @@ const dashboards = [
     ],
   },
   {
+    tag: 'CPA practice',
+    title: 'Practice KPI Dashboard',
+    blurb: 'The accounting deep-dive: partner productivity, unbilled work, and collections for a 4-partner CPA firm.',
+    href: '/demo/',
+    motif: 'bars',
+    series: [70, 84, 58, 90, 76],
+  },
+  {
     tag: 'A/R',
     title: 'A/R Collections Command Center',
     blurb: 'Who owes what, how overdue, and which accounts to chase first.',
@@ -144,36 +152,28 @@ const dashboards = [
     series: [82, 61, 44, 28, 15],
   },
   {
-    tag: 'Reporting',
-    title: 'Monthly Reporting Package',
-    blurb: 'The recurring P&L trend, margins, and variances in one snapshot.',
-    href: '/dashboards/monthly-reporting-package/',
+    tag: 'Executive',
+    title: 'Executive Financial Overview',
+    blurb: 'Revenue vs. expenses, service-line mix, and top cost drivers for a medical or professional office.',
+    href: '/dashboards/executive-financial-overview/',
     motif: 'line',
-    series: [30, 34, 33, 40, 44, 42, 50, 55],
+    series: [142, 118, 126, 151, 158, 149, 171, 176],
   },
   {
-    tag: 'Doc intake',
-    title: 'Document Intake Ops',
-    blurb: 'Files classified, renamed, and routed — with the exceptions flagged for a human.',
-    href: '/dashboards/document-intake-ops/',
-    motif: 'bars',
-    series: [40, 66, 52, 78, 34, 60],
-  },
-  {
-    tag: 'Growth',
-    title: 'B2B Growth Command Center',
-    blurb: 'Pipeline, win rate, and revenue pacing for a services firm.',
-    href: '/dashboards/b2b-growth-command-center/',
+    tag: 'Outreach',
+    title: 'Outreach Campaign Dashboard',
+    blurb: 'Reply-rate trend, lead-source mix, and revenue attributed back to the exact campaign that closed it.',
+    href: '/dashboards/outreach-campaign-dashboard/',
     motif: 'line',
-    series: [22, 28, 26, 35, 41, 39, 48, 58, 66],
+    series: [41, 46, 50, 48, 54, 61, 66, 70, 78, 83, 89, 94],
   },
   {
-    tag: 'CPA practice',
-    title: 'Practice KPI Dashboard',
-    blurb: 'The accounting deep-dive: partner productivity, unbilled work, and collections for a 4-partner CPA firm.',
-    href: '/demo/',
+    tag: 'PMO',
+    title: 'Infrastructure PMO Dashboard',
+    blurb: 'Schedule variance, safety leading indicators, and punch-list backlog across a construction portfolio.',
+    href: '/dashboards/infrastructure-pmo-dashboard/',
     motif: 'bars',
-    series: [70, 84, 58, 90, 76],
+    series: [6, 7, 6, 8, 7, 9, 7, 8],
   },
 ];
 const featuredDashboard = dashboards.find((d) => d.featured)!;
@@ -542,8 +542,10 @@ const serviceSchemas = coreWorkflows.map((s) => ({
         <h2>This is the product. Watch it build itself.</h2>
         <p>
           The dashboards are the deliverable — not slide mockups. Below is a live Practice
-          Command Center on clearly-labeled synthetic data; every board is hosted live with
-          no signup, no gate, no sales call first. Open one and poke at the numbers.
+          Command Center on clearly-labeled synthetic data, plus a gallery spanning accounting,
+          medical offices, outbound sales, and construction PMO — same modeling discipline,
+          different industries. Every board is hosted live with no signup, no gate, no sales
+          call first. Open one and poke at the numbers.
         </p>
       </div>
 
@@ -602,6 +604,13 @@ const serviceSchemas = coreWorkflows.map((s) => ({
               <span class="tile-foot">Open <span aria-hidden="true">→</span></span>
             </a>
           ))}
+          <a class="gallery-tile gallery-tile--more" href="/dashboards/">
+            <div class="tile-more-inner">
+              <span class="tile-more-count">+3 more</span>
+              <h3>View the full dashboard gallery</h3>
+              <span class="tile-foot">All 8 boards <span aria-hidden="true">→</span></span>
+            </div>
+          </a>
         </div>
       </div>
     </div>
@@ -1223,6 +1232,33 @@ const serviceSchemas = coreWorkflows.map((s) => ({
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: var(--space-5);
+  }
+  .gallery-tile--more {
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    background:
+      radial-gradient(circle at 50% 0%, rgba(93,140,93,0.12), transparent 60%),
+      var(--bg-surface);
+    border-style: dashed;
+  }
+  .gallery-tile--more:hover { border-style: solid; }
+  .tile-more-inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-2);
+  }
+  .tile-more-count {
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    font-weight: var(--weight-bold);
+    letter-spacing: var(--tracking-wider);
+    text-transform: uppercase;
+    color: var(--brand-accent);
+  }
+  .gallery-tile--more h3 {
+    font-size: var(--text-lg);
   }
   @media (max-width: 1100px) {
     .gallery-secondary { grid-template-columns: repeat(2, 1fr); }

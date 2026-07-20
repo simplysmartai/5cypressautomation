@@ -1,0 +1,35 @@
+{
+  "meta": {
+    "companyName": "Solace Aesthetics & Wellness",
+    "sector": "single-location medical aesthetics practice",
+    "disclaimer": "Fictional demo practice. Every number on this page is synthetic and regenerable from a seeded script.",
+    "seed": 51772,
+    "generatedAt": "2026-07-17",
+    "currentMonth": "Jul 26"
+  },
+  "months": [
+    { "label": "Dec 25", "revenue": 142000, "expenses": 98000 },
+    { "label": "Jan 26", "revenue": 118000, "expenses": 91000 },
+    { "label": "Feb 26", "revenue": 126000, "expenses": 93000 },
+    { "label": "Mar 26", "revenue": 151000, "expenses": 101000 },
+    { "label": "Apr 26", "revenue": 158000, "expenses": 104000 },
+    { "label": "May 26", "revenue": 149000, "expenses": 99000 },
+    { "label": "Jun 26", "revenue": 171000, "expenses": 108000 },
+    { "label": "Jul 26", "revenue": 176000, "expenses": 112000 }
+  ],
+  "serviceLines": [
+    { "label": "Injectables", "pct": 0.34 },
+    { "label": "Laser treatments", "pct": 0.24 },
+    { "label": "Memberships", "pct": 0.18 },
+    { "label": "Skincare retail", "pct": 0.14 },
+    { "label": "Body contouring", "pct": 0.10 }
+  ],
+  "expenseCategories": [
+    { "category": "Payroll & commissions", "amount": 52400, "pctOfTotal": 0.468, "momChange": 0.041 },
+    { "category": "Product & supplies", "amount": 21300, "pctOfTotal": 0.190, "momChange": 0.086 },
+    { "category": "Rent & facilities", "amount": 14600, "pctOfTotal": 0.130, "momChange": 0.0 },
+    { "category": "Marketing & ads", "amount": 11200, "pctOfTotal": 0.100, "momChange": 0.124 },
+    { "category": "Equipment leases", "amount": 7800, "pctOfTotal": 0.070, "momChange": 0.0 },
+    { "category": "Other operating", "amount": 4700, "pctOfTotal": 0.042, "momChange": -0.032 }
+  ]
+}

@@ -1,0 +1,297 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Button from '../../components/Button.astro';
+
+const dashboards = [
+  {
+    tag: 'Cashflow',
+    title: '13-Week Cashflow Forecast',
+    blurb: 'Actuals, then a projection with a variance band, tracked against the reserve floor a tight week nearly breaches.',
+    href: '/dashboards/cashflow-forecast/',
+    motif: 'line',
+    series: [48, 49, 53, 59, 52, 52, 42, 58, 48, 29, 33, 39, 30],
+  },
+  {
+    tag: 'CPA practice',
+    title: 'Practice KPI Dashboard',
+    blurb: 'The accounting deep-dive: partner productivity, unbilled work, and collections for a 4-partner CPA firm.',
+    href: '/demo/',
+    motif: 'bars',
+    series: [70, 84, 58, 90, 76],
+  },
+  {
+    tag: 'A/R',
+    title: 'A/R Collections Command Center',
+    blurb: 'Who owes what, how overdue, and which accounts to chase first.',
+    href: '/dashboards/ar-collections-command-center/',
+    motif: 'bars',
+    series: [82, 61, 44, 28, 15],
+  },
+  {
+    tag: 'Reporting',
+    title: 'Monthly Reporting Package',
+    blurb: 'The recurring P&L trend, margins, and variances in one snapshot.',
+    href: '/dashboards/monthly-reporting-package/',
+    motif: 'line',
+    series: [30, 34, 33, 40, 44, 42, 50, 55],
+  },
+  {
+    tag: 'Doc intake',
+    title: 'Document Intake Ops',
+    blurb: 'Files classified, renamed, and routed — with the exceptions flagged for a human.',
+    href: '/dashboards/document-intake-ops/',
+    motif: 'bars',
+    series: [40, 66, 52, 78, 34, 60],
+  },
+  {
+    tag: 'Growth',
+    title: 'B2B Growth Command Center',
+    blurb: 'Pipeline, win rate, and revenue pacing for a services firm.',
+    href: '/dashboards/b2b-growth-command-center/',
+    motif: 'line',
+    series: [22, 28, 26, 35, 41, 39, 48, 58, 66],
+  },
+  {
+    tag: 'Executive',
+    title: 'Executive Financial Overview',
+    blurb: 'Revenue vs. expenses, service-line mix, and top cost drivers for a medical or professional office.',
+    href: '/dashboards/executive-financial-overview/',
+    motif: 'line',
+    series: [142, 118, 126, 151, 158, 149, 171, 176],
+  },
+  {
+    tag: 'Outreach',
+    title: 'Outreach Campaign Dashboard',
+    blurb: 'Reply-rate trend, lead-source mix, and revenue attributed back to the exact campaign that closed it.',
+    href: '/dashboards/outreach-campaign-dashboard/',
+    motif: 'line',
+    series: [41, 46, 50, 48, 54, 61, 66, 70, 78, 83, 89, 94],
+  },
+  {
+    tag: 'PMO',
+    title: 'Infrastructure PMO Dashboard',
+    blurb: 'Schedule variance, safety leading indicators, and punch-list backlog across a construction portfolio.',
+    href: '/dashboards/infrastructure-pmo-dashboard/',
+    motif: 'bars',
+    series: [6, 7, 6, 8, 7, 9, 7, 8],
+  },
+];
+
+function barMax(series: number[]): number {
+  return Math.max(...series);
+}
+
+function miniLine(series: number[]): string {
+  const max = Math.max(...series);
+  const min = Math.min(...series);
+  const range = max - min || 1;
+  const w = 100, h = 40, pad = 4;
+  return series
+    .map((v, i) => {
+      const x = pad + (i / (series.length - 1)) * (w - pad * 2);
+      const y = pad + (1 - (v - min) / range) * (h - pad * 2);
+      return (i === 0 ? 'M' : 'L') + x.toFixed(1) + ',' + y.toFixed(1);
+    })
+    .join(' ');
+}
+---
+
+<Layout
+  title="Live Dashboard Gallery | 5 Cypress"
+  description="Every live demo dashboard 5 Cypress has built — accounting, medical offices, outbound sales, and construction PMO — on clearly-labeled synthetic data. No signup, no gate."
+>
+  <section class="gallery-hero section">
+    <div class="container gallery-hero-inner reveal">
+      <p class="lead-in">Dashboard gallery</p>
+      <h1>Every live board, in one place.</h1>
+      <p class="gallery-hero-sub">
+        Same modeling discipline, different industries — all on clearly-labeled synthetic
+        data, all hosted live with no signup and no sales call first. Open one and poke at
+        the numbers.
+      </p>
+      <Button variant="secondary" size="lg" href="/#faq">
+        Questions first? Read the FAQ
+      </Button>
+    </div>
+  </section>
+
+  <section class="section gallery-grid-section">
+    <div class="container">
+      <div class="gallery-grid reveal-stagger">
+        {dashboards.map((d) => (
+          <a class="gallery-card" href={d.href}>
+            <div class="card-preview" aria-hidden="true">
+              {d.motif === 'line' ? (
+                <svg viewBox="0 0 100 40" preserveAspectRatio="none" class="card-spark">
+                  <path d={miniLine(d.series)} class="card-spark-line" />
+                </svg>
+              ) : (
+                <div class="card-bars">
+                  {d.series.map((v) => (
+                    <span style={'height:' + Math.round((v / barMax(d.series)) * 100) + '%'}></span>
+                  ))}
+                </div>
+              )}
+            </div>
+            <div class="card-head">
+              <span class="card-tag">{d.tag}</span>
+              <span class="card-badge">Live demo</span>
+            </div>
+            <h3>{d.title}</h3>
+            <p class="card-blurb">{d.blurb}</p>
+            <span class="card-foot">Open the dashboard <span aria-hidden="true">→</span></span>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section gallery-cta-section">
+    <div class="container gallery-cta-inner reveal">
+      <h2>See one of these built for your data.</h2>
+      <p>
+        Every board above started as a fit call. Bring the number you can never see in
+        time and we'll scope the fastest path to it.
+      </p>
+      <Button variant="primary" size="lg" magnetic ripple data-open-booking>
+        Book a fit call
+      </Button>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .gallery-hero {
+    padding-block: var(--space-24) var(--space-12);
+  }
+  .gallery-hero-inner {
+    max-width: 640px;
+  }
+  .gallery-hero h1 {
+    max-width: 14ch;
+  }
+  .gallery-hero-sub {
+    color: var(--text-secondary);
+    font-size: var(--text-lg);
+    line-height: var(--leading-relaxed);
+    margin-block: var(--space-5) var(--space-8);
+  }
+  .gallery-grid-section {
+    padding-top: 0;
+  }
+  .gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-5);
+  }
+  .gallery-card {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    padding: var(--space-6);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-xl);
+    background:
+      linear-gradient(180deg, rgba(93,140,93,0.08), transparent 38%),
+      var(--bg-surface);
+    transition:
+      transform var(--duration-normal) var(--ease-out),
+      border-color var(--duration-normal) var(--ease-out),
+      box-shadow var(--duration-normal) var(--ease-out);
+  }
+  .gallery-card:hover {
+    transform: translateY(-4px);
+    border-color: var(--border-brand);
+    box-shadow: var(--shadow-lg), var(--shadow-glow);
+  }
+  .card-preview {
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-lg);
+    background: var(--bg-main);
+    padding: var(--space-4);
+    height: 92px;
+    display: flex;
+    align-items: stretch;
+  }
+  .card-spark { width: 100%; height: 100%; display: block; }
+  .card-spark-line { fill: none; stroke: #199E70; stroke-width: 2; stroke-linejoin: round; stroke-linecap: round; }
+  .card-bars { display: flex; align-items: flex-end; gap: var(--space-2); width: 100%; }
+  .card-bars span {
+    flex: 1;
+    min-height: 4px;
+    border-radius: 3px 3px 0 0;
+    background: linear-gradient(180deg, var(--brand-primary-light), var(--brand-primary-dark));
+  }
+  .card-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: var(--space-3);
+  }
+  .card-tag {
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    font-weight: var(--weight-bold);
+    letter-spacing: var(--tracking-wider);
+    text-transform: uppercase;
+    color: var(--brand-primary-light);
+  }
+  .card-badge {
+    flex-shrink: 0;
+    white-space: nowrap;
+    color: var(--brand-accent);
+    border: 1px solid rgba(251,191,36,0.22);
+    border-radius: var(--radius-full);
+    padding: 4px 8px;
+    background: rgba(251,191,36,0.06);
+    font-family: var(--font-mono);
+    font-size: 0.6rem;
+    font-weight: var(--weight-bold);
+    letter-spacing: var(--tracking-wide);
+    text-transform: uppercase;
+  }
+  .gallery-card h3 {
+    color: var(--text-primary);
+    font-size: var(--text-xl);
+    line-height: var(--leading-snug);
+  }
+  .card-blurb {
+    color: var(--text-tertiary);
+    font-size: var(--text-sm);
+    line-height: var(--leading-normal);
+  }
+  .card-foot {
+    margin-top: auto;
+    padding-top: var(--space-2);
+    color: var(--brand-primary-light);
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    font-weight: var(--weight-bold);
+    letter-spacing: var(--tracking-wide);
+    text-transform: uppercase;
+  }
+  .gallery-card:hover .card-foot { color: var(--brand-accent); }
+  .gallery-cta-section {
+    border-top: 1px solid var(--border-subtle);
+    background: var(--bg-surface);
+  }
+  .gallery-cta-inner {
+    max-width: 620px;
+    text-align: center;
+    margin-inline: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-5);
+  }
+  .gallery-cta-inner p {
+    color: var(--text-secondary);
+    line-height: var(--leading-relaxed);
+  }
+  @media (max-width: 1100px) {
+    .gallery-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 640px) {
+    .gallery-grid { grid-template-columns: 1fr; }
+  }
+</style>

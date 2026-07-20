@@ -1,0 +1,59 @@
+{
+  "meta": {
+    "companyName": "Corridor Infrastructure Partners",
+    "sector": "fiber and data-center construction PMO",
+    "disclaimer": "Fictional demo company. Every number on this page is synthetic and regenerable from a seeded script.",
+    "seed": 74103,
+    "generatedAt": "2026-07-17",
+    "asOfDate": "2026-07-17",
+    "daysSinceRecordable": 287,
+    "programsOnSchedule": 6,
+    "programsTotal": 8,
+    "portfolioAvgVarianceDays": -2.1
+  },
+  "flaggedProgram": {
+    "name": "Trinity Data Campus",
+    "site": "Fort Worth TX",
+    "varianceHistory": [
+      { "label": "Wk1", "daysBehind": 23 },
+      { "label": "Wk2", "daysBehind": 22 },
+      { "label": "Wk3", "daysBehind": 20 },
+      { "label": "Wk4", "daysBehind": 19 },
+      { "label": "Wk5", "daysBehind": 18 },
+      { "label": "Wk6", "daysBehind": 17 },
+      { "label": "Wk7", "daysBehind": 15 },
+      { "label": "Wk8", "daysBehind": 14 },
+      { "label": "Wk9", "daysBehind": 12 },
+      { "label": "Wk10", "daysBehind": 11 }
+    ]
+  },
+  "punchList": {
+    "programName": "Meridian Campus — Phase 2",
+    "weekly": [
+      { "label": "Wk1", "opened": 6, "closed": 3 },
+      { "label": "Wk2", "opened": 7, "closed": 4 },
+      { "label": "Wk3", "opened": 6, "closed": 3 },
+      { "label": "Wk4", "opened": 8, "closed": 4 },
+      { "label": "Wk5", "opened": 7, "closed": 3 },
+      { "label": "Wk6", "opened": 9, "closed": 4 },
+      { "label": "Wk7", "opened": 7, "closed": 4 },
+      { "label": "Wk8", "opened": 8, "closed": 4 }
+    ]
+  },
+  "nearMissShare": [
+    { "label": "Prescott AZ", "pct": 0.15 },
+    { "label": "Reston VA", "pct": 0.12 },
+    { "label": "Fort Worth TX", "pct": 0.18 },
+    { "label": "Greer SC", "pct": 0.55 }
+  ],
+  "programs": [
+    { "name": "Meridian Campus — Phase 1", "site": "Prescott AZ", "pmOwner": "T. Alvarez", "band": "$25M–$50M", "varianceDays": 1, "status": "On schedule" },
+    { "name": "Meridian Campus — Phase 2", "site": "Prescott AZ", "pmOwner": "T. Alvarez", "band": "$10M–$25M", "varianceDays": -2, "status": "Watch — punch list" },
+    { "name": "Sagebrush Corridor Buildout", "site": "Reston VA", "pmOwner": "J. Whitfield", "band": "$25M–$50M", "varianceDays": 2, "status": "On schedule" },
+    { "name": "Dulles Interconnect Expansion", "site": "Reston VA", "pmOwner": "J. Whitfield", "band": "$10M–$25M", "varianceDays": 0, "status": "On schedule" },
+    { "name": "Trinity Data Campus", "site": "Fort Worth TX", "pmOwner": "S. Okonkwo", "band": "$25M–$50M", "varianceDays": -11, "status": "Recovering" },
+    { "name": "Cross Timbers Fiber Ring", "site": "Fort Worth TX", "pmOwner": "S. Okonkwo", "band": "$5M–$10M", "varianceDays": 3, "status": "On schedule" },
+    { "name": "Piedmont Corridor", "site": "Greer SC", "pmOwner": "D. Larsen", "band": "$10M–$25M", "varianceDays": 1, "status": "On schedule" },
+    { "name": "Highland Interconnect", "site": "Greer SC", "pmOwner": "D. Larsen", "band": "$5M–$10M", "varianceDays": 0, "status": "Watch — safety" }
+  ]
+}

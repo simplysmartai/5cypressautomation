@@ -1,0 +1,290 @@
+---
+/**
+ * outreach-campaign-dashboard.astro — Portfolio dashboard #7
+ * Fictional B2B professional services firm ("Grantline Advisory"). Shows
+ * outbound-campaign ROI attribution: reply-rate trend, lead-source mix,
+ * and per-campaign performance — distinct from the pipeline/win-rate
+ * angle already covered by the B2B Growth Command Center.
+ */
+import Layout from '../../layouts/Layout.astro';
+import Button from '../../components/Button.astro';
+import JsonLd from '../../components/JsonLd.astro';
+import data from '../../data/outreachCampaignData.json';
+import { scaleSeries, linePath, areaPath, gridYs, usd, pct, CHART_W, CHART_H, CHART_PAD } from '../../lib/chartSvg';
+
+const { meta, weeklyReplyRate, kpis, leadSources, campaigns } = data;
+const N = weeklyReplyRate.length;
+const replyVals = weeklyReplyRate.map((w) => w.rate);
+const replyScale = scaleSeries(replyVals, 0, Math.max(...replyVals) * 1.15);
+const roi = kpis.revenueClosed / kpis.spend;
+
+const sourceRamp = ['#3987E5', '#199E70', '#C98500', '#7FA9C9', '#D95926'];
+
+const title = 'Outreach Campaign Dashboard — Live Demo | 5 Cypress Automation';
+const description =
+  'Interactive outreach campaign dashboard for a fictional B2B services firm: weekly reply-rate trend, lead-source attribution, cost per lead, and per-campaign revenue.';
+---
+
+<Layout title={title} description={description}>
+  <Fragment slot="head">
+    <JsonLd schema={{
+      '@context': 'https://schema.org',
+      '@type': 'CreativeWork',
+      name: 'Outreach Campaign Dashboard Demo',
+      description,
+      creator: { '@type': 'Organization', name: '5 Cypress Automation', url: 'https://www.5cypress.com' },
+    }} />
+  </Fragment>
+
+  <section class="demo-hero section">
+    <div class="container">
+      <div class="demo-hero-top reveal">
+        <div>
+          <p class="lead-in">Live demo — synthetic data</p>
+          <h1>{meta.companyName}</h1>
+          <p class="demo-hero-sub">
+            A fictional {meta.sector}. Every campaign, every reply, and every dollar it produced
+            in one place — so "is outreach working" has an answer instead of a guess.
+          </p>
+        </div>
+        <div class="demo-hero-meta">
+          <span class="demo-badge">Demo data</span>
+          <span class="demo-period">{meta.period}</span>
+          <Button variant="primary" size="lg" magnetic ripple data-open-booking>Book a fit call</Button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section board-section">
+    <div class="container">
+      <div class="board-top reveal">
+        <div class="exec-tiles">
+          <div class="kpi-tile">
+            <span class="kpi-label">Revenue closed</span>
+            <strong class="kpi-value">{usd(kpis.revenueClosed)}</strong>
+            <span class="kpi-delta">from {kpis.dealsWon} won deals this quarter</span>
+          </div>
+          <div class="kpi-tile">
+            <span class="kpi-label">Avg deal value</span>
+            <strong class="kpi-value">{usd(kpis.avgDealValue)}</strong>
+            <span class="kpi-delta">range {usd(kpis.dealValueRange[0])} – {usd(kpis.dealValueRange[1])}</span>
+          </div>
+          <div class="kpi-tile">
+            <span class="kpi-label">Cost per lead</span>
+            <strong class="kpi-value">${kpis.costPerLead.toFixed(2)}</strong>
+            <span class="kpi-delta is-up">vs ${kpis.industryAvgCostPerLead} industry avg</span>
+          </div>
+          <div class="kpi-tile">
+            <span class="kpi-label">Campaign ROI</span>
+            <strong class="kpi-value">{roi.toFixed(1)}×</strong>
+            <span class="kpi-delta is-up">{usd(kpis.spend)} spend → {usd(kpis.revenueClosed)} revenue</span>
+          </div>
+        </div>
+
+        <aside class="service-panel" aria-label="Lead source breakdown">
+          <p class="panel-title">Lead source breakdown</p>
+          {leadSources.map((s, i) => (
+            <div class="service-row">
+              <span class="service-label">{s.label}</span>
+              <div class="service-track">
+                <span class="service-fill" style={`--w:${Math.round(s.pct * 100)}%; background:${sourceRamp[i]}`}></span>
+              </div>
+              <span class="service-pct">{pct(s.pct)}</span>
+            </div>
+          ))}
+        </aside>
+      </div>
+
+      <div class="chart-row reveal">
+        <figure class="chart-card chart-card--full">
+          <figcaption>
+            <p class="chart-title">Weekly reply rate — {N} weeks</p>
+            <p class="chart-sub">Reply rate more than doubled as sequence copy and send timing were tuned week over week.</p>
+          </figcaption>
+          <svg viewBox={`0 0 ${CHART_W} ${CHART_H}`} role="img" aria-label="Weekly outreach reply rate trending upward over twelve weeks" class="line-chart">
+            {gridYs().map((y) => <line x1={CHART_PAD.l} x2={CHART_W - CHART_PAD.r} y1={y} y2={y} class="grid-line" />)}
+            <path d={areaPath(replyVals, replyScale)} fill="#3987E5" opacity="0.14" />
+            <path d={linePath(replyVals, replyScale)} fill="none" stroke="#3987E5" stroke-width="2" stroke-linejoin="round" />
+            {weeklyReplyRate.map((w, i) => (
+              <text x={replyScale.x(i)} y={CHART_H - 8} class="axis-label" text-anchor="middle">{w.label}</text>
+            ))}
+            {replyVals.map((v, i) => (
+              <rect
+                class="hit"
+                x={replyScale.x(i) - 15} y={CHART_PAD.t} width="30" height={CHART_H - CHART_PAD.t - CHART_PAD.b}
+                data-tip={weeklyReplyRate[i].label + ' — ' + pct(v) + ' reply rate'}
+                data-cx={replyScale.x(i)} data-cy={replyScale.y(v)}
+              />
+            ))}
+            <circle class="cursor-dot" r="4" fill="#3987E5" stroke="#101014" stroke-width="2" style="display:none" />
+          </svg>
+        </figure>
+      </div>
+
+      <div class="expense-section reveal">
+        <p class="panel-title">Campaign performance — {meta.period}</p>
+        <div class="expense-table-wrap">
+          <table class="expense-table">
+            <thead>
+              <tr><th>Campaign</th><th>Sent</th><th>Open rate</th><th>Reply rate</th><th>Calls booked</th><th>Deals closed</th><th>Revenue</th><th>Best performer</th></tr>
+            </thead>
+            <tbody>
+              {campaigns.map((c) => (
+                <tr>
+                  <td>{c.name}</td>
+                  <td class="dim">{c.sent}</td>
+                  <td class="dim">{pct(c.openRate)}</td>
+                  <td>{pct(c.replyRate)}</td>
+                  <td>{c.callsBooked}</td>
+                  <td>{c.dealsClosed}</td>
+                  <td>{usd(c.revenue)}</td>
+                  <td class="dim">{c.bestPerformer}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <p class="demo-disclaimer reveal">{meta.disclaimer} Seed #{meta.seed} · generated {meta.generatedAt}.</p>
+    </div>
+  </section>
+
+  <section class="section demo-cta">
+    <div class="container demo-cta-inner reveal">
+      <p class="lead-in">Attribution, not vibes</p>
+      <h2>Know which campaign paid for itself before you fund the next one.</h2>
+      <p>
+        Pulls from your outreach tool and CRM on a schedule — reply rate, cost per lead, and
+        revenue attributed back to the exact sequence that produced it.
+      </p>
+      <Button variant="primary" size="lg" magnetic ripple data-open-booking>Book a fit call</Button>
+    </div>
+  </section>
+</Layout>
+
+<div class="chart-tooltip" id="chart-tooltip" role="status" aria-hidden="true"></div>
+
+<script>
+  const tip = document.getElementById('chart-tooltip')!;
+  function showTip(text: string, x: number, y: number) {
+    tip.textContent = text;
+    tip.style.display = 'block';
+    const r = tip.getBoundingClientRect();
+    const left = Math.min(x + 14, window.innerWidth - r.width - 8);
+    const top = y - r.height - 12;
+    tip.style.left = left + 'px';
+    tip.style.top = top + 'px';
+  }
+  function hideTip() { tip.style.display = 'none'; }
+  document.querySelectorAll<HTMLElement>('[data-tip]').forEach((el) => {
+    el.addEventListener('mousemove', (e) => {
+      showTip(el.dataset.tip!, e.clientX, e.clientY);
+      const svg = el.closest('svg');
+      const dot = svg?.querySelector<SVGCircleElement>('.cursor-dot');
+      if (dot && el.dataset.cx) {
+        dot.setAttribute('cx', el.dataset.cx);
+        dot.setAttribute('cy', el.dataset.cy!);
+        dot.style.display = 'block';
+      }
+    });
+    el.addEventListener('mouseleave', () => {
+      hideTip();
+      const dot = el.closest('svg')?.querySelector<SVGCircleElement>('.cursor-dot');
+      if (dot) dot.style.display = 'none';
+    });
+  });
+
+  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const fills = document.querySelectorAll<HTMLElement>('.service-fill');
+  if (reducedMotion) {
+    fills.forEach((f) => f.classList.add('is-grown'));
+  } else {
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach((e) => {
+        if (e.isIntersecting) {
+          (e.target as HTMLElement).classList.add('is-grown');
+          obs.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.4 });
+    fills.forEach((f) => obs.observe(f));
+  }
+</script>
+
+<style>
+  .demo-hero {
+    padding-top: calc(var(--space-24) + 3rem);
+    padding-bottom: var(--space-8);
+    background: linear-gradient(180deg, rgba(93,140,93,0.07), transparent 60%), var(--bg-main);
+  }
+  .demo-hero-top { display: flex; justify-content: space-between; align-items: flex-end; gap: var(--space-10); flex-wrap: wrap; }
+  .demo-hero h1 { font-size: clamp(2.6rem, 5vw, 4.4rem); margin-block: var(--space-3); }
+  .demo-hero-sub { max-width: 62ch; color: var(--text-secondary); line-height: var(--leading-relaxed); }
+  .demo-hero-meta { display: flex; flex-direction: column; align-items: flex-end; gap: var(--space-3); }
+  .demo-badge {
+    padding: var(--space-1) var(--space-3); border: 1px solid rgba(251,191,36,0.3); border-radius: var(--radius-full);
+    background: rgba(251,191,36,0.08); color: var(--brand-accent); font-family: var(--font-mono);
+    font-size: var(--text-xs); font-weight: var(--weight-bold); letter-spacing: var(--tracking-widest); text-transform: uppercase;
+  }
+  .demo-period { color: var(--text-disabled); font-family: var(--font-mono); font-size: var(--text-xs); }
+
+  .board-section { padding-top: var(--space-8); }
+  .board-top { display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(300px, 1fr); gap: var(--space-5); margin-bottom: var(--space-5); align-items: start; }
+  .exec-tiles { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--space-3); }
+  .kpi-tile { padding: var(--space-4); border: 1px solid var(--border-subtle); border-radius: var(--radius-lg); background: #101014; display: flex; flex-direction: column; gap: var(--space-2); }
+  .kpi-label { color: var(--text-disabled); font-family: var(--font-mono); font-size: 0.64rem; font-weight: var(--weight-bold); letter-spacing: var(--tracking-wider); text-transform: uppercase; }
+  .kpi-value { color: var(--text-primary); font-family: var(--font-heading); font-size: var(--text-3xl); font-weight: var(--weight-bold); line-height: 1; }
+  .kpi-delta { color: var(--text-tertiary); font-family: var(--font-mono); font-size: var(--text-xs); }
+  .kpi-delta.is-up { color: var(--success); }
+
+  .service-panel { border: 1px solid var(--border-subtle); border-radius: var(--radius-lg); background: #101014; padding: var(--space-4); display: flex; flex-direction: column; gap: var(--space-3); }
+  .panel-title { font-family: var(--font-mono); font-size: var(--text-xs); font-weight: var(--weight-bold); letter-spacing: var(--tracking-widest); text-transform: uppercase; color: var(--text-disabled); }
+  .service-row { display: grid; grid-template-columns: 108px 1fr 42px; align-items: center; gap: var(--space-3); }
+  .service-label { color: var(--text-secondary); font-size: var(--text-xs); }
+  .service-track { height: 8px; border-radius: var(--radius-full); background: rgba(255,255,255,0.06); overflow: hidden; }
+  .service-fill { display: block; height: 100%; width: 0; border-radius: var(--radius-full); transition: width 0.8s var(--ease-out); }
+  .service-fill.is-grown { width: var(--w); }
+  .service-pct { color: var(--text-tertiary); font-family: var(--font-mono); font-size: var(--text-xs); text-align: right; }
+
+  .chart-row { margin-bottom: var(--space-5); }
+  .chart-card { border: 1px solid var(--border-subtle); border-radius: var(--radius-lg); background: #101014; padding: var(--space-5); margin: 0; }
+  .chart-card--full { grid-column: 1 / -1; }
+  .chart-title { color: var(--text-primary); font-family: var(--font-heading); font-size: var(--text-lg); font-weight: var(--weight-semibold); }
+  .chart-sub { margin-top: 2px; margin-bottom: var(--space-4); color: var(--text-tertiary); font-size: var(--text-sm); }
+  .line-chart { width: 100%; height: auto; display: block; }
+  .grid-line { stroke: rgba(255,255,255,0.06); stroke-width: 1; }
+  .axis-label { fill: var(--text-disabled); font-family: var(--font-mono); font-size: 10px; }
+  .hit { fill: transparent; cursor: crosshair; }
+
+  .expense-section { border: 1px solid var(--border-subtle); border-radius: var(--radius-lg); background: #101014; padding: var(--space-5); margin-bottom: var(--space-5); }
+  .expense-table-wrap { overflow-x: auto; margin-top: var(--space-4); }
+  .expense-table { width: 100%; border-collapse: collapse; font-size: var(--text-sm); }
+  .expense-table th {
+    text-align: left; padding: var(--space-2) var(--space-3); color: var(--text-disabled); font-family: var(--font-mono);
+    font-size: 0.64rem; font-weight: var(--weight-bold); text-transform: uppercase; letter-spacing: var(--tracking-wider);
+    border-bottom: 1px solid var(--border-medium); white-space: nowrap;
+  }
+  .expense-table td { padding: var(--space-2) var(--space-3); color: var(--text-secondary); border-bottom: 1px solid var(--border-subtle); font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .expense-table td.dim { color: var(--text-disabled); font-size: var(--text-xs); }
+
+  .demo-disclaimer { color: var(--text-disabled); font-family: var(--font-mono); font-size: var(--text-xs); text-align: center; }
+
+  .demo-cta { background: var(--bg-surface); border-top: 1px solid var(--border-subtle); }
+  .demo-cta-inner { max-width: 720px; margin-inline: auto; text-align: center; display: flex; flex-direction: column; align-items: center; gap: var(--space-5); }
+  .demo-cta p { color: var(--text-secondary); line-height: var(--leading-relaxed); }
+
+  @media (max-width: 1100px) {
+    .board-top { grid-template-columns: 1fr; }
+    .exec-tiles { grid-template-columns: repeat(2, 1fr); }
+  }
+</style>
+
+<style is:global>
+  .chart-tooltip {
+    display: none; position: fixed; z-index: 1600; padding: 6px 10px; border: 1px solid rgba(255,255,255,0.14);
+    border-radius: 8px; background: rgba(10,10,12,0.95); color: #FEFEFE; font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem; pointer-events: none; white-space: nowrap; box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+  }
+</style>
