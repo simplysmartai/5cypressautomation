@@ -21,20 +21,20 @@ const company = [
       <div class="footer-brand">
         <a href="/" class="footer-logo" aria-label="5 Cypress Data Analytics">
           <img
-            src="/assets/brand/5cypress-mark.png"
-            alt="5 Cypress"
-            width="56"
-            height="56"
+            src="/assets/brand/5cypress-lockup-circle.png"
+            alt="5 Cypress Data Analytics"
+            width="480"
+            height="480"
+            class="footer-logo-wordmark"
             loading="lazy"
           />
-          <span class="footer-logo-name">5 Cypress Data Analytics</span>
         </a>
         <p class="footer-tagline">
           Fractional data analyst<br />
           for accounting firms and small businesses.
         </p>
-        <a href="mailto:nick@5cypress.com" class="footer-email">
-          nick@5cypress.com
+        <a href="mailto:info@5cypress.com" class="footer-email">
+          info@5cypress.com
         </a>
       </div>
 
@@ -119,23 +119,10 @@ const company = [
     gap: var(--space-3);
     margin-bottom: var(--space-5);
   }
-  .footer-logo img {
-    width: 56px;
-    height: 56px;
-    border-radius: 50%;
-    border: 1px solid var(--border-brand);
-    /* Illustrated mark is painted for a light ground — keep the medallion
-       cream regardless of site theme, or the fine linework goes muddy. */
-    background: #F9F7F3;
-    box-shadow: var(--shadow-sm), 0 0 0 1px rgba(251,191,36,0.12);
-    object-fit: contain;
-    padding: 5px;
-  }
-  .footer-logo-name {
-    font-family: var(--font-heading);
-    font-size: var(--text-lg);
-    font-weight: var(--weight-bold);
-    color: var(--text-primary);
+  .footer-logo-wordmark {
+    display: block;
+    height: 84px;
+    width: auto;
   }
   .footer-tagline {
     font-size: var(--text-sm);

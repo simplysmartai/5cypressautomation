@@ -16,62 +16,61 @@ const isActive = (href: string) => {
 ---
 
 <nav class="navbar" id="navbar" aria-label="Main navigation">
-  <div class="container nav-container">
+  <div class="container navbar-stack">
 
-    <!-- Logo -->
-    <a href="/" class="logo" aria-label="5 Cypress Data Analytics — Home">
-      <div class="logo-icon">
-          <img
-          src="/assets/brand/5cypress-mark.png"
-          alt="5 Cypress"
-          width="58"
-          height="58"
+    <div class="navbar-top">
+      <!-- Logo -->
+      <a href="/" class="logo" aria-label="5 Cypress Data Analytics — Home">
+        <img
+          src="/assets/brand/5cypress-lockup-circle.png"
+          alt="5 Cypress Data Analytics"
+          width="480"
+          height="480"
+          class="logo-wordmark"
           loading="eager"
         />
-      </div>
-      <div class="logo-text-group">
-        <span class="logo-title">5 Cypress</span>
-        <span class="logo-subtitle">DATA ANALYTICS</span>
-      </div>
-    </a>
+      </a>
 
-    <!-- Desktop links -->
-    <ul class="nav-menu" role="list">
-      {navLinks.map((link) => (
-        <li>
-          <a
-            href={link.href}
-            class={`nav-link${isActive(link.href) ? ' is-active' : ''}`}
-            aria-current={isActive(link.href) ? 'page' : undefined}
-          >
-            {link.label}
-          </a>
-        </li>
-      ))}
-    </ul>
-
-    <!-- CTA -->
-    <div class="nav-actions">
-      <button class="btn btn-primary" data-open-booking data-magnetic data-ripple>
-        Book a fit call
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
-          <path d="M7 17L17 7M17 7H7M17 7v10"/>
-        </svg>
+      <!-- Mobile hamburger -->
+      <button
+        class="mobile-toggle"
+        id="mobile-toggle"
+        aria-label="Open mobile menu"
+        aria-expanded="false"
+        aria-controls="mobile-menu"
+      >
+        <span class="hamburger-line"></span>
+        <span class="hamburger-line"></span>
+        <span class="hamburger-line"></span>
       </button>
     </div>
 
-    <!-- Mobile hamburger -->
-    <button
-      class="mobile-toggle"
-      id="mobile-toggle"
-      aria-label="Open mobile menu"
-      aria-expanded="false"
-      aria-controls="mobile-menu"
-    >
-      <span class="hamburger-line"></span>
-      <span class="hamburger-line"></span>
-      <span class="hamburger-line"></span>
-    </button>
+    <div class="navbar-links-row">
+      <!-- Desktop links -->
+      <ul class="nav-menu" role="list">
+        {navLinks.map((link) => (
+          <li>
+            <a
+              href={link.href}
+              class={`nav-link${isActive(link.href) ? ' is-active' : ''}`}
+              aria-current={isActive(link.href) ? 'page' : undefined}
+            >
+              {link.label}
+            </a>
+          </li>
+        ))}
+      </ul>
+
+      <!-- CTA -->
+      <div class="nav-actions">
+        <button class="btn btn-primary" data-open-booking data-magnetic data-ripple>
+          Book a call
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+            <path d="M7 17L17 7M17 7H7M17 7v10"/>
+          </svg>
+        </button>
+      </div>
+    </div>
 
   </div>
 </nav>
@@ -99,7 +98,7 @@ const isActive = (href: string) => {
   </ul>
 
   <button class="btn btn-primary btn-block mobile-booking-button" data-open-booking>
-    Book a fit call
+    Book a call
   </button>
 </div>
 
@@ -166,13 +165,11 @@ const isActive = (href: string) => {
     inset-inline: 0;
     z-index: var(--z-fixed);
     padding-block: var(--space-5);
-    border-bottom: 1px solid var(--border-subtle);
     transition:
       transform var(--duration-normal) var(--ease-out),
       background var(--duration-normal) var(--ease-out),
       box-shadow var(--duration-normal) var(--ease-out),
-      padding var(--duration-normal) var(--ease-out),
-      border-color var(--duration-normal) var(--ease-out);
+      padding var(--duration-normal) var(--ease-out);
   }
   /* Soft scrim so the header reads as its own shelf over the hero,
      even before the scrolled glass state kicks in. */
@@ -190,73 +187,49 @@ const isActive = (href: string) => {
     background: rgba(10, 10, 12, 0.82);
     backdrop-filter: var(--backdrop-glass);
     -webkit-backdrop-filter: var(--backdrop-glass);
-    border-bottom: 1px solid var(--border-subtle);
     box-shadow: var(--shadow-md);
     padding-block: var(--space-3);
   }
-  .navbar--scrolled .logo-icon {
-    width: 46px;
-    height: 46px;
+  .navbar--scrolled .logo-wordmark {
+    height: 90px;
   }
   .navbar--hidden {
     transform: translateY(-110%);
   }
 
-  .nav-container {
+  .navbar-stack {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-3);
+  }
+
+  .navbar-top {
     display: flex;
     align-items: center;
-    gap: var(--space-8);
+    justify-content: center;
+    width: 100%;
+    position: relative;
   }
 
   /* ── Logo ─────────────────────────────────────────────────── */
   .logo {
     display: flex;
     align-items: center;
-    gap: var(--space-4);
-    flex-shrink: 0;
-    transition: gap var(--duration-normal) var(--ease-out);
+    justify-content: center;
   }
-  .logo-icon {
-    width: 58px;
-    height: 58px;
-    border-radius: 50%;
-    overflow: hidden;
-    border: 1px solid var(--border-brand);
-    /* Illustrated mark is painted for a light ground and is fine-detailed —
-       it needs a cream medallion (matching its native background) and real
-       size to resolve; a small dark chip reduces it to a green smudge. The
-       badge is round because the artwork's own emblem is a circular crest. */
-    background: #F9F7F3;
-    box-shadow: var(--shadow-sm), 0 0 0 1px rgba(251,191,36,0.12);
-    flex-shrink: 0;
-    transition: width var(--duration-normal) var(--ease-out), height var(--duration-normal) var(--ease-out);
+  .logo-wordmark {
+    display: block;
+    height: 150px;
+    width: auto;
+    transition: height var(--duration-normal) var(--ease-out);
   }
-  .logo-icon img {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-    padding: 5px;
-  }
-  .logo-text-group {
+
+  .navbar-links-row {
     display: flex;
-    flex-direction: column;
-    line-height: 1;
-  }
-  .logo-title {
-    font-family: var(--font-heading);
-    font-size: var(--text-xl);
-    font-weight: var(--weight-bold);
-    color: var(--text-primary);
-    letter-spacing: var(--tracking-tight);
-    line-height: 1;
-  }
-  .logo-subtitle {
-    font-family: var(--font-mono);
-    font-size: 0.66rem;
-    font-weight: var(--weight-bold);
-    letter-spacing: var(--tracking-widest);
-    color: var(--text-tertiary);
-    margin-top: 5px;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-6);
   }
 
   /* ── Desktop nav links ────────────────────────────────────── */
@@ -264,7 +237,6 @@ const isActive = (href: string) => {
     display: flex;
     align-items: center;
     gap: var(--space-1);
-    margin-left: auto;
   }
   .nav-link {
     font-family: var(--font-body);
@@ -292,17 +264,19 @@ const isActive = (href: string) => {
 
   /* ── Nav CTA ──────────────────────────────────────────────── */
   .nav-actions {
-    margin-left: var(--space-4);
     flex-shrink: 0;
   }
 
   /* ── Mobile toggle ────────────────────────────────────────── */
   .mobile-toggle {
     display: none;
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
     flex-direction: column;
     gap: 5px;
     padding: var(--space-2);
-    margin-left: auto;
   }
   .hamburger-line {
     display: block;
@@ -399,12 +373,8 @@ const isActive = (href: string) => {
     .navbar {
       padding-block: var(--space-4);
     }
-    /* The hamburger frees up the width nav-links would otherwise use, so the
-       badge can stay close to desktop size instead of shrinking to mush. */
-    .logo-icon {
-      width: 50px;
-      height: 50px;
+    .logo-wordmark {
+      height: 100px;
     }
-    .logo-title { font-size: var(--text-lg); }
   }
 </style>

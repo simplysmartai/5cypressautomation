@@ -241,7 +241,7 @@ const orgSchema = {
   name: '5 Cypress Data Analytics',
   url: 'https://www.5cypress.com',
   logo: 'https://www.5cypress.com/assets/brand/5cypress-mark.png',
-  email: 'nick@5cypress.com',
+  email: 'info@5cypress.com',
   description:
     'Fractional data analyst practice for accounting firms and small businesses: practice KPI dashboards, business intelligence, cashflow forecasting, monthly reporting, and spreadsheet automation.',
   sameAs: [],
@@ -283,7 +283,7 @@ const serviceSchemas = coreWorkflows.map((s) => ({
         </p>
         <div class="hero-ctas">
           <Button variant="primary" size="lg" magnetic ripple data-open-booking>
-            Book a fit call
+            Book a call
           </Button>
           <Button variant="secondary" size="lg" href="/demo/">
             See a live dashboard
@@ -308,7 +308,7 @@ const serviceSchemas = coreWorkflows.map((s) => ({
       <div class="founder-photo">
         <img
           src="/assets/jim-smart.jpg"
-          alt="Jim Smart, founder of 5 Cypress Data Analytics"
+          alt="James Smart, founder of 5 Cypress Data Analytics"
           width="76"
           height="76"
           loading="lazy"
@@ -318,7 +318,7 @@ const serviceSchemas = coreWorkflows.map((s) => ({
       </div>
       <div class="founder-copy">
         <p class="founder-line">
-          Built by <strong>Jim Smart</strong> — a senior data analyst with years of
+          Built by <strong>James Smart</strong> — a senior data analyst with years of
           experience across the telecom and government sectors.
         </p>
         <p class="founder-sub">The same reporting discipline enterprises pay for, scoped for small firms.</p>
@@ -587,7 +587,7 @@ const serviceSchemas = coreWorkflows.map((s) => ({
             <p><strong>Founding rate</strong> — limited availability</p>
           </div>
           <Button variant="primary" size="lg" magnetic ripple data-open-booking>
-            Book a fit call
+            Book a call
           </Button>
         </div>
       </div>
@@ -611,11 +611,11 @@ const serviceSchemas = coreWorkflows.map((s) => ({
         ))}
       </div>
       <Button variant="primary" size="lg" magnetic ripple data-open-booking>
-        Book a fit call
+        Book a call
       </Button>
       <p class="cta-contact">
         Prefer email?
-        <a href="mailto:nick@5cypress.com">nick@5cypress.com</a>
+        <a href="mailto:info@5cypress.com">info@5cypress.com</a>
       </p>
     </div>
   </section>
@@ -696,16 +696,9 @@ const serviceSchemas = coreWorkflows.map((s) => ({
     min-height: 92vh;
     display: flex;
     align-items: center;
-    padding-block: var(--space-32) var(--space-20);
+    padding-block: calc(var(--space-32) + 9rem) var(--space-20);
     overflow: hidden;
     position: relative;
-  }
-  .hero::before {
-    content: '';
-    position: absolute;
-    inset: 96px var(--space-6) auto;
-    height: 1px;
-    background: linear-gradient(90deg, transparent, rgba(251,191,36,0.28), rgba(93,140,93,0.28), transparent);
   }
   .hero-inner {
     display: grid;

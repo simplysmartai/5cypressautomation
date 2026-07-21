@@ -113,7 +113,7 @@ const serviceSchema = {
           <p class="detail-hero-intro">{service.detail}</p>
           <div class="detail-hero-actions">
             <Button variant="primary" size="lg" magnetic ripple data-open-booking>
-              Book a fit call
+              Book a call
             </Button>
             <div class="pricing-inline">
               <span class="pi-setup">{service.setupPrice} setup</span>
@@ -238,7 +238,7 @@ const serviceSchema = {
             <p class="price-type">time to live</p>
           </div>
           <Button variant="primary" size="lg" magnetic ripple data-open-booking class="pricing-cta">
-            Book a fit call
+            Book a call
           </Button>
           <p class="pricing-note">No commitment. 20 minutes. We tell you if it's the right fit.</p>
         </div>
@@ -288,7 +288,7 @@ const serviceSchema = {
   .breadcrumb-list [aria-current] { color: var(--text-secondary); }
 
   /* ── Hero ─────────────────────────────────────────────────── */
-  .detail-hero { padding-block: var(--space-20) var(--space-16); }
+  .detail-hero { padding-block: calc(var(--space-20) + 9rem) var(--space-16); }
   .detail-hero-grid {
     display: grid;
     grid-template-columns: 1fr 420px;
