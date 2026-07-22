@@ -46,7 +46,7 @@ const barW = (CHART_W - CHART_PAD.l - CHART_PAD.r) / N - 6;
 
 const dipUnderTarget = lowPoint.balance < meta.minReserve + 12000;
 
-const title = '13-Week Cashflow Forecast — Live Demo | 5 Cypress Data Analytics';
+const title = '13-Week Cashflow Forecast — Live Demo | 5Cypress Data Analytics';
 const description =
   'Interactive 13-week cashflow forecast dashboard for a fictional facilities-maintenance company: actuals, projection with variance band, and a minimum-reserve alert.';
 ---
@@ -58,7 +58,7 @@ const description =
       '@type': 'CreativeWork',
       name: '13-Week Cashflow Forecast Demo',
       description,
-      creator: { '@type': 'Organization', name: '5 Cypress Data Analytics', url: 'https://www.5cypress.com' },
+      creator: { '@type': 'Organization', name: '5Cypress Data Analytics', url: 'https://www.5cypress.com' },
     }} />
   </Fragment>
 
@@ -66,11 +66,11 @@ const description =
     <div class="container">
       <div class="demo-hero-top reveal">
         <div>
-          <p class="lead-in">Live demo — synthetic data</p>
+          <p class="lead-in">Live demo · synthetic data</p>
           <h1>{meta.companyName}</h1>
           <p class="demo-hero-sub">
             A fictional {meta.sector}. {meta.actualWeeks} weeks of actuals, {N - meta.actualWeeks} weeks
-            projected — with a variance band that widens the further out it looks. This is what the
+            projected, with a variance band that widens the further out it looks. This is what the
             Cashflow Forecast Agent surfaces before a tight week becomes a surprise.
           </p>
         </div>
@@ -176,7 +176,7 @@ const description =
         <figure class="chart-card chart-card--full">
           <figcaption>
             <p class="chart-title">Weekly inflows vs outflows</p>
-            <p class="chart-sub">Lumpy contract payments create the swings — payroll and rent are the steady drag.</p>
+            <p class="chart-sub">Lumpy contract payments create the swings. Payroll and rent are the steady drag.</p>
           </figcaption>
           <div class="flow-bars">
             {history.map((h, i) => {
@@ -252,7 +252,7 @@ const description =
 
 <style>
   .demo-hero {
-    padding-top: calc(var(--space-24) + 12rem);
+    padding-top: calc(var(--space-24) + 7rem);
     padding-bottom: var(--space-8);
     background: linear-gradient(180deg, rgba(93,140,93,0.07), transparent 60%), var(--bg-main);
   }

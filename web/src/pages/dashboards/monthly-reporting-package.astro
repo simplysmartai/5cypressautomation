@@ -26,7 +26,7 @@ const onTimeScale = scaleSeries(onTimeVals, 0.5, 1);
 const delivered = clients.filter((c) => c.status === 'Delivered').length;
 const flagged = clients.filter((c) => c.varianceFlag).length;
 
-const title = 'Monthly Client Reporting Package — Live Demo | 5 Cypress Data Analytics';
+const title = 'Monthly Client Reporting Package — Live Demo | 5Cypress Data Analytics';
 const description =
   'Interactive monthly client reporting dashboard for a fictional bookkeeping practice: delivery speed trend, a multi-client roster, and a sample client package preview.';
 ---
@@ -38,7 +38,7 @@ const description =
       '@type': 'CreativeWork',
       name: 'Monthly Client Reporting Package Demo',
       description,
-      creator: { '@type': 'Organization', name: '5 Cypress Data Analytics', url: 'https://www.5cypress.com' },
+      creator: { '@type': 'Organization', name: '5Cypress Data Analytics', url: 'https://www.5cypress.com' },
     }} />
   </Fragment>
 
@@ -46,11 +46,11 @@ const description =
     <div class="container">
       <div class="demo-hero-top reveal">
         <div>
-          <p class="lead-in">Live demo — synthetic data</p>
+          <p class="lead-in">Live demo · synthetic data</p>
           <h1>{meta.firmName}</h1>
           <p class="demo-hero-sub">
             A fictional {meta.sector} serving {clients.length} clients. Delivery time dropped from
-            {first.avgDay} to {latest.avgDay} business days over {N} months — this is what happens
+            {first.avgDay} to {latest.avgDay} business days over {N} months. That's what happens
             when the monthly close-to-package pipeline runs on a schedule instead of a to-do list.
           </p>
         </div>
@@ -250,7 +250,7 @@ const description =
 
 <style>
   .demo-hero {
-    padding-top: calc(var(--space-24) + 12rem);
+    padding-top: calc(var(--space-24) + 7rem);
     padding-bottom: var(--space-8);
     background: linear-gradient(180deg, rgba(93,140,93,0.07), transparent 60%), var(--bg-main);
   }

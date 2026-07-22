@@ -38,8 +38,8 @@ interface ContactPayload {
 
 const NOTIFY_TO = 'jimmy@5cypress.com';
 const NOTIFY_CC = 'info@5cypress.com';
-const FROM_INTERNAL = '5 Cypress Leads <admin@5cypress.com>';
-const FROM_PROSPECT = '5 Cypress <info@5cypress.com>';
+const FROM_INTERNAL = '5Cypress Leads <admin@5cypress.com>';
+const FROM_PROSPECT = '5Cypress <info@5cypress.com>';
 
 // Same-origin allowlist. Requests carrying a mismatched Origin/Referer are dropped.
 const ALLOWED_HOSTS = ['5cypress.com', 'www.5cypress.com', 'localhost', '127.0.0.1'];
@@ -237,7 +237,7 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
       text: [
         `Hi ${name.split(' ')[0]},`,
         '',
-        'Thanks for reaching out to 5 Cypress. Your request is in.',
+        'Thanks for reaching out to 5Cypress. Your request is in.',
         '',
         'What happens next: we review what you sent and reply within one',
         'business day to schedule a short fit call — a look at the numbers',
@@ -247,7 +247,7 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
         'If it is easier, just reply to this email and tell us more about',
         'the decision you keep making late.',
         '',
-        '— 5 Cypress',
+        '— 5Cypress',
         'www.5cypress.com | info@5cypress.com',
       ].join('\n'),
     });

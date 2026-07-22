@@ -36,7 +36,7 @@ const dateTicks = history
 const dsoOverTarget = latest.dso <= meta.targets.dso;
 const dsoDeltaLabel = dsoOverTarget ? 'at target' : `${(latest.dso - meta.targets.dso).toFixed(0)}d over`;
 
-const title = 'AR & Collections Command Center — Live Demo | 5 Cypress Data Analytics';
+const title = 'AR & Collections Command Center — Live Demo | 5Cypress Data Analytics';
 const description =
   'Interactive AR collections dashboard for a fictional B2B distributor: DSO trend, aging snapshot, automated reminder activity, and dollars recovered via automation.';
 ---
@@ -48,7 +48,7 @@ const description =
       '@type': 'CreativeWork',
       name: 'AR & Collections Command Center Demo',
       description,
-      creator: { '@type': 'Organization', name: '5 Cypress Data Analytics', url: 'https://www.5cypress.com' },
+      creator: { '@type': 'Organization', name: '5Cypress Data Analytics', url: 'https://www.5cypress.com' },
     }} />
   </Fragment>
 
@@ -56,12 +56,12 @@ const description =
     <div class="container">
       <div class="demo-hero-top reveal">
         <div>
-          <p class="lead-in">Live demo — synthetic data</p>
+          <p class="lead-in">Live demo · synthetic data</p>
           <h1>{meta.companyName}</h1>
           <p class="demo-hero-sub">
-            A fictional {meta.sector}. Automation went live {meta.automationLiveDate} — watch DSO
-            step down and the recovered-dollars line start climbing right after. This is what the
-            AR &amp; Collections Agent looks like connected to your QuickBooks and email.
+            A fictional {meta.sector}. Automation went live {meta.automationLiveDate}. Watch DSO
+            step down and the recovered-dollars line start climbing right after that point. This
+            is what the AR &amp; Collections Agent looks like connected to your QuickBooks and email.
           </p>
         </div>
         <div class="demo-hero-meta">
@@ -297,7 +297,7 @@ const description =
 
 <style>
   .demo-hero {
-    padding-top: calc(var(--space-24) + 12rem);
+    padding-top: calc(var(--space-24) + 7rem);
     padding-bottom: var(--space-8);
     background: linear-gradient(180deg, rgba(93,140,93,0.07), transparent 60%), var(--bg-main);
   }

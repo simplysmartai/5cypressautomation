@@ -25,11 +25,11 @@ export const services: Service[] = [
     tag: 'Dashboard',
     title: 'Practice KPI Dashboard',
     shortTitle: 'KPI Dashboard',
-    tagline: 'Every critical metric — live, in one place.',
+    tagline: 'Every critical metric, live, in one place.',
     description:
-      'Real-time realization rate, WIP, AR aging, and billing metrics — pulled from QBO and your practice management system and surfaced to every partner in one live panel.',
+      'Real-time realization rate, WIP, AR aging, and billing metrics pulled from QBO and your practice management system, surfaced to every partner in one live panel.',
     detail:
-      'Partners at most firms are flying blind until month-end. By then, the decisions that could have been made in week 2 are three weeks late. We build a live dashboard that pulls directly from QuickBooks Online and your practice management system (Karbon, TaxDome, Clio, or CCH) — no manual exports, no spreadsheet juggling. Every partner sees realization rate, WIP balance, AR aging buckets, and billing trend in real time.',
+      'Partners at most firms are flying blind until month-end. By then, the decisions that could have been made in week 2 are three weeks late. We build a live dashboard that pulls directly from QuickBooks Online and your practice management system: Karbon, TaxDome, Clio, or CCH. No manual exports. No spreadsheet juggling. Every partner sees realization rate, WIP balance, AR aging buckets, and billing trend in real time.',
     painPoints: [
       'Realization rate unknown until the billing run is closed',
       'WIP is tracked in a spreadsheet updated manually each week',
@@ -54,9 +54,9 @@ export const services: Service[] = [
     shortTitle: 'Client Snapshots',
     tagline: 'Reports delivered before clients ask for them.',
     description:
-      'One trigger after QBO close: auto-generated PDF report and branded web dashboard per client, delivered before the 5th — no manual data pulls, no formatting.',
+      'One trigger after QBO close: auto-generated PDF report and branded web dashboard per client, delivered before the 5th. No manual data pulls, no formatting.',
     detail:
-      "The most common complaint we hear from accounting clients: 'I'm still building the same report I built last month.' We build a system that listens for QBO period close, pulls the relevant data, generates a branded PDF and a live web dashboard, and emails it to the client — automatically. You review, not rebuild.",
+      "The most common complaint we hear from accounting clients: \"I'm still building the same report I built last month.\" We build a system that listens for QBO period close, pulls the relevant data, generates a branded PDF and a live web dashboard, and emails it to the client automatically. You review. You don't rebuild.",
     painPoints: [
       'Same report built manually for every client, every month',
       'Hours spent reformatting QBO exports into branded templates',
@@ -81,9 +81,9 @@ export const services: Service[] = [
     shortTitle: 'Doc Intake',
     tagline: 'Clients upload once. Files land in the right place.',
     description:
-      'Clients upload to a shared portal. OpenAI Vision classifies each file and routes it to the right job in Karbon, TaxDome, or SharePoint — in seconds.',
+      'Clients upload to a shared portal. OpenAI Vision classifies each file and routes it to the right job in Karbon, TaxDome, or SharePoint, in seconds.',
     detail:
-      'Tax season document chaos is a solved problem. Instead of clients emailing files to whoever is available, we set up a client-facing upload portal. Every file is scanned by OpenAI Vision — it reads the document, identifies the type (W-2, 1099, bank statement, K-1, etc.), and routes it to the correct job folder in your practice management system. Staff spend zero time sorting.',
+      'Tax season document chaos is a solved problem. Instead of clients emailing files to whoever is available, we set up a client-facing upload portal. OpenAI Vision reads every file, identifies the type (W-2, 1099, bank statement, K-1, and so on), and routes it to the correct job folder in your practice management system. Staff spend zero time sorting.',
     painPoints: [
       "Clients emailing documents to staff's personal inboxes",
       'Staff manually sorting and renaming files into job folders',
@@ -108,9 +108,9 @@ export const services: Service[] = [
     shortTitle: 'Onboarding Flow',
     tagline: 'Signed letter. Zero manual setup.',
     description:
-      'When a DocuSign engagement letter is signed, the system auto-creates the Karbon job, adds the client to QBO, and books their kickoff call via Calendly — hands-free.',
+      'When a DocuSign engagement letter is signed, the system auto-creates the Karbon job, adds the client to QBO, and books their kickoff call via Calendly. Hands-free.',
     detail:
-      "A signed engagement letter used to mean 30–45 minutes of setup work: create the client in QBO, create the job in Karbon, send the kickoff link, update the pipeline. We collapse that to zero. The moment DocuSign registers a completed envelope, a webhook fires that creates the Karbon job with the right template, creates or updates the QBO customer record, and sends the client a Calendly link with a personalized note. You're notified when the kickoff is booked.",
+      "A signed engagement letter used to mean 30 to 45 minutes of setup work: create the client in QBO, create the job in Karbon, send the kickoff link, update the pipeline. We collapse that to zero. The moment DocuSign registers a completed envelope, a webhook fires. It creates the Karbon job with the right template, creates or updates the QBO customer record, and sends the client a Calendly link with a personalized note. You're notified when the kickoff is booked.",
     painPoints: [
       '30–45 min of manual setup every time a new client signs',
       'Client record created in QBO days after signing because staff are busy',
@@ -135,9 +135,9 @@ export const services: Service[] = [
     shortTitle: 'Lead Text-Back',
     tagline: 'Respond before they call the next firm.',
     description:
-      'A prospect calls after hours or submits a form. They get a personalized text in under 60 seconds — before they move on to your competitor.',
+      'A prospect calls after hours or submits a form. They get a personalized text in under 60 seconds, before they move on to your competitor.',
     detail:
-      "Most accounting firm leads are lost not because the firm was the wrong fit, but because they were the second to respond. We build a text-back system that monitors your phone line and contact forms around the clock. When a call is missed or a form is submitted, a personalized SMS goes out in under 60 seconds — professionally worded, branded to your firm, with a simple reply-to-book mechanism. This system is already live at several firms and consistently converts referral leads that would otherwise have called the next name on the list.",
+      "Most accounting firm leads are lost not because the firm was the wrong fit, but because they were the second to respond. We build a text-back system that monitors your phone line and contact forms around the clock. When a call is missed or a form is submitted, a personalized SMS goes out in under 60 seconds: professionally worded, branded to your firm, with a simple reply-to-book mechanism. This system is already live at several firms, and it consistently converts referral leads that would otherwise have called the next name on the list.",
     painPoints: [
       'Missed calls after 5pm — no response until next morning',
       'Contact form submissions acknowledged hours or days later',
@@ -162,9 +162,9 @@ export const services: Service[] = [
     shortTitle: 'Close Accelerator',
     tagline: 'A 10-day close, compressed to 3.',
     description:
-      'An agentic close engine that runs reconciliations, flags variances, drafts adjusting journal entries for review, and pushes a partner-ready close package — same day QBO is locked.',
+      'An agentic close engine that runs reconciliations, flags variances, drafts adjusting journal entries for review, and pushes a partner-ready close package the same day QBO is locked.',
     detail:
-      "The month-end close is the single most expensive recurring workflow in a small accounting firm. We replace 10 days of senior-staff execution with a same-day agentic close. The system pulls bank, credit card, and payroll feeds, auto-reconciles to QBO, flags every variance over your threshold, drafts adjusting journal entries with explanations for partner review, and assembles the close package — all before the partner reviews their first email of the day. You approve, you don't rebuild.",
+      "The month-end close is the single most expensive recurring workflow in a small accounting firm. We replace 10 days of senior-staff execution with a same-day agentic close. The system pulls bank, credit card, and payroll feeds, auto-reconciles to QBO, flags every variance over your threshold, drafts adjusting journal entries with explanations for partner review, and assembles the close package before the partner reviews their first email of the day. You approve. You don't rebuild.",
     painPoints: [
       'Close runs 7–10 days into the next month — partners reviewing too late to advise',
       'Senior staff spending hours on reconciliations a junior could supervise if it were drafted',
@@ -187,11 +187,11 @@ export const services: Service[] = [
     tag: 'AR · Cashflow',
     title: 'AR / Collections Agent',
     shortTitle: 'Collections Agent',
-    tagline: 'Aging invoices chased — without the awkward partner email.',
+    tagline: 'Aging invoices chased, without the awkward partner email.',
     description:
       'A graduated collections agent that monitors AR aging, sends personalized reminders at 15/30/45/60 days, tracks promise-to-pay commitments, and escalates only when a partner actually needs to step in.',
     detail:
-      "Most small firms write off 4–8% of revenue every year because nobody enjoys chasing AR. We build an agent that lives on top of your QBO AR and runs a graduated collections cadence — friendly nudge at 15 days, structured reminder at 30, payment plan offer at 45, partner escalation at 60. Every message is tone-matched to the client relationship using OpenAI, sent via SMS or email per client preference, and logged back to QBO. Partners only get involved when the agent has exhausted the standard cadence — and the data needed for that conversation is one click away.",
+      "Most small firms write off 4 to 8% of revenue every year because nobody enjoys chasing AR. We build an agent that lives on top of your QBO AR and runs a graduated collections cadence: friendly nudge at 15 days, structured reminder at 30, payment plan offer at 45, partner escalation at 60. Every message is tone-matched to the client relationship using OpenAI, sent via SMS or email per client preference, and logged back to QBO. Partners only get involved once the agent has exhausted the standard cadence, and the data needed for that conversation is one click away.",
     painPoints: [
       '4–8% of revenue lost to write-offs because nobody chases past 30 days',
       'Generic dunning emails that damage long-standing client relationships',
@@ -214,11 +214,11 @@ export const services: Service[] = [
     tag: 'Advisory · Forecast',
     title: 'Cashflow Forecast Agent',
     shortTitle: 'Cashflow Forecast',
-    tagline: 'A 13-week forecast you actually trust — refreshed every morning.',
+    tagline: 'A 13-week forecast you actually trust, refreshed every morning.',
     description:
-      'A rolling 13-week cashflow forecast per client, pulled live from QBO actuals, AR/AP aging, payroll cadence, and recurring revenue — with auto-alerts for low balance projections and covenant risks.',
+      'A rolling 13-week cashflow forecast per client, pulled live from QBO actuals, AR/AP aging, payroll cadence, and recurring revenue, with auto-alerts for low balance projections and covenant risks.',
     detail:
-      "Cashflow forecasting is the highest-margin advisory service most firms can't deliver consistently because the spreadsheets fall behind the moment a client's reality changes. We build an agent that maintains a rolling 13-week forecast per client, refreshed every morning from QBO actuals, AR/AP aging, payroll schedules, and known recurring lines. When projected balance crosses a threshold or a debt covenant is at risk, you and the client are alerted before it becomes a Friday-afternoon scramble. Forecasts are partner-reviewable, client-shareable, and historical accuracy is tracked so the model improves.",
+      "Cashflow forecasting is the highest-margin advisory service most firms can't deliver consistently, because the spreadsheets fall behind the moment a client's reality changes. We build an agent that maintains a rolling 13-week forecast per client, refreshed every morning from QBO actuals, AR/AP aging, payroll schedules, and known recurring lines. When projected balance crosses a threshold or a debt covenant is at risk, you and the client are alerted before it becomes a Friday-afternoon scramble. Forecasts are partner-reviewable and client-shareable. Historical accuracy is tracked too, so the model improves.",
     painPoints: [
       'Cashflow models built in Excel are stale within a week of delivery',
       'Clients only ask for forecasts during a crisis — too late to advise well',
@@ -241,11 +241,11 @@ export const services: Service[] = [
     tag: 'BI · Analytics',
     title: 'Business Intelligence Dashboard',
     shortTitle: 'BI Dashboard',
-    tagline: 'The numbers that run your business — finally in one place.',
+    tagline: 'The numbers that run your business, finally in one place.',
     description:
-      'A Power BI, Tableau, or Looker Studio dashboard built around the operational metrics that actually drive your business — modeled, automated, and refreshed without anyone touching a spreadsheet.',
+      'A Power BI, Tableau, or Looker Studio dashboard built around the operational metrics that actually drive your business: modeled, automated, and refreshed without anyone touching a spreadsheet.',
     detail:
-      "Most small businesses run on a Frankenstein of CRM exports, QuickBooks downloads, and Excel pivot tables nobody fully trusts. We design and build a real BI dashboard the way an enterprise data team would — proper data model, automated refresh, role-based views, drill-downs that actually work — but scoped and priced for a small business. Built by a former data analyst who's done this in three industries, now with Claude as a co-pilot to deliver it 3x faster than agency rates.",
+      "Most small businesses run on a Frankenstein of CRM exports, QuickBooks downloads, and Excel pivot tables nobody fully trusts. We design and build a real BI dashboard the way an enterprise data team would: proper data model, automated refresh, role-based views, drill-downs that actually work. It's scoped and priced for a small business, though. Built by a former data analyst who's done this in three industries, now with Claude as a co-pilot to deliver it 3x faster than agency rates.",
     painPoints: [
       'Same numbers reported three different ways across departments',
       'Monthly board pack rebuilt by hand from CRM, QBO, and Excel exports',
@@ -269,11 +269,11 @@ export const services: Service[] = [
     tag: 'Excel · Automation',
     title: 'Excel & Spreadsheet Automation',
     shortTitle: 'Excel Automation',
-    tagline: 'The spreadsheet you spend 8 hours on — done in 8 seconds.',
+    tagline: 'The spreadsheet you spend 8 hours on, done in 8 seconds.',
     description:
-      'Custom Excel and Google Sheets automations using Power Query, Office Scripts, VBA, or Apps Script — built by a data analyst who has automated these workflows in three previous corporate roles.',
+      'Custom Excel and Google Sheets automations using Power Query, Office Scripts, VBA, or Apps Script, built by a data analyst who has automated these workflows in three previous corporate roles.',
     detail:
-      "Every business has at least one spreadsheet that takes someone half a day, every week, to update. Sales reports rebuilt from CRM exports. Inventory reconciliations across three systems. Commission calculations, payroll prep, KPI rollups. We replace those workflows with one-click (or zero-click, scheduled) automations using the right tool for the job — Power Query for messy data shaping, Office Scripts or VBA for native Excel automation, Apps Script for Google Sheets, Python for anything that needs to break out of the cell. Pay once per workflow, no subscription required.",
+      "Every business has at least one spreadsheet that takes someone half a day, every week, to update. Sales reports rebuilt from CRM exports. Inventory reconciliations across three systems. Commission calculations, payroll prep, KPI rollups. We replace those workflows with one-click (or zero-click, scheduled) automations, using the right tool for the job: Power Query for messy data shaping, Office Scripts or VBA for native Excel automation, Apps Script for Google Sheets, Python for anything that needs to break out of the cell. Pay once per workflow. No subscription required.",
     painPoints: [
       'A senior employee spending 4–8 hours/week on a single recurring spreadsheet',
       'Manual copy-paste between three systems to produce one report',

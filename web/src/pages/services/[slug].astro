@@ -35,15 +35,15 @@ const steps: Record<string, Step[]> = {
     { step: '04', title: 'Hand off a live dashboard', body: 'You get a URL and a runbook. We stay on for 30 days of support and optionally maintain the sync going forward.' },
   ],
   'monthly-client-snapshot': [
-    { step: '01', title: 'Map your report template', body: 'We document exactly what each client receives — balance sheet, P&L, KPIs, narrative summary — and build the generation logic once.' },
+    { step: '01', title: 'Map your report template', body: 'We document exactly what each client receives (balance sheet, P&L, KPIs, narrative summary) and build the generation logic once.' },
     { step: '02', title: 'Wire the QBO trigger', body: 'The system listens for period close events in QBO. When the books are closed, generation starts automatically.' },
     { step: '03', title: 'Generate PDF + dashboard', body: 'Reports are rendered with your firm branding, optionally enriched with AI narrative, and uploaded to both PDF and a live URL.' },
     { step: '04', title: 'Review and send', body: 'Optional partner review step before delivery. One-click approve, then SendGrid routes each report to the right client contact.' },
   ],
   'document-intake-ai-sort': [
-    { step: '01', title: 'Build the upload portal', body: 'Clients get a simple, branded upload page — no login required. Files are accepted via drag-and-drop or mobile camera.' },
+    { step: '01', title: 'Build the upload portal', body: 'Clients get a simple, branded upload page. No login required. Files are accepted via drag-and-drop or mobile camera.' },
     { step: '02', title: 'AI classifies each file', body: 'OpenAI Vision reads every uploaded document and identifies its type: W-2, 1099, bank statement, K-1, signed return, and more.' },
-    { step: '03', title: 'Route to the right job', body: 'Classified files are pushed directly to the correct job folder in Karbon, TaxDome, or SharePoint — named and organized by our convention.' },
+    { step: '03', title: 'Route to the right job', body: 'Classified files are pushed directly to the correct job folder in Karbon, TaxDome, or SharePoint, named and organized by our convention.' },
     { step: '04', title: 'Track completeness', body: 'A per-client checklist shows which required documents have been received. Staff see gaps at a glance without chasing clients manually.' },
   ],
   'engagement-onboarding-flow': [
@@ -54,7 +54,7 @@ const steps: Record<string, Step[]> = {
   ],
   'missed-lead-text-back': [
     { step: '01', title: 'Connect your phone line', body: 'We integrate with your existing phone system (RingCentral, Grasshopper, Google Voice, or direct VoIP) to detect missed calls in real time.' },
-    { step: '02', title: 'Monitor contact forms', body: 'A webhook monitors your contact form submissions 24/7 — website, Typeform, Gravity Forms, or custom form.' },
+    { step: '02', title: 'Monitor contact forms', body: 'A webhook monitors your contact form submissions 24/7: website, Typeform, Gravity Forms, or custom form.' },
     { step: '03', title: 'Send the text in <60 seconds', body: 'A personalized, professionally worded SMS goes out under your firm name within 60 seconds. No generic "we received your inquiry" messages.' },
     { step: '04', title: 'Log every contact attempt', body: 'Every missed call and form submission is logged with a timestamp. You always know who was contacted, when, and whether they replied.' },
   ],
@@ -68,7 +68,7 @@ const serviceSchema = {
   description: service.detail,
   provider: {
     '@type': 'Organization',
-    name: '5 Cypress Data Analytics',
+    name: '5Cypress Data Analytics',
     url: 'https://www.5cypress.com',
   },
   areaServed: 'US',
@@ -82,7 +82,7 @@ const serviceSchema = {
 ---
 
 <Layout
-  title={`${service.title} | 5 Cypress`}
+  title={`${service.title} | 5Cypress`}
   description={service.description}
   canonical={`https://www.5cypress.com/services/${service.slug}/`}
 >
@@ -212,7 +212,7 @@ const serviceSchema = {
           <h2>Transparent.<br/><em>No surprises.</em></h2>
           <p>
             Setup is a one-time engagement. Monthly covers hosting, monitoring, and
-            minor updates. We scope every project before any work begins — if the
+            minor updates. We scope every project before any work begins. If the
             scope changes, we tell you before we build.
           </p>
           <ul class="pricing-includes">
@@ -288,7 +288,7 @@ const serviceSchema = {
   .breadcrumb-list [aria-current] { color: var(--text-secondary); }
 
   /* ── Hero ─────────────────────────────────────────────────── */
-  .detail-hero { padding-block: calc(var(--space-20) + 9rem) var(--space-16); }
+  .detail-hero { padding-block: calc(var(--space-20) + 4rem) var(--space-16); }
   .detail-hero-grid {
     display: grid;
     grid-template-columns: 1fr 420px;

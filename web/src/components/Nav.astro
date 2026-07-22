@@ -16,61 +16,57 @@ const isActive = (href: string) => {
 ---
 
 <nav class="navbar" id="navbar" aria-label="Main navigation">
-  <div class="container navbar-stack">
+  <div class="container nav-container">
 
-    <div class="navbar-top">
-      <!-- Logo -->
-      <a href="/" class="logo" aria-label="5 Cypress Data Analytics — Home">
-        <img
-          src="/assets/brand/5cypress-lockup-circle.png"
-          alt="5 Cypress Data Analytics"
-          width="480"
-          height="480"
-          class="logo-wordmark"
-          loading="eager"
-        />
-      </a>
+    <!-- Logo -->
+    <a href="/" class="logo" aria-label="5Cypress Data Analytics home">
+      <img
+        src="/assets/brand/5cypress-lockup-v3.png"
+        alt="5Cypress Data Analytics"
+        width="460"
+        height="480"
+        class="logo-wordmark"
+        loading="eager"
+      />
+    </a>
 
-      <!-- Mobile hamburger -->
-      <button
-        class="mobile-toggle"
-        id="mobile-toggle"
-        aria-label="Open mobile menu"
-        aria-expanded="false"
-        aria-controls="mobile-menu"
-      >
-        <span class="hamburger-line"></span>
-        <span class="hamburger-line"></span>
-        <span class="hamburger-line"></span>
+    <!-- Desktop links -->
+    <ul class="nav-menu" role="list">
+      {navLinks.map((link) => (
+        <li>
+          <a
+            href={link.href}
+            class={`nav-link${isActive(link.href) ? ' is-active' : ''}`}
+            aria-current={isActive(link.href) ? 'page' : undefined}
+          >
+            {link.label}
+          </a>
+        </li>
+      ))}
+    </ul>
+
+    <!-- CTA -->
+    <div class="nav-actions">
+      <button class="btn btn-primary" data-open-booking data-magnetic data-ripple>
+        Book a call
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+          <path d="M7 17L17 7M17 7H7M17 7v10"/>
+        </svg>
       </button>
     </div>
 
-    <div class="navbar-links-row">
-      <!-- Desktop links -->
-      <ul class="nav-menu" role="list">
-        {navLinks.map((link) => (
-          <li>
-            <a
-              href={link.href}
-              class={`nav-link${isActive(link.href) ? ' is-active' : ''}`}
-              aria-current={isActive(link.href) ? 'page' : undefined}
-            >
-              {link.label}
-            </a>
-          </li>
-        ))}
-      </ul>
-
-      <!-- CTA -->
-      <div class="nav-actions">
-        <button class="btn btn-primary" data-open-booking data-magnetic data-ripple>
-          Book a call
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
-            <path d="M7 17L17 7M17 7H7M17 7v10"/>
-          </svg>
-        </button>
-      </div>
-    </div>
+    <!-- Mobile hamburger -->
+    <button
+      class="mobile-toggle"
+      id="mobile-toggle"
+      aria-label="Open mobile menu"
+      aria-expanded="false"
+      aria-controls="mobile-menu"
+    >
+      <span class="hamburger-line"></span>
+      <span class="hamburger-line"></span>
+      <span class="hamburger-line"></span>
+    </button>
 
   </div>
 </nav>
@@ -164,7 +160,7 @@ const isActive = (href: string) => {
     top: 0;
     inset-inline: 0;
     z-index: var(--z-fixed);
-    padding-block: var(--space-5);
+    padding-block: var(--space-3);
     transition:
       transform var(--duration-normal) var(--ease-out),
       background var(--duration-normal) var(--ease-out),
@@ -188,55 +184,33 @@ const isActive = (href: string) => {
     backdrop-filter: var(--backdrop-glass);
     -webkit-backdrop-filter: var(--backdrop-glass);
     box-shadow: var(--shadow-md);
-    padding-block: var(--space-3);
+    padding-block: var(--space-2);
   }
   .navbar--scrolled .logo-wordmark {
-    height: 72px;
+    height: 88px;
   }
   .navbar--hidden {
     transform: translateY(-110%);
   }
 
-  .navbar-stack {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: var(--space-1);
-  }
-
-  .navbar-top {
+  .nav-container {
     display: flex;
     align-items: center;
-    justify-content: center;
-    width: 100%;
-    position: relative;
+    gap: var(--space-8);
   }
 
   /* ── Logo ─────────────────────────────────────────────────── */
   .logo {
     display: flex;
     align-items: center;
-    justify-content: center;
+    flex-shrink: 0;
   }
   .logo-wordmark {
     display: block;
-    height: 116px;
+    height: 132px;
     width: auto;
-    border-radius: 50%;
-    /* Grounds the cream medallion in the dark scene instead of reading
-       as a flat sticker — a soft ambient shadow plus a faint brand-color
-       glow, not an edit to the artwork itself. */
-    filter:
-      drop-shadow(0 8px 20px rgba(0, 0, 0, 0.45))
-      drop-shadow(0 0 24px rgba(93, 140, 93, 0.18));
+    filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.5));
     transition: height var(--duration-normal) var(--ease-out);
-  }
-
-  .navbar-links-row {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: var(--space-6);
   }
 
   /* ── Desktop nav links ────────────────────────────────────── */
@@ -244,6 +218,7 @@ const isActive = (href: string) => {
     display: flex;
     align-items: center;
     gap: var(--space-1);
+    margin-left: auto;
   }
   .nav-link {
     font-family: var(--font-body);
@@ -271,19 +246,17 @@ const isActive = (href: string) => {
 
   /* ── Nav CTA ──────────────────────────────────────────────── */
   .nav-actions {
+    margin-left: var(--space-4);
     flex-shrink: 0;
   }
 
   /* ── Mobile toggle ────────────────────────────────────────── */
   .mobile-toggle {
     display: none;
-    position: absolute;
-    right: 0;
-    top: 50%;
-    transform: translateY(-50%);
     flex-direction: column;
     gap: 5px;
     padding: var(--space-2);
+    margin-left: auto;
   }
   .hamburger-line {
     display: block;
@@ -381,7 +354,7 @@ const isActive = (href: string) => {
       padding-block: var(--space-4);
     }
     .logo-wordmark {
-      height: 84px;
+      height: 92px;
     }
   }
 </style>

@@ -23,7 +23,7 @@ const barAreaH = 140;
 
 const maxDocCount = Math.max(...docTypes.map((d) => d.count));
 
-const title = 'Document Intake Ops Dashboard — Live Demo | 5 Cypress Data Analytics';
+const title = 'Document Intake Ops Dashboard — Live Demo | 5Cypress Data Analytics';
 const description =
   'Interactive document intake dashboard for a fictional multi-location medical group: 14-day volume, document-type confidence breakdown, and a live exception queue.';
 ---
@@ -35,7 +35,7 @@ const description =
       '@type': 'CreativeWork',
       name: 'Document Intake Ops Dashboard Demo',
       description,
-      creator: { '@type': 'Organization', name: '5 Cypress Data Analytics', url: 'https://www.5cypress.com' },
+      creator: { '@type': 'Organization', name: '5Cypress Data Analytics', url: 'https://www.5cypress.com' },
     }} />
   </Fragment>
 
@@ -43,11 +43,11 @@ const description =
     <div class="container">
       <div class="demo-hero-top reveal">
         <div>
-          <p class="lead-in">Live demo — synthetic data</p>
+          <p class="lead-in">Live demo · synthetic data</p>
           <h1>{meta.orgName}</h1>
           <p class="demo-hero-sub">
-            A fictional {meta.sector}. {totalReceived} documents in 14 days — intake forms, insurance
-            cards, referral letters, lab results — classified, routed, and queued for review when
+            A fictional {meta.sector}. {totalReceived} documents in 14 days: intake forms, insurance
+            cards, referral letters, lab results, all classified, routed, and queued for review when
             the system is not confident enough to act alone.
           </p>
         </div>
@@ -189,7 +189,7 @@ const description =
 
 <style>
   .demo-hero {
-    padding-top: calc(var(--space-24) + 12rem);
+    padding-top: calc(var(--space-24) + 7rem);
     padding-bottom: var(--space-8);
     background: linear-gradient(180deg, rgba(93,140,93,0.07), transparent 60%), var(--bg-main);
   }

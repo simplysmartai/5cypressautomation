@@ -30,7 +30,7 @@ const siteRamp = ['#3987E5', '#199E70', '#C98500', '#D95926'];
 const statusClass = (s: string) =>
   s === 'On schedule' ? 'status-done' : s.startsWith('Recovering') ? 'status-review' : 'status-flag';
 
-const title = 'Infrastructure PMO Dashboard — Live Demo | 5 Cypress Data Analytics';
+const title = 'Infrastructure PMO Dashboard — Live Demo | 5Cypress Data Analytics';
 const description =
   'Interactive PMO dashboard for a fictional fiber and data-center construction portfolio: schedule variance recovery, safety leading/lagging indicators, punch-list backlog, and a program roster.';
 ---
@@ -42,7 +42,7 @@ const description =
       '@type': 'CreativeWork',
       name: 'Infrastructure PMO Dashboard Demo',
       description,
-      creator: { '@type': 'Organization', name: '5 Cypress Data Analytics', url: 'https://www.5cypress.com' },
+      creator: { '@type': 'Organization', name: '5Cypress Data Analytics', url: 'https://www.5cypress.com' },
     }} />
   </Fragment>
 
@@ -50,12 +50,12 @@ const description =
     <div class="container">
       <div class="demo-hero-top reveal">
         <div>
-          <p class="lead-in">Live demo — synthetic data</p>
+          <p class="lead-in">Live demo · synthetic data</p>
           <h1>{meta.companyName}</h1>
           <p class="demo-hero-sub">
             A fictional {meta.sector} running {meta.programsTotal} active programs across four sites.
             The same modeling approach behind the accounting dashboards, applied to a portfolio
-            of construction programs — proof this isn't a one-industry template.
+            of construction programs. Proof this isn't a one-industry template.
           </p>
         </div>
         <div class="demo-hero-meta">
@@ -104,7 +104,7 @@ const description =
               <span class="service-pct">{pct(s.pct)}</span>
             </div>
           ))}
-          <p class="sample-narrative">One site carries most of the near-miss volume while the lagging TRIR stays clean — the leading indicator flags it months before the lagging one would.</p>
+          <p class="sample-narrative">One site carries most of the near-miss volume while the lagging TRIR stays clean. The leading indicator flags it months before the lagging one would.</p>
         </aside>
       </div>
 
@@ -136,7 +136,7 @@ const description =
         <figure class="chart-card">
           <figcaption>
             <p class="chart-title">Punch-list opened vs. closed</p>
-            <p class="chart-sub">{punchList.programName}. Opened is consistently outrunning closed — the backlog everyone can see coming.</p>
+            <p class="chart-sub">{punchList.programName}. Opened is consistently outrunning closed, so the backlog is one everyone can see coming.</p>
           </figcaption>
           <svg viewBox={`0 0 ${CHART_W} ${CHART_H}`} role="img" aria-label="Weekly punch-list items opened versus closed over eight weeks" class="line-chart">
             {gridYs().map((y) => <line x1={CHART_PAD.l} x2={CHART_W - CHART_PAD.r} y1={y} y2={y} class="grid-line" />)}
@@ -194,8 +194,8 @@ const description =
       <p class="lead-in">Not just an accounting template</p>
       <h2>If the data has a schema, it can carry a dashboard.</h2>
       <p>
-        The metric list changes — realization becomes schedule variance, AR aging becomes a
-        punch-list backlog — but the model discipline and the QA before it ships doesn't.
+        The metric list changes: realization becomes schedule variance, AR aging becomes a
+        punch-list backlog. The model discipline and the QA before it ships don't.
       </p>
       <Button variant="primary" size="lg" magnetic ripple data-open-booking>Book a call</Button>
     </div>
@@ -253,7 +253,7 @@ const description =
 
 <style>
   .demo-hero {
-    padding-top: calc(var(--space-24) + 12rem);
+    padding-top: calc(var(--space-24) + 7rem);
     padding-bottom: var(--space-8);
     background: linear-gradient(180deg, rgba(93,140,93,0.07), transparent 60%), var(--bg-main);
   }

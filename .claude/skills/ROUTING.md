@@ -25,8 +25,9 @@ Covers: LinkedIn posts, content calendars, thought leadership. Applies 40/30/20/
 | `api-scaffolding` | Quickly spin up a new FastAPI or Express endpoint |
 | `backend-development` | Architecture decisions, QBO/ShipStation integration patterns |
 | `python-development` | Python scripts, FastAPI, async patterns, Pydantic, execution scripts |
+| `karpathy-guidelines` | **Always load alongside any coding skill** — meta-discipline for simplicity, surgical edits, verifiable goals |
 
-**Rule:** New endpoint fast → `api-scaffolding`. Integration architecture → `backend-development`. Automation script → `python-development`.
+**Rule:** New endpoint fast → `api-scaffolding`. Integration architecture → `backend-development`. Automation script → `python-development`. Any code edit → also load `karpathy-guidelines`.
 
 ---
 
@@ -61,6 +62,9 @@ Covers: LinkedIn posts, content calendars, thought leadership. Applies 40/30/20/
 | `content-strategy` | What content to create, topic clusters, editorial calendar |
 | `copywriting` | Write or rewrite marketing page copy |
 | `copy-editing` | Edit and polish existing copy |
+| `humanizer` | Strip AI-writing tells (em dashes, "delve," rule-of-three, uniform sentence rhythm) from any draft before it ships — outreach emails, LinkedIn/X posts, service pages, Nexairi articles |
+
+**Rule:** `copy-editing` improves copy generally (clarity, structure, persuasion). `humanizer` is a narrower, mechanical pass — run it last, right before sending/publishing, on anything a prospect will read as personal correspondence (outreach emails especially).
 
 ---
 

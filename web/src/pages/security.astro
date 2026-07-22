@@ -11,7 +11,7 @@ import JsonLd from '../components/JsonLd.astro';
 const controls = [
   {
     tag: '01',
-    title: 'AI runs API-only — nothing trains on your data',
+    title: 'AI runs API-only. Nothing trains on your data',
     text:
       'We call AI models through their standard business API. Under those terms, your data is not used to train models and is not retained by the AI provider beyond the request. It is not a chatbot with memory of your firm.',
   },
@@ -19,25 +19,25 @@ const controls = [
     tag: '02',
     title: 'Identifiers are stripped or minimized before processing',
     text:
-      'Where a workflow allows it, client names, account numbers, and other direct identifiers are removed or masked before data is sent for AI processing. The system reconnects results back to the right record — not the AI step.',
+      'Where a workflow allows it, client names, account numbers, and other direct identifiers are removed or masked before data is sent for AI processing. The system, not the AI step, reconnects results back to the right record.',
   },
   {
     tag: '03',
     title: 'A human reviews before anything ships to a client',
     text:
-      'Every AI-touched output — a classified document, a drafted entry, a flagged exception — sits behind a review gate. Nothing reaches a client or a client-facing system without a person seeing it first.',
+      'Every AI-touched output (a classified document, a drafted entry, a flagged exception) sits behind a review gate. Nothing reaches a client or a client-facing system without a person seeing it first.',
   },
   {
     tag: '04',
     title: 'Encrypted in transit and at rest',
     text:
-      'Data moving between your systems (QuickBooks, ShipStation, your CRM) and ours is encrypted in transit. Anything stored — logs, configuration, workflow state — is encrypted at rest.',
+      'Data moving between your systems (QuickBooks, ShipStation, your CRM) and ours is encrypted in transit. Anything stored, including logs, configuration, and workflow state, is encrypted at rest too.',
   },
   {
     tag: '05',
     title: 'NDA standard with every engagement',
     text:
-      'A mutual NDA is part of the standard engagement letter, signed before any system access is granted — not an add-on you have to request.',
+      'A mutual NDA is part of the standard engagement letter, signed before any system access is granted. It is not an add-on you have to request.',
   },
   {
     tag: '06',
@@ -61,11 +61,11 @@ const faqs = [
   },
   {
     q: 'What happens if the AI gets something wrong?',
-    a: 'It gets caught at the human-review gate before it reaches a client or a production system. That gate is not optional — it is built into every workflow we ship, and it is documented in the handoff.',
+    a: 'It gets caught at the human-review gate before it reaches a client or a production system. That gate is not optional. It is built into every workflow we ship, and documented in the handoff.',
   },
   {
     q: 'Do you sign an NDA before we give you system access?',
-    a: 'Yes, standard for every engagement — it is part of the engagement letter, not a separate negotiation.',
+    a: 'Yes, standard for every engagement. It is part of the engagement letter, not a separate negotiation.',
   },
   {
     q: 'Who owns the dashboards and scripts once they are built?',
@@ -73,7 +73,7 @@ const faqs = [
   },
 ];
 
-const title = 'Security & Data Handling | 5 Cypress Data Analytics';
+const title = 'Security & Data Handling | 5Cypress Data Analytics';
 const description =
   'Where your data goes, what the AI sees, and who reviews it before it ships. Plain-English data handling for accounting and finance teams evaluating automation.';
 ---
@@ -97,7 +97,7 @@ const description =
         <p class="lead-in">Security &amp; data handling</p>
         <h1>Where your data goes, and who checks it before it ships.</h1>
         <p class="sec-hero-sub">
-          CPAs ask this before they sign anything — as they should. Here is the plain-English
+          CPAs ask this before they sign anything, as they should. Here is the plain-English
           version, not a policy PDF. If a question isn't answered here, ask it directly.
         </p>
         <Button variant="primary" size="lg" magnetic ripple data-open-booking>Book a call</Button>
@@ -172,7 +172,7 @@ const description =
 
 <style>
   .sec-hero {
-    padding-top: calc(var(--space-24) + 12rem);
+    padding-top: calc(var(--space-24) + 7rem);
     padding-bottom: var(--space-12);
     background: linear-gradient(180deg, rgba(93,140,93,0.07), transparent 60%), var(--bg-main);
   }

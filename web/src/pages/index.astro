@@ -15,7 +15,7 @@ const workflowCards = [
     slug: 'practice-kpi-dashboard',
     title: 'Practice KPI dashboard',
     description:
-      'Realization, WIP, AR aging, and billing pulled live from QBO and your practice system into one panel every partner can read — no month-end wait.',
+      'Realization, WIP, AR aging, and billing pulled live from QBO and your practice system into one panel every partner can read. No month-end wait.',
     highlight: true,
   },
   {
@@ -23,14 +23,14 @@ const workflowCards = [
     slug: 'business-intelligence-dashboard',
     title: 'Business intelligence dashboard',
     description:
-      'A proper data model with automated refresh and role-based views, built the way an enterprise BI team would — scoped and priced for a small business.',
+      'A proper data model with automated refresh and role-based views, built the way an enterprise BI team would, but scoped and priced for a small business.',
   },
   {
     tag: '03 / Forecast',
     slug: 'cashflow-forecast-agent',
     title: 'Cashflow forecasting',
     description:
-      'A rolling 13-week forecast per client, refreshed from live actuals and aging, with early alerts before a balance trends negative — not a stale spreadsheet.',
+      'A rolling 13-week forecast per client, refreshed from live actuals and aging. Early alerts fire before a balance trends negative, so it beats a stale spreadsheet.',
     highlight: true,
   },
   {
@@ -45,7 +45,7 @@ const workflowCards = [
     slug: 'excel-spreadsheet-automation',
     title: 'Spreadsheet automation',
     description:
-      'The half-day recurring spreadsheet — commission runs, KPI rollups, reconciliations — rebuilt as a one-click or scheduled job, documented and handed off.',
+      'The half-day recurring spreadsheet (commission runs, KPI rollups, reconciliations) rebuilt as a one-click or scheduled job, documented and handed off.',
   },
 ];
 
@@ -64,7 +64,7 @@ const operatingScenes = [
   {
     num: '01',
     title: 'The number you need is a month old',
-    before: 'Realization and WIP are unknown until the billing run closes — three weeks too late to act.',
+    before: 'Realization and WIP are unknown until the billing run closes. By then it is three weeks too late to act.',
     after: 'The metric is live from source data, so the week-2 decision gets made in week 2.',
   },
   {
@@ -77,7 +77,7 @@ const operatingScenes = [
     num: '03',
     title: 'Everyone is working from a different spreadsheet',
     before: 'Each partner has their own copy of the numbers, and none of them agree.',
-    after: 'One modeled source of truth — a single URL every partner reads, always current.',
+    after: 'One modeled source of truth: a single URL every partner reads, always current.',
   },
 ];
 
@@ -107,11 +107,11 @@ const trustSignals = [
   },
   {
     title: 'Modeled, not glued',
-    text: 'Numbers come from a real data model with defined logic — not a pile of linked spreadsheets that break.',
+    text: 'Numbers come from a real data model with defined logic, not a pile of linked spreadsheets that break.',
   },
   {
     title: 'Read-only by default',
-    text: 'We connect through narrowly-scoped, read-only API access — never broader than the dashboard needs.',
+    text: 'We connect through narrowly scoped, read-only API access. Never broader than the dashboard needs.',
   },
   {
     title: 'Every metric documented',
@@ -206,39 +206,39 @@ const faqs = [
   {
     question: 'Are you new? Who have you worked with?',
     answer:
-      '5 Cypress is a new practice built on years of senior data analyst and BI work across the telecom and government sectors — Tableau, Power BI, and Alteryx at enterprise scale. You will not find borrowed logos or invented testimonials here. Proof is live instead: an interactive demo dashboard you can open right now, public build walkthroughs, and founding-client pricing for the first five firms. You see exactly what you would get before you spend a dollar.',
+      '5Cypress is new. The work behind it is not: years of senior data analyst and BI experience across telecom and government, running Tableau, Power BI, and Alteryx at enterprise scale. No borrowed logos, no invented testimonials. Just an interactive demo you can open right now, public build walkthroughs, and founding-client pricing for the first five firms so you see what you would get before you spend a dollar.',
   },
   {
     question: 'Do you only work with accounting and finance firms?',
     answer:
-      'No. Accounting and finance are a strong specialty because those teams live on realization, WIP, AR aging, and cashflow — dense, high-stakes numbers. The same analysis and dashboards apply to service businesses, medical offices, agencies, and other small B2B companies with data sitting idle.',
+      'No. Accounting and finance became the specialty because those teams live on dense, high-stakes numbers: realization, WIP, AR aging, cashflow. The same modeling applies anywhere data sits idle, including service businesses, medical offices, and small agencies.',
   },
   {
     question: 'Do you put AI on our financial data?',
     answer:
-      'Not by default. The dashboards connect read-only to your data with zero AI in the path — no model ever sees a client record. An optional AI insight layer can be added later, but only on aggregated, identifier-stripped rollups and always behind a human-review step. You can run the dashboards with no AI exposure at all if that is your comfort level.',
+      'Not by default. The dashboards connect read-only to your data with zero AI in the path; no model ever sees a client record. You can add an optional AI insight layer later, but it only ever touches aggregated, identifier-stripped rollups, always behind a human-review step. If zero AI exposure is your comfort level, that is exactly how you can run it.',
   },
   {
     question: 'Are you a bookkeeper or a CPA?',
     answer:
-      'Neither, on purpose. We do not touch tax, reconciliation, or compliance. We take numbers that are already correct — from your bookkeeper or CAS provider — plus your operational data, and build the decision-support layer on top: dashboards, forecasting, and KPI reporting. We complement your accountant, not replace them.',
+      'Neither, on purpose. We do not touch tax, reconciliation, or compliance. Take the numbers your bookkeeper or CAS provider already got right, add your operational data, and build the decision-support layer on top of both: dashboards, forecasting, KPI reporting. We complement your accountant. We do not replace them.',
   },
   {
     question: 'How fast can a dashboard go live?',
     answer:
-      'A first dashboard often goes live in 10–14 business days. More involved builds — full BI models or a forecasting engine — usually take 3–4 weeks, because the data model, definitions, and QA are where the trust is won.',
+      'A first dashboard often goes live in 10 to 14 business days. Full BI models or a forecasting engine take longer, usually 3 to 4 weeks, because that is where the real work is: the data model, the definitions, the QA that earns the trust.',
   },
   {
     question: 'What happens after launch?',
     answer:
-      'You get documentation and a handoff. Most clients keep a monthly retainer so the dashboards stay current, refresh on schedule, and get a recurring insight review — the ongoing analyst seat, without the headcount.',
+      'You get documentation and a handoff. Most clients keep a monthly retainer so the dashboards stay current, refresh on schedule, and get a recurring insight review. Think of it as the ongoing analyst seat, minus the headcount.',
   },
 ];
 
 const orgSchema = {
   '@context': 'https://schema.org',
   '@type': 'Organization',
-  name: '5 Cypress Data Analytics',
+  name: '5Cypress Data Analytics',
   url: 'https://www.5cypress.com',
   logo: 'https://www.5cypress.com/assets/brand/5cypress-mark.png',
   email: 'info@5cypress.com',
@@ -255,7 +255,7 @@ const serviceSchemas = coreWorkflows.map((s) => ({
   description: s.description,
   provider: {
     '@type': 'Organization',
-    name: '5 Cypress Data Analytics',
+    name: '5Cypress Data Analytics',
     url: 'https://www.5cypress.com',
   },
   areaServed: { '@type': 'Country', name: 'United States' },
@@ -263,8 +263,8 @@ const serviceSchemas = coreWorkflows.map((s) => ({
 ---
 
 <Layout
-  title="Fractional Data Analyst for Accounting Firms | 5 Cypress"
-  description="5 Cypress is a fractional data analyst practice for accounting firms and small businesses: live KPI dashboards, cashflow forecasting, and monthly reporting built from the data you already have."
+  title="Fractional Data Analyst for Accounting Firms | 5Cypress"
+  description="5Cypress is a fractional data analyst practice for accounting firms and small businesses: live KPI dashboards, cashflow forecasting, and monthly reporting built from the data you already have."
 >
   <Fragment slot="head">
     <JsonLd schema={orgSchema} />
@@ -277,9 +277,9 @@ const serviceSchemas = coreWorkflows.map((s) => ({
         <p class="lead-in">Fractional data analyst · accounting &amp; small business</p>
         <h1>You have the data. You're deciding blind.</h1>
         <p class="hero-sub">
-          5 Cypress turns the QuickBooks, CRM, and operational data already sitting in your
-          business into live dashboards and forecasts you can trust — so the decisions that
-          used to wait for month-end get made while they still matter.
+          5Cypress turns the QuickBooks, CRM, and operational data already sitting in your
+          business into live dashboards and forecasts you can trust. The decisions that used
+          to wait for month-end get made while they still matter.
         </p>
         <div class="hero-ctas">
           <Button variant="primary" size="lg" magnetic ripple data-open-booking>
@@ -289,7 +289,7 @@ const serviceSchemas = coreWorkflows.map((s) => ({
             See a live dashboard
           </Button>
         </div>
-        <div class="hero-proof" aria-label="5 Cypress operating principles">
+        <div class="hero-proof" aria-label="5Cypress operating principles">
           <span>Read-only data access</span>
           <span>One source of truth</span>
           <span>Refreshed on schedule</span>
@@ -308,7 +308,7 @@ const serviceSchemas = coreWorkflows.map((s) => ({
       <div class="founder-photo">
         <img
           src="/assets/jim-smart.jpg"
-          alt="James Smart, founder of 5 Cypress Data Analytics"
+          alt="James Smart, founder of 5Cypress Data Analytics"
           width="76"
           height="76"
           loading="lazy"
@@ -318,7 +318,7 @@ const serviceSchemas = coreWorkflows.map((s) => ({
       </div>
       <div class="founder-copy">
         <p class="founder-line">
-          Built by <strong>James Smart</strong> — a senior data analyst with years of
+          Built by <strong>James Smart</strong>, a senior data analyst with years of
           experience across the telecom and government sectors.
         </p>
         <p class="founder-sub">The same reporting discipline enterprises pay for, scoped for small firms.</p>
@@ -406,8 +406,8 @@ const serviceSchemas = coreWorkflows.map((s) => ({
         <h2>Accounting proves the depth. The analysis travels.</h2>
         <p class="section-sub">
           Dense financial data makes a strong proving ground: QuickBooks actuals, AR aging,
-          WIP, and cashflow. But the same problem — real data no one has time to model and
-          report — shows up in any serious B2B operation.
+          WIP, and cashflow. But the same problem shows up in any serious B2B operation: real
+          data nobody has time to model and report on.
         </p>
       </div>
       <div class="sector-grid reveal-stagger">
@@ -430,7 +430,7 @@ const serviceSchemas = coreWorkflows.map((s) => ({
           <p>
             The dashboards you can trust are boring in the right places: read-only
             data access, defined metric logic, a visible source for every number,
-            and documentation. That is how 5 Cypress keeps analysis dependable
+            and documentation. That is how 5Cypress keeps analysis dependable
             instead of another spreadsheet nobody believes.
           </p>
         </div>
@@ -474,11 +474,11 @@ const serviceSchemas = coreWorkflows.map((s) => ({
         <p class="lead-in">See it live</p>
         <h2>This is the product. Watch it build itself.</h2>
         <p>
-          The dashboards are the deliverable — not slide mockups. Below is a live Practice
+          The dashboards are the deliverable, not slide mockups. Below is a live Practice
           Command Center on clearly-labeled synthetic data, plus a gallery spanning accounting,
-          medical offices, outbound sales, and construction PMO — same modeling discipline,
-          different industries. Every board is hosted live with no signup, no gate, no sales
-          call first. Open one and poke at the numbers.
+          medical offices, outbound sales, and construction PMO. Same modeling discipline,
+          different industries every time. Every board is hosted live: no signup, no gate,
+          no sales call first. Open one and poke at the numbers.
         </p>
       </div>
 
@@ -568,10 +568,9 @@ const serviceSchemas = coreWorkflows.map((s) => ({
           <p class="lead-in">Founding five</p>
           <h2>First 5 firms: a flagship dashboard build at $1,500 flat.</h2>
           <p>
-            A BI dashboard or cashflow forecast build normally runs $2,000–$3,500. Founding
-            clients get one at $1,500 flat — in exchange for letting us publish a build
-            walkthrough of the work (your numbers anonymized, your review before anything
-            goes public).
+            A BI dashboard or cashflow forecast build normally runs $2,000 to $3,500. Founding
+            clients get one at $1,500 flat. In exchange, we publish a build walkthrough of the
+            work: your numbers anonymized, your review before anything goes public.
           </p>
           <p class="founding-why">
             Why so cheap? We're new, and we'd rather trade margin for public proof than
@@ -584,7 +583,7 @@ const serviceSchemas = coreWorkflows.map((s) => ({
             <div class="founding-slots" aria-hidden="true">
               <span></span><span></span><span></span><span></span><span></span>
             </div>
-            <p><strong>Founding rate</strong> — limited availability</p>
+            <p><strong>Founding rate</strong> · limited availability</p>
           </div>
           <Button variant="primary" size="lg" magnetic ripple data-open-booking>
             Book a call
@@ -696,7 +695,7 @@ const serviceSchemas = coreWorkflows.map((s) => ({
     min-height: 92vh;
     display: flex;
     align-items: center;
-    padding-block: calc(var(--space-32) + 9rem) var(--space-20);
+    padding-block: calc(var(--space-32) + 4rem) var(--space-20);
     overflow: hidden;
     position: relative;
   }
