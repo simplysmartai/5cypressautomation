@@ -5,7 +5,7 @@
 > that file is canonical; this README and `AGENTS.md` are kept in sync with it.
 
 **Live site:** [https://www.5cypress.com](https://www.5cypress.com)
-**Contact:** nick@5cypress.com (generic inbound) / jimmy@5cypress.com (founder direct)
+**Contact:** info@5cypress.com (generic inbound, the only address presented publicly) / jimmy@5cypress.com (founder direct)
 
 ---
 

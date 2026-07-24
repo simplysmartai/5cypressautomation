@@ -6,7 +6,7 @@
 > For the full Operations Bible (positioning, phase plan, scoreboard), see `CLAUDE.md`.
 > For marketing-specific instructions, see `marketing-team/CLAUDE.md`.
 
-**Brand:** 5Cypress Data Analytics | **Website:** www.5cypress.com | **Contact:** nick@5cypress.com (generic inbound) / jimmy@5cypress.com (founder direct)
+**Brand:** 5Cypress Data Analytics | **Website:** www.5cypress.com | **Contact:** info@5cypress.com (generic inbound, the only address presented publicly) / jimmy@5cypress.com (founder direct)
 
 **Mission:** Management dashboards for owner-led businesses with financial and operational data
 scattered across QuickBooks, CRMs, and spreadsheets — practice KPI dashboards, business

@@ -1,12 +1,12 @@
 # 5 Cypress Data Analytics — Operations Bible
 
-**Brand:** 5 Cypress Data Analytics | **Website:** www.5cypress.com | **Contact:** nick@5cypress.com
+**Brand:** 5 Cypress Data Analytics | **Website:** www.5cypress.com | **Contact:** info@5cypress.com
 **Founder:** James Smart.
 
 **Email model:**
-- **nick@5cypress.com** — generic inbound address (warmer than info@/admin@; keeps the shop from reading as one-man). A triage workflow reads each email and routes it to the proper address.
+- **info@5cypress.com** — the only address presented publicly (site, forms, footer, legal pages). Generic inbound, warmer than a raw admin@ but not a named person. A triage workflow reads each email and routes it to the proper address.
 - **jimmy@5cypress.com** — Jim's direct address. Anything needing the founder's judgment or a personal response goes here and Jim replies himself.
-- **"Nick"** — Jim's AI assistant persona for routine professional correspondence (acknowledgments, scheduling, logistics) worked through nick@. Nick handles admin traffic; Nick never negotiates, quotes prices, makes commitments, or sells — that is always Jim from jimmy@. Never present Nick as a human employee if asked directly.
+- **"Nick"** — Jim's internal AI assistant persona for routine professional correspondence (acknowledgments, scheduling, logistics), working through info@'s inbox. Nick is never presented on the site or in the from-address — the address the public sees is always info@. Nick handles admin traffic; Nick never negotiates, quotes prices, makes commitments, or sells — that is always Jim from jimmy@. Never present Nick as a human employee if asked directly.
 
 > **PRIME DIRECTIVE:** 5cypress exists to sign monthly-retainer analytics/automation clients — small businesses referred by CPA firms, bookkeepers, and fractional CFO practices (see §1: CPA/bookkeeper firms are the channel, not the default customer). Nothing else matters until MRR ≥ $4k.
 
