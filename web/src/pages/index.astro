@@ -167,7 +167,7 @@ const faqs = [
   {
     question: 'Are you new? Who have you worked with?',
     answer:
-      '5Cypress is new. The work behind it is not: years of senior data analyst and BI experience across telecom and government, running Tableau, Power BI, and Alteryx at enterprise scale. No borrowed logos, no invented testimonials. Just an interactive demo you can open right now, public build walkthroughs, and founding-client pricing for the first five firms so you see what you would get before you spend a dollar.',
+      '5Cypress is new. The work behind it is not: years of senior data analyst and BI experience across telecom and government, running Tableau, Power BI, and Alteryx at enterprise scale. No borrowed logos, no invented testimonials. Just an interactive demo you can open right now and public build walkthroughs, so you see what you would get before you spend a dollar.',
   },
   {
     question: 'Do you only work with accounting and finance firms?',
@@ -202,7 +202,7 @@ const orgSchema = {
   name: '5Cypress Data Analytics',
   url: 'https://www.5cypress.com',
   logo: 'https://www.5cypress.com/assets/brand/5cypress-mark.png',
-  email: 'nick@5cypress.com',
+  email: 'info@5cypress.com',
   description:
     'Management dashboards for owner-led businesses with financial and operational data scattered across QuickBooks, CRMs, and spreadsheets: live KPI dashboards, cashflow forecasting, and monthly reporting.',
   sameAs: [],
@@ -456,38 +456,6 @@ const serviceSchemas = coreWorkflows.map((s) => ({
     </div>
   </section>
 
-  <section class="section founding-section" id="founding-offer">
-    <div class="container">
-      <div class="founding-panel reveal">
-        <div class="founding-copy">
-          <p class="lead-in">Founding Client Program</p>
-          <h2>First 5 firms: a flagship dashboard build at $1,500 flat.</h2>
-          <p>
-            We are selecting five businesses for a reduced-rate flagship build as we expand
-            our public case-study library. You get the full implementation. We get permission
-            to publish an anonymized build walkthrough after your review and approval.
-          </p>
-          <p class="founding-why">
-            A comparable BI dashboard or cashflow forecast build normally runs $2,000 to $3,500.
-            The founding rate is the trade: full scope, at a discount, for a small number of
-            public proof points.
-          </p>
-        </div>
-        <div class="founding-side">
-          <div class="founding-counter" aria-label="Founding rate availability">
-            <div class="founding-slots" aria-hidden="true">
-              <span></span><span></span><span></span><span></span><span></span>
-            </div>
-            <p><strong>Founding rate</strong> · limited availability</p>
-          </div>
-          <Button variant="primary" size="lg" magnetic ripple data-open-booking>
-            Map My First Dashboard
-          </Button>
-        </div>
-      </div>
-    </div>
-  </section>
-
   <section class="section cta-final">
     <div class="container cta-final-inner reveal">
       <p class="lead-in">Dashboard Mapping Call</p>
@@ -508,7 +476,7 @@ const serviceSchemas = coreWorkflows.map((s) => ({
       </Button>
       <p class="cta-contact">
         Prefer email?
-        <a href="mailto:nick@5cypress.com">nick@5cypress.com</a>
+        <a href="mailto:info@5cypress.com">info@5cypress.com</a>
       </p>
     </div>
   </section>
@@ -1032,71 +1000,6 @@ const serviceSchemas = coreWorkflows.map((s) => ({
     text-transform: uppercase;
   }
 
-  /* ── Founding five offer ──────────────────────────────────── */
-  .founding-section {
-    border-top: 1px solid var(--border-subtle);
-  }
-  .founding-panel {
-    display: grid;
-    grid-template-columns: minmax(0, 1.4fr) minmax(260px, 0.6fr);
-    gap: var(--space-12);
-    align-items: center;
-    padding: var(--space-12);
-    border: 1px solid rgba(251,191,36,0.22);
-    border-radius: var(--radius-2xl);
-    background:
-      radial-gradient(circle at 100% 0%, rgba(251,191,36,0.1), transparent 42%),
-      linear-gradient(180deg, rgba(93,140,93,0.07), transparent 50%),
-      var(--bg-surface);
-  }
-  .founding-copy h2 {
-    margin-block: var(--space-3) var(--space-5);
-    font-size: clamp(1.9rem, 3.4vw, 2.9rem);
-    max-width: 22ch;
-  }
-  .founding-copy p {
-    color: var(--text-secondary);
-    line-height: var(--leading-relaxed);
-    max-width: 58ch;
-  }
-  .founding-why {
-    margin-top: var(--space-4);
-    color: var(--text-tertiary) !important;
-    font-size: var(--text-sm);
-  }
-  .founding-side {
-    display: flex;
-    flex-direction: column;
-    align-items: stretch;
-    gap: var(--space-5);
-  }
-  .founding-counter {
-    padding: var(--space-5);
-    border: 1px solid var(--border-subtle);
-    border-radius: var(--radius-lg);
-    background: rgba(10,10,12,0.6);
-  }
-  .founding-slots {
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    gap: var(--space-2);
-    margin-bottom: var(--space-3);
-  }
-  .founding-slots span {
-    height: 8px;
-    border-radius: var(--radius-full);
-    background: rgba(251,191,36,0.28);
-    box-shadow: inset 0 0 0 1px rgba(251,191,36,0.3);
-  }
-  .founding-counter p {
-    color: var(--text-tertiary);
-    font-family: var(--font-mono);
-    font-size: var(--text-xs);
-    letter-spacing: var(--tracking-wide);
-    text-transform: uppercase;
-  }
-  .founding-counter strong { color: var(--brand-accent); }
-
   @media (max-width: 1180px) {
     .hero-inner,
     .trust-grid {
@@ -1135,11 +1038,6 @@ const serviceSchemas = coreWorkflows.map((s) => ({
       flex-direction: column;
       align-items: flex-start;
       gap: var(--space-4);
-    }
-    .founding-panel {
-      grid-template-columns: 1fr;
-      padding: var(--space-6);
-      gap: var(--space-8);
     }
   }
 </style>

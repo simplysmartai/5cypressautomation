@@ -37,9 +37,9 @@ interface ContactPayload {
 }
 
 const NOTIFY_TO = 'jimmy@5cypress.com';
-const NOTIFY_CC = 'nick@5cypress.com';
-const FROM_INTERNAL = '5Cypress Leads <nick@5cypress.com>';
-const FROM_PROSPECT = '5Cypress <nick@5cypress.com>';
+const NOTIFY_CC = 'info@5cypress.com';
+const FROM_INTERNAL = '5Cypress Leads <info@5cypress.com>';
+const FROM_PROSPECT = '5Cypress <info@5cypress.com>';
 
 // Same-origin allowlist. Requests carrying a mismatched Origin/Referer are dropped.
 const ALLOWED_HOSTS = ['5cypress.com', 'www.5cypress.com', 'localhost', '127.0.0.1'];
@@ -164,7 +164,7 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
 
   // 3. Rate limit (per IP)
   if (await rateLimited(env, ip)) {
-    return fail('Too many requests. Please try again later, or email nick@5cypress.com.', 429);
+    return fail('Too many requests. Please try again later, or email info@5cypress.com.', 429);
   }
 
   // 4. Parse
@@ -225,7 +225,7 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
   } catch (err) {
     // Notification is the one thing that must not fail silently
     console.error('[CONTACT] notification failed:', err instanceof Error ? err.message : err);
-    return fail('Something went wrong. Email us at nick@5cypress.com.', 502);
+    return fail('Something went wrong. Email us at info@5cypress.com.', 502);
   }
 
   try {
@@ -248,7 +248,7 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
         'the decision you keep making late.',
         '',
         '— 5Cypress',
-        'www.5cypress.com | nick@5cypress.com',
+        'www.5cypress.com | info@5cypress.com',
       ].join('\n'),
     });
   } catch (err) {
