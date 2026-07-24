@@ -197,9 +197,10 @@ function miniLine(series: number[]): string {
 const barMax = (s: number[]) => Math.max(...s);
 
 const nextSteps = [
-  'You describe the decisions you keep making late, or the report that keeps eating a day.',
-  'We map the metrics, data sources, refresh cadence, and the first dashboard worth building.',
-  'You decide whether to scope it. No pitch deck, no pressure.',
+  'The decision the dashboard should support.',
+  'The metrics it should contain.',
+  'Where the data currently lives.',
+  'The most practical first build.',
 ];
 
 const faqs = [
@@ -243,7 +244,7 @@ const orgSchema = {
   logo: 'https://www.5cypress.com/assets/brand/5cypress-mark.png',
   email: 'info@5cypress.com',
   description:
-    'Fractional data analyst practice for accounting firms and small businesses: practice KPI dashboards, business intelligence, cashflow forecasting, monthly reporting, and spreadsheet automation.',
+    'Management dashboards for owner-led businesses with financial and operational data scattered across QuickBooks, CRMs, and spreadsheets: live KPI dashboards, cashflow forecasting, and monthly reporting.',
   sameAs: [],
 };
 
@@ -263,8 +264,8 @@ const serviceSchemas = coreWorkflows.map((s) => ({
 ---
 
 <Layout
-  title="Fractional Data Analyst for Accounting Firms | 5Cypress"
-  description="5Cypress is a fractional data analyst practice for accounting firms and small businesses: live KPI dashboards, cashflow forecasting, and monthly reporting built from the data you already have."
+  title="Management Dashboards for Owner-Led Businesses | 5Cypress"
+  description="5Cypress builds management dashboards for owner-led businesses with financial and operational data scattered across systems: live KPI dashboards, cashflow forecasting, and monthly reporting built from the data you already have."
 >
   <Fragment slot="head">
     <JsonLd schema={orgSchema} />
@@ -274,16 +275,17 @@ const serviceSchemas = coreWorkflows.map((s) => ({
   <section class="hero section">
     <div class="container hero-inner">
       <div class="hero-copy">
-        <p class="lead-in">Fractional data analyst · accounting &amp; small business</p>
+        <p class="lead-in">Management dashboards · owner-led businesses</p>
         <h1>You have the data. You're deciding blind.</h1>
         <p class="hero-sub">
-          5Cypress turns the QuickBooks, CRM, and operational data already sitting in your
-          business into live dashboards and forecasts you can trust. The decisions that used
-          to wait for month-end get made while they still matter.
+          5Cypress builds management dashboards for owner-led businesses with financial and
+          operational data scattered across QuickBooks, CRMs, and spreadsheets. Every Monday
+          you'll know whether revenue is on pace, invoices are slipping, and margins are
+          holding, without asking someone to rebuild a report.
         </p>
         <div class="hero-ctas">
           <Button variant="primary" size="lg" magnetic ripple data-open-booking>
-            Book a call
+            Map My First Dashboard
           </Button>
           <Button variant="secondary" size="lg" href="/demo/">
             See a live dashboard
@@ -565,17 +567,17 @@ const serviceSchemas = coreWorkflows.map((s) => ({
     <div class="container">
       <div class="founding-panel reveal">
         <div class="founding-copy">
-          <p class="lead-in">Founding five</p>
+          <p class="lead-in">Founding Client Program</p>
           <h2>First 5 firms: a flagship dashboard build at $1,500 flat.</h2>
           <p>
-            A BI dashboard or cashflow forecast build normally runs $2,000 to $3,500. Founding
-            clients get one at $1,500 flat. In exchange, we publish a build walkthrough of the
-            work: your numbers anonymized, your review before anything goes public.
+            We are selecting five businesses for a reduced-rate flagship build as we expand
+            our public case-study library. You get the full implementation. We get permission
+            to publish an anonymized build walkthrough after your review and approval.
           </p>
           <p class="founding-why">
-            Why so cheap? We're new, and we'd rather trade margin for public proof than
-            invent testimonials. You get enterprise-grade work at a founding rate; we get
-            a real case study.
+            A comparable BI dashboard or cashflow forecast build normally runs $2,000 to $3,500.
+            The founding rate is the trade: full scope, at a discount, for a small number of
+            public proof points.
           </p>
         </div>
         <div class="founding-side">
@@ -586,7 +588,7 @@ const serviceSchemas = coreWorkflows.map((s) => ({
             <p><strong>Founding rate</strong> · limited availability</p>
           </div>
           <Button variant="primary" size="lg" magnetic ripple data-open-booking>
-            Book a call
+            Map My First Dashboard
           </Button>
         </div>
       </div>
@@ -595,13 +597,12 @@ const serviceSchemas = coreWorkflows.map((s) => ({
 
   <section class="section cta-final">
     <div class="container cta-final-inner reveal">
-      <p class="lead-in">Start narrow</p>
-      <h2>Bring the number you can never see in time.</h2>
+      <p class="lead-in">Dashboard Mapping Call</p>
+      <h2>Bring us one report you no longer want to rebuild.</h2>
       <p>
-        In one fit call, we can usually tell whether the answer is a dashboard, a forecast,
-        a cleaner data model, or nothing worth building yet.
+        In a 20-minute Dashboard Mapping Call, we will identify:
       </p>
-      <div class="next-steps" aria-label="What happens next">
+      <div class="next-steps" aria-label="What the call identifies">
         {nextSteps.map((step, index) => (
           <div class="next-step">
             <span>{String(index + 1).padStart(2, '0')}</span>
@@ -610,7 +611,7 @@ const serviceSchemas = coreWorkflows.map((s) => ({
         ))}
       </div>
       <Button variant="primary" size="lg" magnetic ripple data-open-booking>
-        Book a call
+        Map My First Dashboard
       </Button>
       <p class="cta-contact">
         Prefer email?
@@ -1217,10 +1218,15 @@ const serviceSchemas = coreWorkflows.map((s) => ({
     max-width: 56ch;
   }
   .next-steps {
-    width: min(100%, 780px);
+    width: min(100%, 860px);
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(4, 1fr);
     gap: var(--space-3);
+  }
+  @media (max-width: 900px) {
+    .next-steps {
+      grid-template-columns: repeat(2, 1fr);
+    }
   }
   .next-step {
     padding: var(--space-4);
