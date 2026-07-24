@@ -23,7 +23,7 @@ export const services: Service[] = [
   {
     slug: 'practice-kpi-dashboard',
     tag: 'Dashboard',
-    title: 'Practice KPI Dashboard',
+    title: 'Firm KPI Dashboard',
     shortTitle: 'KPI Dashboard',
     tagline: 'Every critical metric, live, in one place.',
     description:

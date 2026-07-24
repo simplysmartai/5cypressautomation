@@ -1,6 +1,6 @@
 ---
 /**
- * demo.astro — Public Practice KPI Dashboard demo (5cypress.com/demo)
+ * demo.astro — Public Firm KPI Dashboard demo (5cypress.com/demo)
  *
  * Fictional 4-partner CPA firm on seeded synthetic data
  * (scripts/generate-practice-kpi-data.mjs). Layout doctrine: exec summary
@@ -143,9 +143,9 @@ const partnerPanels = partners.map((p) => {
   };
 });
 
-const title = 'Practice KPI Dashboard — Live Demo | 5Cypress Data Analytics';
+const title = 'Firm KPI Dashboard — Live Demo | 5Cypress Data Analytics';
 const description =
-  'Interactive practice KPI dashboard for a fictional 4-partner CPA firm: realization, WIP, AR aging, billings seasonality, and per-partner drill-down on synthetic data.';
+  'Interactive firm KPI dashboard for a fictional 4-partner CPA firm: realization, WIP, AR aging, billings seasonality, and per-partner drill-down on synthetic data.';
 ---
 
 <Layout title={title} description={description}>
@@ -153,7 +153,7 @@ const description =
     <JsonLd schema={{
       '@context': 'https://schema.org',
       '@type': 'CreativeWork',
-      name: 'Practice KPI Dashboard Demo',
+      name: 'Firm KPI Dashboard Demo',
       description,
       creator: { '@type': 'Organization', name: '5Cypress Data Analytics', url: 'https://www.5cypress.com' },
     }} />
